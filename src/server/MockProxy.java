@@ -5,5 +5,5 @@ package server;
  */
 public class MockProxy {
 
-    //YOLO
+    //YOLO!
 }
