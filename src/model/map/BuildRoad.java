@@ -2,6 +2,8 @@ package model.map;
 
 /**
  * Created by Mitchell on 9/15/2016.
+ *
+ * updates model to show that a road is built at specified location
  */
 public class BuildRoad implements BuildingManager {
 

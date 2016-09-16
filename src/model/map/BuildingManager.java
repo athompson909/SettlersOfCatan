@@ -2,6 +2,8 @@ package model.map;
 
 /**
  * Created by Mitchell on 9/15/2016.
+ *
+ * updates model to show that an item has been built, implemented by BuildCity, BuildRoad, and BuildSettlement
  */
 public interface BuildingManager {
 
