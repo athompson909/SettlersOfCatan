@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by Mitchell on 9/15/2016.
+ *
+ * contains all data related to hexes, hex values, ports, objects on map, dimensions, and the robber
  */
 public class Map {
 
