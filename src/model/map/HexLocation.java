@@ -18,7 +18,7 @@ public class HexLocation {
     /**
      * decides whether or not user can place an item at a particular hex location
      * @param color the color corresponding to the player's id
-     * @return
+     * @return whether or not the player is allowed to place the item at hex's location
      */
     public boolean canPlace(Color color) {
         return false;
