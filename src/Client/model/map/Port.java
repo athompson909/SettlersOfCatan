@@ -15,7 +15,6 @@ public class Port {
 
     private int ratio;
 
-
     public String getResource() {
         return resource;
     }
