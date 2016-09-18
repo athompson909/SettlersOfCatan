@@ -4,32 +4,31 @@ import java.awt.*;
 
 /**
  * Created by Mitchell on 9/15/2016.
- *
- *
  */
 public class MessageManager {
 
-    private String messageLine;
+    /**
+     * The object containing all chats sent throughout the game
+     */
+    private MessageList chat;
 
-    private String source;//the player's username
+    /**
+     * The object containing all logs which have occurred thus far
+     */
+    private MessageList log;
 
-    public Color getUserColor() {
-        return Color.BLACK;
+    /**
+     * Initiated the updating of the Chat/Log pieces of the model
+     *
+     * Calls the update() methods on its various data members to
+     * ensure that they are up-to-date with the latest version of
+     * model received from the server
+     *
+     * @param M The most up-to-date MessageManager from the updated ClientModel
+     * @return True if the update resolved
+     */
+    private boolean update(MessageManager M) {
+        return true;
     }
 
-    public String getMessageLine() {
-        return messageLine;
-    }
-
-    public void setMessageLine(String messageLine) {
-        this.messageLine = messageLine;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 }
