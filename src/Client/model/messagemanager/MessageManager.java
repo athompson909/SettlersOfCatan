@@ -4,6 +4,8 @@ import java.awt.*;
 
 /**
  * Created by Mitchell on 9/15/2016.
+ *
+ * Manages GameLog and Chat
  */
 public class MessageManager {
 

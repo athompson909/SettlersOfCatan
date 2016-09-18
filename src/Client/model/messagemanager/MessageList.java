@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by Mitchell on 9/15/2016.
+ *
+ * GameLog and Chat
  */
 public class MessageList {
 

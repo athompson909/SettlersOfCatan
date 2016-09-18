@@ -10,41 +10,62 @@ import java.awt.*;
  */
 public class EdgeLocation {
 
+    /**
+     * X value of hex associated with this edge
+     */
     private int x;
 
+    /**
+     * Y value of hex associated with thie edge
+     */
     private int y;
 
+    /**
+     * Direction of hex associated with this edge
+     */
     private Direction direction;
 
     /**
-     * decides whether or not a user is allowed to place an edge item (road) on a specified edge
-     * @param color the color corresponding to the player
-     * @return whether or not the player is allowed to place the item at a hex's edge's location
+     * @return X value associated with this location
      */
-    public boolean canPlace(Color color) {
-        return false;
-    }
-
     public int getX() {
         return x;
     }
 
+    /**
+     * Sets X value
+     * @param x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * @return Y value associated with this location
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Sets Y value
+     * @param y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * @return Direction associated with this location
+     */
     public Direction getDirection() {
         return direction;
     }
 
+    /**
+     * Sets Direction
+     * @param direction
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }

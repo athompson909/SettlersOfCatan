@@ -10,32 +10,42 @@ import java.awt.*;
  */
 public class HexLocation {
 
-    // it looks tempting to make x and y public...
+    /**
+     * X value of hex's location
+     */
     private int x;
 
+    /**
+     * Y value of hex's location
+     */
     private int y;
 
     /**
-     * decides whether or not user can place an item at a particular hex location
-     * @param color the color corresponding to the player's id
-     * @return whether or not the player is allowed to place the item at hex's location
+     * @return X value of hex's location
      */
-    public boolean canPlace(Color color) {
-        return false;
-    }
-
     public int getX() {
         return x;
     }
 
+    /**
+     * Sets X value of hex's location
+     * @param x value
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * @return Y value of hex's location
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Sets Y value of hex's location
+     * @param y value
+     */
     public void setY(int y) {
         this.y = y;
     }

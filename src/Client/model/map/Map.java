@@ -9,34 +9,59 @@ import java.util.List;
  */
 public class Map {
 
+    /**
+     * List of all hexes used to create map
+     */
     private List<Hex> hexes;
 
+    /**
+     * List of all ports used to create map
+     */
     private List<Port> ports;
 
+    /**
+     * List of EdgeValues created
+     */
     private List<EdgeValue> roads;
 
+    /**
+     * List of vertexObjects where settlements are built
+     */
     private List<VertexObject> settlements;
 
+    /**
+     * List of vertexObjects where cities are built
+     */
     private List<VertexObject> cities;
 
-    private int radius;//from UML: -radius: int=4
+    /**
+     * radius of map (=4)
+     */
+    private int radius;
 
+    /**
+     * Robber object
+     */
     private Robber robber;
 
+    /**
+     * Manages the checking and building of roads, settlements,
+     * and cities (after being checked within Player class)
+     */
     private BuildingManager buildingManager;
 
     /**
      * the constructor for a Map object
      * is called when a user starts a new game and the map needs to be created (in initialization mode)
      *
-     * @param isRandom whether or not the user wants the map to be set in the default way or randomly
+     * @param isRandom true if user wants to randommize map
      */
     Map(boolean isRandom) {
 
     }
 
     /**
-     * is called if boolean isRandom is true in Map constructor
+     * called if boolean isRandom is true in Map constructor
      * randomly places hexes, numbers, and ports on the map
      */
     private void createRandomMap() {}

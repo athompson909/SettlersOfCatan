@@ -7,43 +7,67 @@ package Client.model.map;
  */
 public class Port {
 
+    /**
+     * Resource that can be traded at this port
+     */
     private String resource;
 
+    /**
+     * XY location of this port hex
+     */
     private HexLocation location;
 
+    /**
+     * Direction of hex that port occupies
+     */
     private String direction;
 
+    /**
+     * Ratio that resources may be traded at when using this port
+     */
     private int ratio;
 
+    /**
+     * Constructor that sets all variables within port
+     *
+     * @param res Sets resource data member
+     * @param loc Sets location data member
+     * @param dir Sets direction data member
+     * @param rat Sets ratio data member
+     */
+    Port(String res, HexLocation loc, String dir, int rat) {
+        resource = res;
+        location = loc;
+        direction = dir;
+        ratio = rat;
+    }
+
+    /**
+     * @return Resource type that can be traded
+     */
     public String getResource() {
         return resource;
     }
 
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
-
+    /**
+     * @return Location of port
+     */
     public HexLocation getLocation() {
         return location;
     }
 
-    public void setLocation(HexLocation location) {
-        this.location = location;
-    }
-
+    /**
+     * @return Direction of port
+     */
     public String getDirection() {
         return direction;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
+    /**
+     * @return Ratio of port
+     */
     public int getRatio() {
         return ratio;
     }
 
-    public void setRatio(int ratio) {
-        this.ratio = ratio;
-    }
 }
