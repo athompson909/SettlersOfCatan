@@ -7,6 +7,6 @@ import Client.model.commandmanager.BaseCommand;
  */
 public class SendChatCommand extends BaseCommand {
     public SendChatCommand(int playerIndex, String content){
-        
+
     }
 }
