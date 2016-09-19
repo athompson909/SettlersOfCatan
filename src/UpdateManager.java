@@ -3,6 +3,7 @@ import Client.model.map.Map;
 import Client.model.map.Robber;
 import Client.model.messagemanager.MessageList;
 import Client.model.player.Player;
+import Client.model.resourcebank.ResourceList;
 import Client.model.turntracker.TurnTracker;
 import Client.model.resourcebank.ResourceBank;
 import Client.model.resourcebank.DevCardList;

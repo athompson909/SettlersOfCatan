@@ -4,6 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ *
+ * Interface class for the ServerProxy and MockProxy to implement from.
+ *
  * Created by Mitchell on 9/15/2016.
  */
 public interface IServerProxy {
@@ -14,14 +17,14 @@ public interface IServerProxy {
 
     /**
      * Posts HTTP
-     * @param json
+     * @param json - the JSON object used to send with the HTTP post request
      * @return true if successful
      */
    boolean httpPost(String json);
 
     /**
      * HTTP Get Method
-     * @param json
+     * @param json - the JSON object used to send with the HTTP get request
      * @return true if it was successful
      */
     boolean httpGet(String json);
@@ -287,7 +290,7 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param json
+     * @param json - the JSON object used to send with the HTTP request
      * @return Model in JSON
      */
     JSONObject addAI(String json);

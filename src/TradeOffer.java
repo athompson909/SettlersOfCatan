@@ -1,3 +1,5 @@
+import Client.model.resourcebank.ResourceList;
+
 /**
  * TradeOffer is used during domestic trade operations:
  * it holds the sender index, receiver index, and ResourceList trading offer data.

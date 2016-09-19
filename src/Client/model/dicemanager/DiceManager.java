@@ -10,7 +10,14 @@ import java.util.*;
  */
 public class DiceManager {
 
+    /**
+     * The first randomly generated value, within the range [1-6], simulating a real dice roll
+     */
     private int dice1Roll = 0;
+
+    /**
+     * The second randomly generated value, within the range [1-6], simulating a real dice roll
+     */
     private int dice2Roll = 0;
 
     /**
