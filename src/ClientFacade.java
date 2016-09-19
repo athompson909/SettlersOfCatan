@@ -6,6 +6,8 @@ import java.io.File;
 import Client.model.map.HexLocation;
 import Client.model.map.VertexObject;
 import Client.model.map.EdgeLocation;
+import Client.model.resourcebank.Resource;
+import Client.model.resourcebank.ResourceList;
 
 public class ClientFacade {
     /**
