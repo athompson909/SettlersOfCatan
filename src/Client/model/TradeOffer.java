@@ -1,10 +1,12 @@
+package Client.model;
+
 import Client.model.resourcebank.ResourceList;
 
 /**
- * TradeOffer is used during domestic trade operations:
+ * Client.model.TradeOffer is used during domestic trade operations:
  * it holds the sender index, receiver index, and ResourceList trading offer data.
  * Each Player can have either 0 or 1 trade offer active at any time, according to the JSON spec:
- * " + tradeOffer (TradeOffer, optional): The current trade offer, if there is one."
+ * " + tradeOffer (Client.model.TradeOffer, optional): The current trade offer, if there is one."
  *
  * Created by Sierra on 9/18/16.
  */
@@ -15,7 +17,7 @@ public class TradeOffer {
     private ResourceList tradeOfferList = new ResourceList();
 
     /**
-     * Constructor for TradeOffer: receives individual int counts for each resource:
+     * Constructor for Client.model.TradeOffer: receives individual int counts for each resource:
      *  Positive numbers are resources being offered. Negative are resources being asked for.
      *  This constructor is called when the user finishes selecting resources to trade
      *  and pushes the "Trade!" button on the modal.
