@@ -14,13 +14,13 @@ import Client.model.messagemanager.MessageManager;
 
 
 /**
- * Client.model.UpdateManager receives the new model piece objects created by the JSONTranslator
+ * Client.model.ClientUpdateManager receives the new model piece objects created by the JSONTranslator
  * (after the server sends back the updated model), and uses the data
  * contained within
  *
  * Created by Sierra on 9/18/16.
  */
-public class UpdateManager {
+public class ClientUpdateManager {
 
 
     /**

@@ -5,6 +5,7 @@ import Client.model.messagemanager.MessageList;
 import Client.model.player.Player;
 import Client.model.resourcebank.DevCardList;
 import Client.model.resourcebank.ResourceList;
+import org.json.JSONObject;
 
 /**
  * ClientModel holds all the data about the Client that can be updated and changed by the gameplay
@@ -42,33 +43,54 @@ public class ClientModel {
     public DevCardList newDevCardList;
 
     /**
-     *
+     * The messageList object holding all the Chat messages
      */
     public MessageList chat;
 
     /**
-     *
+     * The messageList object holding all the GameLog messages
      */
     public MessageList log;
 
     /**
-     *
+     * the Map object holding all the aspects of the map for this game
      */
     public Map map;
 
     /**
-     *
+     * An array of all the players included in this current game.
      */
     public Player[] players;
 
     /**
-     *
+     * The current Trade offer, if there is one.
      */
     public TradeOffer tradeOffer;
 
     /**
-     *
+     * The ClientModel's ClientUpdateManager, which will take the update objects coming from the JSON translator
+     * after the server has sent a newly updated model, and appropriately distribute the
+     * updated data throughout the ClientModel.
      */
-    public UpdateManager updateManager;
+    public ClientUpdateManager updateManager;
+
+
+
+
+
+
+    /**
+     * Takes the incoming JSONObject (newModel) coming from the server and forwards it on to
+     * ClientUpdateManager so the data can be distributed properly to the objects in ClientModel.
+     *
+     * @param newModel - the JSON object representing the newly updated ClientModel being sent from the server
+     */
+    public void UpdateClientModel(JSONObject newModel){
+
+    }
+
 
 }
+
+
+
