@@ -1,7 +1,5 @@
 package Client.model.commandmanager;
 
-import Client.model.commandmanager.moves.RobPlayerCommand;
-
 import java.util.ArrayList;
 import java.util.List;
 
