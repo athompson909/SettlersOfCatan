@@ -5,6 +5,16 @@ package Client.model.commandmanager;
  */
 public class CommandManager {
 
+    /**
+     *
+     */
+    public BaseCommand baseCommandObject;
+
+
+    /**
+     * SendToClientFacade()
+     *
+     */
     public void sendToClientFacade(){
 
     }
