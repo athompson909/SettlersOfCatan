@@ -1,4 +1,5 @@
 package server;
+import Exceptions.ClientException;
 import org.json.JSONObject;
 
 /**
@@ -15,14 +16,14 @@ public interface IServerProxy {
     * @param json
     * @return true if successful
     */
-   boolean httpPost(JSONObject json);
+   boolean httpPost(JSONObject json) throws ClientException;
 
    /**
     * HTTP Get Method
     * @param json
     * @return true if it was successful
     */
-   boolean httpGet(JSONObject json);
+   boolean httpGet(JSONObject json) throws ClientException;
 
 //Non-Move
 
@@ -42,7 +43,7 @@ public interface IServerProxy {
     * @param json - username:JSONObject, password:JSONObject
     * @return Model in JSON
     */
-   JSONObject userLogin(JSONObject json);
+   JSONObject userLogin(JSONObject json) throws ClientException;
 
    /**
     * 1) Creates a new user account
@@ -62,7 +63,7 @@ public interface IServerProxy {
     * @param json -username:JSONObject, password:JSONObject
     * @return Model in JSON
     */
-   JSONObject userRegister(JSONObject json);
+   JSONObject userRegister(JSONObject json) throws ClientException;
 
    /**
     * Returns information about all of the current games on the server
@@ -76,7 +77,7 @@ public interface IServerProxy {
    message.
     * @return Model in JSON
     */
-   JSONObject gamesList();
+   JSONObject gamesList() throws ClientException;
 
    /**
     *Creates a new game on the server.
@@ -91,7 +92,7 @@ public interface IServerProxy {
     * @param json - name:JSONObject, randomTiles:bool, randomNumbers:bool, randomPorts:bool
     * @return Model in JSON
     */
-   JSONObject gameCreate(JSONObject json);
+   JSONObject gameCreate(JSONObject json) throws ClientException;
 
    /**
     * Adds the player to the specified game and sets their catan.game cookie
@@ -115,7 +116,7 @@ public interface IServerProxy {
     * @param json - gameID:int, color:JSONObject
     * @return Model in JSON
     */
-   JSONObject gameJoin(JSONObject json);
+   JSONObject gameJoin(JSONObject json) throws ClientException;
 
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -136,7 +137,7 @@ public interface IServerProxy {
     * @param json - gameID:int, fileName:file
     * @return Model in JSON
     */
-   JSONObject gameSave(JSONObject json);
+   JSONObject gameSave(JSONObject json) throws ClientException;
 
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -156,7 +157,7 @@ public interface IServerProxy {
     * @param json - fileName:file
     * @return Model in JSON
     */
-   JSONObject gameLoad(JSONObject json);
+   JSONObject gameLoad(JSONObject json) throws ClientException;
 
    /**
     * Returns the current state of the game in JSON format.
@@ -186,7 +187,7 @@ public interface IServerProxy {
     * @param json - version:int
     * @return Model in JSON
     */
-   JSONObject gameModelVersion(JSONObject json);
+   JSONObject gameModelVersion(JSONObject json) throws ClientException;
 
    /**
     * Clears out the command history of the current game.
@@ -209,7 +210,7 @@ public interface IServerProxy {
    When a game is reset, the players in the game are maintained
     * @return Model in JSON
     */
-   JSONObject gameReset();
+   JSONObject gameReset() throws ClientException;
 
    /**
     * Returns a list of commands that have been executed in the current game.
@@ -236,7 +237,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject getGameCommands();
+   JSONObject getGameCommands() throws ClientException;
 
    /**
     * Executes the specified command list in the current game.
@@ -256,7 +257,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject executeGameCommands();
+   JSONObject executeGameCommands() throws ClientException;
 
    /**
     * Returns a list of supported AI player types.
@@ -268,7 +269,7 @@ public interface IServerProxy {
    These are the values that may be passed to the /game/addAI method.
     * @return Model in JSON
     */
-   JSONObject listAI();
+   JSONObject listAI() throws ClientException;
 
    /**
     * Adds an AI player to the current game.
@@ -287,7 +288,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject addAI();
+   JSONObject addAI() throws ClientException;
 
    /**
     * Sets the server’s logging level
@@ -302,7 +303,7 @@ public interface IServerProxy {
     * @param json - loggingLevel:Client.model.LoggingLevel
     * @return Model in JSON
     */
-   JSONObject utilChangeLogLevel(JSONObject json);
+   JSONObject utilChangeLogLevel(JSONObject json) throws ClientException;
 
 
    //Move
@@ -314,7 +315,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, content:JSONObject
     * @return Model in JSON
     */
-   JSONObject sendChat(JSONObject json);
+   JSONObject sendChat(JSONObject json) throws ClientException;
 
    /**
     * Tells the server what number was rolled so resources can be distributed, discarded or robbed.
@@ -323,7 +324,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, number:int(2-12)
     * @return Model in JSON
     */
-   JSONObject rollNumber(JSONObject json);
+   JSONObject rollNumber(JSONObject json) throws ClientException;
 
    /**
     * Ends the players turn.
@@ -333,7 +334,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int
     * @return Model in JSON
     */
-   JSONObject finishTurn(JSONObject json);
+   JSONObject finishTurn(JSONObject json) throws ClientException;
 
    /**
     * Tells Server what cards to remove from the player's hand.
@@ -343,7 +344,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, discardedCards:ResourceList
     * @return Model in JSON
     */
-   JSONObject discardCards(JSONObject json);
+   JSONObject discardCards(JSONObject json) throws ClientException;
 
    /**
     * Tells Server to build a road for the given player in the given location.
@@ -358,7 +359,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, roadLocation:HexLocation, free:bool
     * @return Model in JSON
     */
-   JSONObject buildRoad(JSONObject json);
+   JSONObject buildRoad(JSONObject json) throws ClientException;
 
    /**
     * Tells Server to build a settlement for the given player in the given location.
@@ -373,7 +374,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, vertexLocation:VertexObject, free:bool
     * @return Model in JSON
     */
-   JSONObject buildSettlement(JSONObject json);
+   JSONObject buildSettlement(JSONObject json) throws ClientException;
 
    /**
     * Tells Server to build a city for the given player in the given location.
@@ -385,7 +386,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, vertexLocation:VertexObject
     * @return Model in JSON
     */
-   JSONObject buildCity(JSONObject json);
+   JSONObject buildCity(JSONObject json) throws ClientException;
 
    /**
     * Tells Server to send a trade offer to the other player.
@@ -394,7 +395,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, offer:ResourceList, receiver:int)
     * @return Model in JSON
     */
-   JSONObject offerTrade(JSONObject json);
+   JSONObject offerTrade(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to trade the players' cards.
@@ -406,7 +407,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, willAccept:bool
     * @return Model in JSON
     */
-   JSONObject acceptTrade(JSONObject json);
+   JSONObject acceptTrade(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to trade bank and player cards.
@@ -429,7 +430,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, location:HexLocation, victimIndex:int(-1,0,1,2,or 3)
     * @return Model in JSON
     */
-   JSONObject robPlayer(JSONObject json);
+   JSONObject robPlayer(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to give the player a new Development Card.
@@ -442,7 +443,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int
     * @return Model in JSON
     */
-   JSONObject purchaseDevCard(JSONObject json);
+   JSONObject purchaseDevCard(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to allow the player to rob another player.
@@ -459,7 +460,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, location:HexLocation, victimIndex:int(-1,0,1,2,or 3)
     * @return Model in JSON
     */
-   JSONObject playSoldier(JSONObject json);
+   JSONObject playSoldier(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to allow the player to pick two resources from the Bank
@@ -468,7 +469,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, resource1:Resource, resource2:Resource
     * @return Model in JSON
     */
-   JSONObject playYearOfPlenty(JSONObject json);
+   JSONObject playYearOfPlenty(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to allow the player to build two roads for free.
@@ -483,7 +484,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, spot1:EdgeLocation, spot2:EdgeLocation
     * @return Model in JSON
     */
-   JSONObject playRoadBuilding(JSONObject json);
+   JSONObject playRoadBuilding(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to allow the player to pick a resource to gather from the other players.
@@ -493,7 +494,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, resource:Resource
     * @return Model in JSON
     */
-   JSONObject playMonopoly(JSONObject json);
+   JSONObject playMonopoly(JSONObject json) throws ClientException;
 
    /**
     * Tells the Server to add one victory point to the player.
@@ -503,6 +504,6 @@ public interface IServerProxy {
     * @param json - playerIndex:int
     * @return Model in JSON
     */
-   JSONObject playMonument(JSONObject json);
+   JSONObject playMonument(JSONObject json) throws ClientException;
 
 }
