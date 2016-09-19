@@ -9,7 +9,7 @@ import org.json.*;
  *
  * Created by Sierra on 9/18/16.
  */
-public class SeverProxy implements IServerProxy{
+public class ServerProxy implements IServerProxy{
 
 
     /**
