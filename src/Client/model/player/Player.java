@@ -8,6 +8,8 @@ import Client.model.resourcebank.ResourceList;
  */
 public class Player {
 
+
+
     /**
      *  The color of this player.
      */
