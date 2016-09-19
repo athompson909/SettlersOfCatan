@@ -8,6 +8,6 @@ import Client.model.resourcebank.Resource;
  */
 public class MaritimeTradeCommand extends BaseCommand {
     public MaritimeTradeCommand(int playerIndex, int ratio, Resource inputResource, Resource outputResource){
-        
+
     }
 }

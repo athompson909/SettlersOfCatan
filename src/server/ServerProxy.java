@@ -19,7 +19,7 @@ public class ServerProxy implements IServerProxy{
      * @return true if successful
      */
     @Override
-    public boolean httpPost(String json) {
+    public boolean httpPost(JSONObject json) {
         return false;
     }
 
@@ -30,7 +30,7 @@ public class ServerProxy implements IServerProxy{
      * @return true if it was successful
      */
     @Override
-    public boolean httpGet(String json) {
+    public boolean httpGet(JSONObject json) {
         return false;
     }
 
@@ -52,7 +52,7 @@ public class ServerProxy implements IServerProxy{
      * 1. The server returns an HTTP 400 error response, and the body contains an error
      */
     @Override
-    public JSONObject userLogin(String json) {
+    public JSONObject userLogin(JSONObject json) {
         return null;
     }
 
@@ -76,7 +76,7 @@ public class ServerProxy implements IServerProxy{
      * message.
      */
     @Override
-    public JSONObject userRegister(String json) {
+    public JSONObject userRegister(JSONObject json) {
         return null;
     }
 
@@ -113,7 +113,7 @@ public class ServerProxy implements IServerProxy{
      * message.
      */
     @Override
-    public JSONObject gameCreate(String json) {
+    public JSONObject gameCreate(JSONObject json) {
         return null;
     }
 
@@ -141,7 +141,7 @@ public class ServerProxy implements IServerProxy{
      * message.
      */
     @Override
-    public JSONObject gameJoin(String json) {
+    public JSONObject gameJoin(JSONObject json) {
         return null;
     }
 
@@ -165,7 +165,7 @@ public class ServerProxy implements IServerProxy{
      * message
      */
     @Override
-    public JSONObject gameSave(String json) {
+    public JSONObject gameSave(JSONObject json) {
         return null;
     }
 
@@ -189,7 +189,7 @@ public class ServerProxy implements IServerProxy{
      * message.
      */
     @Override
-    public JSONObject gameLoad(String json) {
+    public JSONObject gameLoad(JSONObject json) {
         return null;
     }
 
@@ -223,7 +223,7 @@ public class ServerProxy implements IServerProxy{
      * titled “Client Model JSON Documentation”
      */
     @Override
-    public JSONObject gameModelVersion(String json) {
+    public JSONObject gameModelVersion(JSONObject json) {
         return null;
     }
 
@@ -345,7 +345,7 @@ public class ServerProxy implements IServerProxy{
      * message
      */
     @Override
-    public JSONObject addAI(String json) {
+    public JSONObject addAI() {
         return null;
     }
 
@@ -364,7 +364,7 @@ public class ServerProxy implements IServerProxy{
      * message.
      */
     @Override
-    public JSONObject utilChangeLogLevel(String json) {
+    public JSONObject utilChangeLogLevel(JSONObject json) {
         return null;
     }
 
@@ -377,7 +377,7 @@ public class ServerProxy implements IServerProxy{
      * @post The chat contains your message at the end
      */
     @Override
-    public JSONObject sendChat(String json) {
+    public JSONObject sendChat(JSONObject json) {
         return null;
     }
 
@@ -390,7 +390,7 @@ public class ServerProxy implements IServerProxy{
      * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
      */
     @Override
-    public JSONObject rollNumber(String json) {
+    public JSONObject rollNumber(JSONObject json) {
         return null;
     }
 
@@ -404,7 +404,7 @@ public class ServerProxy implements IServerProxy{
      * hand. It is the next player’s turn
      */
     @Override
-    public JSONObject finishTurn(String json) {
+    public JSONObject finishTurn(JSONObject json) {
         return null;
     }
 
@@ -418,7 +418,7 @@ public class ServerProxy implements IServerProxy{
      * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
      */
     @Override
-    public JSONObject discardCards(String json) {
+    public JSONObject discardCards(JSONObject json) {
         return null;
     }
 
@@ -437,7 +437,7 @@ public class ServerProxy implements IServerProxy{
      * If applicable, “longest road” has been awarded to the player with the longest road
      */
     @Override
-    public JSONObject buildRoad(String json) {
+    public JSONObject buildRoad(JSONObject json) {
         return null;
     }
 
@@ -456,7 +456,7 @@ public class ServerProxy implements IServerProxy{
      * The settlement is on the map at the specified location
      */
     @Override
-    public JSONObject buildSettlement(String json) {
+    public JSONObject buildSettlement(JSONObject json) {
         return null;
     }
 
@@ -472,7 +472,7 @@ public class ServerProxy implements IServerProxy{
      * You got a settlement back
      */
     @Override
-    public JSONObject buildCity(String json) {
+    public JSONObject buildCity(JSONObject json) {
         return null;
     }
 
@@ -485,7 +485,7 @@ public class ServerProxy implements IServerProxy{
      * @post The trade is offered to the other player (stored in the server model).
      */
     @Override
-    public JSONObject offerTrade(String json) {
+    public JSONObject offerTrade(JSONObject json) {
         return null;
     }
 
@@ -501,7 +501,7 @@ public class ServerProxy implements IServerProxy{
      * The trade offer is removed
      */
     @Override
-    public JSONObject acceptTrade(String json) {
+    public JSONObject acceptTrade(JSONObject json) {
         return null;
     }
 
@@ -516,7 +516,7 @@ public class ServerProxy implements IServerProxy{
      * requested resource has been received)
      */
     @Override
-    public JSONObject maritimeTrade(String json) {
+    public JSONObject maritimeTrade(JSONObject json) {
         return null;
     }
 
@@ -532,7 +532,7 @@ public class ServerProxy implements IServerProxy{
      * selected)
      */
     @Override
-    public JSONObject robPlayer(String json) {
+    public JSONObject robPlayer(JSONObject json) {
         return null;
     }
 
@@ -549,7 +549,7 @@ public class ServerProxy implements IServerProxy{
      * (unplayable this turn)
      */
     @Override
-    public JSONObject purchaseDevCard(String json) {
+    public JSONObject purchaseDevCard(JSONObject json) {
         return null;
     }
 
@@ -570,7 +570,7 @@ public class ServerProxy implements IServerProxy{
      * monument cards, which may still be played)
      */
     @Override
-    public JSONObject playSoldier(String json) {
+    public JSONObject playSoldier(JSONObject json) {
         return null;
     }
 
@@ -583,7 +583,7 @@ public class ServerProxy implements IServerProxy{
      * @post You gained the two specified resources
      */
     @Override
-    public JSONObject playYearOfPlenty(String json) {
+    public JSONObject playYearOfPlenty(JSONObject json) {
         return null;
     }
 
@@ -602,7 +602,7 @@ public class ServerProxy implements IServerProxy{
      * If applicable, “longest road” has been awarded to the player with the longest road
      */
     @Override
-    public JSONObject playRoadBuilding(String json) {
+    public JSONObject playRoadBuilding(JSONObject json) {
         return null;
     }
 
@@ -616,7 +616,7 @@ public class ServerProxy implements IServerProxy{
      * type
      */
     @Override
-    public JSONObject playMonopoly(String json) {
+    public JSONObject playMonopoly(JSONObject json) {
         return null;
     }
 
@@ -630,7 +630,7 @@ public class ServerProxy implements IServerProxy{
      * @post You gained a victory point.
      */
     @Override
-    public JSONObject playMonument(String json) {
+    public JSONObject playMonument(JSONObject json) {
         return null;
 
     }
