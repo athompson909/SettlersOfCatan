@@ -17,7 +17,7 @@ public class CommandManager {
     /**
      * Sends the most recent command to the ClientFacade to be translated and executed
      */
-    public void sendToClientFacade(){
+    public void clientExec(){
 
     }
 

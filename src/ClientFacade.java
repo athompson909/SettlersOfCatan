@@ -190,42 +190,121 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Clears out the command history of the current game.
+     For the default games created by the server, this method reverts the game to the state
+     immediately after the initial placement round. For user¬created games, this method reverts
+     the game to the very beginning (i.e., before the initial placement round).
+     This method returns the client model JSON for the game after it has been reset.
+     You must login and join a game before calling this method.
+     * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
+    valid catan.user and catan.game HTTP cookies).
+     * @post If the operation succeeds,
+    1. The game’s command history has been cleared out
+    2. The game’s players have NOT been cleared out
+    3. The server returns an HTTP 200 success response.
+    4. The body contains the game’s updated client model JSON
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message.
+    Note:
+    When a game is reset, the players in the game are maintained
      */
     public void gameReset(){
 
     }
 
     /**
-     *
+     *Returns a list of commands that have been executed in the current game.
+     This method can be used for testing and debugging. The command list returned by this
+     method can be passed to the /game/command (POST) method to re¬execute the commands
+     in the game. This would typically be done after calling /game/reset to clear out the game’s
+     command history. This is one way to capture the state of a game and restore it later. (See
+     the /games/save and /games/load methods which provide another way to save and restore
+     the state of a game.)
+     For the default games created by the server, this method returns a list of all commands that
+     have been executed after the initial placement round. For user¬created games, this method
+     returns a list of all commands that have been executed since the very beginning of the game
+     (i.e., before the initial placement round).
+     You must login and join a game before calling this method
+     * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
+    valid catan.user and catan.game HTTP cookies)
+     * @post If the operation succeeds,
+    1. The server returns an HTTP 200 success response.
+    2. The body contains a JSON array of commands that have been executed in the game.
+    This command array is suitable for passing back to the /game/command [POST] method to
+    restore the state of the game later (after calling /game/reset to revert the game to its initial state).
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message
      */
     public void getGameCommands(){
 
     }
 
     /**
-     *
+     *Executes the specified command list in the current game.
+     This method can be used for testing and debugging. The command list returned by the
+     /game/command [GET] method is suitable for passing to this method.
+     This method returns the client model JSON for the game after the command list has been
+     applied.
+     You must login and join a game before calling this method
+     * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
+    valid catan.user and catan.game HTTP cookies).
+     * @post If the operation succeeds,
+    1. The passed¬in command list has been applied to the game.
+    2. The server returns an HTTP 200 success response.
+    3. The body contains the game’s updated client model JSON
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message
      */
     public void executeGameCommands(){
 
     }
 
     /**
-     *
+     *Returns a list of supported AI player types.
+     Currently, LARGEST_ARMY is the only supported type.
+     * @pre None
+     * @post If the operation succeeds,
+    1. The server returns an HTTP 200 success response.
+    2. The body contains a JSON JSONObject array enumerating the different types of AI players.
+    These are the values that may be passed to the /game/addAI method.
      */
     public void listAI(){
 
     }
 
     /**
-     *
+     * Adds an AI player to the current game.
+     You must login and join a game before calling this method
+     * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
+    valid catan.user and catan.game HTTP cookies).
+    2. There is space in the game for another player (i.e., the game is not “full”).
+    3. The specified “AIType” is valid (i.e., one of the values returned by the /game/listAI
+    method)
+     * @post If the operation succeeds,
+    1. The server returns an HTTP 200 success response with “Success” in the body.
+    2. A new AI player of the specified type has been added to the current game. The server
+    selected a name and color for the player.
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message
      */
     public void addAI(){
 
     }
 
     /**
-     *
+     *Sets the server’s logging level
+     * @pre 1.The caller specifies a valid logging level. Valid values include: SEVERE, WARNING,
+    INFO, CONFIG, FINE, FINER, FINEST
+     * @post If the operation succeeds,
+    1. The server returns an HTTP 200 success response with “Success” in the body.
+    2. The Server is using the specified logging level
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message.
      * @param loggingLevel
      */
     public void utilChangeLogLevel(LoggingLevel loggingLevel){
@@ -237,7 +316,9 @@ public class ClientFacade {
     //Move
 
     /**
-     *
+     * Adds a message to the end of the chat
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post The chat contains your message at the end
      * @param playerIndex
      * @param content
      */
@@ -246,7 +327,9 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells the server what number was rolled so resources can be distributed, discarded or robbed.
+     * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
+     * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
      * @param playerIndex
      * @param number
      */
@@ -255,7 +338,10 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Ends the players turn.
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post The cards in your new dev card hand have been transferred to your old dev card
+    hand. It is the next player’s turn
      * @param playerIndex
      */
     public void finishTurn(int playerIndex){
@@ -263,7 +349,10 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells Server what cards to remove from the player's hand.
+     * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
+     * You have over 7 cards. You have the cards you're choosing to discard.
+     * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
      * @param playerIndex
      * @param discardedCards
      */
@@ -272,7 +361,15 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells Server to build a road for the given player in the given location.
+     * @pre Caller has already logged in to the server and joined a game. The road location is open.
+     * The road location is connected to another road owned by the player. The road location is not on water.
+     * You have the required resources (1 wood, 1 brick; 1 road).
+     * Setup round: Must be placed by settlement owned by the player with no adjacent
+    road
+     * @post You lost the resources required to build a road (1 wood, 1 brick; 1 road).
+     * The road is on the map at the specified location.
+     * If applicable, “longest road” has been awarded to the player with the longest road
      * @param playerIndex
      * @param roadLocation
      * @param free
@@ -282,7 +379,15 @@ public class ClientFacade {
     }
 
     /**
-     *
+     * Tells Server to build a settlement for the given player in the given location.
+     * @pre Caller has already logged in to the server and joined a game. The settlement location is open.
+     * The settlement location is not on water.
+    The settlement location is connected to one of your roads except during setup.
+    You have the required resources (1 wood, 1 brick, 1 wheat, 1 sheep; 1 settlement).
+    The settlement cannot be placed adjacent to another settlement
+     * @post You lost the resources required to build a settlement if not setup rounds(1 wood, 1 brick, 1 wheat, 1
+    sheep; 1 settlement).
+    The settlement is on the map at the specified location
      * @param playerIndex
      * @param vertexLocation
      * @param free
@@ -292,7 +397,12 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells Server to build a city for the given player in the given location.
+     * @pre Caller has already logged in to the server and joined a game. The city location is where you currently have a settlement.
+     * You have the required resources (2 wheat, 3 ore; 1 city)
+     * @post You lost the resources required to build a city (2 wheat, 3 ore; 1 city).
+     * The city is on the map at the specified location.
+     * You got a settlement back
      * @param playerIndex
      * @param vertexLocation
      */
@@ -301,7 +411,9 @@ public class ClientFacade {
     }
 
     /**
-     *
+     * Tells Server to send a trade offer to the other player.
+     * @pre Caller has already logged in to the server and joined a game. You have the resources you are offering.
+     * @post The trade is offered to the other player (stored in the server model).
      * @param playerIndex
      * @param offer
      * @param receiver
@@ -311,7 +423,12 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells the Server to trade the players' cards.
+     * @pre Caller has already logged in to the server and joined a game. You have been offered a domestic trade.
+     * To accept the offered trade, you have the required resources
+     * @post If you accepted, you and the player who offered swap the specified resources.
+     * If you declined no resources are exchanged.
+     * The trade offer is removed
      * @param playerIndex
      * @param willAccept
      */
@@ -320,7 +437,11 @@ public class ClientFacade {
     }
 
     /**
-     *
+     * Tells the Server to trade bank and player cards.
+     * @pre Caller has already logged in to the server and joined a game. You have the resources you are giving.
+     * For ratios less than 4, you have the correct port for the trade
+     * @post The trade has been executed (the offered resources are in the bank, and the
+    requested resource has been received)
      * @param playerIndex
      * @param ratio
      * @param inputResource
@@ -331,7 +452,12 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells the Server to move the robber and move the stolen card.
+     * @pre Caller has already logged in to the server and joined a game. The robber is not being kept in the same location.
+     * If a player is being robbed (i.e., victimIndex != ¬1), the player being robbed has
+    resource cards
+     * @post The robber is in the new location. The player being robbed (if any) gave you one of his resource cards (randomly
+    selected)
      * @param playerIndex
      * @param location
      * @param victimIndex
@@ -341,7 +467,13 @@ public class ClientFacade {
     }
 
     /**
-     *
+     * Tells the Server to give the player a new Development Card.
+     * @pre Caller has already logged in to the server and joined a game. You have the required resources (1 ore, 1 wheat, 1 sheep).
+     * There are dev cards left in the deck
+     * @post You have a new card
+    - If it is a monument card, it has been added to your old devcard hand
+    - If it is a non¬monument card, it has been added to your new devcard hand
+    (unplayable this turn)
      * @param playerIndex
      */
     public void purchaseDevCard(int playerIndex){
@@ -349,7 +481,17 @@ public class ClientFacade {
     }
 
     /**
-     *
+     * Tells the Server to allow the player to rob another player.
+     * @pre Caller has already logged in to the server and joined a game. The robber is not being kept in the same location.
+     * If a player is being robbed (i.e., victimIndex != ¬1), the player being robbed has
+    resource cards
+     * @post The robber is in the new location.
+     * The player being robbed (if any) gave you one of his resource cards (randomly
+    selected).
+    If applicable, “largest army” has been awarded to the player who has played the
+    most soldier cards.
+    You are not allowed to play other development cards during this turn (except for
+    monument cards, which may still be played)
      * @param playerIndex
      * @param location
      * @param victimIndex
@@ -359,7 +501,9 @@ public class ClientFacade {
     }
 
     /**
-     *
+     * Tells the Server to allow the player to pick two resources from the Bank
+     * @pre Caller has already logged in to the server and joined a game. The two specified resources are in the bank
+     * @post You gained the two specified resources
      * @param playerIndex
      * @param resource1
      * @param resource2
@@ -369,7 +513,15 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells the Server to allow the player to build two roads for free.
+     * @pre Caller has already logged in to the server and joined a game. The first road location (spot1) is connected to one of your roads..
+     * The second road location (spot2) is connected to one of your roads or to the first
+    road location (spot1).
+    Neither road location is on water.
+    You have at least two unused roads
+     * @post You have two fewer unused roads.
+     * Two new roads appear on the map at the specified locations.
+     * If applicable, “longest road” has been awarded to the player with the longest road
      * @param playerIndex
      * @param spot1
      * @param spot2
@@ -379,7 +531,10 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells the Server to allow the player to pick a resource to gather from the other players.
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post All of the other players have given you all of their resource cards of the specified
+    type
      * @param playerIndex
      * @param resource
      */
@@ -388,7 +543,10 @@ public class ClientFacade {
     }
 
     /**
-     *
+     *Tells the Server to add one victory point to the player.
+     * @pre Caller has already logged in to the server and joined a game.
+     * You have enough monument cards to win the game (i.e., reach 10 victory points)
+     * @post You gained a victory point.
      * @param playerIndex
      */
     public void playMonument(int playerIndex){
