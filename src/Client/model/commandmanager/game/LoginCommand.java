@@ -1,4 +1,6 @@
-package Client.model.commandmanager;
+package Client.model.commandmanager.game;
+
+import Client.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
