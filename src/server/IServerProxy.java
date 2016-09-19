@@ -1,13 +1,29 @@
 package server;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Mitchell on 9/15/2016.
  */
 public interface IServerProxy {
+    /**
+     * stores the url path needed by the post and get methods to reach the server
+     */
     String url = "";
 
+    /**
+     * Posts HTTP
+     * @param json
+     * @return true if successful
+     */
    boolean httpPost(String json);
 
+    /**
+     * HTTP Get Method
+     * @param json
+     * @return true if it was successful
+     */
     boolean httpGet(String json);
 
     //Non-Move
@@ -25,9 +41,10 @@ public interface IServerProxy {
  If the passed­in (username, password) pair is not valid, or the operation fails for any other
  reason,
  1. The server returns an HTTP 400 error response, and the body contains an error
-  * @param json -username and password
+  * @param json - username:string, password:string
+  * @return Model in JSON
   */
-    void userLogin(String json);
+ JSONObject userLogin(String json);
 
     /**
      * 1) Creates a new user account
@@ -44,9 +61,10 @@ public interface IServerProxy {
     reason,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param json -username and password
+     * @param json -username:string, password:string
+     * @return Model in JSON
      */
-    void userRegister(String json);
+    JSONObject userRegister(String json);
 
     /**
      * Returns information about all of the current games on the server
@@ -58,9 +76,9 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param json -
+     * @return Model in JSON
      */
-    void gamesList(String json);
+    JSONObject gamesList();
 
     /**
      *Creates a new game on the server.
@@ -72,9 +90,10 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param json - name, randomTiles, randomNumbers, randomPorts
+     * @param json - name:string, randomTiles:bool, randomNumbers:bool, randomPorts:bool
+     * @return Model in JSON
      */
-    void gameCreate(String json);
+    JSONObject gameCreate(String json);
 
     /**
      * Adds the player to the specified game and sets their catan.game cookie
@@ -95,9 +114,10 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param json
+     * @param json - gameID:int, color:string
+     * @return Model in JSON
      */
-    void gameJoin(String json);
+    JSONObject gameJoin(String json);
 
     /**
      * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -115,9 +135,10 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param json
+     * @param json - gameID:int, fileName:file
+     * @return Model in JSON
      */
-    void gameSave(String json);
+    JSONObject gameSave(String json);
 
     /**
      * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -134,10 +155,10 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param json
-     * @return
+     * @param json - fileName:file
+     * @return Model in JSON
      */
-    String gameLoad(String json);
+    JSONObject gameLoad(String json);
 
     /**
      * Returns the current state of the game in JSON format.
@@ -164,9 +185,10 @@ public interface IServerProxy {
     message.
     The format of the returned JSON can be found on the server’s Swagger page, or in the document
     titled “Client Model JSON Documentation”
-     * @param json
+     * @param json - version:int
+     * @return Model in JSON
      */
-    void gameModelVersion(String json);
+    JSONObject gameModelVersion(String json);
 
     /**
      * Clears out the command history of the current game.
@@ -187,9 +209,9 @@ public interface IServerProxy {
     message.
     Note:
     When a game is reset, the players in the game are maintained
-     * @param json
+     * @return Model in JSON
      */
-    void gameReset(String json);
+    JSONObject gameReset();
 
     /**
      * Returns a list of commands that have been executed in the current game.
@@ -214,9 +236,9 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param json
+     * @return Model in JSON
      */
-    void getGameCommands(String json);
+    JSONObject getGameCommands();
 
     /**
      * Executes the specified command list in the current game.
@@ -234,9 +256,9 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param json
+     * @return Model in JSON
      */
-    void executeGameCommands(String json);
+    JSONObject executeGameCommands();
 
     /**
      * Returns a list of supported AI player types.
@@ -246,9 +268,9 @@ public interface IServerProxy {
     1. The server returns an HTTP 200 success response.
     2. The body contains a JSON string array enumerating the different types of AI players.
     These are the values that may be passed to the /game/addAI method.
-     * @param json
+     * @return Model in JSON
      */
-    void listAI(String json);
+    JSONObject listAI();
 
     /**
      * Adds an AI player to the current game.
@@ -266,8 +288,9 @@ public interface IServerProxy {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
      * @param json
+     * @return Model in JSON
      */
-    void addAI(String json);
+    JSONObject addAI(String json);
 
     /**
      * Sets the server’s logging level
@@ -279,9 +302,10 @@ public interface IServerProxy {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param json
+     * @param json - loggingLevel:LoggingLevel
+     * @return Model in JSON
      */
-    void utilChangeLogLevel(String json);
+    JSONObject utilChangeLogLevel(String json);
 
 
     //Move
@@ -290,138 +314,198 @@ public interface IServerProxy {
      * Adds a message to the end of the chat
      * @pre Caller has already logged in to the server and joined a game.
      * @post The chat contains your message at the end
-     * @param json
+     * @param json - playerIndex:int, content:string
+     * @return Model in JSON
      */
-    void sendChat(String json);
+    JSONObject sendChat(String json);
 
     /**
      * Tells the server what number was rolled so resources can be distributed, discarded or robbed.
      * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
      * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
-     * @param json
+     * @param json - playerIndex:int, number:int(2-12)
+     * @return Model in JSON
      */
-    void rollNumber(String json);
+    JSONObject rollNumber(String json);
 
     /**
      * Ends the players turn.
      * @pre Caller has already logged in to the server and joined a game.
      * @post The cards in your new dev card hand have been transferred to your old dev card
     hand. It is the next player’s turn
-     * @param json
+     * @param json - playerIndex:int
+     * @return Model in JSON
      */
-    void finishTurn(String json);
+    JSONObject finishTurn(String json);
 
     /**
      * Tells Server what cards to remove from the player's hand.
      * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
      * You have over 7 cards. You have the cards you're choosing to discard.
      * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
-     * @param json
+     * @param json - playerIndex:int, discardedCards:ResourceList
+     * @return Model in JSON
      */
-    void discardCards(String json);
+    JSONObject discardCards(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells Server to build a road for the given player in the given location.
+     * @pre Caller has already logged in to the server and joined a game. The road location is open.
+     * The road location is connected to another road owned by the player. The road location is not on water.
+     * You have the required resources (1 wood, 1 brick; 1 road).
+     * Setup round: Must be placed by settlement owned by the player with no adjacent
+    road
+     * @post You lost the resources required to build a road (1 wood, 1 brick; 1 road).
+     * The road is on the map at the specified location.
+     * If applicable, “longest road” has been awarded to the player with the longest road
+     * @param json - playerIndex:int, roadLocation:HexLocation, free:bool
+     * @return Model in JSON
      */
-    void buildRoad(String json);
+    JSONObject buildRoad(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells Server to build a settlement for the given player in the given location.
+     * @pre Caller has already logged in to the server and joined a game. The settlement location is open.
+     * The settlement location is not on water.
+    The settlement location is connected to one of your roads except during setup.
+    You have the required resources (1 wood, 1 brick, 1 wheat, 1 sheep; 1 settlement).
+    The settlement cannot be placed adjacent to another settlement
+     * @post You lost the resources required to build a settlement if not setup rounds(1 wood, 1 brick, 1 wheat, 1
+    sheep; 1 settlement).
+    The settlement is on the map at the specified location
+     * @param json - playerIndex:int, vertexLocation:VertexObject, free:bool
+     * @return Model in JSON
      */
-    void buildSettlement(String json);
+    JSONObject buildSettlement(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells Server to build a city for the given player in the given location.
+     * @pre Caller has already logged in to the server and joined a game. The city location is where you currently have a settlement.
+     * You have the required resources (2 wheat, 3 ore; 1 city)
+     * @post You lost the resources required to build a city (2 wheat, 3 ore; 1 city).
+     * The city is on the map at the specified location.
+     * You got a settlement back
+     * @param json - playerIndex:int, vertexLocation:VertexObject
+     * @return Model in JSON
      */
-    void buildCity(String json);
+    JSONObject buildCity(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells Server to send a trade offer to the other player.
+     * @pre Caller has already logged in to the server and joined a game. You have the resources you are offering.
+     * @post The trade is offered to the other player (stored in the server model).
+     * @param json - playerIndex:int, offer:ResourceList, receiver:int)
+     * @return Model in JSON
      */
-    void offerTrade(String json);
+    JSONObject offerTrade(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to trade the players' cards.
+     * @pre Caller has already logged in to the server and joined a game. You have been offered a domestic trade.
+     * To accept the offered trade, you have the required resources
+     * @post If you accepted, you and the player who offered swap the specified resources.
+     * If you declined no resources are exchanged.
+     * The trade offer is removed
+     * @param json - playerIndex:int, willAccept:bool
+     * @return Model in JSON
      */
-    void acceptTrade(String json);
+    JSONObject acceptTrade(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to trade bank and player cards.
+     * @pre Caller has already logged in to the server and joined a game. You have the resources you are giving.
+     * For ratios less than 4, you have the correct port for the trade
+     * @post The trade has been executed (the offered resources are in the bank, and the
+    requested resource has been received)
+     * @param json - playerIndex:int, ratio:int(2,3 or4), inputResource:Resource, outputResource:Resource
+     * @return Model in JSON
      */
-    void maritimeTrade(String json);
+    JSONObject maritimeTrade(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to move the robber and move the stolen card.
+     * @pre Caller has already logged in to the server and joined a game. The robber is not being kept in the same location.
+     * If a player is being robbed (i.e., victimIndex != ­1), the player being robbed has
+    resource cards
+     * @post The robber is in the new location. The player being robbed (if any) gave you one of his resource cards (randomly
+    selected)
+     * @param json - playerIndex:int, location:HexLocation, victimIndex:int(-1,0,1,2,or 3)
+     * @return Model in JSON
      */
-    void robPlayer(String json);
+    JSONObject robPlayer(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to give the player a new Development Card.
+     * @pre Caller has already logged in to the server and joined a game. You have the required resources (1 ore, 1 wheat, 1 sheep).
+     * There are dev cards left in the deck
+     * @post You have a new card
+    - If it is a monument card, it has been added to your old devcard hand
+    - If it is a non­monument card, it has been added to your new devcard hand
+    (unplayable this turn)
+     * @param json - playerIndex:int
+     * @return Model in JSON
      */
-    void purchaseDevCard(String json);
+    JSONObject purchaseDevCard(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to allow the player to rob another player.
+     * @pre Caller has already logged in to the server and joined a game. The robber is not being kept in the same location.
+     * If a player is being robbed (i.e., victimIndex != ­1), the player being robbed has
+    resource cards
+     * @post The robber is in the new location.
+     * The player being robbed (if any) gave you one of his resource cards (randomly
+    selected).
+    If applicable, “largest army” has been awarded to the player who has played the
+    most soldier cards.
+    You are not allowed to play other development cards during this turn (except for
+    monument cards, which may still be played)
+     * @param json - playerIndex:int, location:HexLocation, victimIndex:int(-1,0,1,2,or 3)
+     * @return Model in JSON
      */
-    void playSoldier(String json);
+    JSONObject playSoldier(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to allow the player to pick two resources from the Bank
+     * @pre Caller has already logged in to the server and joined a game. The two specified resources are in the bank
+     * @post You gained the two specified resources
+     * @param json - playerIndex:int, resource1:Resource, resource2:Resource
+     * @return Model in JSON
      */
-    void playYearOfPlenty(String json);
+    JSONObject playYearOfPlenty(String json);
 
     /**
-     *
-     * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * Tells the Server to allow the player to build two roads for free.
+     * @pre Caller has already logged in to the server and joined a game. The first road location (spot1) is connected to one of your roads..
+     * The second road location (spot2) is connected to one of your roads or to the first
+    road location (spot1).
+    Neither road location is on water.
+    You have at least two unused roads
+     * @post You have two fewer unused roads.
+     * Two new roads appear on the map at the specified locations.
+     * If applicable, “longest road” has been awarded to the player with the longest road
+     * @param json - playerIndex:int, spot1:EdgeLocation, spot2:EdgeLocation
+     * @return Model in JSON
      */
-    void playRoadBuilding(String json);
+    JSONObject playRoadBuilding(String json);
 
     /**
-     *
+     * Tells the Server to allow the player to pick a resource to gather from the other players.
      * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * @post All of the other players have given you all of their resource cards of the specified
+    type
+     * @param json - playerIndex:int, resource:Resource
+     * @return Model in JSON
      */
-    void playMonopoly(String json);
+    JSONObject playMonopoly(String json);
 
     /**
-     *
+     * Tells the Server to add one victory point to the player.
      * @pre Caller has already logged in to the server and joined a game.
-     * @post
-     * @param json
+     * You have enough monument cards to win the game (i.e., reach 10 victory points)
+     * @post You gained a victory point.
+     * @param json - playerIndex:int
+     * @return Model in JSON
      */
-    void playMonument(String json);
+    JSONObject playMonument(String json);
 
 }
