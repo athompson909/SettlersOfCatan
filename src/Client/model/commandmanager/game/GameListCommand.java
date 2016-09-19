@@ -14,7 +14,7 @@ public class GameListCommand extends BaseCommand {
     }
 
     /**
-     * Tells the server to send a list of all game commands
+     * Tells the server to send a list of all games
      * @param command
      */
     @Override
