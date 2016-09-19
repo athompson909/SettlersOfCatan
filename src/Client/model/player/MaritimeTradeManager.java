@@ -17,7 +17,7 @@ public class MaritimeTradeManager {
     public boolean hasOrePort = false;
 
     /**
-     Whether the user owns a wheat port available for trading
+     * Whether the user owns a wheat port available for trading
      */
     public boolean hasWheatPort = false;
 
