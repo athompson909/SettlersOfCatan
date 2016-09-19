@@ -1,6 +1,10 @@
 package Client.model.turntracker;
 
-
+/**
+ * TurnTracker keeps track of game flow, phases of gameplay, player turns, and certain stats
+ * related to player performance, i.e. the holder of the Longest Road and Largest Army distinctions.
+ *
+ */
 public class TurnTracker {
 
     /**
