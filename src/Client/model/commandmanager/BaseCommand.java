@@ -8,7 +8,7 @@ public class BaseCommand {
     /**
      * sends the command to the clientFacade
      */
-    public void clientExec(){
+    public void clientExec(BaseCommand command){
 
     }
 

@@ -17,7 +17,7 @@ public class CommandManager {
     /**
      * Sends the most recent command to the ClientFacade to be translated and executed
      */
-    public void clientExec(){
+    public void clientExec(BaseCommand command){
 
     }
 
@@ -33,7 +33,7 @@ public class CommandManager {
      * @pre Used after Reset
      * @post
      */
-    private void serverExec() {
+    private void serverExec(BaseCommand command) {
 
     }
 }
