@@ -250,44 +250,178 @@ public interface IServerProxy {
      */
     void listAI(String json);
 
-    
+    /**
+     * Adds an AI player to the current game.
+     You must login and join a game before calling this method
+     * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
+    valid catan.user and catan.game HTTP cookies).
+    2. There is space in the game for another player (i.e., the game is not “full”).
+    3. The specified “AIType” is valid (i.e., one of the values returned by the /game/listAI
+    method)
+     * @post If the operation succeeds,
+    1. The server returns an HTTP 200 success response with “Success” in the body.
+    2. A new AI player of the specified type has been added to the current game. The server
+    selected a name and color for the player.
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message
+     * @param json
+     */
     void addAI(String json);
 
+    /**
+     * Sets the server’s logging level
+     * @pre 1.The caller specifies a valid logging level. Valid values include: SEVERE, WARNING,
+    INFO, CONFIG, FINE, FINER, FINEST
+     * @post If the operation succeeds,
+    1. The server returns an HTTP 200 success response with “Success” in the body.
+    2. The Server is using the specified logging level
+    If the operation fails,
+    1. The server returns an HTTP 400 error response, and the body contains an error
+    message.
+     * @param json
+     */
     void utilChangeLogLevel(String json);
 
+
     //Move
+
+    /**
+     * Adds a message to the end of the chat
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post The chat contains your message at the end
+     * @param json
+     */
     void sendChat(String json);
 
+    /**
+     * Tells the server what number was rolled so resources can be distributed, discarded or robbed.
+     * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
+     * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
+     * @param json
+     */
     void rollNumber(String json);
 
+    /**
+     * Ends the players turn.
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post The cards in your new dev card hand have been transferred to your old dev card
+    hand. It is the next player’s turn
+     * @param json
+     */
     void finishTurn(String json);
 
+    /**
+     * Tells Server what cards to remove from the player's hand.
+     * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
+     * You have over 7 cards. You have the cards you're choosing to discard.
+     * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
+     * @param json
+     */
     void discardCards(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void buildRoad(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void buildSettlement(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void buildCity(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void offerTrade(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void acceptTrade(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void maritimeTrade(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void robPlayer(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void purchaseDevCard(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void playSoldier(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void playYearOfPlenty(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void playRoadBuilding(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void playMonopoly(String json);
 
+    /**
+     *
+     * @pre Caller has already logged in to the server and joined a game.
+     * @post
+     * @param json
+     */
     void playMonument(String json);
 
 }
