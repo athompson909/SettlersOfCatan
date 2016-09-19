@@ -1,3 +1,5 @@
+package Client.model;
+
 /**
  * Created by Alise on 9/17/2016.
  */

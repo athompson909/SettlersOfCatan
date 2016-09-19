@@ -3,6 +3,8 @@
  */
 
 import java.io.File;
+
+import Client.model.LoggingLevel;
 import Client.model.map.HexLocation;
 import Client.model.map.VertexObject;
 import Client.model.map.EdgeLocation;
