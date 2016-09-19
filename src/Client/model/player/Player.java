@@ -215,4 +215,64 @@ public class Player {
     }
 
 
+    //GETTERS
+    public PlayerColor getColor() {
+        return color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public int getMonuments() {
+        return monuments;
+    }
+
+    public int getSolidersPlayed() {
+        return solidersPlayed;
+    }
+
+    public int getCities() {
+        return cities;
+    }
+
+    public int getSettlements() {
+        return settlements;
+    }
+
+    public int getRoads() {
+        return roads;
+    }
+
+    public ResourceList getPlayerResourceList() {
+        return playerResourceList;
+    }
+
+    public DevCardList getNewDevCardList() {
+        return newDevCardList;
+    }
+
+    public DevCardList getOldDevCardList() {
+        return oldDevCardList;
+    }
+
+    public boolean isPlayedDevCard() {
+        return playedDevCard;
+    }
+
+    public boolean isDiscarded() {
+        return discarded;
+    }
 }

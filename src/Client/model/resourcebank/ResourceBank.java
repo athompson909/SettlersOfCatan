@@ -1,7 +1,7 @@
 package Client.model.resourcebank;
 
 /**
- * The Resource Bank contains a DevCardList and ResourceCardList,
+ * The Client.model.resourcebank.Resource Bank contains a DevCardList and ResourceCardList,
  * and keeps track of all the available cards not owned by any player.
  */
 public class ResourceBank {
@@ -31,6 +31,12 @@ public class ResourceBank {
                 AVAILABLE_WOOD_CARDS, AVAILABLE_BRICK_CARDS, AVAILABLE_SHEEP_CARDS, AVAILABLE_WHEAT_CARDS, AVAILABLE_ORE_CARDS);
     }
 
+    //GETTERS
+    public DevCardList getDevCardList() {
+        return devCardList;
+    }
 
-
+    public ResourceList getResourceList() {
+        return resourceList;
+    }
 }

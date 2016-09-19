@@ -113,6 +113,7 @@ public class DevCardList {
 
     }
 
+    //GETTERS
     public int getSoldierCardCount() {
         return soldierCardCount;
     }

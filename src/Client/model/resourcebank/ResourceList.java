@@ -127,6 +127,8 @@ public class ResourceList {
         return false;
     }
 
+
+    //GETTERS
     public int getWoodCardCount() {
         return woodCardCount;
     }

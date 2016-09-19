@@ -1,8 +1,6 @@
 package Client.model.messagemanager;
 
 /**
- * Created by Mitchell on 9/15/2016.
- *
  * Individual data for GameLog and Chat
  */
 public class MessageLine {
