@@ -42,7 +42,7 @@ public class PlaySoldierCommand extends BaseCommand {
      *
      * Calls Map robber update functions to reset location of the robber
      * Calls Player update functions to reflect changes in hands
-     * 
+     *
      * @param BC
      */
     @Override
