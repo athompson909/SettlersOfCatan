@@ -1,7 +1,7 @@
 package Client.model;
 
-import Client.model.map.Map;
 import Client.model.messagemanager.MessageList;
+import Client.model.map.Map;
 import Client.model.player.Player;
 import Client.model.resourcebank.DevCardList;
 import Client.model.resourcebank.ResourceList;

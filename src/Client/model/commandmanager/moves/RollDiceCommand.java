@@ -11,7 +11,7 @@ public class RollDiceCommand extends BaseCommand {
      */
     private int number;
     /**
-     * Creates RollDiceCommand to send to ClientFacade. Sets data members
+     * Creates RollDiceCommand to send to Client.ClientFacade. Sets data members
      * @param number
      */
     public RollDiceCommand(int number){

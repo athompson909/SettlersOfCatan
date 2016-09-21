@@ -8,7 +8,7 @@ package Client.model.map;
 public class Port {
 
     /**
-     * Client.model.resourcebank.Resource that can be traded at this port
+     * Resource that can be traded at this port
      */
     private String resource;
 
@@ -43,7 +43,7 @@ public class Port {
     }
 
     /**
-     * @return Client.model.resourcebank.Resource type that can be traded
+     * @return Resource type that can be traded
      */
     public String getResource() {
         return resource;

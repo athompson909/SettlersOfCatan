@@ -1,7 +1,5 @@
 package Client.model.map;
 
-import java.awt.*;
-
 /**
  * Created by Mitchell on 9/15/2016.
  *

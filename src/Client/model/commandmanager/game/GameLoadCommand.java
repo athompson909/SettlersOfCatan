@@ -12,7 +12,7 @@ public class GameLoadCommand extends BaseCommand {
     private File filename;
 
     /**
-     * Creates GameLoadCommand to send to the ClientFacade. Sets fileName.
+     * Creates GameLoadCommand to send to the Client.ClientFacade. Sets fileName.
      * @param fileName
      */
     public GameLoadCommand(File fileName){

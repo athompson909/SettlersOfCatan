@@ -1,4 +1,4 @@
-package server;
+package Client;
 
 import java.util.Timer;     //not sure if this is the right Timer class
 
@@ -6,7 +6,7 @@ import java.util.Timer;     //not sure if this is the right Timer class
  * ServerPoller runs on its own background thread, and every 2-3 seconds sends a request to the server
  * to download the current model state.
  * That new model state will return to the ServerPoller as JSON, which it will then send on to the JSON Translator
- * located within the Client Facade, which will finally send the updated objects to the Client.model.ClientUpdateManager to be
+ * located within the Client Facade, which will finally send the updated objects to the ClientUpdateManager to be
  * incorporated into the existing ClientModel.
  *
  * From the Phase 1 Specs sheet:
