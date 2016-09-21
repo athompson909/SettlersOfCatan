@@ -25,12 +25,11 @@ public class DiceManager {
      * This simulates rolling two individual dice and keeps the
      * same probabilities of rolling numbers as those in the real game.
      *
-     * @pre the ClientModel's status is "Rolling"
-     * @pre it is your turn (the player using the DiceManager)
+     * @pre the ClientModel's status is "Rolling", and it is your turn (the player using the DiceManager)
      * @post the ClientModel's status is now "Discarding", "Robbing", or "Playing"
      * @return the combined rolled numbers of both "dice"
      */
-    private int rollDice(){
+    public int rollDice(){
 
         // dice1Roll = rand() from 1-6
         // dice2Roll = rand() from 1-6

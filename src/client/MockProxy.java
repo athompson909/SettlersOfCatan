@@ -322,7 +322,6 @@ public class MockProxy implements IServerProxy{
      * Adds an AI player to the current game.
      * You must login and join a game before calling this method
      *
-     * @param json - the JSON object used to send with the HTTP request
      * @return Model in JSON
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).

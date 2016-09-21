@@ -37,7 +37,7 @@ public class BuildSettlementCommand extends BaseCommand {
      * Updates specified player to reflect decremented settlements
      * Updates TurnTracker to reflect victory points
      *
-     * @Param BC BaseCommand object
+     * @param BC BaseCommand object
      */
     @Override
     public void serverExec(BaseCommand BC) {
