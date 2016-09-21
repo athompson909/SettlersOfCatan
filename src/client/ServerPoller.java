@@ -1,5 +1,4 @@
 package client;
-
 import java.util.Timer;     //not sure if this is the right Timer class
 
 /**
@@ -43,7 +42,6 @@ public class ServerPoller {
      *              will be asking for updates. Doing it this way to use dependency injection.
      */
     public void ServerPoller(IServerProxy proxy){
-
     }
 
 
