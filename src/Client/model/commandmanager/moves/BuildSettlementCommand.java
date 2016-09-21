@@ -1,7 +1,6 @@
 package Client.model.commandmanager.moves;
 
 import Client.model.commandmanager.BaseCommand;
-import Client.model.map.BuildSettlement;
 import Client.model.map.EdgeLocation;
 
 /**
@@ -20,7 +19,7 @@ public class BuildSettlementCommand extends BaseCommand {
 
     /**
      * Creates a BuildSettlementCommand object to be sent to
-     * ClientFacade for translation into JSON
+     * Client.ClientFacade for translation into JSON
      *
      * Sets data members
      * @param edgeLocation

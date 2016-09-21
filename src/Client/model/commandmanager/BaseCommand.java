@@ -1,5 +1,5 @@
 package Client.model.commandmanager;
-import Client.model.commandmanager.BaseCommand;
+
 /**
  * Created by Mitchell on 9/15/2016.
  */

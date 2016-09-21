@@ -1,4 +1,4 @@
-package server;
+package Client;
 import exceptions.ClientException;
 import org.json.JSONObject;
 
@@ -300,7 +300,7 @@ public interface IServerProxy {
    If the operation fails,
    1. The server returns an HTTP 400 error response, and the body contains an error
    message.
-    * @param json - loggingLevel:Client.model.LoggingLevel
+    * @param json - loggingLevel:LoggingLevel
     * @return Model in JSON
     */
    JSONObject utilChangeLogLevel(JSONObject json) throws ClientException;

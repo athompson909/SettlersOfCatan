@@ -7,7 +7,7 @@ import Client.model.commandmanager.BaseCommand;
  */
 public class ExecuteGameCommandsCommand extends BaseCommand {
     /**
-     * Creates ExecuteGameCommandsCommand to send to ClientFacade
+     * Creates ExecuteGameCommandsCommand to send to Client.ClientFacade
      */
     public ExecuteGameCommandsCommand(){
 

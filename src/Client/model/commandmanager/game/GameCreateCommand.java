@@ -27,7 +27,7 @@ public class GameCreateCommand extends BaseCommand {
     private boolean randomPorts;
 
     /**
-     * Creates GameCreateCommand to pass to the ClientFacade. Sets data members.
+     * Creates GameCreateCommand to pass to the Client.ClientFacade. Sets data members.
      * @param name
      * @param randomTiles
      * @param randomNumbers

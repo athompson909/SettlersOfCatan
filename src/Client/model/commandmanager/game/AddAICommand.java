@@ -7,7 +7,7 @@ import Client.model.commandmanager.BaseCommand;
  */
 public class AddAICommand extends BaseCommand {
     /**
-     * Creates AICommand object to send to ClientFacade
+     * Creates AICommand object to send to Client.ClientFacade
      */
     public AddAICommand() {
 

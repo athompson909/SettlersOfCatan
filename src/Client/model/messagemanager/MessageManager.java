@@ -1,7 +1,5 @@
 package Client.model.messagemanager;
 
-import java.awt.*;
-
 /**
  * Manages GameLog and Chat
  */

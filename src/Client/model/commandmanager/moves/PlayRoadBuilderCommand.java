@@ -1,7 +1,7 @@
 package Client.model.commandmanager.moves;
 
-import Client.model.commandmanager.BaseCommand;
 import Client.model.map.EdgeLocation;
+import Client.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -22,7 +22,7 @@ public class PlayRoadBuilderCommand extends BaseCommand {
     EdgeLocation locationTWO;
 
     /**
-     * Creates PlayRoadBuilderCommand object to be sent to ClientFacade
+     * Creates PlayRoadBuilderCommand object to be sent to Client.ClientFacade
      * to be translated into JSON
      *
      * sets data members

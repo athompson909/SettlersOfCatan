@@ -1,10 +1,8 @@
 package Client.model;
 
-import Client.model.ClientModel;
-import Client.model.TradeOffer;
-import Client.model.map.Map;
 import Client.model.map.Robber;
 import Client.model.messagemanager.MessageList;
+import Client.model.map.Map;
 import Client.model.player.Player;
 import Client.model.resourcebank.ResourceList;
 import Client.model.turntracker.TurnTracker;
@@ -14,7 +12,7 @@ import Client.model.messagemanager.MessageManager;
 
 
 /**
- * Client.model.ClientUpdateManager receives the new model piece objects created by the JSONTranslator
+ * ClientUpdateManager receives the new model piece objects created by the JSONTranslator
  * (after the server sends back the updated model), and uses the data
  * contained within
  *
@@ -188,10 +186,10 @@ public class ClientUpdateManager {
 //-----------------
 
     /**
-     * updateTradeOffer() gets the updated Client.model.TradeOffer object from updateMap(),
-     * and uses it to update the data in the existing ClientModel's Client.model.TradeOffer.
+     * updateTradeOffer() gets the updated TradeOffer object from updateMap(),
+     * and uses it to update the data in the existing ClientModel's TradeOffer.
      *
-     * @param newTradeOffer the new Client.model.TradeOffer object containing updated data
+     * @param newTradeOffer the new TradeOffer object containing updated data
      */
     private void updateTradeOffer(TradeOffer newTradeOffer){
 

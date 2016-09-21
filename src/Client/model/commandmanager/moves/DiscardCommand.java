@@ -18,7 +18,7 @@ public class DiscardCommand extends BaseCommand {
     ResourceList discardedCards;
 
     /**
-     * Creates DiscardCommand object to be sent to ClientFacade
+     * Creates DiscardCommand object to be sent to Client.ClientFacade
      * for translation into JSON
      *
      * Sets data members

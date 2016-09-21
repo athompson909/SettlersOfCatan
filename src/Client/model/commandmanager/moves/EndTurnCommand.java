@@ -13,7 +13,7 @@ public class EndTurnCommand extends BaseCommand {
     int playerIndex;
 
     /**
-     * Creates EndTurnCommand object to be sent to ClientFacade
+     * Creates EndTurnCommand object to be sent to Client.ClientFacade
      * for translation into JSON
      *
      * sets data member
