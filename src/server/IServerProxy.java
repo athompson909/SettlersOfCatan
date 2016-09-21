@@ -1,5 +1,5 @@
 package server;
-import Exceptions.ClientException;
+import exceptions.ClientException;
 import org.json.JSONObject;
 
 /**
