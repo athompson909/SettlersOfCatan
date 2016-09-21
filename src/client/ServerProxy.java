@@ -11,7 +11,6 @@ import org.json.*;
  */
 public class ServerProxy implements IServerProxy{
 
-
     /**
      * Posts HTTP
      *
