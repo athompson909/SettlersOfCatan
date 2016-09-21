@@ -7,7 +7,7 @@ import Client.model.commandmanager.BaseCommand;
  */
 public class ListAICommand extends BaseCommand {
     /**
-     * Creates ListAICommand to send to the ClientFacade
+     * Creates ListAICommand to send to the Client.ClientFacade
      */
     public ListAICommand(){
 

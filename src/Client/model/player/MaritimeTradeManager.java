@@ -1,7 +1,5 @@
 package Client.model.player;
 
-import Client.model.map.Port;
-
 /**
  * MaritimeTradeManager facilitates trade using ports that the player owns instead of other players.
  * It checks whether the player has the ports available to trade with, whether they have the resources

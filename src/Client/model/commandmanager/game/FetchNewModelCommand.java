@@ -12,7 +12,7 @@ public class FetchNewModelCommand extends BaseCommand {
     private int version;
 
     /**
-     * Creates FetchNewModelCommand to send to ClientFacade
+     * Creates FetchNewModelCommand to send to Client.ClientFacade
      * Sets data members
      * @param version = client model version number
      */

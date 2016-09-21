@@ -7,7 +7,7 @@ import Client.model.commandmanager.BaseCommand;
  */
 public class GameResetCommand extends BaseCommand {
     /**
-     * Creates GameResetCommand to send to the ClientFacade
+     * Creates GameResetCommand to send to the Client.ClientFacade
      */
     public GameResetCommand(){
 

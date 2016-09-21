@@ -6,7 +6,7 @@ import Client.model.resourcebank.Resource;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayYearOfPlentyCommand extends BaseCommand{
+public class PlayYearOfPlentyCommand extends BaseCommand {
     /**
      * int 0-3 of player using card
      */
@@ -23,7 +23,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand{
     private Resource resource2;
 
     /**
-     * Creates PlayYearOfPlentyCommand to send to ClientFacade. Sets data members
+     * Creates PlayYearOfPlentyCommand to send to Client.ClientFacade. Sets data members
      * @param playerIndex
      * @param resource1
      * @param resource2

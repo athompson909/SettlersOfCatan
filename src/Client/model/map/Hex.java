@@ -17,7 +17,7 @@ public class Hex {
     private int Number;
 
     /**
-     * Client.model.resourcebank.Resource type provided by this hex
+     * Resource type provided by this hex
      */
     private HexType hexType;
 
@@ -52,7 +52,7 @@ public class Hex {
     }
 
     /**
-     * @return Client.model.resourcebank.Resource type that hex provides
+     * @return Resource type that hex provides
      */
     public HexType getHexType() {
         return hexType;

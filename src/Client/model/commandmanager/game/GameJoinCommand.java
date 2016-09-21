@@ -17,7 +17,7 @@ public class GameJoinCommand extends BaseCommand {
     private PlayerColor color;
 
     /**
-     * Creates GameJoinCommand to send to the ClientFacade
+     * Creates GameJoinCommand to send to the Client.ClientFacade
      * @param gameID
      * @param color
      */
