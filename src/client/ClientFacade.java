@@ -126,8 +126,7 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param gameID
-     * @param fileName
+     * @param command
      */
     public void gameSave(GameSaveCommand command){
 
