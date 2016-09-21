@@ -20,13 +20,39 @@ import client.model.messagemanager.MessageManager;
  */
 public class ClientUpdateManager {
 
+    //The ClientUpdateManager needs to be able to access the current ClientModel stored in the Client??
 
     /**
      * DelegateUpdate() takes the newly updated ClientModel object coming from JSONTranslator,
      * who got it from translating the update the server sent,
      * and splits it into smaller objects to give to the subsequent individual update functions.
      */
-    private void delegateUpdates(ClientModel newClientModel){
+    public void delegateUpdates(ClientModel currentModel, ClientModel newModel){
+        Map currMap = currentModel.map;
+        Map newMap = newModel.map;
+        updateMap(currMap, newMap);
+
+        Player currPlayer = currentModel.players[0]; /*Index of player] *///////////
+        Player newPlayer = newModel.players[0]; /*Index of player */////////
+        updatePlayer(currPlayer, newPlayer);
+
+        MessageManager currMessageMgr = currentModel.messageManager;
+        MessageManager newMessageMgr = newModel.messageManager;
+        updateMessageManager(currMessageMgr, newMessageMgr);
+
+        TurnTracker currTurnTracker = currentModel.turnTracker;
+        TurnTracker newTurnTracker = newModel.turnTracker;
+        updateTurnTracker(currTurnTracker, newTurnTracker);
+
+        ResourceBank currResourceBank = currentModel.resourceBank;
+        ResourceBank newResourceBank = newModel.resourceBank;
+        updateResourceBank(currResourceBank, newResourceBank);
+
+        int currVersionNum = currentModel.modelVersion;
+        int newVersionNum = newModel.modelVersion;
+        updateModelVersion(currVersionNum, newVersionNum);
+
+        // Trade Offer???
     }
 
 
@@ -36,48 +62,11 @@ public class ClientUpdateManager {
      *
      * @param newMap the updated Map object
      */
-    private void updateMap(Map newMap){
-
-    }
-
-    /**
-     * updateRobber() gets the updated Robber object from updateMap(),
-     * and uses it to update the data in the existing ClientModel's Robber.
-     *
-     * @param newRobber the new Robber object containing updated data
-     */
-    private void updateRobber(Robber newRobber){
-
-    }
-
-    /**
-     * updateRoads() gets the updated array of Roads data from updateMap(),
-     * and uses it to update the data in the existing ClientModel.
-     *
-     * @param newRoads the array of new Roads data
-     */
-    private void updateRoads(int[] newRoads){
-
-    }
-
-    /**
-     * updateSettlements() gets the updated array of Settlements data from updateMap(),
-     * and uses it to update the data in the existing ClientModel.
-     *
-     * @param newStlmts the array of new Settlements data
-     */
-    private void updateSettlements(int[] newStlmts){
-
-    }
-
-    /**
-     * updateCities() gets the updated array of Cities data from updateMap(),
-     * and uses it to update the data in the existing ClientModel.
-     *
-     * @param newCities the array of new Cities data
-     */
-    private void updateCities(int[] newCities){
-
+    private void updateMap(Map currMap, Map newMap) {
+        currMap.setRobber(newMap.getRobber());
+        currMap.setRoads(newMap.getRoads());
+        currMap.setSettlements(newMap.getSettlements());
+        currMap.setCities(newMap.getCities());
     }
 
 //-----------------
@@ -87,8 +76,8 @@ public class ClientUpdateManager {
      *
      * @param newPlayer the updated Player object
      */
-    private void updatePlayer(Player newPlayer){
-
+    private void updatePlayer(Player currPlayer, Player newPlayer){
+        
     }
 
     /**
@@ -118,7 +107,7 @@ public class ClientUpdateManager {
      *
      * @param newMMgr the updated MessageManager object
      */
-    private void updateMessageManager(MessageManager newMMgr){
+    private void updateMessageManager(MessageManager currMessageMgr, MessageManager newMMgr){
 
     }
 
@@ -149,7 +138,7 @@ public class ClientUpdateManager {
      *
      * @param newTurnTracker the updated TurnTracker object
      */
-    private void updateTurnTracker(TurnTracker newTurnTracker){
+    private void updateTurnTracker(TurnTracker currTurnTracker, TurnTracker newTurnTracker){
 
     }
 //-----------------
@@ -160,7 +149,7 @@ public class ClientUpdateManager {
      *
      * @param newRBank the updated ResourceBank object
      */
-    private void updateResourceBank(ResourceBank newRBank){
+    private void updateResourceBank(ResourceBank currResourceBank, ResourceBank newRBank){
 
     }
 
@@ -185,6 +174,9 @@ public class ClientUpdateManager {
     }
 //-----------------
 
+    private void updateModelVersion(int currVersionNum, int newVersionNum) {
+
+    }
     /**
      * updateTradeOffer() gets the updated TradeOffer object from updateMap(),
      * and uses it to update the data in the existing ClientModel's TradeOffer.
