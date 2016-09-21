@@ -1,4 +1,4 @@
-package exceptions;
+package server.exception;
 
 @SuppressWarnings("serial")
 public class ServerException extends Exception {
