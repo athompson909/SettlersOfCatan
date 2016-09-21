@@ -16,7 +16,8 @@ import org.json.JSONObject;
 public class ClientModel {
 
     /**
-     * The current version of the ClientModel.
+     * The current version of the ClientModel
+     * .
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
     public int modelVersion = 0;
