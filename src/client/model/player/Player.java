@@ -133,7 +133,7 @@ public class Player {
     }
 
     /**
-     * Purchases a new road, which uses 1 Sheep, 1 Wheat, and 1 Ore
+     * Purchases a new dev card, which uses 1 Sheep, 1 Wheat, and 1 Ore
      */
     public void purchaseDevelopmentCard(){
 
