@@ -16,14 +16,14 @@ public interface IServerProxy {
     * @param json
     * @return true if successful
     */
-   boolean httpPost(JSONObject json) throws ClientException;
+   boolean httpPost(String json) throws ClientException; //I'M CHANGING THE PARAMETER FROM TYPE JSONObject to String
 
    /**
     * HTTP Get Method
     * @param json
     * @return true if it was successful
     */
-   boolean httpGet(JSONObject json) throws ClientException;
+   boolean httpGet(String json) throws ClientException;
 
 //Non-Move
 
