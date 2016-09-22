@@ -5,6 +5,8 @@ package client; /**
 import java.io.File;
 
 import client.model.LoggingLevel;
+import client.model.commandmanager.game.*;
+import client.model.commandmanager.moves.*;
 import client.model.map.HexLocation;
 import client.model.map.VertexObject;
 import client.model.map.EdgeLocation;
@@ -25,10 +27,9 @@ public class ClientFacade {
     If the passed¬in (username, password) pair is not valid, or the operation fails for any other
     reason,
     1. The server returns an HTTP 400 error response, and the body contains an error
-     * @param username
-     * @param password
+     * @param loginCommand
      */
-    public void userLogin(String username, String password){
+    public void userLogin(LoginCommand loginCommand){
 
     }
 
@@ -47,10 +48,9 @@ public class ClientFacade {
     reason,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param username
-     * @param password
+     * @param registerCommand
      */
-    public void userRegister(String username, String password){
+    public void userRegister(RegisterCommand registerCommand){
 
     }
 
@@ -79,12 +79,9 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param name
-     * @param randomTiles
-     * @param randomNumbers
-     * @param randomPorts
+     * @param gameCreateCommand
      */
-    public void gameCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts){
+    public void gameCreate(GameCreateCommand gameCreateCommand){
 
     }
 
@@ -107,10 +104,9 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param gameID
-     * @param color
+     * @param gameJoinCommand
      */
-    public void gameJoin(int gameID, String color){
+    public void gameJoin(GameJoinCommand gameJoinCommand){
 
     }
 
@@ -130,10 +126,9 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param gameID
-     * @param fileName
+     * @param command
      */
-    public void gameSave(int gameID,File fileName){
+    public void gameSave(GameSaveCommand command){
 
     }
 
@@ -152,9 +147,9 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param fileName
+     * @param command
      */
-    public void gameLoad(File fileName){
+    public void gameLoad(GameLoadCommand command){
 
     }
 
@@ -305,9 +300,9 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param loggingLevel
+     * @param command
      */
-    public void utilChangeLogLevel(LoggingLevel loggingLevel){
+    public void utilChangeLogLevel(UtilChangeLogLevelCommand command){
 
     }
 
@@ -319,10 +314,9 @@ public class ClientFacade {
      * Adds a message to the end of the chat
      * @pre Caller has already logged in to the server and joined a game.
      * @post The chat contains your message at the end
-     * @param playerIndex
-     * @param content
+     * @param command
      */
-    public void sendChat(int playerIndex, String content){
+    public void sendChat(SendChatCommand command){
 
     }
 
@@ -330,10 +324,9 @@ public class ClientFacade {
      *Tells the server what number was rolled so resources can be distributed, discarded or robbed.
      * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
      * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
-     * @param playerIndex
-     * @param number
+     * @param command
      */
-    public void rollNumber(int playerIndex, int number){
+    public void rollNumber(RollDiceCommand command){
 
     }
 
@@ -342,9 +335,9 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * @post The cards in your new dev card hand have been transferred to your old dev card
     hand. It is the next player’s turn
-     * @param playerIndex
+     * @param command
      */
-    public void finishTurn(int playerIndex){
+    public void finishTurn(EndTurnCommand command){
 
     }
 
@@ -353,10 +346,9 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
      * You have over 7 cards. You have the cards you're choosing to discard.
      * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
-     * @param playerIndex
-     * @param discardedCards
+     * @param command
      */
-    public void discardCards(int playerIndex, ResourceList discardedCards){
+    public void discardCards(DiscardCommand command){
 
     }
 
@@ -370,11 +362,9 @@ public class ClientFacade {
      * @post You lost the resources required to build a road (1 wood, 1 brick; 1 road).
      * The road is on the map at the specified location.
      * If applicable, “longest road” has been awarded to the player with the longest road
-     * @param playerIndex
-     * @param roadLocation
-     * @param free
+     * @param command
      */
-    public void buildRoad(int playerIndex, HexLocation roadLocation, boolean free){
+    public void buildRoad(BuildRoadCommand command){
 
     }
 
@@ -388,11 +378,9 @@ public class ClientFacade {
      * @post You lost the resources required to build a settlement if not setup rounds(1 wood, 1 brick, 1 wheat, 1
     sheep; 1 settlement).
     The settlement is on the map at the specified location
-     * @param playerIndex
-     * @param vertexLocation
-     * @param free
+     * @param command
      */
-    public void buildSettlement(int playerIndex, VertexObject vertexLocation, boolean free){
+    public void buildSettlement(BuildSettlementCommand command){
 
     }
 
@@ -403,10 +391,9 @@ public class ClientFacade {
      * @post You lost the resources required to build a city (2 wheat, 3 ore; 1 city).
      * The city is on the map at the specified location.
      * You got a settlement back
-     * @param playerIndex
-     * @param vertexLocation
+     * @param command
      */
-    public void buildCity(int playerIndex, VertexObject vertexLocation){
+    public void buildCity(BuildCityCommand command){
 
     }
 
@@ -414,11 +401,9 @@ public class ClientFacade {
      * Tells Server to send a trade offer to the other player.
      * @pre Caller has already logged in to the server and joined a game. You have the resources you are offering.
      * @post The trade is offered to the other player (stored in the server model).
-     * @param playerIndex
-     * @param offer
-     * @param receiver
+     * @param command
      */
-    public void offerTrade(int playerIndex, ResourceList offer, int receiver){
+    public void offerTrade(OfferTradeCommand command){
 
     }
 
@@ -429,10 +414,9 @@ public class ClientFacade {
      * @post If you accepted, you and the player who offered swap the specified resources.
      * If you declined no resources are exchanged.
      * The trade offer is removed
-     * @param playerIndex
-     * @param willAccept
+     * @param command
      */
-    public void acceptTrade(int playerIndex, boolean willAccept){
+    public void acceptTrade(AcceptTradeCommand command){
 
     }
 
@@ -442,12 +426,9 @@ public class ClientFacade {
      * For ratios less than 4, you have the correct port for the trade
      * @post The trade has been executed (the offered resources are in the bank, and the
     requested resource has been received)
-     * @param playerIndex
-     * @param ratio
-     * @param inputResource
-     * @param outputResource
+     * @param command
      */
-    public void maritimeTrade(int playerIndex, int ratio, Resource inputResource, Resource outputResource){
+    public void maritimeTrade(MaritimeTradeCommand command){
 
     }
 
@@ -458,11 +439,9 @@ public class ClientFacade {
     resource cards
      * @post The robber is in the new location. The player being robbed (if any) gave you one of his resource cards (randomly
     selected)
-     * @param playerIndex
-     * @param location
-     * @param victimIndex
+     * @param command
      */
-    public void robPlayer(int playerIndex, HexLocation location, int victimIndex){
+    public void robPlayer(RobPlayerCommand command){
 
     }
 
@@ -474,9 +453,9 @@ public class ClientFacade {
     - If it is a monument card, it has been added to your old devcard hand
     - If it is a non¬monument card, it has been added to your new devcard hand
     (unplayable this turn)
-     * @param playerIndex
+     * @param command
      */
-    public void purchaseDevCard(int playerIndex){
+    public void purchaseDevCard(PurchaseDevCardCommand command){
 
     }
 
@@ -492,11 +471,9 @@ public class ClientFacade {
     most soldier cards.
     You are not allowed to play other development cards during this turn (except for
     monument cards, which may still be played)
-     * @param playerIndex
-     * @param location
-     * @param victimIndex
+     * @param command
      */
-    public void playSoldier(int playerIndex, HexLocation location, int victimIndex){
+    public void playSoldier(PlaySoldierCommand command){
 
     }
 
@@ -504,11 +481,9 @@ public class ClientFacade {
      * Tells the Server to allow the player to pick two resources from the Bank
      * @pre Caller has already logged in to the server and joined a game. The two specified resources are in the bank
      * @post You gained the two specified resources
-     * @param playerIndex
-     * @param resource1
-     * @param resource2
+     * @param command
      */
-    public void playYearOfPlenty(int playerIndex, Resource resource1, Resource resource2){
+    public void playYearOfPlenty(PlayYearOfPlentyCommand command){
 
     }
 
@@ -522,11 +497,9 @@ public class ClientFacade {
      * @post You have two fewer unused roads.
      * Two new roads appear on the map at the specified locations.
      * If applicable, “longest road” has been awarded to the player with the longest road
-     * @param playerIndex
-     * @param spot1
-     * @param spot2
+     * @param playRoadBuilderCommand
      */
-    public void playRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2){
+    public void playRoadBuilding(PlayRoadBuilderCommand playRoadBuilderCommand){
 
     }
 
@@ -535,10 +508,9 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * @post All of the other players have given you all of their resource cards of the specified
     type
-     * @param playerIndex
-     * @param resource
+     * @param playMonopolyCommand
      */
-    public void playMonopoly(int playerIndex, Resource resource){
+    public void playMonopoly(PlayMonopolyCommand playMonopolyCommand){
 
     }
 
@@ -547,9 +519,9 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * You have enough monument cards to win the game (i.e., reach 10 victory points)
      * @post You gained a victory point.
-     * @param playerIndex
+     * @param playMonumentCommand
      */
-    public void playMonument(int playerIndex){
+    public void playMonument(PlayMonumentCommand playMonumentCommand){
 
     }
 }

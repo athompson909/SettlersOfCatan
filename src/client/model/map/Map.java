@@ -20,7 +20,7 @@ public class Map {
     private List<Port> ports;
 
     /**
-     * List of EdgeValues created
+     * List of EdgeValues where roads are built
      */
     private List<EdgeValue> roads;
 
@@ -92,6 +92,24 @@ public class Map {
      */
     private void assignPorts() {}
 
+    /**
+     * Updates all map data members to match the newly updated model
+     *
+     * Updates robber to new position
+     * Updates list of EdgeValues where roads are stored
+     * Updates list of VertexObjects where settlements are built
+     * Updates list of VertexObjects where cities are built
+     *
+     * @param newMap updated map received from the updated clientModel
+     */
+    public void updateMap(Map newMap) {
+
+        setRobber(newMap.robber);
+        setRoads(newMap.roads);
+        setSettlements(newMap.settlements);
+        setCities(newMap.cities);
+
+    }
 
     public List<Hex> getHexes() {
         return hexes;

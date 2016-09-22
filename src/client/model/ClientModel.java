@@ -2,9 +2,12 @@ package client.model;
 
 import client.model.messagemanager.MessageList;
 import client.model.map.Map;
+import client.model.messagemanager.MessageManager;
 import client.model.player.Player;
 import client.model.resourcebank.DevCardList;
+import client.model.resourcebank.ResourceBank;
 import client.model.resourcebank.ResourceList;
+import client.model.turntracker.TurnTracker;
 import org.json.JSONObject;
 
 /**
@@ -27,22 +30,9 @@ public class ClientModel {
      */
     public int gameWinner = -1;
 
-    /**
-     * The ResourceList holding all the resources that this player currently has
-     */
-    public ResourceList bank;
-
-    /**
-     * The DevCardList holding all the Dev Cards that this player has that are at lease one turn old
-     */
-    public DevCardList oldDevCardList;
-
-    /**
-     * The DevCardList holding all the Dev Cards that this player has that are brand new,
-     * i.e. purchased on the current turn
-     */
-    public DevCardList newDevCardList;
-
+    public ResourceBank resourceBank;
+    public MessageManager messageManager;
+    public TurnTracker turnTracker;
     /**
      * The messageList object holding all the Chat messages
      */
@@ -76,18 +66,14 @@ public class ClientModel {
     public ClientUpdateManager updateManager;
 
 
-
-
-
-
     /**
      * Takes the incoming JSONObject (newModel) coming from the server and forwards it on to
      * ClientUpdateManager so the data can be distributed properly to the objects in ClientModel.
      *
      * @param newModel - the JSON object representing the newly updated ClientModel being sent from the server
      */
-    public void UpdateClientModel(JSONObject newModel){
-
+    public void UpdateClientModel(ClientModel newModel){
+        updateManager.delegateUpdates(this, newModel);
     }
 
 
