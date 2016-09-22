@@ -103,7 +103,6 @@ public class Map {
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
-
         setRobber(newMap.robber);
         setRoads(newMap.roads);
         setSettlements(newMap.settlements);
