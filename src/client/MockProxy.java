@@ -12,19 +12,23 @@ import java.net.URL;
 /**
  * Created by Mitchell on 9/15/2016.
  */
-public class MockProxy implements IServerProxy{
+public class MockProxy implements IServerProxy {
+
     /**
      * Posts HTTP
      *
+     * @param url the url determined by other methods within IServerProxy
      * @param postData - the JSON object used to send with the HTTP post request
      * @return true if successful
      *
      * [Adam]
      *  so because this is the MockProxy it doesn't matter what the response is, returns true
      *  if the response is valid
+     *
+     *  todo: test
      */
     @Override
-    public boolean httpPost(String postData) {//JSONObject was changed to String
+    public boolean httpPost(String url, String postData) {//JSONObject was changed to String
 
         try {
 
@@ -62,29 +66,48 @@ public class MockProxy implements IServerProxy{
         } catch (IOException ioe) {
             System.out.println("Error: probably cause by obj.openConnection()");
             ioe.printStackTrace();
-        } finally {
-            return false;
+        } catch (Exception e) {
+            System.out.println("Error: other exception");
+            e.printStackTrace();
         }
+
+        return false;
     }
 
     /**
      * HTTP Get Method
      *
-     * @param json - the JSON object used to send with the HTTP get request
+     * @param url the url determined by other methods within IServerProxy
      * @return true if it was successful
+     *
+     * todo: test
      */
     @Override
-    public boolean httpGet(String json) {
+    public boolean httpGet(String url) {
         try {
 
             URL obj = new URL(url);
 
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("GET");connection.setRequestMethod("GET");
+            //connection.addRequestProperty("Authorization", authorizationToken);
+            connection.connect();
 
-            return true;
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 
+                InputStream responseBody = connection.getInputStream();
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length = 0;
+                while ((length = responseBody.read(buffer)) != -1) {
+                    baos.write(buffer, 0, length);
+                }
+
+                return true;
+            }
+            else return false;
 
         } catch (MalformedURLException me) {
             System.out.println("Error: bad url");
@@ -92,9 +115,12 @@ public class MockProxy implements IServerProxy{
         } catch (IOException ioe) {
             System.out.println("Error: probably cause by obj.openConnection()");
             ioe.printStackTrace();
-        } finally {
-            return false;
+        } catch (Exception e) {
+            System.out.println("Error: other exception");
+            e.printStackTrace();
         }
+
+        return false;
     }
 
     /**

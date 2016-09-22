@@ -18,4 +18,6 @@ public class Client {
     // private Controller controller;
     private ServerProxy serverProxy;
 
+
+
 }

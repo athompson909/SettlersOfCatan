@@ -6,24 +6,21 @@ import org.json.JSONObject;
  * Created by Mitchell on 9/15/2016.
  */
 public interface IServerProxy {
-   /**
-    * stores the url path needed by the post and get methods to reach the server
-    */
-   String url = "";
 
    /**
     * Posts HTTP
-    * @param json
+    * @param url the url determined by other methods within IServerProxy
+    * @param postData the data to be posted to the server
     * @return true if successful
     */
-   boolean httpPost(String json) throws ClientException; //I'M CHANGING THE PARAMETER FROM TYPE JSONObject to String
+   boolean httpPost(String url, String postData) throws ClientException; //I'M CHANGING THE PARAMETER FROM TYPE JSONObject to String
 
    /**
     * HTTP Get Method
-    * @param json
+    * @param url the url determined by other methods within IServerProxy
     * @return true if it was successful
     */
-   boolean httpGet(String json) throws ClientException;
+   boolean httpGet(String url) throws ClientException;
 
 //Non-Move
 
