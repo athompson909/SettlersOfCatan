@@ -14,6 +14,7 @@ import client.model.resourcebank.Resource;
 import client.model.resourcebank.ResourceList;
 
 public class ClientFacade {
+
     /**
      * Logs the caller in to the server, and sets their catan.user HTTP cookie
      * @pre username is not null
@@ -163,7 +164,7 @@ public class ClientFacade {
      already has the latest game state. This is merely an optimization. If the version number is
      not included in the request URL, the server will return the full game state.
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
-    valid catan.user and catan.game HTTP cookies).
+     valid catan.user and catan.game HTTP cookies).
     2. If specified, the version number is included as the “version” query parameter in the
     request URL, and its value is a valid integer
      * @post If the operation succeeds,
@@ -180,8 +181,8 @@ public class ClientFacade {
     titled “client Model JSON Documentation”
      * @param version
      */
-    public void gameModelVersion(int version){
-
+    public String gameModelVersion(int version) {
+        return "true";
     }
 
     /**

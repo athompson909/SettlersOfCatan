@@ -22,6 +22,12 @@ public class ClientUpdateManager {
 
     //The ClientUpdateManager needs to be able to access the current ClientModel stored in the Client??
 
+    ClientModel currentModel;
+
+    public ClientUpdateManager (ClientModel currModel) {
+        currentModel = currModel;
+    }
+
     /**
      * DelegateUpdate() takes the newly updated ClientModel object coming from JSONTranslator,
      * who got it from translating the update the server sent,
@@ -77,7 +83,7 @@ public class ClientUpdateManager {
      * @param newPlayer the updated Player object
      */
     private void updatePlayer(Player currPlayer, Player newPlayer){
-        
+
     }
 
     /**
