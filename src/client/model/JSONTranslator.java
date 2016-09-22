@@ -21,8 +21,22 @@ public class JSONTranslator {
     }
 
 
+    /**
+     *
+     * @param newModel
+     * @return true if it all  worked, false otherwise
+     */
+    public boolean translateModel(JSONObject newModel){
+
+        return true;
+    }
 
 
+    /**
+     *
+     */
+    public void sendToUpdateManager(){
 
+    }
 
 }
