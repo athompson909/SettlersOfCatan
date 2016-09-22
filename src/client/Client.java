@@ -13,9 +13,9 @@ public class Client {
     private CommandManager commandManager;
     private ClientUpdateManager clientUpdateManager;
     private ClientModel clientModel;
-  //  private GameManager gameManager;
-   // private View view;
-   // private Controller controller;
+    // private GameManager gameManager;
+    // private View view;
+    // private Controller controller;
     private ServerProxy serverProxy;
 
 }
