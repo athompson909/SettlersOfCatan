@@ -9,7 +9,7 @@ import org.json.*;
  *
  * Created by Sierra on 9/18/16.
  */
-public class ServerProxy implements IServerProxy{
+public class ServerProxy implements IServerProxy {
 
     /**
      * Posts HTTP
@@ -49,6 +49,10 @@ public class ServerProxy implements IServerProxy{
      * If the passed­in (username, password) pair is not valid, or the operation fails for any other
      * reason,
      * 1. The server returns an HTTP 400 error response, and the body contains an error
+     *
+     * [Adam]
+     * //@param loginParams - username and password passed in as a string in the following JSON format:
+     *                    { username: "username", password: "password"}
      */
     @Override
     public JSONObject userLogin(JSONObject json) {

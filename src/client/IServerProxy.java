@@ -37,7 +37,8 @@ public interface IServerProxy {
    If the passed¬in (username, password) pair is not valid, or the operation fails for any other
    reason,
    1. The server returns an HTTP 400 error response, and the body contains an error
-    * @param json - username:JSONObject, password:JSONObject
+    * //@param json - username and password passed in as a string in the following JSON format:
+    *                    { username: "username", password: "password"}
     * @return Model in JSON
     */
    JSONObject userLogin(JSONObject json) throws ClientException;
