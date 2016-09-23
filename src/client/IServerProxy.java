@@ -11,16 +11,16 @@ public interface IServerProxy {
     * Posts HTTP
     * @param url the url determined by other methods within IServerProxy
     * @param postData the data to be posted to the server
-    * @return true if successful
+    * @return response text from server if successful
     */
-   boolean httpPost(String url, String postData) throws ClientException; //I'M CHANGING THE PARAMETER FROM TYPE JSONObject to String
+   String httpPost(String url, String postData) throws ClientException; //I'M CHANGING THE PARAMETER FROM TYPE JSONObject to String
 
    /**
     * HTTP Get Method
     * @param url the url determined by other methods within IServerProxy
-    * @return true if it was successful
+    * @return response text from server
     */
-   boolean httpGet(String url) throws ClientException;
+   String httpGet(String url) throws ClientException;
 
 //Non-Move
 
@@ -41,7 +41,7 @@ public interface IServerProxy {
     *                    { username: "username", password: "password"}
     * @return Model in JSON
     */
-   JSONObject userLogin(JSONObject json) throws ClientException;
+   String userLogin(JSONObject json) throws ClientException;
 
    /**
     * 1) Creates a new user account

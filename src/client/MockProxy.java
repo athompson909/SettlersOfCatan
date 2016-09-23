@@ -1,14 +1,6 @@
 package client;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * Created by Mitchell on 9/15/2016.
  *
@@ -17,108 +9,32 @@ import java.net.URL;
 public class MockProxy implements IServerProxy {
 
     /**
-     * Posts HTTP
+     * note: the mock proxy does not interact with the server
+     *
+     * in ServerProxy:
+     *  Posts HTTP
      *
      * @param url the url determined by other methods within IServerProxy
      * @param postData - string in JSON format used to send with the HTTP post request
-     * @return true if http post successful
-     *
-     *  todo: test (isolate in a JUnit test)
+     * @return response from http
      */
     @Override
-    public boolean httpPost(String url, String postData) {//JSONObject was changed to String
-
-        try {
-
-            URL obj = new URL(url);
-
-            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            connection.connect();
-
-            OutputStream requestBody = connection.getOutputStream();
-            requestBody.write(postData.getBytes());
-            requestBody.close();
-
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
-                InputStream responseBody = connection.getInputStream();
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int length = 0;
-                while ((length = responseBody.read(buffer)) != -1) {
-                    baos.write(buffer, 0, length);
-                }
-
-                return true;
-            }
-            else return false;
-
-
-        } catch (MalformedURLException me) {
-            System.out.println("Error: bad url");
-            me.printStackTrace();
-        } catch (IOException ioe) {
-            System.out.println("Error: probably cause by obj.openConnection()");
-            ioe.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Error: other exception");
-            e.printStackTrace();
-        }
-
-        return false;
+    public String httpPost(String url, String postData) {
+        return "no interaction with server in mock proxy";
     }
 
     /**
-     * HTTP Get Method
+     * note: the mock proxy does not interact with the server
+     *
+     * in ServerProxy:
+     *  HTTP Get Method
      *
      * @param url the url determined by other methods within IServerProxy
-     * @return true if http get was successful
-     *
-     * todo: test (isolate in a JUnit test)
+     * @return response from http
      */
     @Override
-    public boolean httpGet(String url) {
-        try {
-
-            URL obj = new URL(url);
-
-            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-
-            connection.setRequestMethod("GET");connection.setRequestMethod("GET");
-            //connection.addRequestProperty("Authorization", authorizationToken);
-            connection.connect();
-
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
-                InputStream responseBody = connection.getInputStream();
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int length = 0;
-                while ((length = responseBody.read(buffer)) != -1) {
-                    baos.write(buffer, 0, length);
-                }
-
-                return true;
-            }
-            else return false;
-
-        } catch (MalformedURLException me) {
-            System.out.println("Error: bad url");
-            me.printStackTrace();
-        } catch (IOException ioe) {
-            System.out.println("Error: probably cause by obj.openConnection()");
-            ioe.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Error: other exception");
-            e.printStackTrace();
-        }
-
-        return false;
+    public String httpGet(String url) {
+        return "no interaction with server in mock proxy";
     }
 
     /**
@@ -131,8 +47,8 @@ public class MockProxy implements IServerProxy {
      * @param json the value should always be null when passed into the mock proxy
      */
     @Override
-    public JSONObject userLogin(JSONObject json) {
-       return new JSONObject(SUCCESS);
+    public String userLogin(JSONObject json) {
+       return SUCCESS;
     }
 
     /**
@@ -689,7 +605,7 @@ public class MockProxy implements IServerProxy {
 
 
 
-    private final String SUCCESS = "{Success}";
+    private final String SUCCESS = "Success";
 
     // not going to change to local variable so code is easier to read
     private final String GAMES_LIST = "[\n" +

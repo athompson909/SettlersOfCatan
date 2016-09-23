@@ -1,6 +1,14 @@
 package client;
 import org.json.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  *
  * ServerProxy implements the IServerProxy interface.
@@ -14,23 +22,105 @@ public class ServerProxy implements IServerProxy {
     /**
      * Posts HTTP
      *
-     * @param json - the JSON object used to send with the HTTP post request
-     * @return true if successful
+     * @param url the url determined by other methods within IServerProxy
+     * @param postData - string in JSON format used to send with the HTTP post request
+     * @return response from http
      */
     @Override
-    public boolean httpPost(JSONObject json) {
-        return false;
+    public String httpPost(String url, String postData) {
+
+        try {
+
+            URL obj = new URL(url);
+
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.connect();
+
+            OutputStream requestBody = connection.getOutputStream();
+            requestBody.write(postData.getBytes());
+            requestBody.close();
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+                InputStream responseBody = connection.getInputStream();
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length = 0;
+                while ((length = responseBody.read(buffer)) != -1) {
+                    baos.write(buffer, 0, length);
+                }
+
+                return baos.toString();
+            }
+            else return "http error";
+
+
+        } catch (MalformedURLException me) {
+            System.out.println("Error: bad url");
+            me.printStackTrace();
+        } catch (IOException ioe) {
+            System.out.println("Error: probably cause by obj.openConnection()");
+            ioe.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Error: other exception");
+            e.printStackTrace();
+        }
+
+        return "error, exception thrown";
     }
 
     /**
      * HTTP Get Method
      *
-     * @param json - the JSON object used to send with the HTTP get request
-     * @return true if it was successful
+     * @param url the url determined by other methods within IServerProxy
+     * @return response from http
+     *
+     * todo: test (isolate in a JUnit test)
      */
     @Override
-    public boolean httpGet(JSONObject json) {
-        return false;
+    public String httpGet(String url) {
+
+        try {
+
+            URL obj = new URL(url);
+
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+
+            connection.setRequestMethod("GET");connection.setRequestMethod("GET");
+            //connection.addRequestProperty("Authorization", authorizationToken);
+            connection.connect();
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+                InputStream responseBody = connection.getInputStream();
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length = 0;
+                while ((length = responseBody.read(buffer)) != -1) {
+                    baos.write(buffer, 0, length);
+                }
+
+                return baos.toString();
+            }
+            else return "http error";
+
+        } catch (MalformedURLException me) {
+            System.out.println("Error: bad url");
+            me.printStackTrace();
+        } catch (IOException ioe) {
+            System.out.println("Error: probably cause by obj.openConnection()");
+            ioe.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Error: other exception");
+            e.printStackTrace();
+        }
+
+        return "error, exception thrown";
     }
 
     /**
@@ -55,8 +145,10 @@ public class ServerProxy implements IServerProxy {
      *                    { username: "username", password: "password"}
      */
     @Override
-    public JSONObject userLogin(JSONObject json) {
-        return null;
+    public String userLogin(JSONObject json) {
+
+        String urlStr = "http://localhost:8081/user/login";
+        return httpPost(urlStr, json.toString());
     }
 
     /**
