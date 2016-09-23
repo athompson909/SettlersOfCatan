@@ -22,7 +22,7 @@ public class PlayRoadBuilderCommand extends BaseCommand {
     EdgeLocation locationTWO;
 
     /**
-     * Creates PlayRoadBuilderCommand object to be sent to client.ClientFacade
+     * Creates PlayRoadBuilderCommand object to be sent to tests.client.ClientFacade
      * to be translated into JSON
      *
      * sets data members

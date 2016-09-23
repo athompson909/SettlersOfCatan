@@ -7,7 +7,7 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class AddAICommand extends BaseCommand {
     /**
-     * Creates AICommand object to send to client.ClientFacade
+     * Creates AICommand object to send to tests.client.ClientFacade
      */
     public AddAICommand() {
 

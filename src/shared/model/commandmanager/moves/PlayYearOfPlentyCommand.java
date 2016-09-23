@@ -23,7 +23,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
     private Resource resource2;
 
     /**
-     * Creates PlayYearOfPlentyCommand to send to client.ClientFacade. Sets data members
+     * Creates PlayYearOfPlentyCommand to send to tests.client.ClientFacade. Sets data members
      * @param playerIndex
      * @param resource1
      * @param resource2

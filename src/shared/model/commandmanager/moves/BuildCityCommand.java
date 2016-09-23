@@ -14,7 +14,7 @@ public class BuildCityCommand extends BaseCommand {
     VertexObject vert;
 
     /**
-     * Creates a buildCityCommand object to be sent to client.ClientFacade
+     * Creates a buildCityCommand object to be sent to tests.client.ClientFacade
      * for translation into JSON
      *
      * Sets data members
