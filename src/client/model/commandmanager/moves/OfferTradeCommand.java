@@ -45,7 +45,7 @@ public class OfferTradeCommand extends BaseCommand {
      * @return true if other user accepted offer
      */
     public boolean buildAcceptTradeCommand(BaseCommand BC) {
-
+        return false;
     }
 
     /**
