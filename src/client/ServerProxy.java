@@ -19,8 +19,14 @@ import java.net.URL;
  */
 public class ServerProxy implements IServerProxy {
 
+    /**
+     * the cookie returned when userLogin(...) is ran
+     */
     private String loginCookie;
 
+    /**
+     * the cookie returned when userRegister(...) is ran
+     */
     private String registerCookie;
 
     public String getLoginCookie() {
