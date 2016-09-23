@@ -6,7 +6,7 @@ import client.model.commandmanager.BaseCommand;
  * Created by Alise on 9/18/2016.
  */
 public class AcceptTradeCommand extends BaseCommand {
-
+//Data Members
     /**
      * Index of player who is being offered a trade
      */
@@ -40,5 +40,14 @@ public class AcceptTradeCommand extends BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+    //Getters
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public boolean isWillAccept() {
+        return willAccept;
     }
 }

@@ -9,7 +9,7 @@ public class BaseCommand {
      * sends the command to the clientFacade
      */
     public void clientExec(BaseCommand command){
-
+        //need access to the Facade - get it through the Command Manager?
     }
 
     /**

@@ -1,5 +1,7 @@
 package client.model.commandmanager;
 
+import client.ClientFacade;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +18,27 @@ public class CommandManager {
      */
     List <BaseCommand> baseCommands = new ArrayList<BaseCommand>();
 
+    ClientFacade clientFacade;
+
+    public CommandManager(ClientFacade facade) {
+        clientFacade = facade;
+    }
+
     /**
      * Sends the most recent command to the client.ClientFacade to be translated and executed
      */
     public void clientExec(BaseCommand command){
-
+        //command.clientExec(command);
+        //clientFacade.translate(command);//- create translate for the facade to use the translator?
     }
 
     /**
      * Removes the last Command from the list
      */
     public void clientUndo(){
-
+        if(!baseCommands.isEmpty()){
+            baseCommands.remove(baseCommands.size() - 1);
+        }
     }
 
     /**
