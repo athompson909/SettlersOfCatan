@@ -1,5 +1,6 @@
 package client.model;
 
+import client.ClientFacade;
 import client.model.map.Robber;
 import client.model.messagemanager.MessageList;
 import client.model.map.Map;
@@ -14,7 +15,7 @@ import client.model.messagemanager.MessageManager;
 /**
  * ClientUpdateManager receives the new model piece objects created by the JSONTranslator
  * (after the server sends back the updated model), and uses the data
- * contained within
+ * contained within to update the existing ClientModel objects.
  *
  * Created by Sierra on 9/18/16.
  */
@@ -24,12 +25,36 @@ public class ClientUpdateManager {
 
     ClientModel currentModel;
 
+    //this is ok if we end up going with my new idea!
+    //is there a way ClientUpdateManager can go through its superclass (ClientFacade) to talk to its data members?
+    //like   ClientFacade clientFacade = super.?
+    //it would be nice to not have to have a new instance of JSONTranslator here too...
+    JSONTranslator jsonTranslator = new JSONTranslator();
+
     public ClientUpdateManager (ClientModel currModel) {
         currentModel = currModel;
     }
 
+
     /**
-     * DelegateUpdate() takes the newly updated ClientModel object coming from JSONTranslator,
+     * getNewModel() checks with jsonTranslator to see if the new model coming from the server
+     * was parsed successfully. If it was, we save that new ClientModel here and give it to delegateUpdates()
+     * to be distributed to the existing model.
+     */
+    public void getNewModel(){
+        /*
+        if (jsonTranslator.translateModel()) {
+
+        }
+        else {
+            System.out.println(">ClientUpdateMgr: unable to get new model obj from JSONTranslator");
+        }
+        */
+    }
+
+
+    /**
+     * DelegateUpdates() takes the newly updated ClientModel object coming from JSONTranslator,
      * who got it from translating the update the server sent,
      * and splits it into smaller objects to give to the subsequent individual update functions.
      */

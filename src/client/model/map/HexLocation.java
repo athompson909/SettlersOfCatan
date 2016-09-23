@@ -47,4 +47,16 @@ public class HexLocation {
     public void setY(int y) {
         this.y = y;
     }
+
+    /**
+     * Default toString function - added for easy testing
+     * @return formatted String representing this HexLocation's data
+     */
+    @Override
+    public String toString() {
+        return "HexLocation{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
