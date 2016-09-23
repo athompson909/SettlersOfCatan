@@ -1,5 +1,6 @@
 package shared.model.player;
 
+import shared.definitions.CatanColor;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
 
@@ -13,7 +14,7 @@ public class Player { //
     /**
      *  The color of this player.
      */
-    private PlayerColor color;
+    private CatanColor color;
 
     /**
      * The players name.
@@ -94,7 +95,7 @@ public class Player { //
      * @param playerID
      * @param playerIndex
      */
-    public Player(PlayerColor color, String name, int playerID, int playerIndex){
+    public Player(CatanColor color, String name, int playerID, int playerIndex){
         this.color = color;
         this.name = name;
         this.playerID = playerID;
@@ -231,7 +232,7 @@ public class Player { //
     }
 
     //GETTERS
-    public PlayerColor getColor() {return color;}
+    public CatanColor getColor() {return color;}
 
     public String getName() {
         return name;
