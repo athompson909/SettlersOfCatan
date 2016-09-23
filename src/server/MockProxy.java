@@ -149,7 +149,7 @@ public class MockProxy implements IServerProxy {
      * in Server Proxy:
      *  Returns the current state of the game in JSON format.
      *  In addition to the current game state, the returned JSON also includes a “version” number for
-     *  the client model. The next time /game/model is called, the version number from the
+     *  the tests.client model. The next time /game/model is called, the version number from the
      *  previously retrieved model may optionally be included as a query parameter in the request
      *  (/game/model?version=N). The server will only return the full JSON game state if its version
      *  number is not equal to N. If it is equal to N, the server returns “true” to indicate that the caller
@@ -165,7 +165,7 @@ public class MockProxy implements IServerProxy {
      * @post If the operation succeeds,
      * 1. The server returns an HTTP 200 success response.
      * 2. The response body contains JSON data
-     * a. The full client model JSON is returned if the caller does not provide a version
+     * a. The full tests.client model JSON is returned if the caller does not provide a version
      * number, or the provide version number does not match the version on the server
      * b. “true” (true in double quotes) is returned if the caller provided a version number,
      * and the version number matched the version number on the server
@@ -173,7 +173,7 @@ public class MockProxy implements IServerProxy {
      * 1. The server returns an HTTP 400 error response, and the body contains an error
      * message.
      * The format of the returned JSON can be found on the server’s Swagger page, or in the document
-     * titled “client Model JSON Documentation”
+     * titled “tests.client Model JSON Documentation”
      */
     @Override
     public JSONObject gameModelVersion(JSONObject json) {
@@ -186,7 +186,7 @@ public class MockProxy implements IServerProxy {
      *  For the default games created by the server, this method reverts the game to the state
      *  immediately after the initial placement round. For user­created games, this method reverts
      *  the game to the very beginning (i.e., before the initial placement round).
-     *  This method returns the client model JSON for the game after it has been reset.
+     *  This method returns the tests.client model JSON for the game after it has been reset.
      *  You must login and join a game before calling this method.
      *
      * @return the JSON Model
@@ -196,7 +196,7 @@ public class MockProxy implements IServerProxy {
      * 1. The game’s command history has been cleared out
      * 2. The game’s players have NOT been cleared out
      * 3. The server returns an HTTP 200 success response.
-     * 4. The body contains the game’s updated client model JSON
+     * 4. The body contains the game’s updated tests.client model JSON
      * If the operation fails,
      * 1. The server returns an HTTP 400 error response, and the body contains an error
      * message.
@@ -245,7 +245,7 @@ public class MockProxy implements IServerProxy {
      *  Executes the specified command list in the current game.
      *  This method can be used for testing and debugging. The command list returned by the
      *  /game/command [GET] method is suitable for passing to this method.
-     *  This method returns the client model JSON for the game after the command list has been
+     *  This method returns the tests.client model JSON for the game after the command list has been
      *  applied.
      *  You must login and join a game before calling this method
      *
@@ -255,7 +255,7 @@ public class MockProxy implements IServerProxy {
      * @post If the operation succeeds,
      * 1. The passed­in command list has been applied to the game.
      * 2. The server returns an HTTP 200 success response.
-     * 3. The body contains the game’s updated client model JSON
+     * 3. The body contains the game’s updated tests.client model JSON
      * If the operation fails,
      * 1. The server returns an HTTP 400 error response, and the body contains an error
      * message
@@ -348,8 +348,8 @@ public class MockProxy implements IServerProxy {
      *
      * @param json - playerIndex:int, number:int(2-12)
      * @return the JSON Model
-     * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
-     * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
+     * @pre Caller has already logged in to the server and joined a game. It is your turn. The tests.client model’s status is ‘Rolling’
+     * @post The tests.client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
      */
     @Override
     public JSONObject rollNumber(JSONObject json) {
@@ -377,9 +377,9 @@ public class MockProxy implements IServerProxy {
      *
      * @param json - playerIndex:int, discardedCards:ResourceList
      * @return the JSON Model
-     * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
+     * @pre Caller has already logged in to the server and joined a game. The status of the tests.client model is 'Discarding'.
      * You have over 7 cards. You have the cards you're choosing to discard.
-     * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
+     * @post You gave up the specified resources. If you're the last one to discard, the tests.client model status changes to 'Robbing'
      */
     @Override
     public JSONObject discardCards(JSONObject json) {

@@ -12,22 +12,22 @@ public class GameCreateCommand extends BaseCommand {
     private String name;
 
     /**
-     * true if client wants tiles randomly placed, false if they want the default
+     * true if tests.client wants tiles randomly placed, false if they want the default
      */
     private boolean randomTiles;
 
     /**
-     * true if client wants numbers randomly placed, false if they want the default
+     * true if tests.client wants numbers randomly placed, false if they want the default
      */
     private boolean randomNumbers;
 
     /**
-     * true if client wants ports randomly placed, false if they want the default
+     * true if tests.client wants ports randomly placed, false if they want the default
      */
     private boolean randomPorts;
 
     /**
-     * Creates GameCreateCommand to pass to the client.ClientFacade. Sets data members.
+     * Creates GameCreateCommand to pass to the tests.client.ClientFacade. Sets data members.
      * @param name
      * @param randomTiles
      * @param randomNumbers

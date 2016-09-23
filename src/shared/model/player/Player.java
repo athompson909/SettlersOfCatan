@@ -22,7 +22,7 @@ public class Player { //
     private String name;
 
     /**
-     * The unique playerID. This is used to pick the client player apart from the
+     * The unique playerID. This is used to pick the tests.client player apart from the
      others. This is only used here and in your cookie.,
      */
     int playerID;

@@ -26,7 +26,7 @@ public class MaritimeTradeCommand extends BaseCommand {
     Resource toReceive;
 
     /**
-     * Creates MaritimeTradeCommand object to be sent to client.ClientFacade
+     * Creates MaritimeTradeCommand object to be sent to tests.client.ClientFacade
      * for translation into JSON
      *
      * sets data members

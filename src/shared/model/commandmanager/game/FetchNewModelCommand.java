@@ -7,14 +7,14 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class FetchNewModelCommand extends BaseCommand {
     /**
-     * version of the client model
+     * version of the tests.client model
      */
     private int version;
 
     /**
-     * Creates FetchNewModelCommand to send to client.ClientFacade
+     * Creates FetchNewModelCommand to send to tests.client.ClientFacade
      * Sets data members
-     * @param version = client model version number
+     * @param version = tests.client model version number
      */
     public FetchNewModelCommand(int version){
 

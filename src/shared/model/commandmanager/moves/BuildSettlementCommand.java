@@ -19,7 +19,7 @@ public class BuildSettlementCommand extends BaseCommand {
 
     /**
      * Creates a BuildSettlementCommand object to be sent to
-     * client.ClientFacade for translation into JSON
+     * tests.client.ClientFacade for translation into JSON
      *
      * Sets data members
      * @param edgeLocation

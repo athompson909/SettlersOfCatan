@@ -13,7 +13,7 @@ public class PlayMonumentCommand extends BaseCommand {
     int playerIndex;
 
     /**
-     * Creates PlauMonumentCard object to be sent to client.ClientFacade
+     * Creates PlauMonumentCard object to be sent to tests.client.ClientFacade
      * for translation into JSON
      *
      * sets data member

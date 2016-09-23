@@ -1,4 +1,4 @@
-package client;
+package tests.client;
 
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;

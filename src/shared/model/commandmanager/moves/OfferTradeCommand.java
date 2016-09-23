@@ -22,7 +22,7 @@ public class OfferTradeCommand extends BaseCommand {
     int receiver;
 
     /**
-     * Creates OfferTradeCommand object to be sent to client.ClientFacade
+     * Creates OfferTradeCommand object to be sent to tests.client.ClientFacade
      * for translation into JSON
      *
      * Sets data memebrs
