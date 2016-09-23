@@ -1,4 +1,4 @@
-package client;
+package server;
 import java.util.Timer;     //not sure if this is the right Timer class
 
 /**

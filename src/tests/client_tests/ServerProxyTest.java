@@ -1,6 +1,6 @@
 package tests.client_tests;
 
-import client.ServerProxy;
+import server.ServerProxy;
 import junit.framework.TestCase;
 import org.json.JSONObject;
 
