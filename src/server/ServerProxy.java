@@ -116,7 +116,7 @@ public class ServerProxy implements IServerProxy {
 
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
-            connection.setRequestMethod("GET");connection.setRequestMethod("GET");
+            connection.setRequestMethod("GET");
             //connection.addRequestProperty("Authorization", authorizationToken);
             connection.connect();
 
@@ -174,7 +174,11 @@ public class ServerProxy implements IServerProxy {
     public String userLogin(JSONObject json) {
 
         String urlStr = "http://localhost:8081/user/login";
-        return httpPost(urlStr, json.toString());
+        String response = httpPost(urlStr, json.toString());
+        if(response.equals("Success")) {
+            //get cookie
+        }
+        return response;
     }
 
     /**
