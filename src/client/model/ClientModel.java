@@ -5,6 +5,7 @@ import client.model.map.Map;
 import client.model.messagemanager.MessageManager;
 import client.model.player.Player;
 import client.model.resourcebank.DevCardList;
+import client.model.resourcebank.Resource;
 import client.model.resourcebank.ResourceBank;
 import client.model.resourcebank.ResourceList;
 import client.model.turntracker.TurnTracker;
@@ -73,9 +74,31 @@ public class ClientModel {
      * @param newModel - the JSON object representing the newly updated ClientModel being sent from the server
      */
     public void UpdateClientModel(ClientModel newModel){
-        updateManager.delegateUpdates(this, newModel);
+        updateManager.delegateUpdates(newModel);
     }
 
+    //GETTERS
+    public int getModelVersion() {return modelVersion;}
+    public int getGameWinner() {return gameWinner;}
+    public ResourceBank getResourceBank() {return resourceBank;}
+    public MessageManager getMessageManager() {return messageManager;}
+    public TurnTracker getTurnTracker() {return turnTracker;}
+    public MessageList getChat() {return chat;}
+    public MessageList getLog() {return log;}
+    public Map getMap() {return map;}
+    public Player[] getPlayer() {return players;}
+    public TradeOffer getTradeOffer() {return tradeOffer;}
+    public ClientUpdateManager getUpdateManager() {return updateManager;}
+
+    //SETTERS
+    public void setModelVersion(int newModVer) {modelVersion = newModVer;}
+    public void setGameWinner(int newGameWinner) {gameWinner = newGameWinner;}
+    public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
+    public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
+    /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/
+    public void setChat(MessageList newChat) {chat = newChat;}
+    public void setLog(MessageList newLog) {log = newLog;}
+    // ....???? Come back to this
 
 }
 

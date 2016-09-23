@@ -1,5 +1,6 @@
 package client.model;
 
+import client.ClientFacade;
 import client.model.map.Robber;
 import client.model.messagemanager.MessageList;
 import client.model.map.Map;
@@ -14,7 +15,7 @@ import client.model.messagemanager.MessageManager;
 /**
  * ClientUpdateManager receives the new model piece objects created by the JSONTranslator
  * (after the server sends back the updated model), and uses the data
- * contained within
+ * contained within to update the existing ClientModel objects.
  *
  * Created by Sierra on 9/18/16.
  */
@@ -22,12 +23,42 @@ public class ClientUpdateManager {
 
     //The ClientUpdateManager needs to be able to access the current ClientModel stored in the Client??
 
+    ClientModel currentModel;
+
+    //this is ok if we end up going with my new idea!
+    //is there a way ClientUpdateManager can go through its superclass (ClientFacade) to talk to its data members?
+    //like   ClientFacade clientFacade = super.?
+    //it would be nice to not have to have a new instance of JSONTranslator here too...
+    JSONTranslator jsonTranslator = new JSONTranslator();
+
+    public ClientUpdateManager (ClientModel currModel) {
+        currentModel = currModel;
+    }
+
+
     /**
-     * DelegateUpdate() takes the newly updated ClientModel object coming from JSONTranslator,
+     * getNewModel() checks with jsonTranslator to see if the new model coming from the server
+     * was parsed successfully. If it was, we save that new ClientModel here and give it to delegateUpdates()
+     * to be distributed to the existing model.
+     */
+    public void getNewModel(){
+        /*
+        if (jsonTranslator.translateModel()) {
+
+        }
+        else {
+            System.out.println(">ClientUpdateMgr: unable to get new model obj from JSONTranslator");
+        }
+        */
+    }
+
+
+    /**
+     * DelegateUpdates() takes the newly updated ClientModel object coming from JSONTranslator,
      * who got it from translating the update the server sent,
      * and splits it into smaller objects to give to the subsequent individual update functions.
      */
-    public void delegateUpdates(ClientModel currentModel, ClientModel newModel){
+    public void delegateUpdates(ClientModel newModel){
         Map currMap = currentModel.map;
         Map newMap = newModel.map;
         updateMap(currMap, newMap);
@@ -50,9 +81,11 @@ public class ClientUpdateManager {
 
         int currVersionNum = currentModel.modelVersion;
         int newVersionNum = newModel.modelVersion;
-        updateModelVersion(currVersionNum, newVersionNum);
+        updateModelVersion(newVersionNum);
 
         // Trade Offer???
+        // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
+
     }
 
 
@@ -63,10 +96,7 @@ public class ClientUpdateManager {
      * @param newMap the updated Map object
      */
     private void updateMap(Map currMap, Map newMap) {
-        currMap.setRobber(newMap.getRobber());
-        currMap.setRoads(newMap.getRoads());
-        currMap.setSettlements(newMap.getSettlements());
-        currMap.setCities(newMap.getCities());
+        currMap.updateMap(newMap);
     }
 
 //-----------------
@@ -77,59 +107,21 @@ public class ClientUpdateManager {
      * @param newPlayer the updated Player object
      */
     private void updatePlayer(Player currPlayer, Player newPlayer){
-        
+        currPlayer.updatePlayer(newPlayer);
     }
 
-    /**
-     * updateResourceList() gets the updated ResourceList object from updateMap(),
-     * and uses it to update the data in the existing ClientModel's ResourceList.
-     *
-     * @param newRList the new ResourceList object containing updated data
-     */
-    private void updateResourceList(ResourceList newRList){
-
-    }
-
-    /**
-     * updateDevCardList() gets the updated DevCardList object from updateMap(),
-     * and uses it to update the data in the existing ClientModel's DevCardList.
-     *
-     * @param newDCList the new DevCardList object containing updated data
-     */
-    private void updateDevCardList(DevCardList newDCList){
-
-    }
 //-----------------
 
     /**
      * updateMessageManager() takes the updated MessageManager object from delegateUpdates(),
      * extracts its smaller objects, and sends them to the subsequent small update functions.
      *
-     * @param newMMgr the updated MessageManager object
+     * @param newMessageMgr the updated MessageManager object
      */
-    private void updateMessageManager(MessageManager currMessageMgr, MessageManager newMMgr){
-
+    private void updateMessageManager(MessageManager currMessageMgr, MessageManager newMessageMgr){
+        currMessageMgr.updateMessageManager(newMessageMgr);
     }
 
-    /**
-     * updateChat() gets the updated Chat MessageList object from updateMap(),
-     * and uses it to update the data in the existing ClientModel's Chat MessageList.
-     *
-     * @param newChatList the new Chat MessageList object containing updated data
-     */
-    private void updateChat(MessageList newChatList) {
-
-    }
-
-    /**
-     * updateGameLog() gets the updated GameLog MessageList object from updateMap(),
-     * and uses it to update the data in the existing ClientModel's GameLog MessageList.
-     *
-     * @param newGameLog the new GameLog MessageList object containing updated data
-     */
-    private void updateGameLog(MessageList newGameLog) {
-
-    }
 //-----------------
 
     /**
@@ -139,7 +131,7 @@ public class ClientUpdateManager {
      * @param newTurnTracker the updated TurnTracker object
      */
     private void updateTurnTracker(TurnTracker currTurnTracker, TurnTracker newTurnTracker){
-
+        currTurnTracker.updateTurnTracker(newTurnTracker);
     }
 //-----------------
 
@@ -150,32 +142,13 @@ public class ClientUpdateManager {
      * @param newRBank the updated ResourceBank object
      */
     private void updateResourceBank(ResourceBank currResourceBank, ResourceBank newRBank){
-
+        currResourceBank.updateResourceBank(newRBank);
     }
 
-    /**
-     * updateBankResourceList() gets the updated ResourceList object from updateMap(),
-     * and uses it to update the data in the existing ResourceBank's ResourceList.
-     *
-     * @param newRList the new ResourceList object containing updated data
-     */
-    private void updateBankResourceList(ResourceList newRList){
-
-    }
-
-    /**
-     * updateBankDevCardList() gets the updated DevCardList object from updateMap(),
-     * and uses it to update the data in the existing ResourceBank's DevCardList.
-     *
-     * @param newDCList the new DevCardList object containing updated data
-     */
-    private void updateBankDevCardList(DevCardList newDCList){
-
-    }
 //-----------------
 
-    private void updateModelVersion(int currVersionNum, int newVersionNum) {
-
+    private void updateModelVersion(int newModelVersion) {
+        currentModel.setModelVersion(newModelVersion);
     }
     /**
      * updateTradeOffer() gets the updated TradeOffer object from updateMap(),

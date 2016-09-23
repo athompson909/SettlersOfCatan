@@ -42,7 +42,7 @@ public class Player {
     /**
      * How many soldiers the player has played.
      */
-    int solidersPlayed = 0;
+    int soldiersPlayed = 0;
 
     /**
      * How many cities this player has left to play,
@@ -182,7 +182,7 @@ public class Player {
     /**
      * @return true if the player can play a solider card.
      */
-    public boolean canPlaySoliderCard() {
+    public boolean canPlaySoldierCard() {
         return false;
     }
 
@@ -214,11 +214,22 @@ public class Player {
         return false;
     }
 
+    public void updatePlayer(Player newPlayer) {
+        setVictoryPoints(newPlayer.getVictoryPoints());
+        setMonuments(newPlayer.getMonuments());
+        setSoldiersPlayed(newPlayer.getSoldiersPlayed());
+        setCities(newPlayer.getCities());
+        setSettlements(newPlayer.getSettlements());
+        setRoads(newPlayer.getRoads());
+        setPlayerResourceList(newPlayer.getPlayerResourceList());
+        setOldDevCardList(newPlayer.getOldDevCardList());
+        setNewDevCardList(newPlayer.getNewDevCardList());
+        setPlayedDevCard(newPlayer.isPlayedDevCard());
+        setDiscarded(newPlayer.isDiscarded());
+    }
 
     //GETTERS
-    public PlayerColor getColor() {
-        return color;
-    }
+    public PlayerColor getColor() {return color;}
 
     public String getName() {
         return name;
@@ -240,8 +251,8 @@ public class Player {
         return monuments;
     }
 
-    public int getSolidersPlayed() {
-        return solidersPlayed;
+    public int getSoldiersPlayed() {
+        return soldiersPlayed;
     }
 
     public int getCities() {
@@ -275,4 +286,17 @@ public class Player {
     public boolean isDiscarded() {
         return discarded;
     }
+
+    //SETTERS
+    public void setVictoryPoints(int numVict) {victoryPoints = numVict;}
+    public void setMonuments(int numMon) {monuments = numMon;}
+    public void setSoldiersPlayed(int numSoldiers) {soldiersPlayed = numSoldiers;}
+    public void setCities(int numCit) {cities = numCit;}
+    public void setSettlements(int numSett) {settlements = numSett;}
+    public void setRoads(int numRoads) {roads = numRoads;}
+    public void setPlayerResourceList(ResourceList list) {playerResourceList = list;}
+    public void setOldDevCardList(DevCardList list) {oldDevCardList = list;}
+    public void setNewDevCardList(DevCardList list) {newDevCardList = list;}
+    public void setPlayedDevCard(boolean playedDev) {playedDevCard = playedDev;}
+    public void setDiscarded(boolean disc) {discarded = disc;}
 }

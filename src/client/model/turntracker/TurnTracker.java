@@ -71,4 +71,23 @@ public class TurnTracker {
     private void onStatusChange() {
 
     }
+
+    public void updateTurnTracker(TurnTracker newTurnTracker) {
+        setCurrentTurn(newTurnTracker.getCurrentTurn());
+        setStatus(newTurnTracker.getStatus());
+        setLongestRoadHolder(newTurnTracker.getLongestRoadHolder());
+        setLargestArmyHolder(newTurnTracker.getLargestArmyHolder());
+    }
+
+    //GETTERS
+    public int getCurrentTurn() {return currentTurn;}
+    public String getStatus() {return status;}
+    public int getLongestRoadHolder() {return longestRoadHolder;}
+    public int getLargestArmyHolder() {return largestArmyHolder;}
+
+    //SETTERS
+    public void setCurrentTurn(int newCurrentTurn) {currentTurn = newCurrentTurn;}
+    public void setStatus(String newStatus) {status = newStatus;}
+    public void setLongestRoadHolder(int newLRH) {longestRoadHolder = newLRH;}
+    public void setLargestArmyHolder(int newLAH) {largestArmyHolder = newLAH;}
 }

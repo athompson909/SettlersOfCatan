@@ -1,9 +1,9 @@
-package client; /**
- * Created by Alise on 9/17/2016.
- */
+package client;
 
 import java.io.File;
 
+import client.model.ClientUpdateManager;
+import client.model.JSONTranslator;
 import client.model.LoggingLevel;
 import client.model.commandmanager.game.*;
 import client.model.commandmanager.moves.*;
@@ -12,8 +12,42 @@ import client.model.map.VertexObject;
 import client.model.map.EdgeLocation;
 import client.model.resourcebank.Resource;
 import client.model.resourcebank.ResourceList;
+import com.google.gson.JsonElement;
+
+/**
+ *
+ *
+ * Created by Alise on 9/17/2016.
+ */
 
 public class ClientFacade {
+
+    /**
+     * public or private for these? not sure   -Sierra
+     */
+   // public JSONTranslator jsonTranslator;
+    public ClientUpdateManager clientUpdateManager;
+
+
+    /**
+     * THIS IS JUST AN IDEA! *********
+     * This function gives the ClientUpdateManager the JsonElement from the server responseBody.
+     * ClientUpdateManager gives that JsonElement to its personal JSONTranslator slave thing.
+     * JSONTranslator reports back whether it was able to parse the ClientModel object from the JsonElement.
+     * If it was, ClientUpdateManager uses that new ClientModel in its delegateUpdates() function
+     * and distributes the newly parsed data to the existing ClientModel.
+     * Ya dig me?
+     *
+     * Also, where exactly is the updatedClientModel object coming from?
+     * Like which class actually gets the server's response back? ServerProxy I think?
+     *
+     * @param updatedClientModel
+     */
+    public void sendUpdatedModel(JsonElement updatedClientModel){
+
+    }
+
+
     /**
      * Logs the caller in to the server, and sets their catan.user HTTP cookie
      * @pre username is not null
@@ -163,7 +197,7 @@ public class ClientFacade {
      already has the latest game state. This is merely an optimization. If the version number is
      not included in the request URL, the server will return the full game state.
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
-    valid catan.user and catan.game HTTP cookies).
+     valid catan.user and catan.game HTTP cookies).
     2. If specified, the version number is included as the “version” query parameter in the
     request URL, and its value is a valid integer
      * @post If the operation succeeds,
@@ -180,8 +214,8 @@ public class ClientFacade {
     titled “client Model JSON Documentation”
      * @param version
      */
-    public void gameModelVersion(int version){
-
+    public String gameModelVersion(int version) {
+        return "true";
     }
 
     /**
