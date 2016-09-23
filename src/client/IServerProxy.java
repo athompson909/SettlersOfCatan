@@ -6,24 +6,21 @@ import org.json.JSONObject;
  * Created by Mitchell on 9/15/2016.
  */
 public interface IServerProxy {
-   /**
-    * stores the url path needed by the post and get methods to reach the server
-    */
-   String url = "";
 
    /**
     * Posts HTTP
-    * @param json
-    * @return true if successful
+    * @param url the url determined by other methods within IServerProxy
+    * @param postData the data to be posted to the server
+    * @return response text from server if successful
     */
-   boolean httpPost(JSONObject json) throws ClientException;
+   String httpPost(String url, String postData) throws ClientException; //I'M CHANGING THE PARAMETER FROM TYPE JSONObject to String
 
    /**
     * HTTP Get Method
-    * @param json
-    * @return true if it was successful
+    * @param url the url determined by other methods within IServerProxy
+    * @return response text from server
     */
-   boolean httpGet(JSONObject json) throws ClientException;
+   String httpGet(String url) throws ClientException;
 
 //Non-Move
 
@@ -40,10 +37,11 @@ public interface IServerProxy {
    If the passed¬in (username, password) pair is not valid, or the operation fails for any other
    reason,
    1. The server returns an HTTP 400 error response, and the body contains an error
-    * @param json - username:JSONObject, password:JSONObject
+    * //@param json - username and password passed in as a string in the following JSON format:
+    *                    { username: "username", password: "password"}
     * @return Model in JSON
     */
-   JSONObject userLogin(JSONObject json) throws ClientException;
+   String userLogin(JSONObject json) throws ClientException;
 
    /**
     * 1) Creates a new user account
@@ -63,7 +61,7 @@ public interface IServerProxy {
     * @param json -username:JSONObject, password:JSONObject
     * @return Model in JSON
     */
-   JSONObject userRegister(JSONObject json) throws ClientException;
+   String userRegister(JSONObject json) throws ClientException;
 
    /**
     * Returns information about all of the current games on the server
@@ -116,7 +114,7 @@ public interface IServerProxy {
     * @param json - gameID:int, color:JSONObject
     * @return Model in JSON
     */
-   JSONObject gameJoin(JSONObject json) throws ClientException;
+   String gameJoin(JSONObject json) throws ClientException;
 
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -137,7 +135,7 @@ public interface IServerProxy {
     * @param json - gameID:int, fileName:file
     * @return Model in JSON
     */
-   JSONObject gameSave(JSONObject json) throws ClientException;
+   String gameSave(JSONObject json) throws ClientException;
 
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -157,7 +155,7 @@ public interface IServerProxy {
     * @param json - fileName:file
     * @return Model in JSON
     */
-   JSONObject gameLoad(JSONObject json) throws ClientException;
+   String gameLoad(JSONObject json) throws ClientException;
 
    /**
     * Returns the current state of the game in JSON format.
@@ -257,7 +255,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject executeGameCommands() throws ClientException;
+   JSONObject executeGameCommands(JSONObject json) throws ClientException;
 
    /**
     * Returns a list of supported AI player types.
@@ -288,7 +286,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject addAI() throws ClientException;
+   JSONObject addAI(JSONObject json) throws ClientException;
 
    /**
     * Sets the server’s logging level

@@ -12,7 +12,6 @@ public class Client {
     private ServerPoller serverPoller;
     private CommandManager commandManager;
     private ClientModel clientModel;
-    private ClientUpdateManager clientUpdateManager;
     // private GameManager gameManager;
     // private View view;
     // private Controller controller;
@@ -26,4 +25,6 @@ public class Client {
         clientUpdateManager = new ClientUpdateManager(clientModel);
         serverProxy = new ServerProxy();
     }
+
+
 }
