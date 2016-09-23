@@ -31,6 +31,10 @@ public class ResourceBank {
                 AVAILABLE_WOOD_CARDS, AVAILABLE_BRICK_CARDS, AVAILABLE_SHEEP_CARDS, AVAILABLE_WHEAT_CARDS, AVAILABLE_ORE_CARDS);
     }
 
+    public void updateResourceBank(ResourceBank newResBank) {
+        setDevCardList(newResBank.getDevCardList());
+        setResourceList(newResBank.getResourceList());
+    }
     //GETTERS
     public DevCardList getDevCardList() {
         return devCardList;
@@ -39,4 +43,8 @@ public class ResourceBank {
     public ResourceList getResourceList() {
         return resourceList;
     }
+
+    //SETTERS
+    public void setDevCardList(DevCardList newDevCardList) {devCardList = newDevCardList;}
+    public void setResourceList(ResourceList newResourceList) {resourceList = newResourceList;}
 }

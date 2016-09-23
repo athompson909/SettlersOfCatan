@@ -22,11 +22,24 @@ public class MessageManager {
      * ensure that they are up-to-date with the latest version of
      * model received from the server
      *
-     * @param M The most up-to-date MessageManager from the updated ClientModel
+     * @param newMessageMgr The most up-to-date MessageManager from the updated ClientModel
      * @return True if the update resolved
      */
-    private boolean update(MessageManager M) {
-        return true;
+    public void updateMessageManager(MessageManager newMessageMgr) {
+        setChat(newMessageMgr.getChat());
+        setLog(newMessageMgr.getLog());
+    }
+
+    //GETTERS
+    public MessageList getChat() {return chat;}
+    public MessageList getLog() {return log;}
+
+    //SETTERS
+    public void setChat(MessageList newChat) {
+        chat = newChat;
+    }
+    public void setLog(MessageList newLog) {
+        log = newLog;
     }
 
 }

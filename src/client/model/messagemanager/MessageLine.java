@@ -18,4 +18,21 @@ public class MessageLine {
     MessageLine (String m){
         message = m;
     }
+
+
+    /**
+     * Getter for String message
+     * @return the String message contained in this MessageLine
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Setter for String message
+     * @param message the new string to save to this MessageLine
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
