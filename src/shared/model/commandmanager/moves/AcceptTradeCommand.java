@@ -39,7 +39,10 @@ public class AcceptTradeCommand extends BaseCommand {
      */
     @Override
     public void serverExec(BaseCommand BC) {
+        //do we need access to the update manager? should we pass that in as the parameter instead?
 
+        //OR should we just do the server-side updates here so we don't bloat our update manager and so these command
+        //objects aren't completely empty? - should we return something so we know whether or not it worked?
     }
 
     //Getters

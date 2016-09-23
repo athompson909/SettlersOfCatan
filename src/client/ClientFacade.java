@@ -1,8 +1,12 @@
 package client;
 
+import org.json.JSONObject;
+import server.ServerProxy;
+import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.JSONTranslator;
 import com.google.gson.JsonElement;
 
 /**
@@ -10,26 +14,49 @@ import com.google.gson.JsonElement;
  *
  * Created by Alise on 9/17/2016.
  */
-
+//Note: Need to determine where errors are being taken care of
+    //also - naming convention for translator functions ok?
+    //also - data members ok?
+    //also - getting commands here via controller ok?
 public class ClientFacade {
 
     /*Example of facade function and using the translator
 
     buildRoad(command){
-        Json json = jsonTranslator.roadToJson(command);
-        Json response = serverProxy.buildRoad(json);
+        JSONObject json = jsonTranslator.roadToJson(command);
+        JSONObject response = serverProxy.buildRoad(json);
         ClientModel model = jsonTranslator.jsonToModel(response);
         clientUpdateManager.delegateUpdates(model);
     }
+
+    This means the facade needs
      */
 
+
+    /*
+     * public or private for these? not sure   -Sierra
+     * data members should be private - Alise
+     */
+    /**
+     * Translates to and from JSON
+     */
+    private JSONTranslator jsonTranslator;
 
     /**
-     * public or private for these? not sure   -Sierra
+     * Used to update the model
      */
-   // public JSONTranslator jsonTranslator;
-    public ClientUpdateManager clientUpdateManager;
+    private ClientUpdateManager clientUpdateManager;
 
+    /**
+     * Used to communicate with the server
+     */
+    private ServerProxy serverProxy;
+
+    public ClientFacade(ServerProxy serverProxy, ClientModel model) {
+        this.serverProxy = serverProxy;
+        jsonTranslator = new JSONTranslator();
+        clientUpdateManager = new ClientUpdateManager(model);
+    }
 
     /**
      * THIS IS JUST AN IDEA! *********
@@ -66,7 +93,13 @@ public class ClientFacade {
      * @param loginCommand
      */
     public void userLogin(LoginCommand loginCommand){
-
+//        JSONObject json = jsonTranslator.loginToJson(loginCommand);
+//        JSONObject response = serverProxy.buildRoad(json);
+//        if(response.equals("Success")){
+//            //do something
+//        }else{
+//            //make them try to login again
+//        }
     }
 
     /**
@@ -353,7 +386,10 @@ public class ClientFacade {
      * @param command
      */
     public void sendChat(SendChatCommand command){
-
+//        JSONObject json = jsonTranslator.chatToJson(command);
+//        JSONObject response = serverProxy.sendChat(json);
+//        ClientModel model = jsonTranslator.jsonToModel(response);
+//        clientUpdateManager.delegateUpdates(model);
     }
 
     /**
