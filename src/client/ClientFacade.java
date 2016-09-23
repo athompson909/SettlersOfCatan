@@ -1,17 +1,8 @@
 package client;
 
-import java.io.File;
-
-import client.model.ClientUpdateManager;
-import client.model.JSONTranslator;
-import client.model.LoggingLevel;
-import client.model.commandmanager.game.*;
-import client.model.commandmanager.moves.*;
-import client.model.map.HexLocation;
-import client.model.map.VertexObject;
-import client.model.map.EdgeLocation;
-import client.model.resourcebank.Resource;
-import client.model.resourcebank.ResourceList;
+import shared.model.ClientUpdateManager;
+import shared.model.commandmanager.game.*;
+import shared.model.commandmanager.moves.*;
 import com.google.gson.JsonElement;
 
 /**

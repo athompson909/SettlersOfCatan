@@ -1,8 +1,8 @@
 package client;
 
-import client.model.ClientModel;
-import client.model.ClientUpdateManager;
-import client.model.commandmanager.CommandManager;
+import shared.model.ClientModel;
+import shared.model.ClientUpdateManager;
+import shared.model.commandmanager.CommandManager;
 import server.ServerPoller;
 import server.ServerProxy;
 
