@@ -22,7 +22,7 @@ public class PlaySoldierCommand extends BaseCommand {
     int victimInd;
 
     /**
-     * Creates a PlaySoldierCommand object to be sent to tests.client.ClientFacade
+     * Creates a PlaySoldierCommand object to be sent to client.ClientFacade
      * for translating into JSON
      *
      * sets data members

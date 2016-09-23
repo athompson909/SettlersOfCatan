@@ -17,7 +17,7 @@ public class AcceptTradeCommand extends BaseCommand {
     boolean willAccept;
 
     /**
-     * Creates AcceptTradeCommand object to be sent to tests.client.ClientFacade
+     * Creates AcceptTradeCommand object to be sent to client.ClientFacade
      * for translation into JSON
      *
      * Sets data members of object

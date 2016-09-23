@@ -8,7 +8,7 @@ import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
 
 /**
- * ClientModel holds all the data about the tests.client that can be updated and changed by the gameplay
+ * ClientModel holds all the data about the client that can be updated and changed by the gameplay
  * and that will be updated every time the ServerPoller requests a copy of the model.
  *
  * Created by Mitchell on 9/15/2016.

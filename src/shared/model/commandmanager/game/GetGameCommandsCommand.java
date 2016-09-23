@@ -7,7 +7,7 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class GetGameCommandsCommand extends BaseCommand {
     /**
-     * Creates GetGameCommandsCommand to send to tests.client.ClientFacade.
+     * Creates GetGameCommandsCommand to send to client.ClientFacade.
      */
     public GetGameCommandsCommand(){
 

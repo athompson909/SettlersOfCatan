@@ -7,7 +7,7 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class ListAICommand extends BaseCommand {
     /**
-     * Creates ListAICommand to send to the tests.client.ClientFacade
+     * Creates ListAICommand to send to the client.ClientFacade
      */
     public ListAICommand(){
 

@@ -1,6 +1,6 @@
 package shared.model.commandmanager.game;
 import shared.model.commandmanager.BaseCommand;
-import shared.model.player.PlayerColor;
+import shared.definitions.CatanColor;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -14,14 +14,14 @@ public class GameJoinCommand extends BaseCommand {
     /**
      * color of player
      */
-    private PlayerColor color;
+    private CatanColor color;
 
     /**
-     * Creates GameJoinCommand to send to the tests.client.ClientFacade
+     * Creates GameJoinCommand to send to the client.ClientFacade
      * @param gameID
      * @param color
      */
-    public GameJoinCommand(int gameID, PlayerColor color){
+    public GameJoinCommand(int gameID, CatanColor color){
 
     }
 

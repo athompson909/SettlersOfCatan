@@ -18,7 +18,7 @@ public class PlayMonopolyCommand extends BaseCommand {
     Resource resource;
 
     /**
-     * Creates PlayMonopolyCommand object to be sent to tests.client.ClientFacade
+     * Creates PlayMonopolyCommand object to be sent to client.ClientFacade
      * for translating into JSON
      *
      * sets data members

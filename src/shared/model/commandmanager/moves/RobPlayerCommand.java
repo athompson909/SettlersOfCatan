@@ -23,7 +23,7 @@ public class RobPlayerCommand extends BaseCommand {
     private int victimIndex;
 
     /**
-     * Creates RobPlayerCommand to send to tests.client.ClientFacade. Sets data members
+     * Creates RobPlayerCommand to send to client.ClientFacade. Sets data members
      * @param playerIndex
      * @param location
      * @param victimIndex

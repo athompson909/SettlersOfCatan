@@ -7,7 +7,7 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class GameResetCommand extends BaseCommand {
     /**
-     * Creates GameResetCommand to send to the tests.client.ClientFacade
+     * Creates GameResetCommand to send to the client.ClientFacade
      */
     public GameResetCommand(){
 

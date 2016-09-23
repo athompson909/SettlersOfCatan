@@ -17,7 +17,7 @@ public class RegisterCommand extends BaseCommand {
     private String password;
 
     /**
-     * Creates RegisterCommand to send to tests.client.ClientFacade. Sets data members.
+     * Creates RegisterCommand to send to client.ClientFacade. Sets data members.
      * @param username
      * @param password
      */

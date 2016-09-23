@@ -18,7 +18,7 @@ public class BuildRoadCommand extends BaseCommand {
     EdgeLocation location;
 
     /**
-     * Creates a BuildRoadCommand object to be sent to tests.client.ClientFacade
+     * Creates a BuildRoadCommand object to be sent to client.ClientFacade
      * for translation into JSON
      *
      * Sets data members

@@ -7,7 +7,7 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class GameListCommand extends BaseCommand {
     /**
-     * Creates GameListCommand to send to tests.client.ClientFacade
+     * Creates GameListCommand to send to client.ClientFacade
      */
     public GameListCommand(){
 

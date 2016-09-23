@@ -12,7 +12,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
     private int playerIndex;
 
     /**
-     * Creates PurchaseDevCardCommand to send to tests.client.ClientFacade. sets player Index
+     * Creates PurchaseDevCardCommand to send to client.ClientFacade. sets player Index
      * @param playerIndex
      */
     public PurchaseDevCardCommand(int playerIndex){

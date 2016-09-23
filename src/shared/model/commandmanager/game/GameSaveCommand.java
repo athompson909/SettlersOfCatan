@@ -17,7 +17,7 @@ public class GameSaveCommand extends BaseCommand {
     private File fileName;
 
     /**
-     * CreatesGameSaveCommand to send to the tests.client.ClientFacade. Sets data members.
+     * CreatesGameSaveCommand to send to the client.ClientFacade. Sets data members.
      * @param gameID
      * @param fileName
      */
