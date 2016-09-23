@@ -61,7 +61,7 @@ public interface IServerProxy {
     * @param json -username:JSONObject, password:JSONObject
     * @return Model in JSON
     */
-   JSONObject userRegister(JSONObject json) throws ClientException;
+   String userRegister(JSONObject json) throws ClientException;
 
    /**
     * Returns information about all of the current games on the server
@@ -114,7 +114,7 @@ public interface IServerProxy {
     * @param json - gameID:int, color:JSONObject
     * @return Model in JSON
     */
-   JSONObject gameJoin(JSONObject json) throws ClientException;
+   String gameJoin(JSONObject json) throws ClientException;
 
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -135,7 +135,7 @@ public interface IServerProxy {
     * @param json - gameID:int, fileName:file
     * @return Model in JSON
     */
-   JSONObject gameSave(JSONObject json) throws ClientException;
+   String gameSave(JSONObject json) throws ClientException;
 
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
@@ -155,7 +155,7 @@ public interface IServerProxy {
     * @param json - fileName:file
     * @return Model in JSON
     */
-   JSONObject gameLoad(JSONObject json) throws ClientException;
+   String gameLoad(JSONObject json) throws ClientException;
 
    /**
     * Returns the current state of the game in JSON format.
@@ -255,7 +255,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject executeGameCommands() throws ClientException;
+   JSONObject executeGameCommands(JSONObject json) throws ClientException;
 
    /**
     * Returns a list of supported AI player types.
@@ -286,7 +286,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject addAI() throws ClientException;
+   JSONObject addAI(JSONObject json) throws ClientException;
 
    /**
     * Sets the server’s logging level

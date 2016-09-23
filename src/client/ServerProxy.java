@@ -56,7 +56,7 @@ public class ServerProxy implements IServerProxy {
 
                 return baos.toString();
             }
-            else return "http error";
+            else return "http error: bad request";
 
 
         } catch (MalformedURLException me) {
@@ -171,8 +171,10 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject userRegister(JSONObject json) {
-        return null;
+    public String userRegister(JSONObject json) {
+
+        String urlStr = "http://localhost:8081/user/register";
+        return httpPost(urlStr, json.toString());
     }
 
     /**
@@ -190,7 +192,11 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject gamesList() {
-        return null;
+        String urlStr = "http://localhost:8081/games/list";
+        String responseStr = httpGet(urlStr);
+        //this deals with a weird error with the server not returned the "JSON" string in valid JSON format:
+        String jsonStr = responseStr.substring(1, responseStr.length()-1);
+        return new JSONObject(jsonStr);
     }
 
     /**
@@ -209,7 +215,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject gameCreate(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/games/create";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -236,8 +244,10 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject gameJoin(JSONObject json) {
-        return null;
+    public String gameJoin(JSONObject json) {
+
+        String urlStr = "http://localhost:8081/games/join";
+        return httpPost(urlStr, json.toString());
     }
 
     /**
@@ -260,8 +270,10 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject gameSave(JSONObject json) {
-        return null;
+    public String gameSave(JSONObject json) {
+
+        String urlStr = "http://localhost:8081/games/save";
+        return httpPost(urlStr, json.toString());
     }
 
     /**
@@ -282,10 +294,14 @@ public class ServerProxy implements IServerProxy {
      * If the operation fails,
      * 1. The server returns an HTTP 400 error response, and the body contains an error
      * message.
+     *
+     * todo: test this when the server provides the right response when a valid game name is posted
      */
     @Override
-    public JSONObject gameLoad(JSONObject json) {
-        return null;
+    public String gameLoad(JSONObject json) {
+
+        String urlStr = "http://localhost:8081/games/load";
+        return httpPost(urlStr, json.toString());
     }
 
     /**
@@ -316,10 +332,15 @@ public class ServerProxy implements IServerProxy {
      * message.
      * The format of the returned JSON can be found on the server’s Swagger page, or in the document
      * titled “client Model JSON Documentation”
+     *
+     * [Adam]
+     *   note: this loads the whole game model (why is the method named gameModelVersion()?)
      */
     @Override
     public JSONObject gameModelVersion(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/game/model";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -343,10 +364,13 @@ public class ServerProxy implements IServerProxy {
      * message.
      * Note:
      * When a game is reset, the players in the game are maintained
+     * this method can only be ran when a player has joined a game
      */
     @Override
     public JSONObject gameReset() {
-        return null;
+
+        String urlStr = "http://localhost:8081/game/reset";
+        return new JSONObject(httpGet(urlStr));
     }
 
     /**
@@ -363,7 +387,7 @@ public class ServerProxy implements IServerProxy {
      * (i.e., before the initial placement round).
      * You must login and join a game before calling this method
      *
-     * @return Model in JSON
+     * @return a list of commands (for default games, all commands from the very beginning)
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies)
      * @post If the operation succeeds,
@@ -377,7 +401,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject getGameCommands() {
-        return null;
+
+        String urlStr = "http://localhost:8081/game/commands";
+        return new JSONObject(httpGet(urlStr));
     }
 
     /**
@@ -388,6 +414,7 @@ public class ServerProxy implements IServerProxy {
      * applied.
      * You must login and join a game before calling this method
      *
+     * @param json the list of commands to be executed
      * @return Model in JSON
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
@@ -398,10 +425,15 @@ public class ServerProxy implements IServerProxy {
      * If the operation fails,
      * 1. The server returns an HTTP 400 error response, and the body contains an error
      * message
+     *
+     * Note: I think the Swagger page doesn't correctly explain what is suppose to be done here
+     *
+     * this is a post method (even though the swagger page explains that it is a get method)
      */
     @Override
-    public JSONObject executeGameCommands() {
-        return null;
+    public JSONObject executeGameCommands(JSONObject json) {
+        String urlStr = "http://localhost:8081/game/commands";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -417,13 +449,15 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject listAI() {
-        return null;
+        String urlStr = "http://localhost:8081/game/commands";
+        return new JSONObject(httpGet(urlStr));
     }
 
     /**
      * Adds an AI player to the current game.
      * You must login and join a game before calling this method
      *
+     * @param json json object only containing the AI type
      * @return Model in JSON
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
@@ -439,15 +473,16 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI() {
-        return null;
+    public JSONObject addAI(JSONObject json) {
+        String urlStr = "http://localhost:8081/game/commands";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
      * Sets the server’s logging level
      *
      * @param json - loggingLevel:LoggingLevel
-     * @return Model in JSON
+     * @return todo - verify
      * @pre 1.The caller specifies a valid logging level. Valid values include: SEVERE, WARNING,
      * INFO, CONFIG, FINE, FINER, FINEST
      * @post If the operation succeeds,
@@ -459,7 +494,8 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject utilChangeLogLevel(JSONObject json) {
-        return null;
+        String urlStr = "http://localhost:8081/util/changeLogLevel";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -472,7 +508,8 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject sendChat(JSONObject json) {
-        return null;
+        String urlStr = "http://localhost:8081/moves/sendChat";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -485,7 +522,8 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject rollNumber(JSONObject json) {
-        return null;
+        String urlStr = "http://localhost:8081/moves/rollNumber";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -499,7 +537,8 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject finishTurn(JSONObject json) {
-        return null;
+        String urlStr = "http://localhost:8081/moves/finishTurn";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -513,7 +552,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject discardCards(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/discardCards";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -532,7 +573,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject buildRoad(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/buildRoad";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -551,7 +594,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject buildSettlement(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/buildSettlement";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -567,7 +612,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject buildCity(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/buildCity";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -580,7 +627,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject offerTrade(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/offerTrade";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -596,7 +645,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject acceptTrade(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/acceptTrade";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -611,7 +662,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject maritimeTrade(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/maritimeTrade";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -627,7 +680,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject robPlayer(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/robPlayer";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -644,7 +699,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject purchaseDevCard(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/buyDevCard";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -665,7 +722,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject playSoldier(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/Soldier";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -678,7 +737,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject playYearOfPlenty(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/Year_of_Plenty";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -697,7 +758,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject playRoadBuilding(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/Road_Building";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -711,7 +774,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject playMonopoly(JSONObject json) {
-        return null;
+
+        String urlStr = "http://localhost:8081/moves/Monopoly";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
     /**
@@ -725,7 +790,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject playMonument(JSONObject json) {
-        return null;
-
+        String urlStr = "http://localhost:8081/moves/Monument";
+        return new JSONObject(httpPost(urlStr, json.toString()));
     }
 }

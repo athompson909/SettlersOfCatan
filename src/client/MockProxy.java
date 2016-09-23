@@ -60,11 +60,11 @@ public class MockProxy implements IServerProxy {
      *   2) Logs the caller in to the server as the new user, and sets their catan.user HTTP cookie
      *
      * @param json the value should always be null when passed into the mock proxy
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      */
     @Override
-    public JSONObject userRegister(JSONObject json) {
-        return new JSONObject(SUCCESS);
+    public String userRegister(JSONObject json) {
+        return SUCCESS;
     }
 
     /**
@@ -98,11 +98,11 @@ public class MockProxy implements IServerProxy {
      *  Adds the player to the specified game and sets their catan.game cookie
      *
      * @param json - gameID:int, color:string
-     * @return a JSON object notifying the user that the send has been successful
+     * @return a string notifying the user whether the request was successful or not
      */
     @Override
-    public JSONObject gameJoin(JSONObject json) {
-        return new JSONObject(SUCCESS);
+    public String gameJoin(JSONObject json) {
+        return SUCCESS;
     }
 
     /**
@@ -114,11 +114,11 @@ public class MockProxy implements IServerProxy {
      *  the server's saves/ directory.
      *
      * @param json - gameID:int, fileName:file
-     * @return a JSON object notifying the user that the send has been successful
+     * @return a string notifying the user whether the request was successful or not
      */
     @Override
-    public JSONObject gameSave(JSONObject json) {
-        return new JSONObject(SUCCESS);
+    public String gameSave(JSONObject json) {
+        return SUCCESS;
     }
 
     /**
@@ -130,11 +130,11 @@ public class MockProxy implements IServerProxy {
      *  the server's saves/ directory
      *
      * @param json - fileName:file
-     * @return a JSON object notifying the user that the send has been successful
+     * @return a string notifying the user whether the request was successful or not
      */
     @Override
-    public JSONObject gameLoad(JSONObject json) {
-        return new JSONObject(SUCCESS);
+    public String gameLoad(JSONObject json) {
+        return SUCCESS;
     }
 
     /**
@@ -149,7 +149,7 @@ public class MockProxy implements IServerProxy {
      *  not included in the request URL, the server will return the full game state.
      *
      * @param json - version:int
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
      * 2. If specified, the version number is included as the “version” query parameter in the
@@ -181,7 +181,7 @@ public class MockProxy implements IServerProxy {
      *  This method returns the client model JSON for the game after it has been reset.
      *  You must login and join a game before calling this method.
      *
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
      * @post If the operation succeeds,
@@ -197,7 +197,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject gameReset() {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -255,7 +255,7 @@ public class MockProxy implements IServerProxy {
      * todo: change values of the commands to valid commands
      */
     @Override
-    public JSONObject executeGameCommands() {
+    public JSONObject executeGameCommands(JSONObject json) {
         return new JSONObject("{\"command1\", \"command2\", \"command3\"}");
     }
 
@@ -281,7 +281,7 @@ public class MockProxy implements IServerProxy {
      *  Adds an AI player to the current game.
      *  You must login and join a game before calling this method
      *
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
      * 2. There is space in the game for another player (i.e., the game is not “full”).
@@ -296,8 +296,8 @@ public class MockProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI() {
-        return new JSONObject(SUCCESS);
+    public JSONObject addAI(JSONObject json) {
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -305,7 +305,7 @@ public class MockProxy implements IServerProxy {
      *  Sets the server’s logging level
      *
      * @param json - loggingLevel:LoggingLevel
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre 1.The caller specifies a valid logging level. Valid values include: SEVERE, WARNING,
      * INFO, CONFIG, FINE, FINER, FINEST
      * @post If the operation succeeds,
@@ -317,7 +317,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject utilChangeLogLevel(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -325,13 +325,13 @@ public class MockProxy implements IServerProxy {
      *  Adds a message to the end of the chat
      *
      * @param json - playerIndex:int, content:string
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game.
      * @post The chat contains your message at the end
      */
     @Override
     public JSONObject sendChat(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -339,13 +339,13 @@ public class MockProxy implements IServerProxy {
      *  Tells the server what number was rolled so resources can be distributed, discarded or robbed.
      *
      * @param json - playerIndex:int, number:int(2-12)
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
      * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
      */
     @Override
     public JSONObject rollNumber(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -353,14 +353,14 @@ public class MockProxy implements IServerProxy {
      *  Ends the players turn.
      *
      * @param json - playerIndex:int
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game.
      * @post The cards in your new dev card hand have been transferred to your old dev card
      * hand. It is the next player’s turn
      */
     @Override
     public JSONObject finishTurn(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -368,14 +368,14 @@ public class MockProxy implements IServerProxy {
      *  Tells Server what cards to remove from the player's hand.
      *
      * @param json - playerIndex:int, discardedCards:ResourceList
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
      * You have over 7 cards. You have the cards you're choosing to discard.
      * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
      */
     @Override
     public JSONObject discardCards(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -383,7 +383,7 @@ public class MockProxy implements IServerProxy {
      *  Tells Server to build a road for the given player in the given location.
      *
      * @param json - playerIndex:int, roadLocation:HexLocation, free:bool
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The road location is open.
      * The road location is connected to another road owned by the player. The road location is not on water.
      * You have the required resources (1 wood, 1 brick; 1 road).
@@ -395,7 +395,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject buildRoad(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -403,7 +403,7 @@ public class MockProxy implements IServerProxy {
      *  Tells Server to build a settlement for the given player in the given location.
      *
      * @param json - playerIndex:int, vertexLocation:VertexObject, free:bool
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The settlement location is open.
      * The settlement location is not on water.
      * The settlement location is connected to one of your roads except during setup.
@@ -415,7 +415,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject buildSettlement(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -423,7 +423,7 @@ public class MockProxy implements IServerProxy {
      *  Tells Server to build a city for the given player in the given location.
      *
      * @param json - playerIndex:int, vertexLocation:VertexObject
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The city location is where you currently have a settlement.
      * You have the required resources (2 wheat, 3 ore; 1 city)
      * @post You lost the resources required to build a city (2 wheat, 3 ore; 1 city).
@@ -432,7 +432,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject buildCity(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -440,13 +440,13 @@ public class MockProxy implements IServerProxy {
      *  Tells Server to send a trade offer to the other player.
      *
      * @param json - playerIndex:int, offer:ResourceList, receiver:int)
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. You have the resources you are offering.
      * @post The trade is offered to the other player (stored in the server model).
      */
     @Override
     public JSONObject offerTrade(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -454,7 +454,7 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to trade the players' cards.
      *
      * @param json - playerIndex:int, willAccept:bool
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. You have been offered a domestic trade.
      * To accept the offered trade, you have the required resources
      * @post If you accepted, you and the player who offered swap the specified resources.
@@ -463,7 +463,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject acceptTrade(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -471,7 +471,7 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to trade bank and player cards.
      *
      * @param json - playerIndex:int, ratio:int(2,3 or4), inputResource:Resource, outputResource:Resource
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. You have the resources you are giving.
      * For ratios less than 4, you have the correct port for the trade
      * @post The trade has been executed (the offered resources are in the bank, and the
@@ -479,7 +479,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject maritimeTrade(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -487,7 +487,7 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to move the robber and move the stolen card.
      *
      * @param json - playerIndex:int, location:HexLocation, victimIndex:int(-1,0,1,2,or 3)
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The robber is not being kept in the same location.
      * If a player is being robbed (i.e., victimIndex != ­1), the player being robbed has
      * resource cards
@@ -496,7 +496,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject robPlayer(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -504,7 +504,7 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to give the player a new Development Card.
      *
      * @param json - playerIndex:int
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. You have the required resources (1 ore, 1 wheat, 1 sheep).
      * There are dev cards left in the deck
      * @post You have a new card
@@ -514,7 +514,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject purchaseDevCard(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -522,7 +522,7 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to allow the player to rob another player.
      *
      * @param json - playerIndex:int, location:HexLocation, victimIndex:int(-1,0,1,2,or 3)
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The robber is not being kept in the same location.
      * If a player is being robbed (i.e., victimIndex != ­1), the player being robbed has
      * resource cards
@@ -536,7 +536,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject playSoldier(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -544,13 +544,13 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to allow the player to pick two resources from the Bank
      *
      * @param json - playerIndex:int, resource1:Resource, resource2:Resource
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The two specified resources are in the bank
      * @post You gained the two specified resources
      */
     @Override
     public JSONObject playYearOfPlenty(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -558,7 +558,7 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to allow the player to build two roads for free.
      *
      * @param json - playerIndex:int, spot1:EdgeLocation, spot2:EdgeLocation
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game. The first road location (spot1) is connected to one of your roads..
      * The second road location (spot2) is connected to one of your roads or to the first
      * road location (spot1).
@@ -570,7 +570,7 @@ public class MockProxy implements IServerProxy {
      */
     @Override
     public JSONObject playRoadBuilding(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -578,14 +578,14 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to allow the player to pick a resource to gather from the other players.
      *
      * @param json - playerIndex:int, resource:Resource
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game.
      * @post All of the other players have given you all of their resource cards of the specified
      * type
      */
     @Override
     public JSONObject playMonopoly(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
     /**
@@ -593,14 +593,14 @@ public class MockProxy implements IServerProxy {
      *  Tells the Server to add one victory point to the player.
      *
      * @param json - playerIndex:int
-     * @return a JSON object notifying the user that the send has been successful
+     * @return the JSON Model
      * @pre Caller has already logged in to the server and joined a game.
      * You have enough monument cards to win the game (i.e., reach 10 victory points)
      * @post You gained a victory point.
      */
     @Override
     public JSONObject playMonument(JSONObject json) {
-        return new JSONObject(SUCCESS);
+        return new JSONObject(GAME_MODEL);
     }
 
 
