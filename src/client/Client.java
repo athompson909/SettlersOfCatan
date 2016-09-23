@@ -5,6 +5,8 @@ import client.model.ClientUpdateManager;
 import client.model.commandmanager.CommandManager;
 
 /**
+ *
+ *
  * Created by Alise on 9/20/2016.
  */
 public class Client {
@@ -12,6 +14,7 @@ public class Client {
     private ServerPoller serverPoller;
     private CommandManager commandManager;
     private ClientModel clientModel;
+    private ClientUpdateManager clientUpdateManager;
     // private GameManager gameManager;
     // private View view;
     // private Controller controller;
