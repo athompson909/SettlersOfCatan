@@ -1,4 +1,4 @@
-package client;
+package server;
 import org.json.*;
 
 import java.io.ByteArrayOutputStream;
@@ -18,6 +18,32 @@ import java.net.URL;
  * Created by Sierra on 9/18/16.
  */
 public class ServerProxy implements IServerProxy {
+
+    /**
+     * the cookie returned when userLogin(...) is ran
+     */
+    private String loginCookie;
+
+    /**
+     * the cookie returned when userRegister(...) is ran
+     */
+    private String registerCookie;
+
+    public String getLoginCookie() {
+        return loginCookie;
+    }
+
+    public void setLoginCookie(String loginCookie) {
+        this.loginCookie = loginCookie;
+    }
+
+    public String getRegisterCookie() {
+        return registerCookie;
+    }
+
+    public void setRegisterCookie(String registerCookie) {
+        this.registerCookie = registerCookie;
+    }
 
     /**
      * Posts HTTP
@@ -90,7 +116,7 @@ public class ServerProxy implements IServerProxy {
 
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
-            connection.setRequestMethod("GET");connection.setRequestMethod("GET");
+            connection.setRequestMethod("GET");
             //connection.addRequestProperty("Authorization", authorizationToken);
             connection.connect();
 
@@ -148,7 +174,11 @@ public class ServerProxy implements IServerProxy {
     public String userLogin(JSONObject json) {
 
         String urlStr = "http://localhost:8081/user/login";
-        return httpPost(urlStr, json.toString());
+        String response = httpPost(urlStr, json.toString());
+        if(response.equals("Success")) {
+            //get cookie
+        }
+        return response;
     }
 
     /**

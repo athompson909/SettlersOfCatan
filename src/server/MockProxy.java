@@ -1,4 +1,4 @@
-package client;
+package server;
 import org.json.JSONObject;
 
 /**
@@ -7,6 +7,14 @@ import org.json.JSONObject;
  * all the JSONObject parameters of overridden functions here can be passed in as null
  */
 public class MockProxy implements IServerProxy {
+
+    public String getLoginCookie() {
+        return null;
+    }
+
+    public String getRegisterCookie() {
+        return null;
+    }
 
     /**
      * note: the mock proxy does not interact with the server
