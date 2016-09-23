@@ -8,6 +8,14 @@ import org.json.JSONObject;
  */
 public class MockProxy implements IServerProxy {
 
+    public String getLoginCookie() {
+        return null;
+    }
+
+    public String getRegisterCookie() {
+        return null;
+    }
+
     /**
      * note: the mock proxy does not interact with the server
      *
