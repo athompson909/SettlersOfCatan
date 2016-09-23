@@ -13,6 +13,17 @@ import com.google.gson.JsonElement;
 
 public class ClientFacade {
 
+    /*Example of facade function and using the translator
+    
+    buildRoad(command){
+        Json json = jsonTranslator.roadToJson(command);
+        Json response = serverProxy.buildRoad(json);
+        ClientModel model = jsonTranslator.jsonToModel(response);
+        clientUpdateManager.delegateUpdates(model);
+    }
+     */
+
+
     /**
      * public or private for these? not sure   -Sierra
      */
