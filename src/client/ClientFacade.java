@@ -1,9 +1,9 @@
-package client; /**
- * Created by Alise on 9/17/2016.
- */
+package client;
 
 import java.io.File;
 
+import client.model.ClientUpdateManager;
+import client.model.JSONTranslator;
 import client.model.LoggingLevel;
 import client.model.commandmanager.game.*;
 import client.model.commandmanager.moves.*;
@@ -13,7 +13,18 @@ import client.model.map.EdgeLocation;
 import client.model.resourcebank.Resource;
 import client.model.resourcebank.ResourceList;
 
+/**
+ * Created by Alise on 9/17/2016.
+ */
+
 public class ClientFacade {
+
+    /**
+     * public or private for these? not sure   -Sierra
+     */
+    public JSONTranslator jsonTranslator;
+
+    public ClientUpdateManager clientUpdateManager;
 
     /**
      * Logs the caller in to the server, and sets their catan.user HTTP cookie

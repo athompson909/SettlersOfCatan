@@ -9,6 +9,10 @@ import org.json.*;
  * ClientUpdateManager to be distributed to the existing ClientModel objects.
  *
  *
+ * ***If I understand right, each of the BaseCommandObjs have the ability to translate their own unique
+ * server requests/commands to JSON before they are sent to the server. If that's not how we want to do it
+ * I can totally create translating functions here though! :)
+ *
  * Created by Sierra on 9/22/16.
  */
 public class JSONTranslator {
@@ -22,11 +26,18 @@ public class JSONTranslator {
 
 
     /**
+     * TranslateModel() can take in either a string or a JSONObject, I can't remember which we decided,
+     * and uses Gson to convert it to normal objects to send to UpdateManager.
      *
-     * @param newModel
+     * @param newModel - this is the huge JSON string/object coming back directly from the server
      * @return true if it all  worked, false otherwise
      */
     public boolean translateModel(JSONObject newModel){
+
+
+        // Gson functionality:
+        //Gson gsonTest = new Gson();
+        //ClientModel cmTarget = gsonTest.fromJson(testResponseBody, ClientModel.class);
 
         return true;
     }
