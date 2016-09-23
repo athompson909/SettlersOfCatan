@@ -18,7 +18,7 @@ public class Player {
     /**
      * The players name.
      */
-    String name;
+    private String name;
 
     /**
      * The unique playerID. This is used to pick the client player apart from the
