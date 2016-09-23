@@ -8,9 +8,8 @@ import com.google.gson.*;
  * ClientUpdateManager to be distributed to the existing ClientModel objects.
  *
  *
- * ***If I understand right, each of the BaseCommandObjs have the ability to translate their own unique
- * server requests/commands to JSON before they are sent to the server. If that's not how we want to do it
- * I can totally create translating functions here though! :)
+ * There needs to be a function for every BaseCommand to be translated to JSON. JSON>BaseCommandObj isn't necessary,
+ * we just need a way for the ClientFacade to change its BaseCommand objs to JSON readable by the server.
  *
  * Created by Sierra on 9/22/16.
  */
