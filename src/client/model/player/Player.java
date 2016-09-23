@@ -6,7 +6,7 @@ import client.model.resourcebank.ResourceList;
 /**
  * The Player class represents each player's status, including the player's identity, points, available pieces, and cards.
  */
-public class Player {
+public class Player { //
 
 
 
