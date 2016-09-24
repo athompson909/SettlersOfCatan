@@ -613,6 +613,12 @@ public class MockProxy implements IServerProxy {
 
 
 
+
+    private final String loginCookieMock = "%7B%22authentication%22%3A%2295675967%22%2C%22name%22%3A%22adam%22%2C%22" +
+            "password%22%3A%22adam%22%2C%22playerID%22%3A12%7D";
+
+    private final String registerCookieMock = "";
+
     private final String SUCCESS = "Success";
 
     // not going to change to local variable so code is easier to read
