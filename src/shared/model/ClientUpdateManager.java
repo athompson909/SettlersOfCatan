@@ -16,20 +16,11 @@ import shared.model.messagemanager.MessageManager;
  */
 public class ClientUpdateManager {
 
-    //The ClientUpdateManager needs to be able to access the current ClientModel stored in the Client??
-
     ClientModel currentModel;
-
-    //this is ok if we end up going with my new idea!
-    //is there a way ClientUpdateManager can go through its superclass (ClientFacade) to talk to its data members?
-    //like   ClientFacade clientFacade = super.?
-    //it would be nice to not have to have a new instance of JSONTranslator here too...
-    JSONTranslator jsonTranslator = new JSONTranslator();
 
     public ClientUpdateManager (ClientModel currModel) {
         currentModel = currModel;
     }
-
 
     /**
      * getNewModel() checks with jsonTranslator to see if the new model coming from the server
@@ -39,7 +30,6 @@ public class ClientUpdateManager {
     public void getNewModel(){
 
     }
-
 
     /**
      * DelegateUpdates() takes the newly updated ClientModel object coming from JSONTranslator,
@@ -75,8 +65,7 @@ public class ClientUpdateManager {
         // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
 
     }
-
-
+    
     /**
      * updateMap() takes the updated Map object from delegateUpdates(), extracts its smaller
      * objects, and sends them to the subsequent small update functions.
