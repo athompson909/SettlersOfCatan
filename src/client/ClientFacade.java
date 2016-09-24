@@ -235,10 +235,10 @@ public class ClientFacade {
      * @param version
      */
     public void gameModelVersion(int version) {
-        JSONObject jsonToSend = jsonTranslator.translateModelVersionNumber(version);
+        JSONObject jsonToSend = jsonTranslator.modelVerNumToJSON(version);
         JSONObject jsonNewModel = serverProxy.gameModelVersion(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.translateModel(jsonNewModel);
-        clientUpdateManager.delegateUpdates(updatedModel);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -374,10 +374,10 @@ public class ClientFacade {
      * @param command
      */
     public void sendChat(SendChatCommand command){
-//        JSONObject json = jsonTranslator.chatToJson(command);
-//        JSONObject response = serverProxy.sendChat(json);
-//        ClientModel model = jsonTranslator.jsonToModel(response);
-//        clientUpdateManager.delegateUpdates(model);
+        JSONObject jsonToSend = jsonTranslator.sendChatToJson(command);
+        JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
