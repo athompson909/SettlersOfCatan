@@ -1,5 +1,7 @@
 package client;
 
+import org.json.*;
+
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.game.*;
@@ -232,10 +234,11 @@ public class ClientFacade {
     titled “client Model JSON Documentation”
      * @param version
      */
-    public String gameModelVersion(int version) {
-        JsonElement json = JSONTranslator.translateModelVersion(version);
-        serverProxy.gameModelVersion()
-        return "true";
+    public void gameModelVersion(int version) {
+        JSONObject jsonToSend = jsonTranslator.translateModelVersionNumber(version);
+        JSONObject jsonNewModel = serverProxy.gameModelVersion(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.translateModel(jsonNewModel);
+        clientUpdateManager.delegateUpdates(updatedModel);
     }
 
     /**
