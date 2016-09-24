@@ -1,6 +1,7 @@
 package shared.model;
 
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
@@ -119,14 +120,17 @@ public class ClientModel {
 
     //DO METHODS
     public void purchaseRoad(int playerIndex){
+        //TODO: Access map and place road
         players[playerIndex].purchaseRoad();
     }
 
     public void purcahseSettlement(int playerIndex){
+        //TODO: Access map and place settlement
         players[playerIndex].purchaseSettlement();
     }
 
     public void purchaseCity(int playerIndex){
+        //TODO: Access map and place city
         players[playerIndex].purchaseCity();
     }
 
@@ -136,7 +140,9 @@ public class ClientModel {
     }
 
     public void playSoldierCard(int playerIndex){
+        //TODO: Access map and move soldier
         players[playerIndex].playSoldierCard();
+
     }
 
     public void playMonumentCard(int playerIndex){
@@ -144,19 +150,27 @@ public class ClientModel {
     }
 
     public void playRoadBuildingCard(int playerIndex){
+        //TODO: Access map and place 0-2 roads, decrement road count from player...
         players[playerIndex].playRoadBuildingCard();
     }
 
-    public void playYearOfPlentyCard(int playerIndex){
-        players[playerIndex].playYearOfPlentyCard();
+    public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){
+        //TODO: Need a method that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
+        resourceBank.playYearOfPlenty(resource1, resource2);
+        players[playerIndex].playYearOfPlentyCard(resource1, resource2);
     }
 
-    public void playMonopolyCard(int playerIndex){
-        players[playerIndex].playMonopolyCard();
+    public void playMonopolyCard(int recieverPlayerIndex, ResourceType monopolizedResource){
+        int totalCardsGained = 0;
+        //Take all cards of specified resource from each opposing player
+        for(int index = 0; index < players.length; index++){
+            if(index != recieverPlayerIndex){
+                totalCardsGained += players[index].loseAllCardsOfType(monopolizedResource);
+            }
+        }
+        //Give those cards to the player who used the monopoly card.
+        players[recieverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
     }
-
-
-
 
     //GETTERS
     public int getModelVersion() {return modelVersion;}

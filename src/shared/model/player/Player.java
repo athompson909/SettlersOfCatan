@@ -2,6 +2,7 @@ package shared.model.player;
 
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
 
@@ -121,6 +122,7 @@ public class Player { //
     public void purchaseRoad() {
         playerResourceList.decWoodCardCount(1);
         playerResourceList.decBrickCardCount(1);
+        roadCount--;
     }
 
     /**
@@ -131,6 +133,8 @@ public class Player { //
         playerResourceList.decWoodCardCount(1);
         playerResourceList.decSheepCardCount(1);
         playerResourceList.decWheatCardCount(1);
+        settlementCount--;
+        victoryPoints++;
     }
 
     /**
@@ -139,6 +143,9 @@ public class Player { //
     public void purchaseCity() {
         playerResourceList.decOreCardCount(3);
         playerResourceList.decWheatCardCount(2);
+        cityCount--;
+        settlementCount++; //Get your settlement piece back.
+        victoryPoints++;
 
     }
 
@@ -154,24 +161,51 @@ public class Player { //
 
     public void playSoldierCard() {
         newDevCardList.removeSoldierCard();
+        soldiersPlayed++;
     }
 
     public void playMonumentCard() {
-        newDevCardList.removeMonopolyCard();
+        newDevCardList.removeMonumentCard();
+        monuments++;
+        victoryPoints++;
     }
 
     public void playRoadBuildingCard() {
         newDevCardList.removeRoadBuildingCard();
+        //Lose two road pieces? Or have map remove those?
     }
 
-    public void playMonopolyCard() {
+    public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {
         newDevCardList.removeMonopolyCard();
+        switch (monopolizedResource) {
+            case WOOD:
+                playerResourceList.incWoodCardCount(cardsGained);
+                break;
+            case BRICK:
+                playerResourceList.incBrickCardCount(cardsGained);
+                break;
+            case SHEEP:
+                playerResourceList.incSheepCardCount(cardsGained);
+                break;
+            case WHEAT:
+                playerResourceList.incWheatCardCount(cardsGained);
+                break;
+            case ORE:
+                playerResourceList.incOreCardCount(cardsGained);
+                break;
+        }
     }
 
-    public void playYearOfPlentyCard() {
+    public int loseAllCardsOfType(ResourceType resource) {
+        return playerResourceList.loseAllCardsOfType(resource);
+    }
+
+
+    public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
         newDevCardList.removeYearOfPlentyCard();
+        playerResourceList.addCardByType(resource1);
+        playerResourceList.addCardByType(resource2);
     }
-
 
 
     //CLIENT SIDE FUNCTIONS
@@ -285,6 +319,7 @@ public class Player { //
         }
         return false;
     }
+
 
     public void updatePlayer(Player newPlayer) {
         setVictoryPoints(newPlayer.getVictoryPoints());
