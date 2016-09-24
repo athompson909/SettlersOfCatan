@@ -44,7 +44,7 @@ public class JSONTranslator {
      * @param newModelJSON - this is the huge JSON string coming back directly from the server
      * @return newClientModel - the new ClientModel object created from the server's response JSON
      */
-    public ClientModel translateModel(JSONObject newModelJSON) throws JsonSyntaxException {
+    public ClientModel modelFromJSON(JSONObject newModelJSON) throws JsonSyntaxException {
 
         String modelJSONString = newModelJSON.toString();
 
@@ -59,21 +59,37 @@ public class JSONTranslator {
      * @param num
      * @return
      */
-    public JSONObject translateModelVersionNumber(int num)
-    {
+    public JSONObject modelVerNumToJSON(int num) {
         return null;
     }
 
 
     //COMMAND OBJECT TRANSLATORS ==================================================
 
-    public JSONObject translateAddAICommand(AddAICommand addAICommandObj)
-    {
+    public JSONObject addAICmdToJSON(AddAICommand addAICommandObj) {
+
         return null;
     }
 
+    public JSONObject execGameCmdToJSON(ExecuteGameCommandsCommand execGameCmdsCommandObj) {
 
+        return null;
+    }
 
+    public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
+
+        return null;
+    }
+
+    public JSONObject gameCreateCmdToJSON(GameCreateCommand gameCreateCmdObj) {
+
+        return null;
+    }
+
+    public JSONObject gameJoinCmdToJSON(GameJoinCommand gameJoinCmdObj) {
+
+        return null;
+    }
 
 
 }
