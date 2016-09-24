@@ -18,6 +18,8 @@ public class ServerProxyTest extends TestCase {
     public void testHttpPost() {
         String urlStr = "http://localhost:8081/user/login";
 
+        serverProxy.userRegister(new JSONObject(loginStr));
+
         assertEquals("Success", serverProxy.httpPost(urlStr, loginStr));
         assertEquals("http error: bad request", serverProxy.httpPost(urlStr, badLoginStr));
     }
