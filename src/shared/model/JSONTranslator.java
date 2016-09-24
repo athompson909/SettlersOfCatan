@@ -1,10 +1,10 @@
 package shared.model;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.json.JSONObject;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildSettlement;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -22,8 +22,10 @@ public class JSONTranslator {
     /**
      * This is the temporary ClientModel that will be created from the JSON coming back from the server.
      * We will give this object to ClientUpdateManager after it has been fully parsed out.
+     *
+     * todo parameter in constructor is hardcoded
      */
-    private ClientModel newClientModel = new ClientModel();
+    private ClientModel newClientModel = new ClientModel(0);
 
     /**
      * This Gson object can be reused as many times as you want

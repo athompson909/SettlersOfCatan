@@ -8,6 +8,7 @@ import shared.model.dicemanager.DiceManager;
  */
 public class DiceManagerTest extends TestCase {
     private DiceManager manager = new DiceManager();
+
     public void testRollDice() {
         int number = manager.rollDice();
         assert(number >= 1);

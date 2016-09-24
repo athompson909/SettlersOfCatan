@@ -1,5 +1,6 @@
 package client;
-import org.json.*;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 
 /**
  *
@@ -17,12 +17,16 @@ import java.net.URLDecoder;
  * responses from to the real server.
  *
  * Created by Sierra on 9/18/16.
+ *
+ * Adam is working on this
  */
 public class ServerProxy implements IServerProxy {
 
     private boolean isLogin = false;
 
     private boolean isRegister = false;
+
+    private boolean isJoin = false;
 
     /**
      * the cookie returned when userLogin(...) is ran
@@ -40,6 +44,8 @@ public class ServerProxy implements IServerProxy {
      */
     private String registerCookie;
 
+    private String joinCookie;
+
     public String getLoginCookie() {
         return loginCookie;
     }
@@ -48,12 +54,20 @@ public class ServerProxy implements IServerProxy {
         return registerCookie;
     }
 
+    public String getJoinCookie() {
+        return joinCookie;
+    }
+
     public void setLoginCookie(String loginCookie) {
         this.loginCookie = loginCookie;
     }
 
     public void setRegisterCookie(String registerCookie) {
         this.registerCookie = registerCookie;
+    }
+
+    public void setJoinCookie(String joinCookie) {
+        this.joinCookie = joinCookie;
     }
 
     /**
@@ -73,10 +87,12 @@ public class ServerProxy implements IServerProxy {
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
             connection.setRequestMethod("POST");
+            if (isJoin) {
+                //Map<String, List<String>> headers = connection.getHeaderFields();
+                connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
+            }
             connection.setDoOutput(true);
             connection.connect();
-
-            //at some point: setCookies();
 
             OutputStream requestBody = connection.getOutputStream();
             requestBody.write(postData.getBytes());
@@ -109,6 +125,8 @@ public class ServerProxy implements IServerProxy {
         } catch (Exception e) {
             System.out.println("Error: other exception");
             e.printStackTrace();
+        } finally {
+            if (isJoin) isJoin = false;
         }
 
         return "error, exception thrown";
@@ -124,14 +142,24 @@ public class ServerProxy implements IServerProxy {
             String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
             // to take off the unneeded parts of the header:
             String undecodedLoginCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
-            setLoginCookie(URLDecoder.decode(undecodedLoginCookie));
+            setLoginCookie(undecodedLoginCookie);
+            //setLoginCookie(URLDecoder.decode(undecodedLoginCookie));
             isLogin = false;
         }
         if (isRegister) {
             String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
             String undecodedRegisterCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
-            setRegisterCookie(URLDecoder.decode(undecodedRegisterCookie));
+            setRegisterCookie(undecodedRegisterCookie);
+            //setRegisterCookie(URLDecoder.decode(undecodedRegisterCookie));
             isRegister = false;
+        }
+        if (isJoin) {
+            String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
+            String undecodedJoinCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
+            setJoinCookie(undecodedJoinCookie);
+            //setRegisterCookie(URLDecoder.decode(undecodedJoinCookie));
+            isJoin = false;
+
         }
     }
 
@@ -307,7 +335,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public String gameJoin(JSONObject json) {
-
+        isJoin = true;
         String urlStr = "http://localhost:8081/games/join";
         return httpPost(urlStr, json.toString());
     }

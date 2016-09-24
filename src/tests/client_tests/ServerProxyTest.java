@@ -13,21 +13,6 @@ public class ServerProxyTest extends TestCase {
 
     private ServerProxy serverProxy = new ServerProxy();
 
-    private String loginStr = "{\n" +
-            "  \"username\": \"adam\",\n" +
-            "  \"password\": \"adam\"\n" +
-            "}";
-
-    private String badLoginStr = "{\n" +
-            "  \"username\": \"xxxxxx\",\n" +
-            "  \"password\": \"xxxxxx\"\n" +
-            "}";
-
-    private String newLoginStr = "{\n" +
-            "  \"username\": \"adam2222\",\n" +
-            "  \"password\": \"adam2222\"\n" +
-            "}";
-
 
 
     public void testHttpPost() {
@@ -43,13 +28,11 @@ public class ServerProxyTest extends TestCase {
     public void testUserLogin() {
 
         JSONObject loginJson = new JSONObject(loginStr);
-
         assertEquals("Success", serverProxy.userLogin(loginJson));
-
         String str = serverProxy.getLoginCookie();
+        testGameJoin();
 
         JSONObject badLoginJson = new JSONObject(badLoginStr);
-
         assertEquals("http error: bad request", serverProxy.userLogin(badLoginJson));
 
     }
@@ -78,5 +61,40 @@ public class ServerProxyTest extends TestCase {
         String jsonStr = jsonObject.toString();
         System.out.print(jsonStr);
     }
+
+    /**
+     * can only be executed after testGameLogin() has been run (so we're going to run from inside there)
+     */
+    public void testGameJoin() {
+
+        JSONObject jsonObject = new JSONObject(JOIN_STR);
+        String jsonStr = serverProxy.gameJoin(jsonObject);
+        System.out.println("json: " + jsonStr);
+        System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+    }
+
+
+
+    private String loginStr = "{\n" +
+            "  \"username\": \"adam\",\n" +
+            "  \"password\": \"adam\"\n" +
+            "}";
+
+    private String badLoginStr = "{\n" +
+            "  \"username\": \"xxxxxx\",\n" +
+            "  \"password\": \"xxxxxx\"\n" +
+            "}";
+
+    private String newLoginStr = "{\n" +
+            "  \"username\": \"adam2222\",\n" +
+            "  \"password\": \"adam2222\"\n" +
+            "}";
+
+    private final String JOIN_STR = "{\n" +
+            "  \"randomTiles\": \"true\",\n" +
+            "  \"randomNumbers\": \"true\",\n" +
+            "  \"randomPorts\": \"true\",\n" +
+            "  \"name\": \"testgame1002-Adam\"\n" +
+            "}";
 
 }
