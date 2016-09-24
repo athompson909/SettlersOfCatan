@@ -26,67 +26,69 @@ public class Player { //
      * The unique playerID. This is used to pick the client player apart from the
      * others. This is only used here and in your cookie.,
      */
-    int playerID;
+    private int playerID;
 
     /**
      * What place in the array is this player? 0-3. It determines their turn order.
      */
-    int playerIndex;
+    private int playerIndex;
 
     /**
      * How many the victory points the player has.
      */
-    int victoryPoints = 0;
+    private int victoryPoints = 0;
 
     /**
      * How many monuments this player has played.,
      */
-    int monuments = 0;
+    private int monuments = 0;
 
     /**
      * How many soldiers the player has played.
      */
-    int soldiersPlayed = 0;
+    private int soldiersPlayed = 0;
 
     /**
      * How many cities this player has left to play,
      */
-    int cityCount = 4;
+    private int cityCount = 4;
 
     /**
      * How many settlements this player has left to play,
      */
-    int settlementCount = 5;
+    private int settlementCount = 5;
 
     /**
      * How many roads this player has left to play,
      */
-    int roadCount = 15;
+    private int roadCount = 15;
 
     /**
      * Cards in the players hand
      */
-    ResourceList playerResourceList = new ResourceList();
+    private ResourceList playerResourceList = new ResourceList();
 
     /**
      * The dev cards the player bought this turn
      */
-    DevCardList newDevCardList = new DevCardList();
+    private DevCardList newDevCardList = new DevCardList();
 
     /**
      * The dev cards the player had when the turn started
      */
-    DevCardList oldDevCardList = new DevCardList();
+    private DevCardList oldDevCardList = new DevCardList();
 
     /**
      * Whether the player has played a dev card this turn.,
      */
-    boolean playedDevCard = false;
+    private boolean playedDevCard = false;
 
     /**
      * Whether this player has discarded or not already this discard phase.
      */
-    boolean discarded = false;
+    private boolean discarded = false;
+
+    private MaritimeTradeManager maritimeTradeManager = new MaritimeTradeManager();
 
 
     /**
@@ -162,17 +164,20 @@ public class Player { //
     public void playSoldierCard() {
         newDevCardList.removeSoldierCard();
         soldiersPlayed++;
+        playedDevCard = true;
     }
 
     public void playMonumentCard() {
         newDevCardList.removeMonumentCard();
         monuments++;
         victoryPoints++;
+        playedDevCard = true;
     }
 
     public void playRoadBuildingCard() {
         newDevCardList.removeRoadBuildingCard();
-        //Lose two road pieces? Or have map remove those?
+        playedDevCard = true;
+        //TODO: Lose one-two road pieces? Or have map remove those?
     }
 
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {
@@ -194,6 +199,7 @@ public class Player { //
                 playerResourceList.incOreCardCount(cardsGained);
                 break;
         }
+        playedDevCard = true;
     }
 
     public int loseAllCardsOfType(ResourceType resource) {
@@ -205,6 +211,7 @@ public class Player { //
         newDevCardList.removeYearOfPlentyCard();
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);
+        playedDevCard = true;
     }
 
 
@@ -264,7 +271,7 @@ public class Player { //
      * @return true if the player can play development cards
      */
     public boolean canPlayDevelopmentCards() {
-        if (isPlayedDevCard()) { //If the player has already played a Dev card
+        if (hasPlayedDevCard()) { //If the player has already played a Dev card
             return false;
         }
         return true;
@@ -331,8 +338,8 @@ public class Player { //
         setPlayerResourceList(newPlayer.getPlayerResourceList());
         setOldDevCardList(newPlayer.getOldDevCardList());
         setNewDevCardList(newPlayer.getNewDevCardList());
-        setPlayedDevCard(newPlayer.isPlayedDevCard());
-        setDiscarded(newPlayer.isDiscarded());
+        setPlayedDevCard(newPlayer.hasPlayedDevCard());
+        setDiscarded(newPlayer.hasDiscarded());
     }
 
     //GETTERS
@@ -388,11 +395,11 @@ public class Player { //
         return oldDevCardList;
     }
 
-    public boolean isPlayedDevCard() {
+    public boolean hasPlayedDevCard() {
         return playedDevCard;
     }
 
-    public boolean isDiscarded() {
+    public boolean hasDiscarded() {
         return discarded;
     }
 

@@ -142,7 +142,6 @@ public class ClientModel {
     public void playSoldierCard(int playerIndex){
         //TODO: Access map and move soldier
         players[playerIndex].playSoldierCard();
-
     }
 
     public void playMonumentCard(int playerIndex){
@@ -155,7 +154,7 @@ public class ClientModel {
     }
 
     public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){
-        //TODO: Need a method that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
+        //TODO: Need a method or way that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
         resourceBank.playYearOfPlenty(resource1, resource2);
         players[playerIndex].playYearOfPlentyCard(resource1, resource2);
     }
@@ -170,6 +169,26 @@ public class ClientModel {
         }
         //Give those cards to the player who used the monopoly card.
         players[recieverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+    }
+
+
+    //ADDITIONAL DO METHODS (With no accompanying can methods)
+
+    /*
+    Rulebook: If there are not enough of a resource type, then no one recieve any of that resource
+    (unless it only affects one player, then that player gets the remaining resources from the bank)
+     */
+    public void recieveResourcesFromDiceRoll(){
+        //TODO: Go to map and calculate how many cards each player gets
+
+        //TODO: Calculate resource production, and consider special rulebook exception.
+        //int total1;
+        //int total2;
+        //if(resourceBank.getResourceList().listHasAmountOfType(total1,))
+
+        for(int index = 0; index < players.length; index++){
+
+        }
     }
 
     //GETTERS

@@ -47,6 +47,95 @@ public class ResourceList {
 
     }
 
+    public boolean listHasAmountOfType(int amount, ResourceType resource){
+        switch (resource) {
+            case WOOD:
+                if(woodCardCount >= amount){return true;}
+                break;
+            case BRICK:
+                if(brickCardCount >= amount){return true;}
+                break;
+            case SHEEP:
+                if(sheepCardCount >= amount){return true;}
+                break;
+            case WHEAT:
+                if(wheatCardCount >= amount){return true;}
+                break;
+            case ORE:
+                if(oreCardCount >= amount){return true;}
+                break;
+        }
+        return false;
+    }
+
+    public int loseAllCardsOfType(ResourceType resource) {
+        int total = 0;
+        switch (resource) {
+            case WOOD:
+                total = getWoodCardCount();
+                decWoodCardCount(total);
+                break;
+            case BRICK:
+                total = getBrickCardCount();
+                decBrickCardCount(total);
+                break;
+            case SHEEP:
+                total = getSheepCardCount();
+                decSheepCardCount(total);
+                break;
+            case WHEAT:
+                total = getWheatCardCount();
+                decWheatCardCount(total);
+                break;
+            case ORE:
+                total = getWoodCardCount();
+                decWheatCardCount(total);
+                break;
+        }
+        return total;
+    }
+
+    public void removeCardByType(ResourceType resource){
+        switch (resource) {
+            case WOOD:
+                woodCardCount--;
+                break;
+            case BRICK:
+                brickCardCount--;
+                break;
+            case SHEEP:
+                sheepCardCount--;
+                break;
+            case WHEAT:
+                wheatCardCount--;
+                break;
+            case ORE:
+                oreCardCount--;
+                break;
+        }
+    }
+
+    public void addCardByType(ResourceType resource){
+        switch (resource) {
+            case WOOD:
+                woodCardCount++;
+                break;
+            case BRICK:
+                brickCardCount++;
+                break;
+            case SHEEP:
+                sheepCardCount++;
+                break;
+            case WHEAT:
+                wheatCardCount++;
+                break;
+            case ORE:
+                oreCardCount++;
+                break;
+        }
+    }
+
+    //INCREMENT AND DECREMENT
     /**
      * Increments the woodCardCount in the resource list.
      *
@@ -140,73 +229,6 @@ public class ResourceList {
      */
     public boolean decOreCardCount(int amount) {
         return false;
-    }
-
-    public int loseAllCardsOfType(ResourceType resource) {
-        int total = 0;
-        switch (resource) {
-            case WOOD:
-                total = getWoodCardCount();
-                decWoodCardCount(total);
-                break;
-            case BRICK:
-                total = getBrickCardCount();
-                decBrickCardCount(total);
-                break;
-            case SHEEP:
-                total = getSheepCardCount();
-                decSheepCardCount(total);
-                break;
-            case WHEAT:
-                total = getWheatCardCount();
-                decWheatCardCount(total);
-                break;
-            case ORE:
-                total = getWoodCardCount();
-                decWheatCardCount(total);
-                break;
-        }
-        return total;
-    }
-
-    public void removeCardByType(ResourceType resource){
-        switch (resource) {
-            case WOOD:
-                woodCardCount--;
-                break;
-            case BRICK:
-                brickCardCount--;
-                break;
-            case SHEEP:
-                sheepCardCount--;
-                break;
-            case WHEAT:
-                wheatCardCount--;
-                break;
-            case ORE:
-                oreCardCount--;
-                break;
-        }
-    }
-
-    public void addCardByType(ResourceType resource){
-        switch (resource) {
-            case WOOD:
-                woodCardCount++;
-                break;
-            case BRICK:
-                brickCardCount++;
-                break;
-            case SHEEP:
-                sheepCardCount++;
-                break;
-            case WHEAT:
-                wheatCardCount++;
-                break;
-            case ORE:
-                oreCardCount++;
-                break;
-        }
     }
 
 
