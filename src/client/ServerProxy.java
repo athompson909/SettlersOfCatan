@@ -128,7 +128,9 @@ public class ServerProxy implements IServerProxy {
             isLogin = false;
         }
         if (isRegister) {
-            setRegisterCookie(connection.getHeaderFields().get("Set-cookie").get(0));
+            String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
+            String undecodedRegisterCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
+            setRegisterCookie(URLDecoder.decode(undecodedRegisterCookie));
             isRegister = false;
         }
     }
