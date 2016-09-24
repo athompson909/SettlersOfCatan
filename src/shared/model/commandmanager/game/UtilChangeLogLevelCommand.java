@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class UtilChangeLogLevelCommand extends BaseCommand {
+public class UtilChangeLogLevelCommand implements BaseCommand {
     /**
      * log level: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, or FINEST
      */
@@ -16,7 +16,7 @@ public class UtilChangeLogLevelCommand extends BaseCommand {
      * @param loggingLevel
      */
     public UtilChangeLogLevelCommand(LoggingLevel loggingLevel){
-
+        this.loggingLevel = loggingLevel;
     }
 
     /**

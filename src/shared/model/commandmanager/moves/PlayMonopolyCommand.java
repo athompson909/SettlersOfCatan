@@ -6,7 +6,7 @@ import shared.definitions.ResourceType;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayMonopolyCommand extends BaseCommand {
+public class PlayMonopolyCommand implements BaseCommand {
 
     /**
      * Index of player playing Monopoly

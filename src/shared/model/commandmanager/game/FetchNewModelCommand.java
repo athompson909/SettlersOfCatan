@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class FetchNewModelCommand extends BaseCommand {
+public class FetchNewModelCommand implements BaseCommand {
     /**
      * version of the client model
      */
@@ -17,7 +17,7 @@ public class FetchNewModelCommand extends BaseCommand {
      * @param version = client model version number
      */
     public FetchNewModelCommand(int version){
-
+        this.version = version;
     }
 
     /**

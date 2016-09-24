@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class AcceptTradeCommand extends BaseCommand {
+public class AcceptTradeCommand implements BaseCommand {
 //Data Members
     /**
      * Index of player who is being offered a trade
@@ -14,7 +14,7 @@ public class AcceptTradeCommand extends BaseCommand {
     /**
      * true if player wants to accept trade
      */
-    boolean willAccept;
+    boolean accept;
 
     /**
      * Creates AcceptTradeCommand object to be sent to client.ClientFacade
@@ -27,7 +27,7 @@ public class AcceptTradeCommand extends BaseCommand {
      */
     public AcceptTradeCommand(int index, boolean willAcc){
         playerIndex = index;
-        willAccept = willAcc;
+        accept = willAcc;
     }
 
     /**
@@ -50,7 +50,7 @@ public class AcceptTradeCommand extends BaseCommand {
         return playerIndex;
     }
 
-    public boolean isWillAccept() {
-        return willAccept;
+    public boolean isAccept() {
+        return accept;
     }
 }

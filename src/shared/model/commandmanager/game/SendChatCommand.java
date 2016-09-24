@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class SendChatCommand extends BaseCommand {
+public class SendChatCommand implements BaseCommand {
     /**
      * int 0-3 representing player
      */
@@ -22,7 +22,8 @@ public class SendChatCommand extends BaseCommand {
      * @param content
      */
     public SendChatCommand(int playerIndex, String content){
-
+        this.playerIndex = playerIndex;
+        this.content = content;
     }
 
     /**

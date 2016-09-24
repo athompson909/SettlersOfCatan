@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameCreateCommand extends BaseCommand {
+public class GameCreateCommand implements BaseCommand {
     /**
      * name of game
      */
@@ -34,7 +34,10 @@ public class GameCreateCommand extends BaseCommand {
      * @param randomPorts
      */
     public GameCreateCommand(String name,boolean randomTiles, boolean randomNumbers, boolean randomPorts ){
-
+        this.name = name;
+        this.randomTiles = randomTiles;
+        this.randomNumbers = randomNumbers;
+        this.randomPorts = randomPorts;
     }
 
     /**

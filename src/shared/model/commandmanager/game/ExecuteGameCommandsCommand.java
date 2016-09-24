@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class ExecuteGameCommandsCommand extends BaseCommand {
+public class ExecuteGameCommandsCommand implements BaseCommand {
     /**
      * Creates ExecuteGameCommandsCommand to send to client.ClientFacade
      */

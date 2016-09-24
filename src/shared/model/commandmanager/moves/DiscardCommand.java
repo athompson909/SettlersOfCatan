@@ -6,7 +6,7 @@ import shared.model.resourcebank.ResourceList;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class DiscardCommand extends BaseCommand {
+public class DiscardCommand implements BaseCommand {
 
     /**
      * Index of player who is discarding

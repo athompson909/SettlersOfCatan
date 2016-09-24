@@ -6,7 +6,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class RobPlayerCommand extends BaseCommand {
+public class RobPlayerCommand implements BaseCommand {
     /**
      * int 0-3 of player
      */
@@ -29,7 +29,9 @@ public class RobPlayerCommand extends BaseCommand {
      * @param victimIndex
      */
     public RobPlayerCommand(int playerIndex, HexLocation location, int victimIndex){
-
+        this.playerIndex = playerIndex;
+        this.location = location;
+        this.victimIndex = victimIndex;
     }
 
     /**

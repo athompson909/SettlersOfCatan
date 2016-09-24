@@ -22,7 +22,8 @@ public class GameJoinCommand implements BaseCommand {
      * @param color
      */
     public GameJoinCommand(int gameID, CatanColor color){
-
+        this.gameID = gameID;
+        this.color = color;
     }
 
     /**
