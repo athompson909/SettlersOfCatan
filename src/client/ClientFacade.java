@@ -603,7 +603,7 @@ public class ClientFacade {
      * @param playRoadBuilderCommand
      */
     public void playRoadBuilding(PlayRoadBuilderCommand playRoadBuilderCommand){
-        
+
     }
 
     /**
