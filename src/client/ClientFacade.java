@@ -374,6 +374,7 @@ public class ClientFacade {
      * @param command
      */
     public void sendChat(SendChatCommand command){
+        // DOES THIS FUNCTION NEED TO BE CHECKING THE PRE-CONDITIONS??
         JSONObject jsonToSend = jsonTranslator.sendChatToJson(command);
         JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
@@ -387,7 +388,10 @@ public class ClientFacade {
      * @param command
      */
     public void rollNumber(RollDiceCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.rollDiceToJSON(command);
+        JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -398,7 +402,10 @@ public class ClientFacade {
      * @param command
      */
     public void finishTurn(EndTurnCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.endTurnToJSON(command);
+        JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -409,7 +416,10 @@ public class ClientFacade {
      * @param command
      */
     public void discardCards(DiscardCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.discardCardsToJSON(command);
+        JSONObject jsonNewModel = serverProxy.discardCards(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
