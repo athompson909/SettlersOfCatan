@@ -5,7 +5,7 @@ import shared.definitions.CatanColor;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameJoinCommand extends BaseCommand {
+public class GameJoinCommand implements BaseCommand {
     /**
      * id of game player wants to join
      */
