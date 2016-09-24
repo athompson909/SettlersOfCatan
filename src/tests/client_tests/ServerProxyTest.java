@@ -64,6 +64,7 @@ public class ServerProxyTest extends TestCase {
 
         // these have already been tested, obviously they will not pass if executed more than once for the same string
         //JSONObject newLoginJson = new JSONObject(newLoginStr);
+        //String str = serverProxy.getRegisterCookie();
         //assertEquals("Success", serverProxy.userRegister(newLoginJson));
     }
 
