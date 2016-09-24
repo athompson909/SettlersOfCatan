@@ -1,6 +1,6 @@
 package shared.model.commandmanager.moves;
 
-import shared.model.map.EdgeLocation;
+import shared.locations.EdgeLocation;
 import shared.model.commandmanager.BaseCommand;
 
 /**

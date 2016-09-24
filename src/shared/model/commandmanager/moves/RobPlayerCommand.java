@@ -1,7 +1,7 @@
 package shared.model.commandmanager.moves;
 
+import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
-import shared.model.map.HexLocation;
 
 /**
  * Created by Alise on 9/18/2016.

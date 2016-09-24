@@ -1,5 +1,7 @@
 package shared.model.map;
 
+import shared.locations.HexLocation;
+
 /**
  * Created by Mitchell on 9/15/2016.
  *
