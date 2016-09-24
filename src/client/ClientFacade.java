@@ -550,7 +550,10 @@ public class ClientFacade {
      * @param command
      */
     public void purchaseDevCard(PurchaseDevCardCommand command){
-        
+        JSONObject jsonToSend = jsonTranslator.purchaseDevCard(command);
+        JSONObject jsonNewModel = serverProxy.purchaseDevCard(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -568,7 +571,10 @@ public class ClientFacade {
      * @param command
      */
     public void playSoldier(PlaySoldierCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.playSoldierToJSON(command);
+        JSONObject jsonNewModel = serverProxy.playSoldier(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -578,7 +584,10 @@ public class ClientFacade {
      * @param command
      */
     public void playYearOfPlenty(PlayYearOfPlentyCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.yearOfPlentyToJSON(command);
+        JSONObject jsonNewModel = serverProxy.playYearOfPlenty(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -594,7 +603,7 @@ public class ClientFacade {
      * @param playRoadBuilderCommand
      */
     public void playRoadBuilding(PlayRoadBuilderCommand playRoadBuilderCommand){
-
+        
     }
 
     /**
