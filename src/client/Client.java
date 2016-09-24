@@ -1,7 +1,6 @@
 package client;
 
 import shared.model.ClientModel;
-import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.CommandManager;
 
 /**
@@ -22,7 +21,8 @@ public class Client {
     public Client() {
         serverPoller = new ServerPoller();
         commandManager = new CommandManager();
-        clientModel = new ClientModel();
+        //todo this parameter is hardcoded
+        clientModel = new ClientModel(0);
         serverProxy = new ServerProxy();
 
         clientFacade = new ClientFacade(serverProxy, clientModel);
