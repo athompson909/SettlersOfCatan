@@ -7,9 +7,9 @@ import com.google.gson.*;
  * uses GSON to break it down into objects, then sends those new objects to the
  * ClientUpdateManager to be distributed to the existing ClientModel objects.
  *
- *
  * There needs to be a function for every BaseCommand to be translated to JSON. JSON>BaseCommandObj isn't necessary,
  * we just need a way for the ClientFacade to change its BaseCommand objs to JSON readable by the server.
+ *
  *
  * Created by Sierra on 9/22/16.
  */
@@ -32,38 +32,29 @@ public class JSONTranslator {
      * and uses Gson to convert it to normal objects to send to UpdateManager.
      * The HTTP Request body comes back as JSON, so I'm keeping the param as Gson's JsonElement type for now
      *
-     * this function might need to throw an exception, maybe JsonSyntaxException like Gson.fromJson() does?
-     *
-     * We need to discuss how the ClientFacade is giving this JsonElement to JSONTranslator in the first place!
-     * JUST AN IDEA: ******
-     * What if JSONTranslator is a personal data member of ClientUpdateManager, and it gets the new JsonElement
-     * response body thing from the ClientUpdateManager? Then it would be easy for CUM to delegateUpdates() using
-     * JSONTranslator's finished object.
+     * this function might need to throw an exception, maybe JsonSyntaxException like Gson.fromJson() does
      *
      * @param newModelJSON - this is the huge JSON string/object coming back directly from the server
-     * @return true if it all  worked, false otherwise
+     * @return newClientModel - the new ClientModel object created from the server's response JSON
      */
-    public boolean translateModel(JsonElement newModelJSON) {
+    public ClientModel translateModel(JsonElement newModelJSON) throws Exception {
 
         //this Gson object can be reused as many times as you want
         Gson gsonTest = new Gson();
-        try {
-            newClientModel = gsonTest.fromJson(newModelJSON, ClientModel.class);
-        } catch (Exception e) {
-            System.out.println("\n >JSONTranslator: translateModel: There was a problem in fromJson()! ********");
-            return false;
-        }
+        newClientModel = gsonTest.fromJson(newModelJSON, ClientModel.class);
 
-        System.out.println(">Just deserialized newModelJSON!");
-
-        return true;
+        return newClientModel;
     }
 
     /**
      *
+     * @param num
+     * @return
      */
-    public void sendToUpdateManager(){
-
+    public JsonElement translateModelVersionNumber(int num)
+    {
+        return null;
     }
+
 
 }
