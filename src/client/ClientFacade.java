@@ -375,7 +375,7 @@ public class ClientFacade {
      */
     public void sendChat(SendChatCommand command){
         // DOES THIS FUNCTION NEED TO BE CHECKING THE PRE-CONDITIONS??
-        JSONObject jsonToSend = jsonTranslator.sendChatToJson(command);
+        JSONObject jsonToSend = jsonTranslator.sendChatCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -388,7 +388,7 @@ public class ClientFacade {
      * @param command
      */
     public void rollNumber(RollDiceCommand command){
-        JSONObject jsonToSend = jsonTranslator.rollDiceToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.rollDiceCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -402,7 +402,7 @@ public class ClientFacade {
      * @param command
      */
     public void finishTurn(EndTurnCommand command){
-        JSONObject jsonToSend = jsonTranslator.endTurnToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.endTurnCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -416,7 +416,7 @@ public class ClientFacade {
      * @param command
      */
     public void discardCards(DiscardCommand command){
-        JSONObject jsonToSend = jsonTranslator.discardCardsToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.discardCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.discardCards(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -435,7 +435,7 @@ public class ClientFacade {
      * @param command
      */
     public void buildRoad(BuildRoadCommand command){
-        JSONObject jsonToSend = jsonTranslator.buildRoadToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.buildRoadCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -454,7 +454,7 @@ public class ClientFacade {
      * @param command
      */
     public void buildSettlement(BuildSettlementCommand command){
-        JSONObject jsonToSend = jsonTranslator.buildSettToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.buildSettlementCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -470,7 +470,7 @@ public class ClientFacade {
      * @param command
      */
     public void buildCity(BuildCityCommand command){
-        JSONObject jsonToSend = jsonTranslator.buildCityToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.buildCityCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -486,7 +486,7 @@ public class ClientFacade {
         // I THINK THIS ONE IS GOING TO BE A LITTLE DIFFERENT THAN THE OTHERS
         // It will display an offer screen to the other user and they have to create
         // an acceptTradeCommand object to send back... -Steph
-        JSONObject jsonToSend = jsonTranslator.offerTradeToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.offerTradeCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.offerTrade(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -502,7 +502,7 @@ public class ClientFacade {
      * @param command
      */
     public void acceptTrade(AcceptTradeCommand command){
-        JSONObject jsonToSend = jsonTranslator.acceptTradeToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.acceptTradeCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.acceptTrade(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -517,7 +517,7 @@ public class ClientFacade {
      * @param command
      */
     public void maritimeTrade(MaritimeTradeCommand command){
-        JSONObject jsonToSend = jsonTranslator.maritimeTradeToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.maritimeTradeCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.maritimeTrade(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -533,7 +533,7 @@ public class ClientFacade {
      * @param command
      */
     public void robPlayer(RobPlayerCommand command){
-        JSONObject jsonToSend = jsonTranslator.robPlayerToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.robPlayerCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -550,7 +550,7 @@ public class ClientFacade {
      * @param command
      */
     public void purchaseDevCard(PurchaseDevCardCommand command){
-        JSONObject jsonToSend = jsonTranslator.purchaseDevCard(command);
+        JSONObject jsonToSend = jsonTranslator.purchaseDevDardCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.purchaseDevCard(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -571,7 +571,7 @@ public class ClientFacade {
      * @param command
      */
     public void playSoldier(PlaySoldierCommand command){
-        JSONObject jsonToSend = jsonTranslator.playSoldierToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.playSoldierCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playSoldier(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -584,7 +584,7 @@ public class ClientFacade {
      * @param command
      */
     public void playYearOfPlenty(PlayYearOfPlentyCommand command){
-        JSONObject jsonToSend = jsonTranslator.yearOfPlentyToJSON(command);
+        JSONObject jsonToSend = jsonTranslator.playYearOfPlentyCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playYearOfPlenty(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
@@ -600,10 +600,13 @@ public class ClientFacade {
      * @post You have two fewer unused roads.
      * Two new roads appear on the map at the specified locations.
      * If applicable, “longest road” has been awarded to the player with the longest road
-     * @param playRoadBuilderCommand
+     * @param command
      */
-    public void playRoadBuilding(PlayRoadBuilderCommand playRoadBuilderCommand){
-
+    public void playRoadBuilding(PlayRoadBuilderCommand command){
+        JSONObject jsonToSend = jsonTranslator.playRoadBuilderCmdToJSON(command);
+        JSONObject jsonNewModel = serverProxy.playRoadBuilding(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -611,10 +614,13 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * @post All of the other players have given you all of their resource cards of the specified
     type
-     * @param playMonopolyCommand
+     * @param command
      */
-    public void playMonopoly(PlayMonopolyCommand playMonopolyCommand){
-
+    public void playMonopoly(PlayMonopolyCommand command){
+        JSONObject jsonToSend = jsonTranslator.playMonopolyCmdToJSON(command);
+        JSONObject jsonNewModel = serverProxy.playMonopoly(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -622,9 +628,12 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * You have enough monument cards to win the game (i.e., reach 10 victory points)
      * @post You gained a victory point.
-     * @param playMonumentCommand
+     * @param command
      */
-    public void playMonument(PlayMonumentCommand playMonumentCommand){
-
+    public void playMonument(PlayMonumentCommand command){
+        JSONObject jsonToSend = jsonTranslator.playMonumentCmdToJSON(command);
+        JSONObject jsonNewModel = serverProxy.playMonument(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 }
