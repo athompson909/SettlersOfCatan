@@ -1,5 +1,7 @@
 package shared.model.resourcebank;
 
+import shared.definitions.DevCardType;
+
 /**
  * A DevCardList contains a list of all different types of development cards and how many of each one are in the list.
  */
@@ -39,6 +41,17 @@ public class DevCardList {
      */
     public void update(DevCardList newDevCardList){
 
+    }
+
+    public boolean isEmpty(){
+        if(soldierCardCount > 1
+                && monopolyCardCount > 1
+                && monumentCardCount > 1
+                && roadBuildingCardCount > 1
+                && yearOfPlentyCardCount > 1){
+            return true;
+        }
+        return false;
     }
 
 

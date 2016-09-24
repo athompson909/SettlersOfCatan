@@ -35,6 +35,13 @@ public class ResourceBank {
         setDevCardList(newResBank.getDevCardList());
         setResourceList(newResBank.getResourceList());
     }
+
+    public boolean hasDevCards(){
+        return devCardList.isEmpty();
+    }
+
+
+
     //GETTERS
     public DevCardList getDevCardList() {
         return devCardList;

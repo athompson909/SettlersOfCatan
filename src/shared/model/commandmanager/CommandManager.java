@@ -23,16 +23,6 @@ public class CommandManager {
 
     }
 
-    //Do we want this function in the Manager?  We need to know what type of command it is and I think that will best
-    //be done by sending it from the controller using command.clientExec()
-    /**
-     * Sends the most recent command to the client.ClientFacade to be translated and executed
-     */
-    public void clientExec(BaseCommand command){
-        //command.clientExec(command);
-        //clientFacade.translate(command);//- create translate for the facade to use the translator?
-    }
-
     /**
      * Removes the last Command from the list
      */

@@ -6,7 +6,7 @@ import shared.model.map.VertexObject;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class BuildCityCommand extends BaseCommand {
+public class BuildCityCommand implements BaseCommand {
 
     /**
      * Contains owner and location of vertex where player is upgrading to city

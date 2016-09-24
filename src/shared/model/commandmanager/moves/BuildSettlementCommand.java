@@ -6,7 +6,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class BuildSettlementCommand extends BaseCommand {
+public class BuildSettlementCommand implements BaseCommand {
 
     /**
      * ID of player who is building settlement

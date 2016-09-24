@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class RollDiceCommand extends BaseCommand {
+public class RollDiceCommand implements BaseCommand {
     /**
      * number rolled
      */
@@ -15,7 +15,7 @@ public class RollDiceCommand extends BaseCommand {
      * @param number
      */
     public RollDiceCommand(int number){
-
+        this.number = number;
     }
 
     /**

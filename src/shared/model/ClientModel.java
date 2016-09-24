@@ -21,6 +21,7 @@ public class ClientModel {
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
     public int modelVersion = 0;
+    public int gameNumber;
 
     /**
      * The index of the player who won the game. -1 if no one has won yet.
