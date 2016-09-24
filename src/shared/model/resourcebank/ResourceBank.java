@@ -1,5 +1,7 @@
 package shared.model.resourcebank;
 
+import shared.definitions.DevCardType;
+
 /**
  * The Resource Bank contains a DevCardList and ResourceCardList,
  * and keeps track of all the available cards not owned by any player.
@@ -38,6 +40,10 @@ public class ResourceBank {
 
     public boolean hasDevCards(){
         return devCardList.isEmpty();
+    }
+
+    public DevCardType removeRandomDevCard(){
+        return devCardList.removeRandomCard();
     }
 
 

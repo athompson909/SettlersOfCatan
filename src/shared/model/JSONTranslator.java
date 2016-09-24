@@ -4,6 +4,7 @@ import com.google.gson.*;
 import org.json.JSONObject;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.map.BuildSettlement;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -26,13 +27,28 @@ public class JSONTranslator {
 
     /**
      * This Gson object can be reused as many times as you want
+     * we're just using it to access its translating functions
      */
     private Gson gsonConverter = new Gson();
+
+    /**
+     * This is the string that always is returned by the GsonTranslator (in each function)
+     */
+    private String stringResult = null;
+
+    /**
+     * This is the converted form of stringResult that will be modified/returned by each function
+     */
+    private JSONObject jsonObjectResult = null;
+
+
+
 
     /**
      * Constructor
      */
     public void JSONTranslator(){}
+
 
 
     /**
@@ -64,32 +80,327 @@ public class JSONTranslator {
     }
 
 
-    //COMMAND OBJECT TRANSLATORS ==================================================
 
+//COMMAND OBJECT TRANSLATORS ==================================================
+
+    //GAME COMMANDS~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     *
+     * @param addAICommandObj
+     * @return
+     */
     public JSONObject addAICmdToJSON(AddAICommand addAICommandObj) {
 
-        return null;
-    }
-
-    public JSONObject execGameCmdToJSON(ExecuteGameCommandsCommand execGameCmdsCommandObj) {
 
         return null;
     }
 
+    /**
+     *
+     * @param execGameCmdsCommandObj
+     * @return
+     */
+    public JSONObject execGameCmdsCmdToJSON(ExecuteGameCommandsCommand execGameCmdsCommandObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param fetchNewModelCmdObj
+     * @return
+     */
     public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
 
         return null;
     }
 
+    /**
+     *
+     * @param gameCreateCmdObj
+     * @return
+     */
     public JSONObject gameCreateCmdToJSON(GameCreateCommand gameCreateCmdObj) {
 
         return null;
     }
 
+    /**
+     *
+     * @param gameJoinCmdObj
+     * @return
+     */
     public JSONObject gameJoinCmdToJSON(GameJoinCommand gameJoinCmdObj) {
 
         return null;
     }
 
+    /**
+     *
+     * @param gameListCmdObj
+     * @return
+     */
+    public JSONObject gameListCmdToJSON(GameListCommand gameListCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param gameResetCmdObj
+     * @return
+     */
+    public JSONObject gameResetCmdToJSON(GameResetCommand gameResetCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param gameSaveCmdObj
+     * @return
+     */
+    public JSONObject gameSaveCmdToJSON(GameSaveCommand gameSaveCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param getGameCmdsCmdObj
+     * @return
+     */
+    public JSONObject getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param listAICmdObj
+     * @return
+     */
+    public JSONObject listAICmdToJSON(ListAICommand listAICmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param loginCmdObj
+     * @return
+     */
+    public JSONObject loginCmdToJSON(LoginCommand loginCmdObj){
+
+        return null;
+    }
+
+    /**
+     *
+     * @param registerCmdObj
+     * @return
+     */
+    public JSONObject registerCmdToJSON(RegisterCommand registerCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *  This will work for both Log messages and Chat messages
+     *
+     * @param sendChatCmdObj
+     * @return
+     */
+    public JSONObject sendChatCmdToJSON(SendChatCommand sendChatCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param utilChangeLogLevelCmdObj
+     * @return
+     */
+    public JSONObject utilChangeLogLevelCmdToJSON(UtilChangeLogLevelCommand utilChangeLogLevelCmdObj) {
+
+        return null;
+    }
+
+
+
+    //GAME COMMANDS~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     *
+     * @param acceptTradeCmd
+     * @return
+     */
+    public JSONObject acceptTradeCmdToJSON(AcceptTradeCommand acceptTradeCmd) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param buildCityCmd
+     * @return
+     */
+    public JSONObject buildCityCmdToJSON(BuildCityCommand buildCityCmd) {
+
+        stringResult = gsonConverter.toJson(buildCityCmd);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+
+    /**
+     *
+     * @param buildRoadCmd
+     * @return
+     */
+    public JSONObject buildRoadCmdToJSON(BuildRoadCommand buildRoadCmd) {
+
+        stringResult = gsonConverter.toJson(buildRoadCmd);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+
+    /**
+     *
+     * @param buildSettlementCmd
+     * @return
+     */
+    public JSONObject buildSettlementCmdToJSON(BuildSettlementCommand buildSettlementCmd) {
+
+        stringResult = gsonConverter.toJson(buildSettlementCmd);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+
+    /**
+     *
+     * @param discardCmdObj
+     * @return
+     */
+    public JSONObject discardCmdToJSON(DiscardCommand discardCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param endTurnCmd
+     * @return
+     */
+    public JSONObject endTurnCmdToJSON(EndTurnCommand endTurnCmd) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param maritimeTradeCmdObj
+     * @return
+     */
+    public JSONObject maritimeTradeCmdToJSON(MaritimeTradeCommand maritimeTradeCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param offerTradeCmdObj
+     * @return
+     */
+    public JSONObject offerTradeCmdToJSON(OfferTradeCommand offerTradeCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param playMonopolyCmdObj
+     * @return
+     */
+    public JSONObject playMonopolyCmdToJSON(PlayMonopolyCommand playMonopolyCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param playMonumentCmdObj
+     * @return
+     */
+    public JSONObject playMonumentCmdToJSON(PlayMonumentCommand playMonumentCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param playRoadBuilderCmdObj
+     * @return
+     */
+    public JSONObject playRoadBuilderCmdToJSON(PlayRoadBuilderCommand playRoadBuilderCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param playSoldierCmdObj
+     * @return
+     */
+    public JSONObject playSoldierCmdToJSON(PlaySoldierCommand playSoldierCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param playYearOfPlentyCmdObj
+     * @return
+     */
+    public JSONObject playYearOfPlentyCmdToJSON(PlayYearOfPlentyCommand playYearOfPlentyCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param purchaseDevCardCmdObj
+     * @return
+     */
+    public JSONObject purchaseDevDardCmdToJSON(PurchaseDevCardCommand purchaseDevCardCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param robPlayerCommandCmdObj
+     * @return
+     */
+    public JSONObject robPlayerCmdToJSON(RobPlayerCommand robPlayerCommandCmdObj) {
+
+        return null;
+    }
+
+    /**
+     *
+     * @param rollDiceCmdObj
+     * @return
+     */
+    public JSONObject rollDiceCmdToJSON(RollDiceCommand rollDiceCmdObj) {
+
+        return null;
+    }
 
 }

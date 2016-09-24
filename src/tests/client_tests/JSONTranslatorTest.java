@@ -1,23 +1,47 @@
 package tests.client_tests;
 
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import junit.framework.TestCase;
 import com.google.gson.*;
+import shared.model.JSONTranslator;
+import shared.model.commandmanager.moves.*;
+import shared.model.commandmanager.game.*;
+
 
 /**
- * This is the first JUnit test for the JSONTranslator class.
+ * This is the JUnit test for the JSONTranslator class.
  * I'm mainly using it to experiment with/understand Gson.
  *
  * Created by Sierra on 9/23/16.
  */
 public class JSONTranslatorTest extends TestCase {
 
-    String testResponseBody = null;
+    private JSONTranslator jsonTranslator = new JSONTranslator();
+    private String testResponseBody = null;
+    private Gson gsonTest = new Gson();
+    private BuildRoadCommand buildRoadCommand;
+
 
     public void setUp() throws Exception {
         super.setUp();
 
-    // This is an actual server response body:
+        setUpModelString();
+
+        //BUILD ROAD CMD SETUP
+        //-----------------
+        int bRPlayerID = 2;
+        EdgeDirection bREdgeDir = EdgeDirection.NorthEast;
+        HexLocation brELHexLoc = new HexLocation(1,1);
+        EdgeLocation bREdgeLocation = new EdgeLocation(brELHexLoc, bREdgeDir);
+        buildRoadCommand = new BuildRoadCommand(bREdgeLocation, bRPlayerID);
+        //-----------------
+
+    }
+    private void setUpModelString(){
+        // This is an actual server response body:
         testResponseBody = " {\n" +
                 "  \"deck\": {\n" +
                 "    \"yearOfPlenty\": 2,\n" +
@@ -309,19 +333,19 @@ public class JSONTranslatorTest extends TestCase {
                 "  ],\n" +
                 "  \"log\": {\n" +
                 "    \"lines\": [" +
-                        "{" +
-                        "\"message\": \"LOG YO\"," +
-                        "\"source\": \"baconl\"" +
-                        "}" +
-                    "]\n" +
+                "{" +
+                "\"message\": \"LOG YO\"," +
+                "\"source\": \"baconl\"" +
+                "}" +
+                "]\n" +
                 "  },\n" +
                 "  \"chat\": {\n" +
                 "    \"lines\": [" +
-                        "{" +
-                        "\"message\": \"CHAT YO\"," +
-                        "\"source\": \"baconc\"" +
-                        "}" +
-                    "]\n" +
+                "{" +
+                "\"message\": \"CHAT YO\"," +
+                "\"source\": \"baconc\"" +
+                "}" +
+                "]\n" +
                 "  },\n" +
                 "  \"bank\": {\n" +
                 "    \"brick\": 24,\n" +
@@ -341,17 +365,13 @@ public class JSONTranslatorTest extends TestCase {
                 "}" ;
     }
 
-    public void testGson() throws Exception {
-        System.out.println(">I'M TESTING!!!");
-
+    public void testModelTranslation() throws Exception {
+        System.out.println(">I'M TESTING MODEL TRANSLATION!");
         System.out.println("Test JSON string: \n");
         System.out.println(testResponseBody);
-
         System.out.println("========================");
 
-
-        //Gson functionality
-        Gson gsonTest = new Gson();
+        //Gson translating
         ClientModel newClientModel = gsonTest.fromJson(testResponseBody, ClientModel.class);
 
         System.out.println("\n==============");
@@ -365,6 +385,17 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("\t ChatList= " + newClientModel.getChat().getLines().get(0).getMessage());
         System.out.println("========================");
 
+    }
+
+    public void testBuildRoadCmdTranslation() throws Exception{
+        System.out.println(">TESTING BUILDROADCMD TRANSLATION!");
+
+        String buildRoadCmdJSONResult = gsonTest.toJson(buildRoadCommand);
+
+        System.out.println("\n==============");
+        System.out.println("Just serialized buildRoadCmd, JSONstring result= ");
+        System.out.println(buildRoadCmdJSONResult);
+        System.out.println("=================");
     }
 
 }

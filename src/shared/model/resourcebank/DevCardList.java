@@ -1,6 +1,9 @@
 package shared.model.resourcebank;
 
 import shared.definitions.DevCardType;
+import java.util.Random;
+
+import java.util.Random;
 
 /**
  * A DevCardList contains a list of all different types of development cards and how many of each one are in the list.
@@ -54,39 +57,42 @@ public class DevCardList {
         return false;
     }
 
-
-    /**
-     * Increments the soldierCardCount by one.
-     */
-    public void addSoldierCard(){
-
+    public void addDevCard(DevCardType newDevCard){
+        switch (newDevCard) {
+            case SOLDIER:
+                soldierCardCount++;
+                break;
+            case MONUMENT:
+                monumentCardCount++;
+                break;
+            case MONOPOLY:
+                monopolyCardCount++;
+                break;
+            case ROAD_BUILD:
+                roadBuildingCardCount++;
+                break;
+            case YEAR_OF_PLENTY:
+                yearOfPlentyCardCount++;
+        }
     }
 
-    /**
-     * Increments the monumentCardCount by one.
+
+    //TODO: This function still needs to get implemented
+    /*
+    Pre-condition:
      */
-    public void addMonumentCard(){
+    public DevCardType removeRandomCard(){
+        /*
+        int totalCards = soldierCardCount + monumentCardCount + yearOfPlentyCardCount + roadBuildingCardCount + monopolyCardCount;
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(totalCards) + 1;
+        if (soldierCardCount - randomIndex == 0){
+            return DevCardType.SOLDIER;
+        }
+        */
+        soldierCardCount--;
+        return DevCardType.SOLDIER;
 
-    }
-
-    /**
-     * Increments the yearOfPlentyCardCount by one.
-     */
-    public void addYearOfPlentyCard(){
-
-    }
-
-    /**
-     * Increments the roadBuildingCardCount by one.
-     */
-    public void addRoadBuildingCard(){
-
-    }
-
-    /**
-     * Increments the monopolyCardCount by one.
-     */
-    public void addMonopolyCard(){
 
     }
 
