@@ -1,5 +1,7 @@
 package client;
 
+import org.json.*;
+
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.game.*;
@@ -30,11 +32,6 @@ public class ClientFacade {
     This means the facade needs
      */
 
-
-    /*
-     * public or private for these? not sure   -Sierra
-     * data members should be private - Alise
-     */
     /**
      * Translates to and from JSON
      */
@@ -60,8 +57,8 @@ public class ClientFacade {
      *
      * @param updatedClientModel
      */
-    public void sendUpdatedModel(JsonElement updatedClientModel){
-
+    public void sendUpdatedModel(ClientModel updatedClientModel){
+        clientUpdateManager.delegateUpdates(updatedClientModel);
     }
 
 
@@ -237,8 +234,11 @@ public class ClientFacade {
     titled “client Model JSON Documentation”
      * @param version
      */
-    public String gameModelVersion(int version) {
-        return "true";
+    public void gameModelVersion(int version) {
+        JSONObject jsonToSend = jsonTranslator.translateModelVersionNumber(version);
+        JSONObject jsonNewModel = serverProxy.gameModelVersion(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.translateModel(jsonNewModel);
+        clientUpdateManager.delegateUpdates(updatedModel);
     }
 
     /**
