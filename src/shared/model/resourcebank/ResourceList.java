@@ -33,7 +33,6 @@ public class ResourceList {
     }
 
 
-
     /**
      * Update function to modify the model.
      * @param newResourceList to replace the existing resource list.

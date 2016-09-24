@@ -1,5 +1,6 @@
 package shared.model;
 
+import shared.definitions.DevCardType;
 import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
@@ -64,6 +65,10 @@ public class ClientModel {
     public ClientUpdateManager updateManager;
 
 
+    public ClientModel (int gameNumber){
+        this.gameNumber = gameNumber;
+    }
+
     /**
      * Takes the incoming JSONObject (newModel) coming from the server and forwards it on to
      * ClientUpdateManager so the data can be distributed properly to the objects in ClientModel.
@@ -73,6 +78,70 @@ public class ClientModel {
     public void UpdateClientModel(ClientModel newModel){
         updateManager.delegateUpdates(newModel);
     }
+
+
+    //CAN METHODS
+    public boolean canPurchaseRoad(int playerIndex){
+        return players[playerIndex].canPurchaseRoad();
+    }
+
+    public boolean canPurchaseSettlement(int playerIndex){
+        return players[playerIndex].canPurchaseSettlement();
+    }
+
+    public boolean canPurchaseCity(int playerIndex){
+        return players[playerIndex].canPurchaseCity();
+    }
+
+    public boolean canPurchaseDevCard(int playerIndex){
+        return (players[playerIndex].canPurchaseDevelopmentCard() && resourceBank.hasDevCards());
+    }
+
+    public boolean canPlaySolider(int playerIndex){
+        return (players[playerIndex].canPlaySoldierCard());
+    }
+
+    public boolean canPlayMonument(int playerIndex){
+        return (players[playerIndex].canPlayMonumentCard());
+    }
+
+    public boolean canPlayRoadBuilding(int playerIndex){
+        return (players[playerIndex].canPlayRoadBuildingCard());
+    }
+
+    public boolean canPlayMonopoly(int playerIndex){
+        return (players[playerIndex].canPlayMonopolyCard());
+    }
+
+    public boolean canPlayYearOfPlenty(int playerIndex){
+        return (players[playerIndex].canPlayYearOfPlentyCard());
+    }
+
+    //DO METHODS
+    public void purchaseRoad(int playerIndex){
+        players[playerIndex].purchaseRoad();
+    }
+
+    public void purcahseSettlement(int playerIndex){
+        players[playerIndex].purchaseSettlement();
+    }
+
+    public void purchaseCity(int playerIndex){
+        players[playerIndex].purchaseCity();
+    }
+
+    public void purchaseDevCard(int playerIndex){
+        DevCardType purcahsedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
+        players[playerIndex].purchaseDevelopmentCard(purcahsedDevCard); //Send to player
+    }
+
+    public void playSoldierCard(int playerIndex){
+        
+
+    }
+
+
+
 
     //GETTERS
     public int getModelVersion() {return modelVersion;}

@@ -1,6 +1,7 @@
 package shared.model.player;
 
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
 
@@ -144,11 +145,17 @@ public class Player { //
     /**
      * Purchases a new dev card, which uses 1 Sheep, 1 Wheat, and 1 Ore
      */
-    public void purchaseDevelopmentCard() {
+    public void purchaseDevelopmentCard(DevCardType newDevCard) {
         playerResourceList.decOreCardCount(1);
         playerResourceList.decSheepCardCount(1);
         playerResourceList.decWheatCardCount(1);
+        newDevCardList.addDevCard(newDevCard);
     }
+
+    public void playSoldierCard() {
+        newDevCardList.removeSoldierCard();
+    }
+
 
 
     //CLIENT SIDE FUNCTIONS
@@ -157,9 +164,9 @@ public class Player { //
      * @return true if the player has the required resources to purchase a road.
      */
     public boolean canPurchaseRoad() {
-        if (playerResourceList.getBrickCardCount() > 1
-                && playerResourceList.getWoodCardCount() > 1
-                && roadCount > 1) {
+        if (playerResourceList.getBrickCardCount() >= 1
+                && playerResourceList.getWoodCardCount() >= 1
+                && roadCount > 0) {
             return true;
         }
         return false;
@@ -169,11 +176,11 @@ public class Player { //
      * @return true if the player has the required resources to purchase a settlement.
      */
     public boolean canPurchaseSettlement() {
-        if (playerResourceList.getBrickCardCount() > 1
-                && playerResourceList.getWoodCardCount() > 1
-                && playerResourceList.getSheepCardCount() > 1
-                && playerResourceList.getWheatCardCount() > 1
-                && settlementCount > 1) {
+        if (playerResourceList.getBrickCardCount() >= 1
+                && playerResourceList.getWoodCardCount() >= 1
+                && playerResourceList.getSheepCardCount() >= 1
+                && playerResourceList.getWheatCardCount() >= 1
+                && settlementCount > 0) {
             return true;
         }
         return false;
@@ -183,9 +190,9 @@ public class Player { //
      * @return true if the player has the required resources to purchase a city.
      */
     public boolean canPurchaseCity() {
-        if (playerResourceList.getWheatCardCount() > 2
-                && playerResourceList.getOreCardCount() > 3
-                && cityCount > 1) {
+        if (playerResourceList.getWheatCardCount() >= 2
+                && playerResourceList.getOreCardCount() >= 3
+                && cityCount > 0) {
             return true;
         }
         return false;
@@ -195,14 +202,13 @@ public class Player { //
      * @return true if the player has the required resources to purchase a Development Card.
      */
     public boolean canPurchaseDevelopmentCard() {
-        if (playerResourceList.getOreCardCount() > 1
-                && playerResourceList.getSheepCardCount() > 1
-                && playerResourceList.getWheatCardCount() > 1) {
+        if (playerResourceList.getOreCardCount() >= 1
+                && playerResourceList.getSheepCardCount() >= 1
+                && playerResourceList.getWheatCardCount() >= 1) {
             return true;
         }
         return false;
     }
-
 
     /**
      * @return true if the player can play development cards
@@ -218,7 +224,7 @@ public class Player { //
      * @return true if the player can play a solider card.
      */
     public boolean canPlaySoldierCard() {
-        if (oldDevCardList.getSoldierCardCount() > 1) {
+        if (oldDevCardList.getSoldierCardCount() > 0) {
             return true;
         }
         return false;
@@ -228,7 +234,7 @@ public class Player { //
      * @return true if the player can play a monument card.
      */
     public boolean canPlayMonumentCard() {
-        if (oldDevCardList.getMonumentCardCount() > 1) {
+        if (oldDevCardList.getMonumentCardCount() > 0) {
             return true;
         }
         return false;
@@ -238,7 +244,7 @@ public class Player { //
      * @return true if the player can play a YearOfPlenty card.
      */
     public boolean canPlayYearOfPlentyCard() {
-        if (oldDevCardList.getYearOfPlentyCardCount() > 1) {
+        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
             return true;
         }
         return false;
@@ -248,7 +254,7 @@ public class Player { //
      * @return true if the player can play a RoadBuilding card.
      */
     public boolean canPlayRoadBuildingCard() {
-        if (oldDevCardList.getYearOfPlentyCardCount() > 1) {
+        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
             return true;
         }
         return false;
@@ -258,7 +264,7 @@ public class Player { //
      * @return true if the player can play a Monopoly card.
      */
     public boolean canPlayMonopolyCard() {
-        if (oldDevCardList.getMonopolyCardCount() > 1) {
+        if (oldDevCardList.getMonopolyCardCount() > 0) {
             return true;
         }
         return false;
