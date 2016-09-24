@@ -1,7 +1,7 @@
 package shared.model.commandmanager.moves;
 
 import shared.model.commandmanager.BaseCommand;
-import shared.model.resourcebank.Resource;
+import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -15,7 +15,7 @@ public class PlayMonopolyCommand extends BaseCommand {
     /**
      * Resource player is calling monopoly on
      */
-    Resource resource;
+    ResourceType resource;
 
     /**
      * Creates PlayMonopolyCommand object to be sent to client.ClientFacade
@@ -26,7 +26,7 @@ public class PlayMonopolyCommand extends BaseCommand {
      * @param index
      * @param res
      */
-    public PlayMonopolyCommand(int index, Resource res){
+    public PlayMonopolyCommand(int index, ResourceType res){
         playerIndex = index;
         resource = res;
     }

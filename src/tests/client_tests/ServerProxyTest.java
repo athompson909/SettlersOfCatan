@@ -46,11 +46,19 @@ public class ServerProxyTest extends TestCase {
 
         assertEquals("Success", serverProxy.userLogin(loginJson));
 
+        String str = serverProxy.getLoginCookie();
+
+        JSONObject badLoginJson = new JSONObject(badLoginStr);
+
+        assertEquals("http error: bad request", badLoginStr);
+
     }
 
     public void testUserRegister() {
 
         JSONObject loginJson = new JSONObject(loginStr);
+
+        String str = serverProxy.getRegisterCookie();
 
         assertEquals("http error: bad request", serverProxy.userRegister(loginJson));
 

@@ -19,13 +19,23 @@ import java.net.URL;
  */
 public class ServerProxy implements IServerProxy {
 
+    private boolean isLogin = false;
+
+    private boolean isRegister = false;
+
     /**
      * the cookie returned when userLogin(...) is ran
+     *  "all subsequent web service calls
+     * should include an HTTP Cookie header that includes both the catan.user and
+     * catan.game cookies"
      */
     private String loginCookie;
 
     /**
      * the cookie returned when userRegister(...) is ran
+     *  "all subsequent web service calls
+     * should include an HTTP Cookie header that includes both the catan.user and
+     * catan.game cookies"
      */
     private String registerCookie;
 
@@ -33,12 +43,12 @@ public class ServerProxy implements IServerProxy {
         return loginCookie;
     }
 
-    public void setLoginCookie(String loginCookie) {
-        this.loginCookie = loginCookie;
-    }
-
     public String getRegisterCookie() {
         return registerCookie;
+    }
+
+    public void setLoginCookie(String loginCookie) {
+        this.loginCookie = loginCookie;
     }
 
     public void setRegisterCookie(String registerCookie) {
@@ -65,11 +75,15 @@ public class ServerProxy implements IServerProxy {
             connection.setDoOutput(true);
             connection.connect();
 
+            //at some point: setCookies();
+
             OutputStream requestBody = connection.getOutputStream();
             requestBody.write(postData.getBytes());
             requestBody.close();
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+                getCookies(connection);
 
                 InputStream responseBody = connection.getInputStream();
 
@@ -100,12 +114,26 @@ public class ServerProxy implements IServerProxy {
     }
 
     /**
+     *
+     * @param connection
+     */
+    private void getCookies(HttpURLConnection connection) {
+
+        if (isLogin) {
+            setLoginCookie(connection.getHeaderFields().get("Set-cookie").get(0));
+            isLogin = false;
+        }
+        if (isRegister) {
+            setRegisterCookie(connection.getHeaderFields().get("Set-cookie").get(0));
+            isRegister = false;
+        }
+    }
+
+    /**
      * HTTP Get Method
      *
      * @param url the url determined by other methods within IServerProxy
      * @return response from http
-     *
-     * todo: test (isolate in a JUnit test)
      */
     @Override
     public String httpGet(String url) {
@@ -173,12 +201,9 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String userLogin(JSONObject json) {
 
+        isLogin = true;
         String urlStr = "http://localhost:8081/user/login";
-        String response = httpPost(urlStr, json.toString());
-        if(response.equals("Success")) {
-            //get cookie
-        }
-        return response;
+        return httpPost(urlStr, json.toString());
     }
 
     /**
@@ -203,6 +228,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String userRegister(JSONObject json) {
 
+        isRegister = true;
         String urlStr = "http://localhost:8081/user/register";
         return httpPost(urlStr, json.toString());
     }
