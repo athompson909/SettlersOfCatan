@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 /**
  *
@@ -120,11 +121,16 @@ public class ServerProxy implements IServerProxy {
     private void getCookies(HttpURLConnection connection) {
 
         if (isLogin) {
-            setLoginCookie(connection.getHeaderFields().get("Set-cookie").get(0));
+            String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
+            // to take off the unneeded parts of the header:
+            String undecodedLoginCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
+            setLoginCookie(URLDecoder.decode(undecodedLoginCookie));
             isLogin = false;
         }
         if (isRegister) {
-            setRegisterCookie(connection.getHeaderFields().get("Set-cookie").get(0));
+            String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
+            String undecodedRegisterCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
+            setRegisterCookie(URLDecoder.decode(undecodedRegisterCookie));
             isRegister = false;
         }
     }

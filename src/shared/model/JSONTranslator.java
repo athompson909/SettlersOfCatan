@@ -1,6 +1,9 @@
 package shared.model;
 
 import com.google.gson.*;
+import org.json.JSONObject;
+import shared.model.commandmanager.game.*;
+import shared.model.commandmanager.moves.*;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -22,6 +25,11 @@ public class JSONTranslator {
     private ClientModel newClientModel = new ClientModel();
 
     /**
+     * This Gson object can be reused as many times as you want
+     */
+    private Gson gsonConverter = new Gson();
+
+    /**
      * Constructor
      */
     public void JSONTranslator(){}
@@ -30,18 +38,18 @@ public class JSONTranslator {
     /**
      * TranslateModel() can take in either a string or a JSON,
      * and uses Gson to convert it to normal objects to send to UpdateManager.
-     * The HTTP Request body comes back as JSON, so I'm keeping the param as Gson's JsonElement type for now
+     * But first convert the incoming JSONObject to a String so Gson is happy!
      *
-     * this function might need to throw an exception, maybe JsonSyntaxException like Gson.fromJson() does
-     *
-     * @param newModelJSON - this is the huge JSON string/object coming back directly from the server
+     * @throws JsonSyntaxException - this is Gson's exception
+     * @param newModelJSON - this is the huge JSON string coming back directly from the server
      * @return newClientModel - the new ClientModel object created from the server's response JSON
      */
-    public ClientModel translateModel(JsonElement newModelJSON) throws Exception {
+    public ClientModel translateModel(JSONObject newModelJSON) throws JsonSyntaxException {
 
-        //this Gson object can be reused as many times as you want
-        Gson gsonTest = new Gson();
-        newClientModel = gsonTest.fromJson(newModelJSON, ClientModel.class);
+        String modelJSONString = newModelJSON.toString();
+
+        //this fromJson() takes in a JSON string and the template class, and returns a complete ClientModel object
+        newClientModel = gsonConverter.fromJson(modelJSONString, ClientModel.class);
 
         return newClientModel;
     }
@@ -51,10 +59,21 @@ public class JSONTranslator {
      * @param num
      * @return
      */
-    public JsonElement translateModelVersionNumber(int num)
+    public JSONObject translateModelVersionNumber(int num)
     {
         return null;
     }
+
+
+    //COMMAND OBJECT TRANSLATORS ==================================================
+
+    public JSONObject translateAddAICommand(AddAICommand addAICommandObj)
+    {
+        return null;
+    }
+
+
+
 
 
 }
