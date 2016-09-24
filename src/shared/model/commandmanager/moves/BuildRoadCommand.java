@@ -6,7 +6,7 @@ import shared.locations.EdgeLocation;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class BuildRoadCommand extends BaseCommand {
+public class BuildRoadCommand implements BaseCommand {
 
     /**
      * ID of player who is building settlement

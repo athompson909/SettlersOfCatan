@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PurchaseDevCardCommand extends BaseCommand {
+public class PurchaseDevCardCommand implements BaseCommand {
     /**
      * int 0-3 of player
      */
@@ -16,7 +16,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
      * @param playerIndex
      */
     public PurchaseDevCardCommand(int playerIndex){
-
+        this.playerIndex = playerIndex;
     }
 
     /**

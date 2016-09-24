@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class EndTurnCommand extends BaseCommand {
+public class EndTurnCommand implements BaseCommand {
 
     /**
      * index of player finishing turn
@@ -21,7 +21,7 @@ public class EndTurnCommand extends BaseCommand {
      * @param index
      */
     public EndTurnCommand(int index){
-
+        this.playerIndex = index;
     }
 
     /**

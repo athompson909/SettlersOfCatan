@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameSaveCommand extends BaseCommand {
+public class GameSaveCommand implements BaseCommand {
     /**
      * id of game to save
      */
@@ -14,15 +14,16 @@ public class GameSaveCommand extends BaseCommand {
     /**
      * name of file to create
      */
-    private File fileName;
+    private String fileName;
 
     /**
      * CreatesGameSaveCommand to send to the client.ClientFacade. Sets data members.
      * @param gameID
      * @param fileName
      */
-    public GameSaveCommand(int gameID, File fileName){
-
+    public GameSaveCommand(int gameID, String fileName){
+        this.gameID = gameID;
+        this.fileName = fileName;
     }
 
     /**
@@ -32,5 +33,15 @@ public class GameSaveCommand extends BaseCommand {
     @Override
     public void serverExec(BaseCommand command){
 
+    }
+
+    //Getters
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }

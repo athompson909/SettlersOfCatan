@@ -6,7 +6,7 @@ import shared.definitions.ResourceType;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayYearOfPlentyCommand extends BaseCommand {
+public class PlayYearOfPlentyCommand implements BaseCommand {
     /**
      * int 0-3 of player using card
      */
@@ -29,7 +29,9 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
      * @param resource2
      */
     public PlayYearOfPlentyCommand(int playerIndex, ResourceType resource1, ResourceType resource2){
-
+        this.playerIndex = playerIndex;
+        this.resource1 = resource1;
+        this.resource2 = resource2;
     }
 
     /**

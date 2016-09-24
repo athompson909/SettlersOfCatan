@@ -6,7 +6,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayRoadBuilderCommand extends BaseCommand {
+public class PlayRoadBuilderCommand implements BaseCommand {
 
     /**
      * Index of player playing roadBuilding card
@@ -32,7 +32,9 @@ public class PlayRoadBuilderCommand extends BaseCommand {
      * @param edgeLocation2
      */
     public PlayRoadBuilderCommand(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2){
-
+        this.playerIndex = playerIndex;
+        locationONE = edgeLocation1;
+        locationTWO = edgeLocation2;
     }
 
     /**

@@ -6,7 +6,7 @@ import shared.definitions.ResourceType;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class MaritimeTradeCommand extends BaseCommand {
+public class MaritimeTradeCommand implements BaseCommand {
 
     /**
      * Index of player involved in maritime trade
@@ -37,7 +37,10 @@ public class MaritimeTradeCommand extends BaseCommand {
      * @param outputResource
      */
     public MaritimeTradeCommand(int index, int rat, ResourceType inputResource, ResourceType outputResource){
-
+        this.playerIndex = index;
+        this.ratio = rat;
+        this.toTrade = inputResource;
+        this.toReceive = outputResource;
     }
 
     /**
