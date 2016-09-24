@@ -435,7 +435,10 @@ public class ClientFacade {
      * @param command
      */
     public void buildRoad(BuildRoadCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.buildRoadToJSON(command);
+        JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -451,7 +454,10 @@ public class ClientFacade {
      * @param command
      */
     public void buildSettlement(BuildSettlementCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.buildSettToJSON(command);
+        JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -464,7 +470,10 @@ public class ClientFacade {
      * @param command
      */
     public void buildCity(BuildCityCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.buildCityToJSON(command);
+        JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -474,7 +483,13 @@ public class ClientFacade {
      * @param command
      */
     public void offerTrade(OfferTradeCommand command){
-
+        // I THINK THIS ONE IS GOING TO BE A LITTLE DIFFERENT THAN THE OTHERS
+        // It will display an offer screen to the other user and they have to create
+        // an acceptTradeCommand object to send back... -Steph
+        JSONObject jsonToSend = jsonTranslator.offerTradeToJSON(command);
+        JSONObject jsonNewModel = serverProxy.offerTrade(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -487,7 +502,10 @@ public class ClientFacade {
      * @param command
      */
     public void acceptTrade(AcceptTradeCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.acceptTradeToJSON(command);
+        JSONObject jsonNewModel = serverProxy.acceptTrade(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -499,7 +517,10 @@ public class ClientFacade {
      * @param command
      */
     public void maritimeTrade(MaritimeTradeCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.maritimeTradeToJSON(command);
+        JSONObject jsonNewModel = serverProxy.maritimeTrade(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -512,7 +533,10 @@ public class ClientFacade {
      * @param command
      */
     public void robPlayer(RobPlayerCommand command){
-
+        JSONObject jsonToSend = jsonTranslator.robPlayerToJSON(command);
+        JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
+        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        sendUpdatedModel(updatedModel);
     }
 
     /**
@@ -526,7 +550,7 @@ public class ClientFacade {
      * @param command
      */
     public void purchaseDevCard(PurchaseDevCardCommand command){
-
+        
     }
 
     /**
