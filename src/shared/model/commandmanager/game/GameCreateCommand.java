@@ -47,4 +47,21 @@ public class GameCreateCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+    public String getName() {
+        return name;
+    }
+
+    public boolean isRandomTiles() {
+        return randomTiles;
+    }
+
+    public boolean isRandomNumbers() {
+        return randomNumbers;
+    }
+
+    public boolean isRandomPorts() {
+        return randomPorts;
+    }
 }

@@ -34,4 +34,14 @@ public class RegisterCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

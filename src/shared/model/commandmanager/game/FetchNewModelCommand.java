@@ -27,4 +27,9 @@ public class FetchNewModelCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+    public int getVersion() {
+        return version;
+    }
 }

@@ -34,4 +34,14 @@ public class SendChatCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }

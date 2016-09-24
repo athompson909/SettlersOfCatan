@@ -34,4 +34,14 @@ public class GameSaveCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 }

@@ -34,4 +34,14 @@ public class GameJoinCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public CatanColor getColor() {
+        return color;
+    }
 }

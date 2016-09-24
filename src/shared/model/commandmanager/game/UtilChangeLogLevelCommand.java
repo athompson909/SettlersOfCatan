@@ -27,4 +27,10 @@ public class UtilChangeLogLevelCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+
+    public LoggingLevel getLoggingLevel() {
+        return loggingLevel;
+    }
 }
