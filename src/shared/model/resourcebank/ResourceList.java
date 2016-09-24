@@ -149,6 +149,4 @@ public class ResourceList {
         return oreCardCount;
     }
 
-
-
 }
