@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class ListAICommand extends BaseCommand {
+public class ListAICommand implements BaseCommand {
     /**
      * Creates ListAICommand to send to the client.ClientFacade
      */

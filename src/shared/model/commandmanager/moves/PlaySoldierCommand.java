@@ -6,7 +6,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlaySoldierCommand extends BaseCommand {
+public class PlaySoldierCommand implements BaseCommand {
 
     /**
      * Index of player placing the robber

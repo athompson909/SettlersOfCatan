@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class LoginCommand extends BaseCommand {
+public class LoginCommand implements BaseCommand {
     /**
      * name the user chose
      */
@@ -22,7 +22,8 @@ public class LoginCommand extends BaseCommand {
      * @param password
      */
     LoginCommand(String username, String password){
-
+        this.username = username;
+        this.password = password;
     }
 
     /**
@@ -32,5 +33,15 @@ public class LoginCommand extends BaseCommand {
     @Override
     public void serverExec(BaseCommand command){
 
+    }
+
+    //Getters
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

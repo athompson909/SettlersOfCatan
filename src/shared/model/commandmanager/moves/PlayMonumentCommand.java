@@ -5,7 +5,7 @@ import shared.model.commandmanager.BaseCommand;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayMonumentCommand extends BaseCommand {
+public class PlayMonumentCommand implements BaseCommand {
 
     /**
      * Index of player playing monument card
@@ -21,7 +21,7 @@ public class PlayMonumentCommand extends BaseCommand {
      * @param index
      */
     public PlayMonumentCommand(int index){
-
+        playerIndex = index;
     }
 
     /**

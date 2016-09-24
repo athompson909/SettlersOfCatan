@@ -6,7 +6,7 @@ import shared.model.resourcebank.ResourceList;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class OfferTradeCommand extends BaseCommand {
+public class OfferTradeCommand implements BaseCommand {
 
     /**
      * playerIndex of player offering trade

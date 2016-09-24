@@ -5,7 +5,7 @@ import shared.definitions.CatanColor;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameJoinCommand extends BaseCommand {
+public class GameJoinCommand implements BaseCommand {
     /**
      * id of game player wants to join
      */
@@ -22,7 +22,8 @@ public class GameJoinCommand extends BaseCommand {
      * @param color
      */
     public GameJoinCommand(int gameID, CatanColor color){
-
+        this.gameID = gameID;
+        this.color = color;
     }
 
     /**
@@ -32,5 +33,15 @@ public class GameJoinCommand extends BaseCommand {
     @Override
     public void serverExec(BaseCommand command){
 
+    }
+
+    //Getters
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public CatanColor getColor() {
+        return color;
     }
 }
