@@ -156,6 +156,22 @@ public class Player { //
         newDevCardList.removeSoldierCard();
     }
 
+    public void playMonumentCard() {
+        newDevCardList.removeMonopolyCard();
+    }
+
+    public void playRoadBuildingCard() {
+        newDevCardList.removeRoadBuildingCard();
+    }
+
+    public void playMonopolyCard() {
+        newDevCardList.removeMonopolyCard();
+    }
+
+    public void playYearOfPlentyCard() {
+        newDevCardList.removeYearOfPlentyCard();
+    }
+
 
 
     //CLIENT SIDE FUNCTIONS

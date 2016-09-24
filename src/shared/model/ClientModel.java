@@ -136,8 +136,23 @@ public class ClientModel {
     }
 
     public void playSoldierCard(int playerIndex){
-        
+        players[playerIndex].playSoldierCard();
+    }
 
+    public void playMonumentCard(int playerIndex){
+        players[playerIndex].playMonumentCard();
+    }
+
+    public void playRoadBuildingCard(int playerIndex){
+        players[playerIndex].playRoadBuildingCard();
+    }
+
+    public void playYearOfPlentyCard(int playerIndex){
+        players[playerIndex].playYearOfPlentyCard();
+    }
+
+    public void playMonopolyCard(int playerIndex){
+        players[playerIndex].playMonopolyCard();
     }
 
 
