@@ -1,7 +1,7 @@
 package shared.model.commandmanager.moves;
 
 import shared.model.commandmanager.BaseCommand;
-import shared.model.resourcebank.Resource;
+import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -17,13 +17,13 @@ public class MaritimeTradeCommand extends BaseCommand {
      */
     int ratio;
     /**
-     * Resource being given to the bank
+     * ResourceType being given to the bank
      */
-    Resource toTrade;
+    ResourceType toTrade;
     /**
-     * Resource being received from bank
+     * ResourceType being received from bank
      */
-    Resource toReceive;
+    ResourceType toReceive;
 
     /**
      * Creates MaritimeTradeCommand object to be sent to client.ClientFacade
@@ -36,7 +36,7 @@ public class MaritimeTradeCommand extends BaseCommand {
      * @param inputResource
      * @param outputResource
      */
-    public MaritimeTradeCommand(int index, int rat, Resource inputResource, Resource outputResource){
+    public MaritimeTradeCommand(int index, int rat, ResourceType inputResource, ResourceType outputResource){
 
     }
 
@@ -44,7 +44,7 @@ public class MaritimeTradeCommand extends BaseCommand {
      * Calls all necessary update functions
      *
      * Calls Player update methods to reflect change in hand
-     * Calls ResourceBan update methods to reflect change in
+     * Calls ResourceTypeBan update methods to reflect change in
      * recources in bank
      *
      * @param BC
