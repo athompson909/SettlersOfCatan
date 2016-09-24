@@ -23,7 +23,7 @@ public class Client {
     private ServerProxy serverProxy;
 
     public Client() {
-        clientFacade = new ClientFacade();
+        //clientFacade = new ClientFacade();
         serverPoller = new ServerPoller();
         commandManager = new CommandManager();
         clientModel = new ClientModel();
