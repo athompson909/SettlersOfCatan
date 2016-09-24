@@ -1,7 +1,5 @@
 package client;
 
-import org.json.JSONObject;
-import server.ServerProxy;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.game.*;

@@ -1,4 +1,4 @@
-package server;
+package client;
 import exceptions.ClientException;
 import org.json.JSONObject;
 

@@ -1,6 +1,6 @@
 package tests.client_tests;
 
-import server.ServerProxy;
+import client.ServerProxy;
 import junit.framework.TestCase;
 import org.json.JSONObject;
 
@@ -50,7 +50,7 @@ public class ServerProxyTest extends TestCase {
 
         JSONObject badLoginJson = new JSONObject(badLoginStr);
 
-        assertEquals("http error: bad request", badLoginStr);
+        assertEquals("http error: bad request", serverProxy.userLogin(badLoginJson));
 
     }
 
