@@ -11,14 +11,14 @@ import shared.model.messagemanager.MessageManager;
  * ClientUpdateManager receives the new model piece objects created by the JSONTranslator
  * (after the server sends back the updated model), and uses the data
  * contained within to update the existing ClientModel objects.
- *
+ * <p>
  * Created by Sierra on 9/18/16.
  */
 public class ClientUpdateManager {
 
     ClientModel currentModel;
 
-    public ClientUpdateManager (ClientModel currModel) {
+    public ClientUpdateManager(ClientModel currModel) {
         currentModel = currModel;
     }
 
@@ -27,7 +27,7 @@ public class ClientUpdateManager {
      * was parsed successfully. If it was, we save that new ClientModel here and give it to delegateUpdates()
      * to be distributed to the existing model.
      */
-    public void getNewModel(){
+    public void getNewModel() {
 
     }
 
@@ -36,7 +36,7 @@ public class ClientUpdateManager {
      * who got it from translating the update the server sent,
      * and splits it into smaller objects to give to the subsequent individual update functions.
      */
-    public void delegateUpdates(ClientModel newModel){
+    public void delegateUpdates(ClientModel newModel) {
         Map currMap = currentModel.map;
         Map newMap = newModel.map;
         updateMap(currMap, newMap);
@@ -65,7 +65,7 @@ public class ClientUpdateManager {
         // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
 
     }
-    
+
     /**
      * updateMap() takes the updated Map object from delegateUpdates(), extracts its smaller
      * objects, and sends them to the subsequent small update functions.
@@ -77,13 +77,14 @@ public class ClientUpdateManager {
     }
 
 //-----------------
+
     /**
      * updatePlayer() takes the updated Player object from delegateUpdates(), extracts its smaller
      * objects, and sends them to the subsequent small update functions.
      *
      * @param newPlayer the updated Player object
      */
-    private void updatePlayer(Player currPlayer, Player newPlayer){
+    private void updatePlayer(Player currPlayer, Player newPlayer) {
         currPlayer.updatePlayer(newPlayer);
     }
 
@@ -95,7 +96,7 @@ public class ClientUpdateManager {
      *
      * @param newMessageMgr the updated MessageManager object
      */
-    private void updateMessageManager(MessageManager currMessageMgr, MessageManager newMessageMgr){
+    private void updateMessageManager(MessageManager currMessageMgr, MessageManager newMessageMgr) {
         currMessageMgr.updateMessageManager(newMessageMgr);
     }
 
@@ -107,7 +108,7 @@ public class ClientUpdateManager {
      *
      * @param newTurnTracker the updated TurnTracker object
      */
-    private void updateTurnTracker(TurnTracker currTurnTracker, TurnTracker newTurnTracker){
+    private void updateTurnTracker(TurnTracker currTurnTracker, TurnTracker newTurnTracker) {
         currTurnTracker.updateTurnTracker(newTurnTracker);
     }
 //-----------------
@@ -118,7 +119,7 @@ public class ClientUpdateManager {
      *
      * @param newRBank the updated ResourceBank object
      */
-    private void updateResourceBank(ResourceBank currResourceBank, ResourceBank newRBank){
+    private void updateResourceBank(ResourceBank currResourceBank, ResourceBank newRBank) {
         currResourceBank.updateResourceBank(newRBank);
     }
 
@@ -127,13 +128,14 @@ public class ClientUpdateManager {
     private void updateModelVersion(int newModelVersion) {
         currentModel.setModelVersion(newModelVersion);
     }
+
     /**
      * updateTradeOffer() gets the updated TradeOffer object from updateMap(),
      * and uses it to update the data in the existing ClientModel's TradeOffer.
      *
      * @param newTradeOffer the new TradeOffer object containing updated data
      */
-    private void updateTradeOffer(TradeOffer newTradeOffer){
+    private void updateTradeOffer(TradeOffer newTradeOffer) {
 
     }
 
