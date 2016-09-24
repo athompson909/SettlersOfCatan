@@ -243,7 +243,7 @@ public class ClientFacade {
      * @param version
      */
     public String gameModelVersion(int version) {
-        JsonElement json = JSONTranslator.
+        JsonElement json = JSONTranslator.translateModelVersion(version);
         serverProxy.gameModelVersion()
         return "true";
     }
