@@ -37,14 +37,7 @@ public class ClientUpdateManager {
      * to be distributed to the existing model.
      */
     public void getNewModel(){
-        /*
-        if (jsonTranslator.translateModel()) {
 
-        }
-        else {
-            System.out.println(">ClientUpdateMgr: unable to get new model obj from JSONTranslator");
-        }
-        */
     }
 
 

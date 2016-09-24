@@ -57,16 +57,6 @@ public class ClientFacade {
     }
 
     /**
-     * THIS IS JUST AN IDEA! *********
-     * This function gives the ClientUpdateManager the JsonElement from the server responseBody.
-     * ClientUpdateManager gives that JsonElement to its personal JSONTranslator slave thing.
-     * JSONTranslator reports back whether it was able to parse the ClientModel object from the JsonElement.
-     * If it was, ClientUpdateManager uses that new ClientModel in its delegateUpdates() function
-     * and distributes the newly parsed data to the existing ClientModel.
-     * Ya dig me?
-     *
-     * Also, where exactly is the updatedClientModel object coming from?
-     * Like which class actually gets the server's response back? ServerProxy I think?
      *
      * @param updatedClientModel
      */
