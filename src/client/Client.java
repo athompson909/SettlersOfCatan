@@ -3,8 +3,6 @@ package client;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.CommandManager;
-import server.ServerPoller;
-import server.ServerProxy;
 
 /**
  *

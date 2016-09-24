@@ -1,4 +1,4 @@
-package server;
+package client;
 import org.json.*;
 
 import java.io.ByteArrayOutputStream;
