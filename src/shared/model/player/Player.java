@@ -10,9 +10,8 @@ import shared.model.resourcebank.ResourceList;
 public class Player { //
 
 
-
     /**
-     *  The color of this player.
+     * The color of this player.
      */
     private CatanColor color;
 
@@ -23,7 +22,7 @@ public class Player { //
 
     /**
      * The unique playerID. This is used to pick the client player apart from the
-     others. This is only used here and in your cookie.,
+     * others. This is only used here and in your cookie.,
      */
     int playerID;
 
@@ -50,17 +49,17 @@ public class Player { //
     /**
      * How many cities this player has left to play,
      */
-    int cities = 4;
+    int cityCount = 4;
 
     /**
      * How many settlements this player has left to play,
      */
-    int settlements = 5;
+    int settlementCount = 5;
 
     /**
      * How many roads this player has left to play,
      */
-    int roads = 15;
+    int roadCount = 15;
 
     /**
      * Cards in the players hand
@@ -90,24 +89,25 @@ public class Player { //
 
     /**
      * Constructor for creating a new player.
+     *
      * @param color
      * @param name
      * @param playerID
      * @param playerIndex
      */
-    public Player(CatanColor color, String name, int playerID, int playerIndex){
+    public Player(CatanColor color, String name, int playerID, int playerIndex) {
         this.color = color;
         this.name = name;
         this.playerID = playerID;
         this.playerIndex = playerIndex;
-
     }
 
     /**
      * Updates the player through the server.
+     *
      * @param player The new player object to use.
      */
-    public void update(Player player){
+    public void update(Player player) {
 
     }
 
@@ -117,29 +117,37 @@ public class Player { //
     /**
      * Purchases a new road, which uses 1 Brick and 1 Wood
      */
-    public void purchaseRoad(){
-
+    public void purchaseRoad() {
+        playerResourceList.decWoodCardCount(1);
+        playerResourceList.decBrickCardCount(1);
     }
 
     /**
      * Purchases a new settlement, which uses 1 Wood, 1 Brick, 1 Sheep, and 1 Wheat
      */
-    public void purchaseSettlement(){
-
+    public void purchaseSettlement() {
+        playerResourceList.decBrickCardCount(1);
+        playerResourceList.decWoodCardCount(1);
+        playerResourceList.decSheepCardCount(1);
+        playerResourceList.decWheatCardCount(1);
     }
 
     /**
      * Purchases a new road, which uses 2 Wheat and 3 Ore
      */
-    public void purchaseCity(){
+    public void purchaseCity() {
+        playerResourceList.decOreCardCount(3);
+        playerResourceList.decWheatCardCount(2);
 
     }
 
     /**
      * Purchases a new dev card, which uses 1 Sheep, 1 Wheat, and 1 Ore
      */
-    public void purchaseDevelopmentCard(){
-
+    public void purchaseDevelopmentCard() {
+        playerResourceList.decOreCardCount(1);
+        playerResourceList.decSheepCardCount(1);
+        playerResourceList.decWheatCardCount(1);
     }
 
 
@@ -149,13 +157,25 @@ public class Player { //
      * @return true if the player has the required resources to purchase a road.
      */
     public boolean canPurchaseRoad() {
-       return false;
+        if (playerResourceList.getBrickCardCount() > 1
+                && playerResourceList.getWoodCardCount() > 1
+                && roadCount > 1) {
+            return true;
+        }
+        return false;
     }
 
     /**
      * @return true if the player has the required resources to purchase a settlement.
      */
     public boolean canPurchaseSettlement() {
+        if (playerResourceList.getBrickCardCount() > 1
+                && playerResourceList.getWoodCardCount() > 1
+                && playerResourceList.getSheepCardCount() > 1
+                && playerResourceList.getWheatCardCount() > 1
+                && settlementCount > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -163,6 +183,11 @@ public class Player { //
      * @return true if the player has the required resources to purchase a city.
      */
     public boolean canPurchaseCity() {
+        if (playerResourceList.getWheatCardCount() > 2
+                && playerResourceList.getOreCardCount() > 3
+                && cityCount > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -170,22 +195,32 @@ public class Player { //
      * @return true if the player has the required resources to purchase a Development Card.
      */
     public boolean canPurchaseDevelopmentCard() {
+        if (playerResourceList.getOreCardCount() > 1
+                && playerResourceList.getSheepCardCount() > 1
+                && playerResourceList.getWheatCardCount() > 1) {
+            return true;
+        }
         return false;
     }
-
 
 
     /**
      * @return true if the player can play development cards
      */
     public boolean canPlayDevelopmentCards() {
-        return false;
+        if (isPlayedDevCard()) { //If the player has already played a Dev card
+            return false;
+        }
+        return true;
     }
 
     /**
      * @return true if the player can play a solider card.
      */
     public boolean canPlaySoldierCard() {
+        if (oldDevCardList.getSoldierCardCount() > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -193,6 +228,9 @@ public class Player { //
      * @return true if the player can play a monument card.
      */
     public boolean canPlayMonumentCard() {
+        if (oldDevCardList.getMonumentCardCount() > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -200,6 +238,9 @@ public class Player { //
      * @return true if the player can play a YearOfPlenty card.
      */
     public boolean canPlayYearOfPlentyCard() {
+        if (oldDevCardList.getYearOfPlentyCardCount() > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -207,6 +248,9 @@ public class Player { //
      * @return true if the player can play a RoadBuilding card.
      */
     public boolean canPlayRoadBuildingCard() {
+        if (oldDevCardList.getYearOfPlentyCardCount() > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -214,6 +258,9 @@ public class Player { //
      * @return true if the player can play a Monopoly card.
      */
     public boolean canPlayMonopolyCard() {
+        if (oldDevCardList.getMonopolyCardCount() > 1) {
+            return true;
+        }
         return false;
     }
 
@@ -232,7 +279,9 @@ public class Player { //
     }
 
     //GETTERS
-    public CatanColor getColor() {return color;}
+    public CatanColor getColor() {
+        return color;
+    }
 
     public String getName() {
         return name;
@@ -259,15 +308,15 @@ public class Player { //
     }
 
     public int getCities() {
-        return cities;
+        return cityCount;
     }
 
     public int getSettlements() {
-        return settlements;
+        return settlementCount;
     }
 
     public int getRoads() {
-        return roads;
+        return roadCount;
     }
 
     public ResourceList getPlayerResourceList() {
@@ -290,16 +339,48 @@ public class Player { //
         return discarded;
     }
 
-    //SETTERS
-    public void setVictoryPoints(int numVict) {victoryPoints = numVict;}
-    public void setMonuments(int numMon) {monuments = numMon;}
-    public void setSoldiersPlayed(int numSoldiers) {soldiersPlayed = numSoldiers;}
-    public void setCities(int numCit) {cities = numCit;}
-    public void setSettlements(int numSett) {settlements = numSett;}
-    public void setRoads(int numRoads) {roads = numRoads;}
-    public void setPlayerResourceList(ResourceList list) {playerResourceList = list;}
-    public void setOldDevCardList(DevCardList list) {oldDevCardList = list;}
-    public void setNewDevCardList(DevCardList list) {newDevCardList = list;}
-    public void setPlayedDevCard(boolean playedDev) {playedDevCard = playedDev;}
-    public void setDiscarded(boolean disc) {discarded = disc;}
+    //SETTERS - Possibly don't need these, leaving as private for now
+    private void setVictoryPoints(int numVict) {
+        victoryPoints = numVict;
+    }
+
+    private void setMonuments(int numMon) {
+        monuments = numMon;
+    }
+
+    private void setSoldiersPlayed(int numSoldiers) {
+        soldiersPlayed = numSoldiers;
+    }
+
+    private void setCities(int numCit) {
+        cityCount = numCit;
+    }
+
+    private void setSettlements(int numSett) {
+        settlementCount = numSett;
+    }
+
+    private void setRoads(int numRoads) {
+        roadCount = numRoads;
+    }
+
+    private void setPlayerResourceList(ResourceList list) {
+        playerResourceList = list;
+    }
+
+    private void setOldDevCardList(DevCardList list) {
+        oldDevCardList = list;
+    }
+
+    private void setNewDevCardList(DevCardList list) {
+        newDevCardList = list;
+    }
+
+    private void setPlayedDevCard(boolean playedDev) {
+        playedDevCard = playedDev;
+    }
+
+    private void setDiscarded(boolean disc) {
+        discarded = disc;
+    }
 }
