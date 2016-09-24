@@ -32,11 +32,6 @@ public class ClientFacade {
     This means the facade needs
      */
 
-
-    /*
-     * public or private for these? not sure   -Sierra
-     * data members should be private - Alise
-     */
     /**
      * Translates to and from JSON
      */
@@ -72,8 +67,8 @@ public class ClientFacade {
      *
      * @param updatedClientModel
      */
-    public void sendUpdatedModel(JsonElement updatedClientModel){
-
+    public void sendUpdatedModel(ClientModel updatedClientModel){
+        clientUpdateManager.delegateUpdates(updatedClientModel);
     }
 
 
@@ -250,6 +245,8 @@ public class ClientFacade {
      * @param version
      */
     public String gameModelVersion(int version) {
+        JsonElement json = JSONTranslator.
+        serverProxy.gameModelVersion()
         return "true";
     }
 
