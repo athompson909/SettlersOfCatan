@@ -22,13 +22,13 @@ public class ClientModel {
      * .
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
-    public int modelVersion = 0;
+    public int version = 0;
     public int gameNumber;
 
     /**
      * The index of the player who won the game. -1 if no one has won yet.
      */
-    public int gameWinner = -1;
+    public int winner = -1;
 
     public ResourceBank resourceBank;
     public MessageManager messageManager;
@@ -200,8 +200,8 @@ public class ClientModel {
     }
 
     //GETTERS
-    public int getModelVersion() {return modelVersion;}
-    public int getGameWinner() {return gameWinner;}
+    public int getVersion() {return version;}
+    public int getWinner() {return winner;}
     public ResourceBank getResourceBank() {return resourceBank;}
     public MessageManager getMessageManager() {return messageManager;}
     public TurnTracker getTurnTracker() {return turnTracker;}
@@ -213,8 +213,10 @@ public class ClientModel {
     public ClientUpdateManager getUpdateManager() {return updateManager;}
 
     //SETTERS
-    public void setModelVersion(int newModVer) {modelVersion = newModVer;}
-    public void setGameWinner(int newGameWinner) {gameWinner = newGameWinner;}
+    public void setVersion(int newModVer) {
+        version = newModVer;}
+    public void setWinner(int newGameWinner) {
+        winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
     public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
     /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/

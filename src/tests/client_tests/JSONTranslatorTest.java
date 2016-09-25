@@ -7,8 +7,8 @@ import shared.model.ClientModel;
 import junit.framework.TestCase;
 import com.google.gson.*;
 import shared.model.JSONTranslator;
-import shared.model.commandmanager.moves.*;
 import shared.model.commandmanager.game.*;
+import shared.model.commandmanager.moves.*;
 
 
 /**
@@ -22,6 +22,7 @@ public class JSONTranslatorTest extends TestCase {
     private JSONTranslator jsonTranslator = new JSONTranslator();
     private String testResponseBody = null;
     private Gson gsonTest = new Gson();
+    private GameJoinCommand gameJoinCommand;
     private BuildRoadCommand buildRoadCommand;
 
 
@@ -29,6 +30,13 @@ public class JSONTranslatorTest extends TestCase {
         super.setUp();
 
         setUpModelString();
+
+        //GAME JOIN CMD SETUP
+        //-----------------
+
+        //-----------------
+
+
 
         //BUILD ROAD CMD SETUP
         //-----------------
@@ -367,17 +375,17 @@ public class JSONTranslatorTest extends TestCase {
 
     public void testModelTranslation() throws Exception {
         System.out.println(">I'M TESTING MODEL TRANSLATION!");
-        System.out.println("Test JSON string: \n");
-        System.out.println(testResponseBody);
-        System.out.println("========================");
+        //System.out.println("Test JSON string: \n");
+        //System.out.println(testResponseBody);
+        //System.out.println("========================");
 
         //Gson translating
         ClientModel newClientModel = gsonTest.fromJson(testResponseBody, ClientModel.class);
 
         System.out.println("\n==============");
         System.out.println("Just deserialized testResponseBody, newClientModel info:");
-        System.out.println("\t verNo= " + newClientModel.getModelVersion());
-        System.out.println("\t winner= " + newClientModel.getGameWinner());
+        System.out.println("\t verNo= " + newClientModel.getVersion());
+        System.out.println("\t winner= " + newClientModel.getWinner());
         System.out.println("\t MapRadius= " + newClientModel.getMap().getRadius());
         System.out.println("\t Map#Hexes= " + newClientModel.getMap().getHexes().size());
         System.out.println("\t Map#Ports= " + newClientModel.getMap().getPorts().size());
@@ -392,9 +400,18 @@ public class JSONTranslatorTest extends TestCase {
 
         String buildRoadCmdJSONResult = gsonTest.toJson(buildRoadCommand);
 
-        System.out.println("\n==============");
         System.out.println("Just serialized buildRoadCmd, JSONstring result= ");
         System.out.println(buildRoadCmdJSONResult);
+        System.out.println("=================");
+    }
+
+    public void testGameJoinCmdTranslation() throws Exception{
+        System.out.println(">TESTING GAMEJOINCMD TRANSLATION!");
+
+        String gameJoinCmdJSONResult = gsonTest.toJson(gameJoinCommand);
+
+        System.out.println("Just serialized gameJoinCmd, JSONstring result= ");
+        System.out.println(gameJoinCmdJSONResult);
         System.out.println("=================");
     }
 
