@@ -26,7 +26,7 @@ public class Player { //
      * The unique playerID. This is used to pick the client player apart from the
      * others. This is only used here and in your cookie.,
      */
-    private int playerID;
+    private String playerID;
 
     /**
      * What place in the array is this player? 0-3. It determines their turn order.
@@ -99,7 +99,7 @@ public class Player { //
      * @param playerID
      * @param playerIndex
      */
-    public Player(CatanColor color, String name, int playerID, int playerIndex) {
+    public Player(CatanColor color, String name, String playerID, int playerIndex) {
         this.color = color;
         this.name = name;
         this.playerID = playerID;
@@ -116,8 +116,133 @@ public class Player { //
     }
 
 
-    //SERVER SIDE FUNCTIONS:
+    //CAN FUNCTIONS
+    /**
+     * @return true if the player has the required resources to purchase a road.
+     */
+    public boolean canPurchaseRoad() {
+        if (playerResourceList.getBrickCardCount() >= 1
+                && playerResourceList.getWoodCardCount() >= 1
+                && roadCount > 0) {
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * @return true if the player has the required resources to purchase a settlement.
+     */
+    public boolean canPurchaseSettlement() {
+        if (playerResourceList.getBrickCardCount() >= 1
+                && playerResourceList.getWoodCardCount() >= 1
+                && playerResourceList.getSheepCardCount() >= 1
+                && playerResourceList.getWheatCardCount() >= 1
+                && settlementCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player has the required resources to purchase a city.
+     */
+    public boolean canPurchaseCity() {
+        if (playerResourceList.getWheatCardCount() >= 2
+                && playerResourceList.getOreCardCount() >= 3
+                && cityCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player has the required resources to purchase a Development Card.
+     */
+    public boolean canPurchaseDevelopmentCard() {
+        if (playerResourceList.getOreCardCount() >= 1
+                && playerResourceList.getSheepCardCount() >= 1
+                && playerResourceList.getWheatCardCount() >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player can play development cards
+     */
+    public boolean canPlayDevelopmentCards() {
+        //If the player has already played a Dev card
+        if (playedDevCard) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return true if the player can play a solider card.
+     */
+    public boolean canPlaySoldierCard() {
+        if (oldDevCardList.getSoldierCardCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player can play a monument card.
+     */
+    public boolean canPlayMonumentCard() {
+        if (oldDevCardList.getMonumentCardCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player can play a YearOfPlenty card.
+     */
+    public boolean canPlayYearOfPlentyCard() {
+        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player can play a RoadBuilding card.
+     */
+    public boolean canPlayRoadBuildingCard() {
+        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the player can play a Monopoly card.
+     */
+    public boolean canPlayMonopolyCard() {
+        if (oldDevCardList.getMonopolyCardCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public void updatePlayer(Player newPlayer) {
+        setVictoryPoints(newPlayer.getVictoryPoints());
+        setMonuments(newPlayer.getMonuments());
+        setSoldiersPlayed(newPlayer.getSoldiersPlayed());
+        setCityCount(newPlayer.getCityCount());
+        setSettlementCount(newPlayer.getSettlementCount());
+        setRoadCount(newPlayer.getRoadCount());
+        setPlayerResourceList(newPlayer.getPlayerResourceList());
+        setOldDevCardList(newPlayer.getOldDevCardList());
+        setNewDevCardList(newPlayer.getNewDevCardList());
+        setPlayedDevCard(newPlayer.hasPlayedDevCard());
+        setDiscarded(newPlayer.hasDiscarded());
+    }
+
+    //DO METHODS:
     /**
      * Purchases a new road, which uses 1 Brick and 1 Wood
      */
@@ -177,7 +302,7 @@ public class Player { //
     public void playRoadBuildingCard() {
         newDevCardList.removeRoadBuildingCard();
         playedDevCard = true;
-        //TODO: Lose one-two road pieces? Or have map remove those?
+        //TODO: Lose one - two road pieces? Or have map remove those?
     }
 
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {
@@ -215,132 +340,7 @@ public class Player { //
     }
 
 
-    //CLIENT SIDE FUNCTIONS
 
-    /**
-     * @return true if the player has the required resources to purchase a road.
-     */
-    public boolean canPurchaseRoad() {
-        if (playerResourceList.getBrickCardCount() >= 1
-                && playerResourceList.getWoodCardCount() >= 1
-                && roadCount > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player has the required resources to purchase a settlement.
-     */
-    public boolean canPurchaseSettlement() {
-        if (playerResourceList.getBrickCardCount() >= 1
-                && playerResourceList.getWoodCardCount() >= 1
-                && playerResourceList.getSheepCardCount() >= 1
-                && playerResourceList.getWheatCardCount() >= 1
-                && settlementCount > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player has the required resources to purchase a city.
-     */
-    public boolean canPurchaseCity() {
-        if (playerResourceList.getWheatCardCount() >= 2
-                && playerResourceList.getOreCardCount() >= 3
-                && cityCount > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player has the required resources to purchase a Development Card.
-     */
-    public boolean canPurchaseDevelopmentCard() {
-        if (playerResourceList.getOreCardCount() >= 1
-                && playerResourceList.getSheepCardCount() >= 1
-                && playerResourceList.getWheatCardCount() >= 1) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player can play development cards
-     */
-    public boolean canPlayDevelopmentCards() {
-        if (hasPlayedDevCard()) { //If the player has already played a Dev card
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @return true if the player can play a solider card.
-     */
-    public boolean canPlaySoldierCard() {
-        if (oldDevCardList.getSoldierCardCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player can play a monument card.
-     */
-    public boolean canPlayMonumentCard() {
-        if (oldDevCardList.getMonumentCardCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player can play a YearOfPlenty card.
-     */
-    public boolean canPlayYearOfPlentyCard() {
-        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player can play a RoadBuilding card.
-     */
-    public boolean canPlayRoadBuildingCard() {
-        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return true if the player can play a Monopoly card.
-     */
-    public boolean canPlayMonopolyCard() {
-        if (oldDevCardList.getMonopolyCardCount() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public void updatePlayer(Player newPlayer) {
-        setVictoryPoints(newPlayer.getVictoryPoints());
-        setMonuments(newPlayer.getMonuments());
-        setSoldiersPlayed(newPlayer.getSoldiersPlayed());
-        setCities(newPlayer.getCities());
-        setSettlements(newPlayer.getSettlements());
-        setRoads(newPlayer.getRoads());
-        setPlayerResourceList(newPlayer.getPlayerResourceList());
-        setOldDevCardList(newPlayer.getOldDevCardList());
-        setNewDevCardList(newPlayer.getNewDevCardList());
-        setPlayedDevCard(newPlayer.hasPlayedDevCard());
-        setDiscarded(newPlayer.hasDiscarded());
-    }
 
     //GETTERS
     public CatanColor getColor() {
@@ -351,7 +351,7 @@ public class Player { //
         return name;
     }
 
-    public int getPlayerID() {
+    public String getPlayerID() {
         return playerID;
     }
 
@@ -371,15 +371,15 @@ public class Player { //
         return soldiersPlayed;
     }
 
-    public int getCities() {
+    public int getCityCount() {
         return cityCount;
     }
 
-    public int getSettlements() {
+    public int getSettlementCount() {
         return settlementCount;
     }
 
-    public int getRoads() {
+    public int getRoadCount() {
         return roadCount;
     }
 
@@ -416,15 +416,15 @@ public class Player { //
         soldiersPlayed = numSoldiers;
     }
 
-    private void setCities(int numCit) {
+    private void setCityCount(int numCit) {
         cityCount = numCit;
     }
 
-    private void setSettlements(int numSett) {
+    private void setSettlementCount(int numSett) {
         settlementCount = numSett;
     }
 
-    private void setRoads(int numRoads) {
+    private void setRoadCount(int numRoads) {
         roadCount = numRoads;
     }
 

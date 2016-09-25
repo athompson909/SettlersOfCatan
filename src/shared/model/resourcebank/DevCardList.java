@@ -1,6 +1,8 @@
 package shared.model.resourcebank;
 
 import shared.definitions.DevCardType;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 import java.util.Random;
@@ -77,23 +79,28 @@ public class DevCardList {
     }
 
 
-    //TODO: This function still needs to get implemented
-    /*
-    Pre-condition:
-     */
     public DevCardType removeRandomCard(){
-        /*
-        int totalCards = soldierCardCount + monumentCardCount + yearOfPlentyCardCount + roadBuildingCardCount + monopolyCardCount;
         Random rand = new Random();
-        int randomIndex = rand.nextInt(totalCards) + 1;
-        if (soldierCardCount - randomIndex == 0){
+        int randomIndex = rand.nextInt(getTotalCardCount()) + 1; //Get a random number between 1 and the total
+
+        //ArrayList<DevCardType> devCards = new ArrayList<DevCardType>();
+
+        if (soldierCardCount - randomIndex > 0){
+            soldierCardCount--;
             return DevCardType.SOLDIER;
+        } else if (soldierCardCount + monumentCardCount - randomIndex > 0) {
+            monumentCardCount--;
+            return DevCardType.MONUMENT;
+        } else if (soldierCardCount + monumentCardCount + yearOfPlentyCardCount - randomIndex > 0){
+            monumentCardCount--;
+            return DevCardType.MONUMENT;
+        } else if (soldierCardCount + monumentCardCount + yearOfPlentyCardCount + roadBuildingCardCount - randomIndex > 0){
+            roadBuildingCardCount--;
+            return DevCardType.ROAD_BUILD;
+        } else {
+            monopolyCardCount--;
+            return DevCardType.MONOPOLY;
         }
-        */
-        soldierCardCount--;
-        return DevCardType.SOLDIER;
-
-
     }
 
 
@@ -133,6 +140,10 @@ public class DevCardList {
     }
 
     //GETTERS
+    public int getTotalCardCount(){
+         return (soldierCardCount + monumentCardCount + yearOfPlentyCardCount + roadBuildingCardCount + monopolyCardCount);
+    }
+
     public int getSoldierCardCount() {
         return soldierCardCount;
     }

@@ -187,9 +187,7 @@ public class ResourceList {
      * @param amount to decrement woodCardCount by.
      * @return false if the resource list woodCardCount is less than the amount.
      */
-    public boolean decWoodCardCount(int amount) {
-        return false;
-    }
+    public void decWoodCardCount(int amount) {woodCardCount -= amount;}
 
     /**
      * Decrements the brickCardCount in the resource list.
@@ -197,8 +195,8 @@ public class ResourceList {
      * @param amount to decrement brickCardCount by.
      * @return false if the resource list brickCardCount is less than the amount.
      */
-    public boolean decBrickCardCount(int amount) {
-        return false;
+    public void decBrickCardCount(int amount) {
+        brickCardCount -= amount;
     }
 
     /**
@@ -207,8 +205,8 @@ public class ResourceList {
      * @param amount to decrement sheepCardCount by.
      * @return false if the resource list sheepCardCount is less than the amount.
      */
-    public boolean decSheepCardCount(int amount) {
-        return false;
+    public void decSheepCardCount(int amount) {
+        sheepCardCount -= amount;
     }
 
     /**
@@ -217,8 +215,8 @@ public class ResourceList {
      * @param amount to decrement wheatCardCount by.
      * @return false if the resource list wheatCardCount is less than the amount.
      */
-    public boolean decWheatCardCount(int amount) {
-        return false;
+    public void decWheatCardCount(int amount) {
+        wheatCardCount -= amount;
     }
 
     /**
@@ -227,8 +225,8 @@ public class ResourceList {
      * @param amount to decrement oreCardCount by.
      * @return false if the resource list oreCardCount is less than the amount.
      */
-    public boolean decOreCardCount(int amount) {
-        return false;
+    public void decOreCardCount(int amount) {
+        oreCardCount -= amount;
     }
 
 
