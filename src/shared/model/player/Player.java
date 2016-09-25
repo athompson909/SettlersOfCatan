@@ -296,13 +296,15 @@ public class Player { //
         newDevCardList.removeMonumentCard();
         monuments++;
         victoryPoints++;
-        playedDevCard = true;
+        //playedDevCard = true; //Monument
     }
 
-    public void playRoadBuildingCard() {
+    public void playRoadBuildingCard(int roadsUsed) {
+        for(int i = 0; i < roadsUsed; i++){
+            roadCount--;
+        }
         newDevCardList.removeRoadBuildingCard();
         playedDevCard = true;
-        //TODO: Lose one - two road pieces? Or have map remove those?
     }
 
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {
@@ -327,12 +329,18 @@ public class Player { //
         playedDevCard = true;
     }
 
+    /**
+     * Called when a monopoly is played.
+     * @param resource the resource being monopolized.
+     * @return the number of that resource in the player's hand.
+     */
     public int loseAllCardsOfType(ResourceType resource) {
         return playerResourceList.loseAllCardsOfType(resource);
     }
 
 
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
+        //TODO: Figure out where verification of these resources being available is done
         newDevCardList.removeYearOfPlentyCard();
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);

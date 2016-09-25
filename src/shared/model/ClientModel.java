@@ -149,8 +149,16 @@ public class ClientModel {
     }
 
     public void playRoadBuildingCard(int playerIndex){
-        //TODO: Access map and place 0-2 roads, decrement road count from player...
-        players[playerIndex].playRoadBuildingCard();
+        int roadsUsed = 0;
+        if(players[playerIndex].getRoadCount() > 0){
+            //TODO: Call maps road building function
+            roadsUsed++;
+        }
+        if(players[playerIndex].getRoadCount() > 0){
+            //TODO: Call maps road building function
+            roadsUsed++;
+        }
+        players[playerIndex].playRoadBuildingCard(roadsUsed);
     }
 
     public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){

@@ -92,7 +92,6 @@ public class PlayerTest extends TestCase {
         assert(!player.canPurchaseDevelopmentCard());
         assert (resourceBank.getDevCardList().getTotalCardCount() == 24);
         assert (player.getNewDevCardList().getTotalCardCount() == 2);
-
     }
 
 
