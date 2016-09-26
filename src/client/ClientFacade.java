@@ -1,13 +1,11 @@
 package client;
 
-import org.json.*;
-
+import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
+import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.JSONTranslator;
-import com.google.gson.JsonElement;
 
 /**
  *
@@ -58,6 +56,10 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
         clientUpdateManager.delegateUpdates(updatedClientModel);
+    }
+
+    public static void fetchModel() {
+
     }
 
     /**
@@ -252,7 +254,6 @@ public class ClientFacade {
     message.
     The format of the returned JSON can be found on the server’s Swagger page, or in the document
     titled “client Model JSON Documentation”
-     * @param version
      */
     public void gameModelVersion() {
         JSONObject jsonNewModel = serverProxy.gameModelVersion(version);
