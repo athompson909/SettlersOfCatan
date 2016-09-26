@@ -1,13 +1,11 @@
 package client;
 
-import org.json.*;
-
+import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
+import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.JSONTranslator;
-import com.google.gson.JsonElement;
 
 /**
  *
@@ -44,6 +42,8 @@ public class ClientFacade {
      */
     private ServerProxy serverProxy;
 
+    private int version = 0;
+
     public ClientFacade(ServerProxy serverProxy, ClientModel model) {
         this.serverProxy = serverProxy;
         jsonTranslator = new JSONTranslator();
@@ -56,6 +56,10 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
         clientUpdateManager.delegateUpdates(updatedClientModel);
+    }
+
+    public static void fetchModel() {
+
     }
 
     /**
@@ -250,11 +254,11 @@ public class ClientFacade {
     message.
     The format of the returned JSON can be found on the server’s Swagger page, or in the document
     titled “client Model JSON Documentation”
-     * @param version
      */
-    public void gameModelVersion(int version) {
+    public void gameModelVersion() {
         JSONObject jsonNewModel = serverProxy.gameModelVersion(version);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -405,6 +409,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.sendChatCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -418,6 +423,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.rollDiceCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -432,6 +438,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.endTurnCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -446,6 +453,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.discardCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.discardCards(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -465,6 +473,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.buildRoadCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -484,6 +493,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.buildSettlementCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -500,6 +510,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.buildCityCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -516,6 +527,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.offerTradeCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.offerTrade(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -532,6 +544,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.acceptTradeCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.acceptTrade(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -547,6 +560,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.maritimeTradeCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.maritimeTrade(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -563,6 +577,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.robPlayerCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -580,6 +595,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.purchaseDevDardCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.purchaseDevCard(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -601,6 +617,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.playSoldierCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playSoldier(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -614,6 +631,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.playYearOfPlentyCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playYearOfPlenty(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -633,6 +651,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.playRoadBuilderCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playRoadBuilding(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -647,6 +666,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.playMonopolyCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playMonopoly(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 
@@ -661,6 +681,7 @@ public class ClientFacade {
         JSONObject jsonToSend = jsonTranslator.playMonumentCmdToJSON(command);
         JSONObject jsonNewModel = serverProxy.playMonument(jsonToSend);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+        version = updatedModel.getVersion();
         sendUpdatedModel(updatedModel);
     }
 }
