@@ -55,15 +55,18 @@ public class Map {
      */
     private BuildingManager buildingManager;
 
+    private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
+
+    private static Iterator<Integer> numberIterator = numberOrder.iterator();
+
     /**
      * the constructor for a Map object
      * is called when a user starts a new game and the map needs to be created (in initialization mode)
      */
-    Map(boolean randomlyPlaceNumbers, boolean randomlyPlaceHexes, boolean randomlyPlacePorts) {
+    public Map(boolean randomlyPlaceNumbers, boolean randomlyPlaceHexes, boolean randomlyPlacePorts) {
         createAllWaterHexes();
         placeAllPorts(randomlyPlacePorts);
-        createAllLandHexes(randomlyPlaceHexes);
-        placeAllNumbers(randomlyPlaceNumbers); //TODO: How to approach this?
+        createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
     }
 
     private void createAllWaterHexes() {
@@ -141,59 +144,56 @@ public class Map {
         ports.put(hexLocation, newPort);
     }
 
-    private void createAllLandHexes(boolean randomlyPlaceHexes) {
-
-        //The default land hex order starting with the left column on the map and going downward.
+    private void createAllLandHexes(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers) {
+        //The default land hex order starting with the north most hex and spiraling inward clockwise
         List<HexType> landHexTypeOrder = Arrays.asList(
-                HexType.ORE, HexType.WHEAT, HexType.WOOD,
-                HexType.BRICK, HexType.SHEEP, HexType.SHEEP, HexType.ORE,
-                HexType.DESERT, HexType.WOOD, HexType.WHEAT, HexType.WOOD, HexType.WHEAT,
-                HexType.BRICK, HexType.ORE, HexType.BRICK, HexType.SHEEP,
-                HexType.WOOD, HexType.SHEEP, HexType.WHEAT);
+                HexType.DESERT, HexType.BRICK, HexType.WOOD, HexType.SHEEP, HexType.WHEAT,
+                HexType.SHEEP, HexType.WHEAT, HexType.ORE, HexType.WOOD, HexType.WHEAT, HexType.ORE,
+                HexType.BRICK, HexType.WOOD, HexType.ORE, HexType.BRICK, HexType.WOOD, HexType.SHEEP,
+                HexType.SHEEP, HexType.WHEAT);
 
-        if (randomlyPlaceHexes) {
-            //Shuffle the port order
+        if (randomlyPlaceHexes) { //Shuffle the hex order
             long seed = System.nanoTime();
             Collections.shuffle(landHexTypeOrder, new Random(seed));
         }
 
+        if(randomlyPlaceNumbers){ //shuffle the number order
+            long seed = System.nanoTime();
+            Collections.shuffle(numberOrder, new Random(seed));
+        }
+        numberIterator = numberOrder.iterator();
+
         //Create all 19 LandHexes at their specified coordinates
-        createLandHex(-2, 0, landHexTypeOrder.get(0));
-        createLandHex(-2, 1, landHexTypeOrder.get(1));
-        createLandHex(-2, 2, landHexTypeOrder.get(2));
-        createLandHex(-1, -1, landHexTypeOrder.get(3));
-        createLandHex(-1, 0, landHexTypeOrder.get(4));
-        createLandHex(-1, 1, landHexTypeOrder.get(5));
-        createLandHex(-1, 2, landHexTypeOrder.get(6));
-        createLandHex(0, -2, landHexTypeOrder.get(7));
-        createLandHex(0, -1, landHexTypeOrder.get(8));
-        createLandHex(0, 0, landHexTypeOrder.get(9));
-        createLandHex(0, 1, landHexTypeOrder.get(10));
-        createLandHex(0, 2, landHexTypeOrder.get(11));
-        createLandHex(1, -2, landHexTypeOrder.get(12));
-        createLandHex(1, -1, landHexTypeOrder.get(13));
-        createLandHex(1, 0, landHexTypeOrder.get(14));
-        createLandHex(1, 1, landHexTypeOrder.get(15));
-        createLandHex(2, -2, landHexTypeOrder.get(16));
-        createLandHex(2, -1, landHexTypeOrder.get(17));
-        createLandHex(2, 0, landHexTypeOrder.get(18));
+        createLandHex(0, -2, landHexTypeOrder.get(1)); //North Corner
+        createLandHex(1, -2, landHexTypeOrder.get(2));
+        createLandHex(2, -2, landHexTypeOrder.get(3)); //North East Corner
+        createLandHex(-1, 2, landHexTypeOrder.get(4));
+        createLandHex(2, 0, landHexTypeOrder.get(5)); //South East Corner
+        createLandHex(1, 1, landHexTypeOrder.get(6));
+        createLandHex(0, 2, landHexTypeOrder.get(7)); //South Corner
+        createLandHex(-1, 2, landHexTypeOrder.get(8));
+        createLandHex(-2, 2, landHexTypeOrder.get(9)); //South West Corner
+        createLandHex(-2, 1, landHexTypeOrder.get(10));
+        createLandHex(-2, 0, landHexTypeOrder.get(11)); //North West Corner
+        createLandHex(-1, -1, landHexTypeOrder.get(12));
+        createLandHex(0, -1, landHexTypeOrder.get(13)); //Above Center
+        createLandHex(1, -1, landHexTypeOrder.get(14));
+        createLandHex(1, 0, landHexTypeOrder.get(15));
+        createLandHex(0, 1, landHexTypeOrder.get(16)); //Below center
+        createLandHex(-1, 1, landHexTypeOrder.get(17));
+        createLandHex(-1, 0, landHexTypeOrder.get(18));
+        createLandHex(0, 0, landHexTypeOrder.get(19)); //Center
     }
 
-    private void createLandHex(int x, int y, HexType hexType){
+    private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
+        if (hexType != HexType.DESERT) {
+            landHex.setNumber(numberIterator.next());
+        }
         hexes.put(landHex.getLocation(), landHex);
     }
 
-    private void placeAllNumbers(boolean randomlyPlaceNumbers){
-        //TODO Implement placeALLNumbers
-        //Alphabet Order on Number pieces
-        List<Integer> numberOrder = Arrays.asList(5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11);
-        /*
-        if(hexType != HexType.DESERT){
-            landHex.setNumber(5);
-        }
-        */
-    }
+
 
     /**
      * Updates all map data members to match the newly updated model
