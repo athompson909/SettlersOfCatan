@@ -1,6 +1,7 @@
 package shared.model.map;
 
 import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -14,10 +15,7 @@ public class VertexObject {
      */
     private int owner;
 
-    /**
-     * Location of this vertex
-     */
-    private EdgeLocation location;
+    private VertexLocation vertexLocation;
 
     /**
      * @return PlayerID of owner
@@ -35,19 +33,11 @@ public class VertexObject {
         this.owner = owner;
     }
 
-    /**
-     * @return location of vertex
-     */
-    public EdgeLocation getLocation() {
-        return location;
+    public VertexLocation getVertexLocation() {
+        return vertexLocation;
     }
 
-    /**
-     * Sets location of vertex
-     *
-     * @param location Location of vertex
-     */
-    public void setLocation(EdgeLocation location) {
-        this.location = location;
+    public void setVertexLocation(VertexLocation vertexLocation) {
+        this.vertexLocation = vertexLocation;
     }
 }

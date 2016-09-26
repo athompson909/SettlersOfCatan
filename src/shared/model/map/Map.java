@@ -35,9 +35,9 @@ public class Map {
     private List<VertexObject> cities;
 
     /**
-     * radius of map (=4)
+     * radius of map (=3). The center is (0,0), and has 3 hexes in any direction (including ocean borders)
      */
-    private int radius;
+    private final int RADIUS = 3;
 
     /**
      * Robber object
@@ -59,6 +59,7 @@ public class Map {
     Map(boolean isRandom) {
 
     }
+
 
     /**
      * called if boolean isRandom is true in Map constructor
@@ -151,11 +152,7 @@ public class Map {
     }
 
     public int getRadius() {
-        return radius;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
+        return RADIUS;
     }
 
     public Robber getRobber() {
