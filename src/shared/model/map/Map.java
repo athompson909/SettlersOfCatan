@@ -63,8 +63,7 @@ public class Map {
         createAllWaterHexes();
         placeAllPorts(randomlyPlacePorts);
         createAllLandHexes(randomlyPlaceHexes);
-
-
+        placeAllNumbers(randomlyPlaceNumbers); //TODO: How to approach this?
     }
 
     private void createAllWaterHexes() {
@@ -102,7 +101,8 @@ public class Map {
 
     private void placeAllPorts(boolean randomlyPlacePorts) {
         //Default Port Order
-        List<PortType> resourcePortList = Arrays.asList(PortType.ORE, PortType.BRICK, PortType.WOOD, PortType.WHEAT, PortType.SHEEP);
+        List<PortType> resourcePortList = Arrays.asList(
+                PortType.ORE, PortType.BRICK, PortType.WOOD, PortType.WHEAT, PortType.SHEEP);
 
         if (randomlyPlacePorts) {
             //Shuffle the port order
@@ -143,46 +143,56 @@ public class Map {
 
     private void createAllLandHexes(boolean randomlyPlaceHexes) {
 
+        //The default land hex order starting with the left column on the map and going downward.
+        List<HexType> landHexTypeOrder = Arrays.asList(
+                HexType.ORE, HexType.WHEAT, HexType.WOOD,
+                HexType.BRICK, HexType.SHEEP, HexType.SHEEP, HexType.ORE,
+                HexType.DESERT, HexType.WOOD, HexType.WHEAT, HexType.WOOD, HexType.WHEAT,
+                HexType.BRICK, HexType.ORE, HexType.BRICK, HexType.SHEEP,
+                HexType.WOOD, HexType.SHEEP, HexType.WHEAT);
+
+        if (randomlyPlaceHexes) {
+            //Shuffle the port order
+            long seed = System.nanoTime();
+            Collections.shuffle(landHexTypeOrder, new Random(seed));
+        }
+
+        //Create all 19 LandHexes at their specified coordinates
+        createLandHex(-2, 0, landHexTypeOrder.get(0));
+        createLandHex(-2, 1, landHexTypeOrder.get(1));
+        createLandHex(-2, 2, landHexTypeOrder.get(2));
+        createLandHex(-1, -1, landHexTypeOrder.get(3));
+        createLandHex(-1, 0, landHexTypeOrder.get(4));
+        createLandHex(-1, 1, landHexTypeOrder.get(5));
+        createLandHex(-1, 2, landHexTypeOrder.get(6));
+        createLandHex(0, -2, landHexTypeOrder.get(7));
+        createLandHex(0, -1, landHexTypeOrder.get(8));
+        createLandHex(0, 0, landHexTypeOrder.get(9));
+        createLandHex(0, 1, landHexTypeOrder.get(10));
+        createLandHex(0, 2, landHexTypeOrder.get(11));
+        createLandHex(1, -2, landHexTypeOrder.get(12));
+        createLandHex(1, -1, landHexTypeOrder.get(13));
+        createLandHex(1, 0, landHexTypeOrder.get(14));
+        createLandHex(1, 1, landHexTypeOrder.get(15));
+        createLandHex(2, -2, landHexTypeOrder.get(16));
+        createLandHex(2, -1, landHexTypeOrder.get(17));
+        createLandHex(2, 0, landHexTypeOrder.get(18));
     }
 
-
-
-
-    /**
-     * called if boolean isRandom is true in Map constructor
-     * randomly places hexes, numbers, and ports on the map
-     */
-    private void createRandomMap() {
+    private void createLandHex(int x, int y, HexType hexType){
+        Hex landHex = new Hex(new HexLocation(x, y), hexType);
+        hexes.put(landHex.getLocation(), landHex);
     }
 
-
-    /**
-     * is called if boolean isRandom is false in Map constructor
-     * creates map in the default format
-     */
-    private void createDefaultMap() {
-    }
-
-    /**
-     * randomly assigns locations to hexes in the map
-     */
-    private void assignHexes() {
-    }
-
-    /**
-     * randomly assigns number values to each resource hex in the map
-     */
-    private void assignHexValues() {
-    }
-
-
-    /**
-     * randomly assigns ports with random values to ocean hexes
-     * constraints on randomness:
-     * no two ports can be adjacent
-     * order of hexes: 2:1, 3:1, 2:1, 3:1, 2:1, 3:1, 2:1 (the first and last 2:1 hexes will not have a 3:1 in between themselves)
-     */
-    private void assignPorts() {
+    private void placeAllNumbers(boolean randomlyPlaceNumbers){
+        //TODO Implement placeALLNumbers
+        //Alphabet Order on Number pieces
+        List<Integer> numberOrder = Arrays.asList(5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11);
+        /*
+        if(hexType != HexType.DESERT){
+            landHex.setNumber(5);
+        }
+        */
     }
 
     /**
@@ -207,17 +217,10 @@ public class Map {
         return hexes;
     }
 
-    public void setHexes(HashMap<HexLocation, Hex> hexes) {
-        this.hexes = hexes;
-    }
-
     public HashMap<HexLocation, Port> getPorts() {
         return ports;
     }
 
-    public void setPorts(HashMap<HexLocation, Port> ports) {
-        this.ports = ports;
-    }
 
     public List<EdgeValue> getRoads() {
         return roads;
