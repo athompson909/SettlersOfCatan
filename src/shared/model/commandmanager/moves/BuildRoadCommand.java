@@ -9,13 +9,25 @@ import shared.locations.EdgeLocation;
 public class BuildRoadCommand implements BaseCommand {
 
     /**
-     * ID of player who is building settlement
+     * Index of player who is building settlement
      */
-    int playerID;
+    int playerIndex;
     /**
      * Location where road is being placed
      */
-    EdgeLocation location;
+    EdgeLocation roadLocation;
+
+    /**
+     * True if the road was placed in the first 2 rounds, false otherwise
+     */
+    boolean free;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    String type;
+
 
     /**
      * Creates a BuildRoadCommand object to be sent to client.ClientFacade
@@ -27,8 +39,9 @@ public class BuildRoadCommand implements BaseCommand {
      * @param ID
      */
     public BuildRoadCommand(EdgeLocation edgeLocation, int ID){
-        playerID = ID;
-        location = edgeLocation;
+        type = "buildRoad";
+        playerIndex = ID;
+        roadLocation = edgeLocation;
     }
 
     /**
@@ -43,5 +56,21 @@ public class BuildRoadCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+    /**
+     * Getter for boolean free
+     * @return
+     */
+    public boolean isFree() {
+        return free;
+    }
+
+    /**
+     * Setter for boolean free
+     * @param free
+     */
+    public void setFree(boolean free) {
+        this.free = free;
     }
 }

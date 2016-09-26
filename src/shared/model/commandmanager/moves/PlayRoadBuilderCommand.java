@@ -13,11 +13,11 @@ public class PlayRoadBuilderCommand implements BaseCommand {
      */
     int playerIndex;
     /**
-     * First location where player is building road
+     * First roadLocation where player is building road
      */
     EdgeLocation locationONE;
     /**
-     * Second location where player is building road
+     * Second roadLocation where player is building road
      */
     EdgeLocation locationTWO;
 

@@ -40,7 +40,7 @@ public class PlaySoldierCommand implements BaseCommand {
     /**
      * Calls all necessary model update functions
      *
-     * Calls Map robber update functions to reset location of the robber
+     * Calls Map robber update functions to reset roadLocation of the robber
      * Calls Player update functions to reflect changes in hands
      *
      * @param BC

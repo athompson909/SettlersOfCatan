@@ -7,9 +7,10 @@ import shared.definitions.CatanColor;
  */
 public class GameJoinCommand implements BaseCommand {
     /**
-     * id of game player wants to join
+     * id of game the player wants to join
+     * Sierra renamed it from gameID to id to follow the server command schema
      */
-    private int gameID;
+    private int id;
 
     /**
      * color of player
@@ -22,7 +23,7 @@ public class GameJoinCommand implements BaseCommand {
      * @param color
      */
     public GameJoinCommand(int gameID, CatanColor color){
-        this.gameID = gameID;
+        this.id = gameID;
         this.color = color;
     }
 
@@ -37,8 +38,8 @@ public class GameJoinCommand implements BaseCommand {
 
     //Getters
 
-    public int getGameID() {
-        return gameID;
+    public int getId() {
+        return id;
     }
 
     public CatanColor getColor() {

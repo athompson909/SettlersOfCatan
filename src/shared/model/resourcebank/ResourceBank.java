@@ -1,6 +1,7 @@
 package shared.model.resourcebank;
 
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 
 /**
  * The Resource Bank contains a DevCardList and ResourceCardList,
@@ -26,7 +27,7 @@ public class ResourceBank {
     /**
      * Creates a new ResourceBank for the game using the available card constants for the devCardList and ResourceList
      */
-    public ResourceBank () {
+    public ResourceBank() {
         devCardList = new DevCardList(
                 AVAILABLE_SOLDIER_CARDS, AVAILABLE_MONUMENT_CARDS, AVAILABLE_YEAROFPLENTY_CARDS, AVAILABLE_ROADBUILDING_CARDS, AVAILABLE_MONOPOLY_CARDS);
         resourceList = new ResourceList(
@@ -38,14 +39,18 @@ public class ResourceBank {
         setResourceList(newResBank.getResourceList());
     }
 
-    public boolean hasDevCards(){
+    public boolean hasDevCards() {
         return devCardList.isEmpty();
     }
 
-    public DevCardType removeRandomDevCard(){
+    public DevCardType removeRandomDevCard() {
         return devCardList.removeRandomCard();
     }
 
+    public void playYearOfPlenty(ResourceType resource1, ResourceType resource2) {
+        resourceList.removeCardByType(resource1);
+        resourceList.removeCardByType(resource2);
+    }
 
 
     //GETTERS
@@ -58,6 +63,11 @@ public class ResourceBank {
     }
 
     //SETTERS
-    public void setDevCardList(DevCardList newDevCardList) {devCardList = newDevCardList;}
-    public void setResourceList(ResourceList newResourceList) {resourceList = newResourceList;}
+    public void setDevCardList(DevCardList newDevCardList) {
+        devCardList = newDevCardList;
+    }
+
+    public void setResourceList(ResourceList newResourceList) {
+        resourceList = newResourceList;
+    }
 }

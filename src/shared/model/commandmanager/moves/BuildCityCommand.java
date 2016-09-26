@@ -9,7 +9,7 @@ import shared.model.map.VertexObject;
 public class BuildCityCommand implements BaseCommand {
 
     /**
-     * Contains owner and location of vertex where player is upgrading to city
+     * Contains owner and roadLocation of vertex where player is upgrading to city
      */
     VertexObject vert;
 

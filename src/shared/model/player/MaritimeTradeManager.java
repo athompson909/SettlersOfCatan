@@ -37,7 +37,9 @@ public class MaritimeTradeManager {
     /**
      * Whether the user owns a generic (3:1) port available for trading
      */
-    public boolean hasGenericPort = false;
+    public boolean hasThreePort = false;
+
+    public MaritimeTradeManager(){}
 
 
 

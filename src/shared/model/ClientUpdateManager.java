@@ -57,8 +57,8 @@ public class ClientUpdateManager {
         ResourceBank newResourceBank = newModel.resourceBank;
         updateResourceBank(currResourceBank, newResourceBank);
 
-        int currVersionNum = currentModel.modelVersion;
-        int newVersionNum = newModel.modelVersion;
+        int currVersionNum = currentModel.version;
+        int newVersionNum = newModel.version;
         updateModelVersion(newVersionNum);
 
         // Trade Offer???
@@ -126,7 +126,7 @@ public class ClientUpdateManager {
 //-----------------
 
     private void updateModelVersion(int newModelVersion) {
-        currentModel.setModelVersion(newModelVersion);
+        currentModel.setVersion(newModelVersion);
     }
 
     /**

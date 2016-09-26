@@ -1,6 +1,7 @@
 package shared.model;
 
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
@@ -21,13 +22,13 @@ public class ClientModel {
      * .
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
-    public int modelVersion = 0;
+    public int version = 0;
     public int gameNumber;
 
     /**
      * The index of the player who won the game. -1 if no one has won yet.
      */
-    public int gameWinner = -1;
+    public int winner = -1;
 
     public ResourceBank resourceBank;
     public MessageManager messageManager;
@@ -119,14 +120,17 @@ public class ClientModel {
 
     //DO METHODS
     public void purchaseRoad(int playerIndex){
+        //TODO: Access map and place road
         players[playerIndex].purchaseRoad();
     }
 
     public void purcahseSettlement(int playerIndex){
+        //TODO: Access map and place settlement
         players[playerIndex].purchaseSettlement();
     }
 
     public void purchaseCity(int playerIndex){
+        //TODO: Access map and place city
         players[playerIndex].purchaseCity();
     }
 
@@ -136,6 +140,7 @@ public class ClientModel {
     }
 
     public void playSoldierCard(int playerIndex){
+        //TODO: Access map and move soldier
         players[playerIndex].playSoldierCard();
     }
 
@@ -144,23 +149,59 @@ public class ClientModel {
     }
 
     public void playRoadBuildingCard(int playerIndex){
-        players[playerIndex].playRoadBuildingCard();
+        int roadsUsed = 0;
+        if(players[playerIndex].getRoadCount() > 0){
+            //TODO: Call maps road building function
+            roadsUsed++;
+        }
+        if(players[playerIndex].getRoadCount() > 0){
+            //TODO: Call maps road building function
+            roadsUsed++;
+        }
+        players[playerIndex].playRoadBuildingCard(roadsUsed);
     }
 
-    public void playYearOfPlentyCard(int playerIndex){
-        players[playerIndex].playYearOfPlentyCard();
+    public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){
+        //TODO: Need a method or way that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
+        resourceBank.playYearOfPlenty(resource1, resource2);
+        players[playerIndex].playYearOfPlentyCard(resource1, resource2);
     }
 
-    public void playMonopolyCard(int playerIndex){
-        players[playerIndex].playMonopolyCard();
+    public void playMonopolyCard(int recieverPlayerIndex, ResourceType monopolizedResource){
+        int totalCardsGained = 0;
+        //Take all cards of specified resource from each opposing player
+        for(int index = 0; index < players.length; index++){
+            if(index != recieverPlayerIndex){
+                totalCardsGained += players[index].loseAllCardsOfType(monopolizedResource);
+            }
+        }
+        //Give those cards to the player who used the monopoly card.
+        players[recieverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
     }
 
 
+    //ADDITIONAL DO METHODS (With no accompanying can methods)
 
+    /*
+    Rulebook: If there are not enough of a resource type, then no one recieve any of that resource
+    (unless it only affects one player, then that player gets the remaining resources from the bank)
+     */
+    public void recieveResourcesFromDiceRoll(){
+        //TODO: Go to map and calculate how many cards each player gets
+
+        //TODO: Calculate resource production, and consider special rulebook exception.
+        //int total1;
+        //int total2;
+        //if(resourceBank.getResourceList().listHasAmountOfType(total1,))
+
+        for(int index = 0; index < players.length; index++){
+
+        }
+    }
 
     //GETTERS
-    public int getModelVersion() {return modelVersion;}
-    public int getGameWinner() {return gameWinner;}
+    public int getVersion() {return version;}
+    public int getWinner() {return winner;}
     public ResourceBank getResourceBank() {return resourceBank;}
     public MessageManager getMessageManager() {return messageManager;}
     public TurnTracker getTurnTracker() {return turnTracker;}
@@ -172,8 +213,10 @@ public class ClientModel {
     public ClientUpdateManager getUpdateManager() {return updateManager;}
 
     //SETTERS
-    public void setModelVersion(int newModVer) {modelVersion = newModVer;}
-    public void setGameWinner(int newGameWinner) {gameWinner = newGameWinner;}
+    public void setVersion(int newModVer) {
+        version = newModVer;}
+    public void setWinner(int newGameWinner) {
+        winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
     public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
     /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/

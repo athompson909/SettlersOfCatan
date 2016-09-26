@@ -1,5 +1,7 @@
 package shared.model.dicemanager;
 
+import java.util.Random;
+
 /**
  *
  * DiceManager simulates rolling two independent dice,
@@ -32,8 +34,10 @@ public class DiceManager {
     public int rollDice(){
 
         // dice1Roll = rand() from 1-6
+        Random rand = new Random();
+        dice1Roll = rand.nextInt(6) + 1;
         // dice2Roll = rand() from 1-6
-
+        dice2Roll = rand.nextInt(6) + 1;
         return dice1Roll + dice2Roll;
     }
 

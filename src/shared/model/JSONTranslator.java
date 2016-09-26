@@ -94,8 +94,11 @@ public class JSONTranslator {
      */
     public JSONObject addAICmdToJSON(AddAICommand addAICommandObj) {
 
+        stringResult = gsonConverter.toJson(addAICommandObj);
 
-        return null;
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -105,7 +108,11 @@ public class JSONTranslator {
      */
     public JSONObject execGameCmdsCmdToJSON(ExecuteGameCommandsCommand execGameCmdsCommandObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(execGameCmdsCommandObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -115,7 +122,11 @@ public class JSONTranslator {
      */
     public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(fetchNewModelCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -125,7 +136,11 @@ public class JSONTranslator {
      */
     public JSONObject gameCreateCmdToJSON(GameCreateCommand gameCreateCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(gameCreateCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -135,7 +150,11 @@ public class JSONTranslator {
      */
     public JSONObject gameJoinCmdToJSON(GameJoinCommand gameJoinCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(gameJoinCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -145,7 +164,11 @@ public class JSONTranslator {
      */
     public JSONObject gameListCmdToJSON(GameListCommand gameListCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(gameListCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -155,7 +178,11 @@ public class JSONTranslator {
      */
     public JSONObject gameResetCmdToJSON(GameResetCommand gameResetCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(gameResetCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -165,7 +192,11 @@ public class JSONTranslator {
      */
     public JSONObject gameSaveCmdToJSON(GameSaveCommand gameSaveCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(gameSaveCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -175,7 +206,11 @@ public class JSONTranslator {
      */
     public JSONObject getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(getGameCmdsCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -185,7 +220,11 @@ public class JSONTranslator {
      */
     public JSONObject listAICmdToJSON(ListAICommand listAICmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(listAICmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -195,7 +234,11 @@ public class JSONTranslator {
      */
     public JSONObject loginCmdToJSON(LoginCommand loginCmdObj){
 
-        return null;
+        stringResult = gsonConverter.toJson(loginCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -205,7 +248,11 @@ public class JSONTranslator {
      */
     public JSONObject registerCmdToJSON(RegisterCommand registerCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(registerCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -216,7 +263,11 @@ public class JSONTranslator {
      */
     public JSONObject sendChatCmdToJSON(SendChatCommand sendChatCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(sendChatCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -226,7 +277,11 @@ public class JSONTranslator {
      */
     public JSONObject utilChangeLogLevelCmdToJSON(UtilChangeLogLevelCommand utilChangeLogLevelCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(utilChangeLogLevelCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
 
@@ -240,7 +295,11 @@ public class JSONTranslator {
      */
     public JSONObject acceptTradeCmdToJSON(AcceptTradeCommand acceptTradeCmd) {
 
-        return null;
+        stringResult = gsonConverter.toJson(acceptTradeCmd);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -292,7 +351,11 @@ public class JSONTranslator {
      */
     public JSONObject discardCmdToJSON(DiscardCommand discardCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(discardCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -302,7 +365,11 @@ public class JSONTranslator {
      */
     public JSONObject endTurnCmdToJSON(EndTurnCommand endTurnCmd) {
 
-        return null;
+        stringResult = gsonConverter.toJson(endTurnCmd);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -312,7 +379,11 @@ public class JSONTranslator {
      */
     public JSONObject maritimeTradeCmdToJSON(MaritimeTradeCommand maritimeTradeCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(maritimeTradeCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -322,7 +393,11 @@ public class JSONTranslator {
      */
     public JSONObject offerTradeCmdToJSON(OfferTradeCommand offerTradeCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(offerTradeCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -332,7 +407,11 @@ public class JSONTranslator {
      */
     public JSONObject playMonopolyCmdToJSON(PlayMonopolyCommand playMonopolyCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(playMonopolyCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -342,7 +421,11 @@ public class JSONTranslator {
      */
     public JSONObject playMonumentCmdToJSON(PlayMonumentCommand playMonumentCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(playMonumentCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -352,7 +435,11 @@ public class JSONTranslator {
      */
     public JSONObject playRoadBuilderCmdToJSON(PlayRoadBuilderCommand playRoadBuilderCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(playRoadBuilderCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -362,7 +449,11 @@ public class JSONTranslator {
      */
     public JSONObject playSoldierCmdToJSON(PlaySoldierCommand playSoldierCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(playSoldierCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -372,7 +463,11 @@ public class JSONTranslator {
      */
     public JSONObject playYearOfPlentyCmdToJSON(PlayYearOfPlentyCommand playYearOfPlentyCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(playYearOfPlentyCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -382,7 +477,11 @@ public class JSONTranslator {
      */
     public JSONObject purchaseDevDardCmdToJSON(PurchaseDevCardCommand purchaseDevCardCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(purchaseDevCardCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -392,7 +491,11 @@ public class JSONTranslator {
      */
     public JSONObject robPlayerCmdToJSON(RobPlayerCommand robPlayerCommandCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(robPlayerCommandCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
     /**
@@ -402,7 +505,11 @@ public class JSONTranslator {
      */
     public JSONObject rollDiceCmdToJSON(RollDiceCommand rollDiceCmdObj) {
 
-        return null;
+        stringResult = gsonConverter.toJson(rollDiceCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
     }
 
 }
