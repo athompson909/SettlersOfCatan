@@ -185,7 +185,7 @@ public interface IServerProxy {
     * @param json - version:int
     * @return Model in JSON
     */
-   JSONObject gameModelVersion(JSONObject json) throws ClientException;
+   JSONObject gameModelVersion(int modelVer) throws ClientException;
 
    /**
     * Clears out the command history of the current game.
