@@ -416,7 +416,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, ratio:int(2,3 or4), inputResource:Resource, outputResource:Resource
     * @return Model in JSON
     */
-   JSONObject maritimeTrade(JSONObject json);
+   JSONObject maritimeTrade(JSONObject json) throws ClientException ;
 
    /**
     * Tells the Server to move the robber and move the stolen card.
