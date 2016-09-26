@@ -1,6 +1,20 @@
 package shared.model.map;
 
+import shared.definitions.HexType;
+import shared.definitions.PortType;
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
+
+
+/**
+ * JSON COMING IN
+ * resource (string, optional) = ['Wood' or 'Brick' or 'Sheep' or 'Wheat' or 'Ore']: What type
+ resource this port trades for. If it's omitted, then it's for any resource.,
+ location (HexLocation): Which hex this port is on. This shows the (ocean/non-existent) hex to
+ draw the port on.,
+ direction (string) = ['NW' or 'N' or 'NE' or 'E' or 'SE' or 'SW']: Which edge this port is on.,
+ ratio (integer): The ratio for trade in (ie, if this is 2, then it's a 2:1 port.
+ */
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -12,7 +26,7 @@ public class Port {
     /**
      * Resource that can be traded at this port
      */
-    private String resource;
+    private PortType portType;
 
     /**
      * XY location of this port hex
@@ -22,12 +36,7 @@ public class Port {
     /**
      * Direction of hex that port occupies
      */
-    private String direction;
-
-    /**
-     * Ratio that resources may be traded at when using this port
-     */
-    private int ratio;
+    private EdgeDirection edgeDirection;
 
     /**
      * Constructor that sets all variables within port
@@ -37,18 +46,21 @@ public class Port {
      * @param dir Sets direction data member
      * @param rat Sets ratio data member
      */
-    Port(String res, HexLocation loc, String dir, int rat) {
-        resource = res;
+    Port(PortType res, HexLocation loc, EdgeDirection dir) {
+        portType = res;
         location = loc;
-        direction = dir;
-        ratio = rat;
+        edgeDirection = dir;
+    }
+
+    public void update() {
+        //CONVERT JSON STRING TO ENUM TYPES.
     }
 
     /**
      * @return Resource type that can be traded
      */
-    public String getResource() {
-        return resource;
+    public PortType getResource() {
+        return portType;
     }
 
     /**
@@ -61,15 +73,8 @@ public class Port {
     /**
      * @return Direction of port
      */
-    public String getDirection() {
-        return direction;
-    }
-
-    /**
-     * @return Ratio of port
-     */
-    public int getRatio() {
-        return ratio;
+    public EdgeDirection getEdgeDirection() {
+        return edgeDirection;
     }
 
 }
