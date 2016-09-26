@@ -12,9 +12,15 @@ public class AcceptTradeCommand implements BaseCommand {
      */
     int playerIndex;
     /**
-     * true if player wants to accept trade
+     * true if player wants to willAccept trade
      */
-    boolean accept;
+    boolean willAccept;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    String type;
 
     /**
      * Creates AcceptTradeCommand object to be sent to client.ClientFacade
@@ -27,7 +33,8 @@ public class AcceptTradeCommand implements BaseCommand {
      */
     public AcceptTradeCommand(int index, boolean willAcc){
         playerIndex = index;
-        accept = willAcc;
+        willAccept = willAcc;
+        type = "acceptTrade";
     }
 
     /**
@@ -50,7 +57,7 @@ public class AcceptTradeCommand implements BaseCommand {
         return playerIndex;
     }
 
-    public boolean isAccept() {
-        return accept;
+    public boolean isWillAccept() {
+        return willAccept;
     }
 }
