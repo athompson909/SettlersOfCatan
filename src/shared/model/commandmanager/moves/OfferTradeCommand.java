@@ -38,8 +38,8 @@ public class OfferTradeCommand implements BaseCommand {
     }
 
     /**
-     * Creates an accept trade command object to invite other user to
-     * accept or reject offer
+     * Creates an willAccept trade command object to invite other user to
+     * willAccept or reject offer
      *
      * @param BC
      * @return true if other user accepted offer

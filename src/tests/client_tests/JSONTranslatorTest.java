@@ -15,6 +15,7 @@ import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCity;
+import shared.model.map.VertexObject;
 
 import java.util.ArrayList;
 
@@ -97,7 +98,7 @@ public class JSONTranslatorTest extends TestCase {
 
         //ACCEPT TRADE CME SETUP
         //-----------------
-        int pIndex = 4;
+        int pIndex = 3;
         boolean willAcc = true;
         acceptTradeCommand = new AcceptTradeCommand(pIndex, willAcc);
         //-----------------
@@ -114,7 +115,19 @@ public class JSONTranslatorTest extends TestCase {
         buildRoadCommand.setFree(true);
         //-----------------
 
+        //BUILD CITY CMD SETUP
+        //-----------------
+        int bCOwner = 2;
+        HexLocation bCELHexLoc = new HexLocation(2, 2);
+        EdgeDirection bCEdgeDir = EdgeDirection.NorthEast;
+        EdgeLocation bCEdgeLocation = new EdgeLocation(bCELHexLoc, bCEdgeDir);
+        VertexObject cityVtx = new VertexObject(bCOwner, bCEdgeLocation);
+        buildCityCommand = new BuildCityCommand(cityVtx);
+        //-----------------
+
     }
+
+    //YOU PROBABLY NEED TO ADD A "TYPE" FIELD TO EVERY COMMAND OBJECT  *************
 
     private void setUpModelString() {
         // This is an actual server response body:
@@ -467,7 +480,7 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
-    // come back to this
+    // come back to this - I'm going to do the game commands list translators after all the other simple ones are done
     public void testGameCmdsListTranslation() throws Exception{
         String testCmdsList = "[\n" +
                 "  {\n" +
@@ -759,6 +772,7 @@ public class JSONTranslatorTest extends TestCase {
 
 //TEST MOVES COMMANDS  ===============================
 
+    //GOOD
     public void testAcceptTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING ACCEPTTRADECMD TRANSLATION!");
 
@@ -772,11 +786,12 @@ public class JSONTranslatorTest extends TestCase {
                                  "\"type\": \"acceptTrade\"," +
                                  "\"playerIndex\": 3," +
                                  "\"willAccept\": true" +
-                                "}" ;
+                                 "}" ;
 
         JSONAssert.assertEquals(expectedResult, acceptTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testBuildCityCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDCITYCMD TRANSLATION!");
 
@@ -786,7 +801,22 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(buildCityCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                             "  \"type\": \"buildCity\",\n" +
+                             "  \"playerIndex\": 2,\n" +
+                             "  \"vertexLocation\": {\n" +
+                                        "       \"x\": 2,\n" +
+                                        "       \"y\": 2,\n" +
+                                        "       \"direction\": \"NE\"\n" +
+                                "   }\n" +
+                                "}";
+
+        System.out.println(">ExpectedResult: " + expectedResult);
+
+        //in order for the JSON to look exactly like what the server wants it to, you sometimes have to
+        //bring up values from nested object to higher up. Example, here I had to take values from VertexObject's
+        // EdgeLocation datamem up to be in VertexObject itself so the JSON string would match what the server wants.
+        // I don't know if this will cause any problems later.....
 
         JSONAssert.assertEquals(expectedResult, buildCityCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -807,7 +837,7 @@ public class JSONTranslatorTest extends TestCase {
                 "  \"roadLocation\": {\n" +
                 "    \"x\": 1,\n" +
                 "    \"y\": 1,\n" +
-                "    \"direction\": \"NorthEast\"\n" +
+                "    \"direction\": \"NE\"\n" +
                 "  },\n" +
                 "  \"free\": true\n" +
                 "}";
