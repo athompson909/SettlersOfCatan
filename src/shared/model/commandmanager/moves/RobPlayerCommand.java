@@ -13,7 +13,7 @@ public class RobPlayerCommand implements BaseCommand {
     private int playerIndex;
 
     /**
-     * location to move Robber to
+     * roadLocation to move Robber to
      */
     private HexLocation location;
 
