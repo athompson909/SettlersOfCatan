@@ -14,7 +14,7 @@ import com.google.gson.JsonElement;
  *
  * Created by Alise on 9/17/2016.
  */
-//TODO Need to taken care of errors
+//TODO Need to take care of errors
     //Todo take care of responses
 public class ClientFacade {
 
@@ -253,8 +253,7 @@ public class ClientFacade {
      * @param version
      */
     public void gameModelVersion(int version) {
-        JSONObject jsonToSend = jsonTranslator.modelVerNumToJSON(version);
-        JSONObject jsonNewModel = serverProxy.gameModelVersion(jsonToSend);
+        JSONObject jsonNewModel = serverProxy.gameModelVersion(version);
         ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
         sendUpdatedModel(updatedModel);
     }
