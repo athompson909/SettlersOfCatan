@@ -657,22 +657,24 @@ public class JSONTranslatorTest extends TestCase {
         Gson does not support field order specification.... unless you write your own custom serializer -_-
 
         Options:
-         - build custom Gson parsers for every server command
+         - build custom Gson serializers for every server command
          - figure out Hamcrest
          - download JSONassert and use that - super easy
          - use Jackson to control field order
+         - pull apart each translated JSON string to see if it has the required keys/values - really long
+            - ex:        Assert.assertTrue(jsonExpectedResult.has("type"));
         */
 
         //****
         //Trying a workaround here, since building custom parsers for every command obj would suck:
-        //I think Hamcrest might be the solution to this, but I think I need to talk to the TAS
+        //I think Hamcrest might be the solution to this, but I need to talk to the TAS
         // to figure out how to use it...
 
         //MatcherAssert.assertThat(String expectedResult, T actual, org.hamcest.Matcher<? super T> matcher)
 
         //this doesn't work
         // assertEquals(expectedResult, buildRoadCmdJSONResult);
-        Assert.assertTrue(jsonExpectedResult.has("type"));
+
 
     }
 
