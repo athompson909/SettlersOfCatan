@@ -182,10 +182,10 @@ public interface IServerProxy {
    message.
    The format of the returned JSON can be found on the server’s Swagger page, or in the document
    titled “client Model JSON Documentation”
-    * @param json - version:int
+    * @param modelVer - version:int
     * @return Model in JSON
     */
-   JSONObject gameModelVersion(JSONObject json) throws ClientException;
+   JSONObject gameModelVersion(int modelVer) throws ClientException;
 
    /**
     * Clears out the command history of the current game.

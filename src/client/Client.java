@@ -21,6 +21,7 @@ public class Client {
     public Client() {
         serverPoller = new ServerPoller();
         commandManager = new CommandManager();
+
         //todo this parameter is hardcoded
         clientModel = new ClientModel(0);
         serverProxy = new ServerProxy();

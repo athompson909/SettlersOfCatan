@@ -31,8 +31,9 @@ public class ServerProxyTest extends TestCase {
 
         JSONObject loginJson = new JSONObject(loginStr);
         assertEquals("Success", serverProxy.userLogin(loginJson));
-        String str = serverProxy.getLoginCookie();
-        testGameJoin();
+        testGameJoin(); // this has to be run from here otherwise login cookie will be null
+        System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
+        System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
 
         JSONObject badLoginJson = new JSONObject(badLoginStr);
         assertEquals("http error: bad request", serverProxy.userLogin(badLoginJson));
@@ -55,6 +56,7 @@ public class ServerProxyTest extends TestCase {
 
     /**
      * prints the json object that should be returned by the server
+     * for some reason with the demo server it doesn't print out any of the games that I create
      */
     public void testGamesList() {
 
@@ -66,20 +68,41 @@ public class ServerProxyTest extends TestCase {
 
     /**
      * can only be executed after testGameLogin() has been run (so we're going to run from inside there)
+     * don't run this test case alone!
      */
     public void testGameJoin() {
 
         JSONObject jsonObject = new JSONObject(JOIN_STR);
         String jsonStr = serverProxy.gameJoin(jsonObject);
+        assertEquals("Success", jsonStr);
         System.out.println("json: " + jsonStr);
-        System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+        //System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+    }
+
+    public void testGameCreate() {
+        JSONObject jsonObject = new JSONObject(GAME_CREATE_STR);
+        System.out.println(serverProxy.gameCreate(jsonObject));
+    }
+
+    public void testGameSave() {
+        JSONObject jsonObject = new JSONObject(GAME_SAVE_STR);
+        String str = serverProxy.gameSave(jsonObject);
+        System.out.println(str);
+        assertEquals("Success", str);
+    }
+
+    public void testGameLoad() {
+        JSONObject jsonObject = new JSONObject("{\"name\":\"testgame1002-Adam\"}");
+        String str = serverProxy.gameLoad(jsonObject);
+        System.out.println(str);
+        assertEquals("Success", str);
     }
 
 
 
     private String loginStr = "{\n" +
-            "  \"username\": \"adam\",\n" +
-            "  \"password\": \"adam\"\n" +
+            "  \"username\": \"adam\",\n" + //Sam
+            "  \"password\": \"adam\"\n" + //sam
             "}";
 
     private String badLoginStr = "{\n" +
@@ -92,11 +115,20 @@ public class ServerProxyTest extends TestCase {
             "  \"password\": \"adam2222\"\n" +
             "}";
 
-    private final String JOIN_STR = "{\n" +
+    private final String GAME_CREATE_STR = "{\n" +
             "  \"randomTiles\": \"true\",\n" +
             "  \"randomNumbers\": \"true\",\n" +
             "  \"randomPorts\": \"true\",\n" +
             "  \"name\": \"testgame1002-Adam\"\n" +
             "}";
 
+    private final String JOIN_STR = "{\n" +
+            "  \"id\": \"4\",\n" +
+            "  \"color\": \"blue\"\n" +
+            "}";
+
+    private final String GAME_SAVE_STR = "{\n" +
+            "  \"id\": \"4\",\n" +
+            "  \"name\": \"testgame1002-Adam\"\n" +
+            "}";
 }

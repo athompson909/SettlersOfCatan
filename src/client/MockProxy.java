@@ -156,7 +156,7 @@ public class MockProxy implements IServerProxy {
      *  already has the latest game state. This is merely an optimization. If the version number is
      *  not included in the request URL, the server will return the full game state.
      *
-     * @param json - version:int
+     * @param modelVer - version:int
      * @return the JSON Model
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
@@ -176,7 +176,7 @@ public class MockProxy implements IServerProxy {
      * titled “client Model JSON Documentation”
      */
     @Override
-    public JSONObject gameModelVersion(JSONObject json) {
+    public JSONObject gameModelVersion(int modelVer) {
         return new JSONObject(GAME_MODEL);
     }
 

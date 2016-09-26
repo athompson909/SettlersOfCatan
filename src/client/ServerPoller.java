@@ -26,22 +26,17 @@ public class ServerPoller {
      */
     private Timer pollTimer;
 
-    /**
-     * This is the proxy defined in the constructor, that the ServerPoller will be sending
-     * update requests to every couple seconds.
-     */
-    private IServerProxy currentProxy;
-
-
+    private ClientFacade clientFacade;
 
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
      *
-     * @param proxy - either a ServerProxy or MockProxy object: this is the proxy that ServerPoller
-     *              will be asking for updates. Doing it this way to use dependency injection.
+     * @param clientFacade the clientFacade specific to the current game
+     *
      */
-    public void ServerPoller(IServerProxy proxy){
+    public ServerPoller(ClientFacade clientFacade) {
+        this.clientFacade = clientFacade;
     }
 
 
@@ -49,8 +44,8 @@ public class ServerPoller {
      * FetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
      * This function is called every 2-3 seconds when pollTimer tells it to.
      */
-    private void fetchNewModel(){
-
+    private void fetchNewModel() {
+        clientFacade.gameModelVersion();
     }
 
 }
