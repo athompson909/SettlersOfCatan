@@ -1,5 +1,6 @@
 package client;
 
+import exceptions.ClientException;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
@@ -40,11 +41,11 @@ public class ClientFacade {
     /**
      * Used to communicate with the server
      */
-    private ServerProxy serverProxy;
+    private IServerProxy serverProxy;
 
     private int version = 0;
 
-    public ClientFacade(ServerProxy serverProxy, ClientModel model) {
+    public ClientFacade(IServerProxy serverProxy, ClientModel model) {
         this.serverProxy = serverProxy;
         jsonTranslator = new JSONTranslator();
         clientUpdateManager = new ClientUpdateManager(model);
@@ -79,12 +80,22 @@ public class ClientFacade {
      */
     public void userLogin(LoginCommand loginCommand){
         JSONObject json = jsonTranslator.loginCmdToJSON(loginCommand);
-        String response = serverProxy.userLogin(json);
+        String response = "";
+        try {
+            response = serverProxy.userLogin(json);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
         //TODO
         if(response.equals("Success")){
             //do Something
-        }else{
+        }else if (response.equals("")) {
+            // an exception was thrown above
+        }
+        else {
             //make them try to login again
+
         }
     }
 

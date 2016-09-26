@@ -16,14 +16,14 @@ public class Client {
     // private GameManager gameManager;
     // private View view;
     // private Controller controller;
-    private ServerProxy serverProxy;
+    private IServerProxy serverProxy;
 
     public Client() {
         commandManager = new CommandManager();
 
         //todo this parameter is hardcoded
         clientModel = new ClientModel(0);
-        serverProxy = new ServerProxy();
+        serverProxy = new MockProxy();
 
         clientFacade = new ClientFacade(serverProxy, clientModel);
         serverPoller = new ServerPoller(clientFacade);
