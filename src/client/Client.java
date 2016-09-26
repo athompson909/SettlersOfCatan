@@ -19,7 +19,6 @@ public class Client {
     private ServerProxy serverProxy;
 
     public Client() {
-        serverPoller = new ServerPoller();
         commandManager = new CommandManager();
 
         //todo this parameter is hardcoded
@@ -27,6 +26,7 @@ public class Client {
         serverProxy = new ServerProxy();
 
         clientFacade = new ClientFacade(serverProxy, clientModel);
+        serverPoller = new ServerPoller(clientFacade);
     }
 
 

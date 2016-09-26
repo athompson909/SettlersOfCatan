@@ -16,6 +16,7 @@ public class GameLoadCommand implements BaseCommand {
      * @param fileName
      */
     public GameLoadCommand(String fileName){
+
         this.filename = fileName;
     }
 

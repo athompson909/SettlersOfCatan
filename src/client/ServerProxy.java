@@ -564,7 +564,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject addAI(JSONObject json) {
-        String urlStr = "http://localhost:8081/game/commands";
+        String urlStr = "http://localhost:8081/game/addAI";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 

@@ -1,6 +1,5 @@
 package tests.client_tests;
 
-import org.hamcrest.*;
 import org.skyscreamer.jsonassert.*;
 import org.json.JSONObject;
 import shared.definitions.CatanColor;
@@ -12,9 +11,12 @@ import junit.framework.TestCase;
 import junit.framework.Assert;
 import com.google.gson.*;
 import shared.model.JSONTranslator;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCity;
+
+import java.util.ArrayList;
 
 
 /**
@@ -69,6 +71,21 @@ public class JSONTranslatorTest extends TestCase {
 
         //ADD AI CMD SETUP
         //-----------------
+        String aaiAIType = "LARGEST_ARMY";
+        addAICommand = new AddAICommand(aaiAIType);
+        //-----------------
+
+        //EXEC GAME CMDS CMD SETUP
+        //-----------------
+        execGameCmdsCommand = new ExecuteGameCommandsCommand();
+        //the server has no request model schema for this one, since it only sends back the model (updated from all the game cmds)
+        //-----------------
+
+        //FETCH NEW MODEL CMD SETUP
+        //-----------------
+        int fnmVer = 14;
+        fetchNewModelCommand = new FetchNewModelCommand(fnmVer);
+        //the server has no request model schema for this one, since it only requires an int
         //-----------------
 
         //GAME JOIN CMD SETUP
@@ -77,6 +94,14 @@ public class JSONTranslatorTest extends TestCase {
         CatanColor gJColor = CatanColor.BLUE;
         gameJoinCommand = new GameJoinCommand(gJGameID, gJColor);
         //-----------------
+
+        //ACCEPT TRADE CME SETUP
+        //-----------------
+        int pIndex = 4;
+        boolean willAcc = true;
+        acceptTradeCommand = new AcceptTradeCommand(pIndex, willAcc);
+        //-----------------
+
 
 
         //BUILD ROAD CMD SETUP
@@ -442,18 +467,82 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
+    // come back to this
+    public void testGameCmdsListTranslation() throws Exception{
+        String testCmdsList = "[\n" +
+                "  {\n" +
+                "    \"roadLocation\": {\n" +
+                "      \"direction\": \"N\",\n" +
+                "      \"x\": 1,\n" +
+                "      \"y\": -1\n" +
+                "    },\n" +
+                "    \"free\": true,\n" +
+                "    \"type\": \"buildRoad\",\n" +
+                "    \"playerIndex\": 0\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"vertexLocation\": {\n" +
+                "      \"direction\": \"NW\",\n" +
+                "      \"x\": 1,\n" +
+                "      \"y\": -1\n" +
+                "    },\n" +
+                "    \"free\": true,\n" +
+                "    \"type\": \"buildSettlement\",\n" +
+                "    \"playerIndex\": 0\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"type\": \"finishTurn\",\n" +
+                "    \"playerIndex\": 0\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"roadLocation\": {\n" +
+                "      \"direction\": \"S\",\n" +
+                "      \"x\": 0,\n" +
+                "      \"y\": 0\n" +
+                "    },\n" +
+                "    \"free\": true,\n" +
+                "    \"type\": \"buildRoad\",\n" +
+                "    \"playerIndex\": 1\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"vertexLocation\": {\n" +
+                "      \"direction\": \"SE\",\n" +
+                "      \"x\": 0,\n" +
+                "      \"y\": 0\n" +
+                "    },\n" +
+                "    \"free\": true,\n" +
+                "    \"type\": \"buildSettlement\",\n" +
+                "    \"playerIndex\": 1\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"type\": \"finishTurn\",\n" +
+                "    \"playerIndex\": 1\n" +
+                "  }\n" +
+                "]" ;
+
+        //The list of exec'd commands will come back as a JSON list of lots of different types of commands.
+        //Trying to find a way to hold all the commands that have been executed so far, as Gson deserializes them.
+        ArrayList<BaseCommand> listOfGameCmdsExecuted = new ArrayList<BaseCommand>();
+
+
+    }
+
+
 //TEST GAME COMMANDS  ===============================
 
+    //GOOD
     public void testAddAICmdTranslation() throws Exception {
         System.out.println(">TESTING ADDAICMD TRANSLATION!");
 
-        String addAICmdJSONResult = gsonTest.toJson(gameJoinCommand);
+        String addAICmdJSONResult = gsonTest.toJson(addAICommand);
 
         System.out.print("Just serialized addAICmd, JSONstring result= ");
         System.out.println(addAICmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                  "  \"AIType\": \"LARGEST_ARMY\"\n" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -467,11 +556,14 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(execGameCmdsCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        // the server returns the model updated to follow what the list of exec'd game commands said.
+        // so I need to translate a list of all command objects that have been executed so far, all into JSON?
 
-        JSONAssert.assertEquals(expectedResult, execGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+     //   JSONAssert.assertEquals(expectedResult, execGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //FetchNewModel is executed on the server side just by the URL - no HTTP request body required
+    /*
     public void testFetchNewModelCmdTranslation() throws Exception {
         System.out.println(">TESTING FETCHNEWMODELCMD TRANSLATION!");
 
@@ -485,6 +577,7 @@ public class JSONTranslatorTest extends TestCase {
 
         JSONAssert.assertEquals(expectedResult, fetchNewModelCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
+    */
 
     public void testGameCreateCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMECREATECMD TRANSLATION!");
@@ -520,6 +613,8 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
+    //the list of game commands exec'd needs to be translated from JSON to multiple kinds of Command objs
+    /*
     public void testGameListCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMELISTCMD TRANSLATION!");
 
@@ -533,6 +628,7 @@ public class JSONTranslatorTest extends TestCase {
 
         JSONAssert.assertEquals(expectedResult, gameListCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
+    */
 
     public void testGameLoadCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMELOADCMD TRANSLATION!");
@@ -672,7 +768,11 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(acceptTradeCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{ " +
+                                 "\"type\": \"acceptTrade\"," +
+                                 "\"playerIndex\": 3," +
+                                 "\"willAccept\": true" +
+                                "}" ;
 
         JSONAssert.assertEquals(expectedResult, acceptTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
