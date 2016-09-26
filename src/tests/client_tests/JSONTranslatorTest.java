@@ -1,6 +1,7 @@
 package tests.client_tests;
 
 import org.hamcrest.*;
+import org.skyscreamer.jsonassert.*;
 import org.json.JSONObject;
 import shared.definitions.CatanColor;
 import shared.locations.EdgeDirection;
@@ -448,9 +449,13 @@ public class JSONTranslatorTest extends TestCase {
 
         String addAICmdJSONResult = gsonTest.toJson(gameJoinCommand);
 
-        System.out.println("Just serialized addAICmd, JSONstring result= ");
+        System.out.print("Just serialized addAICmd, JSONstring result= ");
         System.out.println(addAICmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testExecGameCmdsCmdTranslation() throws Exception {
@@ -461,6 +466,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized execGameCmdsCmd, JSONstring result= ");
         System.out.println(execGameCmdsCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, execGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testFetchNewModelCmdTranslation() throws Exception {
@@ -471,6 +480,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized fetchNewModelCmd, JSONstring result= ");
         System.out.println(fetchNewModelCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, fetchNewModelCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testGameCreateCmdTranslation() throws Exception {
@@ -483,25 +496,28 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("=================");
     }
 
+    //GOOD
     public void testGameJoinCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMEJOINCMD TRANSLATION!");
 
         String gameJoinCmdJSONResult = gsonTest.toJson(gameJoinCommand);
 
-        System.out.println("Just serialized gameJoinCmd, JSONstring result= ");
+        System.out.print("Just serialized gameJoinCmd, JSONstring result= ");
         System.out.println(gameJoinCmdJSONResult);
         System.out.println("=================");
+
 
         //I don't know how picky we should be with these - our Color enum uses all caps, but the
         //server swagger page wants lowercase. Also, we originally had "id" named "gameID", which
         //I like better, but the swagger calls it "id" so... maybe for now just do exactly what it says?
         String expectedResult =
-                " {\n" +
-                        "\"id\": \"5\"," +
+                        " {\n" +
+                        "\"id\": 5," +
                         "\"color\": \"BLUE\"" +
                         " }\n";
 
-        //     assertEquals(expectedResult, gameJoinCmdJSONResult);
+        JSONAssert.assertEquals(expectedResult, gameJoinCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+
     }
 
     public void testGameListCmdTranslation() throws Exception {
@@ -512,6 +528,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized gameListCmd, JSONstring result= ");
         System.out.println(gameListCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, gameListCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testGameLoadCmdTranslation() throws Exception {
@@ -522,6 +542,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized gameLoadCmd, JSONstring result= ");
         System.out.println(gameLoadCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, gameLoadCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testGameResetCmdTranslation() throws Exception {
@@ -532,6 +556,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized gameResetCmd, JSONstring result= ");
         System.out.println(gameResetCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, gameResetCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testGameSaveCmdTranslation() throws Exception {
@@ -542,6 +570,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized gameSaveCmd, JSONstring result= ");
         System.out.println(gameSaveCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, gameSaveCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testGetGameCmdsCmdTranslation() throws Exception {
@@ -552,6 +584,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized getGameCmdsCmd, JSONstring result= ");
         System.out.println(getGameCmdsCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, getGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testListAICmdTranslation() throws Exception {
@@ -562,6 +598,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized listAICmd, JSONstring result= ");
         System.out.println(listAICmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, listAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testLoginCmdTranslation() throws Exception {
@@ -572,6 +612,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized loginCmd, JSONstring result= ");
         System.out.println(loginCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, loginCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testRegisterCmdTranslation() throws Exception {
@@ -582,6 +626,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized registerCmd, JSONstring result= ");
         System.out.println(registerCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, registerCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testSendChatCmdTranslation() throws Exception {
@@ -592,6 +640,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized sendChatCmd, JSONstring result= ");
         System.out.println(sendChatCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, sendChatCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testUtilChangeLogLevelCmdTranslation() throws Exception {
@@ -602,6 +654,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized utilChangeLogLevelCmd, JSONstring result= ");
         System.out.println(utilChangeLogLevelCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, utilChangeLogLevelCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
 
@@ -615,6 +671,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized acceptTradeCmd, JSONstring result= ");
         System.out.println(acceptTradeCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, acceptTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testBuildCityCmdTranslation() throws Exception {
@@ -625,14 +685,19 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized buildCityCmd, JSONstring result= ");
         System.out.println(buildCityCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, buildCityCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testBuildRoadCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDROADCMD TRANSLATION!");
 
         String buildRoadCmdJSONResult = gsonTest.toJson(buildRoadCommand);
 
-        System.out.println("Just serialized buildRoadCmd, JSONstring result= ");
+        System.out.print("Just serialized buildRoadCmd, JSONstring result= ");
         System.out.println(buildRoadCmdJSONResult);
         System.out.println("=================");
 
@@ -644,9 +709,10 @@ public class JSONTranslatorTest extends TestCase {
                 "    \"y\": 1,\n" +
                 "    \"direction\": \"NorthEast\"\n" +
                 "  },\n" +
-                "  \"free\": \"true\"\n" +
+                "  \"free\": true\n" +
                 "}";
-        JSONObject jsonExpectedResult = new JSONObject(expectedResult);
+        System.out.println(">Expected string result= " + expectedResult);
+      //  JSONObject jsonExpectedResult = new JSONObject(expectedResult);
 
         /*
         the Gson result is putting the buildRoadCmd attributes in a different order from what
@@ -665,17 +731,12 @@ public class JSONTranslatorTest extends TestCase {
             - ex:        Assert.assertTrue(jsonExpectedResult.has("type"));
         */
 
-        //****
-        //Trying a workaround here, since building custom parsers for every command obj would suck:
-        //I think Hamcrest might be the solution to this, but I need to talk to the TAS
-        // to figure out how to use it...
+        //***************
+        //use @SerializedName("diryo")  to tell Gson what to set as the key name for that value! yay
+        //use transient to tell Gson to skip serializing a field! yay
+        //***************
 
-        //MatcherAssert.assertThat(String expectedResult, T actual, org.hamcest.Matcher<? super T> matcher)
-
-        //this doesn't work
-        // assertEquals(expectedResult, buildRoadCmdJSONResult);
-
-
+        JSONAssert.assertEquals(expectedResult, buildRoadCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testBuildSettlementCmdTranslation() throws Exception {
@@ -686,6 +747,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized buildStlmtCmd, JSONstring result= ");
         System.out.println(buildStlmtCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, buildStlmtCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testDiscardCmdTranslation() throws Exception {
@@ -696,6 +761,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized discardCmd, JSONstring result= ");
         System.out.println(discardCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, discardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testEndTurnCmdTranslation() throws Exception {
@@ -706,6 +775,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized endTurnCmd, JSONstring result= ");
         System.out.println(endTurnCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, endTurnCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testMaritimeTradeCmdTranslation() throws Exception {
@@ -716,6 +789,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized maritimeTradeCMD, JSONstring result= ");
         System.out.println(maritimeTradeCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, maritimeTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testOfferTradeCmdTranslation() throws Exception {
@@ -726,6 +803,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized offerTradeCMD, JSONstring result= ");
         System.out.println(offerTradeCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, offerTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testPlayMonopolyCmdTranslation() throws Exception {
@@ -736,6 +817,11 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized playMonopolyCmd, JSONstring result= ");
         System.out.println(playMonopolyCmdJSONResult);
         System.out.println("=================");
+
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, playMonopolyCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testPlayMonumentCmdTranslation() throws Exception {
@@ -746,6 +832,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized playMonumentCmd, JSONstring result= ");
         System.out.println(playMonumentCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, playMonumentCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testPlayRoadBuilderCmdTranslation() throws Exception {
@@ -756,6 +846,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized playRoadBuilderCmd, JSONstring result= ");
         System.out.println(playRoadBuilderCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, playRoadBuilderCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testPlaySoldierCmdTranslation() throws Exception {
@@ -766,6 +860,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized playSoldierCmd, JSONstring result= ");
         System.out.println(playSoldierCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, playSoldierCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testPlayYearOfPlentyCmdTranslation() throws Exception {
@@ -776,6 +874,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized playYearOfPlentyCmd, JSONstring result= ");
         System.out.println(playYearOfPlentyCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, playYearOfPlentyCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testPurchaseDevCardCmdTranslation() throws Exception {
@@ -786,6 +888,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized playYearOfPlentyCmd, JSONstring result= ");
         System.out.println(purchaseDevCardCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, purchaseDevCardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testRobPlayerCmdTranslation() throws Exception {
@@ -796,6 +902,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized robPlayerCmd, JSONstring result= ");
         System.out.println(robPlayerCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, robPlayerCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     public void testRollDiceCmdTranslation() throws Exception {
@@ -806,6 +916,10 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println("Just serialized rollDiceCmd, JSONstring result= ");
         System.out.println(rollDiceCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, rollDiceCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
 }

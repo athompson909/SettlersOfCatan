@@ -1,4 +1,5 @@
 package shared.model.commandmanager.game;
+import com.google.gson.annotations.SerializedName;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.CatanColor;
 
@@ -6,11 +7,12 @@ import shared.definitions.CatanColor;
  * Created by Alise on 9/18/2016.
  */
 public class GameJoinCommand implements BaseCommand {
+
     /**
-     * id of game the player wants to join
-     * Sierra renamed it from gameID to id to follow the server command schema
+     * gameID of game the player wants to join
      */
-    private int id;
+    @SerializedName("id")
+    private int gameID;
 
     /**
      * color of player
@@ -23,12 +25,12 @@ public class GameJoinCommand implements BaseCommand {
      * @param color
      */
     public GameJoinCommand(int gameID, CatanColor color){
-        this.id = gameID;
+        this.gameID = gameID;
         this.color = color;
     }
 
     /**
-     * Tells server to add user as new player of game with given id
+     * Tells server to add user as new player of game with given gameID
      * @param command
      */
     @Override
@@ -38,8 +40,8 @@ public class GameJoinCommand implements BaseCommand {
 
     //Getters
 
-    public int getId() {
-        return id;
+    public int getGameID() {
+        return gameID;
     }
 
     public CatanColor getColor() {
