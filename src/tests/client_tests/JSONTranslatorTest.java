@@ -205,6 +205,26 @@ public class JSONTranslatorTest extends TestCase {
         playYearOfPlentyCommand = new PlayYearOfPlentyCommand(pYOPIndex, yopR1, yopR2);
         //-----------------
 
+        //GAME JOIN CMD SETUP
+        //-----------------
+        int bDCPID = 0;
+        purchaseDevCardCommand = new PurchaseDevCardCommand(bDCPID);
+        //-----------------
+
+        //ROB PLAYER CMD SETUP
+        //-----------------
+        int rpPID = 3;
+        int rpVID = 2;
+        HexLocation rPHL = new HexLocation(-2,2);
+        robPlayerCommand = new RobPlayerCommand(rpPID, rPHL, rpVID);
+        //-----------------
+
+        //ROLL NUMBER SETUP
+        //-----------------
+        int rolledNum = 6;
+        rollDiceCommand = new RollDiceCommand(rolledNum);
+        rollDiceCommand.setPlayerIndex(1);
+        //-----------------
 
 
 
@@ -1147,20 +1167,26 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, playYearOfPlentyCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testPurchaseDevCardCmdTranslation() throws Exception {
         System.out.println(">TESTING PURCHASEDEVDARDCMD TRANSLATION!");
 
-        String purchaseDevCardCmdJSONResult = gsonTest.toJson(purchaseDevCardCommand);
+        JSONObject purchaseDevCardCmdJSONResult = jsonTranslator.purchaseDevDardCmdToJSON(purchaseDevCardCommand);
+                // gsonTest.toJson(purchaseDevCardCommand);
 
         System.out.println("Just serialized playYearOfPlentyCmd, JSONstring result= ");
         System.out.println(purchaseDevCardCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"type\":" + "\"buyDevCard\"," +
+                                "\"playerIndex\":" + 0 +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, purchaseDevCardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testRobPlayerCmdTranslation() throws Exception {
         System.out.println(">TESTING ROBPLAYERCMD TRANSLATION!");
 
@@ -1170,21 +1196,35 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(robPlayerCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"type\":" + "\"robPlayer\",\n" +
+                                "\"playerIndex\":" + 3 + ",\n" +
+                                "\"victimIndex\":" + 2 + ",\n" +
+                                "\"location\":" + "{\n" +
+                                    "\"x\":" + "-2,\n" +
+                                    "\"y\":" + "2\n" +
+                                            "}\n" +
+                                    "}";
 
         JSONAssert.assertEquals(expectedResult, robPlayerCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testRollDiceCmdTranslation() throws Exception {
         System.out.println(">TESTING ROLLDICECMD TRANSLATION!");
 
-        String rollDiceCmdJSONResult = gsonTest.toJson(rollDiceCommand);
+        JSONObject rollDiceCmdJSONResult = jsonTranslator.rollDiceCmdToJSON(rollDiceCommand);
+                //gsonTest.toJson(rollDiceCommand);
 
         System.out.println("Just serialized rollDiceCmd, JSONstring result= ");
         System.out.println(rollDiceCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"type\":"  + "\"rollNumber\",\n" +
+                                "\"playerIndex\":" + 1 + ",\n" +
+                                "\"number\":" + 6 + ",\n" +
+                                    "}";
 
         JSONAssert.assertEquals(expectedResult, rollDiceCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }

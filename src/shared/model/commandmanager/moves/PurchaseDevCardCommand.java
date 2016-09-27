@@ -12,6 +12,11 @@ public class PurchaseDevCardCommand implements BaseCommand {
     private int playerIndex;
 
     /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "buyDevCard";
+    /**
      * Creates PurchaseDevCardCommand to send to client.ClientFacade. sets player Index
      * @param playerIndex
      */
@@ -25,5 +30,9 @@ public class PurchaseDevCardCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand command){
 
+    }
+
+    public String getType() {
+        return type;
     }
 }
