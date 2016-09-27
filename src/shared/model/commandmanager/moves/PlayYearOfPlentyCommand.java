@@ -23,6 +23,13 @@ public class PlayYearOfPlentyCommand implements BaseCommand {
     private ResourceType resource2;
 
     /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "Year_of_Plenty";
+
+
+    /**
      * Creates PlayYearOfPlentyCommand to send to client.ClientFacade. Sets data members
      * @param playerIndex
      * @param resource1
@@ -40,5 +47,10 @@ public class PlayYearOfPlentyCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand command){
 
+    }
+
+
+    public String getType() {
+        return type;
     }
 }

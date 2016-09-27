@@ -10,7 +10,14 @@ public class PlayMonumentCommand implements BaseCommand {
     /**
      * Index of player playing monument card
      */
-    int playerIndex;
+    private int playerIndex;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "Monument";
+
 
     /**
      * Creates PlauMonumentCard object to be sent to client.ClientFacade
@@ -35,5 +42,10 @@ public class PlayMonumentCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+
+    public String getType() {
+        return type;
     }
 }

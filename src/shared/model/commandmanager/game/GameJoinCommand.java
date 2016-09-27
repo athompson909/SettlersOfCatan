@@ -20,6 +20,13 @@ public class GameJoinCommand implements BaseCommand {
     private CatanColor color;
 
     /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "joinGame";
+
+
+    /**
      * Creates GameJoinCommand to send to the client.ClientFacade
      * @param gameID
      * @param color
@@ -46,5 +53,9 @@ public class GameJoinCommand implements BaseCommand {
 
     public CatanColor getColor() {
         return color;
+    }
+
+    public String getType() {
+        return type;
     }
 }

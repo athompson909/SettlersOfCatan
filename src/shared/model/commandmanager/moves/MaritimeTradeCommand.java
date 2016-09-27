@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import com.google.gson.annotations.SerializedName;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.ResourceType;
 
@@ -11,19 +12,29 @@ public class MaritimeTradeCommand implements BaseCommand {
     /**
      * Index of player involved in maritime trade
      */
-    int playerIndex;
+    private int playerIndex;
     /**
      * ratio of trade associated with port (or 4:1) if no port
      */
-    int ratio;
+    private int ratio;
     /**
      * ResourceType being given to the bank
      */
-    ResourceType toTrade;
+    @SerializedName("inputResource")
+    private ResourceType toTrade;
+
     /**
      * ResourceType being received from bank
      */
-    ResourceType toReceive;
+    @SerializedName("outputResource")
+    private ResourceType toReceive;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "maritimeTrade";
+
 
     /**
      * Creates MaritimeTradeCommand object to be sent to client.ClientFacade
@@ -56,4 +67,42 @@ public class MaritimeTradeCommand implements BaseCommand {
     public void serverExec(BaseCommand BC) {
 
     }
+
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    public int getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(int ratio) {
+        this.ratio = ratio;
+    }
+
+    public ResourceType getToTrade() {
+        return toTrade;
+    }
+
+    public void setToTrade(ResourceType toTrade) {
+        this.toTrade = toTrade;
+    }
+
+    public ResourceType getToReceive() {
+        return toReceive;
+    }
+
+    public void setToReceive(ResourceType toReceive) {
+        this.toReceive = toReceive;
+    }
+
+    public String getType() {
+        return type;
+    }
+
 }

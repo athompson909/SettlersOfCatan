@@ -27,6 +27,12 @@ public class GameCreateCommand implements BaseCommand {
     private boolean randomPorts;
 
     /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "createGame";
+
+    /**
      * Creates GameCreateCommand to pass to the client.ClientFacade. Sets data members.
      * @param name
      * @param randomTiles
@@ -63,5 +69,9 @@ public class GameCreateCommand implements BaseCommand {
 
     public boolean isRandomPorts() {
         return randomPorts;
+    }
+
+    public String getType() {
+        return type;
     }
 }

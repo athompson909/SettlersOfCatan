@@ -23,6 +23,12 @@ public class RobPlayerCommand implements BaseCommand {
     private int victimIndex;
 
     /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "robPlayer";
+
+    /**
      * Creates RobPlayerCommand to send to client.ClientFacade. Sets data members
      * @param playerIndex
      * @param location

@@ -16,18 +16,24 @@ public class EdgeLocation
 
 	private EdgeDirection direction;
 
-	//TEST
+	//For serialization only
 	private int x;
 	private int y;
-	
+
+	//Constructor
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir)
 	{
 		setHexLoc(hexLoc);
 		setDirection(dir);
+
+		//for serialization:
 		setX(hexLoc.getX());
 		setY(hexLoc.getY());
 	}
-	
+
+
+
+	//Getter for HexLoc
 	public HexLocation getHexLoc()
 	{
 		return hexLoc;

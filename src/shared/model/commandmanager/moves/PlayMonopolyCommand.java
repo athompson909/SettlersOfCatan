@@ -11,11 +11,18 @@ public class PlayMonopolyCommand implements BaseCommand {
     /**
      * Index of player playing Monopoly
      */
-    int playerIndex;
+    private int playerIndex;
     /**
      * Resource player is calling monopoly on
      */
-    ResourceType resource;
+    private ResourceType resource;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "Monopoly";
+
 
     /**
      * Creates PlayMonopolyCommand object to be sent to client.ClientFacade
@@ -42,5 +49,10 @@ public class PlayMonopolyCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+
+    public String getType() {
+        return type;
     }
 }
