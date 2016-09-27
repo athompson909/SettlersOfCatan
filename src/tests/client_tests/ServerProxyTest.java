@@ -99,6 +99,26 @@ public class ServerProxyTest extends TestCase {
         assertEquals("Success", str);
     }
 
+    /**
+     * todo: test
+     * @throws ClientException
+     */
+    public void testGameModelVersion() throws ClientException {
+        JSONObject jsonObject = serverProxy.gameModelVersion(0); //figure out if there's a version number that could get a correct response for testing
+        System.out.println("version=0:\n" + jsonObject.toString() + "\n\n");
+        jsonObject = serverProxy.gameModelVersion(1);
+        System.out.println("version=1:\n" + jsonObject.toString() + "\n\n");
+    }
+
+    /**
+     * make sure this returns the model in the state it had on the first roubd
+     * todo: test
+     * @throws ClientException
+     */
+    public void testGameReset() throws ClientException {
+        JSONObject jsonObject = serverProxy.gameReset();
+        System.out.println(jsonObject.toString());
+    }
 
 
 
