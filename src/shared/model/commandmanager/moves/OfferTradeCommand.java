@@ -11,15 +11,22 @@ public class OfferTradeCommand implements BaseCommand {
     /**
      * playerIndex of player offering trade
      */
-    int playerIndex;
+    private int playerIndex;
     /**
      * list of resources being offered
      */
-    ResourceList offer;
+    private ResourceList offer;
     /**
      * playerIndex of player being offered trade
      */
-    int receiver;
+    private int receiver;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "offerTrade";
+
 
     /**
      * Creates OfferTradeCommand object to be sent to client.ClientFacade
@@ -55,5 +62,9 @@ public class OfferTradeCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+    public String getType() {
+        return type;
     }
 }

@@ -34,7 +34,7 @@ public class BuildSettlementCommand implements BaseCommand {
      * The server swagger page asks for the command type to be included in each of the JSON
      * translations of the commands.
      */
-    private String type;
+    private final String type = "buildSettlement";
 
     //For serialization purposes only
     private VertexLocation vertexLocation;
@@ -48,7 +48,6 @@ public class BuildSettlementCommand implements BaseCommand {
      */
     public BuildSettlementCommand(VertexObject vertexObject){
         vertex = vertexObject;
-        type = "buildSettlement";
 
         playerIndex = vertex.getOwner();
         vertexLocation = vertexObject.getVertexLocation();
@@ -90,10 +89,6 @@ public class BuildSettlementCommand implements BaseCommand {
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public int getPlayerIndex() {

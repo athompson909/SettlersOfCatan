@@ -23,7 +23,7 @@ public class BuildCityCommand implements BaseCommand {
      * The server swagger page asks for the command type to be included in each of the JSON
      * translations of the commands.
      */
-    private String type;
+    private final String type = "buildCity";
 
     //For serialization purposes only
     private VertexLocation vertexLocation;
@@ -38,7 +38,6 @@ public class BuildCityCommand implements BaseCommand {
      */
     public BuildCityCommand(VertexObject vertexObject){
         vertex = vertexObject;
-        type = "buildCity";
 
         playerIndex = vertexObject.getOwner();
         vertexLocation = vertexObject.getVertexLocation();
@@ -79,8 +78,5 @@ public class BuildCityCommand implements BaseCommand {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 }
 

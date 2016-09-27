@@ -3,6 +3,9 @@ package shared.model.commandmanager.moves;
 import shared.model.commandmanager.BaseCommand;
 
 /**
+ * EndTurn doesn't have any API documentation or an entry on the swagger page, so I don't think it's a real command
+ *  - Sierra
+ *
  * Created by Alise on 9/18/2016.
  */
 public class EndTurnCommand implements BaseCommand {

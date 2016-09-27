@@ -15,6 +15,13 @@ public class AddAICommand implements BaseCommand {
         setAIType(aiType);
     }
 
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "addAI";
+
+
     private String AIType;
     /**
      * Tells server to add AI to game
@@ -25,12 +32,15 @@ public class AddAICommand implements BaseCommand {
     }
 
 
-
     public String getAIType() {
         return AIType;
     }
 
     public void setAIType(String AIType) {
         this.AIType = AIType;
+    }
+
+    public String getType() {
+        return type;
     }
 }

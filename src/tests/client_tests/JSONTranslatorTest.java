@@ -3,6 +3,7 @@ package tests.client_tests;
 import org.skyscreamer.jsonassert.*;
 import org.json.JSONObject;
 import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.model.ClientModel;
 import junit.framework.TestCase;
@@ -143,6 +144,26 @@ public class JSONTranslatorTest extends TestCase {
         ResourceList dCRL = new ResourceList(0,1,0,2,0);
         discardCommand = new DiscardCommand(dcPIndex, dCRL);
         //-----------------
+
+        //MARITIME TRADE CMD SETUP
+        //-----------------
+        int mtPIndex = 1;
+        int mtRatio = 3;
+        ResourceType iR = ResourceType.WOOD;
+        ResourceType oR = ResourceType.WHEAT;
+        maritimeTradeCommand = new MaritimeTradeCommand(mtPIndex, mtRatio, iR, oR);
+        //-----------------
+
+        //OFFER TRADE CMD SETUP
+        //-----------------
+        int otPIndex = 2;
+        int otReceiver = 1;
+        //RL: int woodCardCount, int brickCardCount, int sheepCardCount, int wheatCardCount, int oreCardCount
+        ResourceList oTRL = new ResourceList(0,2,0,0,-3);
+        offerTradeCommand = new OfferTradeCommand(otPIndex, oTRL, otReceiver);
+        //-----------------
+
+
 
 
 
@@ -826,11 +847,11 @@ public class JSONTranslatorTest extends TestCase {
 
         String expectedResult = "{\n" +
                              "  \"type\": \"buildCity\",\n" +
-                             "  \"playerIndex\": 3,\n" +
+                             "  \"playerIndex\": 2,\n" +
                              "  \"vertexLocation\": {\n" +
-                                        "       \"x\": 3,\n" +
-                                        "       \"y\": 3,\n" +
-                                        "       \"direction\": \"SE\"\n" +
+                                        "       \"x\": 2,\n" +
+                                        "       \"y\": 2,\n" +
+                                        "       \"direction\": \"NE\"\n" +
                                 "   }\n" +
                                 "}";
 
@@ -924,6 +945,8 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, discardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //EndTurn doesn't have any API documentation or anything on the swagger page, so I don't think it's a real command
+    /*
     public void testEndTurnCmdTranslation() throws Exception {
         System.out.println(">TESTING ENDTURNCMD TRANSLATION!");
 
@@ -937,31 +960,53 @@ public class JSONTranslatorTest extends TestCase {
 
         JSONAssert.assertEquals(expectedResult, endTurnCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
+    */
 
+    //GOOD
     public void testMaritimeTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING MARITIMETRADECMD TRANSLATION!");
 
-        String maritimeTradeCmdJSONResult = gsonTest.toJson(maritimeTradeCommand);
+        JSONObject maritimeTradeCmdJSONResult = jsonTranslator.maritimeTradeCmdToJSON(maritimeTradeCommand);
+                // gsonTest.toJson(maritimeTradeCommand);
 
         System.out.println("Just serialized maritimeTradeCMD, JSONstring result= ");
         System.out.println(maritimeTradeCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                 "\"type\":" +  "\"maritimeTrade\",\n"+
+                                 "\"playerIndex\": 1,\n" +
+                                 "\"ratio\": 3,\n" +
+                                 "\"inputResource\": wood,\n" +
+                                 "\"outputResource\": wheat\n" +
+                                 " }";
 
         JSONAssert.assertEquals(expectedResult, maritimeTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testOfferTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING OFFERTRADECMD TRANSLATION!");
 
-        String offerTradeCmdJSONResult = gsonTest.toJson(offerTradeCommand);
+        JSONObject offerTradeCmdJSONResult = jsonTranslator.offerTradeCmdToJSON(offerTradeCommand);
+                // gsonTest.toJson(offerTradeCommand);
 
         System.out.println("Just serialized offerTradeCMD, JSONstring result= ");
         System.out.println(offerTradeCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                    "\"type\": offerTrade,\n" +
+                                    "\"playerIndex\": 2," +
+                                    "\"offer\":" + "{\n" +
+                                        "\"brick\": 2\n," +
+                                        "\"ore\": -3\n," +
+                                        "\"sheep\": 0\n," +
+                                        "\"wheat\": 0\n," +
+                                        "\"wood\": 0\n," +
+                                            "}," +
+                                    "\"receiver\": 1\n" +
+                                 "}";
 
         JSONAssert.assertEquals(expectedResult, offerTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
