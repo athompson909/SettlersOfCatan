@@ -15,11 +15,7 @@ import java.util.*;
  * contains all data related to hexes, hex values, ports, objects on map, dimensions, and the robber
  */
 public class Map {
-
-    public Map(boolean randNum, boolean randHex, boolean randPort) {
-        
-    }
-
+    
     /**
      * List of all hexes used to create map
      */
