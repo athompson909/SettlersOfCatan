@@ -1,8 +1,7 @@
 package shared.model.map;
 
-import com.google.gson.annotations.SerializedName;
-import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -14,28 +13,9 @@ public class VertexObject {
     /**
      * PlayerID of the player who has built on this location
      */
-    private transient int owner;
+    private int owner;
 
-    /**
-     * Location of this vertex
-     */
-    private transient EdgeLocation location;
-
-    //TEST for serialization only
-    int x;
-    int y;
-    EdgeDirection direction;
-
-    public VertexObject(int owner_in, EdgeLocation el_in)
-    {
-        setOwner(owner_in);
-        setLocation(el_in);
-        x = el_in.getX();
-        y = el_in.getY();
-        direction = el_in.getDir();
-    }
-
-
+    private VertexLocation vertexLocation;
 
     /**
      * @return PlayerID of owner
@@ -53,19 +33,11 @@ public class VertexObject {
         this.owner = owner;
     }
 
-    /**
-     * @return location of vertex
-     */
-    public EdgeLocation getLocation() {
-        return location;
+    public VertexLocation getVertexLocation() {
+        return vertexLocation;
     }
 
-    /**
-     * Sets location of vertex
-     *
-     * @param location Location of vertex
-     */
-    public void setLocation(EdgeLocation location) {
-        this.location = location;
+    public void setVertexLocation(VertexLocation vertexLocation) {
+        this.vertexLocation = vertexLocation;
     }
 }
