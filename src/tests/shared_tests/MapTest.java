@@ -62,7 +62,7 @@ public class MapTest extends TestCase {
             System.out.println(map.getHexes().get(key).toString());
             assert (defaultHexes.contains(map.getHexes().get(key).toString()));
         }
-        
+
         //I have personally verified this test case is accurate.
         String defaultPortString = "Port: WHEAT at HexLocation [x=2, y=1] facing NorthWest\n" +
                 "Port: THREE at HexLocation [x=-1, y=-2] facing South\n" +
