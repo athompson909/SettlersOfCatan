@@ -1,7 +1,9 @@
 package shared.model.commandmanager.moves;
 
 import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 import shared.model.commandmanager.BaseCommand;
+import shared.model.map.VertexObject;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -11,24 +13,48 @@ public class BuildSettlementCommand implements BaseCommand {
     /**
      * ID of player who is building settlement
      */
-    int playerID;
+    private int playerIndex;
+
     /**
+     * Contains owner and roadLocation of vertex where player is upgrading to city
+     */
+    private transient VertexObject vertex;
+
+     /*
      * Location where road is being placed
      */
-    EdgeLocation location;
+     //  EdgeLocation location;   //**** I think this was a mistake, Settlements require VertexObjects
+
+    /**
+     * True if the road was placed in the first 2 rounds, otherwise false
+     */
+    private boolean free;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private String type;
+
+    //For serialization purposes only
+    private VertexLocation vertexLocation;
 
     /**
      * Creates a BuildSettlementCommand object to be sent to
      * client.ClientFacade for translation into JSON
      *
      * Sets data members
-     * @param edgeLocation
-     * @param ID
+     * @param vertexObject  - this has the id of the player owner for this settlement inside it!
      */
-    public BuildSettlementCommand(EdgeLocation edgeLocation, int ID){
-        playerID = ID;
-        location = edgeLocation;
+    public BuildSettlementCommand(VertexObject vertexObject){
+        vertex = vertexObject;
+        type = "buildSettlement";
+
+        playerIndex = vertex.getOwner();
+        vertexLocation = vertexObject.getVertexLocation();
+        // location = edgeLocation;
     }
+
 
     /**
      * Calls all necessary model update functions
@@ -44,4 +70,45 @@ public class BuildSettlementCommand implements BaseCommand {
 
     }
 
+
+
+    /**
+     * Getter for boolean free
+     * @return
+     */
+    public boolean isFree() {
+        return free;
+    }
+
+    /**
+     * Setter for boolean free
+     * @param free
+     */
+    public void setFree(boolean free) {
+        this.free = free;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    public VertexObject getVertex() {
+        return vertex;
+    }
+
+    public void setVertex(VertexObject vertex) {
+        this.vertex = vertex;
+    }
 }

@@ -119,10 +119,23 @@ public class JSONTranslatorTest extends TestCase {
         VertexDirection bCVertexDir = VertexDirection.NorthEast;
         VertexLocation bCVertexLocation = new VertexLocation(bCELHexLoc, bCVertexDir);
         VertexObject cityVtx = new VertexObject();
-        cityVtx.setOwner(2);
+        cityVtx.setOwner(bCOwner);
         cityVtx.setVertexLocation(bCVertexLocation);
         buildCityCommand = new BuildCityCommand(cityVtx);
         //-----------------
+
+        //BUILD SETTLEMENT CMD SETUP
+        //-----------------
+        int bSOwner = 3;
+        HexLocation bSELHexLoc = new HexLocation(3, 3);
+        VertexDirection bSVertexDir = VertexDirection.SouthEast;
+        VertexLocation bSVertexLocation = new VertexLocation(bSELHexLoc, bSVertexDir);
+        VertexObject stlmtVtx = new VertexObject();
+        stlmtVtx.setOwner(bSOwner);
+        stlmtVtx.setVertexLocation(bSVertexLocation);
+        buildSettlementCommand = new BuildSettlementCommand(stlmtVtx);
+        buildSettlementCommand.setFree(false);
+        //----------------
 
     }
 
@@ -540,13 +553,16 @@ public class JSONTranslatorTest extends TestCase {
     }
 
 
+
+
 //TEST GAME COMMANDS  ===============================
 
     //GOOD
     public void testAddAICmdTranslation() throws Exception {
         System.out.println(">TESTING ADDAICMD TRANSLATION!");
 
-        String addAICmdJSONResult = gsonTest.toJson(addAICommand);
+        JSONObject addAICmdJSONResult = jsonTranslator.addAICmdToJSON(addAICommand);
+                // gsonTest.toJson(addAICommand);
 
         System.out.print("Just serialized addAICmd, JSONstring result= ");
         System.out.println(addAICmdJSONResult);
@@ -605,16 +621,13 @@ public class JSONTranslatorTest extends TestCase {
     public void testGameJoinCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMEJOINCMD TRANSLATION!");
 
-        String gameJoinCmdJSONResult = gsonTest.toJson(gameJoinCommand);
+        JSONObject gameJoinCmdJSONResult = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
+                // gsonTest.toJson(gameJoinCommand);
 
         System.out.print("Just serialized gameJoinCmd, JSONstring result= ");
         System.out.println(gameJoinCmdJSONResult);
         System.out.println("=================");
 
-
-        //I don't know how picky we should be with these - our Color enum uses all caps, but the
-        //server swagger page wants lowercase. Also, we originally had "id" named "gameID", which
-        //I like better, but the swagger calls it "id" so... maybe for now just do exactly what it says?
         String expectedResult =
                         " {\n" +
                         "\"id\": 5," +
@@ -775,7 +788,8 @@ public class JSONTranslatorTest extends TestCase {
     public void testAcceptTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING ACCEPTTRADECMD TRANSLATION!");
 
-        String acceptTradeCmdJSONResult = gsonTest.toJson(acceptTradeCommand);
+        JSONObject acceptTradeCmdJSONResult = jsonTranslator.acceptTradeCmdToJSON(acceptTradeCommand);
+                // gsonTest.toJson(acceptTradeCommand);
 
         System.out.println("Just serialized acceptTradeCmd, JSONstring result= ");
         System.out.println(acceptTradeCmdJSONResult);
@@ -790,11 +804,12 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, acceptTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-
+    //GOOD
     public void testBuildCityCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDCITYCMD TRANSLATION!");
 
-        String buildCityCmdJSONResult = gsonTest.toJson(buildCityCommand);
+        JSONObject buildCityCmdJSONResult = jsonTranslator.buildCityCmdToJSON(buildCityCommand);
+                // gsonTest.toJson(buildCityCommand);
 
         System.out.println("Just serialized buildCityCmd, JSONstring result= ");
         System.out.println(buildCityCmdJSONResult);
@@ -802,18 +817,16 @@ public class JSONTranslatorTest extends TestCase {
 
         String expectedResult = "{\n" +
                              "  \"type\": \"buildCity\",\n" +
-                             "  \"playerIndex\": 2,\n" +
+                             "  \"playerIndex\": 3,\n" +
                              "  \"vertexLocation\": {\n" +
-                                        "       \"x\": 2,\n" +
-                                        "       \"y\": 2,\n" +
-                                        "       \"direction\": \"NE\"\n" +
+                                        "       \"x\": 3,\n" +
+                                        "       \"y\": 3,\n" +
+                                        "       \"direction\": \"SE\"\n" +
                                 "   }\n" +
                                 "}";
 
-     //   System.out.println(">ExpectedResult: " + expectedResult);
-
         //in order for the JSON to look exactly like what the server wants it to, you sometimes have to
-        //bring up values from nested object to higher up. Example, here I had to take values from VertexObject's
+        //bring up values from nested object to higher up. Example: here I had to take values from VertexObject's
         // EdgeLocation datamem up to be in VertexObject itself so the JSON string would match what the server wants.
         // I don't know if this will cause any problems later.....
 
@@ -824,7 +837,8 @@ public class JSONTranslatorTest extends TestCase {
     public void testBuildRoadCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDROADCMD TRANSLATION!");
 
-        String buildRoadCmdJSONResult = gsonTest.toJson(buildRoadCommand);
+        JSONObject buildRoadCmdJSONResult = jsonTranslator.buildRoadCmdToJSON(buildRoadCommand);
+                // gsonTest.toJson(buildRoadCommand);
 
         System.out.print("Just serialized buildRoadCmd, JSONstring result= ");
         System.out.println(buildRoadCmdJSONResult);
@@ -850,16 +864,27 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, buildRoadCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testBuildSettlementCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDSTLMTCMD TRANSLATION!");
 
-        String buildStlmtCmdJSONResult = gsonTest.toJson(buildSettlementCommand);
+        JSONObject buildStlmtCmdJSONResult = jsonTranslator.buildSettlementCmdToJSON(buildSettlementCommand);
+                //gsonTest.toJson(buildSettlementCommand);
 
         System.out.println("Just serialized buildStlmtCmd, JSONstring result= ");
         System.out.println(buildStlmtCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{" +
+                                "\"type\": \"buildSettlement\", " +
+                                "\"playerIndex\": 3," +
+                                "\"vertexLocation\":" + " { " +
+                                        "\"x\": 3," +
+                                        "\"y\": 3," +
+                                        "\"direction\":" + "SE" +
+                                                  "}," +
+                                "\"free\": false" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, buildStlmtCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }

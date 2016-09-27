@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import com.google.gson.annotations.SerializedName;
 import shared.locations.VertexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.map.VertexObject;
@@ -11,19 +10,24 @@ import shared.model.map.VertexObject;
 public class BuildCityCommand implements BaseCommand {
 
     /**
+     * ID of player who is building city
+     */
+    private int playerIndex;
+
+    /**
      * Contains owner and roadLocation of vertex where player is upgrading to city
      */
-    private transient VertexObject vert;
+    private transient VertexObject vertex;
 
     /**
      * The server swagger page asks for the command type to be included in each of the JSON
      * translations of the commands.
      */
-    String type;
+    private String type;
 
     //For serialization purposes only
-    private int playerIndex;
     private VertexLocation vertexLocation;
+
 
     /**
      * Creates a buildCityCommand object to be sent to client.ClientFacade
@@ -33,8 +37,9 @@ public class BuildCityCommand implements BaseCommand {
      * @param vertexObject
      */
     public BuildCityCommand(VertexObject vertexObject){
-        vert = vertexObject;
+        vertex = vertexObject;
         type = "buildCity";
+
         playerIndex = vertexObject.getOwner();
         vertexLocation = vertexObject.getVertexLocation();
     }
@@ -53,4 +58,29 @@ public class BuildCityCommand implements BaseCommand {
     public void serverExec(BaseCommand BC) {
 
     }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    public VertexObject getVertex() {
+        return vertex;
+    }
+
+    public void setVertex(VertexObject vertex) {
+        this.vertex = vertex;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
+

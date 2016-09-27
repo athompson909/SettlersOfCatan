@@ -20,13 +20,13 @@ public class BuildRoadCommand implements BaseCommand {
     /**
      * True if the road was placed in the first 2 rounds, false otherwise
      */
-    boolean free;
+    private boolean free;
 
     /**
      * The server swagger page asks for the command type to be included in each of the JSON
      * translations of the commands.
      */
-    String type;
+    private String type;
 
 
     /**
@@ -39,7 +39,7 @@ public class BuildRoadCommand implements BaseCommand {
      * @param ID
      */
     public BuildRoadCommand(EdgeLocation edgeLocation, int ID){
-        type = "buildRoad";
+        setType("buildRoad");
         playerIndex = ID;
         roadLocation = edgeLocation;
     }
@@ -72,5 +72,13 @@ public class BuildRoadCommand implements BaseCommand {
      */
     public void setFree(boolean free) {
         this.free = free;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
