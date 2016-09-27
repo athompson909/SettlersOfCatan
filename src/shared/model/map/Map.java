@@ -4,6 +4,8 @@ import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 import java.util.*;
 
@@ -28,6 +30,10 @@ public class Map {
      * List of EdgeValues where roads are built
      */
     private List<EdgeValue> roads;
+
+    //Can't do HexLocation because two VertexObjects share the same HexLocation...
+    //Maybe two hashmaps? One with northwest and one with northeast? //Or 2D map, map with map as key?
+    //private HashMap<HexLocation, VertexObject> vertexObjects = new HashMap<>();
 
     /**
      * List of vertexObjects where settlements are built
@@ -67,10 +73,11 @@ public class Map {
         createAllWaterHexes();
         placeAllPorts(randomlyPlacePorts);
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
+        createAllVertexObjects();
     }
 
     private void createAllWaterHexes() {
-        //18 Water hexes at these specified locations
+        //18 Water hexes at these specified locations starting with north-west corner going counterclockwise
         createWaterHex(-3, 0);
         createWaterHex(-3, 1);
         createWaterHex(-3, 2);
@@ -192,6 +199,18 @@ public class Map {
             landHex.setNumber(numberIterator.next().intValue());
         }
         hexes.put(landHex.getLocation(), landHex);
+    }
+
+    private void createAllVertexObjects() {
+        createVertexObject(-2, 0, VertexDirection.NorthWest);
+        createVertexObject(-2, 0, VertexDirection.NorthEast);
+
+    }
+
+    private void createVertexObject(int x, int y, VertexDirection direction){
+        VertexLocation vertexLocation = new VertexLocation(new HexLocation(x,y), direction);
+        VertexObject vertexObject = new VertexObject(vertexLocation);
+
     }
 
 

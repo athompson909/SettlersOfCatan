@@ -119,9 +119,8 @@ public class JSONTranslatorTest extends TestCase {
         HexLocation bCELHexLoc = new HexLocation(2, 2);
         VertexDirection bCVertexDir = VertexDirection.NorthEast;
         VertexLocation bCVertexLocation = new VertexLocation(bCELHexLoc, bCVertexDir);
-        VertexObject cityVtx = new VertexObject();
+        VertexObject cityVtx = new VertexObject(bCVertexLocation);
         cityVtx.setOwner(bCOwner);
-        cityVtx.setVertexLocation(bCVertexLocation);
         buildCityCommand = new BuildCityCommand(cityVtx);
         //-----------------
 
@@ -131,9 +130,8 @@ public class JSONTranslatorTest extends TestCase {
         HexLocation bSELHexLoc = new HexLocation(3, 3);
         VertexDirection bSVertexDir = VertexDirection.SouthEast;
         VertexLocation bSVertexLocation = new VertexLocation(bSELHexLoc, bSVertexDir);
-        VertexObject stlmtVtx = new VertexObject();
+        VertexObject stlmtVtx = new VertexObject(bSVertexLocation);
         stlmtVtx.setOwner(bSOwner);
-        stlmtVtx.setVertexLocation(bSVertexLocation);
         buildSettlementCommand = new BuildSettlementCommand(stlmtVtx);
         buildSettlementCommand.setFree(false);
         //----------------

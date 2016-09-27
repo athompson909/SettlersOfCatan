@@ -25,10 +25,6 @@ public class Hex {
      */
     private HexType hexType;
 
-    public Hex(){
-
-    }
-
     public Hex(HexLocation location, HexType hexType){
         this.location = location;
         this.hexType = hexType;

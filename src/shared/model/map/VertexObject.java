@@ -1,6 +1,7 @@
 package shared.model.map;
 
 import com.google.gson.annotations.SerializedName;
+import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 
@@ -17,6 +18,13 @@ public class VertexObject {
     private transient int owner;
 
     private transient VertexLocation vertexLocation;
+
+    private PieceType pieceType;
+
+    public VertexObject(VertexLocation location){
+        vertexLocation = location;
+
+    }
 
     /**
      * @return PlayerID of owner
@@ -38,7 +46,11 @@ public class VertexObject {
         return vertexLocation;
     }
 
-    public void setVertexLocation(VertexLocation vertexLocation) {
-        this.vertexLocation = vertexLocation;
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public void setPieceType(PieceType pieceType) {
+        this.pieceType = pieceType;
     }
 }

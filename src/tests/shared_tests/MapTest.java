@@ -15,12 +15,16 @@ public class MapTest extends TestCase {
     private Map map = new Map(false, false, false); //Don't randomize
 
     public void testMap() {
-        //assert (map.getHexes().get(new HexLocation(0,-2)).getHexType() == HexType.DESERT);
+        testMapHexes();
+        testMapPorts();
+    }
+
+    private void testMapHexes() {
         System.out.println(map.getHexes().size());
-        System.out.println(map.getPorts().keySet());
+        assert (map.getHexes().size() == 37); //There should be 37 hexes.
 
         //I have personally verified this test case is accurate.
-        String defaultHexes = "HexType: WATER Number= 0 HexLocation [x=2, y=1]\n" +
+        String defaultHexesString = "HexType: WATER Number= 0 HexLocation [x=2, y=1]\n" +
                 "HexType: WOOD Number= 3 HexLocation [x=0, y=-1]\n" +
                 "HexType: WHEAT Number= 11 HexLocation [x=0, y=0]\n" +
                 "HexType: WATER Number= 0 HexLocation [x=-2, y=-1]\n" +
@@ -58,11 +62,13 @@ public class MapTest extends TestCase {
                 "HexType: WHEAT Number= 9 HexLocation [x=2, y=0]\n" +
                 "HexType: DESERT Number= 0 HexLocation [x=0, y=-2]";
 
-        for(HexLocation key : map.getHexes().keySet()){
+        for (HexLocation key : map.getHexes().keySet()) {
             System.out.println(map.getHexes().get(key).toString());
-            assert (defaultHexes.contains(map.getHexes().get(key).toString()));
+            assert (defaultHexesString.contains(map.getHexes().get(key).toString()));
         }
+    }
 
+    private void testMapPorts() {
         //I have personally verified this test case is accurate.
         String defaultPortString = "Port: WHEAT at HexLocation [x=2, y=1] facing NorthWest\n" +
                 "Port: THREE at HexLocation [x=-1, y=-2] facing South\n" +
@@ -74,14 +80,10 @@ public class MapTest extends TestCase {
                 "Port: THREE at HexLocation [x=3, y=-1] facing NorthWest\n" +
                 "Port: THREE at HexLocation [x=1, y=-3] facing South";
 
-        for(HexLocation key : map.getPorts().keySet()){
+        for (HexLocation key : map.getPorts().keySet()) {
             System.out.println(map.getPorts().get(key).toString());
-           assert (defaultPortString.contains(map.getPorts().get(key).toString()));
+            assert (defaultPortString.contains(map.getPorts().get(key).toString()));
         }
-
-
-
-
     }
 
 
