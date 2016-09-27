@@ -29,6 +29,8 @@ public class ServerProxy implements IServerProxy {
 
     private boolean isJoin = false;
 
+    private boolean hasJoined = false;
+
     /**
      * the cookie returned when userLogin(...) is ran
      *  "all subsequent web service calls
@@ -88,10 +90,7 @@ public class ServerProxy implements IServerProxy {
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
             connection.setRequestMethod("POST");
-            if (isJoin) {
-                //Map<String, List<String>> headers = connection.getHeaderFields();
-                connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
-            }
+            setCookies(connection);
             connection.setDoOutput(true);
             connection.connect();
 
@@ -161,6 +160,19 @@ public class ServerProxy implements IServerProxy {
             //setRegisterCookie(URLDecoder.decode(undecodedJoinCookie));
             isJoin = false;
 
+        }
+    }
+
+    private void setCookies(HttpURLConnection connection) throws ClientException {
+
+        if (isJoin) {
+            //Map<String, List<String>> headers = connection.getHeaderFields();
+            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
+            hasJoined = true;
+        }
+        if (hasJoined) {
+            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
+            connection.setRequestProperty("Cookie", "catan.game=" + joinCookie);
         }
     }
 
