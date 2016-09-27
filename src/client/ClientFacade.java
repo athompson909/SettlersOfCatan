@@ -390,7 +390,8 @@ public class ClientFacade {
      */
     public void listAI(ListAICommand command){
         //Todo
-        JSONObject json = jsonTranslator.listAICmdToJSON(command);
+        //This command is sent to the server only through the URL, no JSON necessary
+       // JSONObject json = jsonTranslator.listAICmdToJSON(command);
         //JSONObject response = serverProxy.listAI(json);//todo surround with try catch if uncomment
     }
 

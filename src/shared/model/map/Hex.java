@@ -25,10 +25,6 @@ public class Hex {
      */
     private HexType hexType;
 
-    public Hex(){
-
-    }
-
     public Hex(HexLocation location, HexType hexType){
         this.location = location;
         this.hexType = hexType;
@@ -61,7 +57,7 @@ public class Hex {
      * @param number Number associated with hex
      */
     public void setNumber(int number) {
-        number = number;
+        this.number = number;
     }
 
     /**
@@ -77,5 +73,14 @@ public class Hex {
      */
     public void setHexType(HexType hexType) {
         this.hexType = hexType;
+    }
+
+    @Override
+    public String toString() {
+        return "Hex{" +
+                "location=" + location +
+                ", number=" + number +
+                ", hexType=" + hexType.toString() +
+                '}';
     }
 }

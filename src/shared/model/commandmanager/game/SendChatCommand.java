@@ -17,6 +17,13 @@ public class SendChatCommand implements BaseCommand {
     private String content;
 
     /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "sendChat";
+
+
+    /**
      *
      * @param playerIndex
      * @param content
@@ -43,5 +50,9 @@ public class SendChatCommand implements BaseCommand {
 
     public String getContent() {
         return content;
+    }
+
+    public String getType() {
+        return type;
     }
 }

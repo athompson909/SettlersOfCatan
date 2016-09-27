@@ -212,7 +212,7 @@ public class Player { //
      * @return true if the player can play a RoadBuilding card.
      */
     public boolean canPlayRoadBuildingCard() {
-        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
+        if (oldDevCardList.getRoadBuildingCardCount() > 0) {
             return true;
         }
         return false;
@@ -287,13 +287,13 @@ public class Player { //
     }
 
     public void playSoldierCard() {
-        newDevCardList.removeSoldierCard();
+        oldDevCardList.removeDevCard(DevCardType.SOLDIER);
         soldiersPlayed++;
         playedDevCard = true;
     }
 
     public void playMonumentCard() {
-        newDevCardList.removeMonumentCard();
+        oldDevCardList.removeDevCard(DevCardType.MONUMENT);
         monuments++;
         victoryPoints++;
         //playedDevCard = true; //Monument
@@ -303,12 +303,12 @@ public class Player { //
         for(int i = 0; i < roadsUsed; i++){
             roadCount--;
         }
-        newDevCardList.removeRoadBuildingCard();
+        oldDevCardList.removeDevCard(DevCardType.ROAD_BUILD);
         playedDevCard = true;
     }
 
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {
-        newDevCardList.removeMonopolyCard();
+        oldDevCardList.removeDevCard(DevCardType.MONOPOLY);
         switch (monopolizedResource) {
             case WOOD:
                 playerResourceList.incWoodCardCount(cardsGained);
@@ -341,7 +341,7 @@ public class Player { //
 
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
         //TODO: Figure out where verification of these resources being available is done
-        newDevCardList.removeYearOfPlentyCard();
+        oldDevCardList.removeDevCard(DevCardType.YEAR_OF_PLENTY);
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);
         playedDevCard = true;
@@ -448,11 +448,14 @@ public class Player { //
         newDevCardList = list;
     }
 
-    private void setPlayedDevCard(boolean playedDev) {
+    //Temporarily setting public for Junit test cases.
+    public void setPlayedDevCard(boolean playedDev) {
         playedDevCard = playedDev;
     }
 
     private void setDiscarded(boolean disc) {
         discarded = disc;
     }
+
+
 }

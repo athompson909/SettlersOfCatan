@@ -30,7 +30,7 @@ public class GameCreateCommand implements BaseCommand {
      * The server swagger page asks for the command type to be included in each of the JSON
      * translations of the commands.
      */
-    private final String type = "createGame";
+    private final transient String type = "createGame";
 
     /**
      * Creates GameCreateCommand to pass to the client.ClientFacade. Sets data members.
@@ -39,7 +39,7 @@ public class GameCreateCommand implements BaseCommand {
      * @param randomNumbers
      * @param randomPorts
      */
-    public GameCreateCommand(String name,boolean randomTiles, boolean randomNumbers, boolean randomPorts ){
+    public GameCreateCommand(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts ){
         this.name = name;
         this.randomTiles = randomTiles;
         this.randomNumbers = randomNumbers;

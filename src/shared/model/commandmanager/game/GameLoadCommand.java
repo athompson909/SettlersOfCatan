@@ -1,4 +1,5 @@
 package shared.model.commandmanager.game;
+import com.google.gson.annotations.SerializedName;
 import shared.model.commandmanager.BaseCommand;
 
 import java.io.File;
@@ -9,6 +10,7 @@ public class GameLoadCommand implements BaseCommand {
     /**
      * name of file to Load
      */
+    @SerializedName("name")
     private String filename;
 
     /**
