@@ -34,13 +34,6 @@ public class Hex {
         this.hexType = hexType;
     }
 
-    @Override
-    public String toString()
-    {
-        return "HexType: " + hexType.toString() + " Number= " + number + " " + location.toString();
-    }
-
-
     /**
      * @return Location of hex
      */
@@ -84,5 +77,14 @@ public class Hex {
      */
     public void setHexType(HexType hexType) {
         this.hexType = hexType;
+    }
+
+    @Override
+    public String toString() {
+        return "Hex{" +
+                "location=" + location +
+                ", number=" + number +
+                ", hexType=" + hexType.toString() +
+                '}';
     }
 }
