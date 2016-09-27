@@ -104,8 +104,8 @@ public class Map {
 
     private void placeAllPorts(boolean randomlyPlacePorts) {
         //Default Port Order
-        List<PortType> resourcePortList = Arrays.asList(
-                PortType.ORE, PortType.BRICK, PortType.WOOD, PortType.WHEAT, PortType.SHEEP);
+        List<PortType> resourcePortList = new LinkedList<PortType>(
+                Arrays.asList(PortType.ORE, PortType.BRICK, PortType.WOOD, PortType.WHEAT, PortType.SHEEP));
 
         if (randomlyPlacePorts) {
             //Shuffle the port order
@@ -145,12 +145,12 @@ public class Map {
     }
 
     private void createAllLandHexes(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers) {
-        //The default land hex order starting with the north most hex and spiraling inward clockwise
+        //The default land hex order starting with the north-west corner and spiraling in counter-clockwise
         List<HexType> landHexTypeOrder = Arrays.asList(
-                HexType.DESERT, HexType.BRICK, HexType.WOOD, HexType.SHEEP, HexType.WHEAT,
-                HexType.SHEEP, HexType.WHEAT, HexType.ORE, HexType.WOOD, HexType.WHEAT, HexType.ORE,
-                HexType.BRICK, HexType.WOOD, HexType.ORE, HexType.BRICK, HexType.WOOD, HexType.SHEEP,
-                HexType.SHEEP, HexType.WHEAT);
+                HexType.ORE, HexType.WHEAT, HexType.WOOD, HexType.ORE, HexType.WHEAT,
+                HexType.SHEEP, HexType.WHEAT, HexType.SHEEP, HexType.WOOD, HexType.BRICK, HexType.DESERT,
+                HexType.BRICK, HexType.SHEEP, HexType.SHEEP, HexType.WOOD, HexType.BRICK, HexType.ORE,
+                HexType.WOOD, HexType.WHEAT);
 
         if (randomlyPlaceHexes) { //Shuffle the hex order
             long seed = System.nanoTime();
@@ -164,31 +164,32 @@ public class Map {
         numberIterator = numberOrder.iterator();
 
         //Create all 19 LandHexes at their specified coordinates
-        createLandHex(0, -2, landHexTypeOrder.get(1)); //North Corner
-        createLandHex(1, -2, landHexTypeOrder.get(2));
-        createLandHex(2, -2, landHexTypeOrder.get(3)); //North East Corner
-        createLandHex(-1, 2, landHexTypeOrder.get(4));
-        createLandHex(2, 0, landHexTypeOrder.get(5)); //South East Corner
-        createLandHex(1, 1, landHexTypeOrder.get(6));
-        createLandHex(0, 2, landHexTypeOrder.get(7)); //South Corner
-        createLandHex(-1, 2, landHexTypeOrder.get(8));
-        createLandHex(-2, 2, landHexTypeOrder.get(9)); //South West Corner
-        createLandHex(-2, 1, landHexTypeOrder.get(10));
-        createLandHex(-2, 0, landHexTypeOrder.get(11)); //North West Corner
-        createLandHex(-1, -1, landHexTypeOrder.get(12));
-        createLandHex(0, -1, landHexTypeOrder.get(13)); //Above Center
-        createLandHex(1, -1, landHexTypeOrder.get(14));
+        createLandHex(-2, 0, landHexTypeOrder.get(0)); //North West Corner
+        createLandHex(-2, 1, landHexTypeOrder.get(1));
+        createLandHex(-2, 2, landHexTypeOrder.get(2)); //South West Corner
+        createLandHex(-1, 2, landHexTypeOrder.get(3));
+        createLandHex(0, 2, landHexTypeOrder.get(4)); //South Corner
+        createLandHex(1, 1, landHexTypeOrder.get(5));
+        createLandHex(2, 0, landHexTypeOrder.get(6)); //South East Corner
+        createLandHex(2, -1, landHexTypeOrder.get(7));
+        createLandHex(2, -2, landHexTypeOrder.get(8)); //North East Corner
+        createLandHex(1, -2, landHexTypeOrder.get(9));
+        createLandHex(0, -2, landHexTypeOrder.get(10)); //North Corner
+        createLandHex(-1, -1, landHexTypeOrder.get(11));
+        createLandHex(-1, 0, landHexTypeOrder.get(12));
+        createLandHex(-1, 1, landHexTypeOrder.get(13));
+        createLandHex(0, 1, landHexTypeOrder.get(14)); //Below center
         createLandHex(1, 0, landHexTypeOrder.get(15));
-        createLandHex(0, 1, landHexTypeOrder.get(16)); //Below center
-        createLandHex(-1, 1, landHexTypeOrder.get(17));
-        createLandHex(-1, 0, landHexTypeOrder.get(18));
-        createLandHex(0, 0, landHexTypeOrder.get(19)); //Center
+        createLandHex(1, -1, landHexTypeOrder.get(16));
+        createLandHex(0, -1, landHexTypeOrder.get(17)); //Above Center
+        createLandHex(0, 0, landHexTypeOrder.get(18)); //Center
     }
 
     private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
-            landHex.setNumber(numberIterator.next());
+
+            landHex.setNumber(numberIterator.next().intValue());
         }
         hexes.put(landHex.getLocation(), landHex);
     }

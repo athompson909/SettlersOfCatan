@@ -52,6 +52,12 @@ public class Port {
         edgeDirection = dir;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Port: " + portType.toString() + " at " + location.toString() + " facing " + edgeDirection.toString();
+    }
+
     public void update() {
         //CONVERT JSON STRING TO ENUM TYPES.
     }
