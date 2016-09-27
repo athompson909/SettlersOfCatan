@@ -1,6 +1,7 @@
 package tests.client_tests;
 
 import client.ServerProxy;
+import exceptions.ClientException;
 import junit.framework.TestCase;
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ public class ServerProxyTest extends TestCase {
 
 
 
-    public void testHttpPost() {
+    public void testHttpPost() throws ClientException {
         String urlStr = "http://localhost:8081/user/login";
 
         serverProxy.userRegister(new JSONObject(loginStr));
@@ -27,7 +28,7 @@ public class ServerProxyTest extends TestCase {
     /**
      * don't use newLoginStr in this method
      */
-    public void testUserLogin() {
+    public void testUserLogin() throws ClientException {
 
         JSONObject loginJson = new JSONObject(loginStr);
         assertEquals("Success", serverProxy.userLogin(loginJson));
@@ -40,7 +41,7 @@ public class ServerProxyTest extends TestCase {
 
     }
 
-    public void testUserRegister() {
+    public void testUserRegister() throws ClientException {
 
         JSONObject loginJson = new JSONObject(loginStr);
 
@@ -58,7 +59,7 @@ public class ServerProxyTest extends TestCase {
      * prints the json object that should be returned by the server
      * for some reason with the demo server it doesn't print out any of the games that I create
      */
-    public void testGamesList() {
+    public void testGamesList() throws ClientException {
 
         //compare variables in the two games lists
         JSONObject jsonObject = serverProxy.gamesList();
@@ -70,7 +71,7 @@ public class ServerProxyTest extends TestCase {
      * can only be executed after testGameLogin() has been run (so we're going to run from inside there)
      * don't run this test case alone!
      */
-    public void testGameJoin() {
+    public void testGameJoin() throws ClientException {
 
         JSONObject jsonObject = new JSONObject(JOIN_STR);
         String jsonStr = serverProxy.gameJoin(jsonObject);
@@ -79,24 +80,26 @@ public class ServerProxyTest extends TestCase {
         //System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
     }
 
-    public void testGameCreate() {
+    public void testGameCreate() throws ClientException {
         JSONObject jsonObject = new JSONObject(GAME_CREATE_STR);
         System.out.println(serverProxy.gameCreate(jsonObject));
     }
 
-    public void testGameSave() {
+    public void testGameSave() throws ClientException {
         JSONObject jsonObject = new JSONObject(GAME_SAVE_STR);
         String str = serverProxy.gameSave(jsonObject);
         System.out.println(str);
         assertEquals("Success", str);
     }
 
-    public void testGameLoad() {
+    public void testGameLoad() throws ClientException {
         JSONObject jsonObject = new JSONObject("{\"name\":\"testgame1002-Adam\"}");
         String str = serverProxy.gameLoad(jsonObject);
         System.out.println(str);
         assertEquals("Success", str);
     }
+
+
 
 
 
