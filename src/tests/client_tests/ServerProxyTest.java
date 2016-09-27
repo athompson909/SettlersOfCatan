@@ -22,7 +22,7 @@ public class ServerProxyTest extends TestCase {
     public void testServerProxy() throws ClientException {
 
         // testing register
-        //testUserRegister();
+        testUserRegister();
 
         // testing login
         JSONObject loginJson = new JSONObject(loginStr);
@@ -30,10 +30,19 @@ public class ServerProxyTest extends TestCase {
         System.out.println(str);
         assertEquals("Success", str);
 
+        testGamesList();
+        testGameCreate();
+        testGamesList();
+
         // testing join
         testGameJoin(); // this has to be run from here otherwise login cookie will be null
         System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
         System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+
+        testGameModelVersion();
+        testGameReset();
+        // see if the model changes:
+        //testGameModelVersion();
 
 
     }
@@ -68,9 +77,12 @@ public class ServerProxyTest extends TestCase {
 
         JSONObject loginJson = new JSONObject(loginStr);
 
-        String str = serverProxy.getRegisterCookie();
+        String response = serverProxy.userRegister(loginJson);
+        System.out.println("userRegister(): " + response);
 
-        assertEquals("http error: bad request", serverProxy.userRegister(loginJson));
+        String str = serverProxy.getRegisterCookie();
+        System.out.println("registerCookie: " + str);
+        //assertEquals("http error: bad request", serverProxy.userRegister(loginJson));
 
         // these have already been tested, obviously they will not pass if executed more than once for the same string
         //JSONObject newLoginJson = new JSONObject(newLoginStr);
@@ -87,7 +99,12 @@ public class ServerProxyTest extends TestCase {
         //compare variables in the two games lists
         JSONObject jsonObject = serverProxy.gamesList();
         String jsonStr = jsonObject.toString();
-        System.out.print(jsonStr);
+        System.out.print("gamesList(): \n" + jsonStr + "\n\n");
+    }
+
+    public void testGameCreate() throws ClientException {
+        JSONObject jsonObject = new JSONObject(GAME_CREATE_STR);
+        System.out.println(serverProxy.gameCreate(jsonObject));
     }
 
     /**
@@ -99,13 +116,8 @@ public class ServerProxyTest extends TestCase {
         JSONObject jsonObject = new JSONObject(JOIN_STR);
         String jsonStr = serverProxy.gameJoin(jsonObject);
         assertEquals("Success", jsonStr);
-        System.out.println("json: " + jsonStr);
+        System.out.println("gameJoin(): " + jsonStr);
         //System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
-    }
-
-    public void testGameCreate() throws ClientException {
-        JSONObject jsonObject = new JSONObject(GAME_CREATE_STR);
-        System.out.println(serverProxy.gameCreate(jsonObject));
     }
 
     public void testGameSave() throws ClientException {
@@ -123,14 +135,17 @@ public class ServerProxyTest extends TestCase {
     }
 
     /**
-     * todo: test
      * @throws ClientException
+     * The version number of the model that the caller already has. It goes up by one for each command that is applied.
+     * If you send this parameter, you will get a model back only if the current model is newer than the specified
+     *  version number.
+     * Otherwise, it returns the string "true" to notify the caller that it already has the current model state.
      */
     public void testGameModelVersion() throws ClientException {
-        JSONObject jsonObject = serverProxy.gameModelVersion(0); //figure out if there's a version number that could get a correct response for testing
-        System.out.println("version=0:\n" + jsonObject.toString() + "\n\n");
-        jsonObject = serverProxy.gameModelVersion(1);
-        System.out.println("version=1:\n" + jsonObject.toString() + "\n\n");
+        String model = serverProxy.gameModelVersion(0);
+        System.out.println("version=0:\n" + model + "\n\n");
+        model = serverProxy.gameModelVersion(1);
+        System.out.println("version=1:\n" + model + "\n\n");
     }
 
     /**
@@ -140,7 +155,7 @@ public class ServerProxyTest extends TestCase {
      */
     public void testGameReset() throws ClientException {
         JSONObject jsonObject = serverProxy.gameReset();
-        System.out.println(jsonObject.toString());
+        System.out.println("gameReset(): " + jsonObject.toString() + "\n\n");
     }
 
 
@@ -149,8 +164,8 @@ public class ServerProxyTest extends TestCase {
 
 
     private String loginStr = "{\n" +
-            "  \"username\": \"Sam\",\n" + //Sam
-            "  \"password\": \"sam\"\n" + //sam
+            "  \"username\": \"adam\",\n" + //Sam
+            "  \"password\": \"adam\"\n" + //sam
             "}";
 
     private String badLoginStr = "{\n" +
@@ -159,8 +174,8 @@ public class ServerProxyTest extends TestCase {
             "}";
 
     private String newLoginStr = "{\n" +
-            "  \"username\": \"adam2222\",\n" +
-            "  \"password\": \"adam2222\"\n" +
+            "  \"username\": \"adam2\",\n" +
+            "  \"password\": \"adam2\"\n" +
             "}";
 
     private final String GAME_CREATE_STR = "{\n" +
@@ -171,12 +186,12 @@ public class ServerProxyTest extends TestCase {
             "}";
 
     private final String JOIN_STR = "{\n" +
-            "  \"id\": \"4\",\n" +
+            "  \"id\": \"3\",\n" +
             "  \"color\": \"blue\"\n" +
             "}";
 
     private final String GAME_SAVE_STR = "{\n" +
-            "  \"id\": \"4\",\n" +
+            "  \"id\": \"3\",\n" +
             "  \"name\": \"testgame1002-Adam\"\n" +
             "}";
 }

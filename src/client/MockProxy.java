@@ -177,8 +177,8 @@ public class MockProxy implements IServerProxy {
      * titled “client Model JSON Documentation”
      */
     @Override
-    public JSONObject gameModelVersion(int modelVer) throws ClientException  {
-        return new JSONObject(GAME_MODEL);
+    public String gameModelVersion(int modelVer) throws ClientException  {
+        return GAME_MODEL;
     }
 
     /**

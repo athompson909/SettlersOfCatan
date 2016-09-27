@@ -286,7 +286,8 @@ public class ClientFacade {
     public void gameModelVersion() {
         JSONObject jsonNewModel;
         try {
-            jsonNewModel = serverProxy.gameModelVersion(version);
+            String jsonNewModelStr = serverProxy.gameModelVersion(version);
+            jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
             version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
