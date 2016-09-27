@@ -286,7 +286,8 @@ public class ClientFacade {
     public void gameModelVersion() {
         JSONObject jsonNewModel;
         try {
-            jsonNewModel = serverProxy.gameModelVersion(version);
+            String jsonNewModelStr = serverProxy.gameModelVersion(version);
+            jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
             version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
@@ -414,7 +415,7 @@ public class ClientFacade {
     public void addAI(AddAICommand command){
         JSONObject json = jsonTranslator.addAICmdToJSON(command);
         try {
-            JSONObject response = serverProxy.addAI(json);
+            String response = serverProxy.addAI(json); // this is no longer a JSON, <3 Adam
         }
         catch (ClientException e) {
             e.printStackTrace();

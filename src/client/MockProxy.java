@@ -1,5 +1,6 @@
 package client;
 import exceptions.ClientException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -177,8 +178,8 @@ public class MockProxy implements IServerProxy {
      * titled “client Model JSON Documentation”
      */
     @Override
-    public JSONObject gameModelVersion(int modelVer) throws ClientException  {
-        return new JSONObject(GAME_MODEL);
+    public String gameModelVersion(int modelVer) throws ClientException  {
+        return GAME_MODEL;
     }
 
     /**
@@ -281,8 +282,8 @@ public class MockProxy implements IServerProxy {
      * These are the values that may be passed to the /game/addAI method.
      */
     @Override
-    public JSONObject listAI() throws ClientException  {
-        return new JSONObject(AI);
+    public JSONArray listAI() throws ClientException  {
+        return new JSONArray(AI);
     }
 
     /**
@@ -305,8 +306,8 @@ public class MockProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI(JSONObject json) throws ClientException  {
-        return new JSONObject(GAME_MODEL);
+    public String addAI(JSONObject json) throws ClientException  {
+        return GAME_MODEL;
     }
 
     /**
@@ -623,8 +624,7 @@ public class MockProxy implements IServerProxy {
     private final String SUCCESS = "Success";
 
     // not going to change to local variable so code is easier to read
-    private final String GAMES_LIST = "[\n" +
-            "  {\n" +
+    private final String GAMES_LIST = "{\n" +
             "    \"title\": \"Default Game\",\n" +
             "    \"id\": 0,\n" +
             "    \"players\": [\n" +
@@ -701,8 +701,7 @@ public class MockProxy implements IServerProxy {
             "        \"id\": 11\n" +
             "      }\n" +
             "    ]\n" +
-            "  }\n" +
-            "]";
+            "  }\n";
 
     private final String GAME_INFO = "{\n" +
             "  \"title\": \"string\",\n" +

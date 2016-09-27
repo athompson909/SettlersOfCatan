@@ -1,27 +1,22 @@
-package tests.client_tests;
+package client_tests;
 
-import org.json.JSONArray;
-import org.skyscreamer.jsonassert.*;
+import com.google.gson.Gson;
+import junit.framework.TestCase;
 import org.json.JSONObject;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import shared.definitions.CatanColor;
 import shared.definitions.LoggingLevel;
 import shared.definitions.ResourceType;
 import shared.locations.*;
-import shared.model.ClientModel;
-import junit.framework.TestCase;
-import com.google.gson.*;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildCity;
-import shared.model.map.Hex;
-import shared.model.map.Map;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**

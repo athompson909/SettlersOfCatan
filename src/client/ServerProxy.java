@@ -1,6 +1,7 @@
 package client;
 
 import exceptions.ClientException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -133,8 +134,9 @@ public class ServerProxy implements IServerProxy {
     }
 
     /**
+     * gets cookies from server for when user is logging in/registering/joining a game
      *
-     * @param connection
+     * @param connection the connection after response code has been verified to be "200"
      */
     private void getCookies(HttpURLConnection connection) throws ClientException {
 
@@ -163,16 +165,19 @@ public class ServerProxy implements IServerProxy {
         }
     }
 
+    /**
+     * sets in game cookies
+     *
+     * included in connection exists a map: Map<String, List<String>> headers = connection.getHeaderFields();
+     * @param connection the connection that was just initialized with request method set
+     */
     private void setCookies(HttpURLConnection connection) throws ClientException {
-
         if (isJoin) {
-            //Map<String, List<String>> headers = connection.getHeaderFields();
             connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
             hasJoined = true;
         }
-        if (hasJoined) {
-            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
-            connection.setRequestProperty("Cookie", "catan.game=" + joinCookie);
+        else if (hasJoined) {
+            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie + "; catan.game=" + joinCookie);
         }
     }
 
@@ -192,7 +197,7 @@ public class ServerProxy implements IServerProxy {
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
             connection.setRequestMethod("GET");
-            //connection.addRequestProperty("Authorization", authorizationToken);
+            setCookies(connection);
             connection.connect();
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -294,11 +299,12 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject gamesList() throws ClientException {
+    public JSONObject gamesList() throws ClientException {//todo change to JSONArray return type
         String urlStr = "http://localhost:8081/games/list";
         String responseStr = httpGet(urlStr);
         //this deals with a weird error with the server not returned the "JSON" string in valid JSON format:
         String jsonStr = responseStr.substring(1, responseStr.length()-1);
+
         return new JSONObject(jsonStr);
     }
 
@@ -418,7 +424,7 @@ public class ServerProxy implements IServerProxy {
      * not included in the request URL, the server will return the full game state.
      *
      * @param modelVer - version:int
-     * @return Model in JSON
+     * @return String that either equals "true" or JSON model in string format (todo: convert to json)
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
      * 2. If specified, the version number is included as the “version” query parameter in the
@@ -438,12 +444,13 @@ public class ServerProxy implements IServerProxy {
      *
      * [Adam]
      *   note: this loads the whole game model (why is the method named gameModelVersion()?)
+     *   todo: explain to group why return type changed from JSONObject to String
      */
     @Override
-    public JSONObject gameModelVersion(int modelVer) throws ClientException {
+    public String gameModelVersion(int modelVer) throws ClientException {
 
         String urlStr = "http://localhost:8081/game/model?version=" + modelVer;
-        return new JSONObject(httpGet(urlStr));
+        return httpGet(urlStr);
     }
 
     /**
@@ -503,10 +510,14 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject getGameCommands() throws ClientException {
+    public JSONObject getGameCommands() throws ClientException {//todo change to JSONArray return type
 
         String urlStr = "http://localhost:8081/game/commands";
-        return new JSONObject(httpGet(urlStr));
+        String responseStr = httpGet(urlStr);
+        // todo: change when interacting with actual server
+        String jsonStr = responseStr.substring(1, responseStr.length()-1); // if no commands jsonStr will equal "[]"
+        if(!jsonStr.equals("")) return new JSONObject(jsonStr);
+        else return null;
     }
 
     /**
@@ -551,9 +562,10 @@ public class ServerProxy implements IServerProxy {
      * These are the values that may be passed to the /game/addAI method.
      */
     @Override
-    public JSONObject listAI() throws ClientException {
-        String urlStr = "http://localhost:8081/game/commands";
-        return new JSONObject(httpGet(urlStr));
+    public JSONArray listAI() throws ClientException {
+        String urlStr = "http://localhost:8081/game/listAI";
+        String responseStr = httpGet(urlStr);
+        return new JSONArray(responseStr);
     }
 
     /**
@@ -576,9 +588,9 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI(JSONObject json) throws ClientException{
-        String urlStr = "http://localhost:8081/game/commands";
-        return new JSONObject(httpPost(urlStr, json.toString()));
+    public String addAI(JSONObject json) throws ClientException {
+        String urlStr = "http://localhost:8081/game/addAI";
+        return httpPost(urlStr, json.toString());
     }
 
     /**
