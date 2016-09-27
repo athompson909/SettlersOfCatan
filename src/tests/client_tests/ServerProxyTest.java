@@ -32,7 +32,7 @@ public class ServerProxyTest extends TestCase {
 
         // ***** GAME QUERIES/ACTIONS (PRE-JOINING): *****
         testGamesList();
-        //testGameCreate(); //todo: uncomment
+        testGameCreate(); //todo: uncomment
         testGamesList();
         //  testing join
         testGameJoin(); // this has to be run// from here otherwise login cookie will be null
@@ -40,10 +40,14 @@ public class ServerProxyTest extends TestCase {
         System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
         testGameSave();
         testGameLoad();
+        testAddAI(); // http response is 400 when I run this, I'm turning on and off the server
+        testListAI();
 
         // ***** OPERATIONS FOR THE GAME YOU'RE IN: *****
         testGameModelVersion();
         testGetGameCommands();
+        //testExecuteGameCommands();
+
         testGameReset();
         // see if the model changes:
         //testGameModelVersion();
@@ -171,12 +175,22 @@ public class ServerProxyTest extends TestCase {
 
     /**
      * todo: get a commands list... ask Sierra if she hardcoded one
+     * wait to test this until to do above has been completed
      * @throws ClientException
      */
     public void testExecuteGameCommands() throws ClientException {
-
+        JSONObject gameCommandsJson = new JSONObject(GAME_COMMANDS);
+        System.out.println("executeGameCommands():\n" + serverProxy.executeGameCommands(gameCommandsJson) + "\n\n");
     }
 
+    public void testAddAI() throws ClientException {
+        JSONObject jsonObject = new JSONObject(AI_REQUEST);
+        System.out.println("addID(): " + serverProxy.addAI(jsonObject));
+    }
+
+    public void testListAI() throws ClientException {
+        System.out.println("listAI(): " + serverProxy.listAI().toString());
+    }
 
 
 
@@ -212,5 +226,11 @@ public class ServerProxyTest extends TestCase {
     private final String GAME_SAVE_STR = "{\n" +
             "  \"id\": \"3\",\n" +
             "  \"name\": \"testgame1002-Adam\"\n" +
+            "}";
+
+    private final String GAME_COMMANDS = "";
+
+    private final String AI_REQUEST = "{\n" +
+            "  \"AIType\": \"LARGEST_ARMY\"\n" +
             "}";
 }

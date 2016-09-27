@@ -1,6 +1,7 @@
 package client;
 
 import exceptions.ClientException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -561,9 +562,10 @@ public class ServerProxy implements IServerProxy {
      * These are the values that may be passed to the /game/addAI method.
      */
     @Override
-    public JSONObject listAI() throws ClientException {
-        String urlStr = "http://localhost:8081/game/commands";
-        return new JSONObject(httpGet(urlStr));
+    public JSONArray listAI() throws ClientException {
+        String urlStr = "http://localhost:8081/game/listAI";
+        String responseStr = httpGet(urlStr);
+        return new JSONArray(responseStr);
     }
 
     /**
@@ -586,9 +588,9 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/game/commands";
-        return new JSONObject(httpPost(urlStr, json.toString()));
+    public String addAI(JSONObject json) throws ClientException {
+        String urlStr = "http://localhost:8081/game/addAI";
+        return httpPost(urlStr, json.toString());
     }
 
     /**

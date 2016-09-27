@@ -1,5 +1,6 @@
 package client;
 import exceptions.ClientException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -266,9 +267,9 @@ public interface IServerProxy {
    1. The server returns an HTTP 200 success response.
    2. The body contains a JSON JSONObject array enumerating the different types of AI players.
    These are the values that may be passed to the /game/addAI method.
-    * @return Model in JSON
+    * @return a list of all AI's in a JSONArray
     */
-   JSONObject listAI() throws ClientException;
+   JSONArray listAI() throws ClientException;
 
    /**
     * Adds an AI player to the current game.
@@ -287,7 +288,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject addAI(JSONObject json) throws ClientException;
+   String addAI(JSONObject json) throws ClientException;
 
    /**
     * Sets the server’s logging level

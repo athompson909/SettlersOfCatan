@@ -415,7 +415,7 @@ public class ClientFacade {
     public void addAI(AddAICommand command){
         JSONObject json = jsonTranslator.addAICmdToJSON(command);
         try {
-            JSONObject response = serverProxy.addAI(json);
+            String response = serverProxy.addAI(json); // this is no longer a JSON, <3 Adam
         }
         catch (ClientException e) {
             e.printStackTrace();
