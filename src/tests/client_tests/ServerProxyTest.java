@@ -21,25 +21,29 @@ public class ServerProxyTest extends TestCase {
      */
     public void testServerProxy() throws ClientException {
 
-        // testing register
+        // ***** OPERATIONS ABOUT USERS: *****
+        //  testing register
         testUserRegister();
-
-        // testing login
+        //  testing login
         JSONObject loginJson = new JSONObject(loginStr);
         String str = serverProxy.userLogin(loginJson);
         System.out.println(str);
         assertEquals("Success", str);
 
+        // ***** GAME QUERIES/ACTIONS (PRE-JOINING): *****
         testGamesList();
-        testGameCreate();
+        //testGameCreate(); //todo: uncomment
         testGamesList();
-
-        // testing join
-        testGameJoin(); // this has to be run from here otherwise login cookie will be null
+        //  testing join
+        testGameJoin(); // this has to be run// from here otherwise login cookie will be null
         System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
         System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+        testGameSave();
+        testGameLoad();
 
+        // ***** OPERATIONS FOR THE GAME YOU'RE IN: *****
         testGameModelVersion();
+        testGetGameCommands();
         testGameReset();
         // see if the model changes:
         //testGameModelVersion();
@@ -123,14 +127,14 @@ public class ServerProxyTest extends TestCase {
     public void testGameSave() throws ClientException {
         JSONObject jsonObject = new JSONObject(GAME_SAVE_STR);
         String str = serverProxy.gameSave(jsonObject);
-        System.out.println(str);
+        System.out.println("gameSave(): " + str);
         assertEquals("Success", str);
     }
 
     public void testGameLoad() throws ClientException {
         JSONObject jsonObject = new JSONObject("{\"name\":\"testgame1002-Adam\"}");
         String str = serverProxy.gameLoad(jsonObject);
-        System.out.println(str);
+        System.out.println("gameLoad(): " + str);
         assertEquals("Success", str);
     }
 
@@ -155,7 +159,22 @@ public class ServerProxyTest extends TestCase {
      */
     public void testGameReset() throws ClientException {
         JSONObject jsonObject = serverProxy.gameReset();
-        System.out.println("gameReset(): " + jsonObject.toString() + "\n\n");
+        System.out.println("gameReset():\n" + jsonObject.toString() + "\n\n");
+    }
+
+    public void testGetGameCommands() throws ClientException {
+        JSONObject jsonObject = serverProxy.getGameCommands();
+        if(jsonObject != null)
+            System.out.println("getGameCommands():\n" + jsonObject.toString() + "\n\n");
+        else System.out.println("NO GAME COMMANDS\n");
+    }
+
+    /**
+     * todo: get a commands list... ask Sierra if she hardcoded one
+     * @throws ClientException
+     */
+    public void testExecuteGameCommands() throws ClientException {
+
     }
 
 

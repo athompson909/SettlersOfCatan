@@ -512,7 +512,11 @@ public class ServerProxy implements IServerProxy {
     public JSONObject getGameCommands() throws ClientException {
 
         String urlStr = "http://localhost:8081/game/commands";
-        return new JSONObject(httpGet(urlStr));
+        String responseStr = httpGet(urlStr);
+        // todo: change when interacting with actual server
+        String jsonStr = responseStr.substring(1, responseStr.length()-1); // if no commands jsonStr will equal "[]"
+        if(!jsonStr.equals("")) return new JSONObject(jsonStr);
+        else return null;
     }
 
     /**
