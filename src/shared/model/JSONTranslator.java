@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 
+import java.util.ArrayList;
+
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
  * uses GSON to break it down into objects, then sends those new objects to the
@@ -201,6 +203,20 @@ public class JSONTranslator {
 
     /**
      *
+     * @param gameLoadCmdObj
+     * @return
+     */
+    public JSONObject gameLoadCmdToJSON(GameLoadCommand gameLoadCmdObj) {
+
+        stringResult = gsonConverter.toJson(gameLoadCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+
+    /**
+     *
      * @param getGameCmdsCmdObj
      * @return
      */
@@ -215,16 +231,20 @@ public class JSONTranslator {
 
     /**
      *
+     * List AI is just a URL command, it doesn't actually need to send and JSON to the server
+     * but the server returns a JSON string array of all available AIs (probably only LARGEST_ARMY)
+     * that needs to be translated.
+     *
      * @param listAICmdObj
-     * @return
+     * @return an arraylist of Strings representing all available AIs (should only be one)
      */
-    public JSONObject listAICmdToJSON(ListAICommand listAICmdObj) {
+    public ArrayList<String> listAICmdToJSON(ListAICommand listAICmdObj) {
 
-        stringResult = gsonConverter.toJson(listAICmdObj);
+        //stringResult = gsonConverter.toJson(listAICmdObj);
 
-        jsonObjectResult =  new JSONObject(stringResult);
+        //jsonObjectResult =  new JSONObject(stringResult);
 
-        return jsonObjectResult;
+        return null;
     }
 
     /**

@@ -23,7 +23,7 @@ public class GameJoinCommand implements BaseCommand {
      * The server swagger page asks for the command type to be included in each of the JSON
      * translations of the commands.
      */
-    private final String type = "joinGame";
+    private final transient String type = "joinGame";
 
 
     /**

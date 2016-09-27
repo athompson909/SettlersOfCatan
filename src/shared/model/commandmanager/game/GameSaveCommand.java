@@ -1,4 +1,5 @@
 package shared.model.commandmanager.game;
+import com.google.gson.annotations.SerializedName;
 import shared.model.commandmanager.BaseCommand;
 
 import java.io.File;
@@ -9,11 +10,13 @@ public class GameSaveCommand implements BaseCommand {
     /**
      * id of game to save
      */
+    @SerializedName("id")
     private int gameID;
 
     /**
      * name of file to create
      */
+    @SerializedName("name")
     private String fileName;
 
     /**
