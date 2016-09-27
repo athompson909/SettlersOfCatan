@@ -3,12 +3,9 @@ package tests.client_tests;
 import org.skyscreamer.jsonassert.*;
 import org.json.JSONObject;
 import shared.definitions.CatanColor;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
+import shared.locations.*;
 import shared.model.ClientModel;
 import junit.framework.TestCase;
-import junit.framework.Assert;
 import com.google.gson.*;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
@@ -119,9 +116,11 @@ public class JSONTranslatorTest extends TestCase {
         //-----------------
         int bCOwner = 2;
         HexLocation bCELHexLoc = new HexLocation(2, 2);
-        EdgeDirection bCEdgeDir = EdgeDirection.NorthEast;
-        EdgeLocation bCEdgeLocation = new EdgeLocation(bCELHexLoc, bCEdgeDir);
-        VertexObject cityVtx = new VertexObject(bCOwner, bCEdgeLocation);
+        VertexDirection bCVertexDir = VertexDirection.NorthEast;
+        VertexLocation bCVertexLocation = new VertexLocation(bCELHexLoc, bCVertexDir);
+        VertexObject cityVtx = new VertexObject();
+        cityVtx.setOwner(2);
+        cityVtx.setVertexLocation(bCVertexLocation);
         buildCityCommand = new BuildCityCommand(cityVtx);
         //-----------------
 
@@ -791,7 +790,7 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, acceptTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    //GOOD
+
     public void testBuildCityCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDCITYCMD TRANSLATION!");
 
@@ -811,7 +810,7 @@ public class JSONTranslatorTest extends TestCase {
                                 "   }\n" +
                                 "}";
 
-        System.out.println(">ExpectedResult: " + expectedResult);
+     //   System.out.println(">ExpectedResult: " + expectedResult);
 
         //in order for the JSON to look exactly like what the server wants it to, you sometimes have to
         //bring up values from nested object to higher up. Example, here I had to take values from VertexObject's
@@ -841,25 +840,7 @@ public class JSONTranslatorTest extends TestCase {
                 "  },\n" +
                 "  \"free\": true\n" +
                 "}";
-        System.out.println(">Expected string result= " + expectedResult);
-      //  JSONObject jsonExpectedResult = new JSONObject(expectedResult);
-
-        /*
-        the Gson result is putting the buildRoadCmd attributes in a different order from what
-        the server is expecting. I don't think this would prevent the server from getting the
-        necessary data from the Gson result string, but it is making my test fail though since
-        the strings aren't exactly the same.
-        According to SO, a JSON obj is an UNORDERED list of key/value pairs.
-        Gson does not support field order specification.... unless you write your own custom serializer -_-
-
-        Options:
-         - build custom Gson serializers for every server command
-         - figure out Hamcrest
-         - download JSONassert and use that - super easy
-         - use Jackson to control field order
-         - pull apart each translated JSON string to see if it has the required keys/values - really long
-            - ex:        Assert.assertTrue(jsonExpectedResult.has("type"));
-        */
+      //  System.out.println(">Expected string result= " + expectedResult);
 
         //***************
         //use @SerializedName("diryo")  to tell Gson what to set as the key name for that value! yay

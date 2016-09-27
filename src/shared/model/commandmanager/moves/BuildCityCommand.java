@@ -1,6 +1,7 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
+import shared.locations.VertexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.map.VertexObject;
 
@@ -12,8 +13,7 @@ public class BuildCityCommand implements BaseCommand {
     /**
      * Contains owner and roadLocation of vertex where player is upgrading to city
      */
-    @SerializedName("vertexLocation")
-    VertexObject vert;
+    private transient VertexObject vert;
 
     /**
      * The server swagger page asks for the command type to be included in each of the JSON
@@ -21,8 +21,9 @@ public class BuildCityCommand implements BaseCommand {
      */
     String type;
 
-    //TEST for serialization only
-    int playerIndex;
+    //For serialization purposes only
+    private int playerIndex;
+    private VertexLocation vertexLocation;
 
     /**
      * Creates a buildCityCommand object to be sent to client.ClientFacade
@@ -35,6 +36,7 @@ public class BuildCityCommand implements BaseCommand {
         vert = vertexObject;
         type = "buildCity";
         playerIndex = vertexObject.getOwner();
+        vertexLocation = vertexObject.getVertexLocation();
     }
 
 

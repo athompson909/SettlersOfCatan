@@ -1,5 +1,6 @@
 package shared.model.map;
 
+import com.google.gson.annotations.SerializedName;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 
@@ -13,9 +14,9 @@ public class VertexObject {
     /**
      * PlayerID of the player who has built on this location
      */
-    private int owner;
+    private transient int owner;
 
-    private VertexLocation vertexLocation;
+    private transient VertexLocation vertexLocation;
 
     /**
      * @return PlayerID of owner
