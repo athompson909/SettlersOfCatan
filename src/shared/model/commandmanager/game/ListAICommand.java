@@ -3,6 +3,8 @@ package shared.model.commandmanager.game;
 import shared.model.commandmanager.BaseCommand;
 
 /**
+ * this may not be necessary, since the server only needs the URL to execute this command
+ *
  * Created by Alise on 9/18/2016.
  */
 public class ListAICommand implements BaseCommand {

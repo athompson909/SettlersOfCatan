@@ -1,5 +1,5 @@
 package shared.model.commandmanager.game;
-import shared.model.LoggingLevel;
+import shared.definitions.LoggingLevel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -9,14 +9,14 @@ public class UtilChangeLogLevelCommand implements BaseCommand {
     /**
      * log level: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, or FINEST
      */
-    private LoggingLevel loggingLevel;
+    private LoggingLevel logLevel;
 
     /**
      * Creates UtilChangeLogLevelCommand to send to the client.ClientFacade. Sets data member.
-     * @param loggingLevel
+     * @param logLevel
      */
-    public UtilChangeLogLevelCommand(LoggingLevel loggingLevel){
-        this.loggingLevel = loggingLevel;
+    public UtilChangeLogLevelCommand(LoggingLevel logLevel){
+        this.logLevel = logLevel;
     }
 
     /**
@@ -30,7 +30,7 @@ public class UtilChangeLogLevelCommand implements BaseCommand {
 
     //Getters
 
-    public LoggingLevel getLoggingLevel() {
-        return loggingLevel;
+    public LoggingLevel getLogLevel() {
+        return logLevel;
     }
 }

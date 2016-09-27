@@ -1,4 +1,4 @@
-package shared.model;
+package shared.definitions;
 
 /**
  * Created by Alise on 9/17/2016.

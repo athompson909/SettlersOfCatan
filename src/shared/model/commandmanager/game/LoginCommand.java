@@ -21,7 +21,7 @@ public class LoginCommand implements BaseCommand {
      * @param username
      * @param password
      */
-    LoginCommand(String username, String password){
+    public LoginCommand(String username, String password){
         this.username = username;
         this.password = password;
     }

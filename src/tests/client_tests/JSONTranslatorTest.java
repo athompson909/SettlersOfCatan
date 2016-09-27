@@ -1,9 +1,10 @@
 package tests.client_tests;
 
-import com.sun.javafx.geom.Edge;
+import org.json.JSONArray;
 import org.skyscreamer.jsonassert.*;
 import org.json.JSONObject;
 import shared.definitions.CatanColor;
+import shared.definitions.LoggingLevel;
 import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.model.ClientModel;
@@ -14,10 +15,13 @@ import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCity;
+import shared.model.map.Hex;
+import shared.model.map.Map;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -29,8 +33,10 @@ import java.util.ArrayList;
 public class JSONTranslatorTest extends TestCase {
 
     private JSONTranslator jsonTranslator = new JSONTranslator();
-    private String testResponseBody = null;
+    private String testResponseModel = null;
+    private String testModelString2 = null;
     private Gson gsonTest = new Gson();
+
     private AddAICommand addAICommand;
     private ExecuteGameCommandsCommand execGameCmdsCommand;
     private FetchNewModelCommand fetchNewModelCommand;
@@ -69,7 +75,11 @@ public class JSONTranslatorTest extends TestCase {
         super.setUp();
 
         setUpModelString();
-
+        setUpGameCommands();
+        setUpMovesCommands();
+    }
+    private void setUpGameCommands()
+    {
         //ADD AI CMD SETUP
         //-----------------
         String aaiAIType = "LARGEST_ARMY";
@@ -89,6 +99,15 @@ public class JSONTranslatorTest extends TestCase {
         //the server has no request model schema for this one, since it only requires an int
         //-----------------
 
+        //GAME CREATE CMD SETUP
+        //-----------------
+        String gCGameName = "bacon";
+        Boolean randTiles = true;
+        Boolean randNums = true;
+        Boolean randPorts = false;
+        gameCreateCommand = new GameCreateCommand(gCGameName, randTiles, randNums, randPorts);
+        //-----------------
+
         //GAME JOIN CMD SETUP
         //-----------------
         int gJGameID = 5;
@@ -96,12 +115,53 @@ public class JSONTranslatorTest extends TestCase {
         gameJoinCommand = new GameJoinCommand(gJGameID, gJColor);
         //-----------------
 
+        //GAME LOAD CMD SETUP
+        //-----------------
+        String gLGameName = "bacon";
+        gameLoadCommand = new GameLoadCommand(gLGameName);
+        //-----------------
+
+        //GAME SAVE CMD SETUP
+        //-----------------
+        int gSGameID = 10;
+        String gSGameName = "BestGame";
+        gameSaveCommand = new GameSaveCommand(gSGameID, gSGameName);
+        //-----------------
+
+        //LOGIN CMD SETUP
+        //-----------------
+        String loginUsername = "yoyo";
+        String loginPassword = "yoyo";
+        loginCommand = new LoginCommand(loginUsername, loginPassword);
+        //-----------------
+
+        //REGISTER CMD SETUP
+        //-----------------
+        String regUsername = "yoyo";
+        String regPassword = "yoyo";
+        registerCommand = new RegisterCommand(regUsername, regPassword);
+        //-----------------
+
+        //SEND CHAT CMD SETUP
+        //-----------------
+        int chatPIndex = 12;
+        String chatContent = "bacon yo";
+        sendChatCommand = new SendChatCommand(chatPIndex, chatContent);
+        //-----------------
+
+        //CHANGE LOG LEVEL CMD SETUP
+        //-----------------
+        utilChangeLogLevelCommand = new UtilChangeLogLevelCommand(LoggingLevel.FINE);
+        //-----------------
+
+    }
+    private void setUpMovesCommands()
+    {
         //ACCEPT TRADE CME SETUP
         //-----------------
         int pIndex = 3;
         acceptTradeCommand = new AcceptTradeCommand(pIndex, true);
         //-----------------
-
 
         //BUILD ROAD CMD SETUP
         //-----------------
@@ -224,15 +284,339 @@ public class JSONTranslatorTest extends TestCase {
         rollDiceCommand.setPlayerIndex(1);
         //-----------------
 
-
-
     }
-
-    //YOU PROBABLY NEED TO ADD A "TYPE" FIELD TO EVERY COMMAND OBJECT  *************
 
     private void setUpModelString() {
         // This is an actual server response body:
-        testResponseBody = " {\n" +
+        testModelString2 = " {\n" +
+                "  \"deck\": {\n" +
+                "    \"yearOfPlenty\": 2,\n" +
+                "    \"monopoly\": 2,\n" +
+                "    \"soldier\": 14,\n" +
+                "    \"roadBuilding\": 2,\n" +
+                "    \"monument\": 5\n" +
+                "  },\n" +
+                "  \"map\": {\n" +
+                "    \"hexes\": [\n" +
+                "      {\n" +
+                "        \"resource\": \"sheep\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": -2\n" +
+                "        },\n" +
+                "        \"number\": 12\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 1,\n" +
+                "          \"y\": -2\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"brick\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 2,\n" +
+                "          \"y\": -2\n" +
+                "        },\n" +
+                "        \"number\": 8\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wood\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -1,\n" +
+                "          \"y\": -1\n" +
+                "        },\n" +
+                "        \"number\": 11\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wheat\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": -1\n" +
+                "        },\n" +
+                "        \"number\": 6\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"ore\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 1,\n" +
+                "          \"y\": -1\n" +
+                "        },\n" +
+                "        \"number\": 5\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wood\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 2,\n" +
+                "          \"y\": -1\n" +
+                "        },\n" +
+                "        \"number\": 3\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"sheep\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -2,\n" +
+                "          \"y\": 0\n" +
+                "        },\n" +
+                "        \"number\": 10\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"brick\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -1,\n" +
+                "          \"y\": 0\n" +
+                "        },\n" +
+                "        \"number\": 4\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wood\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": 0\n" +
+                "        },\n" +
+                "        \"number\": 4\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wheat\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 1,\n" +
+                "          \"y\": 0\n" +
+                "        },\n" +
+                "        \"number\": 11\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"sheep\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 2,\n" +
+                "          \"y\": 0\n" +
+                "        },\n" +
+                "        \"number\": 10\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wheat\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -2,\n" +
+                "          \"y\": 1\n" +
+                "        },\n" +
+                "        \"number\": 2\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"brick\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -1,\n" +
+                "          \"y\": 1\n" +
+                "        },\n" +
+                "        \"number\": 5\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"ore\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": 1\n" +
+                "        },\n" +
+                "        \"number\": 3\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"ore\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 1,\n" +
+                "          \"y\": 1\n" +
+                "        },\n" +
+                "        \"number\": 9\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wheat\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -2,\n" +
+                "          \"y\": 2\n" +
+                "        },\n" +
+                "        \"number\": 8\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"sheep\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -1,\n" +
+                "          \"y\": 2\n" +
+                "        },\n" +
+                "        \"number\": 9\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"resource\": \"wood\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": 2\n" +
+                "        },\n" +
+                "        \"number\": 6\n" +
+                "      }\n" +
+                "    ],\n" +
+                "    \"roads\": [],\n" +
+                "    \"cities\": [],\n" +
+                "    \"settlements\": [],\n" +
+                "    \"radius\": 3,\n" +
+                "    \"ports\": [\n" +
+                "      {\n" +
+                "        \"ratio\": 3,\n" +
+                "        \"direction\": \"S\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -1,\n" +
+                "          \"y\": -2\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 3,\n" +
+                "        \"direction\": \"NE\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -3,\n" +
+                "          \"y\": 2\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 2,\n" +
+                "        \"resource\": \"ore\",\n" +
+                "        \"direction\": \"S\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 1,\n" +
+                "          \"y\": -3\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 2,\n" +
+                "        \"resource\": \"wheat\",\n" +
+                "        \"direction\": \"SE\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -3,\n" +
+                "          \"y\": 0\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 3,\n" +
+                "        \"direction\": \"N\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 0,\n" +
+                "          \"y\": 3\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 2,\n" +
+                "        \"resource\": \"wood\",\n" +
+                "        \"direction\": \"SW\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 3,\n" +
+                "          \"y\": -3\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 2,\n" +
+                "        \"resource\": \"brick\",\n" +
+                "        \"direction\": \"NE\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": -2,\n" +
+                "          \"y\": 3\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 3,\n" +
+                "        \"direction\": \"NW\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 2,\n" +
+                "          \"y\": 1\n" +
+                "        }\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"ratio\": 2,\n" +
+                "        \"resource\": \"sheep\",\n" +
+                "        \"direction\": \"NW\",\n" +
+                "        \"location\": {\n" +
+                "          \"x\": 3,\n" +
+                "          \"y\": -1\n" +
+                "        }\n" +
+                "      }\n" +
+                "    ],\n" +
+                "    \"robber\": {\n" +
+                "      \"x\": 1,\n" +
+                "      \"y\": -2\n" +
+                "    }\n" +
+                "  },\n" +
+                "  \"players\": [\n" +
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 0,\n" +
+                "        \"wood\": 0,\n" +
+                "        \"sheep\": 0,\n" +
+                "        \"wheat\": 0,\n" +
+                "        \"ore\": 0\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 12,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"bacon\",\n" +
+                "      \"color\": \"blue\"\n" +
+                "    },\n" +
+                "    null,\n" +
+                "    null,\n" +
+                "    null\n" +
+                "  ],\n" +
+                "  \"log\": {\n" +
+                "    \"lines\": [" +
+                "{" +
+                "\"message\": \"LOG YO\"," +
+                "\"source\": \"baconl\"" +
+                "}" +
+                "]\n" +
+                "  },\n" +
+                "  \"chat\": {\n" +
+                "    \"lines\": [" +
+                "{" +
+                "\"message\": \"CHAT YO\"," +
+                "\"source\": \"baconc\"" +
+                "}" +
+                "]\n" +
+                "  },\n" +
+                "  \"bank\": {\n" +
+                "    \"brick\": 24,\n" +
+                "    \"wood\": 24,\n" +
+                "    \"sheep\": 24,\n" +
+                "    \"wheat\": 24,\n" +
+                "    \"ore\": 24\n" +
+                "  },\n" +
+                "  \"turnTracker\": {\n" +
+                "    \"status\": \"FirstRound\",\n" +
+                "    \"currentTurn\": 0,\n" +
+                "    \"longestRoad\": -1,\n" +
+                "    \"largestArmy\": -1\n" +
+                "  },\n" +
+                "  \"winner\": -1,\n" +
+                "  \"version\": 0\n" +
+                "}" ;
+
+
+
+
+
+
+
+        testResponseModel = " {\n" +
                 "  \"deck\": {\n" +
                 "    \"yearOfPlenty\": 2,\n" +
                 "    \"monopoly\": 2,\n" +
@@ -560,29 +944,50 @@ public class JSONTranslatorTest extends TestCase {
      * @throws Exception
      */
     public void testModelTranslation() throws Exception {
-        System.out.println(">I'M TESTING MODEL TRANSLATION!");
-        //System.out.println("Test JSON string: \n");
-        //System.out.println(testResponseBody);
-        //System.out.println("========================");
+        System.out.println(">I'M TESTING MODEL TRANSLATION from JSON!");
+        System.out.println("testResponseModel: " + testResponseModel);
 
-        //Gson translating
-        ClientModel newClientModel = gsonTest.fromJson(testResponseBody, ClientModel.class);
+        JSONObject newClientModelJSON = new JSONObject(testResponseModel);
+        System.out.println(">newClientModelJSON: " + newClientModelJSON);
 
-        System.out.println("\n==============");
-        System.out.println("Just deserialized testResponseBody, newClientModel info:");
-        System.out.println("\t verNo= " + newClientModel.getVersion());
-        System.out.println("\t winner= " + newClientModel.getWinner());
-        System.out.println("\t MapRadius= " + newClientModel.getMap().getRadius());
-        System.out.println("\t Map#Hexes= " + newClientModel.getMap().getHexes().size());
-        System.out.println("\t Map#Ports= " + newClientModel.getMap().getPorts().size());
-        System.out.println("\t MapHex1Loc=" + newClientModel.getMap().getHexes().get(1).getLocation().toString());
-        System.out.println("\t ChatList= " + newClientModel.getChat().getLines().get(0).getMessage());
-        System.out.println("========================");
+        //piece testing:
+        /*
+        JSONObject newCMTestMap = newClientModelJSON.getJSONObject("map");
+        System.out.println("\t MAP TEST= " + newCMTestMap);
+        JSONArray newCMTestHexes = newCMTestMap.getJSONArray("hexes");
+        System.out.println("\t HEXES TEST= " + newCMTestHexes);
+
+        for (int h = 0; h < newCMTestHexes.length(); h++)
+        {
+            Hex testHex = gsonTest.fromJson(newCMTestHexes.get(h).toString(), Hex.class);
+            System.out.println("\t testHex" + h + "= " + testHex.toString());
+        }
+        //--------
+
+
+        //Map testMap = gsonTest.fromJson(newCMTestMap.toString(), Map.class);
+        */
+
+        // ClientModel newClientModel = jsonTranslator.modelFromJSON(newClientModelJSON);
+               // gsonTest.fromJson(testResponseModel, ClientModel.class);
+
+
+
+        //it looks like we might have to just pull apart the JSON and build a ClientModel object manually...
+       // ClientModel newClientModel = new ClientModel()
+
+
+
+        //serialize it again and compare to the original JSON model string
+       // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
+
+       // JSONAssert.assertEquals(testResponseModel, newClientModelSerializedAgain, JSONCompareMode.NON_EXTENSIBLE);
 
     }
 
+
     // come back to this - I'm going to do the game commands list translators after all the other simple ones are done
-    public void testGameCmdsListTranslation() throws Exception{
+    public void testCmdsListTranslation() throws Exception{
         String testCmdsList = "[\n" +
                 "  {\n" +
                 "    \"roadLocation\": {\n" +
@@ -679,31 +1084,25 @@ public class JSONTranslatorTest extends TestCase {
      //   JSONAssert.assertEquals(expectedResult, execGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    //FetchNewModel is executed on the server side just by the URL - no HTTP request body required
-    /*
-    public void testFetchNewModelCmdTranslation() throws Exception {
-        System.out.println(">TESTING FETCHNEWMODELCMD TRANSLATION!");
-
-        String fetchNewModelCmdJSONResult = gsonTest.toJson(fetchNewModelCommand);
-
-        System.out.println("Just serialized fetchNewModelCmd, JSONstring result= ");
-        System.out.println(fetchNewModelCmdJSONResult);
-        System.out.println("=================");
-
-        String expectedResult = "";  //get this from server
-
-        JSONAssert.assertEquals(expectedResult, fetchNewModelCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-    }
-    */
-
+    //GOOD
     public void testGameCreateCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMECREATECMD TRANSLATION!");
 
-        String gameCreateCmdJSONResult = gsonTest.toJson(gameCreateCommand);
+        JSONObject gameCreateCmdJSONResult = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
+                // gsonTest.toJson(gameCreateCommand);
 
         System.out.println("Just serialized gameCreateCmd, JSONstring result= ");
         System.out.println(gameCreateCmdJSONResult);
         System.out.println("=================");
+
+        String expectedResult = "{\n" +
+                                "\"randomTiles\":" + true + ",\n" +
+                                "\"randomNumbers\":" + true + ",\n" +
+                                "\"randomPorts\":" + false + ",\n" +
+                                "\"name\":" + "\"bacon\"\n" +
+                                "}";
+
+        JSONAssert.assertEquals(expectedResult, gameCreateCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     //GOOD
@@ -720,11 +1119,10 @@ public class JSONTranslatorTest extends TestCase {
         String expectedResult =
                         " {\n" +
                         "\"id\": 5," +
-                        "\"color\": \"BLUE\"" +
+                        "\"color\": \"blue\"" +
                         " }\n";
 
         JSONAssert.assertEquals(expectedResult, gameJoinCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-
     }
 
     //the list of game commands exec'd needs to be translated from JSON to multiple kinds of Command objs
@@ -744,48 +1142,44 @@ public class JSONTranslatorTest extends TestCase {
     }
     */
 
+    //GOOD
     public void testGameLoadCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMELOADCMD TRANSLATION!");
 
-        String gameLoadCmdJSONResult = gsonTest.toJson(gameLoadCommand);
+        JSONObject gameLoadCmdJSONResult = jsonTranslator.gameLoadCmdToJSON(gameLoadCommand);
+                // gsonTest.toJson(gameLoadCommand);
 
         System.out.println("Just serialized gameLoadCmd, JSONstring result= ");
         System.out.println(gameLoadCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                    "\"name\":" + "bacon\n" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, gameLoadCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    public void testGameResetCmdTranslation() throws Exception {
-        System.out.println(">TESTING GAMERESETCMD TRANSLATION!");
-
-        String gameResetCmdJSONResult = gsonTest.toJson(gameResetCommand);
-
-        System.out.println("Just serialized gameResetCmd, JSONstring result= ");
-        System.out.println(gameResetCmdJSONResult);
-        System.out.println("=================");
-
-        String expectedResult = "";  //get this from server
-
-        JSONAssert.assertEquals(expectedResult, gameResetCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
+    //GOOD
     public void testGameSaveCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMESAVECMD TRANSLATION!");
 
-        String gameSaveCmdJSONResult = gsonTest.toJson(gameSaveCommand);
+        JSONObject gameSaveCmdJSONResult = jsonTranslator.gameSaveCmdToJSON(gameSaveCommand);
+                //gsonTest.toJson(gameSaveCommand);
 
         System.out.println("Just serialized gameSaveCmd, JSONstring result= ");
         System.out.println(gameSaveCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"id\":" + 10 + ",\n" +
+                                "\"name\":" + "BestGame" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, gameSaveCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //come back to this
     public void testGetGameCmdsCmdTranslation() throws Exception {
         System.out.println(">TESTING GETCGAMECMDSCMD TRANSLATION!");
 
@@ -800,72 +1194,105 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, getGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
+    //this function translates the JSON string array into a list of available AIs (strings)
+    //Swagger page says that LARGEST_ARMY is the only supported AI type right now
+    //the server executes this command without any JSON in the request body, just the URL
     public void testListAICmdTranslation() throws Exception {
         System.out.println(">TESTING LISTAICMD TRANSLATION!");
 
-        String listAICmdJSONResult = gsonTest.toJson(listAICommand);
+        String strExpectedResponse = "{\"ais\": " + "[\n \"LARGEST_ARMY\" \n] }";
+        System.out.println("strExpectedResponse = " + strExpectedResponse);
 
-        System.out.println("Just serialized listAICmd, JSONstring result= ");
-        System.out.println(listAICmdJSONResult);
-        System.out.println("=================");
+        JSONObject jsonExpectedResponse = new JSONObject(strExpectedResponse);
+       // JSONArray availableAIsJA = jsonExpectedResponse.getJSONArray("ais"); //??
 
-        String expectedResult = "";  //get this from server
 
-        JSONAssert.assertEquals(expectedResult, listAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+       ArrayList<String> availableAIsList = new ArrayList<>();
+        availableAIsList.add(0, "LARGEST_ARMY");
+
+      //  for (int i = 0; i < availableAIsJA.length(); i++)
+      //  {
+      //      availableAIsList.set(i, availableAIsJA.get(i).toString());
+      //  }
+
+        //there should only be one AI available
+        assertEquals(availableAIsList.size(), 1);
+        assertEquals(availableAIsList.get(0), "LARGEST_ARMY");
     }
 
+    //GOOD
     public void testLoginCmdTranslation() throws Exception {
         System.out.println(">TESTING LOGINCMD TRANSLATION!");
 
-        String loginCmdJSONResult = gsonTest.toJson(loginCommand);
+        JSONObject loginCmdJSONResult = jsonTranslator.loginCmdToJSON(loginCommand);
+                //gsonTest.toJson(loginCommand);
 
         System.out.println("Just serialized loginCmd, JSONstring result= ");
         System.out.println(loginCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"username\":" + "\"yoyo\"," +
+                                "\"password\":" + "\"yoyo\"" +
+                                " }" ;
 
         JSONAssert.assertEquals(expectedResult, loginCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testRegisterCmdTranslation() throws Exception {
         System.out.println(">TESTING REGISTERCMD TRANSLATION!");
 
-        String registerCmdJSONResult = gsonTest.toJson(registerCommand);
+        JSONObject registerCmdJSONResult = jsonTranslator.registerCmdToJSON(registerCommand);
+                // gsonTest.toJson(registerCommand);
 
         System.out.println("Just serialized registerCmd, JSONstring result= ");
         System.out.println(registerCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                            "\"username\":" + "\"yoyo\"," +
+                            "\"password\":" + "\"yoyo\"" +
+                            " }" ;
 
         JSONAssert.assertEquals(expectedResult, registerCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testSendChatCmdTranslation() throws Exception {
         System.out.println(">TESTING SENDCHATCMD TRANSLATION!");
 
-        String sendChatCmdJSONResult = gsonTest.toJson(sendChatCommand);
+        JSONObject sendChatCmdJSONResult = jsonTranslator.sendChatCmdToJSON(sendChatCommand);
+                // gsonTest.toJson(sendChatCommand);
 
         System.out.println("Just serialized sendChatCmd, JSONstring result= ");
         System.out.println(sendChatCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                 "\"type\":" + "\"sendChat\",\n" +
+                                 "\"playerIndex\":" + 12 + ",\n" +
+                                 "\"content\":" + "\"bacon yo\"" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, sendChatCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testUtilChangeLogLevelCmdTranslation() throws Exception {
         System.out.println(">TESTING UTILCHANGELOGLEVELCMD TRANSLATION!");
 
-        String utilChangeLogLevelCmdJSONResult = gsonTest.toJson(utilChangeLogLevelCommand);
+        JSONObject utilChangeLogLevelCmdJSONResult = jsonTranslator.utilChangeLogLevelCmdToJSON(utilChangeLogLevelCommand);
+                //gsonTest.toJson(utilChangeLogLevelCommand);
 
         System.out.println("Just serialized utilChangeLogLevelCmd, JSONstring result= ");
         System.out.println(utilChangeLogLevelCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"logLevel\":" + "\"FINE\"" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, utilChangeLogLevelCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -1145,6 +1572,7 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, playSoldierCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testPlayYearOfPlentyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYYEAROFPLENTYCMD TRANSLATION!");
 
@@ -1229,6 +1657,40 @@ public class JSONTranslatorTest extends TestCase {
 
 
 
+
+    //FetchNewModel is executed on the server side just by the URL - no HTTP request body required
+    /*
+    public void testFetchNewModelCmdTranslation() throws Exception {
+        System.out.println(">TESTING FETCHNEWMODELCMD TRANSLATION!");
+
+        String fetchNewModelCmdJSONResult = gsonTest.toJson(fetchNewModelCommand);
+
+        System.out.println("Just serialized fetchNewModelCmd, JSONstring result= ");
+        System.out.println(fetchNewModelCmdJSONResult);
+        System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, fetchNewModelCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+    }
+    */
+
+    //GameReset doesn't have a HTTP body request, it just uses the URL
+    /*
+    public void testGameResetCmdTranslation() throws Exception {
+        System.out.println(">TESTING GAMERESETCMD TRANSLATION!");
+
+        String gameResetCmdJSONResult = gsonTest.toJson(gameResetCommand);
+
+        System.out.println("Just serialized gameResetCmd, JSONstring result= ");
+        System.out.println(gameResetCmdJSONResult);
+        System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, gameResetCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+    }
+    /*
 
 
     //EndTurn doesn't have any API documentation or anything on the swagger page, so I don't think it's a real command
