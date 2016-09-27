@@ -1,4 +1,4 @@
-package tests.client_tests;
+package client_tests;
 
 import junit.framework.TestCase;
 import shared.model.dicemanager.DiceManager;

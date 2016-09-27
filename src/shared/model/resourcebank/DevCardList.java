@@ -104,39 +104,23 @@ public class DevCardList {
     }
 
 
-    /**
-     * Remove Soldier Card from list.
-     */
-    public void removeSoldierCard(){
-
-    }
-
-    /**
-     * Remove Monument Card from list.
-     */
-    public void removeMonumentCard(){
-
-    }
-
-    /**
-     * Remove Year Of Plenty Card from list.
-     */
-    public void removeYearOfPlentyCard(){
-
-    }
-
-    /**
-     * Remove Road Building Card from list.
-     */
-    public void removeRoadBuildingCard(){
-
-    }
-
-    /**
-     * Remove Monopoly Card from list.
-     */
-    public void removeMonopolyCard(){
-
+    public void removeDevCard(DevCardType devCard){
+        switch (devCard) {
+            case SOLDIER:
+                soldierCardCount--;
+                break;
+            case MONUMENT:
+                monumentCardCount--;
+                break;
+            case MONOPOLY:
+                monopolyCardCount--;
+                break;
+            case ROAD_BUILD:
+                roadBuildingCardCount--;
+                break;
+            case YEAR_OF_PLENTY:
+                yearOfPlentyCardCount--;
+        }
     }
 
     //GETTERS

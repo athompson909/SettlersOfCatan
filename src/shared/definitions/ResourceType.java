@@ -1,7 +1,22 @@
 package shared.definitions;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum ResourceType
 {
-	WOOD, BRICK, SHEEP, WHEAT, ORE
+	@SerializedName("wood")
+	WOOD,
+
+	@SerializedName("brick")
+	BRICK,
+
+	@SerializedName("sheep")
+	SHEEP,
+
+	@SerializedName("wheat")
+	WHEAT,
+
+	@SerializedName("ore")
+	ORE
 }
 

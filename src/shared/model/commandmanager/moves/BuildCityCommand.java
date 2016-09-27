@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import shared.locations.VertexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.map.VertexObject;
 
@@ -9,9 +10,24 @@ import shared.model.map.VertexObject;
 public class BuildCityCommand implements BaseCommand {
 
     /**
+     * ID of player who is building city
+     */
+    private int playerIndex;
+
+    /**
      * Contains owner and roadLocation of vertex where player is upgrading to city
      */
-    VertexObject vert;
+    private transient VertexObject vertex;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "buildCity";
+
+    //For serialization purposes only
+    private VertexLocation vertexLocation;
+
 
     /**
      * Creates a buildCityCommand object to be sent to client.ClientFacade
@@ -21,8 +37,12 @@ public class BuildCityCommand implements BaseCommand {
      * @param vertexObject
      */
     public BuildCityCommand(VertexObject vertexObject){
-        vert = vertexObject;
+        vertex = vertexObject;
+
+        playerIndex = vertexObject.getOwner();
+        vertexLocation = vertexObject.getVertexLocation();
     }
+
 
     /**
      * Calls all necessary model update functions
@@ -37,4 +57,26 @@ public class BuildCityCommand implements BaseCommand {
     public void serverExec(BaseCommand BC) {
 
     }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    public VertexObject getVertex() {
+        return vertex;
+    }
+
+    public void setVertex(VertexObject vertex) {
+        this.vertex = vertex;
+    }
+
+    public String getType() {
+        return type;
+    }
+
 }
+

@@ -11,11 +11,17 @@ public class DiscardCommand implements BaseCommand {
     /**
      * Index of player who is discarding
      */
-    int playerIndex;
+    private int playerIndex;
     /**
      * list of cards player is discarding
      */
-    ResourceList discardedCards;
+    private ResourceList discardedCards;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private String type;
 
     /**
      * Creates DiscardCommand object to be sent to client.ClientFacade
@@ -28,6 +34,7 @@ public class DiscardCommand implements BaseCommand {
     public DiscardCommand(int index, ResourceList discarded){
         playerIndex = index;
         discardedCards = discarded;
+        type = "discardCards";
     }
 
     /**
@@ -40,5 +47,22 @@ public class DiscardCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    public ResourceList getDiscardedCards() {
+        return discardedCards;
+    }
+
+    public void setDiscardedCards(ResourceList discardedCards) {
+        this.discardedCards = discardedCards;
     }
 }

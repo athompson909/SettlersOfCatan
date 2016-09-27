@@ -1,5 +1,6 @@
 package client;
 import exceptions.ClientException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -183,9 +184,10 @@ public interface IServerProxy {
    The format of the returned JSON can be found on the server’s Swagger page, or in the document
    titled “client Model JSON Documentation”
     * @param modelVer - version:int
-    * @return Model in JSON
+    * @return JSON model in String format or "true" if version is already up to date,
+    *  will be needed to be later converted into a JSONObject
     */
-   JSONObject gameModelVersion(int modelVer) throws ClientException;
+   String gameModelVersion(int modelVer) throws ClientException;
 
    /**
     * Clears out the command history of the current game.
@@ -265,9 +267,9 @@ public interface IServerProxy {
    1. The server returns an HTTP 200 success response.
    2. The body contains a JSON JSONObject array enumerating the different types of AI players.
    These are the values that may be passed to the /game/addAI method.
-    * @return Model in JSON
+    * @return a list of all AI's in a JSONArray
     */
-   JSONObject listAI() throws ClientException;
+   JSONArray listAI() throws ClientException;
 
    /**
     * Adds an AI player to the current game.
@@ -286,7 +288,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject addAI(JSONObject json) throws ClientException;
+   String addAI(JSONObject json) throws ClientException;
 
    /**
     * Sets the server’s logging level
@@ -416,7 +418,7 @@ public interface IServerProxy {
     * @param json - playerIndex:int, ratio:int(2,3 or4), inputResource:Resource, outputResource:Resource
     * @return Model in JSON
     */
-   JSONObject maritimeTrade(JSONObject json);
+   JSONObject maritimeTrade(JSONObject json) throws ClientException ;
 
    /**
     * Tells the Server to move the robber and move the stolen card.

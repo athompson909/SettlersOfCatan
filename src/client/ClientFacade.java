@@ -1,13 +1,12 @@
 package client;
 
-import org.json.*;
-
+import exceptions.ClientException;
+import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
+import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.JSONTranslator;
-import com.google.gson.JsonElement;
 
 /**
  *
@@ -42,9 +41,11 @@ public class ClientFacade {
     /**
      * Used to communicate with the server
      */
-    private ServerProxy serverProxy;
+    private IServerProxy serverProxy;
 
-    public ClientFacade(ServerProxy serverProxy, ClientModel model) {
+    private int version = 0;
+
+    public ClientFacade(IServerProxy serverProxy, ClientModel model) {
         this.serverProxy = serverProxy;
         jsonTranslator = new JSONTranslator();
         clientUpdateManager = new ClientUpdateManager(model);
@@ -56,6 +57,10 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
         clientUpdateManager.delegateUpdates(updatedClientModel);
+    }
+
+    public static void fetchModel() {
+
     }
 
     /**
@@ -75,12 +80,19 @@ public class ClientFacade {
      */
     public void userLogin(LoginCommand loginCommand){
         JSONObject json = jsonTranslator.loginCmdToJSON(loginCommand);
-        String response = serverProxy.userLogin(json);
-        //TODO
-        if(response.equals("Success")){
-            //do Something
-        }else{
-            //make them try to login again
+        try {
+            String response = serverProxy.userLogin(json);
+            //TODO
+            if(response.equals("Success")) {
+                //do Something
+            }
+            else {
+                //make them try to login again
+
+            }
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
         }
     }
 
@@ -103,12 +115,17 @@ public class ClientFacade {
      */
     public void userRegister(RegisterCommand registerCommand){
         JSONObject json = jsonTranslator.registerCmdToJSON(registerCommand);
-        String response = serverProxy.userRegister(json);
-        //TODO
-        if(response.equals("Success")){
-            //do Something
-        }else{
-            //make them try to register again
+        try {
+            String response = serverProxy.userRegister(json);
+            //TODO
+            if(response.equals("Success")){
+                //do Something
+            }else{
+                //make them try to register again
+            }
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
         }
     }
 
@@ -149,7 +166,12 @@ public class ClientFacade {
      */
     public void gameCreate(GameCreateCommand gameCreateCommand){
         JSONObject json = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
-        JSONObject response = serverProxy.gameCreate(json);
+        try {
+            JSONObject response = serverProxy.gameCreate(json);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -176,7 +198,12 @@ public class ClientFacade {
      */
     public void gameJoin(GameJoinCommand gameJoinCommand){
         JSONObject json = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
-        String response = serverProxy.gameJoin(json);
+        try {
+            String response = serverProxy.gameJoin(json);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -199,7 +226,12 @@ public class ClientFacade {
      */
     public void gameSave(GameSaveCommand command){
         JSONObject json = jsonTranslator.gameSaveCmdToJSON(command);
-        String response = serverProxy.gameSave(json);
+        try {
+            String response = serverProxy.gameSave(json);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -220,7 +252,7 @@ public class ClientFacade {
      * @param command
      */
     public void gameLoad(GameLoadCommand command){
-        //ToDo translation for load?
+        //ToDo translation for load? ...and surround with try catch <3 Adam
 //        JSONObject json = jsonTranslator.gameLoadCmdToJSON(command);
 //        String response = serverProxy.gameLoad(json);
     }
@@ -250,12 +282,19 @@ public class ClientFacade {
     message.
     The format of the returned JSON can be found on the server’s Swagger page, or in the document
     titled “client Model JSON Documentation”
-     * @param version
      */
-    public void gameModelVersion(int version) {
-        JSONObject jsonNewModel = serverProxy.gameModelVersion(version);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+    public void gameModelVersion() {
+        JSONObject jsonNewModel;
+        try {
+            String jsonNewModelStr = serverProxy.gameModelVersion(version);
+            jsonNewModel = new JSONObject(jsonNewModelStr);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -279,7 +318,7 @@ public class ClientFacade {
     When a game is reset, the players in the game are maintained
      */
     public void gameReset(GameResetCommand command){
-        //Todo - fix proxy not taking json
+        //Todo - fix proxy not taking json ... and surround with try catch
 //        JSONObject json = jsonTranslator.gameResetCmdToJSON(command);
 //        String response = serverProxy.gameReset(json);
     }
@@ -309,7 +348,7 @@ public class ClientFacade {
     message
      */
     public void getGameCommands(GetGameCommandsCommand command){
-        //Todo
+        //Todo ... and surround with try catch
 //        JSONObject json = jsonTranslator.getGameCmdsCmdToJSON(command);
 //        JSONObject response = serverProxy.getGameCommands(json);
     }
@@ -333,7 +372,12 @@ public class ClientFacade {
      */
     public void executeGameCommands(ExecuteGameCommandsCommand command){
         JSONObject json = jsonTranslator.execGameCmdsCmdToJSON(command);
-        JSONObject response = serverProxy.executeGameCommands(json);
+        try {
+            JSONObject response = serverProxy.executeGameCommands(json);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -347,8 +391,9 @@ public class ClientFacade {
      */
     public void listAI(ListAICommand command){
         //Todo
-        JSONObject json = jsonTranslator.listAICmdToJSON(command);
-        //JSONObject response = serverProxy.listAI(json);
+        //This command is sent to the server only through the URL, no JSON necessary
+       // JSONObject json = jsonTranslator.listAICmdToJSON(command);
+        //JSONObject response = serverProxy.listAI(json);//todo surround with try catch if uncomment
     }
 
     /**
@@ -369,7 +414,12 @@ public class ClientFacade {
      */
     public void addAI(AddAICommand command){
         JSONObject json = jsonTranslator.addAICmdToJSON(command);
-        JSONObject response = serverProxy.addAI(json);
+        try {
+            String response = serverProxy.addAI(json); // this is no longer a JSON, <3 Adam
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -387,7 +437,12 @@ public class ClientFacade {
     public void utilChangeLogLevel(UtilChangeLogLevelCommand command){
 
         JSONObject json = jsonTranslator.utilChangeLogLevelCmdToJSON(command);
-        JSONObject response = serverProxy.utilChangeLogLevel(json);
+        try {
+            JSONObject response = serverProxy.utilChangeLogLevel(json);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -403,9 +458,15 @@ public class ClientFacade {
     public void sendChat(SendChatCommand command){
         // DOES THIS FUNCTION NEED TO BE CHECKING THE PRE-CONDITIONS??
         JSONObject jsonToSend = jsonTranslator.sendChatCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -416,9 +477,15 @@ public class ClientFacade {
      */
     public void rollNumber(RollDiceCommand command){
         JSONObject jsonToSend = jsonTranslator.rollDiceCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -430,9 +497,15 @@ public class ClientFacade {
      */
     public void finishTurn(EndTurnCommand command){
         JSONObject jsonToSend = jsonTranslator.endTurnCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -444,9 +517,15 @@ public class ClientFacade {
      */
     public void discardCards(DiscardCommand command){
         JSONObject jsonToSend = jsonTranslator.discardCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.discardCards(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.discardCards(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -463,9 +542,15 @@ public class ClientFacade {
      */
     public void buildRoad(BuildRoadCommand command){
         JSONObject jsonToSend = jsonTranslator.buildRoadCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -482,9 +567,15 @@ public class ClientFacade {
      */
     public void buildSettlement(BuildSettlementCommand command){
         JSONObject jsonToSend = jsonTranslator.buildSettlementCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -498,9 +589,15 @@ public class ClientFacade {
      */
     public void buildCity(BuildCityCommand command){
         JSONObject jsonToSend = jsonTranslator.buildCityCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -514,9 +611,15 @@ public class ClientFacade {
         // It will display an offer screen to the other user and they have to create
         // an acceptTradeCommand object to send back... -Steph
         JSONObject jsonToSend = jsonTranslator.offerTradeCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.offerTrade(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.offerTrade(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -530,9 +633,15 @@ public class ClientFacade {
      */
     public void acceptTrade(AcceptTradeCommand command){
         JSONObject jsonToSend = jsonTranslator.acceptTradeCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.acceptTrade(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.acceptTrade(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -545,9 +654,15 @@ public class ClientFacade {
      */
     public void maritimeTrade(MaritimeTradeCommand command){
         JSONObject jsonToSend = jsonTranslator.maritimeTradeCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.maritimeTrade(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.maritimeTrade(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -561,9 +676,15 @@ public class ClientFacade {
      */
     public void robPlayer(RobPlayerCommand command){
         JSONObject jsonToSend = jsonTranslator.robPlayerCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -578,9 +699,15 @@ public class ClientFacade {
      */
     public void purchaseDevCard(PurchaseDevCardCommand command){
         JSONObject jsonToSend = jsonTranslator.purchaseDevDardCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.purchaseDevCard(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.purchaseDevCard(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -599,9 +726,15 @@ public class ClientFacade {
      */
     public void playSoldier(PlaySoldierCommand command){
         JSONObject jsonToSend = jsonTranslator.playSoldierCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.playSoldier(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.playSoldier(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -612,9 +745,15 @@ public class ClientFacade {
      */
     public void playYearOfPlenty(PlayYearOfPlentyCommand command){
         JSONObject jsonToSend = jsonTranslator.playYearOfPlentyCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.playYearOfPlenty(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.playYearOfPlenty(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -631,9 +770,15 @@ public class ClientFacade {
      */
     public void playRoadBuilding(PlayRoadBuilderCommand command){
         JSONObject jsonToSend = jsonTranslator.playRoadBuilderCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.playRoadBuilding(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.playRoadBuilding(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -645,9 +790,15 @@ public class ClientFacade {
      */
     public void playMonopoly(PlayMonopolyCommand command){
         JSONObject jsonToSend = jsonTranslator.playMonopolyCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.playMonopoly(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.playMonopoly(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -659,8 +810,14 @@ public class ClientFacade {
      */
     public void playMonument(PlayMonumentCommand command){
         JSONObject jsonToSend = jsonTranslator.playMonumentCmdToJSON(command);
-        JSONObject jsonNewModel = serverProxy.playMonument(jsonToSend);
-        ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-        sendUpdatedModel(updatedModel);
+        try {
+            JSONObject jsonNewModel = serverProxy.playMonument(jsonToSend);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 }

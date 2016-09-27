@@ -1,4 +1,4 @@
-package tests.shared_tests;
+package shared_tests;
 import junit.framework.TestCase;
 import shared.definitions.ResourceType;
 import shared.model.resourcebank.ResourceList;

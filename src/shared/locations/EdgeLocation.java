@@ -1,20 +1,39 @@
 package shared.locations;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents the location of an edge on a hex map
  */
 public class EdgeLocation
 {
-	
-	private HexLocation hexLoc;
-	private EdgeDirection dir;
-	
+
+	/**
+	 * transient just tells Gson to skip serializing this object - mainly for Junit testing purposes
+	 */
+	private transient HexLocation hexLoc;
+
+
+	private EdgeDirection direction;
+
+	//For serialization only
+	private int x;
+	private int y;
+
+	//Constructor
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir)
 	{
 		setHexLoc(hexLoc);
-		setDir(dir);
+		setDirection(dir);
+
+		//for serialization:
+		setX(hexLoc.getX());
+		setY(hexLoc.getY());
 	}
-	
+
+
+
+	//Getter for HexLoc
 	public HexLocation getHexLoc()
 	{
 		return hexLoc;
@@ -31,18 +50,18 @@ public class EdgeLocation
 	
 	public EdgeDirection getDir()
 	{
-		return dir;
+		return direction;
 	}
 	
-	private void setDir(EdgeDirection dir)
+	private void setDirection(EdgeDirection dir)
 	{
-		this.dir = dir;
+		this.direction = dir;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "EdgeLocation [hexLoc=" + hexLoc + ", dir=" + dir + "]";
+		return "EdgeLocation [hexLoc=" + hexLoc + ", direction=" + direction + "]";
 	}
 	
 	@Override
@@ -50,7 +69,7 @@ public class EdgeLocation
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dir == null) ? 0 : dir.hashCode());
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
 		result = prime * result + ((hexLoc == null) ? 0 : hexLoc.hashCode());
 		return result;
 	}
@@ -65,7 +84,7 @@ public class EdgeLocation
 		if(getClass() != obj.getClass())
 			return false;
 		EdgeLocation other = (EdgeLocation)obj;
-		if(dir != other.dir)
+		if(direction != other.direction)
 			return false;
 		if(hexLoc == null)
 		{
@@ -90,7 +109,7 @@ public class EdgeLocation
 		
 		// Return an EdgeLocation that has direction NW, N, or NE
 		
-		switch (dir)
+		switch (direction)
 		{
 			case NorthWest:
 			case North:
@@ -99,12 +118,31 @@ public class EdgeLocation
 			case SouthWest:
 			case South:
 			case SouthEast:
-				return new EdgeLocation(hexLoc.getNeighborLoc(dir),
-										dir.getOppositeDirection());
+				return new EdgeLocation(hexLoc.getNeighborLoc(direction),
+										direction.getOppositeDirection());
 			default:
 				assert false;
 				return null;
 		}
+	}
+
+
+
+//TEST
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }
 

@@ -1,4 +1,6 @@
 package client;
+import exceptions.ClientException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -27,7 +29,7 @@ public class MockProxy implements IServerProxy {
      * @return response from http
      */
     @Override
-    public String httpPost(String url, String postData) {
+    public String httpPost(String url, String postData) throws ClientException {
         return "no interaction with server in mock proxy";
     }
 
@@ -41,7 +43,7 @@ public class MockProxy implements IServerProxy {
      * @return response from http
      */
     @Override
-    public String httpGet(String url) {
+    public String httpGet(String url) throws ClientException {
         return "no interaction with server in mock proxy";
     }
 
@@ -55,7 +57,7 @@ public class MockProxy implements IServerProxy {
      * @param json the value should always be null when passed into the mock proxy
      */
     @Override
-    public String userLogin(JSONObject json) {
+    public String userLogin(JSONObject json) throws ClientException  {
        return SUCCESS;
     }
 
@@ -71,7 +73,7 @@ public class MockProxy implements IServerProxy {
      * @return the JSON Model
      */
     @Override
-    public String userRegister(JSONObject json) {
+    public String userRegister(JSONObject json) throws ClientException  {
         return SUCCESS;
     }
 
@@ -85,7 +87,7 @@ public class MockProxy implements IServerProxy {
      * @return Model in JSON
      */
     @Override
-    public JSONObject gamesList() {
+    public JSONObject gamesList() throws ClientException  {
         return new JSONObject(GAMES_LIST);
     }
 
@@ -97,7 +99,7 @@ public class MockProxy implements IServerProxy {
      * @return data regarding the new game, (hardcoded here)
      */
     @Override
-    public JSONObject gameCreate(JSONObject json) {
+    public JSONObject gameCreate(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_INFO);
     }
 
@@ -109,7 +111,7 @@ public class MockProxy implements IServerProxy {
      * @return a string notifying the user whether the request was successful or not
      */
     @Override
-    public String gameJoin(JSONObject json) {
+    public String gameJoin(JSONObject json) throws ClientException  {
         return SUCCESS;
     }
 
@@ -125,7 +127,7 @@ public class MockProxy implements IServerProxy {
      * @return a string notifying the user whether the request was successful or not
      */
     @Override
-    public String gameSave(JSONObject json) {
+    public String gameSave(JSONObject json) throws ClientException  {
         return SUCCESS;
     }
 
@@ -141,7 +143,7 @@ public class MockProxy implements IServerProxy {
      * @return a string notifying the user whether the request was successful or not
      */
     @Override
-    public String gameLoad(JSONObject json) {
+    public String gameLoad(JSONObject json) throws ClientException  {
         return SUCCESS;
     }
 
@@ -176,8 +178,8 @@ public class MockProxy implements IServerProxy {
      * titled “client Model JSON Documentation”
      */
     @Override
-    public JSONObject gameModelVersion(int modelVer) {
-        return new JSONObject(GAME_MODEL);
+    public String gameModelVersion(int modelVer) throws ClientException  {
+        return GAME_MODEL;
     }
 
     /**
@@ -204,7 +206,7 @@ public class MockProxy implements IServerProxy {
      * When a game is reset, the players in the game are maintained
      */
     @Override
-    public JSONObject gameReset() {
+    public JSONObject gameReset() throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -236,7 +238,7 @@ public class MockProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject getGameCommands() {
+    public JSONObject getGameCommands() throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -263,7 +265,7 @@ public class MockProxy implements IServerProxy {
      * todo: change values of the commands to valid commands
      */
     @Override
-    public JSONObject executeGameCommands(JSONObject json) {
+    public JSONObject executeGameCommands(JSONObject json) throws ClientException  {
         return new JSONObject("{\"command1\", \"command2\", \"command3\"}");
     }
 
@@ -280,8 +282,8 @@ public class MockProxy implements IServerProxy {
      * These are the values that may be passed to the /game/addAI method.
      */
     @Override
-    public JSONObject listAI() {
-        return new JSONObject(AI);
+    public JSONArray listAI() throws ClientException  {
+        return new JSONArray(AI);
     }
 
     /**
@@ -304,8 +306,8 @@ public class MockProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI(JSONObject json) {
-        return new JSONObject(GAME_MODEL);
+    public String addAI(JSONObject json) throws ClientException  {
+        return GAME_MODEL;
     }
 
     /**
@@ -324,7 +326,7 @@ public class MockProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject utilChangeLogLevel(JSONObject json) {
+    public JSONObject utilChangeLogLevel(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -338,7 +340,7 @@ public class MockProxy implements IServerProxy {
      * @post The chat contains your message at the end
      */
     @Override
-    public JSONObject sendChat(JSONObject json) {
+    public JSONObject sendChat(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -352,7 +354,7 @@ public class MockProxy implements IServerProxy {
      * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
      */
     @Override
-    public JSONObject rollNumber(JSONObject json) {
+    public JSONObject rollNumber(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -367,7 +369,7 @@ public class MockProxy implements IServerProxy {
      * hand. It is the next player’s turn
      */
     @Override
-    public JSONObject finishTurn(JSONObject json) {
+    public JSONObject finishTurn(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -382,7 +384,7 @@ public class MockProxy implements IServerProxy {
      * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
      */
     @Override
-    public JSONObject discardCards(JSONObject json) {
+    public JSONObject discardCards(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -402,7 +404,7 @@ public class MockProxy implements IServerProxy {
      * If applicable, “longest road” has been awarded to the player with the longest road
      */
     @Override
-    public JSONObject buildRoad(JSONObject json) {
+    public JSONObject buildRoad(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -422,7 +424,7 @@ public class MockProxy implements IServerProxy {
      * The settlement is on the map at the specified location
      */
     @Override
-    public JSONObject buildSettlement(JSONObject json) {
+    public JSONObject buildSettlement(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -439,7 +441,7 @@ public class MockProxy implements IServerProxy {
      * You got a settlement back
      */
     @Override
-    public JSONObject buildCity(JSONObject json) {
+    public JSONObject buildCity(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -453,7 +455,7 @@ public class MockProxy implements IServerProxy {
      * @post The trade is offered to the other player (stored in the server model).
      */
     @Override
-    public JSONObject offerTrade(JSONObject json) {
+    public JSONObject offerTrade(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -470,7 +472,7 @@ public class MockProxy implements IServerProxy {
      * The trade offer is removed
      */
     @Override
-    public JSONObject acceptTrade(JSONObject json) {
+    public JSONObject acceptTrade(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -486,7 +488,7 @@ public class MockProxy implements IServerProxy {
      * requested resource has been received)
      */
     @Override
-    public JSONObject maritimeTrade(JSONObject json) {
+    public JSONObject maritimeTrade(JSONObject json) throws ClientException {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -503,7 +505,7 @@ public class MockProxy implements IServerProxy {
      * selected)
      */
     @Override
-    public JSONObject robPlayer(JSONObject json) {
+    public JSONObject robPlayer(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -521,7 +523,7 @@ public class MockProxy implements IServerProxy {
      * (unplayable this turn)
      */
     @Override
-    public JSONObject purchaseDevCard(JSONObject json) {
+    public JSONObject purchaseDevCard(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -543,7 +545,7 @@ public class MockProxy implements IServerProxy {
      * monument cards, which may still be played)
      */
     @Override
-    public JSONObject playSoldier(JSONObject json) {
+    public JSONObject playSoldier(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -557,7 +559,7 @@ public class MockProxy implements IServerProxy {
      * @post You gained the two specified resources
      */
     @Override
-    public JSONObject playYearOfPlenty(JSONObject json) {
+    public JSONObject playYearOfPlenty(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -577,7 +579,7 @@ public class MockProxy implements IServerProxy {
      * If applicable, “longest road” has been awarded to the player with the longest road
      */
     @Override
-    public JSONObject playRoadBuilding(JSONObject json) {
+    public JSONObject playRoadBuilding(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -592,7 +594,7 @@ public class MockProxy implements IServerProxy {
      * type
      */
     @Override
-    public JSONObject playMonopoly(JSONObject json) {
+    public JSONObject playMonopoly(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -607,7 +609,7 @@ public class MockProxy implements IServerProxy {
      * @post You gained a victory point.
      */
     @Override
-    public JSONObject playMonument(JSONObject json) {
+    public JSONObject playMonument(JSONObject json) throws ClientException  {
         return new JSONObject(GAME_MODEL);
     }
 
@@ -622,8 +624,7 @@ public class MockProxy implements IServerProxy {
     private final String SUCCESS = "Success";
 
     // not going to change to local variable so code is easier to read
-    private final String GAMES_LIST = "[\n" +
-            "  {\n" +
+    private final String GAMES_LIST = "{\n" +
             "    \"title\": \"Default Game\",\n" +
             "    \"id\": 0,\n" +
             "    \"players\": [\n" +
@@ -700,8 +701,7 @@ public class MockProxy implements IServerProxy {
             "        \"id\": 11\n" +
             "      }\n" +
             "    ]\n" +
-            "  }\n" +
-            "]";
+            "  }\n";
 
     private final String GAME_INFO = "{\n" +
             "  \"title\": \"string\",\n" +

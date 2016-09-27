@@ -1,6 +1,9 @@
 package shared.model.map;
 
+import com.google.gson.annotations.SerializedName;
+import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -12,12 +15,16 @@ public class VertexObject {
     /**
      * PlayerID of the player who has built on this location
      */
-    private int owner;
+    private transient int owner;
 
-    /**
-     * Location of this vertex
-     */
-    private EdgeLocation location;
+    private transient VertexLocation vertexLocation;
+
+    private PieceType pieceType;
+
+    public VertexObject(VertexLocation location){
+        vertexLocation = location;
+
+    }
 
     /**
      * @return PlayerID of owner
@@ -35,19 +42,15 @@ public class VertexObject {
         this.owner = owner;
     }
 
-    /**
-     * @return location of vertex
-     */
-    public EdgeLocation getLocation() {
-        return location;
+    public VertexLocation getVertexLocation() {
+        return vertexLocation;
     }
 
-    /**
-     * Sets location of vertex
-     *
-     * @param location Location of vertex
-     */
-    public void setLocation(EdgeLocation location) {
-        this.location = location;
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public void setPieceType(PieceType pieceType) {
+        this.pieceType = pieceType;
     }
 }

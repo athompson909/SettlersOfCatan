@@ -1,6 +1,7 @@
 package shared.model.map;
 
 import shared.definitions.HexType;
+import shared.definitions.PortType;
 import shared.locations.HexLocation;
 
 /**
@@ -17,12 +18,17 @@ public class Hex {
      * Number associated with hex
      * When this number is rolled, players will receive resources
      */
-    private int Number;
+    private int number;
 
     /**
      * Resource type provided by this hex
      */
     private HexType hexType;
+
+    public Hex(HexLocation location, HexType hexType){
+        this.location = location;
+        this.hexType = hexType;
+    }
 
     /**
      * @return Location of hex
@@ -43,7 +49,7 @@ public class Hex {
      * @return Number associated with hex
      */
     public int getNumber() {
-        return Number;
+        return number;
     }
 
     /**
@@ -51,7 +57,7 @@ public class Hex {
      * @param number Number associated with hex
      */
     public void setNumber(int number) {
-        Number = number;
+        this.number = number;
     }
 
     /**
@@ -67,5 +73,14 @@ public class Hex {
      */
     public void setHexType(HexType hexType) {
         this.hexType = hexType;
+    }
+
+    @Override
+    public String toString() {
+        return "Hex{" +
+                "location=" + location +
+                ", number=" + number +
+                ", hexType=" + hexType.toString() +
+                '}';
     }
 }

@@ -1,18 +1,29 @@
 package shared.locations;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents the location of a vertex on a hex map
  */
 public class VertexLocation
 {
 	
-	private HexLocation hexLoc;
+	private transient HexLocation hexLoc;
+
+	@SerializedName("direction")
 	private VertexDirection dir;
+
+	//TEST for serialization only
+	int x;
+	int y;
+
 	
 	public VertexLocation(HexLocation hexLoc, VertexDirection dir)
 	{
 		setHexLoc(hexLoc);
 		setDir(dir);
+		x = hexLoc.getX();
+		y = hexLoc.getY();
 	}
 	
 	public HexLocation getHexLoc()
