@@ -15,6 +15,29 @@ public class ServerProxyTest extends TestCase {
     private ServerProxy serverProxy = new ServerProxy();
 
 
+    /**
+     * this puts all the methods together making it possible for some of them to be tested
+     * because some methods require other actions to have occured with the server before they can be executed
+     */
+    public void testServerProxy() throws ClientException {
+
+        // testing register
+        //testUserRegister();
+
+        // testing login
+        JSONObject loginJson = new JSONObject(loginStr);
+        String str = serverProxy.userLogin(loginJson);
+        System.out.println(str);
+        assertEquals("Success", str);
+
+        // testing join
+        testGameJoin(); // this has to be run from here otherwise login cookie will be null
+        System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
+        System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+
+
+    }
+
 
     public void testHttpPost() throws ClientException {
         String urlStr = "http://localhost:8081/user/login";
@@ -123,9 +146,11 @@ public class ServerProxyTest extends TestCase {
 
 
 
+
+
     private String loginStr = "{\n" +
-            "  \"username\": \"adam\",\n" + //Sam
-            "  \"password\": \"adam\"\n" + //sam
+            "  \"username\": \"Sam\",\n" + //Sam
+            "  \"password\": \"sam\"\n" + //sam
             "}";
 
     private String badLoginStr = "{\n" +

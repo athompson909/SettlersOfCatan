@@ -116,12 +116,12 @@ public class ServerProxy implements IServerProxy {
             else return "http error: bad request";
 
 
-        } catch (MalformedURLException me) {
+        } catch (MalformedURLException e) {
             System.out.println("Error: bad url");
-            me.printStackTrace();
-        } catch (IOException ioe) {
+            e.printStackTrace();
+        } catch (IOException e) {
             System.out.println("Error: probably cause by obj.openConnection()");
-            ioe.printStackTrace();
+            e.printStackTrace();
         } catch (Exception e) {
             System.out.println("Error: other exception");
             e.printStackTrace();
@@ -210,12 +210,12 @@ public class ServerProxy implements IServerProxy {
             }
             else return "http error";
 
-        } catch (MalformedURLException me) {
+        } catch (MalformedURLException e) {
             System.out.println("Error: bad url");
-            me.printStackTrace();
-        } catch (IOException ioe) {
+            e.printStackTrace();
+        } catch (IOException e) {
             System.out.println("Error: probably cause by obj.openConnection()");
-            ioe.printStackTrace();
+            e.printStackTrace();
         } catch (Exception e) {
             System.out.println("Error: other exception");
             e.printStackTrace();
