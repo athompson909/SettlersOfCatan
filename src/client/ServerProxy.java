@@ -576,7 +576,7 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject addAI(JSONObject json) throws ClientException{
+    public JSONObject addAI(JSONObject json) throws ClientException {
         String urlStr = "http://localhost:8081/game/commands";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
