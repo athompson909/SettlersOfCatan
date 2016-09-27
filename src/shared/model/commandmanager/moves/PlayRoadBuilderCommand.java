@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import com.google.gson.annotations.SerializedName;
 import shared.locations.EdgeLocation;
 import shared.model.commandmanager.BaseCommand;
 
@@ -11,15 +12,26 @@ public class PlayRoadBuilderCommand implements BaseCommand {
     /**
      * Index of player playing roadBuilding card
      */
-    int playerIndex;
+    private int playerIndex;
+
     /**
      * First roadLocation where player is building road
      */
-    EdgeLocation locationONE;
+    @SerializedName("spot1")
+    private EdgeLocation locationONE;
+
     /**
      * Second roadLocation where player is building road
      */
-    EdgeLocation locationTWO;
+    @SerializedName("spot2")
+    private EdgeLocation locationTWO;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "Road_Building";
+
 
     /**
      * Creates PlayRoadBuilderCommand object to be sent to client.ClientFacade
@@ -50,5 +62,27 @@ public class PlayRoadBuilderCommand implements BaseCommand {
     @Override
     public void serverExec(BaseCommand BC) {
 
+    }
+
+
+
+    public EdgeLocation getLocationONE() {
+        return locationONE;
+    }
+
+    public void setLocationONE(EdgeLocation locationONE) {
+        this.locationONE = locationONE;
+    }
+
+    public EdgeLocation getLocationTWO() {
+        return locationTWO;
+    }
+
+    public void setLocationTWO(EdgeLocation locationTWO) {
+        this.locationTWO = locationTWO;
+    }
+
+    public String getType() {
+        return type;
     }
 }

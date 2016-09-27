@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import com.google.gson.annotations.SerializedName;
 import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 
@@ -9,17 +10,25 @@ import shared.model.commandmanager.BaseCommand;
 public class PlaySoldierCommand implements BaseCommand {
 
     /**
-     * Index of player placing the robber
+     * Index of player placing the soldier/moving the robber
      */
-    int playerIndex;
+    private int playerIndex;
     /**
      * Location of hex where robber is being placed
      */
-    HexLocation robberLoc;
+    @SerializedName("location")
+    private HexLocation robberLoc;
     /**
-     * PlayerIndex of player being robbed
+     * PlayerIndex of player being robbed as a result of the soldier moving
      */
-    int victimInd;
+    private int victimIndex;
+
+    /**
+     * The server swagger page asks for the command type to be included in each of the JSON
+     * translations of the commands.
+     */
+    private final String type = "Soldier";
+
 
     /**
      * Creates a PlaySoldierCommand object to be sent to client.ClientFacade
@@ -34,7 +43,7 @@ public class PlaySoldierCommand implements BaseCommand {
     public PlaySoldierCommand(int index, HexLocation robberLocation, int victimIndex){
         playerIndex = index;
         robberLoc = robberLocation;
-        victimInd = victimIndex;
+        this.victimIndex = victimIndex;
     }
 
     /**
@@ -49,4 +58,26 @@ public class PlaySoldierCommand implements BaseCommand {
     public void serverExec(BaseCommand BC) {
 
     }
+
+
+    public HexLocation getRobberLoc() {
+        return robberLoc;
+    }
+
+    public void setRobberLoc(HexLocation robberLoc) {
+        this.robberLoc = robberLoc;
+    }
+
+    public int getVictimIndex() {
+        return victimIndex;
+    }
+
+    public void setVictimIndex(int victimIndex) {
+        this.victimIndex = victimIndex;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
+

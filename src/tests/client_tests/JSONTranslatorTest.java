@@ -1,5 +1,6 @@
 package tests.client_tests;
 
+import com.sun.javafx.geom.Edge;
 import org.skyscreamer.jsonassert.*;
 import org.json.JSONObject;
 import shared.definitions.CatanColor;
@@ -163,6 +164,46 @@ public class JSONTranslatorTest extends TestCase {
         offerTradeCommand = new OfferTradeCommand(otPIndex, oTRL, otReceiver);
         //-----------------
 
+        //PLAY MONOPOLY CMD SETUP
+        //-----------------
+        int pMpPIndex = 1;
+        ResourceType pMpRt = ResourceType.BRICK;
+        playMonopolyCommand = new PlayMonopolyCommand(pMpPIndex, pMpRt);
+        //-----------------
+
+        //PLAY MONUMENT CMD SETUP
+        //-----------------
+        int pMmPIndex = 2;
+        playMonumentCommand = new PlayMonumentCommand(pMmPIndex);
+        //-----------------
+
+        //PLAY ROADBUILDING CMD SETUP
+        //-----------------
+        int pRbPIndex = 3;
+        HexLocation rBLoc1HL = new HexLocation(1,2);
+        EdgeDirection rBLoc1ED = EdgeDirection.North;  //I'm not thinking about whether these all make sense together haha
+        EdgeLocation rBLoc1 = new EdgeLocation(rBLoc1HL, rBLoc1ED);
+        HexLocation rBLoc2HL = new HexLocation(1,1);
+        EdgeDirection rBLoc2ED = EdgeDirection.NorthEast;
+        EdgeLocation rBLoc2 = new EdgeLocation(rBLoc2HL, rBLoc2ED);
+        playRoadBuilderCommand = new PlayRoadBuilderCommand(pRbPIndex, rBLoc1, rBLoc2);
+        //-----------------
+
+        //PLAY SOLDIER  CMD SETUP
+        //-----------------
+        int pSPIndex = 1;
+        int pSVIndex = 3;
+        HexLocation pSHL = new HexLocation(-1,3);
+        playSoldierCommand = new PlaySoldierCommand(pSPIndex,pSHL, pSVIndex);
+        //-----------------
+
+        //PLAY YEAROFPLENTY CMD SETUP
+        //-----------------
+        int pYOPIndex = 0;
+        ResourceType yopR1 = ResourceType.ORE;
+        ResourceType yopR2 = ResourceType.SHEEP;
+        playYearOfPlentyCommand = new PlayYearOfPlentyCommand(pYOPIndex, yopR1, yopR2);
+        //-----------------
 
 
 
@@ -945,23 +986,6 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, discardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    //EndTurn doesn't have any API documentation or anything on the swagger page, so I don't think it's a real command
-    /*
-    public void testEndTurnCmdTranslation() throws Exception {
-        System.out.println(">TESTING ENDTURNCMD TRANSLATION!");
-
-        String endTurnCmdJSONResult = gsonTest.toJson(endTurnCommand);
-
-        System.out.println("Just serialized endTurnCmd, JSONstring result= ");
-        System.out.println(endTurnCmdJSONResult);
-        System.out.println("=================");
-
-        String expectedResult = "";  //get this from server
-
-        JSONAssert.assertEquals(expectedResult, endTurnCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-    }
-    */
-
     //GOOD
     public void testMaritimeTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING MARITIMETRADECMD TRANSLATION!");
@@ -1011,59 +1035,94 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, offerTradeCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testPlayMonopolyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYMONOPOLYCMD TRANSLATION!");
 
-        String playMonopolyCmdJSONResult = gsonTest.toJson(playMonopolyCommand);
+        JSONObject playMonopolyCmdJSONResult = jsonTranslator.playMonopolyCmdToJSON(playMonopolyCommand);
+                // gsonTest.toJson(playMonopolyCommand);
 
         System.out.println("Just serialized playMonopolyCmd, JSONstring result= ");
         System.out.println(playMonopolyCmdJSONResult);
         System.out.println("=================");
 
-
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                   "\"type\": Monopoly,\n" +
+                                   "\"resource\": brick,\n" +
+                                   "\"playerIndex\": 1\n" +
+                                 "}";
 
         JSONAssert.assertEquals(expectedResult, playMonopolyCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testPlayMonumentCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYMONUMENTCMD TRANSLATION!");
 
-        String playMonumentCmdJSONResult = gsonTest.toJson(playMonumentCommand);
+        JSONObject playMonumentCmdJSONResult = jsonTranslator.playMonumentCmdToJSON(playMonumentCommand);
+                // gsonTest.toJson(playMonumentCommand);
 
         System.out.println("Just serialized playMonumentCmd, JSONstring result= ");
         System.out.println(playMonumentCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                    "\"type\": Monument,\n" +
+                                    "\"playerIndex\": 2" +
+                                 "}";
 
         JSONAssert.assertEquals(expectedResult, playMonumentCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testPlayRoadBuilderCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYROADBUILDERCMD TRANSLATION!");
 
-        String playRoadBuilderCmdJSONResult = gsonTest.toJson(playRoadBuilderCommand);
+        JSONObject playRoadBuilderCmdJSONResult = jsonTranslator.playRoadBuilderCmdToJSON(playRoadBuilderCommand);
+                // gsonTest.toJson(playRoadBuilderCommand);
 
         System.out.println("Just serialized playRoadBuilderCmd, JSONstring result= ");
         System.out.println(playRoadBuilderCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"type\": Road_Building,\n " +
+                                "\"playerIndex\": 3,\n " +
+                                "\"spot1\":" + " {\n" +
+                                    "\"x\": 1,\n" +
+                                    "\"y\": 2,\n" +
+                                    "\"direction\":" + "N\n" +
+                                        "},\n" +
+                                "\"spot2\":" + "{\n" +
+                                    "\"x\": 1,\n" +
+                                    "\"y\": 1,\n" +
+                                    "\"direction\":" + "NE\n" +
+                                        "},\n" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, playRoadBuilderCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testPlaySoldierCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYSOLDIERCMD TRANSLATION!");
 
-        String playSoldierCmdJSONResult = gsonTest.toJson(playSoldierCommand);
+        JSONObject playSoldierCmdJSONResult = jsonTranslator.playSoldierCmdToJSON(playSoldierCommand);
+                //gsonTest.toJson(playSoldierCommand);
 
         System.out.println("Just serialized playSoldierCmd, JSONstring result= ");
         System.out.println(playSoldierCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                 "\"type\": \"Soldier\"," +
+                                 "\"playerIndex\": 1," +
+                                 "\"victimIndex\": 3," +
+                                 "\"location\":" + " {\n" +
+                                    "\"x\": -1,\n" +
+                                    "\"y\": 3,\n" +
+                                             "}\n" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, playSoldierCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -1071,13 +1130,19 @@ public class JSONTranslatorTest extends TestCase {
     public void testPlayYearOfPlentyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYYEAROFPLENTYCMD TRANSLATION!");
 
-        String playYearOfPlentyCmdJSONResult = gsonTest.toJson(playYearOfPlentyCommand);
+        JSONObject playYearOfPlentyCmdJSONResult = jsonTranslator.playYearOfPlentyCmdToJSON(playYearOfPlentyCommand);
+                // gsonTest.toJson(playYearOfPlentyCommand);
 
         System.out.println("Just serialized playYearOfPlentyCmd, JSONstring result= ");
         System.out.println(playYearOfPlentyCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"type\":" + "\"Year_of_Plenty\",\n" +
+                                "\"playerIndex\":" + 0 + ",\n" +
+                                "\"resource1\":" + "\"ore\",\n" +
+                                "\"resource2\":" + "\"sheep\",\n" +
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, playYearOfPlentyCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
@@ -1124,4 +1189,24 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, rollDiceCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+
+
+
+
+    //EndTurn doesn't have any API documentation or anything on the swagger page, so I don't think it's a real command
+    /*
+    public void testEndTurnCmdTranslation() throws Exception {
+        System.out.println(">TESTING ENDTURNCMD TRANSLATION!");
+
+        String endTurnCmdJSONResult = gsonTest.toJson(endTurnCommand);
+
+        System.out.println("Just serialized endTurnCmd, JSONstring result= ");
+        System.out.println(endTurnCmdJSONResult);
+        System.out.println("=================");
+
+        String expectedResult = "";  //get this from server
+
+        JSONAssert.assertEquals(expectedResult, endTurnCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+    }
+    */
 }
