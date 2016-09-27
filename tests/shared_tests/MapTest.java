@@ -13,7 +13,11 @@ public class MapTest extends TestCase {
     private Map map = new Map(false, false, false); //Don't randomize
 
     public void testMap() {
-        //assert (map.getHexes().get(new HexLocation(0,-2)).getHexType() == HexType.DESERT);
+        testMapHexes();
+        testMapPorts();
+    }
+
+    public void testMapHexes() {
         System.out.println(map.getHexes().size());
         assert (map.getHexes().size() == 37); //There should be 37 hexes.
 
