@@ -1,5 +1,6 @@
 package shared.model.resourcebank;
 
+import com.google.gson.annotations.SerializedName;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 
@@ -8,10 +9,19 @@ import shared.definitions.ResourceType;
  */
 public class ResourceList {
 
+    @SerializedName("wood")
     private int woodCardCount;
+
+    @SerializedName("brick")
     private int brickCardCount;
+
+    @SerializedName("sheep")
     private int sheepCardCount;
+
+    @SerializedName("wheat")
     private int wheatCardCount;
+
+    @SerializedName("ore")
     private int oreCardCount;
 
     /**

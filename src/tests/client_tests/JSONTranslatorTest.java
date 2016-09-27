@@ -13,6 +13,7 @@ import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCity;
 import shared.model.map.VertexObject;
+import shared.model.resourcebank.ResourceList;
 
 import java.util.ArrayList;
 
@@ -96,10 +97,8 @@ public class JSONTranslatorTest extends TestCase {
         //ACCEPT TRADE CME SETUP
         //-----------------
         int pIndex = 3;
-        boolean willAcc = true;
-        acceptTradeCommand = new AcceptTradeCommand(pIndex, willAcc);
+        acceptTradeCommand = new AcceptTradeCommand(pIndex, true);
         //-----------------
-
 
 
         //BUILD ROAD CMD SETUP
@@ -136,6 +135,16 @@ public class JSONTranslatorTest extends TestCase {
         buildSettlementCommand = new BuildSettlementCommand(stlmtVtx);
         buildSettlementCommand.setFree(false);
         //----------------
+
+        //DISCARD CARDS CMD SETUP
+        //-----------------
+        int dcPIndex = 3;
+        //RL: int woodCardCount, int brickCardCount, int sheepCardCount, int wheatCardCount, int oreCardCount
+        ResourceList dCRL = new ResourceList(0,1,0,2,0);
+        discardCommand = new DiscardCommand(dcPIndex, dCRL);
+        //-----------------
+
+
 
     }
 
@@ -875,30 +884,42 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(buildStlmtCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "{" +
-                                "\"type\": \"buildSettlement\", " +
-                                "\"playerIndex\": 3," +
-                                "\"vertexLocation\":" + " { " +
-                                        "\"x\": 3," +
-                                        "\"y\": 3," +
-                                        "\"direction\":" + "SE" +
-                                                  "}," +
-                                "\"free\": false" +
+        String expectedResult = "{\n" +
+                                "\"type\": \"buildSettlement\", \n" +
+                                "\"playerIndex\": 3,\n" +
+                                "\"vertexLocation\":" + " {\n" +
+                                        "\"x\": 3,\n" +
+                                        "\"y\": 3,\n" +
+                                        "\"direction\":" + "SE\n" +
+                                                  "},\n" +
+                                "\"free\": false\n" +
                                 "}";
 
         JSONAssert.assertEquals(expectedResult, buildStlmtCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
+    //GOOD
     public void testDiscardCmdTranslation() throws Exception {
         System.out.println(">TESTING DISCARDCMD TRANSLATION!");
 
-        String discardCmdJSONResult = gsonTest.toJson(discardCommand);
+        JSONObject discardCmdJSONResult = jsonTranslator.discardCmdToJSON(discardCommand);
+                //gsonTest.toJson(discardCommand);
 
         System.out.println("Just serialized discardCmd, JSONstring result= ");
         System.out.println(discardCmdJSONResult);
         System.out.println("=================");
 
-        String expectedResult = "";  //get this from server
+        String expectedResult = "{\n" +
+                                "\"type\":" + "\"discardCards\",\n" +
+                                "\"playerIndex\": 3,\n" +
+                                "\"discardedCards\":" + "{ \n" +
+                                    "\"wood\": 0,\n" +
+                                    "\"brick\": 1,\n" +
+                                    "\"sheep\": 0,\n" +
+                                    "\"wheat\": 2,\n" +
+                                    "\"ore\": 0,\n" +
+                                     " }\n"+
+                                "}";
 
         JSONAssert.assertEquals(expectedResult, discardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
