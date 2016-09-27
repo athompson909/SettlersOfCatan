@@ -17,11 +17,14 @@ public class PlayerTest extends TestCase {
 
     public void testPlayer() {
         initializationTest();
+
+        //Resources and Purchasing
         purchaseRoadTest();
         purchaseSettlementTest();
         purchaseCityTest();
         purchaseDevelopmentCardTest();
 
+        //Play Development Cards
         playSoldierTest();
         playMonumentTest();
         playRoadBuildingTest();
