@@ -299,7 +299,7 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject gamesList() throws ClientException {
+    public JSONObject gamesList() throws ClientException {//todo change to JSONArray return type
         String urlStr = "http://localhost:8081/games/list";
         String responseStr = httpGet(urlStr);
         //this deals with a weird error with the server not returned the "JSON" string in valid JSON format:
@@ -510,7 +510,7 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject getGameCommands() throws ClientException {
+    public JSONObject getGameCommands() throws ClientException {//todo change to JSONArray return type
 
         String urlStr = "http://localhost:8081/game/commands";
         String responseStr = httpGet(urlStr);

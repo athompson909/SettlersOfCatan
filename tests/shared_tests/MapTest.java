@@ -1,9 +1,7 @@
-package tests.shared_tests;
+package shared_tests;
 
 import junit.framework.TestCase;
-import shared.definitions.HexType;
 import shared.locations.HexLocation;
-import shared.model.map.Hex;
 import shared.model.map.Map;
 
 

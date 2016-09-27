@@ -1,9 +1,10 @@
-package tests.client_tests;
+package client_tests;
 
 import client.ServerProxy;
 import exceptions.ClientException;
 import junit.framework.TestCase;
 import org.json.JSONObject;
+import org.junit.*;
 
 /**
  * Created by adamthompson on 9/22/16.
@@ -15,6 +16,7 @@ public class ServerProxyTest extends TestCase {
     private ServerProxy serverProxy = new ServerProxy();
 
 
+    @Test
     /**
      * this puts all the methods together making it possible for some of them to be tested
      * because some methods require other actions to have occured with the server before they can be executed
