@@ -545,7 +545,7 @@ public class ServerProxy implements IServerProxy {
      * this is a post method (even though the swagger page explains that it is a get method)
      */
     @Override
-    public JSONObject executeGameCommands(JSONObject json) throws ClientException {
+    public JSONObject executeGameCommands(JSONArray json) throws ClientException {
         String urlStr = "http://localhost:8081/game/commands";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }

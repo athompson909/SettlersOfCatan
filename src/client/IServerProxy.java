@@ -255,9 +255,10 @@ public interface IServerProxy {
    If the operation fails,
    1. The server returns an HTTP 400 error response, and the body contains an error
    message
+    * @param json array of commands
     * @return Model in JSON
     */
-   JSONObject executeGameCommands(JSONObject json) throws ClientException;
+   JSONObject executeGameCommands(JSONArray json) throws ClientException;
 
    /**
     * Returns a list of supported AI player types.

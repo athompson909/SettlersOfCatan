@@ -265,7 +265,7 @@ public class MockProxy implements IServerProxy {
      * todo: change values of the commands to valid commands
      */
     @Override
-    public JSONObject executeGameCommands(JSONObject json) throws ClientException  {
+    public JSONObject executeGameCommands(JSONArray json) throws ClientException  {
         return new JSONObject("{\"command1\", \"command2\", \"command3\"}");
     }
 

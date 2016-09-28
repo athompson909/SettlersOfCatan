@@ -1,5 +1,5 @@
 package client;
-import java.util.Timer;     //not sure if this is the right Timer class
+import java.util.Timer;
 
 /**
  * ServerPoller runs on its own background thread, and every 2-3 seconds sends a request to the server
@@ -37,6 +37,12 @@ public class ServerPoller {
      */
     public ServerPoller(ClientFacade clientFacade) {
         this.clientFacade = clientFacade;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // call fetchNewModel();
+            }
+        }).start();
     }
 
 
@@ -47,5 +53,4 @@ public class ServerPoller {
     private void fetchNewModel() {
         clientFacade.gameModelVersion();
     }
-
 }

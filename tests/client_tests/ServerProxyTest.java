@@ -3,6 +3,7 @@ package client_tests;
 import client.ServerProxy;
 import exceptions.ClientException;
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.*;
 
@@ -16,11 +17,12 @@ public class ServerProxyTest extends TestCase {
     private ServerProxy serverProxy = new ServerProxy();
 
 
-    @Test
+
     /**
      * this puts all the methods together making it possible for some of them to be tested
      * because some methods require other actions to have occured with the server before they can be executed
      */
+    @Test
     public void testServerProxy() throws ClientException {
 
         // ***** OPERATIONS ABOUT USERS: *****
@@ -145,11 +147,11 @@ public class ServerProxyTest extends TestCase {
     }
 
     /**
-     * @throws ClientException
      * The version number of the model that the caller already has. It goes up by one for each command that is applied.
      * If you send this parameter, you will get a model back only if the current model is newer than the specified
      *  version number.
      * Otherwise, it returns the string "true" to notify the caller that it already has the current model state.
+     * @throws ClientException
      */
     public void testGameModelVersion() throws ClientException {
         String model = serverProxy.gameModelVersion(0);
@@ -181,7 +183,7 @@ public class ServerProxyTest extends TestCase {
      * @throws ClientException
      */
     public void testExecuteGameCommands() throws ClientException {
-        JSONObject gameCommandsJson = new JSONObject(GAME_COMMANDS);
+        JSONArray gameCommandsJson = new JSONArray(GAME_COMMANDS);
         System.out.println("executeGameCommands():\n" + serverProxy.executeGameCommands(gameCommandsJson) + "\n\n");
     }
 
@@ -230,7 +232,7 @@ public class ServerProxyTest extends TestCase {
             "  \"name\": \"testgame1002-Adam\"\n" +
             "}";
 
-    private final String GAME_COMMANDS = "";
+    private final String GAME_COMMANDS = "[]";
 
     private final String AI_REQUEST = "{\n" +
             "  \"AIType\": \"LARGEST_ARMY\"\n" +
