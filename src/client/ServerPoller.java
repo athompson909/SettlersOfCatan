@@ -1,5 +1,6 @@
 package client;
-import java.util.Timer;     //not sure if this is the right Timer class
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * ServerPoller runs on its own background thread, and every 2-3 seconds sends a request to the server
@@ -29,6 +30,11 @@ public class ServerPoller {
     private ClientFacade clientFacade;
 
     /**
+     * number of seconds to wait between requesting updates from the server
+     */
+    private int seconds = 2;
+
+    /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
      *
@@ -37,6 +43,15 @@ public class ServerPoller {
      */
     public ServerPoller(ClientFacade clientFacade) {
         this.clientFacade = clientFacade;
+        pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+        pollTimer.schedule(new ServerPollerTask(), seconds*1000);
+    }
+
+    private class ServerPollerTask extends TimerTask{
+        public void run() {
+            System.out.println("fetch new model");
+            fetchNewModel();
+        }
     }
 
 
@@ -47,5 +62,4 @@ public class ServerPoller {
     private void fetchNewModel() {
         clientFacade.gameModelVersion();
     }
-
 }

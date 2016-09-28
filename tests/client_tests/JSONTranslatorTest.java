@@ -2,13 +2,16 @@ package client_tests;
 
 import com.google.gson.Gson;
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import shared.definitions.CatanColor;
 import shared.definitions.LoggingLevel;
 import shared.definitions.ResourceType;
 import shared.locations.*;
+import shared.model.GameListItem;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
@@ -17,12 +20,12 @@ import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.TreeMap;
 
 /**
- * This is the JUnit test for the JSONTranslator class.
- * I'm mainly using it to experiment with/understand Gson.
- * <p>
+ * This is the JUnit test class for the JSONTranslator.
+ *
  * Created by Sierra on 9/23/16.
  */
 public class JSONTranslatorTest extends TestCase {
@@ -30,6 +33,9 @@ public class JSONTranslatorTest extends TestCase {
     private JSONTranslator jsonTranslator = new JSONTranslator();
     private String testResponseModel = null;
     private String testModelString2 = null;
+    private String testCommandsListJSON = null;
+    private String testGamesListJSON = null;
+    private String testGameCreateResponseJSON = null;
     private Gson gsonTest = new Gson();
 
     private AddAICommand addAICommand;
@@ -53,7 +59,7 @@ public class JSONTranslatorTest extends TestCase {
     private BuildRoadCommand buildRoadCommand;
     private BuildSettlementCommand buildSettlementCommand;
     private DiscardCommand discardCommand;
-    private EndTurnCommand endTurnCommand;
+    private FinishTurnCommand finishTurnCommand;
     private MaritimeTradeCommand maritimeTradeCommand;
     private OfferTradeCommand offerTradeCommand;
     private PlayMonopolyCommand playMonopolyCommand;
@@ -66,13 +72,25 @@ public class JSONTranslatorTest extends TestCase {
     private RollDiceCommand rollDiceCommand;
 
 
+    @Test
     public void setUp() throws Exception {
         super.setUp();
 
         setUpModelString();
+        setUpCommandsListString();
+        setUpGamesListString();
         setUpGameCommands();
         setUpMovesCommands();
+
+        testGameCreateResponseJSON = "{" +
+                                    "\"randomTiles\":" + "\"true\"," +
+                                    "\"randomNumbers\":" + "\"true\"," +
+                                    "\"randomPorts\":" + "\"true\"," +
+                                    "\"name\":" + "\"yoo\"" +
+                                     "}" ;
     }
+
+    @Test
     private void setUpGameCommands()
     {
         //ADD AI CMD SETUP
@@ -149,7 +167,16 @@ public class JSONTranslatorTest extends TestCase {
         utilChangeLogLevelCommand = new UtilChangeLogLevelCommand(LoggingLevel.FINE);
         //-----------------
 
+
+        //FINISH TURN CMD SETUP
+        //-----------------
+        int fTPIndex = 3;
+        finishTurnCommand = new FinishTurnCommand(fTPIndex);
+        //-----------------
+
     }
+
+    @Test
     private void setUpMovesCommands()
     {
         //ACCEPT TRADE CME SETUP
@@ -281,6 +308,7 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
+    @Test
     private void setUpModelString() {
         // This is an actual server response body:
         testModelString2 = " {\n" +
@@ -934,56 +962,9 @@ public class JSONTranslatorTest extends TestCase {
                 "}";
     }
 
-
-    /**
-     * @throws Exception
-     */
-    public void testModelTranslation() throws Exception {
-        System.out.println(">I'M TESTING MODEL TRANSLATION from JSON!");
-        System.out.println("testResponseModel: " + testResponseModel);
-
-        JSONObject newClientModelJSON = new JSONObject(testResponseModel);
-        System.out.println(">newClientModelJSON: " + newClientModelJSON);
-
-        //piece testing:
-        /*
-        JSONObject newCMTestMap = newClientModelJSON.getJSONObject("map");
-        System.out.println("\t MAP TEST= " + newCMTestMap);
-        JSONArray newCMTestHexes = newCMTestMap.getJSONArray("hexes");
-        System.out.println("\t HEXES TEST= " + newCMTestHexes);
-
-        for (int h = 0; h < newCMTestHexes.length(); h++)
-        {
-            Hex testHex = gsonTest.fromJson(newCMTestHexes.get(h).toString(), Hex.class);
-            System.out.println("\t testHex" + h + "= " + testHex.toString());
-        }
-        //--------
-
-
-        //Map testMap = gsonTest.fromJson(newCMTestMap.toString(), Map.class);
-        */
-
-        // ClientModel newClientModel = jsonTranslator.modelFromJSON(newClientModelJSON);
-               // gsonTest.fromJson(testResponseModel, ClientModel.class);
-
-
-
-        //it looks like we might have to just pull apart the JSON and build a ClientModel object manually...
-       // ClientModel newClientModel = new ClientModel()
-
-
-
-        //serialize it again and compare to the original JSON model string
-       // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
-
-       // JSONAssert.assertEquals(testResponseModel, newClientModelSerializedAgain, JSONCompareMode.NON_EXTENSIBLE);
-
-    }
-
-
-    // come back to this - I'm going to do the game commands list translators after all the other simple ones are done
-    public void testCmdsListTranslation() throws Exception{
-        String testCmdsList = "[\n" +
+    @Test
+    private void setUpCommandsListString() {
+        testCommandsListJSON = "[\n" +
                 "  {\n" +
                 "    \"roadLocation\": {\n" +
                 "      \"direction\": \"N\",\n" +
@@ -1033,20 +1014,116 @@ public class JSONTranslatorTest extends TestCase {
                 "    \"playerIndex\": 1\n" +
                 "  }\n" +
                 "]" ;
+    }
+    @Test
+    private void setUpGamesListString(){
+        testGamesListJSON = "[" +
+                        "{" +
+                        "\"title\":" + "\"Default Game\"," +
+                        "\"id\":" + 0 + "," +
+                        "\"players\":" + "[" +
+                                "{" +
+                                    "\"color\":" + "\"orange\"," +
+                                    "\"name\":" + "\"Sam\"," +
+                                    "\"id\":" + 0 +
+                                "}, " +
+                                "{" +
+                                    "\"color\":" + "\"blue\"," +
+                                    "\"name\":" + "\"Brooke\"," +
+                                    "\"id\":" + 1 +
+                                "}, " +
+                                "{" +
+                                    "\"color\":" + "\"red\"," +
+                                    "\"name\":" + "\"Pete\"," +
+                                    "\"id\":" + 10 +
+                                "}, " +
+                                "{" +
+                                    "\"color\":" + "\"green\"," +
+                                    "\"name\":" + "\"Mark\"," +
+                                    "\"id\":" + 11 +
+                                "} " +
+                              "]" +
+                        "}," +
 
-        //The list of exec'd commands will come back as a JSON list of lots of different types of commands.
-        //Trying to find a way to hold all the commands that have been executed so far, as Gson deserializes them.
-        ArrayList<BaseCommand> listOfGameCmdsExecuted = new ArrayList<BaseCommand>();
+                        "{" +
+                        "\"title\":" + "\"AI Game\"," +
+                        "\"id\":" + 1 + "," +
+                        "\"players\":" + "[" +
+                                    "{" +
+                                        "\"color\":" + "\"orange\"," +
+                                        "\"name\":" + "\"Pete\"," +
+                                        "\"id\":" + 10 +
+                                    "}, " +
+                                    "{" +
+                                        "\"color\":" + "\"yellow\"," +
+                                        "\"name\":" + "\"Squall\"," +
+                                        "\"id\":" + -2 +
+                                    "}, " +
+                                    "{" +
+                                        "\"color\":" + "\"red\"," +
+                                        "\"name\":" + "\"Ken\"," +
+                                        "\"id\":" + -3 +
+                                    "}, " +
+                                    "{" +
+                                        "\"color\":" + "\"green\"," +
+                                        "\"name\":" + "\"Miguel\"," +
+                                        "\"id\":" + -4 +
+                                    "} " +
+                                "]" +
+                        "}," +
 
+                        "{" +
+                        "\"title\":" + "\"Best Game\"," +
+                        "\"id\":" + 2 + "," +
+                        "\"players\":" + "[" +
+                                    "{" +
+                                        "\"color\":" + "\"blue\"," +
+                                        "\"name\":" + "\"yo\"," +
+                                        "\"id\":" + 12 +
+                                    "}, " +
+                                    "{" +
+                                        "\"color\":" + "\"orange\"," +
+                                        "\"name\":" + "\"Squall\"," +
+                                        "\"id\":" + -2 +
+                                    "}, " +
+                                    "{" +
+                                        "\"color\":" + "\"green\"," +
+                                        "\"name\":" + "\"Quinn\"," +
+                                        "\"id\":" + -3 +
+                                    "}, " +
+                                    "{" +
+                                    "} " +
+                            "]" +
+                        "}" +
+
+                    "]";
 
     }
 
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void testModelTranslation() throws Exception {
+        System.out.println(">I'M TESTING MODEL TRANSLATION from JSON!");
+
+        JSONObject newClientModelJSON = new JSONObject(testResponseModel);
 
 
+
+        //TODO: I think this is the last translator function to write here...
+
+        //serialize it again and compare to the original JSON model string
+       // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
+
+       // JSONAssert.assertEquals(testResponseModel, newClientModelSerializedAgain, false);
+
+    }
 
 //TEST GAME COMMANDS  ===============================
 
     //GOOD
+    @Test
     public void testAddAICmdTranslation() throws Exception {
         System.out.println(">TESTING ADDAICMD TRANSLATION!");
 
@@ -1064,22 +1141,8 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    public void testExecGameCmdsCmdTranslation() throws Exception {
-        System.out.println(">TESTING EXECGAMECMDSCMD TRANSLATION!");
-
-        String execGameCmdsCmdJSONResult = gsonTest.toJson(execGameCmdsCommand);
-
-        System.out.println("Just serialized execGameCmdsCmd, JSONstring result= ");
-        System.out.println(execGameCmdsCmdJSONResult);
-        System.out.println("=================");
-
-        // the server returns the model updated to follow what the list of exec'd game commands said.
-        // so I need to translate a list of all command objects that have been executed so far, all into JSON?
-
-     //   JSONAssert.assertEquals(expectedResult, execGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
     //GOOD
+    @Test
     public void testGameCreateCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMECREATECMD TRANSLATION!");
 
@@ -1101,6 +1164,43 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
+    public void testCameCreateResponseFromJSON() throws Exception {
+        System.out.println(">TESTING GAMECREATERESPONSE TRANSLATION!");
+
+        JSONObject gameCreateResponse = new JSONObject(testGameCreateResponseJSON);
+        TreeMap<String, String> gameCreateRespDataMap = jsonTranslator.gameCreateResponseFromJSON(gameCreateResponse);
+
+        //asserts
+        assertEquals("yoo", gameCreateRespDataMap.get("name"));
+        assertEquals("true", gameCreateRespDataMap.get("randomTiles"));
+        assertEquals("true", gameCreateRespDataMap.get("randomNumbers"));
+        assertEquals("true", gameCreateRespDataMap.get("randomPorts"));
+
+    }
+
+    //GOOD
+    //the GameList command isn't actually a CommandObject, just a URL command.
+    //But the server returns a JSONArray of Games after being asked for a list of all games
+    //that we ONLY use to display the list of all available games for the user to join.
+    //(as far as I know)
+    @Test
+    public void testGamesListResponseFromJSON() throws Exception{
+        System.out.println(">TESTING GAMELISTRESPONSE TRANSLATION!");
+
+        JSONArray testGamesListJSONArr = new JSONArray(testGamesListJSON);
+
+        ArrayList<GameListItem> gLIArrayResult = jsonTranslator.gamesListResponseFromJSON(testGamesListJSONArr);
+        System.out.println(">gLIArrayResult size= " + gLIArrayResult.size());
+
+        //asserts
+        assertEquals(gLIArrayResult.size(), 3);
+        assertEquals(4, gLIArrayResult.get(0).getPlayers().size());
+        assertEquals(4, gLIArrayResult.get(1).getPlayers().size());
+        assertEquals(4, gLIArrayResult.get(2).getPlayers().size()); //the 4th one is null
+    }
+    //GOOD
+    @Test
     public void testGameJoinCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMEJOINCMD TRANSLATION!");
 
@@ -1120,24 +1220,8 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, gameJoinCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    //the list of game commands exec'd needs to be translated from JSON to multiple kinds of Command objs
-    /*
-    public void testGameListCmdTranslation() throws Exception {
-        System.out.println(">TESTING GAMELISTCMD TRANSLATION!");
-
-        String gameListCmdJSONResult = gsonTest.toJson(gameListCommand);
-
-        System.out.println("Just serialized gameListCmd, JSONstring result= ");
-        System.out.println(gameListCmdJSONResult);
-        System.out.println("=================");
-
-        String expectedResult = "";  //get this from server
-
-        JSONAssert.assertEquals(expectedResult, gameListCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-    }
-    */
-
     //GOOD
+    @Test
     public void testGameLoadCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMELOADCMD TRANSLATION!");
 
@@ -1156,6 +1240,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testGameSaveCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMESAVECMD TRANSLATION!");
 
@@ -1174,25 +1259,53 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, gameSaveCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-    //come back to this
-    public void testGetGameCmdsCmdTranslation() throws Exception {
-        System.out.println(">TESTING GETCGAMECMDSCMD TRANSLATION!");
 
-        String getGameCmdsCmdJSONResult = gsonTest.toJson(getGameCmdsCommand);
+    //GOOD
+    //the GET game cmds doesn't acutally need to send any JSON to the server,
+    // it just uses the URL to ask it to send back a list of all the commands that
+    // have happened so far.
+    //So the Translator can have a function to parse that big JSONArray response from the server
+    //that returns an arraylist of BaseCommand objects that have been executed so far,
+    //but the actual getGameCommandsCommandObj doesn't need to be translated.
+    @Test
+    public void testCmdsListFromJSON() throws Exception{
+        System.out.println(">TESTING CMDLIST>from<JSON TRANSLATION!");
 
-        System.out.println("Just serialized getGameCmdsCmd, JSONstring result= ");
-        System.out.println(getGameCmdsCmdJSONResult);
-        System.out.println("=================");
+        JSONArray testCmdsList = new JSONArray(testCommandsListJSON);
 
-        String expectedResult = "";  //get this from server
+        List<BaseCommand> resultList = jsonTranslator.commandsListFromJSON(testCmdsList);
 
-        JSONAssert.assertEquals(expectedResult, getGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+        assertEquals(6, resultList.size());
+        assertEquals(BuildRoadCommand.class, resultList.get(0).getClass());
+        assertEquals(BuildSettlementCommand.class, resultList.get(1).getClass());
+        assertEquals(FinishTurnCommand.class, resultList.get(2).getClass());
+        assertEquals(BuildRoadCommand.class, resultList.get(3).getClass());
+        assertEquals(BuildSettlementCommand.class, resultList.get(4).getClass());
+        assertEquals(FinishTurnCommand.class, resultList.get(5).getClass());
+
+        //so I don't have to build a complete list of CommandObjects to pass in:
+        testCmdsListToJSON(resultList);
     }
+
+    //GOOD
+    //this translation is used when posting the list of exec'd commands to the server
+    @Test
+    public void testCmdsListToJSON(List<BaseCommand> allCmdObjsList) throws Exception {
+        System.out.println(">TESTING CMDLIST>to<JSON TRANSLATION!");
+
+        JSONArray cmdsListJSONArrResult = jsonTranslator.commandsListToJSON(allCmdObjsList);
+        String cmdsListStringResult = cmdsListJSONArrResult.toString();
+        System.out.println(">JSONRESULT: " + cmdsListStringResult);
+
+        JSONAssert.assertEquals(testCommandsListJSON, cmdsListStringResult, false);
+    }
+
 
     //GOOD
     //this function translates the JSON string array into a list of available AIs (strings)
     //Swagger page says that LARGEST_ARMY is the only supported AI type right now
     //the server executes this command without any JSON in the request body, just the URL
+    @Test
     public void testListAICmdTranslation() throws Exception {
         System.out.println(">TESTING LISTAICMD TRANSLATION!");
 
@@ -1217,6 +1330,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testLoginCmdTranslation() throws Exception {
         System.out.println(">TESTING LOGINCMD TRANSLATION!");
 
@@ -1236,6 +1350,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testRegisterCmdTranslation() throws Exception {
         System.out.println(">TESTING REGISTERCMD TRANSLATION!");
 
@@ -1255,6 +1370,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testSendChatCmdTranslation() throws Exception {
         System.out.println(">TESTING SENDCHATCMD TRANSLATION!");
 
@@ -1275,6 +1391,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testUtilChangeLogLevelCmdTranslation() throws Exception {
         System.out.println(">TESTING UTILCHANGELOGLEVELCMD TRANSLATION!");
 
@@ -1296,6 +1413,7 @@ public class JSONTranslatorTest extends TestCase {
 //TEST MOVES COMMANDS  ===============================
 
     //GOOD
+    @Test
     public void testAcceptTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING ACCEPTTRADECMD TRANSLATION!");
 
@@ -1316,6 +1434,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testBuildCityCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDCITYCMD TRANSLATION!");
 
@@ -1345,6 +1464,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testBuildRoadCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDROADCMD TRANSLATION!");
 
@@ -1376,6 +1496,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testBuildSettlementCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDSTLMTCMD TRANSLATION!");
 
@@ -1401,6 +1522,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testDiscardCmdTranslation() throws Exception {
         System.out.println(">TESTING DISCARDCMD TRANSLATION!");
 
@@ -1427,6 +1549,26 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
+    public void testFinishTurnCmdTranslation() throws Exception {
+        System.out.println(">TESTING FINISHTURNCMD TRANSLATION!");
+
+        String finishTurnCmdJSONResult = gsonTest.toJson(finishTurnCommand);
+
+        System.out.println("Just serialized finishTurnCmd, JSONstring result= ");
+        System.out.println(finishTurnCmdJSONResult);
+        System.out.println("=================");
+
+        String expectedResult = "{" +
+                                    "\"type\":" + "\"finishTurn\", " +
+                                    "\"playerIndex\":" + 3 +
+                                  "}";
+
+        JSONAssert.assertEquals(expectedResult, finishTurnCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+    //GOOD
+    @Test
     public void testMaritimeTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING MARITIMETRADECMD TRANSLATION!");
 
@@ -1449,6 +1591,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testOfferTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING OFFERTRADECMD TRANSLATION!");
 
@@ -1476,6 +1619,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayMonopolyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYMONOPOLYCMD TRANSLATION!");
 
@@ -1496,6 +1640,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayMonumentCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYMONUMENTCMD TRANSLATION!");
 
@@ -1515,6 +1660,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayRoadBuilderCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYROADBUILDERCMD TRANSLATION!");
 
@@ -1544,6 +1690,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlaySoldierCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYSOLDIERCMD TRANSLATION!");
 
@@ -1568,6 +1715,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayYearOfPlentyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYYEAROFPLENTYCMD TRANSLATION!");
 
@@ -1589,6 +1737,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPurchaseDevCardCmdTranslation() throws Exception {
         System.out.println(">TESTING PURCHASEDEVDARDCMD TRANSLATION!");
 
@@ -1608,6 +1757,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testRobPlayerCmdTranslation() throws Exception {
         System.out.println(">TESTING ROBPLAYERCMD TRANSLATION!");
 
@@ -1631,6 +1781,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testRollDiceCmdTranslation() throws Exception {
         System.out.println(">TESTING ROLLDICECMD TRANSLATION!");
 
@@ -1688,20 +1839,42 @@ public class JSONTranslatorTest extends TestCase {
     /*
 
 
-    //EndTurn doesn't have any API documentation or anything on the swagger page, so I don't think it's a real command
-    /*
-    public void testEndTurnCmdTranslation() throws Exception {
-        System.out.println(">TESTING ENDTURNCMD TRANSLATION!");
+        /*
+    public void testGetGameCmdsCmdTranslation() throws Exception {
+        //System.out.println(">TESTING GETCGAMECMDSCMD TRANSLATION!");
 
-        String endTurnCmdJSONResult = gsonTest.toJson(endTurnCommand);
+        String getGameCmdsCmdJSONResult = gsonTest.toJson(getGameCmdsCommand);
 
-        System.out.println("Just serialized endTurnCmd, JSONstring result= ");
-        System.out.println(endTurnCmdJSONResult);
+        System.out.println("Just serialized getGameCmdsCmd, JSONstring result= ");
+        System.out.println(getGameCmdsCmdJSONResult);
         System.out.println("=================");
 
         String expectedResult = "";  //get this from server
 
-        JSONAssert.assertEquals(expectedResult, endTurnCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+        JSONAssert.assertEquals(expectedResult, getGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+    }
+    */
+
+
+    //we don't actually need to translate the ExecGameCommands Cmd object.
+    //The list of exec'd commands will come back as a JSON list of lots of different types of commands.
+    /*
+    public void testExecGameCmdsCmdTranslation() throws Exception {
+        System.out.println(">TESTING EXECGAMECMDSCMD TRANSLATION!");
+
+        String execGameCmdsCmdJSONResult = gsonTest.toJson(execGameCmdsCommand);
+
+        System.out.println("Just serialized execGameCmdsCmd, JSONArray result= ");
+        System.out.println(execGameCmdsCmdJSONResult);
+        System.out.println("=================");
+
+        //JSONArray jsonArrayResult = jsonTranslator.execGameCmdsCmdToJSON(List<BaseCommand>);
+
+        // the server returns the model updated to follow what the list of exec'd game commands said.
+        // so I need to translate into a JSONArray the list of all command objects that have been executed so far
+        // from the CommandManager's list of BaseCommandObjects.
+
+      //  JSONAssert.assertEquals(expectedResult, execGameCmdsCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
     */
 }

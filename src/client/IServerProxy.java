@@ -76,7 +76,7 @@ public interface IServerProxy {
    message.
     * @return Model in JSON
     */
-   JSONObject gamesList() throws ClientException;
+   JSONArray gamesList() throws ClientException;
 
    /**
     *Creates a new game on the server.
@@ -237,7 +237,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject getGameCommands() throws ClientException;
+   JSONArray getGameCommands() throws ClientException;
 
    /**
     * Executes the specified command list in the current game.
@@ -255,9 +255,10 @@ public interface IServerProxy {
    If the operation fails,
    1. The server returns an HTTP 400 error response, and the body contains an error
    message
+    * @param json array of commands
     * @return Model in JSON
     */
-   JSONObject executeGameCommands(JSONObject json) throws ClientException;
+   JSONObject executeGameCommands(JSONArray json) throws ClientException;
 
    /**
     * Returns a list of supported AI player types.
@@ -301,9 +302,9 @@ public interface IServerProxy {
    1. The server returns an HTTP 400 error response, and the body contains an error
    message.
     * @param json - loggingLevel:LoggingLevel
-    * @return Model in JSON
+    * @return "Success" or failure
     */
-   JSONObject utilChangeLogLevel(JSONObject json) throws ClientException;
+   String utilChangeLogLevel(JSONObject json) throws ClientException;
 
 
    //Move

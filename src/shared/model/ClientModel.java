@@ -23,6 +23,7 @@ public class ClientModel {
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
     public int version = 0;
+
     public int gameNumber;
 
     /**
@@ -79,6 +80,11 @@ public class ClientModel {
     public void UpdateClientModel(ClientModel newModel){
         updateManager.delegateUpdates(newModel);
     }
+
+
+
+
+
 
 
     //CAN METHODS
