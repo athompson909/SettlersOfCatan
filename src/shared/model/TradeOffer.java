@@ -24,16 +24,14 @@ public class TradeOffer {
      *  The controller can send this constructor each resource count being requested by the user.
      *  This constructor uses these counts to build its ResourceList object, tradeOfferList, to send to the server.
      *
+     * @param senderIndex - the index of the player asking to trade
      * @param receiverIndex - the index of the player being offered a trade by the user
-     * @param numWoodRequested - the amount of wood requested/offered by the user
-     * @param numBricksRequested - the amount of bricks requested/offered by the user
-     * @param numSheepRequested - the amount of sheep requested/offered by the user
-     * @param numWheatRequested - the amount of wheat requested/offered by the user
-     * @param numOreRequested - the amount of ore requested/offered by the user
+     * @param tradeOffer - the amount of resources requested/offered by the user; negative means requested; positive is offered
      */
-    public void TradeOffer(int receiverIndex, int numWoodRequested, int numBricksRequested, int numSheepRequested,
-                           int numWheatRequested, int numOreRequested){
-
+    public void TradeOffer(int senderIndex, int receiverIndex, ResourceList tradeOffer){
+        this.senderIndex = senderIndex;
+        this.receiverIndex = receiverIndex;
+        tradeOfferList = tradeOffer;
     }
 
 
