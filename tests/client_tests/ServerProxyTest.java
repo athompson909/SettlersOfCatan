@@ -66,10 +66,13 @@ public class ServerProxyTest extends TestCase {
         System.out.println("\n\nTESTING LIST AI:\n");
         testListAI();
 
-        // ***** ACTIONS YOU CAN TAKE MID GAME: *****
-        System.out.println("\n\n\nfor /moves:\nTESTING SEND CHAT:\n");
+//        // ***** ACTIONS YOU CAN TAKE MID GAME: *****
+//        System.out.println("\n\n\nfor /moves:\nTESTING SEND CHAT:\n");
+//        testSendChat();
 
-
+        // ***** CHANGE HOW THE SERVER RUNS *****
+        System.out.println("\n\n\nfor /util:\nTESTING CHANGE LOG LEVEL:\n");
+        testChangeLogLevel();
 
     }
 
@@ -222,7 +225,19 @@ public class ServerProxyTest extends TestCase {
 
 
     // ***** /moves: *****
+    public void testSendChat() throws ClientException {
+        JSONObject jsonObject = new JSONObject(SEND_CHAT);
+        System.out.println("send chat data: " + jsonObject.toString());
+        System.out.println("response from server: " + serverProxy.sendChat(jsonObject).toString());
+    }
 
+
+    // ***** /util: *****
+    public void testChangeLogLevel() throws ClientException {
+        JSONObject jsonObject = new JSONObject("{\"logLevel\":\"1\"}");
+        System.out.println("test change log level data: " + jsonObject.toString());
+        System.out.println("response from server: " + serverProxy.utilChangeLogLevel(jsonObject));
+    }
 
 
 
@@ -263,5 +278,11 @@ public class ServerProxyTest extends TestCase {
 
     private final String AI_REQUEST = "{\n" +
             "  \"AIType\": \"LARGEST_ARMY\"\n" +
+            "}";
+
+    private final String SEND_CHAT = "{\n" +
+            "  \"type\": \"sendChat\",\n" +
+            "  \"playerIndex\": \"0\",\n" +
+            "  \"content\": \"hello\"\n" +
             "}";
 }

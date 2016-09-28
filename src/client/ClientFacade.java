@@ -442,7 +442,7 @@ public class ClientFacade {
 
         JSONObject json = jsonTranslator.utilChangeLogLevelCmdToJSON(command);
         try {
-            JSONObject response = serverProxy.utilChangeLogLevel(json);
+            String response = serverProxy.utilChangeLogLevel(json);
         }
         catch (ClientException e) {
             e.printStackTrace();

@@ -302,9 +302,9 @@ public interface IServerProxy {
    1. The server returns an HTTP 400 error response, and the body contains an error
    message.
     * @param json - loggingLevel:LoggingLevel
-    * @return Model in JSON
+    * @return "Success" or failure
     */
-   JSONObject utilChangeLogLevel(JSONObject json) throws ClientException;
+   String utilChangeLogLevel(JSONObject json) throws ClientException;
 
 
    //Move

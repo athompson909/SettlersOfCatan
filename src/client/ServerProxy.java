@@ -605,9 +605,9 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject utilChangeLogLevel(JSONObject json) throws ClientException {
+    public String utilChangeLogLevel(JSONObject json) throws ClientException {
         String urlStr = "http://localhost:8081/util/changeLogLevel";
-        return new JSONObject(httpPost(urlStr, json.toString()));
+        return httpPost(urlStr, json.toString());
     }
 
     /**

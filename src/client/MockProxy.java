@@ -315,7 +315,7 @@ public class MockProxy implements IServerProxy {
      *  Sets the server’s logging level
      *
      * @param json - loggingLevel:LoggingLevel
-     * @return the JSON Model
+     * @return "Success" or failure
      * @pre 1.The caller specifies a valid logging level. Valid values include: SEVERE, WARNING,
      * INFO, CONFIG, FINE, FINER, FINEST
      * @post If the operation succeeds,
@@ -326,8 +326,8 @@ public class MockProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject utilChangeLogLevel(JSONObject json) throws ClientException  {
-        return new JSONObject(GAME_MODEL);
+    public String utilChangeLogLevel(JSONObject json) throws ClientException  {
+        return SUCCESS;
     }
 
     /**
