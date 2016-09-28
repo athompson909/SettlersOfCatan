@@ -28,7 +28,7 @@ public class Map {
 
     private HashMap<EdgeLocation, EdgeValue> edgeObjects = new HashMap<>();
 
-    private List<VertexLocation> portVertexLocations = new ArrayList<>();
+    private HashMap<VertexLocation, Port> portVertexLocations = new HashMap<>();
 
     /**
      * Robber object
@@ -225,6 +225,38 @@ public class Map {
         portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest));
     }
 
+    /**
+     * Finds all portTypes the player is associated with
+     *
+     * @param playerID
+     * @return
+     */
+    private PortType[] playersPorts(int playerID) {
+        //Should this be using playerIndex or playerID??
+        //The owner of a vertObject is playerID, so this needs to match...
+
+        //THIS IS NOT GOING TO WORK BECAUSE THE HEX LOCATION OF A PORT IS NOT THE LOCATION IN PORTLIST
+        Stack<Port> myPorts = new Stack<Port>;
+        PortType[] portTypes = new PortType[6];
+
+        for(VertexLocation vertLoc : portVertexLocations) {
+            if(vertexObjects.containsKey(vertLoc)) {
+                VertexObject vert = vertexObjects.get(vertLoc);
+                if(vert.getOwner() == playerID) {
+                    HexLocation x = vert.getVertexLocation().getHexLoc();
+
+
+                    //x is going to refer to the location of the hex beneath the port, not the port itself. GRR.
+                    myPorts.push(ports.get(x));
+                }
+            }
+        }
+        int i = 0;
+        for(Port port : myPorts) {
+            portTypes[i] = port.getResource();
+        }
+        return portTypes;
+    }
 
     /**
      * Updates all map data members to match the newly updated model
@@ -238,6 +270,7 @@ public class Map {
      */
     public void updateMap(Map newMap) {
         setRobber(newMap.robber);
+        //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
     }
 
     public HashMap<HexLocation, Hex> getHexes() {

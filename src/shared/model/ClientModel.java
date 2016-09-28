@@ -129,7 +129,7 @@ public class ClientModel {
     }
 
 
-    public boolean canMaritimeTrade(int playerIndex) {
+    public boolean canMaritimeTrade(int playerID) {
         map
                 check if player has any settlements or cities
                 check if the locations of those are in the static list of vertexLocations
