@@ -176,6 +176,7 @@ public class ClientFacade {
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return null;
         }
 
     }

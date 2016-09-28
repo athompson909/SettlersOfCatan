@@ -20,7 +20,6 @@ public class ServerPollerTest extends TestCase {
 
     private Timer timer = new Timer();
 
-    public void pollerTest() {
-        
+    public void testPoller() {
     }
 }
