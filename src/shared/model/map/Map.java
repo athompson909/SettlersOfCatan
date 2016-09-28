@@ -2,11 +2,9 @@ package shared.model.map;
 
 import shared.definitions.HexType;
 import shared.definitions.PortType;
-import shared.locations.EdgeDirection;
-import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
+import shared.locations.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -26,29 +24,11 @@ public class Map {
      */
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
-    /**
-     * List of EdgeValues where roads are built
-     */
-    private List<EdgeValue> roads;
+    private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
-    //Can't do HexLocation because two VertexObjects share the same HexLocation...
-    //Maybe two hashmaps? One with northwest and one with northeast? //Or 2D map, map with map as key?
-    //private HashMap<HexLocation, VertexObject> vertexObjects = new HashMap<>();
+    private HashMap<EdgeLocation, EdgeValue> edgeObjects = new HashMap<>();
 
-    /**
-     * List of vertexObjects where settlements are built
-     */
-    private List<VertexObject> settlements;
-
-    /**
-     * List of vertexObjects where cities are built
-     */
-    private List<VertexObject> cities;
-
-    /**
-     * radius of map (=3). The center is (0,0), and has 3 hexes in any direction (including ocean borders)
-     */
-    private final int RADIUS = 3;
+    private List<VertexLocation> portVertexLocations = new ArrayList<>();
 
     /**
      * Robber object
@@ -74,6 +54,8 @@ public class Map {
         placeAllPorts(randomlyPlacePorts);
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createAllVertexObjects();
+        populatePortVertexLocations();
+
     }
 
     //this is for when the new model comes back and we need to make a new Map object WITHOUT
@@ -210,17 +192,38 @@ public class Map {
     }
 
     private void createAllVertexObjects() {
+
+        //VertexLocation
+
         createVertexObject(-2, 0, VertexDirection.NorthWest);
         createVertexObject(-2, 0, VertexDirection.NorthEast);
-
     }
 
     private void createVertexObject(int x, int y, VertexDirection direction){
         VertexLocation vertexLocation = new VertexLocation(new HexLocation(x,y), direction);
         VertexObject vertexObject = new VertexObject(vertexLocation);
-
     }
 
+    private void populatePortVertexLocations(){
+        portVertexLocations.add(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-3,2), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-2,3), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-1,3), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(1,2), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(3,-1), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(3,-2), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(2,-2), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthWest));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast));
+        portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest));
+    }
 
 
     /**
@@ -235,15 +238,7 @@ public class Map {
      */
     public void updateMap(Map newMap) {
         setRobber(newMap.robber);
-        setRoads(newMap.roads);
-        setSettlements(newMap.settlements);
-        setCities(newMap.cities);
-
     }
-
-
-
-
 
     public HashMap<HexLocation, Hex> getHexes() {
         return hexes;
@@ -259,34 +254,6 @@ public class Map {
 
     public void setPorts(HashMap<HexLocation, Port> ports) {
         this.ports = ports;
-    }
-
-    public List<EdgeValue> getRoads() {
-        return roads;
-    }
-
-    public void setRoads(List<EdgeValue> roads) {
-        this.roads = roads;
-    }
-
-    public List<VertexObject> getSettlements() {
-        return settlements;
-    }
-
-    public void setSettlements(List<VertexObject> settlements) {
-        this.settlements = settlements;
-    }
-
-    public List<VertexObject> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<VertexObject> cities) {
-        this.cities = cities;
-    }
-
-    public int getRadius() {
-        return RADIUS;
     }
 
     public Robber getRobber() {
