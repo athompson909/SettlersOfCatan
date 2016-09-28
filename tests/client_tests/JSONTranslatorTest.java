@@ -1115,7 +1115,7 @@ public class JSONTranslatorTest extends TestCase {
 
 
 
-        //TODO: I think this is the last translator function to write here...
+        //TODO: this
 
         //serialize it again and compare to the original JSON model string
        // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
@@ -1170,7 +1170,7 @@ public class JSONTranslatorTest extends TestCase {
 
     //GOOD
     @Test
-    public void testCameCreateResponseFromJSON() throws Exception {
+    public void testGameCreateResponseFromJSON() throws Exception {
         System.out.println(">TESTING GAMECREATERESPONSE TRANSLATION!");
 
         JSONObject gameCreateResponse = new JSONObject(testGameCreateResponseJSON);
@@ -1311,22 +1311,24 @@ public class JSONTranslatorTest extends TestCase {
     public void testListAICmdTranslation() throws Exception {
         System.out.println(">TESTING LISTAICMD TRANSLATION!");
 
-        String strExpectedResponse = "{\"ais\": " + "[\n \"LARGEST_ARMY\" \n] }";
+        String strExpectedResponse = "{" +
+                                        "\"AIType\":" +  "\"LARGEST_ARMY\"" +
+                                    "}";
+
         System.out.println("strExpectedResponse = " + strExpectedResponse);
 
         JSONObject jsonExpectedResponse = new JSONObject(strExpectedResponse);
-       // JSONArray availableAIsJA = jsonExpectedResponse.getJSONArray("ais"); //??
 
 
        ArrayList<String> availableAIsList = new ArrayList<>();
-        availableAIsList.add(0, "LARGEST_ARMY");
+        //availableAIsList.add(0, "LARGEST_ARMY");
 
       //  for (int i = 0; i < availableAIsJA.length(); i++)
       //  {
       //      availableAIsList.set(i, availableAIsJA.get(i).toString());
       //  }
 
-        //there should only be one AI available
+        //there should only be one AI available, but plan for more
         assertEquals(availableAIsList.size(), 1);
         assertEquals(availableAIsList.get(0), "LARGEST_ARMY");
     }

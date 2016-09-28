@@ -10,6 +10,7 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCity;
 import shared.model.map.BuildSettlement;
 import shared.model.map.Hex;
+import shared.model.messagemanager.MessageList;
 import shared.model.resourcebank.ResourceBank;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class JSONTranslator {
         //GET DECK (which object does this parse to?
 
         //GET MAP
+        /*
         JSONObject newCMMap = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
@@ -101,20 +103,29 @@ public class JSONTranslator {
             parsedHexes.add(testHex);
         }
 
+
             //GET ROADS
             //GET CITIES
             //GET SETTLEMENTS
             //GET PORTS
             //GET ROBBER
+            */
 
         //GET PLAYERS ARRAY
 
         //GET MESSAGEMANAGER out of CHAT and LOG
             //GET CHAT
         JSONArray newCMChat = newModelJSON.getJSONArray("chat");
+        String newCMChatStr = newCMChat.toString();
+        System.out.println(">CHAT string: " + newCMChatStr);
+        MessageList newCMChatML = gsonConverter.fromJson(newCMChatStr, MessageList.class);
 
             //GET LOG
         JSONArray newCMLog = newModelJSON.getJSONArray("log");
+        String newCMLogStr = newCMLog.toString();
+        System.out.println(">LOG string: " + newCMLogStr);
+        MessageList newCMLogML = gsonConverter.fromJson(newCMLogStr, MessageList.class);
+
 
 
         //GET RESOURCEBANK
@@ -140,7 +151,7 @@ public class JSONTranslator {
     }
 
     /**
-     *
+     * I don't think this is necessary
      * @param num
      * @return
      */
@@ -293,21 +304,6 @@ public class JSONTranslator {
         return allExecutedCommands;
     }
 
-
-    /**
-     *
-     * @param fetchNewModelCmdObj
-     * @return
-     */
-    public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
-
-        stringResult = gsonConverter.toJson(fetchNewModelCmdObj);
-
-        jsonObjectResult =  new JSONObject(stringResult);
-
-        return jsonObjectResult;
-    }
-
     /**
      *
      * @param gameCreateCmdObj
@@ -326,7 +322,7 @@ public class JSONTranslator {
     //When you use a gameCreateCommand on the server, it sends back a JSONObject
     //with data about the game you just created.
     //The response data contains the same data as a GameListItem, but with an empty Player array.
-    //TODO: where/who should this translator function send the new game's data to?
+    // I don't actually know where this data is going to be used
     public GameListItem gameCreateResponseFromJSON(JSONObject gameCreateResponse){
         //For now I'm saving the new game data as a TreeMap (although it might be better to have
         //some sort of encapsualating object to hold this new data, since it includes 3 bools and 1 string)
@@ -415,12 +411,14 @@ public class JSONTranslator {
      * but the server returns a JSON string array of all available AIs (probably only LARGEST_ARMY)
      * that needs to be translated.
      *
-     * @param listAICmdObj
+     * @param listAIResponseArr
      * @return an arraylist of Strings representing all available AIs (should only be one)
      */
-    public ArrayList<String> listAICmdToJSON(ListAICommand listAICmdObj) {
+    public ArrayList<String> listAIResponseFromJSON(JSONArray listAIResponseArr) {
 
-        //stringResult = gsonConverter.toJson(listAICmdObj);
+
+        //TODO: fix this to translate a JSONArray in to a regular String array.
+        //ArrayList<String> Result = gsonConverter.fromJson(listAIResponseArr);
 
         //jsonObjectResult =  new JSONObject(stringResult);
 
@@ -767,5 +765,22 @@ public class JSONTranslator {
         return jsonArrayResult;
     }
     */
+
+
+    /**
+     *
+     * @param fetchNewModelCmdObj
+     * @return
+     */
+    /*
+    public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
+
+        stringResult = gsonConverter.toJson(fetchNewModelCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    } */
+
 
 }
