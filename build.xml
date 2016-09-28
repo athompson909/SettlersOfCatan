@@ -1,4 +1,4 @@
-﻿<project name="SettlersOfCatan" default="server" basedir="../../SettlersOfCatan">
+﻿<project name="SettlersOfCatan" default="server" basedir=".">
 
 	<!-- PROPERTIES -->
 	<!-- ********** -->
