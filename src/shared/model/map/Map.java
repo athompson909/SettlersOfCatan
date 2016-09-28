@@ -30,6 +30,11 @@ public class Map {
 
     private List<VertexLocation> portVertexLocations = new ArrayList<>();
 
+    public BuildRoadManager buildRoadManager = new BuildRoadManager(this);
+    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
+    public BuildCityManager buildCityManager = new BuildCityManager(this);
+
+
     /**
      * Robber object
      */
@@ -39,7 +44,7 @@ public class Map {
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-    private BuildingManager buildingManager;
+
 
     private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
@@ -376,8 +381,6 @@ public class Map {
         edgeObjects.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
-
-
     /**
      * Updates all map data members to match the newly updated model
      * <p>
@@ -416,11 +419,11 @@ public class Map {
         this.robber = robber;
     }
 
-    public BuildingManager getBuildingManager() {
-        return buildingManager;
+    public HashMap<VertexLocation, VertexObject> getVertexObjects() {
+        return vertexObjects;
     }
 
-    public void setBuildingManager(BuildingManager buildingManager) {
-        this.buildingManager = buildingManager;
+    public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
+        return edgeObjects;
     }
 }

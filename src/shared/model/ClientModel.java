@@ -2,6 +2,7 @@ package shared.model;
 
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
 import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
@@ -123,6 +124,21 @@ public class ClientModel {
     public boolean canPlayYearOfPlenty(int playerIndex){
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
+
+
+    //Map can Methods
+    public boolean canBuildRoad(int playerIndex, EdgeLocation edgeLocation){
+        return map.buildRoadManager.canPlace(playerIndex, edgeLocation);
+    }
+
+    public boolean canBuildSettlement(int playerIndex){
+        return false;
+    }
+
+    public boolean canBuildCity(int playerIndex ){
+        return false;
+    }
+
 
     //DO METHODS
     public void purchaseRoad(int playerIndex){

@@ -7,7 +7,13 @@ import shared.locations.EdgeLocation;
  *
  * updates shared.model to show that a settlement is built at specified location
  */
-public class BuildSettlement implements BuildingManager {
+public class BuildSettlementManager {
+
+    private Map map;
+
+    public BuildSettlementManager(Map map){
+        this.map = map;
+    }
 
 
     /**
@@ -19,7 +25,7 @@ public class BuildSettlement implements BuildingManager {
      * @param loc EdgeLocation where player is trying to build settlement
      * @param dir Direction of edgelocation where player is trying to build
      */
-    @Override
+
     public boolean canPlace(int playerID, EdgeLocation loc, String dir) {
         return false;
     }
@@ -30,7 +36,7 @@ public class BuildSettlement implements BuildingManager {
      *
      * @return true if there is an adjacent road
      */
-    @Override
+
     public boolean isRoadConnected() {
         return false;
     }

@@ -78,7 +78,7 @@ public class Hex {
         this.resource = resource;
     }
 
-    /*
+
     public String toString() {
         return "Hex{" +
                 "location=" + location +
@@ -87,5 +87,5 @@ public class Hex {
                 '}';
 
     }
-     */
+
 }

@@ -5,7 +5,13 @@ package shared.model.map;
  *
  * updates shared.model to show that a city is built at specified location
  */
-abstract public class BuildCity implements BuildingManager {
+public class BuildCityManager {
+
+    private Map map;
+
+    public BuildCityManager(Map map){
+        this.map = map;
+    }
 
     /**
      * Validates whether or not player may place city at location

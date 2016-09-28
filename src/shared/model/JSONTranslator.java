@@ -7,10 +7,7 @@ import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildCity;
-import shared.model.map.BuildSettlement;
 import shared.model.map.Hex;
-import shared.model.resourcebank.ResourceBank;
 
 import java.util.ArrayList;
 import java.util.List;
