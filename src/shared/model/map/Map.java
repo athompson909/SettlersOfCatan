@@ -76,6 +76,14 @@ public class Map {
         createAllVertexObjects();
     }
 
+    //this is for when the new model comes back and we need to make a new Map object WITHOUT
+    //creating/placing all hexes again
+    public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
+    {
+        setHexes(allHexes);
+        setPorts(allPorts);
+    }
+
     private void createAllWaterHexes() {
         //18 Water hexes at these specified locations starting with north-west corner going counterclockwise
         createWaterHex(-3, 0);
@@ -233,6 +241,10 @@ public class Map {
 
     }
 
+
+
+
+
     public HashMap<HexLocation, Hex> getHexes() {
         return hexes;
     }
@@ -241,6 +253,13 @@ public class Map {
         return ports;
     }
 
+    public void setHexes(HashMap<HexLocation, Hex> hexes) {
+        this.hexes = hexes;
+    }
+
+    public void setPorts(HashMap<HexLocation, Port> ports) {
+        this.ports = ports;
+    }
 
     public List<EdgeValue> getRoads() {
         return roads;

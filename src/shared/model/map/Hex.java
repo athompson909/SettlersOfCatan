@@ -1,7 +1,6 @@
 package shared.model.map;
 
 import shared.definitions.HexType;
-import shared.definitions.PortType;
 import shared.locations.HexLocation;
 
 /**
@@ -23,11 +22,15 @@ public class Hex {
     /**
      * Resource type provided by this hex
      */
-    private HexType hexType;
+    private HexType resource;
+
+    public Hex(){
+
+    }
 
     public Hex(HexLocation location, HexType hexType){
         this.location = location;
-        this.hexType = hexType;
+        this.resource = hexType;
     }
 
     /**
@@ -63,24 +66,26 @@ public class Hex {
     /**
      * @return Resource type that hex provides
      */
-    public HexType getHexType() {
-        return hexType;
+    public HexType getResource() {
+        return resource;
     }
 
     /**
      * Sets HexType to correct resource
-     * @param hexType resource that hex provides
+     * @param resource resource that hex provides
      */
-    public void setHexType(HexType hexType) {
-        this.hexType = hexType;
+    public void setResource(HexType resource) {
+        this.resource = resource;
     }
 
-    @Override
+    /*
     public String toString() {
         return "Hex{" +
                 "location=" + location +
                 ", number=" + number +
-                ", hexType=" + hexType.toString() +
+                ", resource=" + resource.toString() +
                 '}';
+
     }
+     */
 }
