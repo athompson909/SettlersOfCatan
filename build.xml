@@ -104,11 +104,17 @@
 		<javac srcdir="${java.src}" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath" />
 		</javac>
+		<javac srcdir="${java.lib}" destdir="${java.build}" debug="true" includeantruntime="true">
+			<classpath refid="java.lib.classpath" />
+		</javac>
 	</target>
 
 	<!--adding target for running ant test-->
 	<target name="compile-test" depends="compile" description="compiles the test source code">
-		<javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
+		<!--<javac srcdir="${src}" destdir="${java.build}" debug="true" includeantruntime="true">
+			<classpath refid="java.lib.classpath"/>
+		</javac>-->
+		<javac srcdir="{tests}" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath"/>
 		</javac>
 	</target>

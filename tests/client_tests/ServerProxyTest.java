@@ -40,7 +40,7 @@ public class ServerProxyTest extends TestCase {
         System.out.println("\n\n\nfor /games:\nTESTING GAMES LIST:\n");
         testGamesList();
         System.out.println("\n\nTESTING GAME CREATE:\n");
-//        testGameCreate(); //todo: uncomment
+        testGameCreate(); //todo: uncomment
         System.out.println("\n\nTESTING GAME JOIN:\n");
         testGameJoin(); // this has to be run// from here otherwise login cookie will be null
         System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
