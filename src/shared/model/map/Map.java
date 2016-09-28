@@ -55,7 +55,7 @@ public class Map {
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createAllVertexObjects();
         populatePortVertexLocations();
-
+        createAllEdgeValues();
     }
 
     //this is for when the new model comes back and we need to make a new Map object WITHOUT
@@ -185,23 +185,82 @@ public class Map {
     private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
-
             landHex.setNumber(numberIterator.next().intValue());
         }
         hexes.put(landHex.getLocation(), landHex);
     }
 
+    /**
+     * Creates all the vertex objects, starting with the west most column.
+     * All vertex objects are created in terms of Northeast and Northwest directions of a hex.
+     */
     private void createAllVertexObjects() {
+        //First Column (West Most Column)
+        createSingleVertexObject(-3,1, VertexDirection.NorthEast);
+        createSingleVertexObject(-3,2, VertexDirection.NorthEast);
+        createSingleVertexObject(-3,3, VertexDirection.NorthEast);
 
-        //VertexLocation
+        //Second Column
+        createTwoVertexObject(-2,0);
+        createTwoVertexObject(-2,1);
+        createTwoVertexObject(-2,2);
+        createTwoVertexObject(-2,3);
 
-        createVertexObject(-2, 0, VertexDirection.NorthWest);
-        createVertexObject(-2, 0, VertexDirection.NorthEast);
+        //Third Column
+        createTwoVertexObject(-1,-1);
+        createTwoVertexObject(-1,0);
+        createTwoVertexObject(-1,1);
+        createTwoVertexObject(-1,2);
+        createTwoVertexObject(-1,3);
+
+        //Center Column
+        createTwoVertexObject(0,-2);
+        createTwoVertexObject(0,-1);
+        createTwoVertexObject(0,0);
+        createTwoVertexObject(0,1);
+        createTwoVertexObject(0,2);
+        createTwoVertexObject(0,3);
+
+        //5th Column
+        createTwoVertexObject(1,-2);
+        createTwoVertexObject(1,-1);
+        createTwoVertexObject(1,0);
+        createTwoVertexObject(1,1);
+        createTwoVertexObject(1,2);
+
+        //6th Column
+        createTwoVertexObject(2,-2);
+        createTwoVertexObject(2,-1);
+        createTwoVertexObject(2,0);
+        createTwoVertexObject(2,1);
+
+        //East Most Column
+        createSingleVertexObject(3,-2, VertexDirection.NorthWest);
+        createSingleVertexObject(3,-1, VertexDirection.NorthWest);
+        createSingleVertexObject(3,0, VertexDirection.NorthWest);
     }
 
-    private void createVertexObject(int x, int y, VertexDirection direction){
-        VertexLocation vertexLocation = new VertexLocation(new HexLocation(x,y), direction);
-        VertexObject vertexObject = new VertexObject(vertexLocation);
+    /**
+     * Creates two vertex objects on the Northwest and NorthEast Locations of the hex.
+     * @param x coordinate of the hex.
+     * @param y coordinate of the hex.
+     */
+    private void createTwoVertexObject(int x, int y){
+        VertexLocation northWestVertextLocation = new VertexLocation(new HexLocation(x,y), VertexDirection.NorthWest);
+        vertexObjects.put(northWestVertextLocation, new VertexObject(northWestVertextLocation));
+        VertexLocation northEastVertextLocation = new VertexLocation(new HexLocation(x,y), VertexDirection.NorthEast);
+        vertexObjects.put(northEastVertextLocation, new VertexObject(northEastVertextLocation));
+    }
+
+    /**
+     * Creates a single vertex object on a hex, to be used for west and east columns of ocean hexes.
+     * @param x coordinate of the hex.
+     * @param y coordinate of the hex.
+     * @param direction of the hex, should be NorthEast or NorthWest.
+     */
+    private void createSingleVertexObject(int x, int y, VertexDirection direction){
+        VertexLocation newVertextLocation = new VertexLocation(new HexLocation(x,y), direction);
+        vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
     private void populatePortVertexLocations(){
@@ -224,6 +283,99 @@ public class Map {
         portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast));
         portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest));
     }
+
+    private void createAllEdgeValues(){
+        //First Column (West Most Column)
+        createSingleEdgeValue(-3,1, EdgeDirection.NorthEast);
+        createSingleEdgeValue(-3,2, EdgeDirection.NorthEast);
+        createSingleEdgeValue(-3,3, EdgeDirection.NorthEast);
+
+        //Second Column
+        createTripleEdgeValue(-2,0);
+        createTripleEdgeValue(-2,1);
+        createTripleEdgeValue(-2,2);
+        createNorthAndSpecifiedEdgeValue(-2,3, EdgeDirection.NorthEast);
+
+        //Third Column
+        createTripleEdgeValue(-1,-1);
+        createTripleEdgeValue(-1,0);
+        createTripleEdgeValue(-1,1);
+        createTripleEdgeValue(-1,2);
+        createNorthAndSpecifiedEdgeValue(-1,3, EdgeDirection.NorthEast);
+
+        //Center Column
+        createTripleEdgeValue(0,-2);
+        createTripleEdgeValue(0,-1);
+        createTripleEdgeValue(0,0);
+        createTripleEdgeValue(0,1);
+        createTripleEdgeValue(0,2);
+        createSingleEdgeValue(0,3, EdgeDirection.North);
+
+        //5th Column
+        createTripleEdgeValue(1,-2);
+        createTripleEdgeValue(1,-1);
+        createTripleEdgeValue(1,0);
+        createTripleEdgeValue(1,1);
+        createNorthAndSpecifiedEdgeValue(1,2, EdgeDirection.NorthWest);
+
+        //6th Column
+        createTripleEdgeValue(2,-2);
+        createTripleEdgeValue(2,-1);
+        createTripleEdgeValue(2,0);
+        createNorthAndSpecifiedEdgeValue(2,1, EdgeDirection.NorthWest);
+
+        //East Most Column
+        createSingleEdgeValue(3,-2, EdgeDirection.NorthWest);
+        createSingleEdgeValue(3,-1, EdgeDirection.NorthWest);
+        createSingleEdgeValue(3,0, EdgeDirection.NorthWest);
+    }
+
+    /**
+     * Creates a single edge value in the specified direction.
+     * @param x coordinate of the hex.
+     * @param y coordinate of the hex.
+     * @param direction of the edge value. Should only be northeast, northwest, or north.
+     */
+    private void createSingleEdgeValue(int x, int y, EdgeDirection direction){
+        EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x,y), direction);
+        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+    }
+
+    /**
+     * Creates a north edge value and an additional edge value in the specified direction.
+     * @param x coordinate of the hex.
+     * @param y coordinate of the hex.
+     * @param direction of the edge value to be created, in addition to the north value.
+     */
+    private void createNorthAndSpecifiedEdgeValue(int x, int y, EdgeDirection direction){
+        HexLocation currentHex = new HexLocation(x,y);
+
+        EdgeLocation newEdgeLocation = new EdgeLocation(currentHex, direction);
+        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+
+        EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
+        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+    }
+
+    /**
+     * Creates 3 edge values for North, Northwest, and NorthEast.
+     * This function is only called for coordinates that correspond to land hexes.
+     * @param x coordinate of the hex.
+     * @param y coordinate of the hex.
+     */
+    private void createTripleEdgeValue(int x, int y){
+        HexLocation currentHex = new HexLocation(x,y);
+
+        EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
+        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+
+        EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthEast);
+        edgeObjects.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
+
+        EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthWest);
+        edgeObjects.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
+    }
+
 
 
     /**

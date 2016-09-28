@@ -19,6 +19,10 @@ public class EdgeValue {
      */
     private EdgeLocation location;
 
+    public EdgeValue(EdgeLocation edgeLocation){
+        this.location = edgeLocation;
+    }
+
     /**
      * @return PlayerID of owner of this edge
      */
