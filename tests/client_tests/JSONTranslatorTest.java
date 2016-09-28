@@ -2,6 +2,7 @@ package client_tests;
 
 import com.google.gson.Gson;
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -17,6 +18,7 @@ import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -1274,8 +1276,16 @@ public class JSONTranslatorTest extends TestCase {
     //So the Translator can have a function to parse that big JSONArray response from the server
     //that returns an arraylist of BaseCommand objects that have been executed so far,
     //but the actual getGameCommandsCommandObj doesn't need to be translated.
-    public ArrayList<BaseCommand> testCommandListFromJSON() throws Exception{
-        return null;
+    public void testCommandListFromJSON() throws Exception{
+        System.out.println(">TESTING CMDLISTFROMJSON TRANSLATION!");
+
+        JSONArray testCmdsList = new JSONArray(testCommandsListJSON);
+
+        List<BaseCommand> resultList = jsonTranslator.commandListFromJSON(testCmdsList);
+
+        assertEquals(6, resultList.size());
+        assertEquals("buildRoad", resultList.get(0));
+
     }
 
     //GOOD
@@ -1515,7 +1525,7 @@ public class JSONTranslatorTest extends TestCase {
         JSONAssert.assertEquals(expectedResult, discardCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
-
+    //GOOD
     public void testFinishTurnCmdTranslation() throws Exception {
         System.out.println(">TESTING FINISHTURNCMD TRANSLATION!");
 

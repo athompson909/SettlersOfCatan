@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.map.BuildCity;
+import shared.model.map.BuildSettlement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,37 +143,97 @@ public class JSONTranslator {
         //grab its TYPE field, put it through the switch stmt,
         //then build/save a CommandObj for it depending on what the switch stmt said.
 
+        ArrayList<BaseCommand> allExecutedCommands = new ArrayList<BaseCommand>();
+
         for (int c = 0; c < jsonCommandsList.length(); c++)
         {
             //isolate one encoded command object:
             JSONObject currCommandObj = jsonCommandsList.getJSONObject(c);
+            String currCommandObjString = currCommandObj.toString();
             //extract its command TYPE field:
             String currCommandObjType = currCommandObj.getString("type");
+
+            System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
+            System.out.println(">currCOString= " + currCommandObjString);
 
             //run that through a switch statement to determine which Command Obj to build for it:
 
             //these cases are in the order from the swagger page fyi
-            switch (currCommandObjType)
-            {
+            switch (currCommandObjType) {
                 case "sendChat":
+                    SendChatCommand newSendChatCmd = gsonConverter.fromJson(currCommandObjString, SendChatCommand.class);
+                    allExecutedCommands.add(newSendChatCmd);
                     break;
                 case "rollNumber":
+                    RollDiceCommand rollDiceCmd = gsonConverter.fromJson(currCommandObjString, RollDiceCommand.class);
+                    allExecutedCommands.add(rollDiceCmd);
                     break;
                 case "robPlayer":
+                    RobPlayerCommand robPlayerCmd = gsonConverter.fromJson(currCommandObjString, RobPlayerCommand.class);
+                    allExecutedCommands.add(robPlayerCmd);
                     break;
                 case "finishTurn":
+                    FinishTurnCommand finishTurnCmd = gsonConverter.fromJson(currCommandObjString, FinishTurnCommand.class);
+                    allExecutedCommands.add(finishTurnCmd);
                     break;
-
-
+                case "buyDevCard":
+                    PurchaseDevCardCommand purchaseDevCardCmd = gsonConverter.fromJson(currCommandObjString, PurchaseDevCardCommand.class);
+                    allExecutedCommands.add(purchaseDevCardCmd);
+                    break;
+                case "Year_Of_Plenty":
+                    PlayYearOfPlentyCommand playYearOfPlentyCommand = gsonConverter.fromJson(currCommandObjString, PlayYearOfPlentyCommand.class);
+                    allExecutedCommands.add(playYearOfPlentyCommand);
+                    break;
+                case "Road_Building":
+                    PlayRoadBuilderCommand playRoadBuildingCommand = gsonConverter.fromJson(currCommandObjString, PlayRoadBuilderCommand.class);
+                    allExecutedCommands.add(playRoadBuildingCommand);
+                    break;
+                case "Soldier":
+                    PlaySoldierCommand playSoldierCommand = gsonConverter.fromJson(currCommandObjString, PlaySoldierCommand.class);
+                    allExecutedCommands.add(playSoldierCommand);
+                    break;
+                case "Monopoly":
+                    PlayMonopolyCommand playMonopolyCommand = gsonConverter.fromJson(currCommandObjString, PlayMonopolyCommand.class);
+                    allExecutedCommands.add(playMonopolyCommand);
+                    break;
+                case "Monument":
+                    PlayMonumentCommand playMonumentCommand = gsonConverter.fromJson(currCommandObjString, PlayMonumentCommand.class);
+                    allExecutedCommands.add(playMonumentCommand);
+                    break;
+                case "buildRoad":
+                    BuildRoadCommand buildRoadCommand = gsonConverter.fromJson(currCommandObjString, BuildRoadCommand.class);
+                    allExecutedCommands.add(buildRoadCommand);
+                    break;
+                case "buildSettlement":
+                    BuildSettlementCommand buildStlmtCommand = gsonConverter.fromJson(currCommandObjString, BuildSettlementCommand.class);
+                    allExecutedCommands.add(buildStlmtCommand);
+                    break;
+                case "buildCity":
+                    BuildCityCommand buildCityCommand = gsonConverter.fromJson(currCommandObjString, BuildCityCommand.class);
+                    allExecutedCommands.add(buildCityCommand);
+                    break;
+                case "offerTrade":
+                    OfferTradeCommand offerTradeCommand = gsonConverter.fromJson(currCommandObjString, OfferTradeCommand.class);
+                    allExecutedCommands.add(offerTradeCommand);
+                    break;
+                case "acceptTrade":
+                    AcceptTradeCommand acceptTradeCommand = gsonConverter.fromJson(currCommandObjString, AcceptTradeCommand.class);
+                    allExecutedCommands.add(acceptTradeCommand);
+                    break;
+                case "maritimeTrade":
+                    MaritimeTradeCommand maritimeTradeCommand = gsonConverter.fromJson(currCommandObjString, MaritimeTradeCommand.class);
+                    allExecutedCommands.add(maritimeTradeCommand);
+                    break;
+                case "discardCards":
+                    DiscardCommand discardCommand = gsonConverter.fromJson(currCommandObjString, DiscardCommand.class);
+                    allExecutedCommands.add(discardCommand);
+                    break;
             }
 
-
-
-
+            System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
         }
 
-
-        return null;
+        return allExecutedCommands;
     }
 
 
