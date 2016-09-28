@@ -52,11 +52,11 @@ public class JSONTranslator {
 
 
 
-
     /**
      * Constructor
      */
     public void JSONTranslator(){}
+
 
 
 
@@ -114,11 +114,10 @@ public class JSONTranslator {
      * ***from CommandObject into JSON*** to post to the server.
      *
      * @param allExecutedCommands - this is the CommandManager's record of all the executed commands so far
-     * @return
+     * @return JSONArray representing allExecutedCommands as JSON so the server can read it
      */
     public JSONArray commandsListToJSON(List<BaseCommand> allExecutedCommands) {
 
-        //this may need to be the big switch statement
         stringResult = gsonConverter.toJson(allExecutedCommands);
 
         JSONArray jsonArrayResult =  new JSONArray(stringResult);
@@ -126,16 +125,17 @@ public class JSONTranslator {
         return jsonArrayResult;
     }
 
+
     /**
      * This translates the server's JSON response after /game/Commands is called.
      * It comes back as a JSONArray of lots of different CommandObjs,
      * so we need a switch statement to tell gson which type of CommandObj to create,
      * and return a list of fully built CommandObjs.
      *
-     * @param jsonCommandsList
-     * @return
+     * @param jsonCommandsList the JSONArray representing all executed commands so far, returned by the server
+     * @return an arraylist of Command objects built from the jsonCommandsList JSON
      */
-    public List<BaseCommand> commandListFromJSON(JSONArray jsonCommandsList) {
+    public List<BaseCommand> commandsListFromJSON(JSONArray jsonCommandsList) {
 
         //STEPS
         //iterate through all encoded CommandObjs inside the JSONArray,
@@ -143,7 +143,7 @@ public class JSONTranslator {
         //grab its TYPE field, put it through the switch stmt,
         //then build/save a CommandObj for it depending on what the switch stmt said.
 
-        ArrayList<BaseCommand> allExecutedCommands = new ArrayList<BaseCommand>();
+        ArrayList<BaseCommand> allExecutedCommands = new ArrayList<>();
 
         for (int c = 0; c < jsonCommandsList.length(); c++)
         {
@@ -152,9 +152,7 @@ public class JSONTranslator {
             String currCommandObjString = currCommandObj.toString();
             //extract its command TYPE field:
             String currCommandObjType = currCommandObj.getString("type");
-
-            System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
-            System.out.println(">currCOString= " + currCommandObjString);
+           // System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
 
             //run that through a switch statement to determine which Command Obj to build for it:
 
@@ -229,8 +227,7 @@ public class JSONTranslator {
                     allExecutedCommands.add(discardCommand);
                     break;
             }
-
-            System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
+            //System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
         }
 
         return allExecutedCommands;
@@ -264,6 +261,8 @@ public class JSONTranslator {
 
         return jsonObjectResult;
     }
+
+    //TODO: gameCreateResponse translator (once you create the GameListItem class)
 
     /**
      *

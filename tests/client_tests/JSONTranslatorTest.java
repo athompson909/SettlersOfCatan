@@ -3,6 +3,7 @@ package client_tests;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -22,9 +23,8 @@ import java.util.List;
 
 
 /**
- * This is the JUnit test for the JSONTranslator class.
- * I'm mainly using it to experiment with/understand Gson.
- * <p>
+ * This is the JUnit test class for the JSONTranslator.
+ *
  * Created by Sierra on 9/23/16.
  */
 public class JSONTranslatorTest extends TestCase {
@@ -1139,24 +1139,6 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
-
-
-    //this is used when the server returns a huge JSONArray of all commands exec'd so far
-    public void testCmdsListFromJSONTranslation() throws Exception{
-
-        ArrayList<BaseCommand> listOfGameCmdsExecuted = new ArrayList<BaseCommand>();
-
-    }
-
-    //this is used when posting the list of exec'd commands to the server
-    public void testCmdsListToJSONTranslation() throws Exception{
-
-
-    }
-
-
-
-
 //TEST GAME COMMANDS  ===============================
 
     //GOOD
@@ -1222,7 +1204,7 @@ public class JSONTranslatorTest extends TestCase {
     //But the server returns a JSONArray of Games after being asked for a list of all games
     //that we ONLY use to display the list of all available games for the user to join.
     //
-    public void testGameListTranslation() throws Exception {
+    public void testGameListTranslation() throws JSONException {
         System.out.println(">TESTING GAMELISTCMD TRANSLATION!");
 
         System.out.println(">Test list of Games: " + testGamesListJSON);
@@ -1270,6 +1252,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
 
+    //GOOD
     //the GET game cmds doesn't acutally need to send any JSON to the server,
     // it just uses the URL to ask it to send back a list of all the commands that
     // have happened so far.
@@ -1277,16 +1260,36 @@ public class JSONTranslatorTest extends TestCase {
     //that returns an arraylist of BaseCommand objects that have been executed so far,
     //but the actual getGameCommandsCommandObj doesn't need to be translated.
     public void testCommandListFromJSON() throws Exception{
-        System.out.println(">TESTING CMDLISTFROMJSON TRANSLATION!");
+        System.out.println(">TESTING CMDLIST>from<JSON TRANSLATION!");
 
         JSONArray testCmdsList = new JSONArray(testCommandsListJSON);
 
-        List<BaseCommand> resultList = jsonTranslator.commandListFromJSON(testCmdsList);
+        List<BaseCommand> resultList = jsonTranslator.commandsListFromJSON(testCmdsList);
 
         assertEquals(6, resultList.size());
-        assertEquals("buildRoad", resultList.get(0));
+        assertEquals(BuildRoadCommand.class, resultList.get(0).getClass());
+        assertEquals(BuildSettlementCommand.class, resultList.get(1).getClass());
+        assertEquals(FinishTurnCommand.class, resultList.get(2).getClass());
+        assertEquals(BuildRoadCommand.class, resultList.get(3).getClass());
+        assertEquals(BuildSettlementCommand.class, resultList.get(4).getClass());
+        assertEquals(FinishTurnCommand.class, resultList.get(5).getClass());
 
+        //so I don't have to build a complete list of CommandObjects to pass in:
+        testCmdsListToJSON(resultList);
     }
+
+    //GOOD
+    //this translation is used when posting the list of exec'd commands to the server
+    public void testCmdsListToJSON(List<BaseCommand> allCmdObjsList) throws Exception {
+        System.out.println(">TESTING CMDLIST>to<JSON TRANSLATION!");
+
+        JSONArray cmdsListJSONArrResult = jsonTranslator.commandsListToJSON(allCmdObjsList);
+        String cmdsListStringResult = cmdsListJSONArrResult.toString();
+        System.out.println(">JSONRESULT: " + cmdsListStringResult);
+
+        JSONAssert.assertEquals(testCommandsListJSON, cmdsListStringResult, false);
+    }
+
 
     //GOOD
     //this function translates the JSON string array into a list of available AIs (strings)
