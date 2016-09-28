@@ -3,8 +3,8 @@ package client_tests;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import shared.definitions.CatanColor;
@@ -16,14 +16,12 @@ import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.Hex;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-
 
 /**
  * This is the JUnit test class for the JSONTranslator.
@@ -74,6 +72,7 @@ public class JSONTranslatorTest extends TestCase {
     private RollDiceCommand rollDiceCommand;
 
 
+    @Test
     public void setUp() throws Exception {
         super.setUp();
 
@@ -90,6 +89,8 @@ public class JSONTranslatorTest extends TestCase {
                                     "\"name\":" + "\"yoo\"" +
                                      "}" ;
     }
+
+    @Test
     private void setUpGameCommands()
     {
         //ADD AI CMD SETUP
@@ -174,6 +175,8 @@ public class JSONTranslatorTest extends TestCase {
         //-----------------
 
     }
+
+    @Test
     private void setUpMovesCommands()
     {
         //ACCEPT TRADE CME SETUP
@@ -305,6 +308,7 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
+    @Test
     private void setUpModelString() {
         // This is an actual server response body:
         testModelString2 = " {\n" +
@@ -957,6 +961,8 @@ public class JSONTranslatorTest extends TestCase {
                 "  \"version\": 0\n" +
                 "}";
     }
+
+    @Test
     private void setUpCommandsListString() {
         testCommandsListJSON = "[\n" +
                 "  {\n" +
@@ -1009,6 +1015,7 @@ public class JSONTranslatorTest extends TestCase {
                 "  }\n" +
                 "]" ;
     }
+    @Test
     private void setUpGamesListString(){
         testGamesListJSON = "[" +
                         "{" +
@@ -1096,6 +1103,7 @@ public class JSONTranslatorTest extends TestCase {
     /**
      * @throws Exception
      */
+    @Test
     public void testModelTranslation() throws Exception {
         System.out.println(">I'M TESTING MODEL TRANSLATION from JSON!");
 
@@ -1115,6 +1123,7 @@ public class JSONTranslatorTest extends TestCase {
 //TEST GAME COMMANDS  ===============================
 
     //GOOD
+    @Test
     public void testAddAICmdTranslation() throws Exception {
         System.out.println(">TESTING ADDAICMD TRANSLATION!");
 
@@ -1133,6 +1142,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testGameCreateCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMECREATECMD TRANSLATION!");
 
@@ -1154,6 +1164,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testCameCreateResponseFromJSON() throws Exception {
         System.out.println(">TESTING GAMECREATERESPONSE TRANSLATION!");
 
@@ -1173,6 +1184,7 @@ public class JSONTranslatorTest extends TestCase {
     //But the server returns a JSONArray of Games after being asked for a list of all games
     //that we ONLY use to display the list of all available games for the user to join.
     //(as far as I know)
+    @Test
     public void testGamesListResponseFromJSON() throws Exception{
         System.out.println(">TESTING GAMELISTRESPONSE TRANSLATION!");
 
@@ -1188,6 +1200,7 @@ public class JSONTranslatorTest extends TestCase {
         assertEquals(4, gLIArrayResult.get(2).getPlayers().size()); //the 4th one is null
     }
     //GOOD
+    @Test
     public void testGameJoinCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMEJOINCMD TRANSLATION!");
 
@@ -1208,6 +1221,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testGameLoadCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMELOADCMD TRANSLATION!");
 
@@ -1226,6 +1240,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testGameSaveCmdTranslation() throws Exception {
         System.out.println(">TESTING GAMESAVECMD TRANSLATION!");
 
@@ -1252,6 +1267,7 @@ public class JSONTranslatorTest extends TestCase {
     //So the Translator can have a function to parse that big JSONArray response from the server
     //that returns an arraylist of BaseCommand objects that have been executed so far,
     //but the actual getGameCommandsCommandObj doesn't need to be translated.
+    @Test
     public void testCmdsListFromJSON() throws Exception{
         System.out.println(">TESTING CMDLIST>from<JSON TRANSLATION!");
 
@@ -1273,6 +1289,7 @@ public class JSONTranslatorTest extends TestCase {
 
     //GOOD
     //this translation is used when posting the list of exec'd commands to the server
+    @Test
     public void testCmdsListToJSON(List<BaseCommand> allCmdObjsList) throws Exception {
         System.out.println(">TESTING CMDLIST>to<JSON TRANSLATION!");
 
@@ -1288,6 +1305,7 @@ public class JSONTranslatorTest extends TestCase {
     //this function translates the JSON string array into a list of available AIs (strings)
     //Swagger page says that LARGEST_ARMY is the only supported AI type right now
     //the server executes this command without any JSON in the request body, just the URL
+    @Test
     public void testListAICmdTranslation() throws Exception {
         System.out.println(">TESTING LISTAICMD TRANSLATION!");
 
@@ -1312,6 +1330,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testLoginCmdTranslation() throws Exception {
         System.out.println(">TESTING LOGINCMD TRANSLATION!");
 
@@ -1331,6 +1350,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testRegisterCmdTranslation() throws Exception {
         System.out.println(">TESTING REGISTERCMD TRANSLATION!");
 
@@ -1350,6 +1370,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testSendChatCmdTranslation() throws Exception {
         System.out.println(">TESTING SENDCHATCMD TRANSLATION!");
 
@@ -1370,6 +1391,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testUtilChangeLogLevelCmdTranslation() throws Exception {
         System.out.println(">TESTING UTILCHANGELOGLEVELCMD TRANSLATION!");
 
@@ -1391,6 +1413,7 @@ public class JSONTranslatorTest extends TestCase {
 //TEST MOVES COMMANDS  ===============================
 
     //GOOD
+    @Test
     public void testAcceptTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING ACCEPTTRADECMD TRANSLATION!");
 
@@ -1411,6 +1434,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testBuildCityCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDCITYCMD TRANSLATION!");
 
@@ -1440,6 +1464,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testBuildRoadCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDROADCMD TRANSLATION!");
 
@@ -1471,6 +1496,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testBuildSettlementCmdTranslation() throws Exception {
         System.out.println(">TESTING BUILDSTLMTCMD TRANSLATION!");
 
@@ -1496,6 +1522,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testDiscardCmdTranslation() throws Exception {
         System.out.println(">TESTING DISCARDCMD TRANSLATION!");
 
@@ -1522,6 +1549,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testFinishTurnCmdTranslation() throws Exception {
         System.out.println(">TESTING FINISHTURNCMD TRANSLATION!");
 
@@ -1540,6 +1568,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testMaritimeTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING MARITIMETRADECMD TRANSLATION!");
 
@@ -1562,6 +1591,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testOfferTradeCmdTranslation() throws Exception {
         System.out.println(">TESTING OFFERTRADECMD TRANSLATION!");
 
@@ -1589,6 +1619,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayMonopolyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYMONOPOLYCMD TRANSLATION!");
 
@@ -1609,6 +1640,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayMonumentCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYMONUMENTCMD TRANSLATION!");
 
@@ -1628,6 +1660,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayRoadBuilderCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYROADBUILDERCMD TRANSLATION!");
 
@@ -1657,6 +1690,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlaySoldierCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYSOLDIERCMD TRANSLATION!");
 
@@ -1681,6 +1715,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPlayYearOfPlentyCmdTranslation() throws Exception {
         System.out.println(">TESTING PLAYYEAROFPLENTYCMD TRANSLATION!");
 
@@ -1702,6 +1737,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testPurchaseDevCardCmdTranslation() throws Exception {
         System.out.println(">TESTING PURCHASEDEVDARDCMD TRANSLATION!");
 
@@ -1721,6 +1757,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testRobPlayerCmdTranslation() throws Exception {
         System.out.println(">TESTING ROBPLAYERCMD TRANSLATION!");
 
@@ -1744,6 +1781,7 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    @Test
     public void testRollDiceCmdTranslation() throws Exception {
         System.out.println(">TESTING ROLLDICECMD TRANSLATION!");
 

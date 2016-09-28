@@ -11,7 +11,7 @@
     <!-- Input folders -->
     <property name="java.dir" value="java"/>
     <property name="java.src.dir" value="${java.dir}/src"/>
-    <property name="java.lib.dir" value="${java.dir}/lib"/>
+    <property name="java.lib.dir" value="lib"/>
     <!-- JavaScript source folder -->
     <property name="javascript.dir" value="gameplay/js"/>
 
@@ -30,7 +30,7 @@
 	<!-- ********** -->
 
 	<path id="java.lib.classpath">
-		<fileset dir="${java.lib.dir}">
+		<fileset dir="java/lib">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -85,7 +85,7 @@
 	<property name="java.images" location="${java.dir}/images"/>
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
-	<property name="java.lib" location="${java.dir}/lib"/>
+	<property name="java.lib" location="java/lib"/>
 	<property name="java.test" location="tests"/>
 	<property name="java.build.base_tests" location="${java.build}/base_tests"/>
 
@@ -101,7 +101,7 @@
 	</target>
 
 	<target name="compile" depends="init" description="compile the source " >
-		<javac srcdir="${java.src}" destdir="${java.build}" debug="true" includeantruntime="true">
+		<javac srcdir="src" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath" />
 		</javac>
 		<javac srcdir="${java.lib}" destdir="${java.build}" debug="true" includeantruntime="true">
@@ -114,7 +114,7 @@
 		<!--<javac srcdir="${src}" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath"/>
 		</javac>-->
-		<javac srcdir="{tests}" destdir="${java.build}" debug="true" includeantruntime="true">
+		<javac srcdir="tests" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath"/>
 		</javac>
 	</target>
@@ -122,7 +122,7 @@
 	<target name="package" depends="compile" description="package the jar file" >
 		<mkdir dir="${java.dist}/lib"/>
 		<copy todir="${java.dist}/lib">
-			<fileset dir="${java.lib}">
+			<fileset dir="/lib">
 				<include name="**"/>
 			</fileset>
 		</copy>
