@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
+ * This isn't actually necessary - the server only needs the URL header anyways!
+ *
  * Created by Alise on 9/18/2016.
  */
 public class ExecuteGameCommandsCommand implements BaseCommand {
@@ -17,7 +20,8 @@ public class ExecuteGameCommandsCommand implements BaseCommand {
     }
 
     //list of all the commands to be executed - not sure about this
-    public List<String> gameCommands = new ArrayList<String>();
+    // JUST GET THIS FROM THE COMMANDMANAGER
+    //public List<String> gameCommands = new ArrayList<String>();
 
     /**
      * Tells server to execute the list of game commands

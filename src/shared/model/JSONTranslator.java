@@ -2,11 +2,14 @@ package shared.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -104,18 +107,73 @@ public class JSONTranslator {
     }
 
     /**
+     * This is how the server Executes all commands on its own model -
+     * Here we are translating the CommandManager's list of all exec'd commands so far
+     * ***from CommandObject into JSON*** to post to the server.
      *
-     * @param execGameCmdsCommandObj
+     * @param allExecutedCommands - this is the CommandManager's record of all the executed commands so far
      * @return
      */
-    public JSONObject execGameCmdsCmdToJSON(ExecuteGameCommandsCommand execGameCmdsCommandObj) {
+    public JSONArray commandsListToJSON(List<BaseCommand> allExecutedCommands) {
 
-        stringResult = gsonConverter.toJson(execGameCmdsCommandObj);
+        //this may need to be the big switch statement
+        stringResult = gsonConverter.toJson(allExecutedCommands);
 
-        jsonObjectResult =  new JSONObject(stringResult);
+        JSONArray jsonArrayResult =  new JSONArray(stringResult);
 
-        return jsonObjectResult;
+        return jsonArrayResult;
     }
+
+    /**
+     * This translates the server's JSON response after /game/Commands is called.
+     * It comes back as a JSONArray of lots of different CommandObjs,
+     * so we need a switch statement to tell gson which type of CommandObj to create,
+     * and return a list of fully built CommandObjs.
+     *
+     * @param jsonCommandsList
+     * @return
+     */
+    public List<BaseCommand> commandListFromJSON(JSONArray jsonCommandsList) {
+
+        //STEPS
+        //iterate through all encoded CommandObjs inside the JSONArray,
+        //create a temp JSONObject for each one to examine it,
+        //grab its TYPE field, put it through the switch stmt,
+        //then build/save a CommandObj for it depending on what the switch stmt said.
+
+        for (int c = 0; c < jsonCommandsList.length(); c++)
+        {
+            //isolate one encoded command object:
+            JSONObject currCommandObj = jsonCommandsList.getJSONObject(c);
+            //extract its command TYPE field:
+            String currCommandObjType = currCommandObj.getString("type");
+
+            //run that through a switch statement to determine which Command Obj to build for it:
+
+            //these cases are in the order from the swagger page fyi
+            switch (currCommandObjType)
+            {
+                case "sendChat":
+                    break;
+                case "rollNumber":
+                    break;
+                case "robPlayer":
+                    break;
+                case "finishTurn":
+                    break;
+
+
+            }
+
+
+
+
+        }
+
+
+        return null;
+    }
+
 
     /**
      *
@@ -220,13 +278,13 @@ public class JSONTranslator {
      * @param getGameCmdsCmdObj
      * @return
      */
-    public JSONObject getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
+    public JSONArray getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
 
         stringResult = gsonConverter.toJson(getGameCmdsCmdObj);
 
-        jsonObjectResult =  new JSONObject(stringResult);
+        JSONArray jsonArrayResult =  new JSONArray(stringResult);
 
-        return jsonObjectResult;
+        return jsonArrayResult;
     }
 
     /**
@@ -380,12 +438,12 @@ public class JSONTranslator {
 
     /**
      *
-     * @param endTurnCmd
+     * @param finishTurnCmd
      * @return
      */
-    public JSONObject endTurnCmdToJSON(EndTurnCommand endTurnCmd) {
+    public JSONObject finishTurnCmdToJSON(FinishTurnCommand finishTurnCmd) {
 
-        stringResult = gsonConverter.toJson(endTurnCmd);
+        stringResult = gsonConverter.toJson(finishTurnCmd);
 
         jsonObjectResult =  new JSONObject(stringResult);
 
