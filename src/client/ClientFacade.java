@@ -371,8 +371,8 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
      */
-    public void executeGameCommands(ExecuteGameCommandsCommand command){
-        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command);//todo change return time in JSONTranslator
+    public void executeGameCommands(ExecuteGameCommandsCommand command) {
+        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command);
         try {
             JSONObject response = serverProxy.executeGameCommands(json);
         }
