@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
+import shared.model.GameListItem;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
@@ -82,21 +83,20 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
      * @param loginCommand
      */
-    public void userLogin(LoginCommand loginCommand){
+    public boolean userLogin(LoginCommand loginCommand){
         JSONObject json = jsonTranslator.loginCmdToJSON(loginCommand);
         try {
             String response = serverProxy.userLogin(json);
-            //TODO
             if(response.equals("Success")) {
-                //do Something
+                return true;
             }
             else {
-                //make them try to login again
-
+                return false;
             }
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -117,19 +117,19 @@ public class ClientFacade {
     message.
      * @param registerCommand
      */
-    public void userRegister(RegisterCommand registerCommand){
+    public boolean userRegister(RegisterCommand registerCommand){
         JSONObject json = jsonTranslator.registerCmdToJSON(registerCommand);
         try {
             String response = serverProxy.userRegister(json);
-            //TODO
             if(response.equals("Success")){
-                //do Something
+               return true;
             }else{
-                //make them try to register again
+                return false;
             }
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -144,16 +144,15 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
      */
-    public void gamesList(GameListCommand command){
-        //TODO fix discretion between translator taking command object to translate and proxy not needing anything
-//        JSONObject json = jsonTranslator.gameListCmdToJSON(command);
-//        JSONObject response = serverProxy.gamesList(json);
-//        //TODO
-//        if(response.equals("Success")){
-//            //do Something
-//        }else{
-//            //make them try to register again
-//        }
+    public List gamesList(GameListCommand command){
+        try {
+            JSONArray response = serverProxy.gamesList();
+            List games = jsonTranslator.gamesListResponseFromJSON(response);
+            return games;
+        }catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -168,13 +167,16 @@ public class ClientFacade {
     message.
      * @param gameCreateCommand
      */
-    public void gameCreate(GameCreateCommand gameCreateCommand){
+    public GameListItem gameCreate(GameCreateCommand gameCreateCommand){
         JSONObject json = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
         try {
             JSONObject response = serverProxy.gameCreate(json);
+            GameListItem game = jsonTranslator.gameCreateResponseFromJSON(response);
+            return game;
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return null;
         }
 
     }
@@ -200,13 +202,19 @@ public class ClientFacade {
     message.
      * @param gameJoinCommand
      */
-    public void gameJoin(GameJoinCommand gameJoinCommand){
+    public boolean gameJoin(GameJoinCommand gameJoinCommand){
         JSONObject json = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
         try {
             String response = serverProxy.gameJoin(json);
+            if(response.equals("Success")){
+                return true;
+            }else{
+                return false;
+            }
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -228,13 +236,19 @@ public class ClientFacade {
     message
      * @param command
      */
-    public void gameSave(GameSaveCommand command){
+    public boolean gameSave(GameSaveCommand command){
         JSONObject json = jsonTranslator.gameSaveCmdToJSON(command);
         try {
             String response = serverProxy.gameSave(json);
+            if(response.equals("Success")){
+                return true;
+            }else{
+                return false;
+            }
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -255,10 +269,19 @@ public class ClientFacade {
     message.
      * @param command
      */
-    public void gameLoad(GameLoadCommand command){
-        //ToDo translation for load? ...and surround with try catch <3 Adam
-//        JSONObject json = jsonTranslator.gameLoadCmdToJSON(command);
-//        String response = serverProxy.gameLoad(json);
+    public boolean gameLoad(GameLoadCommand command){
+        JSONObject json = jsonTranslator.gameLoadCmdToJSON(command);
+        try {
+            String response = serverProxy.gameLoad(json);
+            if(response.equals("Success")){
+                return true;
+            }else{
+                return false;
+            }
+        }catch (ClientException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -321,10 +344,15 @@ public class ClientFacade {
     Note:
     When a game is reset, the players in the game are maintained
      */
-    public void gameReset(GameResetCommand command){
-        //Todo - fix proxy not taking json ... and surround with try catch
-//        JSONObject json = jsonTranslator.gameResetCmdToJSON(command);
-//        String response = serverProxy.gameReset(json);
+    public void gameReset(){
+        try {
+            JSONObject jsonModel = serverProxy.gameReset();
+            ClientModel resetModel = jsonTranslator.modelFromJSON(jsonModel);
+            version = resetModel.getVersion();
+            sendUpdatedModel(resetModel);
+        }catch (ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -351,10 +379,14 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
      */
-    public void getGameCommands(GetGameCommandsCommand command){
-        //Todo ... and surround with try catch
-//        JSONObject json = jsonTranslator.getGameCmdsCmdToJSON(command);
-//        JSONObject response = serverProxy.getGameCommands(json);
+    public void getGameCommands(){
+        try {
+            JSONArray response = serverProxy.getGameCommands();
+            List<BaseCommand> list = jsonTranslator.commandsListFromJSON(response);
+            System.out.println(list);
+        }catch(ClientException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -378,6 +410,9 @@ public class ClientFacade {
         JSONArray jsonArray = jsonTranslator.commandsListToJSON(allExecutedCommands);
         try {
             JSONObject response = serverProxy.executeGameCommands(jsonArray);
+            ClientModel updatedModel = jsonTranslator.modelFromJSON(response);
+            version = updatedModel.getVersion();
+            sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
             e.printStackTrace();
@@ -393,11 +428,15 @@ public class ClientFacade {
     2. The body contains a JSON JSONObject array enumerating the different types of AI players.
     These are the values that may be passed to the /game/addAI method.
      */
-    public void listAI(ListAICommand command){
-        //Todo
-        //This command is sent to the server only through the URL, no JSON necessary
-       // JSONObject json = jsonTranslator.listAICmdToJSON(command);
-        //JSONObject response = serverProxy.listAI(json);//todo surround with try catch if uncomment
+    public List<String> listAI(){
+        try {
+            JSONArray response = serverProxy.listAI();
+            List<String> AIs = jsonTranslator.listAIResponseFromJSON(response);
+            return AIs;
+        }catch (ClientException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -416,13 +455,19 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
      */
-    public void addAI(AddAICommand command){
+    public boolean addAI(AddAICommand command){
         JSONObject json = jsonTranslator.addAICmdToJSON(command);
         try {
-            String response = serverProxy.addAI(json); // this is no longer a JSON, <3 Adam
+            String response = serverProxy.addAI(json);
+            if(response.equals("Success")){
+                return true;
+            }else{
+                return false;
+            }
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -438,14 +483,20 @@ public class ClientFacade {
     message.
      * @param command
      */
-    public void utilChangeLogLevel(UtilChangeLogLevelCommand command){
+    public boolean utilChangeLogLevel(UtilChangeLogLevelCommand command){
 
         JSONObject json = jsonTranslator.utilChangeLogLevelCmdToJSON(command);
         try {
             String response = serverProxy.utilChangeLogLevel(json);
+            if(response.equals("Success")){
+                return true;
+            }else{
+                return false;
+            }
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
