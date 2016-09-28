@@ -1,7 +1,6 @@
 package client;
 
 import exceptions.ClientException;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
@@ -372,13 +371,13 @@ public class ClientFacade {
     message
      */
     public void executeGameCommands(ExecuteGameCommandsCommand command) {
-        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command);
-        try {
-            JSONObject response = serverProxy.executeGameCommands(json);
-        }
-        catch (ClientException e) {
-            e.printStackTrace();
-        }
+//        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command); // todo: uncomment
+//        try {
+//            JSONObject response = serverProxy.executeGameCommands(json);
+//        }
+//        catch (ClientException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

@@ -26,32 +26,45 @@ public class ServerProxyTest extends TestCase {
     public void testServerProxy() throws ClientException {
 
         // ***** OPERATIONS ABOUT USERS: *****
-        //  testing register
+        System.out.println("TESTING REGISTER:\n");
         testUserRegister();
         //  testing login
+        System.out.println("\n\nTESTING LOGIN:\n");
         JSONObject loginJson = new JSONObject(loginStr);
+        System.out.println("login data: " + loginJson.toString());
         String str = serverProxy.userLogin(loginJson);
-        System.out.println(str);
+        System.out.println("response from server: " + str);
         assertEquals("Success", str);
 
         // ***** GAME QUERIES/ACTIONS (PRE-JOINING): *****
+        System.out.println("\n\nTESTING GAMES LIST:\n");
         testGamesList();
+        System.out.println("\n\nTESTING GAME CREATE:\n");
         testGameCreate(); //todo: uncomment
-        testGamesList();
+        //testGamesList(); //maybe uncomment this too
         //  testing join
+        System.out.println("\n\nTESTING GAME JOIN:\n");
         testGameJoin(); // this has to be run// from here otherwise login cookie will be null
         System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
         System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
+        System.out.println("\n\nTESTING GAME SAVE:\n");
         testGameSave();
+        System.out.println("\n\nTESTING GAME LOAD:\n");
         testGameLoad();
+        System.out.println("\n\nTESTING ADD AI:\n");
         testAddAI(); // http response is 400 when I run this, I'm turning on and off the server
+        System.out.println("\n\nTESTING LIST AI:\n");
         testListAI();
 
         // ***** OPERATIONS FOR THE GAME YOU'RE IN: *****
+        System.out.println("\n\nTESTING GAME MODEL VERSION:\n");
         testGameModelVersion();
+        System.out.println("\n\nTESTING GET GAME COMMANDS:\n");
         testGetGameCommands();
+        System.out.println("\n\nTESTING EXECUTE GAME COMMANDS:\n");
         //testExecuteGameCommands();
 
+        System.out.println("\n\nTESTING GAME RESET:\n");
         testGameReset();
         // see if the model changes:
         //testGameModelVersion();
@@ -88,10 +101,10 @@ public class ServerProxyTest extends TestCase {
     public void testUserRegister() throws ClientException {
 
         JSONObject loginJson = new JSONObject(loginStr);
+        System.out.println("register data: " + loginJson.toString());
 
         String response = serverProxy.userRegister(loginJson);
-        System.out.println("userRegister(): " + response);
-
+        System.out.println("response from server: " + response);
         String str = serverProxy.getRegisterCookie();
         System.out.println("registerCookie: " + str);
         //assertEquals("http error: bad request", serverProxy.userRegister(loginJson));
@@ -111,7 +124,7 @@ public class ServerProxyTest extends TestCase {
         //compare variables in the two games lists
         JSONArray jsonArray = serverProxy.gamesList();
         String jsonStr = jsonArray.toString();
-        System.out.print("gamesList(): \n" + jsonStr + "\n\n");
+        System.out.print("response from server: " + jsonStr);
     }
 
     public void testGameCreate() throws ClientException {
@@ -126,23 +139,26 @@ public class ServerProxyTest extends TestCase {
     public void testGameJoin() throws ClientException {
 
         JSONObject jsonObject = new JSONObject(JOIN_STR);
+        System.out.println("game join data: " + jsonObject.toString());
         String jsonStr = serverProxy.gameJoin(jsonObject);
         assertEquals("Success", jsonStr);
-        System.out.println("gameJoin(): " + jsonStr);
+        System.out.println("response from server: " + jsonStr);
         //System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
     }
 
     public void testGameSave() throws ClientException {
         JSONObject jsonObject = new JSONObject(GAME_SAVE_STR);
+        System.out.println("game save data: " + jsonObject.toString());
         String str = serverProxy.gameSave(jsonObject);
-        System.out.println("gameSave(): " + str);
+        System.out.println("response from server: " + str);
         assertEquals("Success", str);
     }
 
     public void testGameLoad() throws ClientException {
         JSONObject jsonObject = new JSONObject("{\"name\":\"testgame1002-Adam\"}");
+        System.out.println("game load data: " + jsonObject.toString());
         String str = serverProxy.gameLoad(jsonObject);
-        System.out.println("gameLoad(): " + str);
+        System.out.println("response from server: " + str);
         assertEquals("Success", str);
     }
 
@@ -155,9 +171,9 @@ public class ServerProxyTest extends TestCase {
      */
     public void testGameModelVersion() throws ClientException {
         String model = serverProxy.gameModelVersion(0);
-        System.out.println("version=0:\n" + model + "\n\n");
+        System.out.println("version=0:\n" + model + "\n");
         model = serverProxy.gameModelVersion(1);
-        System.out.println("version=1:\n" + model + "\n\n");
+        System.out.println("version=1:\n" + model + "\n");
     }
 
     /**
@@ -167,13 +183,13 @@ public class ServerProxyTest extends TestCase {
      */
     public void testGameReset() throws ClientException {
         JSONObject jsonObject = serverProxy.gameReset();
-        System.out.println("gameReset():\n" + jsonObject.toString() + "\n\n");
+        System.out.println("response from server: " + jsonObject.toString() + "\n\n");
     }
 
     public void testGetGameCommands() throws ClientException {
         JSONArray jsonArray = serverProxy.getGameCommands();
         if(jsonArray != null)
-            System.out.println("getGameCommands():\n" + jsonArray.toString() + "\n\n");
+            System.out.println("response from server: " + jsonArray.toString() + "\n\n");
         else System.out.println("NO GAME COMMANDS\n");
     }
 
@@ -184,16 +200,18 @@ public class ServerProxyTest extends TestCase {
      */
     public void testExecuteGameCommands() throws ClientException {
         JSONArray gameCommandsJson = new JSONArray(GAME_COMMANDS);
-        System.out.println("executeGameCommands():\n" + serverProxy.executeGameCommands(gameCommandsJson) + "\n\n");
+        System.out.println("execute game commands data: " + gameCommandsJson.toString());
+        System.out.println("response from server: " + serverProxy.executeGameCommands(gameCommandsJson) + "\n\n");
     }
 
     public void testAddAI() throws ClientException {
         JSONObject jsonObject = new JSONObject(AI_REQUEST);
-        System.out.println("addID(): " + serverProxy.addAI(jsonObject));
+        System.out.println("add AI data: " + jsonObject.toString());
+        System.out.println("response from server: " + serverProxy.addAI(jsonObject));
     }
 
     public void testListAI() throws ClientException {
-        System.out.println("listAI(): " + serverProxy.listAI().toString());
+        System.out.println("response from server: " + serverProxy.listAI().toString());
     }
 
 
