@@ -109,8 +109,8 @@ public class ServerProxyTest extends TestCase {
     public void testGamesList() throws ClientException {
 
         //compare variables in the two games lists
-        JSONObject jsonObject = serverProxy.gamesList();
-        String jsonStr = jsonObject.toString();
+        JSONArray jsonArray = serverProxy.gamesList();
+        String jsonStr = jsonArray.toString();
         System.out.print("gamesList(): \n" + jsonStr + "\n\n");
     }
 
@@ -171,9 +171,9 @@ public class ServerProxyTest extends TestCase {
     }
 
     public void testGetGameCommands() throws ClientException {
-        JSONObject jsonObject = serverProxy.getGameCommands();
-        if(jsonObject != null)
-            System.out.println("getGameCommands():\n" + jsonObject.toString() + "\n\n");
+        JSONArray jsonArray = serverProxy.getGameCommands();
+        if(jsonArray != null)
+            System.out.println("getGameCommands():\n" + jsonArray.toString() + "\n\n");
         else System.out.println("NO GAME COMMANDS\n");
     }
 

@@ -76,7 +76,7 @@ public interface IServerProxy {
    message.
     * @return Model in JSON
     */
-   JSONObject gamesList() throws ClientException;
+   JSONArray gamesList() throws ClientException;
 
    /**
     *Creates a new game on the server.
@@ -237,7 +237,7 @@ public interface IServerProxy {
    message
     * @return Model in JSON
     */
-   JSONObject getGameCommands() throws ClientException;
+   JSONArray getGameCommands() throws ClientException;
 
    /**
     * Executes the specified command list in the current game.

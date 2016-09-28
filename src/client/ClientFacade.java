@@ -372,7 +372,7 @@ public class ClientFacade {
     message
      */
     public void executeGameCommands(ExecuteGameCommandsCommand command){
-        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command);
+        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command);//todo change return time in JSONTranslator
         try {
             JSONObject response = serverProxy.executeGameCommands(json);
         }

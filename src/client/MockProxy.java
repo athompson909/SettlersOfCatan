@@ -87,8 +87,8 @@ public class MockProxy implements IServerProxy {
      * @return Model in JSON
      */
     @Override
-    public JSONObject gamesList() throws ClientException  {
-        return new JSONObject(GAMES_LIST);
+    public JSONArray gamesList() throws ClientException  {
+        return new JSONArray(GAMES_LIST);
     }
 
     /**
@@ -238,8 +238,8 @@ public class MockProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject getGameCommands() throws ClientException  {
-        return new JSONObject(GAME_MODEL);
+    public JSONArray getGameCommands() throws ClientException  {
+        return new JSONArray(GAME_MODEL);
     }
 
     /**
@@ -624,7 +624,8 @@ public class MockProxy implements IServerProxy {
     private final String SUCCESS = "Success";
 
     // not going to change to local variable so code is easier to read
-    private final String GAMES_LIST = "{\n" +
+    private final String GAMES_LIST = "[\n" +
+            "   {\n" +
             "    \"title\": \"Default Game\",\n" +
             "    \"id\": 0,\n" +
             "    \"players\": [\n" +
@@ -701,7 +702,8 @@ public class MockProxy implements IServerProxy {
             "        \"id\": 11\n" +
             "      }\n" +
             "    ]\n" +
-            "  }\n";
+            "  }" +
+            "]\n";
 
     private final String GAME_INFO = "{\n" +
             "  \"title\": \"string\",\n" +
