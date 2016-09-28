@@ -35,6 +35,15 @@ public class ServerPoller {
     private int seconds = 2;
 
     /**
+     * for testing
+     */
+    private int fetchCount = 0;
+
+    public int getFetchCount() {
+        return fetchCount;
+    }
+
+    /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
      *
@@ -44,13 +53,14 @@ public class ServerPoller {
     public ServerPoller(ClientFacade clientFacade) {
         this.clientFacade = clientFacade;
         pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
-        pollTimer.schedule(new ServerPollerTask(), seconds*1000);
+        pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
 
-    private class ServerPollerTask extends TimerTask{
+    private class ServerPollerTask extends TimerTask {
         public void run() {
-            System.out.println("fetch new model");
-            fetchNewModel();
+            //System.out.println("fetching new model");
+            fetchCount++;
+            //fetchNewModel();
         }
     }
 
