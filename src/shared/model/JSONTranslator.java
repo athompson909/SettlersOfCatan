@@ -9,6 +9,8 @@ import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCity;
 import shared.model.map.BuildSettlement;
+import shared.model.map.Hex;
+import shared.model.resourcebank.ResourceBank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +54,6 @@ public class JSONTranslator {
     private JSONObject jsonObjectResult = null;
 
 
-
-
     /**
      * Constructor
      */
@@ -75,8 +75,66 @@ public class JSONTranslator {
 
         String modelJSONString = newModelJSON.toString();
 
-        //this fromJson() takes in a JSON string and the template class, and returns a complete ClientModel object
-        newClientModel = gsonConverter.fromJson(modelJSONString, ClientModel.class);
+        //TODO: these are all not done
+        //Break up ClientModel pieces and build a new ClientModel object manually:
+
+        //GET DECK (which object does this parse to?
+
+        //GET MAP
+        JSONObject newCMMap = newModelJSON.getJSONObject("map");
+
+        //GET RADIUS
+        int newCMRadius = newCMMap.getInt("radius");
+            //GET HEXES
+
+        JSONArray newCMHexes = newCMMap.getJSONArray("hexes");
+        // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
+        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
+
+        for (int h = 0; h < newCMHexes.length(); h++)
+        {
+            String tempHexString = newCMHexes.get(h).toString();
+            System.out.println(">tempHexString = " + tempHexString);
+            Hex testHex = gsonConverter.fromJson(tempHexString, Hex.class);
+            System.out.println("\t testHex" + h + "= " + testHex.toString());
+
+            parsedHexes.add(testHex);
+        }
+
+            //GET ROADS
+            //GET CITIES
+            //GET SETTLEMENTS
+            //GET PORTS
+            //GET ROBBER
+
+        //GET PLAYERS ARRAY
+
+        //GET MESSAGEMANAGER out of CHAT and LOG
+            //GET CHAT
+        JSONArray newCMChat = newModelJSON.getJSONArray("chat");
+
+            //GET LOG
+        JSONArray newCMLog = newModelJSON.getJSONArray("log");
+
+
+        //GET RESOURCEBANK
+        JSONObject newCMResourceBank = newModelJSON.getJSONObject("bank");
+        System.out.println(">newCMResBank= " + newCMResourceBank);
+        //the JSON for this section looks more like a ResourceList than a ResourceBank...
+
+        //GET TURNTRACKER
+
+
+        //GET TRADE OFFER
+
+        //GET 2 OUTSIDE INTS
+        int newCMVersion = newModelJSON.getInt("version");
+        int newCMWinner = newModelJSON.getInt("winner");
+        //get gameNumber? what is this for again?
+
+
+        //Not in JSON: ClientUpdateManager **
+
 
         return newClientModel;
     }

@@ -16,6 +16,7 @@ import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.map.Hex;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
@@ -1097,47 +1098,12 @@ public class JSONTranslatorTest extends TestCase {
      */
     public void testModelTranslation() throws Exception {
         System.out.println(">I'M TESTING MODEL TRANSLATION from JSON!");
-        /*
-        System.out.println("testResponseModel: " + testResponseModel);
 
         JSONObject newClientModelJSON = new JSONObject(testResponseModel);
-        System.out.println(">newClientModelJSON: " + newClientModelJSON);
-
-        //break up clientmodel pieces and build a new ClientModel object manually:
-
-        //GET MAP
-        JSONObject newCMTestMap = newClientModelJSON.getJSONObject("map");
-        System.out.println("\t MAP TEST= " + newCMTestMap);
-
-        //Map newMap = new Map()
-        //System.out.println("newMap=" + newMap.toString());
-
-        JSONArray newCMTestHexes = newCMTestMap.getJSONArray("hexes");
-       // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
-        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
-
-        for (int h = 0; h < newCMTestHexes.length(); h++)
-        {
-            String tempHexString = newCMTestHexes.get(h).toString();
-            System.out.println(">tempHexString = " + tempHexString);
-            Hex testHex = gsonTest.fromJson(tempHexString, Hex.class);
-            System.out.println("\t testHex" + h + "= " + testHex.toString());
-
-            parsedHexes.add(testHex);
-        }
-        */
-        //Map testMap = gsonTest.fromJson(newCMTestMap.toString(), Map.class);
-
-
-       //  ClientModel newClientModel = jsonTranslator.modelFromJSON(newClientModelJSON);
-               // gsonTest.fromJson(testResponseModel, ClientModel.class);
 
 
 
-        //it looks like we might have to just pull apart the JSON and build a ClientModel object manually...
-       // ClientModel newClientModel = new ClientModel()
-
-
+        //TODO: I think this is the last translator function to write here...
 
         //serialize it again and compare to the original JSON model string
        // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
