@@ -81,6 +81,11 @@ public class ClientModel {
     }
 
 
+
+
+
+
+
     //CAN METHODS
     public boolean canPurchaseRoad(int playerIndex){
         return players[playerIndex].canPurchaseRoad();

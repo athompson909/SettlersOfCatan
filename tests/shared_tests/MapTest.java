@@ -17,7 +17,7 @@ public class MapTest extends TestCase {
         testMapPorts();
     }
 
-    private void testMapHexes() {
+    public void testMapHexes() {
         System.out.println(map.getHexes().size());
         assert (map.getHexes().size() == 37); //There should be 37 hexes.
 
