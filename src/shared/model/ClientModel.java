@@ -23,6 +23,7 @@ public class ClientModel {
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
     public int version = 0;
+
     public int gameNumber;
 
     /**

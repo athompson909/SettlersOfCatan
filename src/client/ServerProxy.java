@@ -114,7 +114,7 @@ public class ServerProxy implements IServerProxy {
 
                 return baos.toString();
             }
-            else return "http error: bad request";
+            else return "http error " + connection.getResponseCode() + ": " + connection.getResponseMessage();
 
 
         } catch (MalformedURLException e) {
@@ -605,9 +605,9 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject utilChangeLogLevel(JSONObject json) throws ClientException {
+    public String utilChangeLogLevel(JSONObject json) throws ClientException {
         String urlStr = "http://localhost:8081/util/changeLogLevel";
-        return new JSONObject(httpPost(urlStr, json.toString()));
+        return httpPost(urlStr, json.toString());
     }
 
     /**

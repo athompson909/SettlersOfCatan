@@ -6,8 +6,11 @@ import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.JSONTranslator;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+
+import java.util.List;
 
 /**
  *
@@ -371,10 +374,10 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
      */
-    public void executeGameCommands(ExecuteGameCommandsCommand command) {
-        JSONArray json = jsonTranslator.execGameCmdsCmdToJSON(command);
+    public void executeGameCommands(List<BaseCommand> allExecutedCommands){
+        JSONArray jsonArray = jsonTranslator.commandsListToJSON(allExecutedCommands);
         try {
-            JSONObject response = serverProxy.executeGameCommands(json);
+            JSONObject response = serverProxy.executeGameCommands(jsonArray);
         }
         catch (ClientException e) {
             e.printStackTrace();
@@ -439,7 +442,7 @@ public class ClientFacade {
 
         JSONObject json = jsonTranslator.utilChangeLogLevelCmdToJSON(command);
         try {
-            JSONObject response = serverProxy.utilChangeLogLevel(json);
+            String response = serverProxy.utilChangeLogLevel(json);
         }
         catch (ClientException e) {
             e.printStackTrace();
@@ -496,8 +499,8 @@ public class ClientFacade {
     hand. It is the next player’s turn
      * @param command
      */
-    public void finishTurn(EndTurnCommand command){
-        JSONObject jsonToSend = jsonTranslator.endTurnCmdToJSON(command);
+    public void finishTurn(FinishTurnCommand command){
+        JSONObject jsonToSend = jsonTranslator.finishTurnCmdToJSON(command);
         try {
             JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
