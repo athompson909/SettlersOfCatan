@@ -299,13 +299,11 @@ public class ServerProxy implements IServerProxy {
      * message.
      */
     @Override
-    public JSONObject gamesList() throws ClientException {//todo change to JSONArray return type
+    public JSONArray gamesList() throws ClientException {//todo change to JSONArray return type
         String urlStr = "http://localhost:8081/games/list";
-        String responseStr = httpGet(urlStr);
-        //this deals with a weird error with the server not returned the "JSON" string in valid JSON format:
-        String jsonStr = responseStr.substring(1, responseStr.length()-1);
+        String jsonStr = httpGet(urlStr);
 
-        return new JSONObject(jsonStr);
+        return new JSONArray(jsonStr);
     }
 
     /**
@@ -510,13 +508,12 @@ public class ServerProxy implements IServerProxy {
      * message
      */
     @Override
-    public JSONObject getGameCommands() throws ClientException {//todo change to JSONArray return type
+    public JSONArray getGameCommands() throws ClientException {//todo change to JSONArray return type
 
         String urlStr = "http://localhost:8081/game/commands";
-        String responseStr = httpGet(urlStr);
+        String arr = httpGet(urlStr);
         // todo: change when interacting with actual server
-        String jsonStr = responseStr.substring(1, responseStr.length()-1); // if no commands jsonStr will equal "[]"
-        if(!jsonStr.equals("")) return new JSONObject(jsonStr);
+        if(!arr.equals("")) return new JSONArray(arr);
         else return null;
     }
 
@@ -545,7 +542,7 @@ public class ServerProxy implements IServerProxy {
      * this is a post method (even though the swagger page explains that it is a get method)
      */
     @Override
-    public JSONObject executeGameCommands(JSONObject json) throws ClientException {
+    public JSONObject executeGameCommands(JSONArray json) throws ClientException {
         String urlStr = "http://localhost:8081/game/commands";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }

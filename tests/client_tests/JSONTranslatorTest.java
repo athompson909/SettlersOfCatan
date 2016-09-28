@@ -2,6 +2,7 @@ package client_tests;
 
 import com.google.gson.Gson;
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -13,6 +14,7 @@ import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.map.Hex;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
@@ -945,25 +947,39 @@ public class JSONTranslatorTest extends TestCase {
         JSONObject newClientModelJSON = new JSONObject(testResponseModel);
         System.out.println(">newClientModelJSON: " + newClientModelJSON);
 
-        //piece testing:
-        /*
+        //break up clientmodel pieces and build a new ClientModel object manually:
+
+        //GET MAP
         JSONObject newCMTestMap = newClientModelJSON.getJSONObject("map");
         System.out.println("\t MAP TEST= " + newCMTestMap);
+
+        //Map newMap = new Map()
+        //System.out.println("newMap=" + newMap.toString());
+
         JSONArray newCMTestHexes = newCMTestMap.getJSONArray("hexes");
-        System.out.println("\t HEXES TEST= " + newCMTestHexes);
+       // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
+        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
 
         for (int h = 0; h < newCMTestHexes.length(); h++)
         {
-            Hex testHex = gsonTest.fromJson(newCMTestHexes.get(h).toString(), Hex.class);
+            String tempHexString = newCMTestHexes.get(h).toString();
+            System.out.println(">tempHexString = " + tempHexString);
+            Hex testHex = gsonTest.fromJson(tempHexString, Hex.class);
             System.out.println("\t testHex" + h + "= " + testHex.toString());
+
+            parsedHexes.add(testHex);
         }
-        //--------
+
+
+
+
+
 
 
         //Map testMap = gsonTest.fromJson(newCMTestMap.toString(), Map.class);
-        */
 
-        // ClientModel newClientModel = jsonTranslator.modelFromJSON(newClientModelJSON);
+
+       //  ClientModel newClientModel = jsonTranslator.modelFromJSON(newClientModelJSON);
                // gsonTest.fromJson(testResponseModel, ClientModel.class);
 
 
@@ -976,9 +992,10 @@ public class JSONTranslatorTest extends TestCase {
         //serialize it again and compare to the original JSON model string
        // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
 
-       // JSONAssert.assertEquals(testResponseModel, newClientModelSerializedAgain, JSONCompareMode.NON_EXTENSIBLE);
+       // JSONAssert.assertEquals(testResponseModel, newClientModelSerializedAgain, false);
 
     }
+
 
 
     // come back to this - I'm going to do the game commands list translators after all the other simple ones are done
