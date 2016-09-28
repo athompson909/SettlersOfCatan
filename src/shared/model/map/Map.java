@@ -248,6 +248,14 @@ public class Map {
         return ports;
     }
 
+    public void setHexes(HashMap<HexLocation, Hex> hexes) {
+        this.hexes = hexes;
+    }
+
+    public void setPorts(HashMap<HexLocation, Port> ports) {
+        this.ports = ports;
+    }
+
     public Robber getRobber() {
         return robber;
     }
