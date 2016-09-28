@@ -26,23 +26,21 @@ public class ServerProxyTest extends TestCase {
     public void testServerProxy() throws ClientException {
 
         // ***** OPERATIONS ABOUT USERS: *****
-        System.out.println("TESTING REGISTER:\n");
+        System.out.println("for /user:\nTESTING REGISTER:\n");
         testUserRegister();
         //  testing login
         System.out.println("\n\nTESTING LOGIN:\n");
-        JSONObject loginJson = new JSONObject(loginStr);
+        JSONObject loginJson = new JSONObject(LOGIN_STR);
         System.out.println("login data: " + loginJson.toString());
         String str = serverProxy.userLogin(loginJson);
         System.out.println("response from server: " + str);
         assertEquals("Success", str);
 
         // ***** GAME QUERIES/ACTIONS (PRE-JOINING): *****
-        System.out.println("\n\nTESTING GAMES LIST:\n");
+        System.out.println("\n\n\nfor /games:\nTESTING GAMES LIST:\n");
         testGamesList();
         System.out.println("\n\nTESTING GAME CREATE:\n");
-        testGameCreate(); //todo: uncomment
-        //testGamesList(); //maybe uncomment this too
-        //  testing join
+//        testGameCreate(); //todo: uncomment
         System.out.println("\n\nTESTING GAME JOIN:\n");
         testGameJoin(); // this has to be run// from here otherwise login cookie will be null
         System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
@@ -51,23 +49,26 @@ public class ServerProxyTest extends TestCase {
         testGameSave();
         System.out.println("\n\nTESTING GAME LOAD:\n");
         testGameLoad();
-        System.out.println("\n\nTESTING ADD AI:\n");
-        testAddAI(); // http response is 400 when I run this, I'm turning on and off the server
-        System.out.println("\n\nTESTING LIST AI:\n");
-        testListAI();
 
         // ***** OPERATIONS FOR THE GAME YOU'RE IN: *****
-        System.out.println("\n\nTESTING GAME MODEL VERSION:\n");
+        System.out.println("\n\n\nfor /game:\nTESTING GAME MODEL VERSION:\n");
         testGameModelVersion();
         System.out.println("\n\nTESTING GET GAME COMMANDS:\n");
         testGetGameCommands();
-        System.out.println("\n\nTESTING EXECUTE GAME COMMANDS:\n");
-        //testExecuteGameCommands();
-
+//        System.out.println("\n\nTESTING EXECUTE GAME COMMANDS:\n"); // this will be tested later on
+//        testExecuteGameCommands();
         System.out.println("\n\nTESTING GAME RESET:\n");
         testGameReset();
-        // see if the model changes:
-        //testGameModelVersion();
+        System.out.println("\n\nTESTING GAME MODEL VERSION:\n");
+        testGameModelVersion();
+        System.out.println("\n\nTESTING ADD AI:\n");
+        testAddAI(); // http response is 400 when I run this, I'm going to turn on and off the server
+        System.out.println("\n\nTESTING LIST AI:\n");
+        testListAI();
+
+        // ***** ACTIONS YOU CAN TAKE MID GAME: *****
+        System.out.println("\n\n\nfor /moves:\nTESTING SEND CHAT:\n");
+
 
 
     }
@@ -76,32 +77,32 @@ public class ServerProxyTest extends TestCase {
     public void testHttpPost() throws ClientException {
         String urlStr = "http://localhost:8081/user/login";
 
-        serverProxy.userRegister(new JSONObject(loginStr));
+        serverProxy.userRegister(new JSONObject(LOGIN_STR));
 
-        assertEquals("Success", serverProxy.httpPost(urlStr, loginStr));
-        assertEquals("http error: bad request", serverProxy.httpPost(urlStr, badLoginStr));
+        assertEquals("Success", serverProxy.httpPost(urlStr, LOGIN_STR));
+        assertEquals("http error: bad request", serverProxy.httpPost(urlStr, BAD_LOGIN_STR));
     }
 
     /**
-     * don't use newLoginStr in this method
+     * don't use NEW_LOGIN_STR in this method
      */
     public void testUserLogin() throws ClientException {
 
-        JSONObject loginJson = new JSONObject(loginStr);
+        JSONObject loginJson = new JSONObject(LOGIN_STR);
         assertEquals("Success", serverProxy.userLogin(loginJson));
         testGameJoin(); // this has to be run from here otherwise login cookie will be null
         System.out.println("loginCookieStr: " + serverProxy.getLoginCookie());
         System.out.println("joinCookieStr: " + serverProxy.getJoinCookie());
 
-        JSONObject badLoginJson = new JSONObject(badLoginStr);
-        assertEquals("http error: bad request", serverProxy.userLogin(badLoginJson));
+        JSONObject badLoginJson = new JSONObject(BAD_LOGIN_STR);
+        assertEquals("http error 400: Bad Request", serverProxy.userLogin(badLoginJson));
 
     }
 
     public void testUserRegister() throws ClientException {
 
-        JSONObject loginJson = new JSONObject(loginStr);
-        System.out.println("register data: " + loginJson.toString());
+        JSONObject loginJson = new JSONObject(LOGIN_STR);
+        System.out.println("register data (for already existing user): " + loginJson.toString());
 
         String response = serverProxy.userRegister(loginJson);
         System.out.println("response from server: " + response);
@@ -109,9 +110,14 @@ public class ServerProxyTest extends TestCase {
         System.out.println("registerCookie: " + str);
         //assertEquals("http error: bad request", serverProxy.userRegister(loginJson));
 
+
         // these have already been tested, obviously they will not pass if executed more than once for the same string
-        //JSONObject newLoginJson = new JSONObject(newLoginStr);
-        //String str = serverProxy.getRegisterCookie();
+//        JSONObject newLoginJson = new JSONObject(NEW_LOGIN_STR); // todo: uncomment
+//        System.out.println("register data (for new user): " + newLoginJson.toString());
+//        response = serverProxy.userRegister(newLoginJson);
+//        str = serverProxy.getRegisterCookie();
+//        System.out.println("response from server: " + response);
+//        System.out.println("registerCookie: " + str);
         //assertEquals("Success", serverProxy.userRegister(newLoginJson));
     }
 
@@ -215,22 +221,25 @@ public class ServerProxyTest extends TestCase {
     }
 
 
+    // ***** /moves: *****
 
 
 
-    private String loginStr = "{\n" +
+
+
+    private final String LOGIN_STR = "{\n" +
             "  \"username\": \"adam\",\n" + //Sam
             "  \"password\": \"adam\"\n" + //sam
             "}";
 
-    private String badLoginStr = "{\n" +
+    private final String BAD_LOGIN_STR = "{\n" +
             "  \"username\": \"xxxxxx\",\n" +
             "  \"password\": \"xxxxxx\"\n" +
             "}";
 
-    private String newLoginStr = "{\n" +
-            "  \"username\": \"adam2\",\n" +
-            "  \"password\": \"adam2\"\n" +
+    private final String NEW_LOGIN_STR = "{\n" +
+            "  \"username\": \"adam3\",\n" +
+            "  \"password\": \"adam3\"\n" +
             "}";
 
     private final String GAME_CREATE_STR = "{\n" +

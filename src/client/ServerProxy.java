@@ -114,7 +114,7 @@ public class ServerProxy implements IServerProxy {
 
                 return baos.toString();
             }
-            else return "http error: bad request";
+            else return "http error " + connection.getResponseCode() + ": " + connection.getResponseMessage();
 
 
         } catch (MalformedURLException e) {
