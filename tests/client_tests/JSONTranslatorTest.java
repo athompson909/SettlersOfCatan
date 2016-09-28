@@ -1203,6 +1203,10 @@ public class JSONTranslatorTest extends TestCase {
     }
 
     //GOOD
+    //the GameList command isn't actually a CommandObject, just a URL command.
+    //But the server returns a JSONArray of Games after being asked for a list of all games
+    //that we ONLY use to display the list of all available games for the user to join.
+    //(as far as I know)
     public void testGamesListResponseFromJSON() throws Exception{
         System.out.println(">TESTING GAMELISTRESPONSE TRANSLATION!");
 
@@ -1235,21 +1239,6 @@ public class JSONTranslatorTest extends TestCase {
                         " }\n";
 
         JSONAssert.assertEquals(expectedResult, gameJoinCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-    }
-
-    //the GameList command isn't actually a CommandObject, just a URL command.
-    //But the server returns a JSONArray of Games after being asked for a list of all games
-    //that we ONLY use to display the list of all available games for the user to join.
-    //(as far as I know)
-    //
-    public void testGameListTranslation() throws JSONException {
-        System.out.println(">TESTING GAMELISTCMD TRANSLATION!");
-
-        System.out.println(">Test list of Games: " + testGamesListJSON);
-
-        //TODO: create GameListItem class to represent the data about each game available for joining
-
-       // JSONAssert.assertEquals(expectedResult, gameListCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
     //GOOD
@@ -1297,7 +1286,7 @@ public class JSONTranslatorTest extends TestCase {
     //So the Translator can have a function to parse that big JSONArray response from the server
     //that returns an arraylist of BaseCommand objects that have been executed so far,
     //but the actual getGameCommandsCommandObj doesn't need to be translated.
-    public void testCommandListFromJSON() throws Exception{
+    public void testCmdsListFromJSON() throws Exception{
         System.out.println(">TESTING CMDLIST>from<JSON TRANSLATION!");
 
         JSONArray testCmdsList = new JSONArray(testCommandsListJSON);
