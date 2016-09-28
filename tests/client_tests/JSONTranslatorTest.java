@@ -83,11 +83,15 @@ public class JSONTranslatorTest extends TestCase {
         setUpMovesCommands();
 
         testGameCreateResponseJSON = "{" +
-                                    "\"randomTiles\":" + "\"true\"," +
-                                    "\"randomNumbers\":" + "\"true\"," +
-                                    "\"randomPorts\":" + "\"true\"," +
-                                    "\"name\":" + "\"yoo\"" +
-                                     "}" ;
+                                        "\"title\":" + "\"yoo\"," +
+                                        "\"id\":" + 3 + "," +
+                                        "\"players\":" +  " [" +
+                                            "{}," +
+                                            "{}," +
+                                            "{}," +
+                                            "{}" +
+                                        "]" +
+                                    " }";
     }
 
     @Test
@@ -1120,6 +1124,7 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
+
 //TEST GAME COMMANDS  ===============================
 
     //GOOD
@@ -1169,14 +1174,11 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMECREATERESPONSE TRANSLATION!");
 
         JSONObject gameCreateResponse = new JSONObject(testGameCreateResponseJSON);
-        TreeMap<String, String> gameCreateRespDataMap = jsonTranslator.gameCreateResponseFromJSON(gameCreateResponse);
+        GameListItem newGameLI = jsonTranslator.gameCreateResponseFromJSON(gameCreateResponse);
 
         //asserts
-        assertEquals("yoo", gameCreateRespDataMap.get("name"));
-        assertEquals("true", gameCreateRespDataMap.get("randomTiles"));
-        assertEquals("true", gameCreateRespDataMap.get("randomNumbers"));
-        assertEquals("true", gameCreateRespDataMap.get("randomPorts"));
-
+        assertEquals("yoo", newGameLI.getTitle());
+        assertEquals(3, newGameLI.getGameID());
     }
 
     //GOOD

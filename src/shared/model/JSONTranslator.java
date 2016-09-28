@@ -324,31 +324,21 @@ public class JSONTranslator {
 
 
     //When you use a gameCreateCommand on the server, it sends back a JSONObject
-    //with data about the game you just created. This function parses that,
-    // but what object should it build them into?
-    //The response data contains the 3 bools required to build a new Map object (randTiles, randPorts, randNums),
-    //and the name/title of the new game.
+    //with data about the game you just created.
+    //The response data contains the same data as a GameListItem, but with an empty Player array.
     //TODO: where/who should this translator function send the new game's data to?
-    public TreeMap<String, String> gameCreateResponseFromJSON(JSONObject gameCreateResponse){
+    public GameListItem gameCreateResponseFromJSON(JSONObject gameCreateResponse){
         //For now I'm saving the new game data as a TreeMap (although it might be better to have
         //some sort of encapsualating object to hold this new data, since it includes 3 bools and 1 string)
 
         TreeMap<String, String> gameCreateResponseData = new TreeMap<>();
-        //I'm going to parse this manually so I can add individual key/values to the TreeMap
-        //these should be either "true" or "false", technically bools, but I'm saving as strings for now
-        String randTilesBool = gameCreateResponse.getString("randomTiles");
-        String randNumsBool = gameCreateResponse.getString("randomNumbers");
-        String randPortsBool = gameCreateResponse.getString("randomPorts");
-        String name = gameCreateResponse.getString("name");
+        String gameCreateResponseStr = gameCreateResponse.toString();
 
-        gameCreateResponseData.put("randomTiles", randTilesBool);
-        gameCreateResponseData.put("randomNumbers", randNumsBool);
-        gameCreateResponseData.put("randomPorts", randPortsBool);
-        gameCreateResponseData.put("name", name);
+        GameListItem newGameInfo = gsonConverter.fromJson(gameCreateResponseStr, GameListItem.class);
 
-        System.out.println("gCRespDataMap= " + gameCreateResponseData.toString());
+       // System.out.println("newGameListItem= " + newGameInfo.getTitle() + ", " + newGameInfo.getGameID());
 
-        return gameCreateResponseData;
+        return newGameInfo;
     }
 
     /**
@@ -391,35 +381,6 @@ public class JSONTranslator {
 
         return jsonObjectResult;
     }
-
-    /**
-     *
-     * @param gameListCmdObj
-     * @return
-     */
-    public JSONObject gameListCmdToJSON(GameListCommand gameListCmdObj) {
-
-        stringResult = gsonConverter.toJson(gameListCmdObj);
-
-        jsonObjectResult =  new JSONObject(stringResult);
-
-        return jsonObjectResult;
-    }
-
-    /**
-     *
-     * @param gameResetCmdObj
-     * @return
-     */
-    public JSONObject gameResetCmdToJSON(GameResetCommand gameResetCmdObj) {
-
-        stringResult = gsonConverter.toJson(gameResetCmdObj);
-
-        jsonObjectResult =  new JSONObject(stringResult);
-
-        return jsonObjectResult;
-    }
-
     /**
      *
      * @param gameSaveCmdObj
@@ -446,20 +407,6 @@ public class JSONTranslator {
         jsonObjectResult =  new JSONObject(stringResult);
 
         return jsonObjectResult;
-    }
-
-    /**
-     *
-     * @param getGameCmdsCmdObj
-     * @return
-     */
-    public JSONArray getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
-
-        stringResult = gsonConverter.toJson(getGameCmdsCmdObj);
-
-        JSONArray jsonArrayResult =  new JSONArray(stringResult);
-
-        return jsonArrayResult;
     }
 
     /**
@@ -764,5 +711,61 @@ public class JSONTranslator {
 
         return jsonObjectResult;
     }
+
+
+
+
+
+    //-----------------------------------------------
+    //The following commands are sent to server ONLY as URLS - so no JSON translation necessary:
+
+
+    /**
+     *
+     * @param gameListCmdObj
+     * @return
+     */
+    /*
+    public JSONObject gameListCmdToJSON(GameListCommand gameListCmdObj) {
+
+        stringResult = gsonConverter.toJson(gameListCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+    */
+
+    /**
+     *
+     * @param gameResetCmdObj
+     * @return
+     */
+    /*
+    public JSONObject gameResetCmdToJSON(GameResetCommand gameResetCmdObj) {
+
+        stringResult = gsonConverter.toJson(gameResetCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+    */
+
+    /**
+     *
+     * @param getGameCmdsCmdObj
+     * @return
+     */
+    /*
+    public JSONArray getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
+
+        stringResult = gsonConverter.toJson(getGameCmdsCmdObj);
+
+        JSONArray jsonArrayResult =  new JSONArray(stringResult);
+
+        return jsonArrayResult;
+    }
+    */
 
 }
