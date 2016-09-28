@@ -7,9 +7,14 @@ import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.map.BuildCity;
+import shared.model.map.BuildSettlement;
+import shared.model.map.Hex;
+import shared.model.resourcebank.ResourceBank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -49,12 +54,11 @@ public class JSONTranslator {
     private JSONObject jsonObjectResult = null;
 
 
-
-
     /**
      * Constructor
      */
     public void JSONTranslator(){}
+
 
 
 
@@ -71,8 +75,66 @@ public class JSONTranslator {
 
         String modelJSONString = newModelJSON.toString();
 
-        //this fromJson() takes in a JSON string and the template class, and returns a complete ClientModel object
-        newClientModel = gsonConverter.fromJson(modelJSONString, ClientModel.class);
+        //TODO: these are all not done
+        //Break up ClientModel pieces and build a new ClientModel object manually:
+
+        //GET DECK (which object does this parse to?
+
+        //GET MAP
+        JSONObject newCMMap = newModelJSON.getJSONObject("map");
+
+        //GET RADIUS
+        int newCMRadius = newCMMap.getInt("radius");
+            //GET HEXES
+
+        JSONArray newCMHexes = newCMMap.getJSONArray("hexes");
+        // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
+        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
+
+        for (int h = 0; h < newCMHexes.length(); h++)
+        {
+            String tempHexString = newCMHexes.get(h).toString();
+            System.out.println(">tempHexString = " + tempHexString);
+            Hex testHex = gsonConverter.fromJson(tempHexString, Hex.class);
+            System.out.println("\t testHex" + h + "= " + testHex.toString());
+
+            parsedHexes.add(testHex);
+        }
+
+            //GET ROADS
+            //GET CITIES
+            //GET SETTLEMENTS
+            //GET PORTS
+            //GET ROBBER
+
+        //GET PLAYERS ARRAY
+
+        //GET MESSAGEMANAGER out of CHAT and LOG
+            //GET CHAT
+        JSONArray newCMChat = newModelJSON.getJSONArray("chat");
+
+            //GET LOG
+        JSONArray newCMLog = newModelJSON.getJSONArray("log");
+
+
+        //GET RESOURCEBANK
+        JSONObject newCMResourceBank = newModelJSON.getJSONObject("bank");
+        System.out.println(">newCMResBank= " + newCMResourceBank);
+        //the JSON for this section looks more like a ResourceList than a ResourceBank...
+
+        //GET TURNTRACKER
+
+
+        //GET TRADE OFFER
+
+        //GET 2 OUTSIDE INTS
+        int newCMVersion = newModelJSON.getInt("version");
+        int newCMWinner = newModelJSON.getInt("winner");
+        //get gameNumber? what is this for again?
+
+
+        //Not in JSON: ClientUpdateManager **
+
 
         return newClientModel;
     }
@@ -112,11 +174,10 @@ public class JSONTranslator {
      * ***from CommandObject into JSON*** to post to the server.
      *
      * @param allExecutedCommands - this is the CommandManager's record of all the executed commands so far
-     * @return
+     * @return JSONArray representing allExecutedCommands as JSON so the server can read it
      */
     public JSONArray commandsListToJSON(List<BaseCommand> allExecutedCommands) {
 
-        //this may need to be the big switch statement
         stringResult = gsonConverter.toJson(allExecutedCommands);
 
         JSONArray jsonArrayResult =  new JSONArray(stringResult);
@@ -124,16 +185,17 @@ public class JSONTranslator {
         return jsonArrayResult;
     }
 
+
     /**
      * This translates the server's JSON response after /game/Commands is called.
      * It comes back as a JSONArray of lots of different CommandObjs,
      * so we need a switch statement to tell gson which type of CommandObj to create,
      * and return a list of fully built CommandObjs.
      *
-     * @param jsonCommandsList
-     * @return
+     * @param jsonCommandsList the JSONArray representing all executed commands so far, returned by the server
+     * @return an arraylist of Command objects built from the jsonCommandsList JSON
      */
-    public List<BaseCommand> commandListFromJSON(JSONArray jsonCommandsList) {
+    public List<BaseCommand> commandsListFromJSON(JSONArray jsonCommandsList) {
 
         //STEPS
         //iterate through all encoded CommandObjs inside the JSONArray,
@@ -141,37 +203,94 @@ public class JSONTranslator {
         //grab its TYPE field, put it through the switch stmt,
         //then build/save a CommandObj for it depending on what the switch stmt said.
 
+        ArrayList<BaseCommand> allExecutedCommands = new ArrayList<>();
+
         for (int c = 0; c < jsonCommandsList.length(); c++)
         {
             //isolate one encoded command object:
             JSONObject currCommandObj = jsonCommandsList.getJSONObject(c);
+            String currCommandObjString = currCommandObj.toString();
             //extract its command TYPE field:
             String currCommandObjType = currCommandObj.getString("type");
+           // System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
 
             //run that through a switch statement to determine which Command Obj to build for it:
 
             //these cases are in the order from the swagger page fyi
-            switch (currCommandObjType)
-            {
+            switch (currCommandObjType) {
                 case "sendChat":
+                    SendChatCommand newSendChatCmd = gsonConverter.fromJson(currCommandObjString, SendChatCommand.class);
+                    allExecutedCommands.add(newSendChatCmd);
                     break;
                 case "rollNumber":
+                    RollDiceCommand rollDiceCmd = gsonConverter.fromJson(currCommandObjString, RollDiceCommand.class);
+                    allExecutedCommands.add(rollDiceCmd);
                     break;
                 case "robPlayer":
+                    RobPlayerCommand robPlayerCmd = gsonConverter.fromJson(currCommandObjString, RobPlayerCommand.class);
+                    allExecutedCommands.add(robPlayerCmd);
                     break;
                 case "finishTurn":
+                    FinishTurnCommand finishTurnCmd = gsonConverter.fromJson(currCommandObjString, FinishTurnCommand.class);
+                    allExecutedCommands.add(finishTurnCmd);
                     break;
-
-
+                case "buyDevCard":
+                    PurchaseDevCardCommand purchaseDevCardCmd = gsonConverter.fromJson(currCommandObjString, PurchaseDevCardCommand.class);
+                    allExecutedCommands.add(purchaseDevCardCmd);
+                    break;
+                case "Year_Of_Plenty":
+                    PlayYearOfPlentyCommand playYearOfPlentyCommand = gsonConverter.fromJson(currCommandObjString, PlayYearOfPlentyCommand.class);
+                    allExecutedCommands.add(playYearOfPlentyCommand);
+                    break;
+                case "Road_Building":
+                    PlayRoadBuilderCommand playRoadBuildingCommand = gsonConverter.fromJson(currCommandObjString, PlayRoadBuilderCommand.class);
+                    allExecutedCommands.add(playRoadBuildingCommand);
+                    break;
+                case "Soldier":
+                    PlaySoldierCommand playSoldierCommand = gsonConverter.fromJson(currCommandObjString, PlaySoldierCommand.class);
+                    allExecutedCommands.add(playSoldierCommand);
+                    break;
+                case "Monopoly":
+                    PlayMonopolyCommand playMonopolyCommand = gsonConverter.fromJson(currCommandObjString, PlayMonopolyCommand.class);
+                    allExecutedCommands.add(playMonopolyCommand);
+                    break;
+                case "Monument":
+                    PlayMonumentCommand playMonumentCommand = gsonConverter.fromJson(currCommandObjString, PlayMonumentCommand.class);
+                    allExecutedCommands.add(playMonumentCommand);
+                    break;
+                case "buildRoad":
+                    BuildRoadCommand buildRoadCommand = gsonConverter.fromJson(currCommandObjString, BuildRoadCommand.class);
+                    allExecutedCommands.add(buildRoadCommand);
+                    break;
+                case "buildSettlement":
+                    BuildSettlementCommand buildStlmtCommand = gsonConverter.fromJson(currCommandObjString, BuildSettlementCommand.class);
+                    allExecutedCommands.add(buildStlmtCommand);
+                    break;
+                case "buildCity":
+                    BuildCityCommand buildCityCommand = gsonConverter.fromJson(currCommandObjString, BuildCityCommand.class);
+                    allExecutedCommands.add(buildCityCommand);
+                    break;
+                case "offerTrade":
+                    OfferTradeCommand offerTradeCommand = gsonConverter.fromJson(currCommandObjString, OfferTradeCommand.class);
+                    allExecutedCommands.add(offerTradeCommand);
+                    break;
+                case "acceptTrade":
+                    AcceptTradeCommand acceptTradeCommand = gsonConverter.fromJson(currCommandObjString, AcceptTradeCommand.class);
+                    allExecutedCommands.add(acceptTradeCommand);
+                    break;
+                case "maritimeTrade":
+                    MaritimeTradeCommand maritimeTradeCommand = gsonConverter.fromJson(currCommandObjString, MaritimeTradeCommand.class);
+                    allExecutedCommands.add(maritimeTradeCommand);
+                    break;
+                case "discardCards":
+                    DiscardCommand discardCommand = gsonConverter.fromJson(currCommandObjString, DiscardCommand.class);
+                    allExecutedCommands.add(discardCommand);
+                    break;
             }
-
-
-
-
+            //System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
         }
 
-
-        return null;
+        return allExecutedCommands;
     }
 
 
@@ -201,6 +320,62 @@ public class JSONTranslator {
         jsonObjectResult =  new JSONObject(stringResult);
 
         return jsonObjectResult;
+    }
+
+
+    //When you use a gameCreateCommand on the server, it sends back a JSONObject
+    //with data about the game you just created. This function parses that,
+    // but what object should it build them into?
+    //The response data contains the 3 bools required to build a new Map object (randTiles, randPorts, randNums),
+    //and the name/title of the new game.
+    //TODO: where/who should this translator function send the new game's data to?
+    public TreeMap<String, String> gameCreateResponseFromJSON(JSONObject gameCreateResponse){
+        //For now I'm saving the new game data as a TreeMap (although it might be better to have
+        //some sort of encapsualating object to hold this new data, since it includes 3 bools and 1 string)
+
+        TreeMap<String, String> gameCreateResponseData = new TreeMap<>();
+        //I'm going to parse this manually so I can add individual key/values to the TreeMap
+        //these should be either "true" or "false", technically bools, but I'm saving as strings for now
+        String randTilesBool = gameCreateResponse.getString("randomTiles");
+        String randNumsBool = gameCreateResponse.getString("randomNumbers");
+        String randPortsBool = gameCreateResponse.getString("randomPorts");
+        String name = gameCreateResponse.getString("name");
+
+        gameCreateResponseData.put("randomTiles", randTilesBool);
+        gameCreateResponseData.put("randomNumbers", randNumsBool);
+        gameCreateResponseData.put("randomPorts", randPortsBool);
+        gameCreateResponseData.put("name", name);
+
+        System.out.println("gCRespDataMap= " + gameCreateResponseData.toString());
+
+        return gameCreateResponseData;
+    }
+
+    /**
+     * Translates the JSONArray response from the server when asked for a list of active games (/games/list)
+     * Builds an ArrayList of GameListItems, which each hold an arrayList of Players in each game (GameListPlayerItems)
+     * I set it up this way so it would be easy to parse from the JSON, and so it would (hopefully)
+     * be easier to access/display in the Join Game view.
+     *
+     * @param gameCreateResponseJSON
+     * @return
+     */
+    public ArrayList<GameListItem> gamesListResponseFromJSON(JSONArray gameCreateResponseJSON){
+
+        ArrayList<GameListItem> allActiveGames = new ArrayList<>();
+
+        for (int g = 0; g < gameCreateResponseJSON.length(); g++)
+        {
+            JSONObject currGameListItem = gameCreateResponseJSON.getJSONObject(g);
+            String currGameListItemString = currGameListItem.toString();
+          //  System.out.println(">currGLItemString = " + currGameListItemString);
+
+            GameListItem newGLItem = gsonConverter.fromJson(currGameListItemString, GameListItem.class);
+
+            allActiveGames.add(newGLItem);
+        }
+
+        return allActiveGames;
     }
 
     /**
