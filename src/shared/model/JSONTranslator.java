@@ -12,6 +12,7 @@ import shared.model.map.BuildSettlement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -52,11 +53,11 @@ public class JSONTranslator {
 
 
 
-
     /**
      * Constructor
      */
     public void JSONTranslator(){}
+
 
 
 
@@ -114,11 +115,10 @@ public class JSONTranslator {
      * ***from CommandObject into JSON*** to post to the server.
      *
      * @param allExecutedCommands - this is the CommandManager's record of all the executed commands so far
-     * @return
+     * @return JSONArray representing allExecutedCommands as JSON so the server can read it
      */
     public JSONArray commandsListToJSON(List<BaseCommand> allExecutedCommands) {
 
-        //this may need to be the big switch statement
         stringResult = gsonConverter.toJson(allExecutedCommands);
 
         JSONArray jsonArrayResult =  new JSONArray(stringResult);
@@ -126,16 +126,17 @@ public class JSONTranslator {
         return jsonArrayResult;
     }
 
+
     /**
      * This translates the server's JSON response after /game/Commands is called.
      * It comes back as a JSONArray of lots of different CommandObjs,
      * so we need a switch statement to tell gson which type of CommandObj to create,
      * and return a list of fully built CommandObjs.
      *
-     * @param jsonCommandsList
-     * @return
+     * @param jsonCommandsList the JSONArray representing all executed commands so far, returned by the server
+     * @return an arraylist of Command objects built from the jsonCommandsList JSON
      */
-    public List<BaseCommand> commandListFromJSON(JSONArray jsonCommandsList) {
+    public List<BaseCommand> commandsListFromJSON(JSONArray jsonCommandsList) {
 
         //STEPS
         //iterate through all encoded CommandObjs inside the JSONArray,
@@ -143,7 +144,7 @@ public class JSONTranslator {
         //grab its TYPE field, put it through the switch stmt,
         //then build/save a CommandObj for it depending on what the switch stmt said.
 
-        ArrayList<BaseCommand> allExecutedCommands = new ArrayList<BaseCommand>();
+        ArrayList<BaseCommand> allExecutedCommands = new ArrayList<>();
 
         for (int c = 0; c < jsonCommandsList.length(); c++)
         {
@@ -152,9 +153,7 @@ public class JSONTranslator {
             String currCommandObjString = currCommandObj.toString();
             //extract its command TYPE field:
             String currCommandObjType = currCommandObj.getString("type");
-
-            System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
-            System.out.println(">currCOString= " + currCommandObjString);
+           // System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
 
             //run that through a switch statement to determine which Command Obj to build for it:
 
@@ -229,8 +228,7 @@ public class JSONTranslator {
                     allExecutedCommands.add(discardCommand);
                     break;
             }
-
-            System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
+            //System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
         }
 
         return allExecutedCommands;
@@ -263,6 +261,61 @@ public class JSONTranslator {
         jsonObjectResult =  new JSONObject(stringResult);
 
         return jsonObjectResult;
+    }
+
+    //When you use a gameCreateCommand on the server, it sends back a JSONObject
+    //with data about the game you just created. This function parses that,
+    // but what object should it build them into?
+    //The response data contains the 3 bools required to build a new Map object (randTiles, randPorts, randNums),
+    //and the name/title of the new game.
+    //TODO: where/who should this translator function send the new game's data to?
+    public TreeMap<String, String> gameCreateResponseFromJSON(JSONObject gameCreateResponse){
+        //For now I'm saving the new game data as a TreeMap (although it might be better to have
+        //some sort of encapsualating object to hold this new data, since it includes 3 bools and 1 string)
+
+        TreeMap<String, String> gameCreateResponseData = new TreeMap<>();
+        //I'm going to parse this manually so I can add individual key/values to the TreeMap
+        //these should be either "true" or "false", technically bools, but I'm saving as strings for now
+        String randTilesBool = gameCreateResponse.getString("randomTiles");
+        String randNumsBool = gameCreateResponse.getString("randomNumbers");
+        String randPortsBool = gameCreateResponse.getString("randomPorts");
+        String name = gameCreateResponse.getString("name");
+
+        gameCreateResponseData.put("randomTiles", randTilesBool);
+        gameCreateResponseData.put("randomNumbers", randNumsBool);
+        gameCreateResponseData.put("randomPorts", randPortsBool);
+        gameCreateResponseData.put("name", name);
+
+        System.out.println("gCRespDataMap= " + gameCreateResponseData.toString());
+
+        return gameCreateResponseData;
+    }
+
+    /**
+     * Translates the JSONArray response from the server when asked for a list of active games (/games/list)
+     * Builds an ArrayList of GameListItems, which each hold an arrayList of Players in each game (GameListPlayerItems)
+     * I set it up this way so it would be easy to parse from the JSON, and so it would (hopefully)
+     * be easier to access/display in the Join Game view.
+     *
+     * @param gameCreateResponseJSON
+     * @return
+     */
+    public ArrayList<GameListItem> gamesListResponseFromJSON(JSONArray gameCreateResponseJSON){
+
+        ArrayList<GameListItem> allActiveGames = new ArrayList<>();
+
+        for (int g = 0; g < gameCreateResponseJSON.length(); g++)
+        {
+            JSONObject currGameListItem = gameCreateResponseJSON.getJSONObject(g);
+            String currGameListItemString = currGameListItem.toString();
+          //  System.out.println(">currGLItemString = " + currGameListItemString);
+
+            GameListItem newGLItem = gsonConverter.fromJson(currGameListItemString, GameListItem.class);
+
+            allActiveGames.add(newGLItem);
+        }
+
+        return allActiveGames;
     }
 
     /**
