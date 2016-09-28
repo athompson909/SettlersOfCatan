@@ -15,7 +15,7 @@ import java.util.*;
  * contains all data related to hexes, hex values, ports, objects on map, dimensions, and the robber
  */
 public class Map {
-    
+
     /**
      * List of all hexes used to create map
      */
@@ -240,7 +240,6 @@ public class Map {
     public HashMap<HexLocation, Port> getPorts() {
         return ports;
     }
-
 
     public List<EdgeValue> getRoads() {
         return roads;

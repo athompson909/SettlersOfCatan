@@ -118,6 +118,20 @@ public class ClientModel {
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
 
+    public boolean canDomesticTrade(int playerIndex, int numToTrade) {
+
+    }
+
+
+    public boolean canMaritimeTrade(int playerIndex) {
+        map
+                check if player has any settlements or cities
+                check if the locations of those are in the static list of vertexLocations
+                if yes, go into port list and pull out what kind of port
+                check if they have enough resources for that kind of port
+        players[playerIndex].canMaritimeTrade();
+    }
+
     //DO METHODS
     public void purchaseRoad(int playerIndex){
         //TODO: Access map and place road
