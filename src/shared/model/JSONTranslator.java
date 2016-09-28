@@ -12,7 +12,6 @@ import shared.model.map.BuildSettlement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -50,6 +49,7 @@ public class JSONTranslator {
      * This is the converted form of stringResult that will be modified/returned by each function
      */
     private JSONObject jsonObjectResult = null;
+
 
 
 
@@ -262,6 +262,7 @@ public class JSONTranslator {
 
         return jsonObjectResult;
     }
+
 
     //When you use a gameCreateCommand on the server, it sends back a JSONObject
     //with data about the game you just created. This function parses that,
