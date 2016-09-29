@@ -6,6 +6,8 @@ import shared.definitions.ResourceType;
 /**
  * The Resource Bank contains a DevCardList and ResourceCardList,
  * and keeps track of all the available cards not owned by any player.
+ *
+ * The JSON for the ResourceBank doesn't have any data on what Dev Cards are used/available...
  */
 public class ResourceBank {
 

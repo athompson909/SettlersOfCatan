@@ -1,5 +1,6 @@
 package shared.model.player;
 
+import com.google.gson.annotations.SerializedName;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -51,31 +52,37 @@ public class Player { //
     /**
      * How many cities this player has left to play,
      */
+    @SerializedName("cities")
     private int cityCount = 4;
 
     /**
      * How many settlements this player has left to play,
      */
+    @SerializedName("settlements")
     private int settlementCount = 5;
 
     /**
      * How many roads this player has left to play,
      */
+    @SerializedName("roads")
     private int roadCount = 15;
 
     /**
      * Cards in the players hand
      */
+    @SerializedName("resources")
     private ResourceList playerResourceList = new ResourceList();
 
     /**
      * The dev cards the player bought this turn
      */
+    @SerializedName("newDevCards")
     private DevCardList newDevCardList = new DevCardList();
 
     /**
      * The dev cards the player had when the turn started
      */
+    @SerializedName("oldDevCards")
     private DevCardList oldDevCardList = new DevCardList();
 
     /**

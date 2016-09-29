@@ -14,7 +14,11 @@ import shared.model.map.Hex;
 import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
+import shared.model.player.Player;
+import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,14 +81,13 @@ public class JSONTranslator {
      */
     public ClientModel modelFromJSON(JSONObject newModelJSON) throws JsonSyntaxException {
 
-        String modelJSONString = newModelJSON.toString();
-
-        //TODO: these are all not done
         //Break up ClientModel pieces and build a new ClientModel object manually:
 
-        //GET DECK (which object type does this parse to?
+        String modelJSONString = newModelJSON.toString();
 
-        //GET MAP
+        //TODO: the map is the last part to do!
+
+//GET MAP
         /*
         JSONObject newCMMap = newModelJSON.getJSONObject("map");
 
@@ -105,7 +108,6 @@ public class JSONTranslator {
 
             parsedHexes.add(testHex);
         }
-
             //GET ROADS
             //GET CITIES
             //GET SETTLEMENTS
@@ -113,15 +115,56 @@ public class JSONTranslator {
             //GET ROBBER
             */
 
-        //GET PLAYERS ARRAY
+//GET RESOURCE BANK
+        //GET RESOURCELIST
+        JSONObject newResourceListJSON = newModelJSON.getJSONObject("bank");
+        String newResListString = newResourceListJSON.toString();
+            System.out.println(">newResListStr= " + newResListString);
+        //the CMJSON has the ResourceList data under key "bank" and DevCardList data under key "deck"
+        ResourceList newResourceList = gsonConverter.fromJson(newResListString, ResourceList.class);
+            System.out.println(">newResourceList (for ResBank obj)= " + newResourceList);
 
-        //GET MESSAGEMANAGER out of CHAT and LOG
+        //GET DEVCARDLIST
+        JSONObject newDevCardListJSON = newModelJSON.getJSONObject("deck");
+        String newDevCardListString = newDevCardListJSON.toString();
+            System.out.println(">newDevCardListStr= " + newDevCardListString);
+        DevCardList newDevCardList = gsonConverter.fromJson(newDevCardListString, DevCardList.class);
+            System.out.println(">newDevCardList (for ResBank obj)= " + newDevCardList);
+
+        //Build ResourceBank out of ResourceList and DevCardList
+        ResourceBank newResourceBank = new ResourceBank();
+        newResourceBank.setResourceList(newResourceList);
+
+        //ResourceBank is complete! Ready to add to new ClientModel obj.
+
+//GET PLAYERS ARRAY
+        //the ClientModel obj wants these in a Player[].
+        JSONArray newPlayersJSONArr = newModelJSON.getJSONArray("players");
+        Player[] newPlayersArray = new Player[4]; //there is a max of 4 players per game
+        //for loop through newPlayersJSONArr, make a Player obj out of each one, and add it to the Player[]
+
+        for (int p = 0; p < newPlayersJSONArr.length(); p++)
+        {
+            //realistically I don't think the model will ever need to be parsed without 4 players added,
+            // but just to be sure/for testing purposes:
+            if (newPlayersJSONArr.get(p) != null) {
+                JSONObject currPlayerJSON = newPlayersJSONArr.getJSONObject(p);
+                String currPlayerJSONSTr = currPlayerJSON.toString();
+                System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
+                Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
+
+                newPlayersArray[p] = newPlayer;
+            }
+        }
+        //Player[] is complete! Ready to add to new ClientModel obj.
+
+ //GET MESSAGEMANAGER out of CHAT and LOG
             //GET CHAT
-        JSONObject newCMChatObj = newModelJSON.getJSONObject("chat");
-        MessageList newChatMsgList = parseMsgListFromJSON(newCMChatObj);
+        JSONObject newCMChatJSONObj = newModelJSON.getJSONObject("chat");
+        MessageList newChatMsgList = parseMsgListFromJSON(newCMChatJSONObj);
             //GET LOG
-        JSONObject newCMLogObj = newModelJSON.getJSONObject("log");
-        MessageList newLogMsgList = parseMsgListFromJSON(newCMLogObj);
+        JSONObject newCMLogJSONObj = newModelJSON.getJSONObject("log");
+        MessageList newLogMsgList = parseMsgListFromJSON(newCMLogJSONObj);
 
         //Put the new Chat and Log MsgListObjs into a new MessageManager object:
         MessageManager newMsgMgr = new MessageManager();
@@ -130,31 +173,40 @@ public class JSONTranslator {
 
         //MessageManager is complete! Ready to add to the new ClientModel obj.
 
-//GET RESOURCEBANK
-        /*
-        JSONObject newCMResourceBank = newModelJSON.getJSONObject("bank");
-        System.out.println(">newCMResBank= " + newCMResourceBank);
-        //the JSON for this section looks more like a ResourceList than a ResourceBank...
+//GET TURNTRACKER
+        JSONObject newTurnTrackerJSONObj = newModelJSON.getJSONObject("turnTracker");
+        String newTTrackerJSONString = newTurnTrackerJSONObj.toString();
+        TurnTracker newTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
+            System.out.println(">newTTrackerObj= " + newTurnTracker);
 
-        //GET TURNTRACKER
+        //TurnTracker is complete! Ready to add to the new ClientModel obj.
 
+//GET TRADE OFFER
+        if (newModelJSON.has("tradeOffer")){
+            JSONObject newTradeOfferJSONObj = newModelJSON.getJSONObject("tradeOffer");
+            String newTradeOfferJSONString = newTradeOfferJSONObj.toString();
+                System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
+            TradeOffer newTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
+                System.out.println(">newTradeOfferObj= " + newTradeOffer);
+            //TradeOffer is complete! Ready to add to the new ClientModel obj.
+        }
+        else{
+            System.out.println(">No TradeOffer found in newClientModel JSON");
+        }
 
-        //GET TRADE OFFER
-
-        //GET 2 OUTSIDE INTS
+//GET ADDITIONAL INTS/OTHER CLIENTMODEL DATA
         int newCMVersion = newModelJSON.getInt("version");
         int newCMWinner = newModelJSON.getInt("winner");
         //get gameNumber? what is this for again?
 
-
         //Not in JSON: ClientUpdateManager **
-        */
-
 
         return newClientModel;
     }
 
-    //helper function for ModelFromJSON - builds the Chat/Log MessageList objects
+    /**
+     * helper function for ModelFromJSON - builds the Chat/Log MessageList objects
+     */
     public MessageList parseMsgListFromJSON(JSONObject msgListJSON) {
         JSONArray newCMMsgListArr = msgListJSON.getJSONArray("lines");
             String newCMMsgListArrStr = newCMMsgListArr.toString();
@@ -178,6 +230,8 @@ public class JSONTranslator {
 
         return newMsgList;
     }
+
+
 
     /**
      * I don't think this is necessary

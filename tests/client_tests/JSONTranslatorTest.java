@@ -568,10 +568,45 @@ public class JSONTranslatorTest extends TestCase {
                 "  \"players\": [\n" +
                 "    {\n" +
                 "      \"resources\": {\n" +
-                "        \"brick\": 0,\n" +
-                "        \"wood\": 0,\n" +
-                "        \"sheep\": 0,\n" +
-                "        \"wheat\": 0,\n" +
+                "        \"brick\": 3,\n" +
+                "        \"wood\": 3,\n" +
+                "        \"sheep\": 3,\n" +
+                "        \"wheat\": 3,\n" +
+                "        \"ore\": 3\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 2,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"bacon\",\n" +
+                "      \"color\": \"blue\"\n" +
+                "    },\n" +  //--------------------------------------- END PLAYER 1
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 3,\n" +
+                "        \"wood\": 2,\n" +
+                "        \"sheep\": 10,\n" +
+                "        \"wheat\": 1,\n" +
                 "        \"ore\": 0\n" +
                 "      },\n" +
                 "      \"oldDevCards\": {\n" +
@@ -596,15 +631,93 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"monuments\": 0,\n" +
                 "      \"playedDevCard\": false,\n" +
                 "      \"discarded\": false,\n" +
-                "      \"playerID\": 12,\n" +
+                "      \"playerID\": 5,\n" +
                 "      \"playerIndex\": 0,\n" +
-                "      \"name\": \"bacon\",\n" +
-                "      \"color\": \"blue\"\n" +
-                "    },\n" +
-                "    null,\n" +
-                "    null,\n" +
-                "    null\n" +
-                "  ],\n" +
+                "      \"name\": \"petey\",\n" +
+                "      \"color\": \"purple\"\n" +
+                "    },\n" + //--------------------------------------- END PLAYER 2
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 2,\n" +
+                "        \"wood\": 1,\n" +
+                "        \"sheep\": 0,\n" +
+                "        \"wheat\": 4,\n" +
+                "        \"ore\": 1\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 4,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"WHOA\",\n" +
+                "      \"color\": \"red\"\n" +
+                "    },\n" + //--------------------------------------- END PLAYER 3
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 6,\n" +
+                "        \"wood\": 6,\n" +
+                "        \"sheep\": 6,\n" +
+                "        \"wheat\": 6,\n" +
+                "        \"ore\": 6\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 15,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"HEY\",\n" +
+                "      \"color\": \"green\"\n" +
+                "    },\n" + //--------------------------------------- END PLAYER 4
+                "  ],\n" +         //===========================================================
+                "    \"tradeOffer\": " + "{\n" +
+                "       \"sender\": 8,\n" +
+                "       \"receiver\": 4,\n" +
+                "       \"offer\":" + "{\n" +
+                "           \"brick\": 0,\n" +
+                "           \"ore\": 1,\n" +
+                "           \"sheep\": 0,\n" +
+                "           \"wheat\": -2,\n" +
+                "           \"wood\": 0,\n" +
+                "            }\n" +
+                "      },\n" +
                 "  \"log\": {\n" +
                 "    \"lines\": [" +
                 "       {" +

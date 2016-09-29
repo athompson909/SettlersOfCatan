@@ -1,5 +1,6 @@
 package shared.model.resourcebank;
 
+import com.google.gson.annotations.SerializedName;
 import shared.definitions.DevCardType;
 
 import java.util.ArrayList;
@@ -12,10 +13,19 @@ import java.util.Random;
  */
 public class DevCardList {
 
+    @SerializedName("soldier")
     private int soldierCardCount;
+
+    @SerializedName("monument")
     private int monumentCardCount;
+
+    @SerializedName("yearOfPlenty")
     private int yearOfPlentyCardCount;
+
+    @SerializedName("roadBuilding")
     private int roadBuildingCardCount;
+
+    @SerializedName("monopoly")
     private int monopolyCardCount;
 
     /**
@@ -146,5 +156,16 @@ public class DevCardList {
 
     public int getMonopolyCardCount() {
         return monopolyCardCount;
+    }
+
+    @Override
+    public String toString() {
+        return "DevCardList{" +
+                "soldierCt=" + soldierCardCount +
+                ", monumentCt=" + monumentCardCount +
+                ", yearOfPlentyCt=" + yearOfPlentyCardCount +
+                ", roadBuildingCt=" + roadBuildingCardCount +
+                ", monopolyCt=" + monopolyCardCount +
+                '}';
     }
 }
