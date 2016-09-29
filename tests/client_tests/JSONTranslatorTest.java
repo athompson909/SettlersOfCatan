@@ -1309,28 +1309,23 @@ public class JSONTranslatorTest extends TestCase {
     //the server executes this command without any JSON in the request body, just the URL
     @Test
     public void testListAICmdTranslation() throws Exception {
-        System.out.println(">TESTING LISTAICMD TRANSLATION!");
+        System.out.println(">>TESTING LISTAICMD TRANSLATION!");
 
-        String strExpectedResponse = "{" +
-                                        "\"AIType\":" +  "\"LARGEST_ARMY\"" +
-                                    "}";
+        String strExpectedResponse = "["+
+                                        "\"LARGEST_ARMY\""+ "," +
+                                        "\"YOUR_MOM\""+ "," +
+                                        "\"WHADDUP\"" +
+                                        "]";
 
-        System.out.println("strExpectedResponse = " + strExpectedResponse);
+       // System.out.println(">>strExpectedResponse = " + strExpectedResponse);
 
-        JSONObject jsonExpectedResponse = new JSONObject(strExpectedResponse);
+        JSONArray jsonExpectedResponse = new JSONArray(strExpectedResponse);
 
+        ArrayList<String> allAIsList = jsonTranslator.listAIResponseFromJSON(jsonExpectedResponse);
 
-       ArrayList<String> availableAIsList = new ArrayList<>();
-        //availableAIsList.add(0, "LARGEST_ARMY");
-
-      //  for (int i = 0; i < availableAIsJA.length(); i++)
-      //  {
-      //      availableAIsList.set(i, availableAIsJA.get(i).toString());
-      //  }
-
-        //there should only be one AI available, but plan for more
-        assertEquals(availableAIsList.size(), 1);
-        assertEquals(availableAIsList.get(0), "LARGEST_ARMY");
+        //there should really only be one AI available, but we're planning for more
+        assertEquals(3, allAIsList.size());
+        assertEquals(allAIsList.get(0), "LARGEST_ARMY");
     }
 
     //GOOD

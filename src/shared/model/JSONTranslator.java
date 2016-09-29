@@ -416,13 +416,26 @@ public class JSONTranslator {
      */
     public ArrayList<String> listAIResponseFromJSON(JSONArray listAIResponseArr) {
 
+        //just going to do this manually since I don't know how Gson does arrays of only strings
 
-        //TODO: fix this to translate a JSONArray in to a regular String array.
-        //ArrayList<String> Result = gsonConverter.fromJson(listAIResponseArr);
+        //System.out.println(">ListAIResponseArr size= " + listAIResponseArr.length());
 
-        //jsonObjectResult =  new JSONObject(stringResult);
+        //this is the only function I could find that changes an unkeyed JSONArray into usable objects:
+        List<Object> allAITypesObjList = listAIResponseArr.toList();
+        //I don't want to deal with something as vague as a list<object>, so change it into an arrayList<String>:
 
-        return null;
+        ArrayList<String> allAITypes = new ArrayList<>();
+
+        //iterate through the List<Object> and copy its strings into allAITypes
+        for (int a = 0; a < allAITypesObjList.size(); a++)
+        {
+            String currAITypeString = allAITypesObjList.get(a).toString();
+            allAITypes.add(currAITypeString);
+        }
+
+        System.out.println(">allAITypes size= " + allAITypes.size());
+
+        return allAITypes;
     }
 
     /**
