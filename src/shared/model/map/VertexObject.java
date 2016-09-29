@@ -19,7 +19,7 @@ public class VertexObject {
 
     private transient VertexLocation vertexLocation;
 
-    private PieceType pieceType;
+    private PieceType pieceType = null;
 
     public VertexObject(VertexLocation location){
         vertexLocation = location;
