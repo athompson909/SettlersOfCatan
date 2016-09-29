@@ -178,7 +178,7 @@ public class BuildRoadManager {
      * @param edgeLocation     location of new road
      * @param playerID ID of player who owns road
      */
-    public void buildRoad(int playerID, EdgeLocation edgeLocation) {
+    public void placeRoad(int playerID, EdgeLocation edgeLocation) {
         map.getEdgeObjects().get(edgeLocation).setOwner(playerID);
     }
 }
