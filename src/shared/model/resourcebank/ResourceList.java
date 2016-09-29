@@ -261,4 +261,15 @@ public class ResourceList {
         return oreCardCount;
     }
 
+
+    @Override
+    public String toString() {
+        return "ResourceList{" +
+                "woodCt=" + woodCardCount +
+                ", brickCt=" + brickCardCount +
+                ", sheepCt=" + sheepCardCount +
+                ", wheatCt=" + wheatCardCount +
+                ", oreCt=" + oreCardCount +
+                '}';
+    }
 }

@@ -2,16 +2,23 @@ package shared.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildCity;
-import shared.model.map.BuildSettlement;
+import shared.model.map.BuildCityManager;
+import shared.model.map.BuildSettlementManager;
 import shared.model.map.Hex;
+import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
+import shared.model.messagemanager.MessageManager;
+import shared.model.player.Player;
+import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,81 +81,159 @@ public class JSONTranslator {
      */
     public ClientModel modelFromJSON(JSONObject newModelJSON) throws JsonSyntaxException {
 
-        String modelJSONString = newModelJSON.toString();
-
-        //TODO: these are all not done
         //Break up ClientModel pieces and build a new ClientModel object manually:
 
-        //GET DECK (which object does this parse to?
+        String modelJSONString = newModelJSON.toString();
 
-        //GET MAP
-        /*
+        //TODO: the map is the last part to do!
+
+//GET MAP
+
         JSONObject newCMMap = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
         int newCMRadius = newCMMap.getInt("radius");
-            //GET HEXES
 
-        JSONArray newCMHexes = newCMMap.getJSONArray("hexes");
-        // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
-        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
-
-        for (int h = 0; h < newCMHexes.length(); h++)
+        //GET HEXES
+        JSONArray newHexesJSONArr = newCMMap.getJSONArray("hexes");
+        ArrayList<Hex> parsedHexes = new ArrayList<>();
+        for (int h = 0; h < newHexesJSONArr.length(); h++)
         {
-            String tempHexString = newCMHexes.get(h).toString();
-            System.out.println(">tempHexString = " + tempHexString);
-            Hex testHex = gsonConverter.fromJson(tempHexString, Hex.class);
-            System.out.println("\t testHex" + h + "= " + testHex.toString());
+            String tempHexString = newHexesJSONArr.get(h).toString();
+                System.out.println(">tempHexString = " + tempHexString);
+            Hex newHex = gsonConverter.fromJson(tempHexString, Hex.class);
+                System.out.println("\t newHex" + h + "= " + newHex.toString());
 
-            parsedHexes.add(testHex);
+            parsedHexes.add(newHex);
         }
 
+        System.out.println(">parsedHexes size= " + parsedHexes.size());
+        //before building the new Map obj, we need to put the Hexes, Ports, (what else?) in HashMaps
 
             //GET ROADS
             //GET CITIES
             //GET SETTLEMENTS
             //GET PORTS
             //GET ROBBER
-            */
 
-        //GET PLAYERS ARRAY
 
-        //GET MESSAGEMANAGER out of CHAT and LOG
+//GET RESOURCE BANK
+        //GET RESOURCELIST
+        JSONObject newResourceListJSON = newModelJSON.getJSONObject("bank");
+        String newResListString = newResourceListJSON.toString();
+            System.out.println(">newResListStr= " + newResListString);
+        //the CMJSON has the ResourceList data under key "bank" and DevCardList data under key "deck"
+        ResourceList newResourceList = gsonConverter.fromJson(newResListString, ResourceList.class);
+            System.out.println(">newResourceList (for ResBank obj)= " + newResourceList);
+
+        //GET DEVCARDLIST
+        JSONObject newDevCardListJSON = newModelJSON.getJSONObject("deck");
+        String newDevCardListString = newDevCardListJSON.toString();
+            System.out.println(">newDevCardListStr= " + newDevCardListString);
+        DevCardList newDevCardList = gsonConverter.fromJson(newDevCardListString, DevCardList.class);
+            System.out.println(">newDevCardList (for ResBank obj)= " + newDevCardList);
+
+        //Build ResourceBank out of ResourceList and DevCardList
+        ResourceBank newResourceBank = new ResourceBank();
+        newResourceBank.setResourceList(newResourceList);
+
+        //ResourceBank is complete! Ready to add to new ClientModel obj.
+
+//GET PLAYERS ARRAY
+        //the ClientModel obj wants these in a Player[].
+        JSONArray newPlayersJSONArr = newModelJSON.getJSONArray("players");
+        Player[] newPlayersArray = new Player[4]; //there is a max of 4 players per game
+        //for loop through newPlayersJSONArr, make a Player obj out of each one, and add it to the Player[]
+
+        for (int p = 0; p < newPlayersJSONArr.length(); p++)
+        {
+            //realistically I don't think the model will ever need to be parsed without 4 players added,
+            // but just to be sure/for testing purposes:
+            if (newPlayersJSONArr.get(p) != null) {
+                JSONObject currPlayerJSON = newPlayersJSONArr.getJSONObject(p);
+                String currPlayerJSONSTr = currPlayerJSON.toString();
+                System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
+                Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
+
+                newPlayersArray[p] = newPlayer;
+            }
+        }
+        //Player[] is complete! Ready to add to new ClientModel obj.
+
+ //GET MESSAGEMANAGER out of CHAT and LOG
             //GET CHAT
-        JSONArray newCMChat = newModelJSON.getJSONArray("chat");
-        String newCMChatStr = newCMChat.toString();
-        System.out.println(">CHAT string: " + newCMChatStr);
-        MessageList newCMChatML = gsonConverter.fromJson(newCMChatStr, MessageList.class);
-
+        JSONObject newCMChatJSONObj = newModelJSON.getJSONObject("chat");
+        MessageList newChatMsgList = parseMsgListFromJSON(newCMChatJSONObj);
             //GET LOG
-        JSONArray newCMLog = newModelJSON.getJSONArray("log");
-        String newCMLogStr = newCMLog.toString();
-        System.out.println(">LOG string: " + newCMLogStr);
-        MessageList newCMLogML = gsonConverter.fromJson(newCMLogStr, MessageList.class);
+        JSONObject newCMLogJSONObj = newModelJSON.getJSONObject("log");
+        MessageList newLogMsgList = parseMsgListFromJSON(newCMLogJSONObj);
 
+        //Put the new Chat and Log MsgListObjs into a new MessageManager object:
+        MessageManager newMsgMgr = new MessageManager();
+        newMsgMgr.setChat(newChatMsgList);
+        newMsgMgr.setLog(newLogMsgList);
 
+        //MessageManager is complete! Ready to add to the new ClientModel obj.
 
-        //GET RESOURCEBANK
-        JSONObject newCMResourceBank = newModelJSON.getJSONObject("bank");
-        System.out.println(">newCMResBank= " + newCMResourceBank);
-        //the JSON for this section looks more like a ResourceList than a ResourceBank...
+//GET TURNTRACKER
+        JSONObject newTurnTrackerJSONObj = newModelJSON.getJSONObject("turnTracker");
+        String newTTrackerJSONString = newTurnTrackerJSONObj.toString();
+        TurnTracker newTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
+            System.out.println(">newTTrackerObj= " + newTurnTracker);
 
-        //GET TURNTRACKER
+        //TurnTracker is complete! Ready to add to the new ClientModel obj.
 
+//GET TRADE OFFER
+        if (newModelJSON.has("tradeOffer")){
+            JSONObject newTradeOfferJSONObj = newModelJSON.getJSONObject("tradeOffer");
+            String newTradeOfferJSONString = newTradeOfferJSONObj.toString();
+                System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
+            TradeOffer newTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
+                System.out.println(">newTradeOfferObj= " + newTradeOffer);
+            //TradeOffer is complete! Ready to add to the new ClientModel obj.
+        }
+        else{
+            System.out.println(">No TradeOffer found in newClientModel JSON");
+        }
 
-        //GET TRADE OFFER
-
-        //GET 2 OUTSIDE INTS
+//GET ADDITIONAL INTS/OTHER CLIENTMODEL DATA
         int newCMVersion = newModelJSON.getInt("version");
         int newCMWinner = newModelJSON.getInt("winner");
         //get gameNumber? what is this for again?
 
-
         //Not in JSON: ClientUpdateManager **
-
 
         return newClientModel;
     }
+
+    /**
+     * helper function for ModelFromJSON - builds the Chat/Log MessageList objects
+     */
+    public MessageList parseMsgListFromJSON(JSONObject msgListJSON) {
+        JSONArray newCMMsgListArr = msgListJSON.getJSONArray("lines");
+            String newCMMsgListArrStr = newCMMsgListArr.toString();
+
+        List<MessageLine> newMsgLines = new ArrayList<>();
+
+        //for loop to get all log MessageLines inside newCMMsgListArr, save each one to newMsgLines:
+        for (int c = 0; c < newCMMsgListArr.length(); c++)
+        {
+            JSONObject currMsgLine = newCMMsgListArr.getJSONObject(c);
+            String currMsgLineStr = currMsgLine.toString();
+            MessageLine newMsgLine = gsonConverter.fromJson(currMsgLineStr, MessageLine.class);
+            System.out.println("\t>newMsgLineObj= " + newMsgLine);
+            newMsgLines.add(newMsgLine);
+        }
+
+        System.out.println("newMsgLines size= " + newMsgLines.size());
+        //Now we have a complete ArrayList of MessageLines, so create a new MsgList obj for the MsgMgr:
+        MessageList newMsgList = new MessageList();
+        newMsgList.setLines(newMsgLines);
+
+        return newMsgList;
+    }
+
+
 
     /**
      * I don't think this is necessary
@@ -416,13 +501,26 @@ public class JSONTranslator {
      */
     public ArrayList<String> listAIResponseFromJSON(JSONArray listAIResponseArr) {
 
+        //just going to do this manually since I don't know how Gson does arrays of only strings
 
-        //TODO: fix this to translate a JSONArray in to a regular String array.
-        //ArrayList<String> Result = gsonConverter.fromJson(listAIResponseArr);
+        //System.out.println(">ListAIResponseArr size= " + listAIResponseArr.length());
 
-        //jsonObjectResult =  new JSONObject(stringResult);
+        //this is the only function I could find that changes an unkeyed JSONArray into usable objects:
+        List<Object> allAITypesObjList = listAIResponseArr.toList();
+        //I don't want to deal with something as vague as a list<object>, so change it into an arrayList<String>:
 
-        return null;
+        ArrayList<String> allAITypes = new ArrayList<>();
+
+        //iterate through the List<Object> and copy its strings into allAITypes
+        for (int a = 0; a < allAITypesObjList.size(); a++)
+        {
+            String currAITypeString = allAITypesObjList.get(a).toString();
+            allAITypes.add(currAITypeString);
+        }
+
+        System.out.println(">allAITypes size= " + allAITypes.size());
+
+        return allAITypes;
     }
 
     /**

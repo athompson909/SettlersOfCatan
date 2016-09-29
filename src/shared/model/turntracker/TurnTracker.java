@@ -1,5 +1,7 @@
 package shared.model.turntracker;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * TurnTracker keeps track of game flow, phases of gameplay, player turns, and certain stats
  * related to player performance, i.e. the holder of the Longest Road and Largest Army distinctions.
@@ -21,12 +23,23 @@ public class TurnTracker {
     /**
      * Represents the PlayerID of player with the current longest road
      */
+    @SerializedName("longestRoad")
     private int longestRoadHolder;
 
     /**
      * Represents the PlayerID of player with the current largest army
      */
+    @SerializedName("largestArmy")
     private int largestArmyHolder;
+
+    /**
+     * Constructor
+     */
+    public TurnTracker(){
+
+    }
+
+
 
     /**
      * Determines if any player needs to discard cards on a 7
@@ -90,4 +103,15 @@ public class TurnTracker {
     public void setStatus(String newStatus) {status = newStatus;}
     public void setLongestRoadHolder(int newLRH) {longestRoadHolder = newLRH;}
     public void setLargestArmyHolder(int newLAH) {largestArmyHolder = newLAH;}
+
+
+    @Override
+    public String toString() {
+        return "TurnTracker{" +
+                "currentTurn=" + currentTurn +
+                ", status='" + status + '\'' +
+                ", longestRoadHolder=" + longestRoadHolder +
+                ", largestArmyHolder=" + largestArmyHolder +
+                '}';
+    }
 }

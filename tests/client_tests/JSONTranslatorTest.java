@@ -11,6 +11,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.LoggingLevel;
 import shared.definitions.ResourceType;
 import shared.locations.*;
+import shared.model.ClientModel;
 import shared.model.GameListItem;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
@@ -315,334 +316,6 @@ public class JSONTranslatorTest extends TestCase {
     @Test
     private void setUpModelString() {
         // This is an actual server response body:
-        testModelString2 = " {\n" +
-                "  \"deck\": {\n" +
-                "    \"yearOfPlenty\": 2,\n" +
-                "    \"monopoly\": 2,\n" +
-                "    \"soldier\": 14,\n" +
-                "    \"roadBuilding\": 2,\n" +
-                "    \"monument\": 5\n" +
-                "  },\n" +
-                "  \"map\": {\n" +
-                "    \"hexes\": [\n" +
-                "      {\n" +
-                "        \"resource\": \"sheep\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 0,\n" +
-                "          \"y\": -2\n" +
-                "        },\n" +
-                "        \"number\": 12\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 1,\n" +
-                "          \"y\": -2\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"brick\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 2,\n" +
-                "          \"y\": -2\n" +
-                "        },\n" +
-                "        \"number\": 8\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wood\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -1,\n" +
-                "          \"y\": -1\n" +
-                "        },\n" +
-                "        \"number\": 11\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wheat\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 0,\n" +
-                "          \"y\": -1\n" +
-                "        },\n" +
-                "        \"number\": 6\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"ore\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 1,\n" +
-                "          \"y\": -1\n" +
-                "        },\n" +
-                "        \"number\": 5\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wood\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 2,\n" +
-                "          \"y\": -1\n" +
-                "        },\n" +
-                "        \"number\": 3\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"sheep\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -2,\n" +
-                "          \"y\": 0\n" +
-                "        },\n" +
-                "        \"number\": 10\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"brick\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -1,\n" +
-                "          \"y\": 0\n" +
-                "        },\n" +
-                "        \"number\": 4\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wood\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 0,\n" +
-                "          \"y\": 0\n" +
-                "        },\n" +
-                "        \"number\": 4\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wheat\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 1,\n" +
-                "          \"y\": 0\n" +
-                "        },\n" +
-                "        \"number\": 11\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"sheep\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 2,\n" +
-                "          \"y\": 0\n" +
-                "        },\n" +
-                "        \"number\": 10\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wheat\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -2,\n" +
-                "          \"y\": 1\n" +
-                "        },\n" +
-                "        \"number\": 2\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"brick\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -1,\n" +
-                "          \"y\": 1\n" +
-                "        },\n" +
-                "        \"number\": 5\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"ore\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 0,\n" +
-                "          \"y\": 1\n" +
-                "        },\n" +
-                "        \"number\": 3\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"ore\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 1,\n" +
-                "          \"y\": 1\n" +
-                "        },\n" +
-                "        \"number\": 9\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wheat\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -2,\n" +
-                "          \"y\": 2\n" +
-                "        },\n" +
-                "        \"number\": 8\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"sheep\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -1,\n" +
-                "          \"y\": 2\n" +
-                "        },\n" +
-                "        \"number\": 9\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"wood\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 0,\n" +
-                "          \"y\": 2\n" +
-                "        },\n" +
-                "        \"number\": 6\n" +
-                "      }\n" +
-                "    ],\n" +
-                "    \"roads\": [],\n" +
-                "    \"cities\": [],\n" +
-                "    \"settlements\": [],\n" +
-                "    \"radius\": 3,\n" +
-                "    \"ports\": [\n" +
-                "      {\n" +
-                "        \"ratio\": 3,\n" +
-                "        \"direction\": \"S\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -1,\n" +
-                "          \"y\": -2\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 3,\n" +
-                "        \"direction\": \"NE\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -3,\n" +
-                "          \"y\": 2\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 2,\n" +
-                "        \"resource\": \"ore\",\n" +
-                "        \"direction\": \"S\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 1,\n" +
-                "          \"y\": -3\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 2,\n" +
-                "        \"resource\": \"wheat\",\n" +
-                "        \"direction\": \"SE\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -3,\n" +
-                "          \"y\": 0\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 3,\n" +
-                "        \"direction\": \"N\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 0,\n" +
-                "          \"y\": 3\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 2,\n" +
-                "        \"resource\": \"wood\",\n" +
-                "        \"direction\": \"SW\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 3,\n" +
-                "          \"y\": -3\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 2,\n" +
-                "        \"resource\": \"brick\",\n" +
-                "        \"direction\": \"NE\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": -2,\n" +
-                "          \"y\": 3\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 3,\n" +
-                "        \"direction\": \"NW\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 2,\n" +
-                "          \"y\": 1\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"ratio\": 2,\n" +
-                "        \"resource\": \"sheep\",\n" +
-                "        \"direction\": \"NW\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 3,\n" +
-                "          \"y\": -1\n" +
-                "        }\n" +
-                "      }\n" +
-                "    ],\n" +
-                "    \"robber\": {\n" +
-                "      \"x\": 1,\n" +
-                "      \"y\": -2\n" +
-                "    }\n" +
-                "  },\n" +
-                "  \"players\": [\n" +
-                "    {\n" +
-                "      \"resources\": {\n" +
-                "        \"brick\": 0,\n" +
-                "        \"wood\": 0,\n" +
-                "        \"sheep\": 0,\n" +
-                "        \"wheat\": 0,\n" +
-                "        \"ore\": 0\n" +
-                "      },\n" +
-                "      \"oldDevCards\": {\n" +
-                "        \"yearOfPlenty\": 0,\n" +
-                "        \"monopoly\": 0,\n" +
-                "        \"soldier\": 0,\n" +
-                "        \"roadBuilding\": 0,\n" +
-                "        \"monument\": 0\n" +
-                "      },\n" +
-                "      \"newDevCards\": {\n" +
-                "        \"yearOfPlenty\": 0,\n" +
-                "        \"monopoly\": 0,\n" +
-                "        \"soldier\": 0,\n" +
-                "        \"roadBuilding\": 0,\n" +
-                "        \"monument\": 0\n" +
-                "      },\n" +
-                "      \"roads\": 15,\n" +
-                "      \"cities\": 4,\n" +
-                "      \"settlements\": 5,\n" +
-                "      \"soldiers\": 0,\n" +
-                "      \"victoryPoints\": 0,\n" +
-                "      \"monuments\": 0,\n" +
-                "      \"playedDevCard\": false,\n" +
-                "      \"discarded\": false,\n" +
-                "      \"playerID\": 12,\n" +
-                "      \"playerIndex\": 0,\n" +
-                "      \"name\": \"bacon\",\n" +
-                "      \"color\": \"blue\"\n" +
-                "    },\n" +
-                "    null,\n" +
-                "    null,\n" +
-                "    null\n" +
-                "  ],\n" +
-                "  \"log\": {\n" +
-                "    \"lines\": [" +
-                "{" +
-                "\"message\": \"LOG YO\"," +
-                "\"source\": \"baconl\"" +
-                "}" +
-                "]\n" +
-                "  },\n" +
-                "  \"chat\": {\n" +
-                "    \"lines\": [" +
-                "{" +
-                "\"message\": \"CHAT YO\"," +
-                "\"source\": \"baconc\"" +
-                "}" +
-                "]\n" +
-                "  },\n" +
-                "  \"bank\": {\n" +
-                "    \"brick\": 24,\n" +
-                "    \"wood\": 24,\n" +
-                "    \"sheep\": 24,\n" +
-                "    \"wheat\": 24,\n" +
-                "    \"ore\": 24\n" +
-                "  },\n" +
-                "  \"turnTracker\": {\n" +
-                "    \"status\": \"FirstRound\",\n" +
-                "    \"currentTurn\": 0,\n" +
-                "    \"longestRoad\": -1,\n" +
-                "    \"largestArmy\": -1\n" +
-                "  },\n" +
-                "  \"winner\": -1,\n" +
-                "  \"version\": 0\n" +
-                "}" ;
-
-
-
-
-
-
-
         testResponseModel = " {\n" +
                 "  \"deck\": {\n" +
                 "    \"yearOfPlenty\": 2,\n" +
@@ -895,10 +568,45 @@ public class JSONTranslatorTest extends TestCase {
                 "  \"players\": [\n" +
                 "    {\n" +
                 "      \"resources\": {\n" +
-                "        \"brick\": 0,\n" +
-                "        \"wood\": 0,\n" +
-                "        \"sheep\": 0,\n" +
-                "        \"wheat\": 0,\n" +
+                "        \"brick\": 3,\n" +
+                "        \"wood\": 3,\n" +
+                "        \"sheep\": 3,\n" +
+                "        \"wheat\": 3,\n" +
+                "        \"ore\": 3\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 2,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"bacon\",\n" +
+                "      \"color\": \"blue\"\n" +
+                "    },\n" +  //--------------------------------------- END PLAYER 1
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 3,\n" +
+                "        \"wood\": 2,\n" +
+                "        \"sheep\": 10,\n" +
+                "        \"wheat\": 1,\n" +
                 "        \"ore\": 0\n" +
                 "      },\n" +
                 "      \"oldDevCards\": {\n" +
@@ -923,29 +631,115 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"monuments\": 0,\n" +
                 "      \"playedDevCard\": false,\n" +
                 "      \"discarded\": false,\n" +
-                "      \"playerID\": 12,\n" +
+                "      \"playerID\": 5,\n" +
                 "      \"playerIndex\": 0,\n" +
-                "      \"name\": \"bacon\",\n" +
-                "      \"color\": \"blue\"\n" +
-                "    },\n" +
-                "    null,\n" +
-                "    null,\n" +
-                "    null\n" +
-                "  ],\n" +
+                "      \"name\": \"petey\",\n" +
+                "      \"color\": \"purple\"\n" +
+                "    },\n" + //--------------------------------------- END PLAYER 2
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 2,\n" +
+                "        \"wood\": 1,\n" +
+                "        \"sheep\": 0,\n" +
+                "        \"wheat\": 4,\n" +
+                "        \"ore\": 1\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 4,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"WHOA\",\n" +
+                "      \"color\": \"red\"\n" +
+                "    },\n" + //--------------------------------------- END PLAYER 3
+                "    {\n" +
+                "      \"resources\": {\n" +
+                "        \"brick\": 6,\n" +
+                "        \"wood\": 6,\n" +
+                "        \"sheep\": 6,\n" +
+                "        \"wheat\": 6,\n" +
+                "        \"ore\": 6\n" +
+                "      },\n" +
+                "      \"oldDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"newDevCards\": {\n" +
+                "        \"yearOfPlenty\": 0,\n" +
+                "        \"monopoly\": 0,\n" +
+                "        \"soldier\": 0,\n" +
+                "        \"roadBuilding\": 0,\n" +
+                "        \"monument\": 0\n" +
+                "      },\n" +
+                "      \"roads\": 15,\n" +
+                "      \"cities\": 4,\n" +
+                "      \"settlements\": 5,\n" +
+                "      \"soldiers\": 0,\n" +
+                "      \"victoryPoints\": 0,\n" +
+                "      \"monuments\": 0,\n" +
+                "      \"playedDevCard\": false,\n" +
+                "      \"discarded\": false,\n" +
+                "      \"playerID\": 15,\n" +
+                "      \"playerIndex\": 0,\n" +
+                "      \"name\": \"HEY\",\n" +
+                "      \"color\": \"green\"\n" +
+                "    },\n" + //--------------------------------------- END PLAYER 4
+                "  ],\n" +         //===========================================================
+                "    \"tradeOffer\": " + "{\n" +
+                "       \"sender\": 8,\n" +
+                "       \"receiver\": 4,\n" +
+                "       \"offer\":" + "{\n" +
+                "           \"brick\": 0,\n" +
+                "           \"ore\": 1,\n" +
+                "           \"sheep\": 0,\n" +
+                "           \"wheat\": -2,\n" +
+                "           \"wood\": 0,\n" +
+                "            }\n" +
+                "      },\n" +
                 "  \"log\": {\n" +
                 "    \"lines\": [" +
-                "{" +
-                "\"message\": \"LOG YO\"," +
-                "\"source\": \"baconl\"" +
-                "}" +
+                "       {" +
+                "           \"message\": \"LOG YO\"," +
+                "           \"source\": \"baconl\"" +
+                "       }," +
+                "       {" +
+                "           \"message\": \"WHADDUP\"," +
+                "           \"source\": \"bacony\"" +
+                "       }" +
                 "]\n" +
                 "  },\n" +
                 "  \"chat\": {\n" +
                 "    \"lines\": [" +
-                "{" +
-                "\"message\": \"CHAT YO\"," +
-                "\"source\": \"baconc\"" +
-                "}" +
+                "       {" +
+                "        \"message\": \"CHAT YO\"," +
+                "        \"source\": \"baconc\"" +
+                "       }," +
+                "       {" +
+                "           \"message\": \"YOUR MOM\"," +
+                "           \"source\": \"baconz\"" +
+                "       }" +
                 "]\n" +
                 "  },\n" +
                 "  \"bank\": {\n" +
@@ -1113,9 +907,11 @@ public class JSONTranslatorTest extends TestCase {
 
         JSONObject newClientModelJSON = new JSONObject(testResponseModel);
 
+        ClientModel newCM = jsonTranslator.modelFromJSON(newClientModelJSON);
 
 
-        //TODO: this
+
+
 
         //serialize it again and compare to the original JSON model string
        // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
@@ -1309,28 +1105,23 @@ public class JSONTranslatorTest extends TestCase {
     //the server executes this command without any JSON in the request body, just the URL
     @Test
     public void testListAICmdTranslation() throws Exception {
-        System.out.println(">TESTING LISTAICMD TRANSLATION!");
+        System.out.println(">>TESTING LISTAICMD TRANSLATION!");
 
-        String strExpectedResponse = "{" +
-                                        "\"AIType\":" +  "\"LARGEST_ARMY\"" +
-                                    "}";
+        String strExpectedResponse = "["+
+                                        "\"LARGEST_ARMY\""+ "," +
+                                        "\"YOUR_MOM\""+ "," +
+                                        "\"WHADDUP\"" +
+                                        "]";
 
-        System.out.println("strExpectedResponse = " + strExpectedResponse);
+       // System.out.println(">>strExpectedResponse = " + strExpectedResponse);
 
-        JSONObject jsonExpectedResponse = new JSONObject(strExpectedResponse);
+        JSONArray jsonExpectedResponse = new JSONArray(strExpectedResponse);
 
+        ArrayList<String> allAIsList = jsonTranslator.listAIResponseFromJSON(jsonExpectedResponse);
 
-       ArrayList<String> availableAIsList = new ArrayList<>();
-        //availableAIsList.add(0, "LARGEST_ARMY");
-
-      //  for (int i = 0; i < availableAIsJA.length(); i++)
-      //  {
-      //      availableAIsList.set(i, availableAIsJA.get(i).toString());
-      //  }
-
-        //there should only be one AI available, but plan for more
-        assertEquals(availableAIsList.size(), 1);
-        assertEquals(availableAIsList.get(0), "LARGEST_ARMY");
+        //there should really only be one AI available, but we're planning for more
+        assertEquals(3, allAIsList.size());
+        assertEquals(allAIsList.get(0), "LARGEST_ARMY");
     }
 
     //GOOD

@@ -15,11 +15,11 @@ public class VertexObject {
     /**
      * PlayerID of the player who has built on this location
      */
-    private transient int owner;
+    private transient int owner = -1; //By default, no one owns it.
 
     private transient VertexLocation vertexLocation;
 
-    private PieceType pieceType;
+    private PieceType pieceType = null;
 
     public VertexObject(VertexLocation location){
         vertexLocation = location;

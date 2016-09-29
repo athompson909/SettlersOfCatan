@@ -26,9 +26,14 @@ public class Map {
 
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
-    private HashMap<EdgeLocation, EdgeValue> edgeObjects = new HashMap<>();
+    private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
 
     private List<VertexLocation> portVertexLocations = new ArrayList<>();
+
+    public BuildRoadManager buildRoadManager = new BuildRoadManager(this);
+    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
+    public BuildCityManager buildCityManager = new BuildCityManager(this);
+
 
     /**
      * Robber object
@@ -39,7 +44,7 @@ public class Map {
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-    private BuildingManager buildingManager;
+
 
     private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
@@ -58,8 +63,8 @@ public class Map {
         createAllEdgeValues();
     }
 
-    //this is for when the new model comes back and we need to make a new Map object WITHOUT
-    //creating/placing all hexes again
+    //this constructor is for when the new model comes back and we need to make a new Map object
+    // WITHOUT creating/placing all hexes again.
     public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
     {
         setHexes(allHexes);
@@ -338,7 +343,7 @@ public class Map {
      */
     private void createSingleEdgeValue(int x, int y, EdgeDirection direction){
         EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x,y), direction);
-        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
     }
 
     /**
@@ -351,10 +356,10 @@ public class Map {
         HexLocation currentHex = new HexLocation(x,y);
 
         EdgeLocation newEdgeLocation = new EdgeLocation(currentHex, direction);
-        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
     }
 
     /**
@@ -367,16 +372,14 @@ public class Map {
         HexLocation currentHex = new HexLocation(x,y);
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
 
         EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthEast);
-        edgeObjects.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
+        edgeValues.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
 
         EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthWest);
-        edgeObjects.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
+        edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
-
-
 
     /**
      * Updates all map data members to match the newly updated model
@@ -416,11 +419,11 @@ public class Map {
         this.robber = robber;
     }
 
-    public BuildingManager getBuildingManager() {
-        return buildingManager;
+    public HashMap<VertexLocation, VertexObject> getVertexObjects() {
+        return vertexObjects;
     }
 
-    public void setBuildingManager(BuildingManager buildingManager) {
-        this.buildingManager = buildingManager;
+    public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
+        return edgeValues;
     }
 }
