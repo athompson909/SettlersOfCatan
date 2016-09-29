@@ -26,7 +26,7 @@ public class Map {
 
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
-    private HashMap<EdgeLocation, EdgeValue> edgeObjects = new HashMap<>();
+    private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
 
     private List<VertexLocation> portVertexLocations = new ArrayList<>();
 
@@ -343,7 +343,7 @@ public class Map {
      */
     private void createSingleEdgeValue(int x, int y, EdgeDirection direction){
         EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x,y), direction);
-        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
     }
 
     /**
@@ -356,10 +356,10 @@ public class Map {
         HexLocation currentHex = new HexLocation(x,y);
 
         EdgeLocation newEdgeLocation = new EdgeLocation(currentHex, direction);
-        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
     }
 
     /**
@@ -372,13 +372,13 @@ public class Map {
         HexLocation currentHex = new HexLocation(x,y);
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
 
         EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthEast);
-        edgeObjects.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
+        edgeValues.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
 
         EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthWest);
-        edgeObjects.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
+        edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
     /**
@@ -424,6 +424,6 @@ public class Map {
     }
 
     public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
-        return edgeObjects;
+        return edgeValues;
     }
 }
