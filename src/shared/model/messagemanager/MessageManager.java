@@ -15,6 +15,10 @@ public class MessageManager {
      */
     private MessageList log;
 
+    //constructor
+    public MessageManager() {}
+
+
     /**
      * Initiated the updating of the Chat/Log pieces of the model
      *

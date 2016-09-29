@@ -2,6 +2,7 @@ package shared.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
@@ -10,7 +11,9 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCityManager;
 import shared.model.map.BuildSettlementManager;
 import shared.model.map.Hex;
+import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
+import shared.model.messagemanager.MessageManager;
 import shared.model.resourcebank.ResourceBank;
 
 import java.util.ArrayList;
@@ -79,7 +82,7 @@ public class JSONTranslator {
         //TODO: these are all not done
         //Break up ClientModel pieces and build a new ClientModel object manually:
 
-        //GET DECK (which object does this parse to?
+        //GET DECK (which object type does this parse to?
 
         //GET MAP
         /*
@@ -103,7 +106,6 @@ public class JSONTranslator {
             parsedHexes.add(testHex);
         }
 
-
             //GET ROADS
             //GET CITIES
             //GET SETTLEMENTS
@@ -115,20 +117,21 @@ public class JSONTranslator {
 
         //GET MESSAGEMANAGER out of CHAT and LOG
             //GET CHAT
-        JSONArray newCMChat = newModelJSON.getJSONArray("chat");
-        String newCMChatStr = newCMChat.toString();
-        System.out.println(">CHAT string: " + newCMChatStr);
-        MessageList newCMChatML = gsonConverter.fromJson(newCMChatStr, MessageList.class);
-
+        JSONObject newCMChatObj = newModelJSON.getJSONObject("chat");
+        MessageList newChatMsgList = parseMsgListFromJSON(newCMChatObj);
             //GET LOG
-        JSONArray newCMLog = newModelJSON.getJSONArray("log");
-        String newCMLogStr = newCMLog.toString();
-        System.out.println(">LOG string: " + newCMLogStr);
-        MessageList newCMLogML = gsonConverter.fromJson(newCMLogStr, MessageList.class);
+        JSONObject newCMLogObj = newModelJSON.getJSONObject("log");
+        MessageList newLogMsgList = parseMsgListFromJSON(newCMLogObj);
 
+        //Put the new Chat and Log MsgListObjs into a new MessageManager object:
+        MessageManager newMsgMgr = new MessageManager();
+        newMsgMgr.setChat(newChatMsgList);
+        newMsgMgr.setLog(newLogMsgList);
 
+        //MessageManager is complete! Ready to add to the new ClientModel obj.
 
-        //GET RESOURCEBANK
+//GET RESOURCEBANK
+        /*
         JSONObject newCMResourceBank = newModelJSON.getJSONObject("bank");
         System.out.println(">newCMResBank= " + newCMResourceBank);
         //the JSON for this section looks more like a ResourceList than a ResourceBank...
@@ -145,9 +148,35 @@ public class JSONTranslator {
 
 
         //Not in JSON: ClientUpdateManager **
+        */
 
 
         return newClientModel;
+    }
+
+    //helper function for ModelFromJSON - builds the Chat/Log MessageList objects
+    public MessageList parseMsgListFromJSON(JSONObject msgListJSON) {
+        JSONArray newCMMsgListArr = msgListJSON.getJSONArray("lines");
+            String newCMMsgListArrStr = newCMMsgListArr.toString();
+
+        List<MessageLine> newMsgLines = new ArrayList<>();
+
+        //for loop to get all log MessageLines inside newCMMsgListArr, save each one to newMsgLines:
+        for (int c = 0; c < newCMMsgListArr.length(); c++)
+        {
+            JSONObject currMsgLine = newCMMsgListArr.getJSONObject(c);
+            String currMsgLineStr = currMsgLine.toString();
+            MessageLine newMsgLine = gsonConverter.fromJson(currMsgLineStr, MessageLine.class);
+            System.out.println("\t>newMsgLineObj= " + newMsgLine);
+            newMsgLines.add(newMsgLine);
+        }
+
+        System.out.println("newMsgLines size= " + newMsgLines.size());
+        //Now we have a complete ArrayList of MessageLines, so create a new MsgList obj for the MsgMgr:
+        MessageList newMsgList = new MessageList();
+        newMsgList.setLines(newMsgLines);
+
+        return newMsgList;
     }
 
     /**
