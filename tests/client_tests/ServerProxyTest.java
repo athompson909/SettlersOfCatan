@@ -30,6 +30,7 @@ public class ServerProxyTest extends TestCase {
         serverProxy.userLogin(loginJson);
         JSONObject jsonObject = new JSONObject(JOIN_STR);
         String jsonStr = serverProxy.gameJoin(jsonObject);
+        serverProxy.gameReset();
     }
 
     @Override
@@ -52,14 +53,14 @@ public class ServerProxyTest extends TestCase {
 //        testGameJoin(); // this has to be run from here otherwise login cookie will be null
 
         JSONObject badLoginJson = new JSONObject(BAD_LOGIN_STR);
-        assertEquals("http error 400: Bad Request", serverProxy.userLogin(badLoginJson));
+        assertEquals("{\"http error 400\":\"Bad Request\"}", serverProxy.userLogin(badLoginJson));
     }
 
     @Test
     public void testUserRegister() throws ClientException {
 
         JSONObject loginJson = new JSONObject(LOGIN_STR);
-        assertEquals("http error 400: Bad Request", serverProxy.userRegister(loginJson));
+        assertEquals("{\"http error 400\":\"Bad Request\"}", serverProxy.userRegister(loginJson));
 
         // these have already been tested, obviously they will not pass if executed more than once for the same string
 //        JSONObject newLoginJson = new JSONObject(NEW_LOGIN_STR); // todo: uncomment before official submit
@@ -151,6 +152,102 @@ public class ServerProxyTest extends TestCase {
         assertEquals("[\"LARGEST_ARMY\"]", serverProxy.listAI().toString());
     }
 
+    /**
+     * HTTP request succeeds
+     * @throws ClientException
+     */
+    @Test
+    public void testSendChat() throws ClientException {
+        JSONObject response = serverProxy.sendChat(new JSONObject(SEND_CHAT));
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testRollNumber() throws ClientException {
+        JSONObject response = serverProxy.rollNumber(new JSONObject(ROLL_NUMBER));
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testRobPlayer() throws ClientException {
+        JSONObject request = new JSONObject(ROB_PLAYER);
+        JSONObject response = serverProxy.robPlayer(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testFinishTurn() throws ClientException {
+        JSONObject request = new JSONObject(FINISH_TURN);
+        JSONObject response = serverProxy.finishTurn(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    /**
+     * HTTP request succeeds
+     * @throws ClientException
+     */
+    @Test
+    public void testYearOfPlenty() throws ClientException {
+        JSONObject request = new JSONObject(YEAR_OF_PLENTY);
+        JSONObject response = serverProxy.playYearOfPlenty(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testPurchaseDevCard() throws ClientException {
+        JSONObject request = new JSONObject(BUY_DEV_CARD);
+        JSONObject response = serverProxy.purchaseDevCard(request);
+        assertEquals("{\"http error 400\":\"Bad Request\"}", response.toString());
+    }
+
+    @Test
+    public void testPlaySoldier() throws ClientException {
+        JSONObject request = new JSONObject(PLAY_SOLDIER);
+        JSONObject response = serverProxy.playSoldier(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testPlayMonopoly() throws ClientException {
+        JSONObject request = new JSONObject(MONOPOLY);
+        JSONObject response = serverProxy.playMonopoly(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testPlayMonument() throws ClientException {
+        JSONObject request = new JSONObject(MONUMENT);
+        JSONObject response = serverProxy.playMonument(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testBuildRoad() throws ClientException {
+        JSONObject request = new JSONObject(BUILD_ROAD);
+        JSONObject response = serverProxy.buildRoad(request);
+        assertEquals("{\"http error 400\":\"Bad Request\"}", response.toString());
+    }
+
+    @Test
+    public void testOfferTrade() throws ClientException {
+        JSONObject request = new JSONObject(OFFER_TRADE);
+        JSONObject response = serverProxy.offerTrade(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testMaritimeTrade() throws ClientException {
+        JSONObject request = new JSONObject(MARITIME_TRADE);
+        JSONObject response = serverProxy.maritimeTrade(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
+
+    @Test
+    public void testDiscardCards() throws ClientException {
+        JSONObject request = new JSONObject(DISCARD_CARDS);
+        JSONObject response = serverProxy.discardCards(request);
+        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
+    }
 
     private final String LOGIN_STR = "{\n" +
             "  \"username\": \"Sam\",\n" +
@@ -175,8 +272,8 @@ public class ServerProxyTest extends TestCase {
             "}";
 
     private final String JOIN_STR = "{\n" +
-            "  \"id\": 3,\n" +
-            "  \"color\": \"blue\"\n" +
+            "  \"id\": 0,\n" +
+            "  \"color\": \"puce\"\n" +
             "}";
 
     private final String GAME_SAVE_STR = "{\n" +
@@ -192,7 +289,122 @@ public class ServerProxyTest extends TestCase {
 
     private final String SEND_CHAT = "{\n" +
             "  \"type\": \"sendChat\",\n" +
-            "  \"playerIndex\": \"0\",\n" +
+            "  \"playerIndex\": 0,\n" +
             "  \"content\": \"hello\"\n" +
             "}";
+
+    private final String ROLL_NUMBER = "{\n" +
+            "  \"type\": \"rollNumber\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"number\": 7\n" +
+            "}";
+
+    private final String ROB_PLAYER = "{\n" +
+            "  \"type\": \"robPlayer\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"victimIndex\": 1,\n" +
+            "  \"location\": {\n" +
+            "    \"x\": 1,\n" +
+            "    \"y\": 1\n" +
+            "  }\n" +
+            "}";
+
+    private final String FINISH_TURN = "{\n" +
+            "  \"type\": \"finishTurn\",\n" +
+            "  \"playerIndex\": 0\n" +
+            "}";
+
+    private final String BUY_DEV_CARD = "{\n" +
+            "  \"type\": \"buyDevCard\",\n" +
+            "  \"playerIndex\": \"integer\"\n" +
+            "}";
+
+    private final String YEAR_OF_PLENTY = "{\n" +
+            "  \"type\": \"Year_of_Plenty\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"resource1\": \"ore\",\n" +
+            "  \"resource2\": \"wheat\"\n" +
+            "}";
+
+    private final String ROAD_BUILDING = "{\n" +
+            "  \"type\": \"Road_Building\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"spot1\": {\n" +
+            "    \"x\": 0,\n" +
+            "    \"y\": -1,\n" +
+            "    \"direction\": \"south\"\n" +
+            "  },\n" +
+            "  \"spot2\": {\n" +
+            "    \"x\": -1,\n" +
+            "    \"y\": 0,\n" +
+            "    \"direction\": \"south\"\n" +
+            "  }\n" +
+            "}";
+
+    private final String PLAY_SOLDIER = "{\n" +
+            "  \"type\": \"Soldier\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"victimIndex\": 2,\n" +
+            "  \"location\": {\n" +
+            "    \"x\": 1,\n" +
+            "    \"y\": 1\n" +
+            "  }\n" +
+            "}";
+
+    private final String MONOPOLY = "{\n" +
+            "  \"type\": \"Monopoly\",\n" +
+            "  \"resource\": \"wood\",\n" +
+            "  \"playerIndex\": 0\n" +
+            "}";
+
+    private final String MONUMENT = "{\n" +
+            "  \"type\": \"Monument\",\n" +
+            "  \"playerIndex\": 0\n" +
+            "}";
+
+    private final String BUILD_ROAD = "{\"" +
+            "   type\":\"buildRoad\"," +
+            "   \"playerIndex\":0," +
+            "   \"roadLocation\":" +
+            "   {" +
+            "       \"x\":0," +
+            "       \"y\":1," +
+            "       \"direction\":\"NW\"" +
+            "   }," +
+            "   \"free\":true" +
+            "}";
+
+    private final String OFFER_TRADE = "{\n" +
+            "  \"type\": \"offerTrade\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"offer\": {\n" +
+            "    \"brick\": 0,\n" +
+            "    \"ore\": 0,\n" +
+            "    \"sheep\": 0,\n" +
+            "    \"wheat\": 0,\n" +
+            "    \"wood\": 1\n" +
+            "  },\n" +
+            "  \"receiver\": 2\n" +
+            "}";
+
+    private final String MARITIME_TRADE = "{\n" +
+            "  \"type\": \"maritimeTrade\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"ratio\": 4,\n" +
+            "  \"inputResource\": \"wood\",\n" +
+            "  \"outputResource\": \"brick\"\n" +
+            "}";
+
+    private final String DISCARD_CARDS = "{\n" +
+            "  \"type\": \"discardCards\",\n" +
+            "  \"playerIndex\": 0,\n" +
+            "  \"discardedCards\": {\n" +
+            "    \"brick\": 0,\n" +
+            "    \"ore\": 0,\n" +
+            "    \"sheep\": 1,\n" +
+            "    \"wheat\": 0,\n" +
+            "    \"wood\": 3\n" +
+            "  }\n" +
+            "}";
+
 }

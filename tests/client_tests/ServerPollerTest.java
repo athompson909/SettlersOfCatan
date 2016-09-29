@@ -40,4 +40,3 @@ public class ServerPollerTest extends TestCase {
     }
 
 }
-
