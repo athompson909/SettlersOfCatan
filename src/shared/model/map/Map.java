@@ -63,8 +63,8 @@ public class Map {
         createAllEdgeValues();
     }
 
-    //this is for when the new model comes back and we need to make a new Map object WITHOUT
-    //creating/placing all hexes again
+    //this constructor is for when the new model comes back and we need to make a new Map object
+    // WITHOUT creating/placing all hexes again.
     public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
     {
         setHexes(allHexes);

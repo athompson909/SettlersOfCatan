@@ -88,32 +88,34 @@ public class JSONTranslator {
         //TODO: the map is the last part to do!
 
 //GET MAP
-        /*
+
         JSONObject newCMMap = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
         int newCMRadius = newCMMap.getInt("radius");
-            //GET HEXES
 
-        JSONArray newCMHexes = newCMMap.getJSONArray("hexes");
-        // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
-        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
-
-        for (int h = 0; h < newCMHexes.length(); h++)
+        //GET HEXES
+        JSONArray newHexesJSONArr = newCMMap.getJSONArray("hexes");
+        ArrayList<Hex> parsedHexes = new ArrayList<>();
+        for (int h = 0; h < newHexesJSONArr.length(); h++)
         {
-            String tempHexString = newCMHexes.get(h).toString();
-            System.out.println(">tempHexString = " + tempHexString);
-            Hex testHex = gsonConverter.fromJson(tempHexString, Hex.class);
-            System.out.println("\t testHex" + h + "= " + testHex.toString());
+            String tempHexString = newHexesJSONArr.get(h).toString();
+                System.out.println(">tempHexString = " + tempHexString);
+            Hex newHex = gsonConverter.fromJson(tempHexString, Hex.class);
+                System.out.println("\t newHex" + h + "= " + newHex.toString());
 
-            parsedHexes.add(testHex);
+            parsedHexes.add(newHex);
         }
+
+        System.out.println(">parsedHexes size= " + parsedHexes.size());
+        //before building the new Map obj, we need to put the Hexes, Ports, (what else?) in HashMaps
+
             //GET ROADS
             //GET CITIES
             //GET SETTLEMENTS
             //GET PORTS
             //GET ROBBER
-            */
+
 
 //GET RESOURCE BANK
         //GET RESOURCELIST
