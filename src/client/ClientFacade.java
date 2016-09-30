@@ -305,6 +305,8 @@ public class ClientFacade {
         JSONObject jsonNewModel;
         try {
             String jsonNewModelStr = serverProxy.gameModelVersion(version);
+            gameModelVersionStr = jsonNewModelStr;
+            if(gameModelVersionStr.equals("{\"http error 400\":\"Bad Request\"}")) throw new ClientException(); // todo: delete
             jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
             version = updatedModel.getVersion();
@@ -312,7 +314,18 @@ public class ClientFacade {
         }
         catch (ClientException e) {
             e.printStackTrace();
+            return;
         }
+    }
+
+    private String gameModelVersionStr;
+
+    public String getGameModelVersionStr() {
+        return gameModelVersionStr;
+    }
+
+    public void setGameModelVersionStr(String gameModelVersionStr) {
+        this.gameModelVersionStr = gameModelVersionStr;
     }
 
     /**
@@ -335,7 +348,7 @@ public class ClientFacade {
     Note:
     When a game is reset, the players in the game are maintained
      */
-    public void gameReset(){
+    public void gameReset() {
         try {
             JSONObject jsonModel = serverProxy.gameReset();
             ClientModel resetModel = jsonTranslator.modelFromJSON(jsonModel);
