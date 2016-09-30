@@ -71,6 +71,7 @@ public class BuildSettlementCommand implements BaseCommand {
 
 
 
+//Getters and Setters
     /**
      * Getter for boolean free
      * @return

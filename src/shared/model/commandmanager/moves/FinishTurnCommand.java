@@ -46,4 +46,14 @@ public class FinishTurnCommand implements BaseCommand {
     public void serverExec(BaseCommand BC) {
 
     }
+
+//Getters
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

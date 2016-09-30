@@ -49,8 +49,20 @@ public class PlayYearOfPlentyCommand implements BaseCommand {
 
     }
 
-
+//Getters
     public String getType() {
         return type;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public ResourceType getResource1() {
+        return resource1;
+    }
+
+    public ResourceType getResource2() {
+        return resource2;
     }
 }

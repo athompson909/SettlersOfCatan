@@ -59,7 +59,7 @@ public class PlaySoldierCommand implements BaseCommand {
 
     }
 
-
+//Getters and Setters
     public HexLocation getRobberLoc() {
         return robberLoc;
     }

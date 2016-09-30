@@ -42,6 +42,7 @@ public class SendChatCommand implements BaseCommand {
 
     }
 
+
     //Getters
 
     public int getPlayerIndex() {

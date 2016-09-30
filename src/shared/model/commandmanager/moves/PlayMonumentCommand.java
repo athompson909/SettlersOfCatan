@@ -20,7 +20,7 @@ public class PlayMonumentCommand implements BaseCommand {
 
 
     /**
-     * Creates PlauMonumentCard object to be sent to client.ClientFacade
+     * Creates PlayMonumentCard object to be sent to client.ClientFacade
      * for translation into JSON
      *
      * sets data member
@@ -44,8 +44,12 @@ public class PlayMonumentCommand implements BaseCommand {
 
     }
 
-
+//Getters
     public String getType() {
         return type;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
     }
 }

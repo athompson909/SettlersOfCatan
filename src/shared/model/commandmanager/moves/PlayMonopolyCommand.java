@@ -51,8 +51,16 @@ public class PlayMonopolyCommand implements BaseCommand {
 
     }
 
-
+//Getters
     public String getType() {
         return type;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public ResourceType getResource() {
+        return resource;
     }
 }

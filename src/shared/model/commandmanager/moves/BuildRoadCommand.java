@@ -57,6 +57,7 @@ public class BuildRoadCommand implements BaseCommand {
 
     }
 
+//Getters and Setters
     /**
      * Getter for boolean free
      * @return

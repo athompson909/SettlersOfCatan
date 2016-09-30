@@ -64,7 +64,20 @@ public class OfferTradeCommand implements BaseCommand {
 
     }
 
+    //Getters
     public String getType() {
         return type;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public ResourceList getOffer() {
+        return offer;
+    }
+
+    public int getReceiver() {
+        return receiver;
     }
 }

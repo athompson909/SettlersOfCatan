@@ -32,7 +32,12 @@ public class PurchaseDevCardCommand implements BaseCommand {
 
     }
 
+    //Getters
     public String getType() {
         return type;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
     }
 }

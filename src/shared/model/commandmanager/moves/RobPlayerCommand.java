@@ -47,4 +47,22 @@ public class RobPlayerCommand implements BaseCommand {
     public void serverExec(BaseCommand command){
 
     }
+
+    //Getters
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public HexLocation getLocation() {
+        return location;
+    }
+
+    public int getVictimIndex() {
+        return victimIndex;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

@@ -69,6 +69,7 @@ public class MaritimeTradeCommand implements BaseCommand {
     }
 
 
+    //Getters and Setters
     public int getPlayerIndex() {
         return playerIndex;
     }

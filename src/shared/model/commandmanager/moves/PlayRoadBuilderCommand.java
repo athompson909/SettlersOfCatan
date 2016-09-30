@@ -65,7 +65,7 @@ public class PlayRoadBuilderCommand implements BaseCommand {
     }
 
 
-
+//Getters and Setters
     public EdgeLocation getLocationONE() {
         return locationONE;
     }

@@ -58,6 +58,7 @@ public class BuildCityCommand implements BaseCommand {
 
     }
 
+    //Getters and Setters
     public int getPlayerIndex() {
         return playerIndex;
     }
