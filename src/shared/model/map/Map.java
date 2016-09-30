@@ -73,6 +73,12 @@ public class Map {
     private static Iterator<Integer> numberIterator = numberOrder.iterator();
 
     /**
+     * the radius of the map, according to the JSON
+     */
+    private int radius = 0;
+
+
+    /**
      * the constructor for a Map object
      * is called when a user starts a new game and the map needs to be created (in initialization mode)
      */
@@ -88,10 +94,12 @@ public class Map {
 
     //this constructor is for when the new model comes back and we need to make a new Map object
     // WITHOUT creating/placing all hexes again.
-    public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
+    public Map(HashMap<HexLocation, Hex> newHexes, HashMap<HexLocation, Port> newPorts,
+               HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues)
     {
-        setHexes(allHexes);
-        setPorts(allPorts);
+        setHexes(newHexes);
+        setPorts(newPorts);
+
     }
 
     /**
@@ -494,7 +502,7 @@ public class Map {
     public void setRobber(Robber robber) {
         this.robber = robber;
     }
-
+/*
     public BuildingManager getBuildingManager() {
         return buildingManager;
     }
@@ -502,6 +510,7 @@ public class Map {
     public void setBuildingManager(BuildingManager buildingManager) {
         this.buildingManager = buildingManager;
     }
+*/
     public HashMap<VertexLocation, VertexObject> getVertexObjects() {
         return vertexObjects;
     }
@@ -510,8 +519,31 @@ public class Map {
         return edgeValues;
     }
 
+    public HashMap<VertexLocation, Port> getPortVertexLocations() {
+        return portVertexLocations;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
     //SETTERS
+
+    public void setRadius(int radius) {this.radius = radius;}
+
     public void setHexes(HashMap<HexLocation, Hex> hexes) {
         this.hexes = hexes;
+    }
+
+    public void setVertexObjects(HashMap<VertexLocation, VertexObject> vertexObjects) {
+        this.vertexObjects = vertexObjects;
+    }
+
+    public void setEdgeValues(HashMap<EdgeLocation, EdgeValue> edgeValues) {
+        this.edgeValues = edgeValues;
+    }
+
+    public void setPortVertexLocations(HashMap<VertexLocation, Port> portVertexLocations) {
+        this.portVertexLocations = portVertexLocations;
     }
 }

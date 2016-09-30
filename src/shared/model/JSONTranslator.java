@@ -44,9 +44,8 @@ public class JSONTranslator {
      * This is the temporary ClientModel that will be created from the JSON coming back from the server.
      * We will give this object to ClientUpdateManager after it has been fully parsed out.
      *
-     * todo parameter in constructor is hardcoded
      */
-    private ClientModel newClientModel = new ClientModel(0);
+    private ClientModel newClientModel;
 
     /**
      * This Gson object can be reused as many times as you want
@@ -64,7 +63,6 @@ public class JSONTranslator {
      */
     private JSONObject jsonObjectResult = null;
 
-
     /**
      * Constructor
      */
@@ -72,11 +70,18 @@ public class JSONTranslator {
 
 
 
-
     /**
-     * TranslateModel() can take in either a string or a JSON,
-     * and uses Gson to convert it to normal objects to send to UpdateManager.
-     * But first convert the incoming JSONObject to a String so Gson is happy!
+     * TranslateModel() takes the new JSON clientModel from the server,
+     * and pulls it apart into object that make up the ClientModel.
+     * Using those smaller objects, it builds a complete ClientModel object at the end.
+     * it would be really helpful to have a reference to the OLD clientModel here,
+     * because when building the new ClientModel object, not every single object/data member in it
+     * is going to be updated, just a few.
+     * But I guess as long as the UpdateManager knows to only look at certain parts of the new ClientModel
+     * to update its existing ClientModel, it doesn't matter what the extra parts of the new ClientModel hold.
+     *
+     *
+     * Wow I should probably break this up into smaller functions...
      *
      * @throws JsonSyntaxException - this is Gson's exception
      * @param newModelJSON - this is the huge JSON string coming back directly from the server
@@ -85,23 +90,18 @@ public class JSONTranslator {
     public ClientModel modelFromJSON(JSONObject newModelJSON) throws JsonSyntaxException {
 
         //Break up ClientModel pieces and build a new ClientModel object manually:
-
-        String modelJSONString = newModelJSON.toString();
-
-        //TODO: the map is the last part to do!
-
 //GET MAP
-        JSONObject newCMMap = newModelJSON.getJSONObject("map");
+        JSONObject newMapJSON = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
-        int newCMRadius = newCMMap.getInt("radius");
+        int newCMRadius = newMapJSON.getInt("radius");
 
 //GET HEXES
         //The Hexes data in a map never change during the game.
         //Only the roads/cities/settlements/robber do.
         //So this may not need to be used during the model update in UpdateManager...
         //But just in case: the Map wants a HashMap of HexLocation->Hex objs.
-        JSONArray newHexesJSONArr = newCMMap.getJSONArray("hexes");
+        JSONArray newHexesJSONArr = newMapJSON.getJSONArray("hexes");
         HashMap<HexLocation, Hex> newHexesMap = new HashMap<>();
         for (int h = 0; h < newHexesJSONArr.length(); h++)
         {
@@ -142,11 +142,11 @@ public class JSONTranslator {
             newHexesMap.put(newHex.getLocation(), newHex);
         }
 
-        //HashMap<Hexes> complete! Ready to add to ClientModel Map obj.
+        //HashMap<Hexes> complete! Ready to add to Map obj.
             System.out.println("~~~~~~~~~~~~");
 
 //GET PORTS
-        JSONArray newPortsJSONArr = newCMMap.getJSONArray("ports");
+        JSONArray newPortsJSONArr = newMapJSON.getJSONArray("ports");
         HashMap<HexLocation, Port> newPortsMap = new HashMap<>();
         //go parse all the ports data in the Ports JSON array:
         for (int p = 0; p < newPortsJSONArr.length(); p++) {
@@ -181,12 +181,12 @@ public class JSONTranslator {
             newPortsMap.put(newPort.getLocation(), newPort);
         }
 
-        //HashMap<Ports> complete! Ready to add to ClientModel Map obj.
+        //HashMap<Ports> complete! Ready to add to Map obj.
         System.out.println("~~~~~~~~~~~~");
 
 
 //GET ROADS
-        JSONArray newRoadsJSONArr = newCMMap.getJSONArray("roads");
+        JSONArray newRoadsJSONArr = newMapJSON.getJSONArray("roads");
         HashMap<EdgeLocation, EdgeValue> newRoadsMap = new HashMap<>();
         //go parse all the data in the newRoads array:
         for (int r = 0; r < newRoadsJSONArr.length(); r++) {
@@ -211,12 +211,10 @@ public class JSONTranslator {
 
             newRoadsMap.put(newRoad.getEdgeLocation(), newRoad);
         }
-
-        //HashMap<Roads> complete! Ready to add to ClientModel Map obj.
-
+        //HashMap<Roads> complete! Ready to add to Map obj.
 
 //GET SETTLEMENTS
-        JSONArray newStlmtsJSONArr = newCMMap.getJSONArray("settlements");
+        JSONArray newStlmtsJSONArr = newMapJSON.getJSONArray("settlements");
         //THIS MAP HOLDS BOTH CITIES *AND* SETTLEMENTS!! **********
         HashMap<VertexLocation, VertexObject> newCitiesStlmtsMap = new HashMap<>();
         //go parse all the data in the newStlmts array:
@@ -248,13 +246,13 @@ public class JSONTranslator {
         System.out.println("~~~~~~~~~~~~");
 
 //GET CITIES
-        JSONArray newCitiesJSONArr = newCMMap.getJSONArray("cities");
+        JSONArray newCitiesJSONArr = newMapJSON.getJSONArray("cities");
         //USE THE SAME MAP FROM THE SETTLEMENTS PARSING PART****
         //go parse all the data in the newCities array:
         for (int c = 0; c < newCitiesJSONArr.length(); c++){
 
             JSONObject currCityJSON = newCitiesJSONArr.getJSONObject(c);
-              System.out.println(">currCityJSON = " + currCityJSON);
+            //  System.out.println(">currCityJSON = " + currCityJSON);
             //get the HexLocation object out of the currCityJSON:
             JSONObject currCityLocJSON = currCityJSON.getJSONObject("location");
             int cHLx = currCityLocJSON.getInt("x");
@@ -275,13 +273,31 @@ public class JSONTranslator {
             newCitiesStlmtsMap.put(newCity.getVertexLocation(), newCity);
         }
 
-        //Settlements/Cities Hashmap<> complete! Ready to add to new ClientModel obj.
+        //Settlements/Cities Hashmap<> complete! Ready to add to new Map obj.
         System.out.println("~~~~~~~~~~~~");
 
-
-
 //GET ROBBER
+        //it's just a HexLocation, but the Robber obj type needs a reference to the Map...?
+        //maybe add this Robber obj to the Map after the rest of it has been built up?
+        JSONObject newRobberJSON = newMapJSON.getJSONObject("robber");
+        String newRobberJSONString = newRobberJSON.toString();
+            //System.out.println("newRobberJSON= " + newRobberJSON);
+        int rX = newRobberJSON.getInt("x");
+        int rY = newRobberJSON.getInt("y");
+        HexLocation newRobberHexLoc = new HexLocation(rX, rY);
+        //try building the actual Robber object after building the Map object,
+        // so you can pass a ref of the new Map to the new Robber?
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//BUILD NEW MAP OBJECT
+        Map newCMMap = new Map(newHexesMap, newPortsMap, newCitiesStlmtsMap, newRoadsMap);
+        newCMMap.setRadius(newCMRadius);
+        //this is really weird... do we have to do this double-reverse-dependencies thing?
+        //TODO: ask about this
+        Robber newRobber = new Robber(newCMMap);
+
+        //Map object is complete (I think)! ready to add to new clientModel obj.
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //GET RESOURCE BANK
         //GET RESOURCELIST
@@ -295,13 +311,13 @@ public class JSONTranslator {
         //GET DEVCARDLIST
         JSONObject newDevCardListJSON = newModelJSON.getJSONObject("deck");
         String newDevCardListString = newDevCardListJSON.toString();
-            System.out.println(">newDevCardListStr= " + newDevCardListString);
+        //    System.out.println(">newDevCardListStr= " + newDevCardListString);
         DevCardList newDevCardList = gsonConverter.fromJson(newDevCardListString, DevCardList.class);
             System.out.println(">newDevCardList (for ResBank obj)= " + newDevCardList);
 
         //Build ResourceBank out of ResourceList and DevCardList
-        ResourceBank newResourceBank = new ResourceBank();
-        newResourceBank.setResourceList(newResourceList);
+        ResourceBank newCMResourceBank = new ResourceBank();
+        newCMResourceBank.setResourceList(newResourceList);
 
         //ResourceBank is complete! Ready to add to new ClientModel obj.
 
@@ -318,7 +334,7 @@ public class JSONTranslator {
             if (newPlayersJSONArr.get(p) != null) {
                 JSONObject currPlayerJSON = newPlayersJSONArr.getJSONObject(p);
                 String currPlayerJSONSTr = currPlayerJSON.toString();
-                System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
+                 //  System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
                 Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
 
                 newPlayersArray[p] = newPlayer;
@@ -335,39 +351,58 @@ public class JSONTranslator {
         MessageList newLogMsgList = parseMsgListFromJSON(newCMLogJSONObj);
 
         //Put the new Chat and Log MsgListObjs into a new MessageManager object:
-        MessageManager newMsgMgr = new MessageManager();
-        newMsgMgr.setChat(newChatMsgList);
-        newMsgMgr.setLog(newLogMsgList);
+        MessageManager newCMMsgMgr = new MessageManager();
+        newCMMsgMgr.setChat(newChatMsgList);
+        newCMMsgMgr.setLog(newLogMsgList);
 
         //MessageManager is complete! Ready to add to the new ClientModel obj.
 
 //GET TURNTRACKER
         JSONObject newTurnTrackerJSONObj = newModelJSON.getJSONObject("turnTracker");
         String newTTrackerJSONString = newTurnTrackerJSONObj.toString();
-        TurnTracker newTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
-            System.out.println(">newTTrackerObj= " + newTurnTracker);
+        TurnTracker newCMTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
+            System.out.println(">newTTrackerObj= " + newCMTurnTracker);
 
         //TurnTracker is complete! Ready to add to the new ClientModel obj.
 
 //GET TRADE OFFER
+        TradeOffer newCMTradeOffer = null;
         if (newModelJSON.has("tradeOffer")){
             JSONObject newTradeOfferJSONObj = newModelJSON.getJSONObject("tradeOffer");
             String newTradeOfferJSONString = newTradeOfferJSONObj.toString();
-                System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
-            TradeOffer newTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
-                System.out.println(">newTradeOfferObj= " + newTradeOffer);
+               // System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
+            newCMTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
+                System.out.println(">newTradeOfferObj= " + newCMTradeOffer);
             //TradeOffer is complete! Ready to add to the new ClientModel obj.
         }
         else{
             System.out.println(">No TradeOffer found in newClientModel JSON");
         }
 
+        //TradeOffer is complete! Ready to add to the new ClientModel obj.
+
+
 //GET ADDITIONAL INTS/OTHER CLIENTMODEL DATA
         int newCMVersion = newModelJSON.getInt("version");
         int newCMWinner = newModelJSON.getInt("winner");
         //get gameNumber? what is this for again?
+        //TODO: ask - where (in the future) will we get the old/existing ClientModel's gameNumber so we can
+        //apply it to the new one?
 
-        //Not in JSON: ClientUpdateManager **
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//BUILD NEW CLIENTMODEL OBJECT
+        //TODO: same as just above this - how can we access the previous ClientModel's gameNumber?
+        newClientModel = new ClientModel(0);
+        newClientModel.setVersion(newCMVersion);
+        newClientModel.setWinner(newCMWinner);
+        newClientModel.setResourceBank(newCMResourceBank);
+        newClientModel.setMessageManager(newCMMsgMgr);
+        newClientModel.setTurnTracker(newCMTurnTracker);
+        newClientModel.setChat(newChatMsgList);    //do we really need this if we're already giving it a MsgMgr?
+        newClientModel.setLog(newLogMsgList);     // same thing here?
+        newClientModel.setTradeOffer(newCMTradeOffer);
+        newClientModel.setPlayers(newPlayersArray);
+        newClientModel.setMap(newCMMap);
 
         return newClientModel;
     }

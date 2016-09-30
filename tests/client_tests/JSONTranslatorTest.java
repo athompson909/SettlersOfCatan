@@ -959,15 +959,10 @@ public class JSONTranslatorTest extends TestCase {
 
         ClientModel newCM = jsonTranslator.modelFromJSON(newClientModelJSON);
 
+        System.out.println("============================");
+        System.out.println(">MODEL TRANSLATION OK!");
 
-
-
-
-        //serialize it again and compare to the original JSON model string
-       // String newClientModelSerializedAgain = gsonTest.toJson(newClientModel);
-
-       // JSONAssert.assertEquals(testResponseModel, newClientModelSerializedAgain, false);
-
+        //asserts - check some things inside newCM
     }
 
 

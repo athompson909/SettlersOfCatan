@@ -76,7 +76,7 @@ public class ClientModel {
      */
     public ClientUpdateManager updateManager;
 
-
+    //Constructor
     public ClientModel (int gameNumber){
         this.gameNumber = gameNumber;
     }
@@ -357,6 +357,35 @@ public class ClientModel {
     public void setWinner(int newGameWinner) {
         winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
+
+    public void setMessageManager(MessageManager messageManager) {
+        this.messageManager = messageManager;
+    }
+
+    public int getGameNumber() {
+        return gameNumber;
+    }
+
+    public void setGameNumber(int gameNumber) {
+        this.gameNumber = gameNumber;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
+
+    public void setTradeOffer(TradeOffer tradeOffer) {
+        this.tradeOffer = tradeOffer;
+    }
+
     public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
     /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/
     public void setChat(MessageList newChat) {chat = newChat;}

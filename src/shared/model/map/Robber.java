@@ -51,4 +51,20 @@ public class Robber {
         return currentHexlocation;
     }
 
+
+    public HexLocation getCurrentHexlocation() {
+        return currentHexlocation;
+    }
+
+    public void setCurrentHexlocation(HexLocation currentHexlocation) {
+        this.currentHexlocation = currentHexlocation;
+    }
+
+    @Override
+    public String toString() {
+        return "Robber{" +
+                "currentHexloc=" + currentHexlocation +
+                ", map=" + map +
+                '}';
+    }
 }
