@@ -100,13 +100,11 @@ public class JSONTranslator {
         JSONArray newHexesJSONArr = newMapJSON.getJSONArray("hexes");
         HashMap<HexLocation, Hex> newHexesMap = parseHexesFromJSON(newHexesJSONArr);
         //HashMap<Hexes> complete! Ready to add to Map obj.
-            System.out.println("~~~~~~~~~~~~");
 
 //GET PORTS
         JSONArray newPortsJSONArr = newMapJSON.getJSONArray("ports");
         HashMap<HexLocation, Port> newPortsMap = parsePortsFromJSON(newPortsJSONArr);
         //HashMap<Ports> complete! Ready to add to Map obj.
-        System.out.println("~~~~~~~~~~~~");
 
 //GET ROADS
         JSONArray newRoadsJSONArr = newMapJSON.getJSONArray("roads");
@@ -121,7 +119,6 @@ public class JSONTranslator {
         HashMap<VertexLocation, VertexObject> newCitiesStlmtsMap = parseCitiesAndStlmtsFromJSON(newStlmtsJSONArr, newCitiesJSONArr);
 
         //Settlements/Cities Hashmap<> complete! Ready to add to new Map obj.
-        System.out.println("~~~~~~~~~~~~");
 
 //GET ROBBER
         //it's just a HexLocation, but the Robber obj type needs a reference to the Map...?
@@ -320,9 +317,7 @@ public class JSONTranslator {
             //I'm doing it manually because 1) it freaks out about Hex's toString() for some reason
             // and 2) because I have to convert the hex's TYPE string to a HexType enum value.
             JSONObject currHexStringJSON = hexesJSON.getJSONObject(h);
-            //System.out.println(">currHexStringJSON = " + currHexStringJSON);
             JSONObject currHexLocJSON = currHexStringJSON.getJSONObject("location");
-            //System.out.println(">currHexLocJSON = " + currHexLocJSON);
             int hlX = currHexLocJSON.getInt("x");
             int hlY = currHexLocJSON.getInt("y");
             HexLocation newHexLoc = new HexLocation(hlX, hlY);
@@ -349,7 +344,6 @@ public class JSONTranslator {
             }
             newHex = new Hex(newHexLoc, currHexType);
             newHex.setNumber(currHexNum);
-            //  System.out.println("\t newHex" + h + "= " + newHex.toString());
 
             newHexesMap.put(newHex.getLocation(), newHex);
         }
@@ -365,15 +359,11 @@ public class JSONTranslator {
      */
     public ResourceBank parseResourceBankFromJSON(JSONObject bankJSON, JSONObject deckJSON){
         String newResListString = bankJSON.toString();
-        // System.out.println(">newResListStr= " + newResListString);
         //the CMJSON has the ResourceList data under key "bank" and DevCardList data under key "deck"
         ResourceList newResourceList = gsonConverter.fromJson(newResListString, ResourceList.class);
-        //    System.out.println(">newResourceList (for ResBank obj)= " + newResourceList);
 
         String newDevCardListString = deckJSON.toString();
-        //    System.out.println(">newDevCardListStr= " + newDevCardListString);
         DevCardList newDevCardList = gsonConverter.fromJson(newDevCardListString, DevCardList.class);
-        //    System.out.println(">newDevCardList (for ResBank obj)= " + newDevCardList);
 
         //Build ResourceBank out of ResourceList and DevCardList
         ResourceBank newCMResourceBank = new ResourceBank();
@@ -393,7 +383,6 @@ public class JSONTranslator {
         for (int p = 0; p < portsJSON.length(); p++) {
 
             JSONObject currPortStringJSON = portsJSON.getJSONObject(p);
-            //  System.out.println(">currPortStringJSON = " + currPortStringJSON);
             //get the port's edgeDirection:
             String newPortEdgeDirString = currPortStringJSON.getString("direction");
             EdgeDirection newPortEdgeDir = exchangeStringForEdgeDirection(newPortEdgeDirString);
@@ -417,7 +406,6 @@ public class JSONTranslator {
             }
             //Build the new Port obj out of the three parts:
             Port newPort = new Port(newPortType, newPortHexLoc, newPortEdgeDir);
-            //    System.out.println("\t newPort" + p + "= " + newPort.toString());
 
             newPortsMap.put(newPort.getLocation(), newPort);
         }
@@ -436,7 +424,6 @@ public class JSONTranslator {
         for (int r = 0; r < roadsJSON.length(); r++) {
 
             JSONObject currRoadJSON = roadsJSON.getJSONObject(r);
-            //   System.out.println(">currRoadJSON = " + currRoadJSON);
             //get the HexLocation object out of the currRoadJSON:
             JSONObject currRoadLocJSON = currRoadJSON.getJSONObject("location");
             int rHLx = currRoadLocJSON.getInt("x");
@@ -451,7 +438,6 @@ public class JSONTranslator {
             //now build a complete EdgeValue obj to represent the new road:
             EdgeValue newRoad = new EdgeValue(newRoadEdgeLoc);
             newRoad.setOwner(newRoadOwnerIndex);
-            //    System.out.println("\t newRoad" + r + "= " + newRoad.toString());
 
             newRoadsMap.put(newRoad.getEdgeLocation(), newRoad);
         }
@@ -475,7 +461,6 @@ public class JSONTranslator {
             if (playersArrJSON.get(p) != null) {
                 JSONObject currPlayerJSON = playersArrJSON.getJSONObject(p);
                 String currPlayerJSONSTr = currPlayerJSON.toString();
-                //  System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
                 Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
 
                 newPlayersArray[p] = newPlayer;
@@ -500,7 +485,6 @@ public class JSONTranslator {
         for (int s = 0; s < stlmtsJSON.length(); s++){
 
             JSONObject currStlmtJSON = stlmtsJSON.getJSONObject(s);
-            //  System.out.println(">currStlmtJSON = " + currStlmtJSON);
             //get the HexLocation object out of the currStlmtJSON:
             JSONObject currStlmtLocJSON = currStlmtJSON.getJSONObject("location");
             int sHLx = currStlmtLocJSON.getInt("x");
@@ -516,7 +500,6 @@ public class JSONTranslator {
             VertexObject newSettlement = new VertexObject(newStlmtVtxLoc);
             newSettlement.setOwner(newStlmtOwnerIndex);
             newSettlement.setPieceType(PieceType.SETTLEMENT);  //these are all of Settlement pieceType!
-            //    System.out.println("\t newStlmt" + s + "= " + newSettlement.toString());
 
             newCitiesStlmtsMap.put(newSettlement.getVertexLocation(), newSettlement);
         }
@@ -525,7 +508,6 @@ public class JSONTranslator {
         for (int c = 0; c < citiesJSON.length(); c++){
 
             JSONObject currCityJSON = citiesJSON.getJSONObject(c);
-            //  System.out.println(">currCityJSON = " + currCityJSON);
             //get the HexLocation object out of the currCityJSON:
             JSONObject currCityLocJSON = currCityJSON.getJSONObject("location");
             int cHLx = currCityLocJSON.getInt("x");
@@ -541,7 +523,6 @@ public class JSONTranslator {
             VertexObject newCity = new VertexObject(newCityVtxLoc);
             newCity.setOwner(newCityOwnerIndex);
             newCity.setPieceType(PieceType.CITY);  //these are all of City pieceType!
-            //    System.out.println("\t newCity" + c + "= " + newCity.toString());
 
             newCitiesStlmtsMap.put(newCity.getVertexLocation(), newCity);
         }
@@ -564,11 +545,9 @@ public class JSONTranslator {
             JSONObject currMsgLine = newCMMsgListArr.getJSONObject(c);
             String currMsgLineStr = currMsgLine.toString();
             MessageLine newMsgLine = gsonConverter.fromJson(currMsgLineStr, MessageLine.class);
-            System.out.println("\t>newMsgLineObj= " + newMsgLine);
             newMsgLines.add(newMsgLine);
         }
 
-        System.out.println("newMsgLines size= " + newMsgLines.size());
         //Now we have a complete ArrayList of MessageLines, so create a new MsgList obj for the MsgMgr:
         MessageList newMsgList = new MessageList();
         newMsgList.setLines(newMsgLines);
@@ -649,7 +628,6 @@ public class JSONTranslator {
             String currCommandObjString = currCommandObj.toString();
             //extract its command TYPE field:
             String currCommandObjType = currCommandObj.getString("type");
-           // System.out.println(">FORLOOP: currCOType= " + currCommandObjType);
 
             //run that through a switch statement to determine which Command Obj to build for it:
 
@@ -724,7 +702,6 @@ public class JSONTranslator {
                     allExecutedCommands.add(discardCommand);
                     break;
             }
-            //System.out.println("\n allExecutedCommands new size= " + allExecutedCommands.size());
         }
 
         return allExecutedCommands;
@@ -758,8 +735,6 @@ public class JSONTranslator {
 
         GameListItem newGameInfo = gsonConverter.fromJson(gameCreateResponseStr, GameListItem.class);
 
-       // System.out.println("newGameListItem= " + newGameInfo.getTitle() + ", " + newGameInfo.getGameID());
-
         return newGameInfo;
     }
 
@@ -780,7 +755,6 @@ public class JSONTranslator {
         {
             JSONObject currGameListItem = gameCreateResponseJSON.getJSONObject(g);
             String currGameListItemString = currGameListItem.toString();
-          //  System.out.println(">currGLItemString = " + currGameListItemString);
 
             GameListItem newGLItem = gsonConverter.fromJson(currGameListItemString, GameListItem.class);
 
@@ -844,8 +818,6 @@ public class JSONTranslator {
 
         //just going to do this manually since I don't know how Gson does arrays of only strings
 
-        //System.out.println(">ListAIResponseArr size= " + listAIResponseArr.length());
-
         //this is the only function I could find that changes an unkeyed JSONArray into usable objects:
         List<Object> allAITypesObjList = listAIResponseArr.toList();
         //I don't want to deal with something as vague as a list<object>, so change it into an arrayList<String>:
@@ -858,8 +830,6 @@ public class JSONTranslator {
             String currAITypeString = allAITypesObjList.get(a).toString();
             allAITypes.add(currAITypeString);
         }
-
-        System.out.println(">allAITypes size= " + allAITypes.size());
 
         return allAITypes;
     }
