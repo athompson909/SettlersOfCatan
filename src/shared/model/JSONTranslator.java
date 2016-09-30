@@ -6,10 +6,9 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.HexType;
+import shared.definitions.PieceType;
 import shared.definitions.PortType;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
+import shared.locations.*;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
@@ -183,6 +182,7 @@ public class JSONTranslator {
         }
 
         //HashMap<Ports> complete! Ready to add to ClientModel Map obj.
+        System.out.println("~~~~~~~~~~~~");
 
 
 //GET ROADS
@@ -215,8 +215,68 @@ public class JSONTranslator {
         //HashMap<Roads> complete! Ready to add to ClientModel Map obj.
 
 
-//GET CITIES
 //GET SETTLEMENTS
+        JSONArray newStlmtsJSONArr = newCMMap.getJSONArray("settlements");
+        //THIS MAP HOLDS BOTH CITIES *AND* SETTLEMENTS!! **********
+        HashMap<VertexLocation, VertexObject> newCitiesStlmtsMap = new HashMap<>();
+        //go parse all the data in the newStlmts array:
+        for (int s = 0; s < newStlmtsJSONArr.length(); s++){
+
+            JSONObject currStlmtJSON = newStlmtsJSONArr.getJSONObject(s);
+             //  System.out.println(">currStlmtJSON = " + currStlmtJSON);
+            //get the HexLocation object out of the currStlmtJSON:
+            JSONObject currStlmtLocJSON = currStlmtJSON.getJSONObject("location");
+            int sHLx = currStlmtLocJSON.getInt("x");
+            int sHLy = currStlmtLocJSON.getInt("y");
+            HexLocation newStlmtHexLoc = new HexLocation(sHLx, sHLy);
+            //get the VertexDirection out of the currStlmtLocJSON:
+            VertexDirection newStlmtVtxDir = exchangeStringForVertexDirection(currStlmtLocJSON.getString("direction"));
+            //build a VertexLocation obj out of HexLoc and VertexDir:
+            VertexLocation newStlmtVtxLoc = new VertexLocation(newStlmtHexLoc, newStlmtVtxDir);
+            //get the stlmt owner:
+            int newStlmtOwnerIndex = currStlmtJSON.getInt("owner");
+            //now build a complete VertexObject to represent the new settlement:
+            VertexObject newSettlement = new VertexObject(newStlmtVtxLoc);
+            newSettlement.setOwner(newStlmtOwnerIndex);
+            newSettlement.setPieceType(PieceType.SETTLEMENT);  //these are all of Settlement pieceType!
+                System.out.println("\t newStlmt" + s + "= " + newSettlement.toString());
+
+            newCitiesStlmtsMap.put(newSettlement.getVertexLocation(), newSettlement);
+        }
+
+        //Settlements part of HashMap complete! Ready to add cities to it.
+        System.out.println("~~~~~~~~~~~~");
+
+//GET CITIES
+        JSONArray newCitiesJSONArr = newCMMap.getJSONArray("cities");
+        //USE THE SAME MAP FROM THE SETTLEMENTS PARSING PART****
+        //go parse all the data in the newCities array:
+        for (int c = 0; c < newCitiesJSONArr.length(); c++){
+
+            JSONObject currCityJSON = newCitiesJSONArr.getJSONObject(c);
+              System.out.println(">currCityJSON = " + currCityJSON);
+            //get the HexLocation object out of the currCityJSON:
+            JSONObject currCityLocJSON = currCityJSON.getJSONObject("location");
+            int cHLx = currCityLocJSON.getInt("x");
+            int cHLy = currCityLocJSON.getInt("y");
+            HexLocation newCityHexLoc = new HexLocation(cHLx, cHLy);
+            //get the VertexDirection out of the currCityLocJSON:
+            VertexDirection newCityVtxDir = exchangeStringForVertexDirection(currCityLocJSON.getString("direction"));
+            //build a VertexLocation obj out of HexLoc and VertexDir:
+            VertexLocation newCityVtxLoc = new VertexLocation(newCityHexLoc, newCityVtxDir);
+            //get the city owner:
+            int newCityOwnerIndex = currCityJSON.getInt("owner");
+            //now build a complete VertexObject to represent the new city:
+            VertexObject newCity = new VertexObject(newCityVtxLoc);
+            newCity.setOwner(newCityOwnerIndex);
+            newCity.setPieceType(PieceType.CITY);  //these are all of City pieceType!
+            System.out.println("\t newCity" + c + "= " + newCity.toString());
+
+            newCitiesStlmtsMap.put(newCity.getVertexLocation(), newCity);
+        }
+
+        //Settlements/Cities Hashmap<> complete! Ready to add to new ClientModel obj.
+        System.out.println("~~~~~~~~~~~~");
 
 
 
@@ -227,7 +287,7 @@ public class JSONTranslator {
         //GET RESOURCELIST
         JSONObject newResourceListJSON = newModelJSON.getJSONObject("bank");
         String newResListString = newResourceListJSON.toString();
-            System.out.println(">newResListStr= " + newResListString);
+           // System.out.println(">newResListStr= " + newResListString);
         //the CMJSON has the ResourceList data under key "bank" and DevCardList data under key "deck"
         ResourceList newResourceList = gsonConverter.fromJson(newResListString, ResourceList.class);
             System.out.println(">newResourceList (for ResBank obj)= " + newResourceList);
@@ -373,6 +433,26 @@ public class JSONTranslator {
                 return EdgeDirection.South;
             case "SW":
                 return EdgeDirection.SouthWest;
+            default:
+                return null;
+        }
+    }
+
+    //helper function for the translateModel process - just a big switch stmt basically
+    public VertexDirection exchangeStringForVertexDirection(String vertexDirString){
+        switch (vertexDirString){
+            case "W":
+                return VertexDirection.West;
+            case "NW":
+                return VertexDirection.NorthWest;
+            case "NE":
+                return VertexDirection.NorthEast;
+            case "E":
+                return VertexDirection.East;
+            case "SE":
+                return VertexDirection.SouthEast;
+            case "SW":
+                return VertexDirection.SouthWest;
             default:
                 return null;
         }

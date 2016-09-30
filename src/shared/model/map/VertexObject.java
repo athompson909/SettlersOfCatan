@@ -27,6 +27,7 @@ public class VertexObject {
      */
     private PieceType pieceType = null;
 
+    //constructor
     public VertexObject(VertexLocation location){
         vertexLocation = location;
 
@@ -57,5 +58,15 @@ public class VertexObject {
 
     public void setPieceType(PieceType pieceType) {
         this.pieceType = pieceType;
+    }
+
+
+    @Override
+    public String toString() {
+        return "VertexObject{" +
+                "owner=" + owner +
+                ", vertexLoc=" + vertexLocation +
+                ", pieceType=" + pieceType +
+                '}';
     }
 }

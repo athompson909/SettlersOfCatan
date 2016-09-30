@@ -609,12 +609,12 @@ public class JSONTranslatorTest extends TestCase {
                 "          \"y\": -1\n" +
                 "        }\n" +
                 "      }\n" +
-                "    ],\n" +
+                "    ],\n" +      /// ==================================END PORTS
                 "    \"robber\": {\n" +
                 "      \"x\": 1,\n" +
                 "      \"y\": -2\n" +
                 "    }\n" +
-                "  },\n" +           /// ==================================END PORTS
+                "  },\n" +
                 "  \"players\": [\n" +
                 "    {\n" +
                 "      \"resources\": {\n" +
