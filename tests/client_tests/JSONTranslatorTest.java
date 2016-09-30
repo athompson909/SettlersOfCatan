@@ -475,10 +475,61 @@ public class JSONTranslatorTest extends TestCase {
                 "        },\n" +
                 "        \"number\": 6\n" +
                 "      }\n" +
-                "    ],\n" +
-                "    \"roads\": [],\n" +
-                "    \"cities\": [],\n" +
-                "    \"settlements\": [],\n" +
+                "    ],\n" +                    /// ==================================END HEXES
+                "    \"roads\": [\n" +
+                "       {\n" +
+                "           \"owner\": 1,\n" +
+                "           \"location\": {\n" +
+                "                   \"direction\": \"SE\",\n" +
+                "                   \"x\": 0,\n" +
+                "                   \"y\": -1\n" +
+                "               }\n" +
+                "       },\n" +
+                "       {\n" +
+                "           \"owner\": 4,\n" +
+                "           \"location\": {\n" +
+                "                   \"direction\": \"NW\",\n" +
+                "                   \"x\": 2,\n" +
+                "                   \"y\": -2\n" +
+                "               }\n" +
+                "       }\n" +
+                "    ],\n" +             /// ==================================END ROADS
+                "    \"cities\": [\n" +
+                "       {\n" +
+                "        \"owner\": 4,\n" +
+                "        \"location\": {\n" +
+                "                \"direction\": \"NW\",\n" +
+                "                \"x\": 2,\n" +
+                "                \"y\": -2\n" +
+                "                }\n" +
+                "        },\n" +
+                "       {\n" +
+                "        \"owner\": 1,\n" +
+                "        \"location\": {\n" +
+                "                \"direction\": \"NE\",\n" +
+                "                \"x\": -1,\n" +
+                "                \"y\": -1\n" +
+                "                }\n" +
+                "        }\n" +
+                "    ],\n" +              /// ==================================END CITIES
+                "    \"settlements\": [\n" +
+                "       {\n" +
+                "        \"owner\": 1,\n" +
+                "        \"location\": {\n" +
+                "                \"direction\": \"SW\",\n" +
+                "                \"x\": 1,\n" +
+                "                \"y\": -2\n" +
+                "                }\n" +
+                "        },\n" +
+                "       {\n" +
+                "        \"owner\": 3,\n" +
+                "        \"location\": {\n" +
+                "                \"direction\": \"SE\",\n" +
+                "                \"x\": -1,\n" +
+                "                \"y\": 0\n" +
+                "                }\n" +
+                "        }\n" +
+                "    ],\n" +              /// ==================================END SETTLEMENTS
                 "    \"radius\": 3,\n" +
                 "    \"ports\": [\n" +
                 "      {\n" +
@@ -563,7 +614,7 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"x\": 1,\n" +
                 "      \"y\": -2\n" +
                 "    }\n" +
-                "  },\n" +
+                "  },\n" +           /// ==================================END PORTS
                 "  \"players\": [\n" +
                 "    {\n" +
                 "      \"resources\": {\n" +

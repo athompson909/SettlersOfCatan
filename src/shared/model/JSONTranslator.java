@@ -6,6 +6,8 @@ import com.google.gson.JsonSyntaxException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.HexType;
+import shared.definitions.PortType;
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
@@ -13,6 +15,7 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.BuildCityManager;
 import shared.model.map.BuildSettlementManager;
 import shared.model.map.Hex;
+import shared.model.map.Port;
 import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -108,9 +111,9 @@ public class JSONTranslator {
             //I'm doing it manually because 1) it freaks out about Hex's toString() for some reason
                 // and 2) because I have to convert the hex's TYPE string to a HexType enum value.
             JSONObject currHexStringJSON = newHexesJSONArr.getJSONObject(h);
-                System.out.println(">currHexStringJSON = " + currHexStringJSON);
+                //System.out.println(">currHexStringJSON = " + currHexStringJSON);
             JSONObject currHexLocJSON = currHexStringJSON.getJSONObject("location");
-                System.out.println(">currHexLocJSON = " + currHexLocJSON);
+                //System.out.println(">currHexLocJSON = " + currHexLocJSON);
             int hlX = currHexLocJSON.getInt("x");
             int hlY = currHexLocJSON.getInt("y");
             HexLocation newHexLoc = new HexLocation(hlX, hlY);
@@ -120,7 +123,7 @@ public class JSONTranslator {
             int currHexNum = 0;
             //it could be a desert/ocean hex - check if it contains a resource/number:
             if (currHexStringJSON.has("resource")) {
-                //if it DOES have a resource, it's a regular hex:
+                //if it DOES have a resource, it also has a number, so it's a regular hex:
                 String currHexTypeStr = currHexStringJSON.getString("resource");
                 currHexType = exchangeStringForHexType(currHexTypeStr.toString());
                 currHexNum = currHexStringJSON.getInt("number");
@@ -142,12 +145,51 @@ public class JSONTranslator {
             newHexesMap.put(newHex.getLocation(), newHex);
         }
 
-        System.out.println(">newHexesMap size= " + newHexesMap.size());
+        //HashMap<Hexes> complete! Ready to add to ClientModel Map obj.
+            System.out.println("~~~~~~~~~~~~");
 
-            //GET ROADS
+//GET PORTS
+        JSONArray newPortsJSONArr = newCMMap.getJSONArray("ports");
+        HashMap<HexLocation, Port> newPortsMap = new HashMap<>();
+        //go parse all the ports data in the Ports JSON array:
+        for (int p = 0; p < newPortsJSONArr.length(); p++) {
+
+            JSONObject currPortStringJSON = newPortsJSONArr.getJSONObject(p);
+              //  System.out.println(">currPortStringJSON = " + currPortStringJSON);
+            //get the port's edgeDirection:
+            String newPortEdgeDirString = currPortStringJSON.getString("direction");
+            EdgeDirection newPortEdgeDir = exchangeStringForEdgeDirection(newPortEdgeDirString);
+            //get the port's location (as a HexLocation)
+            JSONObject newPortHexLocJSON = currPortStringJSON.getJSONObject("location");
+            int nPHLx = newPortHexLocJSON.getInt("x");
+            int nPHLy = newPortHexLocJSON.getInt("y");
+            HexLocation newPortHexLoc = new HexLocation(nPHLx, nPHLy);
+
+            //determine the port's type:
+            //if its ratio is 2, get the resource. if its ratio is 3, set resourcetype to THREE.
+            PortType newPortType;
+            int newPortRatio = currPortStringJSON.getInt("ratio");
+            if (newPortRatio == 2) {
+                String newPortTypeString = currPortStringJSON.getString("resource");
+                newPortType = exchangeStringForPortType(newPortTypeString);
+            }
+            else {
+                //newPortRatio must be 3, so it's a generic port.
+                newPortType = PortType.THREE;
+            }
+            //Build the new Port obj out of the three parts:
+            Port newPort = new Port(newPortType, newPortHexLoc, newPortEdgeDir);
+                System.out.println("\t newPort" + p + "= " + newPort.toString());
+
+            newPortsMap.put(newPort.getLocation(), newPort);
+        }
+
+        //HashMap<Ports> complete! Ready to add to ClientModel Map obj.
+
+
+//GET ROADS
             //GET CITIES
             //GET SETTLEMENTS
-            //GET PORTS
             //GET ROBBER
 
 
@@ -286,6 +328,46 @@ public class JSONTranslator {
         }
     }
 
+    //helper function for the translateModel process - just a big switch stmt basically
+    public EdgeDirection exchangeStringForEdgeDirection(String edgeDirString){
+        switch (edgeDirString){
+            case "NW":
+                return EdgeDirection.NorthWest;
+            case "N":
+                return EdgeDirection.North;
+            case "NE":
+                return EdgeDirection.NorthEast;
+            case "SE":
+                return EdgeDirection.SouthEast;
+            case "S":
+                return EdgeDirection.South;
+            case "SW":
+                return EdgeDirection.SouthWest;
+            default:
+                return null;
+        }
+    }
+
+
+    //helper function for the translateModel process - just a big switch stmt basically
+    public PortType exchangeStringForPortType(String portTypeString){
+        switch (portTypeString){
+            case "wood":
+                return PortType.WOOD;
+            case "brick":
+                return PortType.BRICK;
+            case "sheep":
+                return PortType.SHEEP;
+            case "wheat":
+                return PortType.WHEAT;
+            case "ore":
+                return PortType.ORE;
+            case "three":
+                return PortType.THREE;
+            default:
+                return null;
+        }
+    }
     /**
      * I don't think this is necessary
      * @param num
