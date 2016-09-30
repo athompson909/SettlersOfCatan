@@ -1,4 +1,6 @@
 package client;
+import exceptions.ClientException;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,6 +46,12 @@ public class ServerPoller {
     }
 
     /**
+     * for testing
+     */
+    private IServerProxy proxy;
+    public void setProxy(IServerProxy proxy) {this.proxy = proxy;};
+
+    /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
      *
@@ -60,7 +68,13 @@ public class ServerPoller {
         public void run() {
             //System.out.println("fetching new model");
             fetchCount++;
-            //fetchNewModel();
+            // todo: uncomment below:
+//            try {
+//                fetchNewModel();
+//            }
+//            catch (ClientException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
@@ -69,7 +83,11 @@ public class ServerPoller {
      * FetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
      * This function is called every 2-3 seconds when pollTimer tells it to.
      */
-    private void fetchNewModel() {
-        clientFacade.gameModelVersion();
+    public String fetchNewModel() throws ClientException {
+        return proxy.gameModelVersion(0);//clientFacade.gameModelVersion();
+    }
+
+    public ClientFacade getClientFacade() {
+        return clientFacade;
     }
 }

@@ -10,6 +10,7 @@ public class DevCardListTest extends TestCase {
     private DevCardList devCardList = new DevCardList();
 
     public void testDevCardList() {
+        System.out.println("testDevCardList");
         assert (devCardList.getTotalCardCount() == 0);
         devCardList.addDevCard(DevCardType.SOLDIER);
         assert (devCardList.getTotalCardCount() == 1);
