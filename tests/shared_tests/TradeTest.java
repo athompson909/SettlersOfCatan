@@ -26,6 +26,7 @@ public class TradeTest extends TestCase {
 
     @Test
     public void testMaritime() {
+        System.out.println("Testing Maritime Trade");
         map.getVertexObjects().get(vertLoc).setOwner(player.getPlayerIndex());
         Set<PortType> ports = new HashSet<>();
         ports.add(map.getPortVertexLocations().get(vertLoc).getResource());
@@ -40,6 +41,7 @@ public class TradeTest extends TestCase {
 
     @Test
     public void testDomestic() {
+        System.out.println("Testing Domestic Trade");
         player.getPlayerResourceList().incWheatCardCount(2);
         player.getPlayerResourceList().incBrickCardCount(3);
         assert (player.canDomesticTrade());

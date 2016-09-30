@@ -10,6 +10,7 @@ public class DiceManagerTest extends TestCase {
     private DiceManager manager = new DiceManager();
 
     public void testRollDice() {
+        System.out.println("testRollDice");
         int number = manager.rollDice();
         assert(number >= 1);
         assert(number <= 12);
