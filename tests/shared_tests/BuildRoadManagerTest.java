@@ -16,6 +16,7 @@ public class BuildRoadManagerTest extends TestCase {
     private final int PLAYER1 = 1;
 
     public void testBuildingOnNorthEdgeValue(){
+        System.out.println("testBuildingOnNorthEdgeValue");
         //Test building road at north of (-1,0)
         EdgeLocation desiredLocation1 = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.North);
         EdgeLocation desiredLocation1neighbor = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.NorthWest);
@@ -72,6 +73,7 @@ public class BuildRoadManagerTest extends TestCase {
     }
 
     public void testBuildingOnNorthEastEdgeValue(){
+        System.out.println("testBuildingOnNorthEastEdgeValue");
         //Test building road at northeast of (-2,0)
         EdgeLocation desiredLocation1 = new EdgeLocation(new HexLocation(-2,0), EdgeDirection.NorthEast);
         EdgeLocation desiredLocation1neighbor = new EdgeLocation(new HexLocation(-2,0), EdgeDirection.North);

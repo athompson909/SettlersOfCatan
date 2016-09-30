@@ -16,7 +16,8 @@ public class MapTest extends TestCase {
     private final int PLAYER1 = 1;
 
     public void testMapHexes() {
-        System.out.println(map.getHexes().size());
+        System.out.println("testMapHexes");
+        //System.out.println(map.getHexes().size());
         assert (map.getHexes().size() == 37); //There should be 37 hexes.
 
         //I have personally verified this test case is accurate.
@@ -59,12 +60,13 @@ public class MapTest extends TestCase {
                 "Hex{location=HexLocation [x=0, y=-2], number=0, resource=DESERT}";
 
         for (HexLocation key : map.getHexes().keySet()) {
-            System.out.println(map.getHexes().get(key).toString());
+            //System.out.println(map.getHexes().get(key).toString());
             assert (defaultHexesString.contains(map.getHexes().get(key).toString()));
         }
     }
 
     public void testMapPorts() {
+        System.out.println("testMapPorts");
         //I have personally verified this test case is accurate.
         String defaultPortString = "Port: WHEAT at HexLocation [x=2, y=1] facing NorthWest\n" +
                 "Port: THREE at HexLocation [x=-1, y=-2] facing South\n" +
@@ -77,16 +79,18 @@ public class MapTest extends TestCase {
                 "Port: THREE at HexLocation [x=1, y=-3] facing South";
 
         for (HexLocation key : map.getPorts().keySet()) {
-            System.out.println(map.getPorts().get(key).toString());
+            //System.out.println(map.getPorts().get(key).toString());
             assert (defaultPortString.contains(map.getPorts().get(key).toString()));
         }
     }
 
     public void testMapVertices(){
+        System.out.println("testMapVertices");
         assert (map.getVertexObjects().size() == 54);
     }
 
     public void testMapEdges(){
+        System.out.println("testMapEdges");
         assert (map.getEdgeObjects().size() == 72);
     }
 
