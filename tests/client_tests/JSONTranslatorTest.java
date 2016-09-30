@@ -948,6 +948,7 @@ public class JSONTranslatorTest extends TestCase {
 
     }
 
+    //GOOD
     /**
      * @throws Exception
      */

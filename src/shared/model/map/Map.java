@@ -525,10 +525,6 @@ public class Map {
         return edgeValues;
     }
 
-    public HashMap<VertexLocation, Port> getPortVertexLocations() {
-        return portVertexLocations;
-    }
-
     public int getRadius() {
         return radius;
     }
