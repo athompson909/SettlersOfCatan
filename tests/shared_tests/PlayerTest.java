@@ -19,29 +19,9 @@ public class PlayerTest extends TestCase {
 
     @Before
     public void init(){
-        System.out.println("Before function");
         player =  new Player(CatanColor.BLUE, "Bob", "bob37", 1);
     }
 
-    /*
-    @Test
-    public void testPlayer() {
-        initializationTest();
-
-        //Resources and Purchasing
-        purchaseRoadTest();
-        purchaseSettlementTest();
-        purchaseCityTest();
-        purchaseDevelopmentCardTest();
-
-        //Play Development Cards
-        playSoldierTest();
-        playMonumentTest();
-        playRoadBuildingTest();
-        playMonopolyTest();
-        playYearOfPlentyTest();
-    }
-*/
     //Initialization Asserts
     @Test
     public void testInitialization() {

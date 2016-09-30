@@ -97,9 +97,7 @@ public class DevCardList {
      */
     public DevCardType removeRandomCard(){
         Random rand = new Random();
-        int randomIndex = rand.nextInt(getTotalCardCount()) + 1; //Get a random number between 1 and the total
-
-        //ArrayList<DevCardType> devCards = new ArrayList<DevCardType>();
+        int randomIndex = rand.nextInt(getTotalCardCount()); //Get a random number between 1 and the total
 
         if (soldierCardCount - randomIndex > 0){
             soldierCardCount--;
@@ -108,8 +106,8 @@ public class DevCardList {
             monumentCardCount--;
             return DevCardType.MONUMENT;
         } else if (soldierCardCount + monumentCardCount + yearOfPlentyCardCount - randomIndex > 0){
-            monumentCardCount--;
-            return DevCardType.MONUMENT;
+            yearOfPlentyCardCount--;
+            return DevCardType.YEAR_OF_PLENTY;
         } else if (soldierCardCount + monumentCardCount + yearOfPlentyCardCount + roadBuildingCardCount - randomIndex > 0){
             roadBuildingCardCount--;
             return DevCardType.ROAD_BUILD;
