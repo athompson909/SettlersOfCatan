@@ -32,7 +32,7 @@ public class Map {
 
     /**
      * Hashmap of all possible edgeValues
-     * including unoccupied vertex objects (null), and roads.
+     * including unoccupied edges (null), and roads.
      */
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
 

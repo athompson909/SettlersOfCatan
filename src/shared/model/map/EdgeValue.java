@@ -20,9 +20,14 @@ public class EdgeValue {
      */
     private EdgeLocation edgelocation;
 
+    //constructor
     public EdgeValue(EdgeLocation edgeLocation){
         this.edgelocation = edgeLocation;
     }
+
+
+
+
 
     /**
      * @return PlayerID of owner of this edge
@@ -52,5 +57,13 @@ public class EdgeValue {
      */
     public void setLocation(EdgeLocation location) {
         this.edgelocation = location;
+    }
+
+    @Override
+    public String toString() {
+        return "EdgeValue{" +
+                "owner=" + owner +
+                ", edgelocation=" + edgelocation +
+                '}';
     }
 }

@@ -61,7 +61,7 @@ public class EdgeLocation
 	@Override
 	public String toString()
 	{
-		return "EdgeLocation [hexLoc=" + hexLoc + ", direction=" + direction + "]";
+		return "EdgeLocation [hexLoc=" + hexLoc + ", dir=" + direction + "]";
 	}
 	
 	@Override

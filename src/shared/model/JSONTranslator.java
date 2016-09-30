@@ -8,14 +8,12 @@ import org.json.JSONObject;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildCityManager;
-import shared.model.map.BuildSettlementManager;
-import shared.model.map.Hex;
-import shared.model.map.Port;
+import shared.model.map.*;
 import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -188,9 +186,41 @@ public class JSONTranslator {
 
 
 //GET ROADS
-            //GET CITIES
-            //GET SETTLEMENTS
-            //GET ROBBER
+        JSONArray newRoadsJSONArr = newCMMap.getJSONArray("roads");
+        HashMap<EdgeLocation, EdgeValue> newRoadsMap = new HashMap<>();
+        //go parse all the data in the newRoads array:
+        for (int r = 0; r < newRoadsJSONArr.length(); r++) {
+
+            JSONObject currRoadJSON = newRoadsJSONArr.getJSONObject(r);
+             //   System.out.println(">currRoadJSON = " + currRoadJSON);
+            //get the HexLocation object out of the currRoadJSON:
+            JSONObject currRoadLocJSON = currRoadJSON.getJSONObject("location");
+            int rHLx = currRoadLocJSON.getInt("x");
+            int rHLy = currRoadLocJSON.getInt("y");
+            HexLocation newRoadHexLoc = new HexLocation(rHLx, rHLy);
+            //get the EdgeDirection object out of the currRoadJSON:
+            EdgeDirection newRoadEdgeDir = exchangeStringForEdgeDirection(currRoadLocJSON.getString("direction"));
+            //build the newRoad's EdgeLocation obj out of HexLoc and EdgeDir:
+            EdgeLocation newRoadEdgeLoc = new EdgeLocation(newRoadHexLoc, newRoadEdgeDir);
+            //get the road's owner:
+            int newRoadOwnerIndex = currRoadJSON.getInt("owner");
+            //now build a complete EdgeValue obj to represent the new road:
+            EdgeValue newRoad = new EdgeValue(newRoadEdgeLoc);
+            newRoad.setOwner(newRoadOwnerIndex);
+                System.out.println("\t newRoad" + r + "= " + newRoad.toString());
+
+            newRoadsMap.put(newRoad.getEdgeLocation(), newRoad);
+        }
+
+        //HashMap<Roads> complete! Ready to add to ClientModel Map obj.
+
+
+//GET CITIES
+//GET SETTLEMENTS
+
+
+
+//GET ROBBER
 
 
 //GET RESOURCE BANK
