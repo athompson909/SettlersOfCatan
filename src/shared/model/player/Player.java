@@ -397,14 +397,16 @@ public class Player { //
         else {return false;}
     }
 
-    public int[] canDomesticTrade() {
-        int[] cardsToTrade = new int[6];
+    public boolean canDomesticTrade() {
+        int[] cardsToTrade = new int[5];
         cardsToTrade[0] = canTradeWood();
         cardsToTrade[1] = canTradeWheat();
         cardsToTrade[2] = canTradeBrick();
         cardsToTrade[3] = canTradeOre();
         cardsToTrade[4] = canTradeSheep();
-        return cardsToTrade;
+       // return cardsToTrade;
+        if(cardsToTrade.length != 0) {return true;}
+        else {return false;}
     }
 
     private int canTradeWood() {

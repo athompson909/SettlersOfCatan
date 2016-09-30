@@ -171,7 +171,7 @@ public class ClientModel {
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
 
-    public int[] canDomesticTrade(int playerIndex) {
+    public boolean canDomesticTrade(int playerIndex) {
         // 0:WOOD, 1:WHEAT, 2:BRICK, 3:ORE, 4:SHEEP
         return players[playerIndex].canDomesticTrade();
     }
