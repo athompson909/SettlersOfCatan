@@ -1,22 +1,28 @@
 package shared.model.messagemanager;
 
 /**
- * Individual data for GameLog and Chat
+ * Individual list item for GameLog and Chat
  */
 public class MessageLine {
 
     /**
      * The message to be passed to the MessageList
      */
-    String message;
+    private String message;
+
+    /**
+     * The player who sent this MessageLine
+     */
+    private String source;
 
     /**
      * Sets message to the correct verbage
      *
-     * @param m the input to be added to a MessageList
+     * @param msg the input to be added to a MessageList
      */
-    MessageLine (String m){
-        message = m;
+    public MessageLine (String msg, String src){
+        message = msg;
+        source = src;
     }
 
 
@@ -34,5 +40,21 @@ public class MessageLine {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageLine{" +
+                "message='" + message + '\'' +
+                ", source='" + source + '\'' +
+                '}';
     }
 }

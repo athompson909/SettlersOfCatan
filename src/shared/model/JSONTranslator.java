@@ -2,17 +2,28 @@ package shared.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+//import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.definitions.HexType;
+import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildCity;
-import shared.model.map.BuildSettlement;
+import shared.model.map.BuildCityManager;
+import shared.model.map.BuildSettlementManager;
 import shared.model.map.Hex;
+import shared.model.messagemanager.MessageLine;
+import shared.model.messagemanager.MessageList;
+import shared.model.messagemanager.MessageManager;
+import shared.model.player.Player;
+import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -73,33 +84,65 @@ public class JSONTranslator {
      */
     public ClientModel modelFromJSON(JSONObject newModelJSON) throws JsonSyntaxException {
 
-        String modelJSONString = newModelJSON.toString();
-
-        //TODO: these are all not done
         //Break up ClientModel pieces and build a new ClientModel object manually:
 
-        //GET DECK (which object does this parse to?
+        String modelJSONString = newModelJSON.toString();
 
-        //GET MAP
+        //TODO: the map is the last part to do!
+
+//GET MAP
         JSONObject newCMMap = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
         int newCMRadius = newCMMap.getInt("radius");
-            //GET HEXES
 
-        JSONArray newCMHexes = newCMMap.getJSONArray("hexes");
-        // System.out.println("\t HEXES TEST= " + newCMTestHexes.length() + "  " + newCMTestHexes);
-        ArrayList<Hex> parsedHexes = new ArrayList<Hex>();
-
-        for (int h = 0; h < newCMHexes.length(); h++)
+//GET HEXES
+        //The Hexes data in a map never change during the game.
+        //Only the roads/cities/settlements/robber do.
+        //So this may not need to be used during the model update in UpdateManager...
+        //But just in case: the Map wants a HashMap of HexLocation->Hex objs.
+        JSONArray newHexesJSONArr = newCMMap.getJSONArray("hexes");
+        HashMap<HexLocation, Hex> newHexesMap = new HashMap<>();
+        for (int h = 0; h < newHexesJSONArr.length(); h++)
         {
-            String tempHexString = newCMHexes.get(h).toString();
-            System.out.println(">tempHexString = " + tempHexString);
-            Hex testHex = gsonConverter.fromJson(tempHexString, Hex.class);
-            System.out.println("\t testHex" + h + "= " + testHex.toString());
+            //I'm doing it manually because 1) it freaks out about Hex's toString() for some reason
+                // and 2) because I have to convert the hex's TYPE string to a HexType enum value.
+            JSONObject currHexStringJSON = newHexesJSONArr.getJSONObject(h);
+                System.out.println(">currHexStringJSON = " + currHexStringJSON);
+            JSONObject currHexLocJSON = currHexStringJSON.getJSONObject("location");
+                System.out.println(">currHexLocJSON = " + currHexLocJSON);
+            int hlX = currHexLocJSON.getInt("x");
+            int hlY = currHexLocJSON.getInt("y");
+            HexLocation newHexLoc = new HexLocation(hlX, hlY);
 
-            parsedHexes.add(testHex);
+            Hex newHex;
+            HexType currHexType;
+            int currHexNum = 0;
+            //it could be a desert/ocean hex - check if it contains a resource/number:
+            if (currHexStringJSON.has("resource")) {
+                //if it DOES have a resource, it's a regular hex:
+                String currHexTypeStr = currHexStringJSON.getString("resource");
+                currHexType = exchangeStringForHexType(currHexTypeStr.toString());
+                currHexNum = currHexStringJSON.getInt("number");
+            }
+            else if (currHexStringJSON.has("number")){
+                //if it doesn't have a resource, but DOES have a number, it's a desert hex:
+                currHexType = HexType.DESERT;
+                currHexNum = currHexStringJSON.getInt("number");
+            }
+            else {
+                //if it doesn't have a resource OR a number, it's an ocean hex:
+                currHexType = HexType.WATER;
+                currHexNum = 0;
+            }
+            newHex = new Hex(newHexLoc, currHexType);
+            newHex.setNumber(currHexNum);
+                System.out.println("\t newHex" + h + "= " + newHex.toString());
+
+            newHexesMap.put(newHex.getLocation(), newHex);
         }
+
+        System.out.println(">newHexesMap size= " + newHexesMap.size());
 
             //GET ROADS
             //GET CITIES
@@ -107,40 +150,144 @@ public class JSONTranslator {
             //GET PORTS
             //GET ROBBER
 
-        //GET PLAYERS ARRAY
 
-        //GET MESSAGEMANAGER out of CHAT and LOG
+//GET RESOURCE BANK
+        //GET RESOURCELIST
+        JSONObject newResourceListJSON = newModelJSON.getJSONObject("bank");
+        String newResListString = newResourceListJSON.toString();
+            System.out.println(">newResListStr= " + newResListString);
+        //the CMJSON has the ResourceList data under key "bank" and DevCardList data under key "deck"
+        ResourceList newResourceList = gsonConverter.fromJson(newResListString, ResourceList.class);
+            System.out.println(">newResourceList (for ResBank obj)= " + newResourceList);
+
+        //GET DEVCARDLIST
+        JSONObject newDevCardListJSON = newModelJSON.getJSONObject("deck");
+        String newDevCardListString = newDevCardListJSON.toString();
+            System.out.println(">newDevCardListStr= " + newDevCardListString);
+        DevCardList newDevCardList = gsonConverter.fromJson(newDevCardListString, DevCardList.class);
+            System.out.println(">newDevCardList (for ResBank obj)= " + newDevCardList);
+
+        //Build ResourceBank out of ResourceList and DevCardList
+        ResourceBank newResourceBank = new ResourceBank();
+        newResourceBank.setResourceList(newResourceList);
+
+        //ResourceBank is complete! Ready to add to new ClientModel obj.
+
+//GET PLAYERS ARRAY
+        //the ClientModel obj wants these in a Player[].
+        JSONArray newPlayersJSONArr = newModelJSON.getJSONArray("players");
+        Player[] newPlayersArray = new Player[4]; //there is a max of 4 players per game
+        //for loop through newPlayersJSONArr, make a Player obj out of each one, and add it to the Player[]
+
+        for (int p = 0; p < newPlayersJSONArr.length(); p++)
+        {
+            //realistically I don't think the model will ever need to be parsed without 4 players added,
+            // but just to be sure/for testing purposes:
+            if (newPlayersJSONArr.get(p) != null) {
+                JSONObject currPlayerJSON = newPlayersJSONArr.getJSONObject(p);
+                String currPlayerJSONSTr = currPlayerJSON.toString();
+                System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
+                Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
+
+                newPlayersArray[p] = newPlayer;
+            }
+        }
+        //Player[] is complete! Ready to add to new ClientModel obj.
+
+ //GET MESSAGEMANAGER out of CHAT and LOG
             //GET CHAT
-        JSONArray newCMChat = newModelJSON.getJSONArray("chat");
-
+        JSONObject newCMChatJSONObj = newModelJSON.getJSONObject("chat");
+        MessageList newChatMsgList = parseMsgListFromJSON(newCMChatJSONObj);
             //GET LOG
-        JSONArray newCMLog = newModelJSON.getJSONArray("log");
+        JSONObject newCMLogJSONObj = newModelJSON.getJSONObject("log");
+        MessageList newLogMsgList = parseMsgListFromJSON(newCMLogJSONObj);
 
+        //Put the new Chat and Log MsgListObjs into a new MessageManager object:
+        MessageManager newMsgMgr = new MessageManager();
+        newMsgMgr.setChat(newChatMsgList);
+        newMsgMgr.setLog(newLogMsgList);
 
-        //GET RESOURCEBANK
-        JSONObject newCMResourceBank = newModelJSON.getJSONObject("bank");
-        System.out.println(">newCMResBank= " + newCMResourceBank);
-        //the JSON for this section looks more like a ResourceList than a ResourceBank...
+        //MessageManager is complete! Ready to add to the new ClientModel obj.
 
-        //GET TURNTRACKER
+//GET TURNTRACKER
+        JSONObject newTurnTrackerJSONObj = newModelJSON.getJSONObject("turnTracker");
+        String newTTrackerJSONString = newTurnTrackerJSONObj.toString();
+        TurnTracker newTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
+            System.out.println(">newTTrackerObj= " + newTurnTracker);
 
+        //TurnTracker is complete! Ready to add to the new ClientModel obj.
 
-        //GET TRADE OFFER
+//GET TRADE OFFER
+        if (newModelJSON.has("tradeOffer")){
+            JSONObject newTradeOfferJSONObj = newModelJSON.getJSONObject("tradeOffer");
+            String newTradeOfferJSONString = newTradeOfferJSONObj.toString();
+                System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
+            TradeOffer newTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
+                System.out.println(">newTradeOfferObj= " + newTradeOffer);
+            //TradeOffer is complete! Ready to add to the new ClientModel obj.
+        }
+        else{
+            System.out.println(">No TradeOffer found in newClientModel JSON");
+        }
 
-        //GET 2 OUTSIDE INTS
+//GET ADDITIONAL INTS/OTHER CLIENTMODEL DATA
         int newCMVersion = newModelJSON.getInt("version");
         int newCMWinner = newModelJSON.getInt("winner");
         //get gameNumber? what is this for again?
 
-
         //Not in JSON: ClientUpdateManager **
-
 
         return newClientModel;
     }
 
     /**
-     *
+     * helper function for ModelFromJSON - builds the Chat/Log MessageList objects
+     */
+    public MessageList parseMsgListFromJSON(JSONObject msgListJSON) {
+        JSONArray newCMMsgListArr = msgListJSON.getJSONArray("lines");
+            String newCMMsgListArrStr = newCMMsgListArr.toString();
+
+        List<MessageLine> newMsgLines = new ArrayList<>();
+
+        //for loop to get all log MessageLines inside newCMMsgListArr, save each one to newMsgLines:
+        for (int c = 0; c < newCMMsgListArr.length(); c++)
+        {
+            JSONObject currMsgLine = newCMMsgListArr.getJSONObject(c);
+            String currMsgLineStr = currMsgLine.toString();
+            MessageLine newMsgLine = gsonConverter.fromJson(currMsgLineStr, MessageLine.class);
+            System.out.println("\t>newMsgLineObj= " + newMsgLine);
+            newMsgLines.add(newMsgLine);
+        }
+
+        System.out.println("newMsgLines size= " + newMsgLines.size());
+        //Now we have a complete ArrayList of MessageLines, so create a new MsgList obj for the MsgMgr:
+        MessageList newMsgList = new MessageList();
+        newMsgList.setLines(newMsgLines);
+
+        return newMsgList;
+    }
+
+
+    //helper function for the translateModel process - just a big switch stmt basically
+    public HexType exchangeStringForHexType(String hexTypeString){
+        switch (hexTypeString){
+            case "wood":
+                return HexType.WOOD;
+            case "brick":
+                return HexType.BRICK;
+            case "sheep":
+                return HexType.SHEEP;
+            case "wheat":
+                return HexType.WHEAT;
+            case "ore":
+                return HexType.ORE;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * I don't think this is necessary
      * @param num
      * @return
      */
@@ -293,21 +440,6 @@ public class JSONTranslator {
         return allExecutedCommands;
     }
 
-
-    /**
-     *
-     * @param fetchNewModelCmdObj
-     * @return
-     */
-    public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
-
-        stringResult = gsonConverter.toJson(fetchNewModelCmdObj);
-
-        jsonObjectResult =  new JSONObject(stringResult);
-
-        return jsonObjectResult;
-    }
-
     /**
      *
      * @param gameCreateCmdObj
@@ -324,31 +456,21 @@ public class JSONTranslator {
 
 
     //When you use a gameCreateCommand on the server, it sends back a JSONObject
-    //with data about the game you just created. This function parses that,
-    // but what object should it build them into?
-    //The response data contains the 3 bools required to build a new Map object (randTiles, randPorts, randNums),
-    //and the name/title of the new game.
-    //TODO: where/who should this translator function send the new game's data to?
-    public TreeMap<String, String> gameCreateResponseFromJSON(JSONObject gameCreateResponse){
+    //with data about the game you just created.
+    //The response data contains the same data as a GameListItem, but with an empty Player array.
+    // I don't actually know where this data is going to be used
+    public GameListItem gameCreateResponseFromJSON(JSONObject gameCreateResponse){
         //For now I'm saving the new game data as a TreeMap (although it might be better to have
         //some sort of encapsualating object to hold this new data, since it includes 3 bools and 1 string)
 
         TreeMap<String, String> gameCreateResponseData = new TreeMap<>();
-        //I'm going to parse this manually so I can add individual key/values to the TreeMap
-        //these should be either "true" or "false", technically bools, but I'm saving as strings for now
-        String randTilesBool = gameCreateResponse.getString("randomTiles");
-        String randNumsBool = gameCreateResponse.getString("randomNumbers");
-        String randPortsBool = gameCreateResponse.getString("randomPorts");
-        String name = gameCreateResponse.getString("name");
+        String gameCreateResponseStr = gameCreateResponse.toString();
 
-        gameCreateResponseData.put("randomTiles", randTilesBool);
-        gameCreateResponseData.put("randomNumbers", randNumsBool);
-        gameCreateResponseData.put("randomPorts", randPortsBool);
-        gameCreateResponseData.put("name", name);
+        GameListItem newGameInfo = gsonConverter.fromJson(gameCreateResponseStr, GameListItem.class);
 
-        System.out.println("gCRespDataMap= " + gameCreateResponseData.toString());
+       // System.out.println("newGameListItem= " + newGameInfo.getTitle() + ", " + newGameInfo.getGameID());
 
-        return gameCreateResponseData;
+        return newGameInfo;
     }
 
     /**
@@ -391,35 +513,6 @@ public class JSONTranslator {
 
         return jsonObjectResult;
     }
-
-    /**
-     *
-     * @param gameListCmdObj
-     * @return
-     */
-    public JSONObject gameListCmdToJSON(GameListCommand gameListCmdObj) {
-
-        stringResult = gsonConverter.toJson(gameListCmdObj);
-
-        jsonObjectResult =  new JSONObject(stringResult);
-
-        return jsonObjectResult;
-    }
-
-    /**
-     *
-     * @param gameResetCmdObj
-     * @return
-     */
-    public JSONObject gameResetCmdToJSON(GameResetCommand gameResetCmdObj) {
-
-        stringResult = gsonConverter.toJson(gameResetCmdObj);
-
-        jsonObjectResult =  new JSONObject(stringResult);
-
-        return jsonObjectResult;
-    }
-
     /**
      *
      * @param gameSaveCmdObj
@@ -450,34 +543,35 @@ public class JSONTranslator {
 
     /**
      *
-     * @param getGameCmdsCmdObj
-     * @return
-     */
-    public JSONArray getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
-
-        stringResult = gsonConverter.toJson(getGameCmdsCmdObj);
-
-        JSONArray jsonArrayResult =  new JSONArray(stringResult);
-
-        return jsonArrayResult;
-    }
-
-    /**
-     *
      * List AI is just a URL command, it doesn't actually need to send and JSON to the server
      * but the server returns a JSON string array of all available AIs (probably only LARGEST_ARMY)
      * that needs to be translated.
      *
-     * @param listAICmdObj
+     * @param listAIResponseArr
      * @return an arraylist of Strings representing all available AIs (should only be one)
      */
-    public ArrayList<String> listAICmdToJSON(ListAICommand listAICmdObj) {
+    public ArrayList<String> listAIResponseFromJSON(JSONArray listAIResponseArr) {
 
-        //stringResult = gsonConverter.toJson(listAICmdObj);
+        //just going to do this manually since I don't know how Gson does arrays of only strings
 
-        //jsonObjectResult =  new JSONObject(stringResult);
+        //System.out.println(">ListAIResponseArr size= " + listAIResponseArr.length());
 
-        return null;
+        //this is the only function I could find that changes an unkeyed JSONArray into usable objects:
+        List<Object> allAITypesObjList = listAIResponseArr.toList();
+        //I don't want to deal with something as vague as a list<object>, so change it into an arrayList<String>:
+
+        ArrayList<String> allAITypes = new ArrayList<>();
+
+        //iterate through the List<Object> and copy its strings into allAITypes
+        for (int a = 0; a < allAITypesObjList.size(); a++)
+        {
+            String currAITypeString = allAITypesObjList.get(a).toString();
+            allAITypes.add(currAITypeString);
+        }
+
+        System.out.println(">allAITypes size= " + allAITypes.size());
+
+        return allAITypes;
     }
 
     /**
@@ -764,5 +858,78 @@ public class JSONTranslator {
 
         return jsonObjectResult;
     }
+
+
+
+
+
+    //-----------------------------------------------
+    //The following commands are sent to server ONLY as URLS - so no JSON translation necessary:
+
+
+    /**
+     *
+     * @param gameListCmdObj
+     * @return
+     */
+    /*
+    public JSONObject gameListCmdToJSON(GameListCommand gameListCmdObj) {
+
+        stringResult = gsonConverter.toJson(gameListCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+    */
+
+    /**
+     *
+     * @param gameResetCmdObj
+     * @return
+     */
+    /*
+    public JSONObject gameResetCmdToJSON(GameResetCommand gameResetCmdObj) {
+
+        stringResult = gsonConverter.toJson(gameResetCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    }
+    */
+
+    /**
+     *
+     * @param getGameCmdsCmdObj
+     * @return
+     */
+    /*
+    public JSONArray getGameCmdsCmdToJSON(GetGameCommandsCommand getGameCmdsCmdObj) {
+
+        stringResult = gsonConverter.toJson(getGameCmdsCmdObj);
+
+        JSONArray jsonArrayResult =  new JSONArray(stringResult);
+
+        return jsonArrayResult;
+    }
+    */
+
+
+    /**
+     *
+     * @param fetchNewModelCmdObj
+     * @return
+     */
+    /*
+    public JSONObject fetchNewModelCmdToJSON(FetchNewModelCommand fetchNewModelCmdObj) {
+
+        stringResult = gsonConverter.toJson(fetchNewModelCmdObj);
+
+        jsonObjectResult =  new JSONObject(stringResult);
+
+        return jsonObjectResult;
+    } */
+
 
 }

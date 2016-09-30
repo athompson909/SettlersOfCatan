@@ -114,7 +114,7 @@ public class ServerProxy implements IServerProxy {
 
                 return baos.toString();
             }
-            else return "http error " + connection.getResponseCode() + ": " + connection.getResponseMessage();
+            else return "{\"http error " + connection.getResponseCode() + "\":\"" + connection.getResponseMessage() + "\"}";
 
 
         } catch (MalformedURLException e) {
@@ -213,7 +213,7 @@ public class ServerProxy implements IServerProxy {
 
                 return baos.toString();
             }
-            else return "http error";
+            else return "{\"http error " + connection.getResponseCode() + "\":\"" + connection.getResponseMessage() + "\"}";
 
         } catch (MalformedURLException e) {
             System.out.println("Error: bad url");
@@ -635,7 +635,8 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject rollNumber(JSONObject json) throws ClientException {
         String urlStr = "http://localhost:8081/moves/rollNumber";
-        return new JSONObject(httpPost(urlStr, json.toString()));
+        String responseStr = httpPost(urlStr, json.toString());
+        return new JSONObject(responseStr);
     }
 
     /**

@@ -7,19 +7,25 @@ import shared.locations.VertexLocation;
 
 /**
  * Created by Mitchell on 9/15/2016.
- *
  * contains fields related to the locations of objects placed on the vertexes of hexes (settlements and cities)
  */
 public class VertexObject {
 
     /**
      * Index of the player who has built on this location
+     * By default, no one owns it, so the value is -1.
      */
-    private transient int owner;
+    private transient int owner = -1;
 
+    /**
+     * Vertex location of the vertex object.
+     */
     private transient VertexLocation vertexLocation;
 
-    private PieceType pieceType;
+    /**
+     * By default, the piece type is null since nothing is there until a player builds on it.
+     */
+    private PieceType pieceType = null;
 
     public VertexObject(VertexLocation location){
         vertexLocation = location;
@@ -35,7 +41,6 @@ public class VertexObject {
 
     /**
      * Sets owner to player who built on this vertex
-     *
      * @param owner PlayerID of player who built on this vertex
      */
     public void setOwner(int owner) {

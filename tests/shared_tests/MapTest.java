@@ -1,6 +1,8 @@
 package shared_tests;
 
 import junit.framework.TestCase;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.map.Map;
 
@@ -11,54 +13,50 @@ import shared.model.map.Map;
 public class MapTest extends TestCase {
 
     private Map map = new Map(false, false, false); //Don't randomize
-
-    public void testMap() {
-        testMapHexes();
-        testMapPorts();
-    }
+    private final int PLAYER1 = 1;
 
     public void testMapHexes() {
         System.out.println(map.getHexes().size());
         assert (map.getHexes().size() == 37); //There should be 37 hexes.
 
         //I have personally verified this test case is accurate.
-        String defaultHexesString = "HexType: WATER Number= 0 HexLocation [x=2, y=1]\n" +
-                "HexType: WOOD Number= 3 HexLocation [x=0, y=-1]\n" +
-                "HexType: WHEAT Number= 11 HexLocation [x=0, y=0]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-2, y=-1]\n" +
-                "HexType: WOOD Number= 4 HexLocation [x=0, y=1]\n" +
-                "HexType: ORE Number= 5 HexLocation [x=-2, y=0]\n" +
-                "HexType: WHEAT Number= 8 HexLocation [x=0, y=2]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=0, y=3]\n" +
-                "HexType: WHEAT Number= 2 HexLocation [x=-2, y=1]\n" +
-                "HexType: WOOD Number= 6 HexLocation [x=-2, y=2]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-2, y=3]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=3, y=-3]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=3, y=-2]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=3, y=-1]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=1, y=-3]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=3, y=0]\n" +
-                "HexType: BRICK Number= 4 HexLocation [x=1, y=-2]\n" +
-                "HexType: ORE Number= 6 HexLocation [x=1, y=-1]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-1, y=-2]\n" +
-                "HexType: BRICK Number= 5 HexLocation [x=1, y=0]\n" +
-                "HexType: SHEEP Number= 10 HexLocation [x=1, y=1]\n" +
-                "HexType: BRICK Number= 8 HexLocation [x=-1, y=-1]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=1, y=2]\n" +
-                "HexType: SHEEP Number= 10 HexLocation [x=-1, y=0]\n" +
-                "HexType: SHEEP Number= 9 HexLocation [x=-1, y=1]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-3, y=0]\n" +
-                "HexType: ORE Number= 3 HexLocation [x=-1, y=2]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-3, y=1]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-1, y=3]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-3, y=2]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=-3, y=3]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=2, y=-3]\n" +
-                "HexType: WOOD Number= 11 HexLocation [x=2, y=-2]\n" +
-                "HexType: WATER Number= 0 HexLocation [x=0, y=-3]\n" +
-                "HexType: SHEEP Number= 12 HexLocation [x=2, y=-1]\n" +
-                "HexType: WHEAT Number= 9 HexLocation [x=2, y=0]\n" +
-                "HexType: DESERT Number= 0 HexLocation [x=0, y=-2]";
+        String defaultHexesString = "Hex{location=HexLocation [x=2, y=1], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=0, y=-1], number=3, resource=WOOD}\n" +
+                "Hex{location=HexLocation [x=0, y=0], number=11, resource=WHEAT}\n" +
+                "Hex{location=HexLocation [x=-2, y=-1], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=0, y=1], number=4, resource=WOOD}\n" +
+                "Hex{location=HexLocation [x=-2, y=0], number=5, resource=ORE}\n" +
+                "Hex{location=HexLocation [x=0, y=2], number=8, resource=WHEAT}\n" +
+                "Hex{location=HexLocation [x=0, y=3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=-2, y=1], number=2, resource=WHEAT}\n" +
+                "Hex{location=HexLocation [x=-2, y=2], number=6, resource=WOOD}\n" +
+                "Hex{location=HexLocation [x=-2, y=3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=3, y=-3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=3, y=-2], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=3, y=-1], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=1, y=-3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=3, y=0], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=1, y=-2], number=4, resource=BRICK}\n" +
+                "Hex{location=HexLocation [x=1, y=-1], number=6, resource=ORE}\n" +
+                "Hex{location=HexLocation [x=-1, y=-2], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=1, y=0], number=5, resource=BRICK}\n" +
+                "Hex{location=HexLocation [x=1, y=1], number=10, resource=SHEEP}\n" +
+                "Hex{location=HexLocation [x=-1, y=-1], number=8, resource=BRICK}\n" +
+                "Hex{location=HexLocation [x=1, y=2], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=-1, y=0], number=10, resource=SHEEP}\n" +
+                "Hex{location=HexLocation [x=-1, y=1], number=9, resource=SHEEP}\n" +
+                "Hex{location=HexLocation [x=-3, y=0], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=-1, y=2], number=3, resource=ORE}\n" +
+                "Hex{location=HexLocation [x=-3, y=1], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=-1, y=3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=-3, y=2], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=-3, y=3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=2, y=-3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=2, y=-2], number=11, resource=WOOD}\n" +
+                "Hex{location=HexLocation [x=0, y=-3], number=0, resource=WATER}\n" +
+                "Hex{location=HexLocation [x=2, y=-1], number=12, resource=SHEEP}\n" +
+                "Hex{location=HexLocation [x=2, y=0], number=9, resource=WHEAT}\n" +
+                "Hex{location=HexLocation [x=0, y=-2], number=0, resource=DESERT}";
 
         for (HexLocation key : map.getHexes().keySet()) {
             System.out.println(map.getHexes().get(key).toString());
@@ -66,7 +64,7 @@ public class MapTest extends TestCase {
         }
     }
 
-    private void testMapPorts() {
+    public void testMapPorts() {
         //I have personally verified this test case is accurate.
         String defaultPortString = "Port: WHEAT at HexLocation [x=2, y=1] facing NorthWest\n" +
                 "Port: THREE at HexLocation [x=-1, y=-2] facing South\n" +
@@ -83,6 +81,15 @@ public class MapTest extends TestCase {
             assert (defaultPortString.contains(map.getPorts().get(key).toString()));
         }
     }
+
+    public void testMapVertices(){
+        assert (map.getVertexObjects().size() == 54);
+    }
+
+    public void testMapEdges(){
+        assert (map.getEdgeObjects().size() == 72);
+    }
+
 
 
 }

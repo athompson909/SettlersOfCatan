@@ -12,6 +12,10 @@ public class MessageList {
      */
     private List<MessageLine> lines;
 
+    public void setLines(List<MessageLine> lines) {
+        this.lines = lines;
+    }
+
     /**
      * Returns the list of lines within the MessageList
      *
@@ -39,5 +43,13 @@ public class MessageList {
      */
     public void update(MessageList M) {
         this.lines = M.lines;
+    }
+
+
+    @Override
+    public String toString() {
+        return "MessageList{" +
+                "lines=" + lines +
+                '}';
     }
 }

@@ -50,13 +50,18 @@ public class ResourceList {
 
     /**
      * Update function to modify the model.
-     *
      * @param newResourceList to replace the existing resource list.
      */
     public void update(ResourceList newResourceList) {
-
+        //TODO: Update the resource list.
     }
 
+    /**
+     * Checks if the list has a certain amount of a specifed resource.
+     * @param amount
+     * @param resource
+     * @return
+     */
     public boolean listHasAmountOfType(int amount, ResourceType resource){
         switch (resource) {
             case WOOD:
@@ -78,6 +83,11 @@ public class ResourceList {
         return false;
     }
 
+    /**
+     * Lose all cards of a specific resrouce, called when a Monopoly is played.
+     * @param resource that will be lost.
+     * @return how many of that resource was lost.
+     */
     public int loseAllCardsOfType(ResourceType resource) {
         int total = 0;
         switch (resource) {
@@ -105,6 +115,10 @@ public class ResourceList {
         return total;
     }
 
+    /**
+     * Removes a card from the resource list.
+     * @param resource to be removed from the list.
+     */
     public void removeCardByType(ResourceType resource){
         switch (resource) {
             case WOOD:
@@ -125,6 +139,10 @@ public class ResourceList {
         }
     }
 
+    /**
+     * Adds a specific card to the resource list.
+     * @param resource to add to the list.
+     */
     public void addCardByType(ResourceType resource){
         switch (resource) {
             case WOOD:
@@ -148,7 +166,6 @@ public class ResourceList {
     //INCREMENT AND DECREMENT
     /**
      * Increments the woodCardCount in the resource list.
-     *
      * @param amount to increment woodCardCount by.
      */
     public void incWoodCardCount(int amount) {
@@ -157,7 +174,6 @@ public class ResourceList {
 
     /**
      * Increments the brickCardCount in the resource list.
-     *
      * @param amount to increment brickCardCount by.
      */
     public void incBrickCardCount(int amount) {
@@ -166,7 +182,6 @@ public class ResourceList {
 
     /**
      * Increments the sheepCardCount in the resource list.
-     *
      * @param amount to increment sheepCardCount by.
      */
     public void incSheepCardCount(int amount) {
@@ -175,7 +190,6 @@ public class ResourceList {
 
     /**
      * Increments the wheatCardCount in the resource list.
-     *
      * @param amount to increment wheatCardCount by.
      */
     public void incWheatCardCount(int amount) {
@@ -184,7 +198,6 @@ public class ResourceList {
 
     /**
      * Increments the oreCardCount in the resource list.
-     *
      * @param amount to increment oreCardCount by.
      */
     public void incOreCardCount(int amount) {
@@ -193,7 +206,6 @@ public class ResourceList {
 
     /**
      * Decrements the woodCardCount in the resource list.
-     *
      * @param amount to decrement woodCardCount by.
      * @return false if the resource list woodCardCount is less than the amount.
      */
@@ -201,7 +213,6 @@ public class ResourceList {
 
     /**
      * Decrements the brickCardCount in the resource list.
-     *
      * @param amount to decrement brickCardCount by.
      * @return false if the resource list brickCardCount is less than the amount.
      */
@@ -211,7 +222,6 @@ public class ResourceList {
 
     /**
      * Decrements the sheepCardCount in the resource list.
-     *
      * @param amount to decrement sheepCardCount by.
      * @return false if the resource list sheepCardCount is less than the amount.
      */
@@ -221,7 +231,6 @@ public class ResourceList {
 
     /**
      * Decrements the wheatCardCount in the resource list.
-     *
      * @param amount to decrement wheatCardCount by.
      * @return false if the resource list wheatCardCount is less than the amount.
      */
@@ -231,7 +240,6 @@ public class ResourceList {
 
     /**
      * Decrements the oreCardCount in the resource list.
-     *
      * @param amount to decrement oreCardCount by.
      * @return false if the resource list oreCardCount is less than the amount.
      */
@@ -261,4 +269,15 @@ public class ResourceList {
         return oreCardCount;
     }
 
+
+    @Override
+    public String toString() {
+        return "ResourceList{" +
+                "woodCt=" + woodCardCount +
+                ", brickCt=" + brickCardCount +
+                ", sheepCt=" + sheepCardCount +
+                ", wheatCt=" + wheatCardCount +
+                ", oreCt=" + oreCardCount +
+                '}';
+    }
 }

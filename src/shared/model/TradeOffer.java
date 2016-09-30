@@ -1,5 +1,6 @@
 package shared.model;
 
+import com.google.gson.annotations.SerializedName;
 import shared.model.resourcebank.ResourceList;
 
 /**
@@ -12,8 +13,13 @@ import shared.model.resourcebank.ResourceList;
  */
 public class TradeOffer {
 
+    @SerializedName("sender")
     private int senderIndex = 0;
+
+    @SerializedName("receiver")
     private int receiverIndex = 0;
+
+    @SerializedName("offer")
     private ResourceList tradeOfferList = new ResourceList();
 
     /**
@@ -45,5 +51,39 @@ public class TradeOffer {
      */
     public void sendToServer(){
 
+    }
+
+
+    public int getSenderIndex() {
+        return senderIndex;
+    }
+
+    public void setSenderIndex(int senderIndex) {
+        this.senderIndex = senderIndex;
+    }
+
+    public int getReceiverIndex() {
+        return receiverIndex;
+    }
+
+    public void setReceiverIndex(int receiverIndex) {
+        this.receiverIndex = receiverIndex;
+    }
+
+    public ResourceList getTradeOfferList() {
+        return tradeOfferList;
+    }
+
+    public void setTradeOfferList(ResourceList tradeOfferList) {
+        this.tradeOfferList = tradeOfferList;
+    }
+
+    @Override
+    public String toString() {
+        return "TradeOffer{" +
+                "senderIndex=" + senderIndex +
+                ", receiverIndex=" + receiverIndex +
+                ", tradeOfferList=" + tradeOfferList +
+                '}';
     }
 }

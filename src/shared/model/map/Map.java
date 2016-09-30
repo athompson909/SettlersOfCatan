@@ -20,29 +20,56 @@ public class Map {
     private HashMap<HexLocation, Hex> hexes = new HashMap<>();
 
     /**
-     * List of all ports used to create map
+     * Hashmap of all ports used to create map
      */
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
+    /**
+     * Hashmap of all the vertex objects on the map,
+     * including unoccupied vertex objects (null), settlements, and cities.
+     */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
-    private HashMap<EdgeLocation, EdgeValue> edgeObjects = new HashMap<>();
+    /**
+     * Hashmap of all possible edgeValues
+     * including unoccupied vertex objects (null), and roads.
+     */
+    private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
 
+    /**
+     * List of the static vertex locations
+     */
     private HashMap<VertexLocation, Port> portVertexLocations = new HashMap<>();
+
+    /**
+     * A building manager for all road functionality.
+     */
+    public BuildRoadManager buildRoadManager = new BuildRoadManager(this);
+
+    /**
+     * A building manager for all settlement funcitonality.
+     */
+    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
+
+    /**
+     * A building manager for all city functionality.
+     */
+    public BuildCityManager buildCityManager = new BuildCityManager(this);
 
     /**
      * Robber object
      */
-    private Robber robber;
+    private Robber robber = new Robber(this);
 
     /**
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-    private BuildingManager buildingManager;
-
     private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
+    /**
+     * An iterator to go through all the numbers assigned to the hexes when the map is initialized.
+     */
     private static Iterator<Integer> numberIterator = numberOrder.iterator();
 
     /**
@@ -56,18 +83,21 @@ public class Map {
         createAllVertexObjects();
         populatePortVertexLocations();
         createAllEdgeValues();
+
     }
 
-    //this is for when the new model comes back and we need to make a new Map object WITHOUT
-    //creating/placing all hexes again
+    //this constructor is for when the new model comes back and we need to make a new Map object
+    // WITHOUT creating/placing all hexes again.
     public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
     {
         setHexes(allHexes);
         setPorts(allPorts);
     }
 
+    /**
+     * Creates 18 Water hexes at these specified locations starting with north-west corner going counterclockwise
+     */
     private void createAllWaterHexes() {
-        //18 Water hexes at these specified locations starting with north-west corner going counterclockwise
         createWaterHex(-3, 0);
         createWaterHex(-3, 1);
         createWaterHex(-3, 2);
@@ -99,6 +129,10 @@ public class Map {
         hexes.put(waterHex.getLocation(), waterHex);
     }
 
+    /**
+     * Places all the ports on the map.
+     * @param randomlyPlacePorts if the ports are being randomized.
+     */
     private void placeAllPorts(boolean randomlyPlacePorts) {
         //Default Port Order
         List<PortType> resourcePortList = new LinkedList<PortType>(
@@ -135,12 +169,24 @@ public class Map {
         placePort(-1, -2, resourcePortList.get(8), EdgeDirection.South);
     }
 
+    /**
+     * Places an individual port
+     * @param x coordinate
+     * @param y coordinate
+     * @param portType to place.
+     * @param edgeDirection of the port.
+     */
     private void placePort(int x, int y, PortType portType, EdgeDirection edgeDirection) {
         HexLocation hexLocation = new HexLocation(x, y);
         Port newPort = new Port(portType, hexLocation, edgeDirection);
         ports.put(hexLocation, newPort);
     }
 
+    /**
+     * Creates all the land hexes, with their accompanying numbers.
+     * @param randomlyPlaceHexes if the hexes are to be placed randomly.
+     * @param randomlyPlaceNumbers if the numbers are to be placed randomly.
+     */
     private void createAllLandHexes(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers) {
         //The default land hex order starting with the north-west corner and spiraling in counter-clockwise
         List<HexType> landHexTypeOrder = Arrays.asList(
@@ -182,10 +228,19 @@ public class Map {
         createLandHex(0, 0, landHexTypeOrder.get(18)); //Center
     }
 
+    /**
+     * Creates a single land hex.
+     * @param x coordinate.
+     * @param y y coordinate
+     * @param hexType for the hex.
+     */
     private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
             landHex.setNumber(numberIterator.next().intValue());
+        }
+        else{
+            robber.placeRobber(landHex.getLocation());
         }
         hexes.put(landHex.getLocation(), landHex);
     }
@@ -291,6 +346,9 @@ public class Map {
         portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest), ports.get(new HexLocation(-1,-2)));
     }
 
+    /**
+     * Creates all of the edge values, starting with the west most values, going through each column.
+     */
     private void createAllEdgeValues(){
         //First Column (West Most Column)
         createSingleEdgeValue(-3,1, EdgeDirection.NorthEast);
@@ -345,7 +403,7 @@ public class Map {
      */
     private void createSingleEdgeValue(int x, int y, EdgeDirection direction){
         EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x,y), direction);
-        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
     }
 
     /**
@@ -358,10 +416,10 @@ public class Map {
         HexLocation currentHex = new HexLocation(x,y);
 
         EdgeLocation newEdgeLocation = new EdgeLocation(currentHex, direction);
-        edgeObjects.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
     }
 
     /**
@@ -374,13 +432,13 @@ public class Map {
         HexLocation currentHex = new HexLocation(x,y);
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeObjects.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
 
         EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthEast);
-        edgeObjects.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
+        edgeValues.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
 
         EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthWest);
-        edgeObjects.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
+        edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
     public Set<PortType> getPlayersPorts(int playerIndex) {
@@ -403,23 +461,26 @@ public class Map {
      * Updates list of VertexObjects where settlements are built
      * Updates list of VertexObjects where cities are built
      *
+     * Nothing else about the map changes during the game, so keep everything else the same!
+     *
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
         setRobber(newMap.robber);
         //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
+
+        this.robber = newMap.robber;
+        //edgeValues
+        //vertexObjects
     }
 
+    //GETTERS
     public HashMap<HexLocation, Hex> getHexes() {
         return hexes;
     }
 
     public HashMap<HexLocation, Port> getPorts() {
         return ports;
-    }
-
-    public void setHexes(HashMap<HexLocation, Hex> hexes) {
-        this.hexes = hexes;
     }
 
     public void setPorts(HashMap<HexLocation, Port> ports) {
@@ -440,5 +501,17 @@ public class Map {
 
     public void setBuildingManager(BuildingManager buildingManager) {
         this.buildingManager = buildingManager;
+    }
+    public HashMap<VertexLocation, VertexObject> getVertexObjects() {
+        return vertexObjects;
+    }
+
+    public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
+        return edgeValues;
+    }
+
+    //SETTERS
+    public void setHexes(HashMap<HexLocation, Hex> hexes) {
+        this.hexes = hexes;
     }
 }

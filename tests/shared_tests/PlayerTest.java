@@ -1,6 +1,8 @@
 package shared_tests;
 
 import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import shared.definitions.CatanColor;
 
 import shared.definitions.DevCardType;
@@ -12,9 +14,17 @@ import shared.model.resourcebank.*;
  * Created by Mitchell on 9/24/2016.
  */
 public class PlayerTest extends TestCase {
-    private Player player = new Player(CatanColor.BLUE, "Bob", "bob37", 1);
+    private Player player = new Player(CatanColor.BLUE, "Bob", "bob37", 1);;
     private ResourceBank resourceBank = new ResourceBank();
 
+    @Before
+    public void init(){
+        System.out.println("Before function");
+        player =  new Player(CatanColor.BLUE, "Bob", "bob37", 1);
+    }
+
+    /*
+    @Test
     public void testPlayer() {
         initializationTest();
 
@@ -31,9 +41,10 @@ public class PlayerTest extends TestCase {
         playMonopolyTest();
         playYearOfPlentyTest();
     }
-
+*/
     //Initialization Asserts
-    private void initializationTest() {
+    @Test
+    public void testInitialization() {
         assert (player.canPlayDevelopmentCards());
         assert (!player.canPlaySoldierCard());
         assert (!player.canPlayMonumentCard());
@@ -47,7 +58,8 @@ public class PlayerTest extends TestCase {
     }
 
     //Resources for building settlements
-    private void purchaseSettlementTest(){
+    @Test
+    public void testPurchaseSettlement(){
         player.getPlayerResourceList().incWoodCardCount(2);
         player.getPlayerResourceList().incBrickCardCount(2);
         player.getPlayerResourceList().incWheatCardCount(2);
@@ -65,7 +77,8 @@ public class PlayerTest extends TestCase {
     }
 
     //Resources for building roads
-    private void purchaseRoadTest(){
+    @Test
+    public void testPurchaseRoad(){
         player.getPlayerResourceList().incBrickCardCount(2);
         player.getPlayerResourceList().incWoodCardCount(2);
         assert (player.canPurchaseRoad());
@@ -79,7 +92,9 @@ public class PlayerTest extends TestCase {
     }
 
     //Resource for building cities
-    private void purchaseCityTest(){
+    @Test
+    public void testPurchaseCity(){
+        testPurchaseSettlement(); //First must purchase settlements, then..
         player.getPlayerResourceList().incWheatCardCount(4);
         player.getPlayerResourceList().incOreCardCount(6);
         assert (player.canPurchaseCity());
@@ -93,7 +108,8 @@ public class PlayerTest extends TestCase {
         assert (player.getPlayerResourceList().getOreCardCount() == 0);
     }
 
-    private void purchaseDevelopmentCardTest(){
+    @Test
+    public void testPurchaseDevelopmentCard(){
         assert (resourceBank.getDevCardList().getTotalCardCount() == 26);
         assert (player.getNewDevCardList().getTotalCardCount() == 0);
         player.getPlayerResourceList().incOreCardCount(2);
@@ -110,7 +126,8 @@ public class PlayerTest extends TestCase {
         assert (player.getNewDevCardList().getTotalCardCount() == 2);
     }
 
-    private void playSoldierTest() {
+    @Test
+    public void testPplaySoldier() {
         assert (player.getSoldiersPlayed() == 0);
         assert (!player.canPlaySoldierCard());
         player.getOldDevCardList().addDevCard(DevCardType.SOLDIER);
@@ -121,7 +138,8 @@ public class PlayerTest extends TestCase {
         player.setPlayedDevCard(false); //Reset for next test case
     }
 
-    private void playMonumentTest() {
+    @Test
+    public void testPlayMonument() {
         assert (player.getMonuments() == 0);
         assert (!player.canPlayMonumentCard());
         player.getOldDevCardList().addDevCard(DevCardType.MONUMENT);
@@ -132,18 +150,20 @@ public class PlayerTest extends TestCase {
         player.setPlayedDevCard(false); //Reset for next test case
     }
 
-    private void playRoadBuildingTest() {
-        assert (player.getRoadCount() == 13); //Should still == 13 from previous BuildRoadTest.
+    @Test
+    public void testPlayRoadBuilding() {
+        assert (player.getRoadCount() == 15);
         assert (!player.canPlayRoadBuildingCard());
         player.getOldDevCardList().addDevCard(DevCardType.ROAD_BUILD);
         assert (player.canPlayRoadBuildingCard());
         player.playRoadBuildingCard(2);
         assert (!player.canPlayRoadBuildingCard());
-        assert (player.getRoadCount() == 11);
+        assert (player.getRoadCount() == 13);
         player.setPlayedDevCard(false); //Reset for next test case
     }
 
-    private void playMonopolyTest() {
+    @Test
+    public void testPlayMonopoly() {
         assert (player.getPlayerResourceList().getWoodCardCount() == 0);
         assert (!player.canPlayMonopolyCard());
         player.getOldDevCardList().addDevCard(DevCardType.MONOPOLY);
@@ -154,15 +174,16 @@ public class PlayerTest extends TestCase {
         player.setPlayedDevCard(false); //Reset for next test case
     }
 
-    private void playYearOfPlentyTest() {
-        assert (player.getPlayerResourceList().getWoodCardCount() == 5);
+    @Test
+    public void testPlayYearOfPlenty() {
+        assert (player.getPlayerResourceList().getWoodCardCount() == 0);
         assert (player.getPlayerResourceList().getBrickCardCount() == 0);
         assert (!player.canPlayYearOfPlentyCard());
         player.getOldDevCardList().addDevCard(DevCardType.YEAR_OF_PLENTY);
         assert (player.canPlayYearOfPlentyCard());
         player.playYearOfPlentyCard(ResourceType.WOOD, ResourceType.BRICK);
         assert (!player.canPlayYearOfPlentyCard());
-        assert (player.getPlayerResourceList().getWoodCardCount() == 6);
+        assert (player.getPlayerResourceList().getWoodCardCount() == 1);
         assert (player.getPlayerResourceList().getBrickCardCount() == 1);
         player.setPlayedDevCard(false); //Reset for next test case
     }
