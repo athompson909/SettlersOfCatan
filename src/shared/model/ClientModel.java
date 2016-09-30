@@ -2,6 +2,7 @@ package shared.model;
 
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.definitions.PortType;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 import shared.model.map.VertexObject;
@@ -11,6 +12,9 @@ import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
+
+import java.util.Set;
+
 
 /**
  * ClientModel holds all the data about the client that can be updated and changed by the gameplay
@@ -87,6 +91,12 @@ public class ClientModel {
         updateManager.delegateUpdates(newModel);
     }
 
+
+
+
+
+
+
     //CAN METHODS
 
     /**
@@ -161,6 +171,16 @@ public class ClientModel {
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
 
+    public int[] canDomesticTrade(int playerIndex) {
+        // 0:WOOD, 1:WHEAT, 2:BRICK, 3:ORE, 4:SHEEP
+        return players[playerIndex].canDomesticTrade();
+    }
+
+
+    public boolean canMaritimeTrade(int playerIndex) {
+        Set<PortType> ports = map.getPlayersPorts(playerIndex);
+        return players[playerIndex].canMaritimeTrade(ports);
+    }
 
     //Map can Methods
 
@@ -191,6 +211,7 @@ public class ClientModel {
         return map.buildCityManager.canPlaceCity(playerIndex, vertexLocation);
 
     }
+
 
 
     //DO METHODS
@@ -306,7 +327,16 @@ public class ClientModel {
     (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
     public void recieveResourcesFromDiceRoll(){
-        //TODO: Dice roll
+        //TODO: Go to map and calculate how many cards each player gets
+
+        //TODO: Calculate resource production, and consider special rulebook exception.
+        //int total1;
+        //int total2;
+        //if(resourceBank.getResourceList().listHasAmountOfType(total1,))
+
+        for(int index = 0; index < players.length; index++){
+
+        }
     }
 
     //GETTERS

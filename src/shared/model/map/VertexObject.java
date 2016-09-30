@@ -12,7 +12,7 @@ import shared.locations.VertexLocation;
 public class VertexObject {
 
     /**
-     * PlayerID of the player who has built on this location
+     * Index of the player who has built on this location
      * By default, no one owns it, so the value is -1.
      */
     private transient int owner = -1;

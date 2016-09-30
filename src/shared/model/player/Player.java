@@ -3,9 +3,15 @@ package shared.model.player;
 import com.google.gson.annotations.SerializedName;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static shared.definitions.PortType.*;
 
 /**
  * The Player class represents each player's status, including the player's identity, points, available pieces, and cards.
@@ -368,6 +374,53 @@ public class Player { //
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);
         playedDevCard = true;
+    }
+
+    //This could return the actual trades player can do...just by returning the Set enoughCards
+    public boolean canMaritimeTrade(Set ports) {
+        Set<PortType> enoughCards = new HashSet<>();
+        for(Object portType : ports) {
+           if(portType == WOOD)
+               if(playerResourceList.getWoodCardCount() >= 2) {enoughCards.add(WOOD);}
+            if(portType == WHEAT)
+                if(playerResourceList.getWheatCardCount() >= 2) {enoughCards.add(WHEAT);}
+            if(portType == BRICK)
+                if(playerResourceList.getBrickCardCount() >= 2) {enoughCards.add(BRICK);}
+            if(portType == ORE)
+                if(playerResourceList.getOreCardCount() >= 2) {enoughCards.add(ORE);}
+            if(portType == SHEEP)
+                if(playerResourceList.getSheepCardCount() >= 2) {enoughCards.add(SHEEP);}
+            if(portType == THREE){} //NOT sure if anything needs to happen here
+        }
+        //return enoughCards;
+        if(!enoughCards.isEmpty()) {return true;}
+        else {return false;}
+    }
+
+    public int[] canDomesticTrade() {
+        int[] cardsToTrade = new int[6];
+        cardsToTrade[0] = canTradeWood();
+        cardsToTrade[1] = canTradeWheat();
+        cardsToTrade[2] = canTradeBrick();
+        cardsToTrade[3] = canTradeOre();
+        cardsToTrade[4] = canTradeSheep();
+        return cardsToTrade;
+    }
+
+    private int canTradeWood() {
+        return playerResourceList.getWoodCardCount();
+    }
+    private int canTradeWheat() {
+        return playerResourceList.getWheatCardCount();
+    }
+    private int canTradeBrick() {
+        return playerResourceList.getBrickCardCount();
+    }
+    private int canTradeOre() {
+        return playerResourceList.getOreCardCount();
+    }
+    private int canTradeSheep() {
+        return playerResourceList.getSheepCardCount();
     }
 
     //GETTERS
