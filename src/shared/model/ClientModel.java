@@ -2,12 +2,16 @@ package shared.model;
 
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.definitions.PortType;
 import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
+
+import java.util.Set;
+
 
 /**
  * ClientModel holds all the data about the client that can be updated and changed by the gameplay
@@ -124,18 +128,15 @@ public class ClientModel {
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
 
-    public boolean canDomesticTrade(int playerIndex, int numToTrade) {
-
+    public int[] canDomesticTrade(int playerIndex) {
+        // 0:WOOD, 1:WHEAT, 2:BRICK, 3:ORE, 4:SHEEP
+        return players[playerIndex].canDomesticTrade();
     }
 
 
-    public boolean canMaritimeTrade(int playerID) {
-        map
-                check if player has any settlements or cities
-                check if the locations of those are in the static list of vertexLocations
-                if yes, go into port list and pull out what kind of port
-                check if they have enough resources for that kind of port
-        players[playerIndex].canMaritimeTrade();
+    public boolean canMaritimeTrade(int playerIndex) {
+        Set<PortType> ports = map.getPlayersPorts(playerIndex);
+        return players[playerIndex].canMaritimeTrade(ports);
     }
 
     //DO METHODS

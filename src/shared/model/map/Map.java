@@ -263,25 +263,32 @@ public class Map {
         vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
+    /**
+     * Creates a map containing vertex locations and their associated ports
+     * This list will not change throughout the game
+     *
+     * Purpose: In maritimeTrade state, this enables us to learn what type of ports a player is associated with.
+     */
     private void populatePortVertexLocations(){
-        portVertexLocations.add(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-3,2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-2,3), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-1,3), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(1,2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(3,-1), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(3,-2), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(2,-2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest));
+
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest), ports.get(new HexLocation(-3,0)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast), ports.get(new HexLocation(-3,0)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-3,2), VertexDirection.NorthEast), ports.get(new HexLocation(-3,2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest), ports.get(new HexLocation(-3,2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2,3), VertexDirection.NorthEast), ports.get(new HexLocation(-2,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1,3), VertexDirection.NorthWest), ports.get(new HexLocation(-2,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthWest), ports.get(new HexLocation(0,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthEast), ports.get(new HexLocation(0,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1,2), VertexDirection.NorthEast), ports.get(new HexLocation(2,1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest), ports.get(new HexLocation(2,1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast), ports.get(new HexLocation(3,-1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(3,-1), VertexDirection.NorthWest), ports.get(new HexLocation(3,-1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(3,-2), VertexDirection.NorthWest), ports.get(new HexLocation(3,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2,-2), VertexDirection.NorthEast), ports.get(new HexLocation(3,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthEast), ports.get(new HexLocation(1,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthWest), ports.get(new HexLocation(1,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast), ports.get(new HexLocation(-1,-2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest), ports.get(new HexLocation(-1,-2)));
     }
 
     private void createAllEdgeValues(){
@@ -376,7 +383,17 @@ public class Map {
         edgeObjects.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
-
+    public Set<PortType> getPlayersPorts(int playerIndex) {
+        Set<PortType> ports = new HashSet<>();
+        Set myKeys = portVertexLocations.keySet();
+        for(Object vertLoc : myKeys) {
+            if(vertexObjects.get(vertLoc).getOwner() == playerIndex) {
+                PortType type = portVertexLocations.get(vertLoc).getResource();
+                ports.add(type);
+            }
+        }
+        return ports;
+    }
 
     /**
      * Updates all map data members to match the newly updated model

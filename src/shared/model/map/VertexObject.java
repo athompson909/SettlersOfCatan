@@ -13,7 +13,7 @@ import shared.locations.VertexLocation;
 public class VertexObject {
 
     /**
-     * PlayerID of the player who has built on this location
+     * Index of the player who has built on this location
      */
     private transient int owner;
 
