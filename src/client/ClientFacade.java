@@ -18,20 +18,8 @@ import java.util.List;
  *
  * Created by Alise on 9/17/2016.
  */
-//TODO Need to take care of errors
-    //Todo take care of responses
 public class ClientFacade {
 
-    /*Example of facade function and using the translator
-
-    buildRoad(command){
-        JSONObject json = jsonTranslator.roadToJson(command);
-        JSONObject response = serverProxy.buildRoad(json);
-        ClientModel model = jsonTranslator.jsonToModel(response);
-        clientUpdateManager.delegateUpdates(model);
-    }
-
-     */
 
     /**
      * Translates to and from JSON
@@ -57,15 +45,11 @@ public class ClientFacade {
     }
 
     /**
-     *
-     * @param updatedClientModel
+     * sends updated model to the updateManager to delegate updates
+     * @param updatedClientModel - model returned by server
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
         clientUpdateManager.delegateUpdates(updatedClientModel);
-    }
-
-    public static void fetchModel() {
-
     }
 
     /**
@@ -81,7 +65,8 @@ public class ClientFacade {
     If the passed¬in (username, password) pair is not valid, or the operation fails for any other
     reason,
     1. The server returns an HTTP 400 error response, and the body contains an error
-     * @param loginCommand
+     * @param loginCommand - contains info needed to login
+     * @return boolean - true if logged in correctly; false if there were problems
      */
     public boolean userLogin(LoginCommand loginCommand){
         JSONObject json = jsonTranslator.loginCmdToJSON(loginCommand);
@@ -116,6 +101,7 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
      * @param registerCommand
+     * @return boolean - true if the user was registered; false otherwise
      */
     public boolean userRegister(RegisterCommand registerCommand){
         JSONObject json = jsonTranslator.registerCmdToJSON(registerCommand);
@@ -143,8 +129,9 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
+     * @return List - a list of GameListItems containing information about each game on the Server
      */
-    public List gamesList(GameListCommand command){
+    public List gamesList(){
         try {
             JSONArray response = serverProxy.gamesList();
             List games = jsonTranslator.gamesListResponseFromJSON(response);
@@ -165,7 +152,8 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param gameCreateCommand
+     * @param gameCreateCommand - item holding information needed to create a new game
+     * @return GameListItem - an item containing information about the game just created on the server
      */
     public GameListItem gameCreate(GameCreateCommand gameCreateCommand){
         JSONObject json = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
@@ -200,7 +188,8 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param gameJoinCommand
+     * @param gameJoinCommand - holds info needed to join a game
+     * @return boolean - true if the game was successfully joined
      */
     public boolean gameJoin(GameJoinCommand gameJoinCommand){
         JSONObject json = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
@@ -234,7 +223,8 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
-     * @param command
+     * @param command - contains info needed to save a game
+     * @return boolean - true if game successfully saved
      */
     public boolean gameSave(GameSaveCommand command){
         JSONObject json = jsonTranslator.gameSaveCmdToJSON(command);
@@ -267,7 +257,8 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param command
+     * @param command - holds info needed to load a game
+     * @return boolean - true if game successfully loaded
      */
     public boolean gameLoad(GameLoadCommand command){
         JSONObject json = jsonTranslator.gameLoadCmdToJSON(command);
@@ -427,6 +418,7 @@ public class ClientFacade {
     1. The server returns an HTTP 200 success response.
     2. The body contains a JSON JSONObject array enumerating the different types of AI players.
     These are the values that may be passed to the /game/addAI method.
+     * @return list of AIs to pick from
      */
     public List<String> listAI(){
         try {
@@ -454,6 +446,8 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message
+     * @param command - contains info needed to add AI to a game
+     * @return boolean - true if AI added successfully
      */
     public boolean addAI(AddAICommand command){
         JSONObject json = jsonTranslator.addAICmdToJSON(command);
@@ -481,7 +475,8 @@ public class ClientFacade {
     If the operation fails,
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
-     * @param command
+     * @param command - contains info needed to change log levels
+     * @return boolean - true if log level successfully changed
      */
     public boolean utilChangeLogLevel(UtilChangeLogLevelCommand command){
 
@@ -508,10 +503,10 @@ public class ClientFacade {
      * Adds a message to the end of the chat
      * @pre Caller has already logged in to the server and joined a game.
      * @post The chat contains your message at the end
-     * @param command
+     * @param command - message to add to chat
      */
     public void sendChat(SendChatCommand command){
-        // DOES THIS FUNCTION NEED TO BE CHECKING THE PRE-CONDITIONS??
+        //Todo DOES THIS FUNCTION NEED TO BE CHECKING THE PRE-CONDITIONS??
         JSONObject jsonToSend = jsonTranslator.sendChatCmdToJSON(command);
         try {
             JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
@@ -528,7 +523,7 @@ public class ClientFacade {
      *Tells the server what number was rolled so resources can be distributed, discarded or robbed.
      * @pre Caller has already logged in to the server and joined a game. It is your turn. The client model’s status is ‘Rolling’
      * @post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
-     * @param command
+     * @param command - number rolled
      */
     public void rollNumber(RollDiceCommand command){
         JSONObject jsonToSend = jsonTranslator.rollDiceCmdToJSON(command);
@@ -548,7 +543,7 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * @post The cards in your new dev card hand have been transferred to your old dev card
     hand. It is the next player’s turn
-     * @param command
+     * @param command - contains info needed to finish your turn
      */
     public void finishTurn(FinishTurnCommand command){
         JSONObject jsonToSend = jsonTranslator.finishTurnCmdToJSON(command);
@@ -568,7 +563,7 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game. The status of the client model is 'Discarding'.
      * You have over 7 cards. You have the cards you're choosing to discard.
      * @post You gave up the specified resources. If you're the last one to discard, the client model status changes to 'Robbing'
-     * @param command
+     * @param command - contains list of cards to discard
      */
     public void discardCards(DiscardCommand command){
         JSONObject jsonToSend = jsonTranslator.discardCmdToJSON(command);
@@ -593,7 +588,7 @@ public class ClientFacade {
      * @post You lost the resources required to build a road (1 wood, 1 brick; 1 road).
      * The road is on the map at the specified location.
      * If applicable, “longest road” has been awarded to the player with the longest road
-     * @param command
+     * @param command - contains location to build road on
      */
     public void buildRoad(BuildRoadCommand command){
         JSONObject jsonToSend = jsonTranslator.buildRoadCmdToJSON(command);
@@ -618,7 +613,7 @@ public class ClientFacade {
      * @post You lost the resources required to build a settlement if not setup rounds(1 wood, 1 brick, 1 wheat, 1
     sheep; 1 settlement).
     The settlement is on the map at the specified location
-     * @param command
+     * @param command - contains settlement location info
      */
     public void buildSettlement(BuildSettlementCommand command){
         JSONObject jsonToSend = jsonTranslator.buildSettlementCmdToJSON(command);
@@ -640,7 +635,7 @@ public class ClientFacade {
      * @post You lost the resources required to build a city (2 wheat, 3 ore; 1 city).
      * The city is on the map at the specified location.
      * You got a settlement back
-     * @param command
+     * @param command - contains city location info
      */
     public void buildCity(BuildCityCommand command){
         JSONObject jsonToSend = jsonTranslator.buildCityCmdToJSON(command);
@@ -659,10 +654,10 @@ public class ClientFacade {
      * Tells Server to send a trade offer to the other player.
      * @pre Caller has already logged in to the server and joined a game. You have the resources you are offering.
      * @post The trade is offered to the other player (stored in the server model).
-     * @param command
+     * @param command - contains trade offer info
      */
     public void offerTrade(OfferTradeCommand command){
-        // I THINK THIS ONE IS GOING TO BE A LITTLE DIFFERENT THAN THE OTHERS
+        //Todo I THINK THIS ONE IS GOING TO BE A LITTLE DIFFERENT THAN THE OTHERS
         // It will display an offer screen to the other user and they have to create
         // an acceptTradeCommand object to send back... -Steph
         JSONObject jsonToSend = jsonTranslator.offerTradeCmdToJSON(command);
@@ -684,7 +679,7 @@ public class ClientFacade {
      * @post If you accepted, you and the player who offered swap the specified resources.
      * If you declined no resources are exchanged.
      * The trade offer is removed
-     * @param command
+     * @param command - info needed to accept trade
      */
     public void acceptTrade(AcceptTradeCommand command){
         JSONObject jsonToSend = jsonTranslator.acceptTradeCmdToJSON(command);
@@ -705,7 +700,7 @@ public class ClientFacade {
      * For ratios less than 4, you have the correct port for the trade
      * @post The trade has been executed (the offered resources are in the bank, and the
     requested resource has been received)
-     * @param command
+     * @param command - contains info to trade with bank
      */
     public void maritimeTrade(MaritimeTradeCommand command){
         JSONObject jsonToSend = jsonTranslator.maritimeTradeCmdToJSON(command);
@@ -727,7 +722,7 @@ public class ClientFacade {
     resource cards
      * @post The robber is in the new location. The player being robbed (if any) gave you one of his resource cards (randomly
     selected)
-     * @param command
+     * @param command - contains info needed to rob a player
      */
     public void robPlayer(RobPlayerCommand command){
         JSONObject jsonToSend = jsonTranslator.robPlayerCmdToJSON(command);
@@ -750,7 +745,7 @@ public class ClientFacade {
     - If it is a monument card, it has been added to your old devcard hand
     - If it is a non¬monument card, it has been added to your new devcard hand
     (unplayable this turn)
-     * @param command
+     * @param command - info needed to buy dev card
      */
     public void purchaseDevCard(PurchaseDevCardCommand command){
         JSONObject jsonToSend = jsonTranslator.purchaseDevDardCmdToJSON(command);
@@ -777,7 +772,7 @@ public class ClientFacade {
     most soldier cards.
     You are not allowed to play other development cards during this turn (except for
     monument cards, which may still be played)
-     * @param command
+     * @param command - contains info needed to play soldier card
      */
     public void playSoldier(PlaySoldierCommand command){
         JSONObject jsonToSend = jsonTranslator.playSoldierCmdToJSON(command);
@@ -796,7 +791,7 @@ public class ClientFacade {
      * Tells the Server to allow the player to pick two resources from the Bank
      * @pre Caller has already logged in to the server and joined a game. The two specified resources are in the bank
      * @post You gained the two specified resources
-     * @param command
+     * @param command - contains info to play year of plenty card
      */
     public void playYearOfPlenty(PlayYearOfPlentyCommand command){
         JSONObject jsonToSend = jsonTranslator.playYearOfPlentyCmdToJSON(command);
@@ -821,7 +816,7 @@ public class ClientFacade {
      * @post You have two fewer unused roads.
      * Two new roads appear on the map at the specified locations.
      * If applicable, “longest road” has been awarded to the player with the longest road
-     * @param command
+     * @param command - info to play road building card
      */
     public void playRoadBuilding(PlayRoadBuilderCommand command){
         JSONObject jsonToSend = jsonTranslator.playRoadBuilderCmdToJSON(command);
@@ -841,7 +836,7 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * @post All of the other players have given you all of their resource cards of the specified
     type
-     * @param command
+     * @param command - info to play monopoly card
      */
     public void playMonopoly(PlayMonopolyCommand command){
         JSONObject jsonToSend = jsonTranslator.playMonopolyCmdToJSON(command);
@@ -861,7 +856,7 @@ public class ClientFacade {
      * @pre Caller has already logged in to the server and joined a game.
      * You have enough monument cards to win the game (i.e., reach 10 victory points)
      * @post You gained a victory point.
-     * @param command
+     * @param command - info to play monument card
      */
     public void playMonument(PlayMonumentCommand command){
         JSONObject jsonToSend = jsonTranslator.playMonumentCmdToJSON(command);
