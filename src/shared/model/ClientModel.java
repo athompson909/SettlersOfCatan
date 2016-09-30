@@ -171,12 +171,22 @@ public class ClientModel {
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
 
+    /**
+     * @param playerIndex of player performing trade
+     * @return true if player has cards to trade
+     * IN THE FUTURE: This should return an array of integers that lists
+     * the number of cards of each resource type available
+     */
     public boolean canDomesticTrade(int playerIndex) {
         // 0:WOOD, 1:WHEAT, 2:BRICK, 3:ORE, 4:SHEEP
         return players[playerIndex].canDomesticTrade();
     }
 
-
+    /**
+     * @param playerIndex of player performing trade
+     * @return true if player owns ports to trade from and enough cards to trade
+     * IN THE FUTURE: This should return a set of PortTypes that player is able to trade
+     */
     public boolean canMaritimeTrade(int playerIndex) {
         Set<PortType> ports = map.getPlayersPorts(playerIndex);
         return players[playerIndex].canMaritimeTrade(ports);
