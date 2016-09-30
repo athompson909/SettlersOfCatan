@@ -49,6 +49,7 @@ public class ClientFacade {
      * @param updatedClientModel - model returned by server
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
+        version = updatedClientModel.getVersion();
         clientUpdateManager.delegateUpdates(updatedClientModel);
     }
 
@@ -307,7 +308,6 @@ public class ClientFacade {
             String jsonNewModelStr = serverProxy.gameModelVersion(version);
             jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -339,7 +339,6 @@ public class ClientFacade {
         try {
             JSONObject jsonModel = serverProxy.gameReset();
             ClientModel resetModel = jsonTranslator.modelFromJSON(jsonModel);
-            version = resetModel.getVersion();
             sendUpdatedModel(resetModel);
         }catch (ClientException e) {
             e.printStackTrace();
@@ -402,7 +401,6 @@ public class ClientFacade {
         try {
             JSONObject response = serverProxy.executeGameCommands(jsonArray);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(response);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -506,12 +504,10 @@ public class ClientFacade {
      * @param command - message to add to chat
      */
     public void sendChat(SendChatCommand command){
-        //Todo DOES THIS FUNCTION NEED TO BE CHECKING THE PRE-CONDITIONS??
         JSONObject jsonToSend = jsonTranslator.sendChatCmdToJSON(command);
         try {
             JSONObject jsonNewModel = serverProxy.sendChat(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -530,7 +526,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -550,7 +545,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -570,7 +564,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.discardCards(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -595,7 +588,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -620,7 +612,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -642,7 +633,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -664,7 +654,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.offerTrade(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -686,7 +675,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.acceptTrade(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -707,7 +695,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.maritimeTrade(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -729,7 +716,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -752,7 +738,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.purchaseDevCard(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -779,7 +764,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.playSoldier(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -798,7 +782,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.playYearOfPlenty(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -823,7 +806,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.playRoadBuilding(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -843,7 +825,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.playMonopoly(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
@@ -863,7 +844,6 @@ public class ClientFacade {
         try {
             JSONObject jsonNewModel = serverProxy.playMonument(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
-            version = updatedModel.getVersion();
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {
