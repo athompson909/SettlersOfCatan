@@ -483,6 +483,11 @@ public class Map {
     }
 
     //GETTERS
+
+    public HashMap<VertexLocation, Port> getPortVertexLocations() {
+        return portVertexLocations;
+    }
+
     public HashMap<HexLocation, Hex> getHexes() {
         return hexes;
     }
@@ -511,6 +516,7 @@ public class Map {
         this.buildingManager = buildingManager;
     }
 */
+
     public HashMap<VertexLocation, VertexObject> getVertexObjects() {
         return vertexObjects;
     }
