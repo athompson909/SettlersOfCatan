@@ -33,7 +33,6 @@ public class JSONTranslatorTest extends TestCase {
 
     private JSONTranslator jsonTranslator = new JSONTranslator();
     private String testResponseModel = null;
-    private String testModelString2 = null;
     private String testCommandsListJSON = null;
     private String testGamesListJSON = null;
     private String testGameCreateResponseJSON = null;
@@ -964,6 +963,11 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">MODEL TRANSLATION OK!");
 
         //asserts - check some things inside newCM
+        assertEquals(-1, newCM.getWinner());
+        assertEquals(4, newCM.getPlayers().length);
+        assertEquals(2, newCM.getChat().getLines().size());
+        assertEquals(2, newCM.getLog().getLines().size());
+        assertEquals(19, newCM.getMap().getHexes().size());
     }
 
 
