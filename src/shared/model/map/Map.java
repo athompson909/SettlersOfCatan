@@ -20,20 +20,41 @@ public class Map {
     private HashMap<HexLocation, Hex> hexes = new HashMap<>();
 
     /**
-     * List of all ports used to create map
+     * Hashmap of all ports used to create map
      */
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
+    /**
+     * Hashmap of all the vertex objects on the map,
+     * including unoccupied vertex objects (null), settlements, and cities.
+     */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
+    /**
+     * Hashmap of all possible edgeValues
+     * including unoccupied vertex objects (null), and roads.
+     */
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
 
+    /**
+     * List of the static vertex locations
+     */
     private List<VertexLocation> portVertexLocations = new ArrayList<>();
 
+    /**
+     * A building manager for all road functionality.
+     */
     public BuildRoadManager buildRoadManager = new BuildRoadManager(this);
-    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
-    public BuildCityManager buildCityManager = new BuildCityManager(this);
 
+    /**
+     * A building manager for all settlement funcitonality.
+     */
+    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
+
+    /**
+     * A building manager for all city functionality.
+     */
+    public BuildCityManager buildCityManager = new BuildCityManager(this);
 
     /**
      * Robber object
@@ -44,10 +65,11 @@ public class Map {
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-
-
     private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
+    /**
+     * An iterator to go through all the numbers assigned to the hexes when the map is initialized.
+     */
     private static Iterator<Integer> numberIterator = numberOrder.iterator();
 
     /**
@@ -72,8 +94,10 @@ public class Map {
         setPorts(allPorts);
     }
 
+    /**
+     * Creates 18 Water hexes at these specified locations starting with north-west corner going counterclockwise
+     */
     private void createAllWaterHexes() {
-        //18 Water hexes at these specified locations starting with north-west corner going counterclockwise
         createWaterHex(-3, 0);
         createWaterHex(-3, 1);
         createWaterHex(-3, 2);
@@ -96,7 +120,6 @@ public class Map {
 
     /**
      * Generates a single water hex at the specified location.
-     *
      * @param x coordinate on map.
      * @param y coordinate on map.
      */
@@ -105,6 +128,10 @@ public class Map {
         hexes.put(waterHex.getLocation(), waterHex);
     }
 
+    /**
+     * Places all the ports on the map.
+     * @param randomlyPlacePorts if the ports are being randomized.
+     */
     private void placeAllPorts(boolean randomlyPlacePorts) {
         //Default Port Order
         List<PortType> resourcePortList = new LinkedList<PortType>(
@@ -141,12 +168,24 @@ public class Map {
         placePort(-1, -2, resourcePortList.get(8), EdgeDirection.South);
     }
 
+    /**
+     * Places an individual port
+     * @param x coordinate
+     * @param y coordinate
+     * @param portType to place.
+     * @param edgeDirection of the port.
+     */
     private void placePort(int x, int y, PortType portType, EdgeDirection edgeDirection) {
         HexLocation hexLocation = new HexLocation(x, y);
         Port newPort = new Port(portType, hexLocation, edgeDirection);
         ports.put(hexLocation, newPort);
     }
 
+    /**
+     * Creates all the land hexes, with their accompanying numbers.
+     * @param randomlyPlaceHexes if the hexes are to be placed randomly.
+     * @param randomlyPlaceNumbers if the numbers are to be placed randomly.
+     */
     private void createAllLandHexes(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers) {
         //The default land hex order starting with the north-west corner and spiraling in counter-clockwise
         List<HexType> landHexTypeOrder = Arrays.asList(
@@ -188,6 +227,12 @@ public class Map {
         createLandHex(0, 0, landHexTypeOrder.get(18)); //Center
     }
 
+    /**
+     * Creates a single land hex.
+     * @param x coordinate.
+     * @param y y coordinate
+     * @param hexType for the hex.
+     */
     private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
@@ -272,6 +317,9 @@ public class Map {
         vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
+    /**
+     * Populates all the port vertex locations in their static locations.
+     */
     private void populatePortVertexLocations(){
         portVertexLocations.add(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest));
         portVertexLocations.add(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast));
@@ -293,6 +341,9 @@ public class Map {
         portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest));
     }
 
+    /**
+     * Creates all of the edge values, starting with the west most values, going through each column.
+     */
     private void createAllEdgeValues(){
         //First Column (West Most Column)
         createSingleEdgeValue(-3,1, EdgeDirection.NorthEast);
@@ -400,16 +451,13 @@ public class Map {
         //setRobber(newMap.robber);
     }
 
+    //GETTERS
     public HashMap<HexLocation, Hex> getHexes() {
         return hexes;
     }
 
     public HashMap<HexLocation, Port> getPorts() {
         return ports;
-    }
-
-    public void setHexes(HashMap<HexLocation, Hex> hexes) {
-        this.hexes = hexes;
     }
 
     public void setPorts(HashMap<HexLocation, Port> ports) {
@@ -426,5 +474,10 @@ public class Map {
 
     public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
         return edgeValues;
+    }
+
+    //SETTERS
+    public void setHexes(HashMap<HexLocation, Hex> hexes) {
+        this.hexes = hexes;
     }
 }

@@ -18,7 +18,7 @@ public class BuildCityManagerTest extends TestCase {
         //Test building City
         VertexLocation desiredCityLocation = new VertexLocation(new HexLocation(0, -2), VertexDirection.NorthWest);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
-        map.buildSettlementManager.placeSettlement(desiredCityLocation, PLAYER1);
+        map.buildSettlementManager.placeSettlement(PLAYER1, desiredCityLocation);
         assert (map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
         map.buildCityManager.placeCity(PLAYER1, desiredCityLocation);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
@@ -28,7 +28,7 @@ public class BuildCityManagerTest extends TestCase {
         //Test Two players trying to build cities
         VertexLocation enemyCityLocation = new VertexLocation(new HexLocation(-3, 3), VertexDirection.NorthEast);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, enemyCityLocation));
-        map.buildSettlementManager.placeSettlement(enemyCityLocation, PLAYER2);
+        map.buildSettlementManager.placeSettlement(PLAYER2, enemyCityLocation);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, enemyCityLocation));
         map.buildCityManager.placeCity(PLAYER2, enemyCityLocation);
 
