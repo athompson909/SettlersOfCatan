@@ -953,7 +953,7 @@ public class JSONTranslatorTest extends TestCase {
      */
     @Test
     public void testModelTranslation() throws Exception {
-        System.out.println(">I'M TESTING MODEL TRANSLATION from JSON!");
+        System.out.println(">TESTING MODEL TRANSLATION from JSON!");
 
         JSONObject newClientModelJSON = new JSONObject(testResponseModel);
 
@@ -979,12 +979,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING ADDAICMD TRANSLATION!");
 
         JSONObject addAICmdJSONResult = jsonTranslator.addAICmdToJSON(addAICommand);
-                // gsonTest.toJson(addAICommand);
-
-        System.out.print("Just serialized addAICmd, JSONstring result= ");
-        System.out.println(addAICmdJSONResult);
-        System.out.println("=================");
-
         String expectedResult = "{\n" +
                                   "  \"AIType\": \"LARGEST_ARMY\"\n" +
                                 "}";
@@ -998,11 +992,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMECREATECMD TRANSLATION!");
 
         JSONObject gameCreateCmdJSONResult = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
-                // gsonTest.toJson(gameCreateCommand);
-
-        System.out.println("Just serialized gameCreateCmd, JSONstring result= ");
-        System.out.println(gameCreateCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"randomTiles\":" + true + ",\n" +
@@ -1037,9 +1026,7 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMELISTRESPONSE TRANSLATION!");
 
         JSONArray testGamesListJSONArr = new JSONArray(testGamesListJSON);
-
         ArrayList<GameListItem> gLIArrayResult = jsonTranslator.gamesListResponseFromJSON(testGamesListJSONArr);
-        System.out.println(">gLIArrayResult size= " + gLIArrayResult.size());
 
         //asserts
         assertEquals(gLIArrayResult.size(), 3);
@@ -1053,11 +1040,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMEJOINCMD TRANSLATION!");
 
         JSONObject gameJoinCmdJSONResult = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
-                // gsonTest.toJson(gameJoinCommand);
-
-        System.out.print("Just serialized gameJoinCmd, JSONstring result= ");
-        System.out.println(gameJoinCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult =
                         " {\n" +
@@ -1074,11 +1056,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMELOADCMD TRANSLATION!");
 
         JSONObject gameLoadCmdJSONResult = jsonTranslator.gameLoadCmdToJSON(gameLoadCommand);
-                // gsonTest.toJson(gameLoadCommand);
-
-        System.out.println("Just serialized gameLoadCmd, JSONstring result= ");
-        System.out.println(gameLoadCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                     "\"name\":" + "bacon\n" +
@@ -1093,11 +1070,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMESAVECMD TRANSLATION!");
 
         JSONObject gameSaveCmdJSONResult = jsonTranslator.gameSaveCmdToJSON(gameSaveCommand);
-                //gsonTest.toJson(gameSaveCommand);
-
-        System.out.println("Just serialized gameSaveCmd, JSONstring result= ");
-        System.out.println(gameSaveCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"id\":" + 10 + ",\n" +
@@ -1143,7 +1115,6 @@ public class JSONTranslatorTest extends TestCase {
 
         JSONArray cmdsListJSONArrResult = jsonTranslator.commandsListToJSON(allCmdObjsList);
         String cmdsListStringResult = cmdsListJSONArrResult.toString();
-        System.out.println(">JSONRESULT: " + cmdsListStringResult);
 
         JSONAssert.assertEquals(testCommandsListJSON, cmdsListStringResult, false);
     }
@@ -1180,11 +1151,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING LOGINCMD TRANSLATION!");
 
         JSONObject loginCmdJSONResult = jsonTranslator.loginCmdToJSON(loginCommand);
-                //gsonTest.toJson(loginCommand);
-
-        System.out.println("Just serialized loginCmd, JSONstring result= ");
-        System.out.println(loginCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"username\":" + "\"yoyo\"," +
@@ -1200,11 +1166,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING REGISTERCMD TRANSLATION!");
 
         JSONObject registerCmdJSONResult = jsonTranslator.registerCmdToJSON(registerCommand);
-                // gsonTest.toJson(registerCommand);
-
-        System.out.println("Just serialized registerCmd, JSONstring result= ");
-        System.out.println(registerCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                             "\"username\":" + "\"yoyo\"," +
@@ -1220,11 +1181,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING SENDCHATCMD TRANSLATION!");
 
         JSONObject sendChatCmdJSONResult = jsonTranslator.sendChatCmdToJSON(sendChatCommand);
-                // gsonTest.toJson(sendChatCommand);
-
-        System.out.println("Just serialized sendChatCmd, JSONstring result= ");
-        System.out.println(sendChatCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                  "\"type\":" + "\"sendChat\",\n" +
@@ -1241,11 +1197,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING UTILCHANGELOGLEVELCMD TRANSLATION!");
 
         JSONObject utilChangeLogLevelCmdJSONResult = jsonTranslator.utilChangeLogLevelCmdToJSON(utilChangeLogLevelCommand);
-                //gsonTest.toJson(utilChangeLogLevelCommand);
-
-        System.out.println("Just serialized utilChangeLogLevelCmd, JSONstring result= ");
-        System.out.println(utilChangeLogLevelCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"logLevel\":" + "\"FINE\"" +
@@ -1263,11 +1214,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING ACCEPTTRADECMD TRANSLATION!");
 
         JSONObject acceptTradeCmdJSONResult = jsonTranslator.acceptTradeCmdToJSON(acceptTradeCommand);
-                // gsonTest.toJson(acceptTradeCommand);
-
-        System.out.println("Just serialized acceptTradeCmd, JSONstring result= ");
-        System.out.println(acceptTradeCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{ " +
                                  "\"type\": \"acceptTrade\"," +
@@ -1284,11 +1230,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING BUILDCITYCMD TRANSLATION!");
 
         JSONObject buildCityCmdJSONResult = jsonTranslator.buildCityCmdToJSON(buildCityCommand);
-                // gsonTest.toJson(buildCityCommand);
-
-        System.out.println("Just serialized buildCityCmd, JSONstring result= ");
-        System.out.println(buildCityCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                              "  \"type\": \"buildCity\",\n" +
@@ -1300,11 +1241,6 @@ public class JSONTranslatorTest extends TestCase {
                                 "   }\n" +
                                 "}";
 
-        //in order for the JSON to look exactly like what the server wants it to, you sometimes have to
-        //bring up values from nested object to higher up. Example: here I had to take values from VertexObject's
-        // EdgeLocation datamem up to be in VertexObject itself so the JSON string would match what the server wants.
-        // I don't know if this will cause any problems later.....
-
         JSONAssert.assertEquals(expectedResult, buildCityCmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
 
@@ -1314,11 +1250,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING BUILDROADCMD TRANSLATION!");
 
         JSONObject buildRoadCmdJSONResult = jsonTranslator.buildRoadCmdToJSON(buildRoadCommand);
-                // gsonTest.toJson(buildRoadCommand);
-
-        System.out.print("Just serialized buildRoadCmd, JSONstring result= ");
-        System.out.println(buildRoadCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                 "  \"type\": \"buildRoad\",\n" +
@@ -1346,11 +1277,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING BUILDSTLMTCMD TRANSLATION!");
 
         JSONObject buildStlmtCmdJSONResult = jsonTranslator.buildSettlementCmdToJSON(buildSettlementCommand);
-                //gsonTest.toJson(buildSettlementCommand);
-
-        System.out.println("Just serialized buildStlmtCmd, JSONstring result= ");
-        System.out.println(buildStlmtCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\": \"buildSettlement\", \n" +
@@ -1372,11 +1298,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING DISCARDCMD TRANSLATION!");
 
         JSONObject discardCmdJSONResult = jsonTranslator.discardCmdToJSON(discardCommand);
-                //gsonTest.toJson(discardCommand);
-
-        System.out.println("Just serialized discardCmd, JSONstring result= ");
-        System.out.println(discardCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\":" + "\"discardCards\",\n" +
@@ -1399,11 +1320,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING FINISHTURNCMD TRANSLATION!");
 
         String finishTurnCmdJSONResult = gsonTest.toJson(finishTurnCommand);
-
-        System.out.println("Just serialized finishTurnCmd, JSONstring result= ");
-        System.out.println(finishTurnCmdJSONResult);
-        System.out.println("=================");
-
         String expectedResult = "{" +
                                     "\"type\":" + "\"finishTurn\", " +
                                     "\"playerIndex\":" + 3 +
@@ -1418,11 +1334,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING MARITIMETRADECMD TRANSLATION!");
 
         JSONObject maritimeTradeCmdJSONResult = jsonTranslator.maritimeTradeCmdToJSON(maritimeTradeCommand);
-                // gsonTest.toJson(maritimeTradeCommand);
-
-        System.out.println("Just serialized maritimeTradeCMD, JSONstring result= ");
-        System.out.println(maritimeTradeCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                  "\"type\":" +  "\"maritimeTrade\",\n"+
@@ -1441,11 +1352,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING OFFERTRADECMD TRANSLATION!");
 
         JSONObject offerTradeCmdJSONResult = jsonTranslator.offerTradeCmdToJSON(offerTradeCommand);
-                // gsonTest.toJson(offerTradeCommand);
-
-        System.out.println("Just serialized offerTradeCMD, JSONstring result= ");
-        System.out.println(offerTradeCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                     "\"type\": offerTrade,\n" +
@@ -1469,12 +1375,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING PLAYMONOPOLYCMD TRANSLATION!");
 
         JSONObject playMonopolyCmdJSONResult = jsonTranslator.playMonopolyCmdToJSON(playMonopolyCommand);
-                // gsonTest.toJson(playMonopolyCommand);
-
-        System.out.println("Just serialized playMonopolyCmd, JSONstring result= ");
-        System.out.println(playMonopolyCmdJSONResult);
-        System.out.println("=================");
-
         String expectedResult = "{\n" +
                                    "\"type\": Monopoly,\n" +
                                    "\"resource\": brick,\n" +
@@ -1490,11 +1390,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING PLAYMONUMENTCMD TRANSLATION!");
 
         JSONObject playMonumentCmdJSONResult = jsonTranslator.playMonumentCmdToJSON(playMonumentCommand);
-                // gsonTest.toJson(playMonumentCommand);
-
-        System.out.println("Just serialized playMonumentCmd, JSONstring result= ");
-        System.out.println(playMonumentCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                     "\"type\": Monument,\n" +
@@ -1510,11 +1405,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING PLAYROADBUILDERCMD TRANSLATION!");
 
         JSONObject playRoadBuilderCmdJSONResult = jsonTranslator.playRoadBuilderCmdToJSON(playRoadBuilderCommand);
-                // gsonTest.toJson(playRoadBuilderCommand);
-
-        System.out.println("Just serialized playRoadBuilderCmd, JSONstring result= ");
-        System.out.println(playRoadBuilderCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\": Road_Building,\n " +
@@ -1540,11 +1430,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING PLAYSOLDIERCMD TRANSLATION!");
 
         JSONObject playSoldierCmdJSONResult = jsonTranslator.playSoldierCmdToJSON(playSoldierCommand);
-                //gsonTest.toJson(playSoldierCommand);
-
-        System.out.println("Just serialized playSoldierCmd, JSONstring result= ");
-        System.out.println(playSoldierCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                  "\"type\": \"Soldier\"," +
@@ -1565,11 +1450,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING PLAYYEAROFPLENTYCMD TRANSLATION!");
 
         JSONObject playYearOfPlentyCmdJSONResult = jsonTranslator.playYearOfPlentyCmdToJSON(playYearOfPlentyCommand);
-                // gsonTest.toJson(playYearOfPlentyCommand);
-
-        System.out.println("Just serialized playYearOfPlentyCmd, JSONstring result= ");
-        System.out.println(playYearOfPlentyCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\":" + "\"Year_of_Plenty\",\n" +
@@ -1587,11 +1467,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING PURCHASEDEVDARDCMD TRANSLATION!");
 
         JSONObject purchaseDevCardCmdJSONResult = jsonTranslator.purchaseDevDardCmdToJSON(purchaseDevCardCommand);
-                // gsonTest.toJson(purchaseDevCardCommand);
-
-        System.out.println("Just serialized playYearOfPlentyCmd, JSONstring result= ");
-        System.out.println(purchaseDevCardCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\":" + "\"buyDevCard\"," +
@@ -1607,10 +1482,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING ROBPLAYERCMD TRANSLATION!");
 
         String robPlayerCmdJSONResult = gsonTest.toJson(robPlayerCommand);
-
-        System.out.println("Just serialized robPlayerCmd, JSONstring result= ");
-        System.out.println(robPlayerCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\":" + "\"robPlayer\",\n" +
@@ -1631,11 +1502,6 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING ROLLDICECMD TRANSLATION!");
 
         JSONObject rollDiceCmdJSONResult = jsonTranslator.rollDiceCmdToJSON(rollDiceCommand);
-                //gsonTest.toJson(rollDiceCommand);
-
-        System.out.println("Just serialized rollDiceCmd, JSONstring result= ");
-        System.out.println(rollDiceCmdJSONResult);
-        System.out.println("=================");
 
         String expectedResult = "{\n" +
                                 "\"type\":"  + "\"rollNumber\",\n" +

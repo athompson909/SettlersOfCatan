@@ -15,6 +15,7 @@ public class BuildSettlementManagerTest extends TestCase {
     private final int PLAYER2 = 2;
 
     public void testBuildingOnNorthWestEdgeVertex() {
+        System.out.println("testBuildingOnNorthWestEdgeVertex");
         //Test building vertex at northwest vertex of (-1,1)
         VertexLocation desiredLocation1 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.NorthWest);
         EdgeLocation adjacentRoad1 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.North);
@@ -32,6 +33,7 @@ public class BuildSettlementManagerTest extends TestCase {
     }
 
     public void testBuildingOnNorthEastEdgeVertex() {
+        System.out.println("testBuildingOnNorthWestEdgeVertex");
         //Test building vertex at northe vertex of (1,2)
         VertexLocation desiredLocation1 = new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthEast);
         EdgeLocation adjacentRoad1 = new EdgeLocation(new HexLocation(1, 2), EdgeDirection.North);

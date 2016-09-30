@@ -10,6 +10,7 @@ public class ResourceListTest extends TestCase {
     private ResourceList resourceList = new ResourceList();
 
     public void testResourceList() {
+        System.out.println("test Resource List");
         resourceList.incWoodCardCount(1);
         resourceList.incBrickCardCount(2);
         resourceList.incSheepCardCount(3);
