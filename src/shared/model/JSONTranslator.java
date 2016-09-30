@@ -2,7 +2,7 @@ package shared.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.sun.tools.internal.ws.processor.model.Message;
+//import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.HexType;

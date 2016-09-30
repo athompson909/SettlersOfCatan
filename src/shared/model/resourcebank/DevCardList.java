@@ -55,20 +55,23 @@ public class DevCardList {
      * @param newDevCardList to replace the existing resource list.
      */
     public void update(DevCardList newDevCardList){
-
+        //TODO: Update the newDevCardList
     }
 
-    public boolean isEmpty(){
-        if(soldierCardCount > 1
-                && monopolyCardCount > 1
-                && monumentCardCount > 1
-                && roadBuildingCardCount > 1
-                && yearOfPlentyCardCount > 1){
+    /**
+     * Check if the devCardList has not dev cards.
+     */
+    public boolean hasDevCards(){
+        if(getTotalCardCount() > 0){
             return true;
         }
         return false;
     }
 
+    /**
+     * Add a dev card to the list.
+     * @param newDevCard The specified dev card to add.
+     */
     public void addDevCard(DevCardType newDevCard){
         switch (newDevCard) {
             case SOLDIER:
@@ -88,7 +91,10 @@ public class DevCardList {
         }
     }
 
-
+    /**
+     * Remove a random dev card from the list. To be used when purchasing a new dev card.
+     * @return the DevCard Type removed from the list.
+     */
     public DevCardType removeRandomCard(){
         Random rand = new Random();
         int randomIndex = rand.nextInt(getTotalCardCount()) + 1; //Get a random number between 1 and the total
@@ -113,7 +119,10 @@ public class DevCardList {
         }
     }
 
-
+    /**
+     * Remove a specific devcard from the list.
+     * @param devCard to remove from the list.
+     */
     public void removeDevCard(DevCardType devCard){
         switch (devCard) {
             case SOLDIER:

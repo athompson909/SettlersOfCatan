@@ -11,8 +11,9 @@ public class EdgeValue {
 
     /**
      * PlayerID of player who is build on this hex edge
+     * By default, no one owns any unoccupied road.
      */
-    private int owner = -1; //By default, no one owns any unoccupied road.
+    private int owner = -1;
 
     /**
      * X and Y coordinates and direction of hex this edge is associated with
