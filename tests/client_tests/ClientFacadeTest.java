@@ -41,7 +41,7 @@ public class ClientFacadeTest extends TestCase {
     private String testCommandsListJSON = null;
     private String testGamesListJSON = null;
     private String testGameCreateResponseJSON = null;
-    private Gson gsonTest = new Gson();
+   // private Gson gsonTest = new Gson();
 
     private AddAICommand addAICommand;
     private ExecuteGameCommandsCommand execGameCmdsCommand;
@@ -941,23 +941,23 @@ public class ClientFacadeTest extends TestCase {
     }
 
     @Test
-    public void gameCreate() throws Exception {
-
+    public void gameCreate(GameCreateCommand command) throws Exception {
+       // assert(clientFacade.gameCreate(command));
     }
 
     @Test
-    public void gameJoin() throws Exception {
-
+    public void gameJoin(GameJoinCommand command) throws Exception {
+        assert(clientFacade.gameJoin(command));
     }
 
     @Test
-    public void gameSave() throws Exception {
-
+    public void gameSave(GameSaveCommand command) throws Exception {
+        assert(clientFacade.gameSave(command));
     }
 
     @Test
-    public void gameLoad() throws Exception {
-
+    public void gameLoad(GameLoadCommand command) throws Exception {
+        assert(clientFacade.gameLoad(command));
     }
 
     @Test
@@ -986,13 +986,13 @@ public class ClientFacadeTest extends TestCase {
     }
 
     @Test
-    public void addAI() throws Exception {
-
+    public void addAI(AddAICommand command) throws Exception {
+        assert(clientFacade.addAI(command));
     }
 
     @Test
-    public void utilChangeLogLevel() throws Exception {
-
+    public void utilChangeLogLevel(UtilChangeLogLevelCommand command) throws Exception {
+        assert(clientFacade.utilChangeLogLevel(command));
     }
 
     @Test
