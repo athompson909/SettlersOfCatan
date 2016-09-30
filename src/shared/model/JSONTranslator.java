@@ -5,6 +5,8 @@ import com.google.gson.JsonSyntaxException;
 import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.definitions.HexType;
+import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
@@ -21,6 +23,7 @@ import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -88,27 +91,58 @@ public class JSONTranslator {
         //TODO: the map is the last part to do!
 
 //GET MAP
-
         JSONObject newCMMap = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
         int newCMRadius = newCMMap.getInt("radius");
 
-        //GET HEXES
+//GET HEXES
+        //The Hexes data in a map never change during the game.
+        //Only the roads/cities/settlements/robber do.
+        //So this may not need to be used during the model update in UpdateManager...
+        //But just in case: the Map wants a HashMap of HexLocation->Hex objs.
         JSONArray newHexesJSONArr = newCMMap.getJSONArray("hexes");
-        ArrayList<Hex> parsedHexes = new ArrayList<>();
+        HashMap<HexLocation, Hex> newHexesMap = new HashMap<>();
         for (int h = 0; h < newHexesJSONArr.length(); h++)
         {
-            String tempHexString = newHexesJSONArr.get(h).toString();
-                System.out.println(">tempHexString = " + tempHexString);
-            Hex newHex = gsonConverter.fromJson(tempHexString, Hex.class);
+            //I'm doing it manually because 1) it freaks out about Hex's toString() for some reason
+                // and 2) because I have to convert the hex's TYPE string to a HexType enum value.
+            JSONObject currHexStringJSON = newHexesJSONArr.getJSONObject(h);
+                System.out.println(">currHexStringJSON = " + currHexStringJSON);
+            JSONObject currHexLocJSON = currHexStringJSON.getJSONObject("location");
+                System.out.println(">currHexLocJSON = " + currHexLocJSON);
+            int hlX = currHexLocJSON.getInt("x");
+            int hlY = currHexLocJSON.getInt("y");
+            HexLocation newHexLoc = new HexLocation(hlX, hlY);
+
+            Hex newHex;
+            HexType currHexType;
+            int currHexNum = 0;
+            //it could be a desert/ocean hex - check if it contains a resource/number:
+            if (currHexStringJSON.has("resource")) {
+                //if it DOES have a resource, it's a regular hex:
+                String currHexTypeStr = currHexStringJSON.getString("resource");
+                currHexType = exchangeStringForHexType(currHexTypeStr.toString());
+                currHexNum = currHexStringJSON.getInt("number");
+            }
+            else if (currHexStringJSON.has("number")){
+                //if it doesn't have a resource, but DOES have a number, it's a desert hex:
+                currHexType = HexType.DESERT;
+                currHexNum = currHexStringJSON.getInt("number");
+            }
+            else {
+                //if it doesn't have a resource OR a number, it's an ocean hex:
+                currHexType = HexType.WATER;
+                currHexNum = 0;
+            }
+            newHex = new Hex(newHexLoc, currHexType);
+            newHex.setNumber(currHexNum);
                 System.out.println("\t newHex" + h + "= " + newHex.toString());
 
-            parsedHexes.add(newHex);
+            newHexesMap.put(newHex.getLocation(), newHex);
         }
 
-        System.out.println(">parsedHexes size= " + parsedHexes.size());
-        //before building the new Map obj, we need to put the Hexes, Ports, (what else?) in HashMaps
+        System.out.println(">newHexesMap size= " + newHexesMap.size());
 
             //GET ROADS
             //GET CITIES
@@ -234,6 +268,23 @@ public class JSONTranslator {
     }
 
 
+    //helper function for the translateModel process - just a big switch stmt basically
+    public HexType exchangeStringForHexType(String hexTypeString){
+        switch (hexTypeString){
+            case "wood":
+                return HexType.WOOD;
+            case "brick":
+                return HexType.BRICK;
+            case "sheep":
+                return HexType.SHEEP;
+            case "wheat":
+                return HexType.WHEAT;
+            case "ore":
+                return HexType.ORE;
+            default:
+                return null;
+        }
+    }
 
     /**
      * I don't think this is necessary

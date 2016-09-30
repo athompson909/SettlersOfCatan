@@ -24,6 +24,7 @@ public class Map {
      */
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
+    //Is this for cities AND settlements? or do we need another one of these?
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
@@ -64,8 +65,10 @@ public class Map {
 
     }
 
-    //this constructor is for when the new model comes back and we need to make a new Map object
-    // WITHOUT creating/placing all hexes again.
+    /**
+     * this constructor is for when the new model comes back and we need to make a new Map object
+     * WITHOUT creating/placing all hexes again.
+     */
     public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
     {
         setHexes(allHexes);
@@ -393,11 +396,15 @@ public class Map {
      * Updates list of VertexObjects where settlements are built
      * Updates list of VertexObjects where cities are built
      *
+     * Nothing else about the map changes during the game, so keep everything else the same!
+     *
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
 
-        //setRobber(newMap.robber);
+        this.robber = newMap.robber;
+        //edgeValues
+        //vertexObjects
     }
 
     public HashMap<HexLocation, Hex> getHexes() {

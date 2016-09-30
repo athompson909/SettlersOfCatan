@@ -327,7 +327,7 @@ public class JSONTranslatorTest extends TestCase {
                 "  \"map\": {\n" +
                 "    \"hexes\": [\n" +
                 "      {\n" +
-                "        \"resource\": \"sheep\",\n" +
+                "        \"resource\": \"sheep\",\n" +   //regular hex - has resource AND number
                 "        \"location\": {\n" +
                 "          \"x\": 0,\n" +
                 "          \"y\": -2\n" +
@@ -335,18 +335,17 @@ public class JSONTranslatorTest extends TestCase {
                 "        \"number\": 12\n" +
                 "      },\n" +
                 "      {\n" +
-                "        \"location\": {\n" +
+                "        \"location\": {\n" +     // no resource = desert hex
                 "          \"x\": 1,\n" +
-                "          \"y\": -2\n" +
-                "        }\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"resource\": \"brick\",\n" +
-                "        \"location\": {\n" +
-                "          \"x\": 2,\n" +
                 "          \"y\": -2\n" +
                 "        },\n" +
                 "        \"number\": 8\n" +
+                "      },\n" +
+                "      {\n" +
+                "        \"location\": {\n" +   //no resource OR number = ocean/water hex
+                "          \"x\": 2,\n" +
+                "          \"y\": -2\n" +
+                "        }\n" +
                 "      },\n" +
                 "      {\n" +
                 "        \"resource\": \"wood\",\n" +
