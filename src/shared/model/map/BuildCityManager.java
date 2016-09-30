@@ -5,13 +5,19 @@ import shared.locations.VertexLocation;
 
 /**
  * Created by Mitchell on 9/15/2016.
- * <p>
  * updates shared.model to show that a city is built at specified location
  */
 public class BuildCityManager {
 
+    /**
+     * A pointer to the game map.
+     */
     private Map map;
 
+    /**
+     * Constructor for the BuildCityManager.
+     * @param map pointer to reference the map.
+     */
     public BuildCityManager(Map map) {
         this.map = map;
     }
@@ -19,8 +25,7 @@ public class BuildCityManager {
     /**
      * Validates whether or not player may place city at location
      * Checks to see that player currently owns specified vertex
-     * Checks that player has a settlemnt at specified location
-     *
+     * Checks that player has a settlement. at specified location
      * @param desiredVertexLocation VertexObject where player is trying to build city
      * @return true if player currently owns location AND has a settlement on it
      */
@@ -31,11 +36,9 @@ public class BuildCityManager {
                 currentVertexObject.getOwner() == playerID);
     }
 
-
     /**
-     * executed on the server side
+     * Executed on the server side
      * Updates model to reflect a new city
-     *
      * @param desiredVertexLocation Vertex where city is built
      */
     public void placeCity(int playerID, VertexLocation desiredVertexLocation) {

@@ -116,6 +116,10 @@ public class Player { //
         this.playerIndex = playerIndex;
     }
 
+    /**
+     * Update the player with a newPlayer.
+     * @param newPlayer
+     */
     public void updatePlayer(Player newPlayer) {
         setVictoryPoints(newPlayer.getVictoryPoints());
         setMonuments(newPlayer.getMonuments());
