@@ -38,7 +38,7 @@ public class Map {
     /**
      * Robber object
      */
-    private Robber robber;
+    private Robber robber = new Robber(this);
 
     /**
      * Manages the checking and building of roads, settlements,
@@ -61,6 +61,7 @@ public class Map {
         createAllVertexObjects();
         populatePortVertexLocations();
         createAllEdgeValues();
+
     }
 
     //this constructor is for when the new model comes back and we need to make a new Map object
@@ -191,6 +192,9 @@ public class Map {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
             landHex.setNumber(numberIterator.next().intValue());
+        }
+        else{
+            robber.placeRobber(landHex.getLocation());
         }
         hexes.put(landHex.getLocation(), landHex);
     }
@@ -392,7 +396,8 @@ public class Map {
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
-        setRobber(newMap.robber);
+
+        //setRobber(newMap.robber);
     }
 
     public HashMap<HexLocation, Hex> getHexes() {
@@ -413,10 +418,6 @@ public class Map {
 
     public Robber getRobber() {
         return robber;
-    }
-
-    public void setRobber(Robber robber) {
-        this.robber = robber;
     }
 
     public HashMap<VertexLocation, VertexObject> getVertexObjects() {
