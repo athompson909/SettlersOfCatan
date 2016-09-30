@@ -17,6 +17,7 @@ import java.util.HashSet;
 /**
  * Created by Stephanie on 9/29/16.
  */
+
 public class TradeTest extends TestCase {
     private ClientModel model = new ClientModel(1);
     private Map map = new Map(false, false, false); //Don't randomize
