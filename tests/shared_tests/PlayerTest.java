@@ -25,6 +25,7 @@ public class PlayerTest extends TestCase {
     //Initialization Asserts
     @Test
     public void testInitialization() {
+        System.out.println("testInitialization");
         assert (player.canPlayDevelopmentCards());
         assert (!player.canPlaySoldierCard());
         assert (!player.canPlayMonumentCard());
@@ -40,6 +41,7 @@ public class PlayerTest extends TestCase {
     //Resources for building settlements
     @Test
     public void testPurchaseSettlement(){
+        System.out.println("testPurchaseSettlement");
         player.getPlayerResourceList().incWoodCardCount(2);
         player.getPlayerResourceList().incBrickCardCount(2);
         player.getPlayerResourceList().incWheatCardCount(2);
@@ -59,6 +61,7 @@ public class PlayerTest extends TestCase {
     //Resources for building roads
     @Test
     public void testPurchaseRoad(){
+        System.out.println("testPurchaseRoad");
         player.getPlayerResourceList().incBrickCardCount(2);
         player.getPlayerResourceList().incWoodCardCount(2);
         assert (player.canPurchaseRoad());
@@ -74,6 +77,7 @@ public class PlayerTest extends TestCase {
     //Resource for building cities
     @Test
     public void testPurchaseCity(){
+        System.out.println("testPurchaseCity");
         testPurchaseSettlement(); //First must purchase settlements, then..
         player.getPlayerResourceList().incWheatCardCount(4);
         player.getPlayerResourceList().incOreCardCount(6);
@@ -90,6 +94,7 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testPurchaseDevelopmentCard(){
+        System.out.println("testPurchaseDevelopmentCard");
         assert (resourceBank.getDevCardList().getTotalCardCount() == 26);
         assert (player.getNewDevCardList().getTotalCardCount() == 0);
         player.getPlayerResourceList().incOreCardCount(2);
@@ -107,7 +112,8 @@ public class PlayerTest extends TestCase {
     }
 
     @Test
-    public void testPplaySoldier() {
+    public void testPlaySoldier() {
+        System.out.println("testPlaySoldier");
         assert (player.getSoldiersPlayed() == 0);
         assert (!player.canPlaySoldierCard());
         player.getOldDevCardList().addDevCard(DevCardType.SOLDIER);
@@ -120,6 +126,7 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testPlayMonument() {
+        System.out.println("testPlayMonument");
         assert (player.getMonuments() == 0);
         assert (!player.canPlayMonumentCard());
         player.getOldDevCardList().addDevCard(DevCardType.MONUMENT);
@@ -132,6 +139,7 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testPlayRoadBuilding() {
+        System.out.println("testPlayRoadBuilding");
         assert (player.getRoadCount() == 15);
         assert (!player.canPlayRoadBuildingCard());
         player.getOldDevCardList().addDevCard(DevCardType.ROAD_BUILD);
@@ -144,6 +152,7 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testPlayMonopoly() {
+        System.out.println("testPlayMonopoly");
         assert (player.getPlayerResourceList().getWoodCardCount() == 0);
         assert (!player.canPlayMonopolyCard());
         player.getOldDevCardList().addDevCard(DevCardType.MONOPOLY);
@@ -156,6 +165,7 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testPlayYearOfPlenty() {
+        System.out.println("testPlayYearOfPlenty");
         assert (player.getPlayerResourceList().getWoodCardCount() == 0);
         assert (player.getPlayerResourceList().getBrickCardCount() == 0);
         assert (!player.canPlayYearOfPlentyCard());

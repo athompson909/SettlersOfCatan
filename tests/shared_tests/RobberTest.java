@@ -13,6 +13,7 @@ public class RobberTest extends TestCase {
     private Map map = new Map(false, false, false); //Don't randomize
 
     public void testRobber() {
+        System.out.println("testRobber");
         HexLocation desert = new HexLocation(0, -2);
         HexLocation belowDesert = new HexLocation(0, -1);
         HexLocation waterHex = new HexLocation(0, -3);
