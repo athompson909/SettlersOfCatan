@@ -13,7 +13,7 @@ public class VertexLocation
 	@SerializedName("direction")
 	private VertexDirection dir;
 
-	//TEST for serialization only
+	//for serialization only
 	int x;
 	int y;
 

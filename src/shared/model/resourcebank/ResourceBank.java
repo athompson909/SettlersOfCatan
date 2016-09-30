@@ -36,24 +36,40 @@ public class ResourceBank {
                 AVAILABLE_WOOD_CARDS, AVAILABLE_BRICK_CARDS, AVAILABLE_SHEEP_CARDS, AVAILABLE_WHEAT_CARDS, AVAILABLE_ORE_CARDS);
     }
 
+    /**
+     * Updates the resource bank.
+     * @param newResBank to replace the existing resource bank.
+     */
     public void updateResourceBank(ResourceBank newResBank) {
         setDevCardList(newResBank.getDevCardList());
         setResourceList(newResBank.getResourceList());
     }
 
+    /**
+     * Check if the bank has Development cards available to purcahse.
+     * @return true if the bank has dev cards.
+     */
     public boolean hasDevCards() {
-        return devCardList.isEmpty();
+        return devCardList.hasDevCards();
     }
 
+    /**
+     * Remove a random dev Card from the bank when purchased.
+     * @return the devcard the player will recieve.
+     */
     public DevCardType removeRandomDevCard() {
         return devCardList.removeRandomCard();
     }
 
+    /**
+     * Remove the cards from the bank the player will recieve.
+     * @param resource1
+     * @param resource2
+     */
     public void playYearOfPlenty(ResourceType resource1, ResourceType resource2) {
         resourceList.removeCardByType(resource1);
         resourceList.removeCardByType(resource2);
     }
-
 
     //GETTERS
     public DevCardList getDevCardList() {

@@ -20,35 +20,63 @@ public class Map {
     private HashMap<HexLocation, Hex> hexes = new HashMap<>();
 
     /**
-     * List of all ports used to create map
+     * Hashmap of all ports used to create map
      */
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
+    /**
+     * Hashmap of all the vertex objects on the map,
+     * including unoccupied vertex objects (null), settlements, and cities.
+     */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
 
+    /**
+     * Hashmap of all possible edgeValues
+     * including unoccupied edges (null), and roads.
+     */
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
 
-    private List<VertexLocation> portVertexLocations = new ArrayList<>();
+    /**
+     * List of the static vertex locations
+     */
+    private HashMap<VertexLocation, Port> portVertexLocations = new HashMap<>();
 
+    /**
+     * A building manager for all road functionality.
+     */
     public BuildRoadManager buildRoadManager = new BuildRoadManager(this);
-    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
-    public BuildCityManager buildCityManager = new BuildCityManager(this);
 
+    /**
+     * A building manager for all settlement funcitonality.
+     */
+    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
+
+    /**
+     * A building manager for all city functionality.
+     */
+    public BuildCityManager buildCityManager = new BuildCityManager(this);
 
     /**
      * Robber object
      */
-    private Robber robber;
+    private Robber robber = new Robber(this);
 
     /**
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-
-
     private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
+    /**
+     * An iterator to go through all the numbers assigned to the hexes when the map is initialized.
+     */
     private static Iterator<Integer> numberIterator = numberOrder.iterator();
+
+    /**
+     * the radius of the map, according to the JSON
+     */
+    private int radius = 0;
+
 
     /**
      * the constructor for a Map object
@@ -61,18 +89,23 @@ public class Map {
         createAllVertexObjects();
         populatePortVertexLocations();
         createAllEdgeValues();
+
     }
 
     //this constructor is for when the new model comes back and we need to make a new Map object
     // WITHOUT creating/placing all hexes again.
-    public Map(HashMap<HexLocation, Hex> allHexes, HashMap<HexLocation, Port> allPorts)
+    public Map(HashMap<HexLocation, Hex> newHexes, HashMap<HexLocation, Port> newPorts,
+               HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues)
     {
-        setHexes(allHexes);
-        setPorts(allPorts);
+        setHexes(newHexes);
+        setPorts(newPorts);
+
     }
 
+    /**
+     * Creates 18 Water hexes at these specified locations starting with north-west corner going counterclockwise
+     */
     private void createAllWaterHexes() {
-        //18 Water hexes at these specified locations starting with north-west corner going counterclockwise
         createWaterHex(-3, 0);
         createWaterHex(-3, 1);
         createWaterHex(-3, 2);
@@ -104,6 +137,10 @@ public class Map {
         hexes.put(waterHex.getLocation(), waterHex);
     }
 
+    /**
+     * Places all the ports on the map.
+     * @param randomlyPlacePorts if the ports are being randomized.
+     */
     private void placeAllPorts(boolean randomlyPlacePorts) {
         //Default Port Order
         List<PortType> resourcePortList = new LinkedList<PortType>(
@@ -140,12 +177,24 @@ public class Map {
         placePort(-1, -2, resourcePortList.get(8), EdgeDirection.South);
     }
 
+    /**
+     * Places an individual port
+     * @param x coordinate
+     * @param y coordinate
+     * @param portType to place.
+     * @param edgeDirection of the port.
+     */
     private void placePort(int x, int y, PortType portType, EdgeDirection edgeDirection) {
         HexLocation hexLocation = new HexLocation(x, y);
         Port newPort = new Port(portType, hexLocation, edgeDirection);
         ports.put(hexLocation, newPort);
     }
 
+    /**
+     * Creates all the land hexes, with their accompanying numbers.
+     * @param randomlyPlaceHexes if the hexes are to be placed randomly.
+     * @param randomlyPlaceNumbers if the numbers are to be placed randomly.
+     */
     private void createAllLandHexes(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers) {
         //The default land hex order starting with the north-west corner and spiraling in counter-clockwise
         List<HexType> landHexTypeOrder = Arrays.asList(
@@ -187,10 +236,19 @@ public class Map {
         createLandHex(0, 0, landHexTypeOrder.get(18)); //Center
     }
 
+    /**
+     * Creates a single land hex.
+     * @param x coordinate.
+     * @param y y coordinate
+     * @param hexType for the hex.
+     */
     private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
             landHex.setNumber(numberIterator.next().intValue());
+        }
+        else{
+            robber.placeRobber(landHex.getLocation());
         }
         hexes.put(landHex.getLocation(), landHex);
     }
@@ -268,27 +326,37 @@ public class Map {
         vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
+    /**
+     * Creates a map containing vertex locations and their associated ports
+     * This list will not change throughout the game
+     *
+     * Purpose: In maritimeTrade state, this enables us to learn what type of ports a player is associated with.
+     */
     private void populatePortVertexLocations(){
-        portVertexLocations.add(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-3,2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-2,3), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-1,3), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(1,2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(3,-1), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(3,-2), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(2,-2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthWest));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast));
-        portVertexLocations.add(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest));
+
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest), ports.get(new HexLocation(-3,0)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast), ports.get(new HexLocation(-3,0)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-3,2), VertexDirection.NorthEast), ports.get(new HexLocation(-3,2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest), ports.get(new HexLocation(-3,2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2,3), VertexDirection.NorthEast), ports.get(new HexLocation(-2,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1,3), VertexDirection.NorthWest), ports.get(new HexLocation(-2,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthWest), ports.get(new HexLocation(0,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthEast), ports.get(new HexLocation(0,3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1,2), VertexDirection.NorthEast), ports.get(new HexLocation(2,1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest), ports.get(new HexLocation(2,1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast), ports.get(new HexLocation(3,-1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(3,-1), VertexDirection.NorthWest), ports.get(new HexLocation(3,-1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(3,-2), VertexDirection.NorthWest), ports.get(new HexLocation(3,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2,-2), VertexDirection.NorthEast), ports.get(new HexLocation(3,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthEast), ports.get(new HexLocation(1,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthWest), ports.get(new HexLocation(1,-3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast), ports.get(new HexLocation(-1,-2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest), ports.get(new HexLocation(-1,-2)));
     }
 
+    /**
+     * Creates all of the edge values, starting with the west most values, going through each column.
+     */
     private void createAllEdgeValues(){
         //First Column (West Most Column)
         createSingleEdgeValue(-3,1, EdgeDirection.NorthEast);
@@ -381,6 +449,18 @@ public class Map {
         edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
+    public Set<PortType> getPlayersPorts(int playerIndex) {
+        Set<PortType> ports = new HashSet<>();
+        Set myKeys = portVertexLocations.keySet();
+        for(Object vertLoc : myKeys) {
+            if(vertexObjects.get(vertLoc).getOwner() == playerIndex) {
+                PortType type = portVertexLocations.get(vertLoc).getResource();
+                ports.add(type);
+            }
+        }
+        return ports;
+    }
+
     /**
      * Updates all map data members to match the newly updated model
      * <p>
@@ -389,10 +469,23 @@ public class Map {
      * Updates list of VertexObjects where settlements are built
      * Updates list of VertexObjects where cities are built
      *
+     * Nothing else about the map changes during the game, so keep everything else the same!
+     *
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
         setRobber(newMap.robber);
+        //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
+
+        this.robber = newMap.robber;
+        //edgeValues
+        //vertexObjects
+    }
+
+    //GETTERS
+
+    public HashMap<VertexLocation, Port> getPortVertexLocations() {
+        return portVertexLocations;
     }
 
     public HashMap<HexLocation, Hex> getHexes() {
@@ -401,10 +494,6 @@ public class Map {
 
     public HashMap<HexLocation, Port> getPorts() {
         return ports;
-    }
-
-    public void setHexes(HashMap<HexLocation, Hex> hexes) {
-        this.hexes = hexes;
     }
 
     public void setPorts(HashMap<HexLocation, Port> ports) {
@@ -418,6 +507,15 @@ public class Map {
     public void setRobber(Robber robber) {
         this.robber = robber;
     }
+/*
+    public BuildingManager getBuildingManager() {
+        return buildingManager;
+    }
+
+    public void setBuildingManager(BuildingManager buildingManager) {
+        this.buildingManager = buildingManager;
+    }
+*/
 
     public HashMap<VertexLocation, VertexObject> getVertexObjects() {
         return vertexObjects;
@@ -425,5 +523,29 @@ public class Map {
 
     public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
         return edgeValues;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    //SETTERS
+
+    public void setRadius(int radius) {this.radius = radius;}
+
+    public void setHexes(HashMap<HexLocation, Hex> hexes) {
+        this.hexes = hexes;
+    }
+
+    public void setVertexObjects(HashMap<VertexLocation, VertexObject> vertexObjects) {
+        this.vertexObjects = vertexObjects;
+    }
+
+    public void setEdgeValues(HashMap<EdgeLocation, EdgeValue> edgeValues) {
+        this.edgeValues = edgeValues;
+    }
+
+    public void setPortVertexLocations(HashMap<VertexLocation, Port> portVertexLocations) {
+        this.portVertexLocations = portVertexLocations;
     }
 }

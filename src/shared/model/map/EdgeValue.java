@@ -11,17 +11,23 @@ public class EdgeValue {
 
     /**
      * PlayerID of player who is build on this hex edge
+     * By default, no one owns any unoccupied road.
      */
-    private int owner = -1; //By default, no one owns any unoccupied road.
+    private int owner = -1;
 
     /**
      * X and Y coordinates and direction of hex this edge is associated with
      */
     private EdgeLocation edgelocation;
 
+    //constructor
     public EdgeValue(EdgeLocation edgeLocation){
         this.edgelocation = edgeLocation;
     }
+
+
+
+
 
     /**
      * @return PlayerID of owner of this edge
@@ -51,5 +57,13 @@ public class EdgeValue {
      */
     public void setLocation(EdgeLocation location) {
         this.edgelocation = location;
+    }
+
+    @Override
+    public String toString() {
+        return "EdgeValue{" +
+                "owner=" + owner +
+                ", edgelocation=" + edgelocation +
+                '}';
     }
 }

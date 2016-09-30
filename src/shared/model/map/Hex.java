@@ -16,17 +16,15 @@ public class Hex {
     /**
      * Number associated with hex
      * When this number is rolled, players will receive resources
+     * if it's 0, it's an ocean hex
      */
-    private int number;
+    private int number = 0;
 
     /**
      * Resource type provided by this hex
+     * also can be ocean/water
      */
-    private HexType resource;
-
-    public Hex(){
-
-    }
+    private HexType resource = null;
 
     public Hex(HexLocation location, HexType hexType){
         this.location = location;
@@ -78,14 +76,13 @@ public class Hex {
         this.resource = resource;
     }
 
-
+    @Override
     public String toString() {
         return "Hex{" +
                 "location=" + location +
                 ", number=" + number +
                 ", resource=" + resource.toString() +
                 '}';
-
     }
 
 }

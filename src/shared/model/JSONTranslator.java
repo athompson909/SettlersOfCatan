@@ -2,15 +2,17 @@ package shared.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.sun.tools.internal.ws.processor.model.Message;
+//import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.definitions.HexType;
+import shared.definitions.PieceType;
+import shared.definitions.PortType;
+import shared.locations.*;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.BuildCityManager;
-import shared.model.map.BuildSettlementManager;
-import shared.model.map.Hex;
+import shared.model.map.*;
 import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -21,6 +23,7 @@ import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -41,9 +44,8 @@ public class JSONTranslator {
      * This is the temporary ClientModel that will be created from the JSON coming back from the server.
      * We will give this object to ClientUpdateManager after it has been fully parsed out.
      *
-     * todo parameter in constructor is hardcoded
      */
-    private ClientModel newClientModel = new ClientModel(0);
+    private ClientModel newClientModel;
 
     /**
      * This Gson object can be reused as many times as you want
@@ -61,7 +63,6 @@ public class JSONTranslator {
      */
     private JSONObject jsonObjectResult = null;
 
-
     /**
      * Constructor
      */
@@ -69,11 +70,18 @@ public class JSONTranslator {
 
 
 
-
     /**
-     * TranslateModel() can take in either a string or a JSON,
-     * and uses Gson to convert it to normal objects to send to UpdateManager.
-     * But first convert the incoming JSONObject to a String so Gson is happy!
+     * TranslateModel() takes the new JSON clientModel from the server,
+     * and pulls it apart into object that make up the ClientModel.
+     * Using those smaller objects, it builds a complete ClientModel object at the end.
+     * it would be really helpful to have a reference to the OLD clientModel here,
+     * because when building the new ClientModel object, not every single object/data member in it
+     * is going to be updated, just a few.
+     * But I guess as long as the UpdateManager knows to only look at certain parts of the new ClientModel
+     * to update its existing ClientModel, it doesn't matter what the extra parts of the new ClientModel hold.
+     *
+     *
+     * Wow I should probably break this up into smaller functions...
      *
      * @throws JsonSyntaxException - this is Gson's exception
      * @param newModelJSON - this is the huge JSON string coming back directly from the server
@@ -82,46 +90,220 @@ public class JSONTranslator {
     public ClientModel modelFromJSON(JSONObject newModelJSON) throws JsonSyntaxException {
 
         //Break up ClientModel pieces and build a new ClientModel object manually:
-
-        String modelJSONString = newModelJSON.toString();
-
-        //TODO: the map is the last part to do!
-
 //GET MAP
-
-        JSONObject newCMMap = newModelJSON.getJSONObject("map");
+        JSONObject newMapJSON = newModelJSON.getJSONObject("map");
 
         //GET RADIUS
-        int newCMRadius = newCMMap.getInt("radius");
+        int newCMRadius = newMapJSON.getInt("radius");
 
-        //GET HEXES
-        JSONArray newHexesJSONArr = newCMMap.getJSONArray("hexes");
-        ArrayList<Hex> parsedHexes = new ArrayList<>();
+//GET HEXES
+        //The Hexes data in a map never change during the game.
+        //Only the roads/cities/settlements/robber do.
+        //So this may not need to be used during the model update in UpdateManager...
+        //But just in case: the Map wants a HashMap of HexLocation->Hex objs.
+        JSONArray newHexesJSONArr = newMapJSON.getJSONArray("hexes");
+        HashMap<HexLocation, Hex> newHexesMap = new HashMap<>();
         for (int h = 0; h < newHexesJSONArr.length(); h++)
         {
-            String tempHexString = newHexesJSONArr.get(h).toString();
-                System.out.println(">tempHexString = " + tempHexString);
-            Hex newHex = gsonConverter.fromJson(tempHexString, Hex.class);
+            //I'm doing it manually because 1) it freaks out about Hex's toString() for some reason
+                // and 2) because I have to convert the hex's TYPE string to a HexType enum value.
+            JSONObject currHexStringJSON = newHexesJSONArr.getJSONObject(h);
+                //System.out.println(">currHexStringJSON = " + currHexStringJSON);
+            JSONObject currHexLocJSON = currHexStringJSON.getJSONObject("location");
+                //System.out.println(">currHexLocJSON = " + currHexLocJSON);
+            int hlX = currHexLocJSON.getInt("x");
+            int hlY = currHexLocJSON.getInt("y");
+            HexLocation newHexLoc = new HexLocation(hlX, hlY);
+
+            Hex newHex;
+            HexType currHexType;
+            int currHexNum = 0;
+            //it could be a desert/ocean hex - check if it contains a resource/number:
+            if (currHexStringJSON.has("resource")) {
+                //if it DOES have a resource, it also has a number, so it's a regular hex:
+                String currHexTypeStr = currHexStringJSON.getString("resource");
+                currHexType = exchangeStringForHexType(currHexTypeStr.toString());
+                currHexNum = currHexStringJSON.getInt("number");
+            }
+            else if (currHexStringJSON.has("number")){
+                //if it doesn't have a resource, but DOES have a number, it's a desert hex:
+                currHexType = HexType.DESERT;
+                currHexNum = currHexStringJSON.getInt("number");
+            }
+            else {
+                //if it doesn't have a resource OR a number, it's an ocean hex:
+                currHexType = HexType.WATER;
+                currHexNum = 0;
+            }
+            newHex = new Hex(newHexLoc, currHexType);
+            newHex.setNumber(currHexNum);
                 System.out.println("\t newHex" + h + "= " + newHex.toString());
 
-            parsedHexes.add(newHex);
+            newHexesMap.put(newHex.getLocation(), newHex);
         }
 
-        System.out.println(">parsedHexes size= " + parsedHexes.size());
-        //before building the new Map obj, we need to put the Hexes, Ports, (what else?) in HashMaps
+        //HashMap<Hexes> complete! Ready to add to Map obj.
+            System.out.println("~~~~~~~~~~~~");
 
-            //GET ROADS
-            //GET CITIES
-            //GET SETTLEMENTS
-            //GET PORTS
-            //GET ROBBER
+//GET PORTS
+        JSONArray newPortsJSONArr = newMapJSON.getJSONArray("ports");
+        HashMap<HexLocation, Port> newPortsMap = new HashMap<>();
+        //go parse all the ports data in the Ports JSON array:
+        for (int p = 0; p < newPortsJSONArr.length(); p++) {
 
+            JSONObject currPortStringJSON = newPortsJSONArr.getJSONObject(p);
+              //  System.out.println(">currPortStringJSON = " + currPortStringJSON);
+            //get the port's edgeDirection:
+            String newPortEdgeDirString = currPortStringJSON.getString("direction");
+            EdgeDirection newPortEdgeDir = exchangeStringForEdgeDirection(newPortEdgeDirString);
+            //get the port's location (as a HexLocation)
+            JSONObject newPortHexLocJSON = currPortStringJSON.getJSONObject("location");
+            int nPHLx = newPortHexLocJSON.getInt("x");
+            int nPHLy = newPortHexLocJSON.getInt("y");
+            HexLocation newPortHexLoc = new HexLocation(nPHLx, nPHLy);
+
+            //determine the port's type:
+            //if its ratio is 2, get the resource. if its ratio is 3, set resourcetype to THREE.
+            PortType newPortType;
+            int newPortRatio = currPortStringJSON.getInt("ratio");
+            if (newPortRatio == 2) {
+                String newPortTypeString = currPortStringJSON.getString("resource");
+                newPortType = exchangeStringForPortType(newPortTypeString);
+            }
+            else {
+                //newPortRatio must be 3, so it's a generic port.
+                newPortType = PortType.THREE;
+            }
+            //Build the new Port obj out of the three parts:
+            Port newPort = new Port(newPortType, newPortHexLoc, newPortEdgeDir);
+                System.out.println("\t newPort" + p + "= " + newPort.toString());
+
+            newPortsMap.put(newPort.getLocation(), newPort);
+        }
+
+        //HashMap<Ports> complete! Ready to add to Map obj.
+        System.out.println("~~~~~~~~~~~~");
+
+
+//GET ROADS
+        JSONArray newRoadsJSONArr = newMapJSON.getJSONArray("roads");
+        HashMap<EdgeLocation, EdgeValue> newRoadsMap = new HashMap<>();
+        //go parse all the data in the newRoads array:
+        for (int r = 0; r < newRoadsJSONArr.length(); r++) {
+
+            JSONObject currRoadJSON = newRoadsJSONArr.getJSONObject(r);
+             //   System.out.println(">currRoadJSON = " + currRoadJSON);
+            //get the HexLocation object out of the currRoadJSON:
+            JSONObject currRoadLocJSON = currRoadJSON.getJSONObject("location");
+            int rHLx = currRoadLocJSON.getInt("x");
+            int rHLy = currRoadLocJSON.getInt("y");
+            HexLocation newRoadHexLoc = new HexLocation(rHLx, rHLy);
+            //get the EdgeDirection object out of the currRoadJSON:
+            EdgeDirection newRoadEdgeDir = exchangeStringForEdgeDirection(currRoadLocJSON.getString("direction"));
+            //build the newRoad's EdgeLocation obj out of HexLoc and EdgeDir:
+            EdgeLocation newRoadEdgeLoc = new EdgeLocation(newRoadHexLoc, newRoadEdgeDir);
+            //get the road's owner:
+            int newRoadOwnerIndex = currRoadJSON.getInt("owner");
+            //now build a complete EdgeValue obj to represent the new road:
+            EdgeValue newRoad = new EdgeValue(newRoadEdgeLoc);
+            newRoad.setOwner(newRoadOwnerIndex);
+                System.out.println("\t newRoad" + r + "= " + newRoad.toString());
+
+            newRoadsMap.put(newRoad.getEdgeLocation(), newRoad);
+        }
+        //HashMap<Roads> complete! Ready to add to Map obj.
+
+//GET SETTLEMENTS
+        JSONArray newStlmtsJSONArr = newMapJSON.getJSONArray("settlements");
+        //THIS MAP HOLDS BOTH CITIES *AND* SETTLEMENTS!! **********
+        HashMap<VertexLocation, VertexObject> newCitiesStlmtsMap = new HashMap<>();
+        //go parse all the data in the newStlmts array:
+        for (int s = 0; s < newStlmtsJSONArr.length(); s++){
+
+            JSONObject currStlmtJSON = newStlmtsJSONArr.getJSONObject(s);
+             //  System.out.println(">currStlmtJSON = " + currStlmtJSON);
+            //get the HexLocation object out of the currStlmtJSON:
+            JSONObject currStlmtLocJSON = currStlmtJSON.getJSONObject("location");
+            int sHLx = currStlmtLocJSON.getInt("x");
+            int sHLy = currStlmtLocJSON.getInt("y");
+            HexLocation newStlmtHexLoc = new HexLocation(sHLx, sHLy);
+            //get the VertexDirection out of the currStlmtLocJSON:
+            VertexDirection newStlmtVtxDir = exchangeStringForVertexDirection(currStlmtLocJSON.getString("direction"));
+            //build a VertexLocation obj out of HexLoc and VertexDir:
+            VertexLocation newStlmtVtxLoc = new VertexLocation(newStlmtHexLoc, newStlmtVtxDir);
+            //get the stlmt owner:
+            int newStlmtOwnerIndex = currStlmtJSON.getInt("owner");
+            //now build a complete VertexObject to represent the new settlement:
+            VertexObject newSettlement = new VertexObject(newStlmtVtxLoc);
+            newSettlement.setOwner(newStlmtOwnerIndex);
+            newSettlement.setPieceType(PieceType.SETTLEMENT);  //these are all of Settlement pieceType!
+                System.out.println("\t newStlmt" + s + "= " + newSettlement.toString());
+
+            newCitiesStlmtsMap.put(newSettlement.getVertexLocation(), newSettlement);
+        }
+
+        //Settlements part of HashMap complete! Ready to add cities to it.
+        System.out.println("~~~~~~~~~~~~");
+
+//GET CITIES
+        JSONArray newCitiesJSONArr = newMapJSON.getJSONArray("cities");
+        //USE THE SAME MAP FROM THE SETTLEMENTS PARSING PART****
+        //go parse all the data in the newCities array:
+        for (int c = 0; c < newCitiesJSONArr.length(); c++){
+
+            JSONObject currCityJSON = newCitiesJSONArr.getJSONObject(c);
+            //  System.out.println(">currCityJSON = " + currCityJSON);
+            //get the HexLocation object out of the currCityJSON:
+            JSONObject currCityLocJSON = currCityJSON.getJSONObject("location");
+            int cHLx = currCityLocJSON.getInt("x");
+            int cHLy = currCityLocJSON.getInt("y");
+            HexLocation newCityHexLoc = new HexLocation(cHLx, cHLy);
+            //get the VertexDirection out of the currCityLocJSON:
+            VertexDirection newCityVtxDir = exchangeStringForVertexDirection(currCityLocJSON.getString("direction"));
+            //build a VertexLocation obj out of HexLoc and VertexDir:
+            VertexLocation newCityVtxLoc = new VertexLocation(newCityHexLoc, newCityVtxDir);
+            //get the city owner:
+            int newCityOwnerIndex = currCityJSON.getInt("owner");
+            //now build a complete VertexObject to represent the new city:
+            VertexObject newCity = new VertexObject(newCityVtxLoc);
+            newCity.setOwner(newCityOwnerIndex);
+            newCity.setPieceType(PieceType.CITY);  //these are all of City pieceType!
+            System.out.println("\t newCity" + c + "= " + newCity.toString());
+
+            newCitiesStlmtsMap.put(newCity.getVertexLocation(), newCity);
+        }
+
+        //Settlements/Cities Hashmap<> complete! Ready to add to new Map obj.
+        System.out.println("~~~~~~~~~~~~");
+
+//GET ROBBER
+        //it's just a HexLocation, but the Robber obj type needs a reference to the Map...?
+        //maybe add this Robber obj to the Map after the rest of it has been built up?
+        JSONObject newRobberJSON = newMapJSON.getJSONObject("robber");
+        String newRobberJSONString = newRobberJSON.toString();
+            //System.out.println("newRobberJSON= " + newRobberJSON);
+        int rX = newRobberJSON.getInt("x");
+        int rY = newRobberJSON.getInt("y");
+        HexLocation newRobberHexLoc = new HexLocation(rX, rY);
+        //try building the actual Robber object after building the Map object,
+        // so you can pass a ref of the new Map to the new Robber?
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//BUILD NEW MAP OBJECT
+        Map newCMMap = new Map(newHexesMap, newPortsMap, newCitiesStlmtsMap, newRoadsMap);
+        newCMMap.setRadius(newCMRadius);
+        //this is really weird... do we have to do this double-reverse-dependencies thing?
+        //TODO: ask about this
+        Robber newRobber = new Robber(newCMMap);
+
+        //Map object is complete (I think)! ready to add to new clientModel obj.
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //GET RESOURCE BANK
         //GET RESOURCELIST
         JSONObject newResourceListJSON = newModelJSON.getJSONObject("bank");
         String newResListString = newResourceListJSON.toString();
-            System.out.println(">newResListStr= " + newResListString);
+           // System.out.println(">newResListStr= " + newResListString);
         //the CMJSON has the ResourceList data under key "bank" and DevCardList data under key "deck"
         ResourceList newResourceList = gsonConverter.fromJson(newResListString, ResourceList.class);
             System.out.println(">newResourceList (for ResBank obj)= " + newResourceList);
@@ -129,13 +311,13 @@ public class JSONTranslator {
         //GET DEVCARDLIST
         JSONObject newDevCardListJSON = newModelJSON.getJSONObject("deck");
         String newDevCardListString = newDevCardListJSON.toString();
-            System.out.println(">newDevCardListStr= " + newDevCardListString);
+        //    System.out.println(">newDevCardListStr= " + newDevCardListString);
         DevCardList newDevCardList = gsonConverter.fromJson(newDevCardListString, DevCardList.class);
             System.out.println(">newDevCardList (for ResBank obj)= " + newDevCardList);
 
         //Build ResourceBank out of ResourceList and DevCardList
-        ResourceBank newResourceBank = new ResourceBank();
-        newResourceBank.setResourceList(newResourceList);
+        ResourceBank newCMResourceBank = new ResourceBank();
+        newCMResourceBank.setResourceList(newResourceList);
 
         //ResourceBank is complete! Ready to add to new ClientModel obj.
 
@@ -152,7 +334,7 @@ public class JSONTranslator {
             if (newPlayersJSONArr.get(p) != null) {
                 JSONObject currPlayerJSON = newPlayersJSONArr.getJSONObject(p);
                 String currPlayerJSONSTr = currPlayerJSON.toString();
-                System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
+                 //  System.out.println(">currPlayerJSON= " + currPlayerJSONSTr);
                 Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
 
                 newPlayersArray[p] = newPlayer;
@@ -169,39 +351,58 @@ public class JSONTranslator {
         MessageList newLogMsgList = parseMsgListFromJSON(newCMLogJSONObj);
 
         //Put the new Chat and Log MsgListObjs into a new MessageManager object:
-        MessageManager newMsgMgr = new MessageManager();
-        newMsgMgr.setChat(newChatMsgList);
-        newMsgMgr.setLog(newLogMsgList);
+        MessageManager newCMMsgMgr = new MessageManager();
+        newCMMsgMgr.setChat(newChatMsgList);
+        newCMMsgMgr.setLog(newLogMsgList);
 
         //MessageManager is complete! Ready to add to the new ClientModel obj.
 
 //GET TURNTRACKER
         JSONObject newTurnTrackerJSONObj = newModelJSON.getJSONObject("turnTracker");
         String newTTrackerJSONString = newTurnTrackerJSONObj.toString();
-        TurnTracker newTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
-            System.out.println(">newTTrackerObj= " + newTurnTracker);
+        TurnTracker newCMTurnTracker = gsonConverter.fromJson(newTTrackerJSONString, TurnTracker.class);
+            System.out.println(">newTTrackerObj= " + newCMTurnTracker);
 
         //TurnTracker is complete! Ready to add to the new ClientModel obj.
 
 //GET TRADE OFFER
+        TradeOffer newCMTradeOffer = null;
         if (newModelJSON.has("tradeOffer")){
             JSONObject newTradeOfferJSONObj = newModelJSON.getJSONObject("tradeOffer");
             String newTradeOfferJSONString = newTradeOfferJSONObj.toString();
-                System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
-            TradeOffer newTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
-                System.out.println(">newTradeOfferObj= " + newTradeOffer);
+               // System.out.println("newTradeOfferString= " + newTradeOfferJSONString);
+            newCMTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
+                System.out.println(">newTradeOfferObj= " + newCMTradeOffer);
             //TradeOffer is complete! Ready to add to the new ClientModel obj.
         }
         else{
             System.out.println(">No TradeOffer found in newClientModel JSON");
         }
 
+        //TradeOffer is complete! Ready to add to the new ClientModel obj.
+
+
 //GET ADDITIONAL INTS/OTHER CLIENTMODEL DATA
         int newCMVersion = newModelJSON.getInt("version");
         int newCMWinner = newModelJSON.getInt("winner");
         //get gameNumber? what is this for again?
+        //TODO: ask - where (in the future) will we get the old/existing ClientModel's gameNumber so we can
+        //apply it to the new one?
 
-        //Not in JSON: ClientUpdateManager **
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//BUILD NEW CLIENTMODEL OBJECT
+        //TODO: same as just above this - how can we access the previous ClientModel's gameNumber?
+        newClientModel = new ClientModel(0);
+        newClientModel.setVersion(newCMVersion);
+        newClientModel.setWinner(newCMWinner);
+        newClientModel.setResourceBank(newCMResourceBank);
+        newClientModel.setMessageManager(newCMMsgMgr);
+        newClientModel.setTurnTracker(newCMTurnTracker);
+        newClientModel.setChat(newChatMsgList);    //do we really need this if we're already giving it a MsgMgr?
+        newClientModel.setLog(newLogMsgList);     // same thing here?
+        newClientModel.setTradeOffer(newCMTradeOffer);
+        newClientModel.setPlayers(newPlayersArray);
+        newClientModel.setMap(newCMMap);
 
         return newClientModel;
     }
@@ -234,7 +435,84 @@ public class JSONTranslator {
     }
 
 
+    //helper function for the translateModel process - just a big switch stmt basically
+    public HexType exchangeStringForHexType(String hexTypeString){
+        switch (hexTypeString){
+            case "wood":
+                return HexType.WOOD;
+            case "brick":
+                return HexType.BRICK;
+            case "sheep":
+                return HexType.SHEEP;
+            case "wheat":
+                return HexType.WHEAT;
+            case "ore":
+                return HexType.ORE;
+            default:
+                return null;
+        }
+    }
 
+    //helper function for the translateModel process - just a big switch stmt basically
+    public EdgeDirection exchangeStringForEdgeDirection(String edgeDirString){
+        switch (edgeDirString){
+            case "NW":
+                return EdgeDirection.NorthWest;
+            case "N":
+                return EdgeDirection.North;
+            case "NE":
+                return EdgeDirection.NorthEast;
+            case "SE":
+                return EdgeDirection.SouthEast;
+            case "S":
+                return EdgeDirection.South;
+            case "SW":
+                return EdgeDirection.SouthWest;
+            default:
+                return null;
+        }
+    }
+
+    //helper function for the translateModel process - just a big switch stmt basically
+    public VertexDirection exchangeStringForVertexDirection(String vertexDirString){
+        switch (vertexDirString){
+            case "W":
+                return VertexDirection.West;
+            case "NW":
+                return VertexDirection.NorthWest;
+            case "NE":
+                return VertexDirection.NorthEast;
+            case "E":
+                return VertexDirection.East;
+            case "SE":
+                return VertexDirection.SouthEast;
+            case "SW":
+                return VertexDirection.SouthWest;
+            default:
+                return null;
+        }
+    }
+
+
+    //helper function for the translateModel process - just a big switch stmt basically
+    public PortType exchangeStringForPortType(String portTypeString){
+        switch (portTypeString){
+            case "wood":
+                return PortType.WOOD;
+            case "brick":
+                return PortType.BRICK;
+            case "sheep":
+                return PortType.SHEEP;
+            case "wheat":
+                return PortType.WHEAT;
+            case "ore":
+                return PortType.ORE;
+            case "three":
+                return PortType.THREE;
+            default:
+                return null;
+        }
+    }
     /**
      * I don't think this is necessary
      * @param num

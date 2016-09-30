@@ -4,6 +4,7 @@ import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
+import java.util.Set;
 
 
 /**
@@ -25,6 +26,10 @@ public class Port {
 
     /**
      * Resource that can be traded at this port
+     *
+     * By default, all ports are 2:1 ratio. If the port JSON is read in as a ratio 3
+     * then we set the portType to enum THREE.
+     *
      */
     private PortType portType;
 
@@ -44,9 +49,8 @@ public class Port {
      * @param res Sets resource data member
      * @param loc Sets location data member
      * @param dir Sets direction data member
-     * @param rat Sets ratio data member
      */
-    Port(PortType res, HexLocation loc, EdgeDirection dir) {
+    public Port(PortType res, HexLocation loc, EdgeDirection dir) {
         portType = res;
         location = loc;
         edgeDirection = dir;

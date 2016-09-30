@@ -2,13 +2,19 @@ package shared.model;
 
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.definitions.PortType;
 import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
+import shared.model.map.VertexObject;
 import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
+
+import java.util.Set;
+
 
 /**
  * ClientModel holds all the data about the client that can be updated and changed by the gameplay
@@ -25,6 +31,9 @@ public class ClientModel {
      */
     public int version = 0;
 
+    /**
+     * The current games specific number
+     */
     public int gameNumber;
 
     /**
@@ -67,7 +76,7 @@ public class ClientModel {
      */
     public ClientUpdateManager updateManager;
 
-
+    //Constructor
     public ClientModel (int gameNumber){
         this.gameNumber = gameNumber;
     }
@@ -89,87 +98,185 @@ public class ClientModel {
 
 
     //CAN METHODS
+
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can purchase a road.
+     */
     public boolean canPurchaseRoad(int playerIndex){
         return players[playerIndex].canPurchaseRoad();
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can purchase a settlement.
+     */
     public boolean canPurchaseSettlement(int playerIndex){
         return players[playerIndex].canPurchaseSettlement();
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can purchase a city.
+     */
     public boolean canPurchaseCity(int playerIndex){
         return players[playerIndex].canPurchaseCity();
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can purcahse a development card.
+     */
     public boolean canPurchaseDevCard(int playerIndex){
         return (players[playerIndex].canPurchaseDevelopmentCard() && resourceBank.hasDevCards());
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can play a soldier card.
+     */
     public boolean canPlaySolider(int playerIndex){
         return (players[playerIndex].canPlaySoldierCard());
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can play a monument card.
+     */
     public boolean canPlayMonument(int playerIndex){
         return (players[playerIndex].canPlayMonumentCard());
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the player can play a road building card.
+     */
     public boolean canPlayRoadBuilding(int playerIndex){
         return (players[playerIndex].canPlayRoadBuildingCard());
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the palyer can play a monopoly card.
+     */
     public boolean canPlayMonopoly(int playerIndex){
         return (players[playerIndex].canPlayMonopolyCard());
     }
 
+    /**
+     * @param playerIndex of player performing the action.
+     * @return true if the palyer can play a year of plenty card.
+     */
     public boolean canPlayYearOfPlenty(int playerIndex){
         return (players[playerIndex].canPlayYearOfPlentyCard());
     }
 
+    public boolean canDomesticTrade(int playerIndex) {
+        // 0:WOOD, 1:WHEAT, 2:BRICK, 3:ORE, 4:SHEEP
+        return players[playerIndex].canDomesticTrade();
+    }
+
+
+    public boolean canMaritimeTrade(int playerIndex) {
+        Set<PortType> ports = map.getPlayersPorts(playerIndex);
+        return players[playerIndex].canMaritimeTrade(ports);
+    }
 
     //Map can Methods
-    public boolean canBuildRoad(int playerIndex, EdgeLocation edgeLocation){
+
+    /**
+     * @param playerIndex of player performing the action.
+     * @param edgeLocation to place the road.
+     * @return true if the player can place a road at the specified edgeLocation.
+     */
+    public boolean canPlaceRoad(int playerIndex, EdgeLocation edgeLocation){
         return map.buildRoadManager.canPlace(playerIndex, edgeLocation);
     }
 
-    public boolean canBuildSettlement(int playerIndex){
-        return false;
+    /**
+     * @param playerIndex of player performing the action.
+     * @param vertexLocation to place the settlement.
+     * @return true if the player can place a settlement at the specified vertexLocation
+     */
+    public boolean canPlaceSettlement(int playerIndex, VertexLocation vertexLocation){
+        return map.buildSettlementManager.canPlace(playerIndex, vertexLocation);
     }
 
-    public boolean canBuildCity(int playerIndex ){
-        return false;
+    /**
+     * @param playerIndex of player performing the action.
+     * @param vertexLocation to place the city.
+     * @return true if the player can place a city at the specified vertexLocation
+     */
+    public boolean canPlaceCity(int playerIndex,  VertexLocation vertexLocation ){
+        return map.buildCityManager.canPlaceCity(playerIndex, vertexLocation);
+
     }
+
 
 
     //DO METHODS
-    public void purchaseRoad(int playerIndex){
-        //TODO: Access map and place road
+
+    /**
+     * Purchase and place a road.
+     * @param playerIndex of player performing the action.
+     * @param edgeLocation of where to place the road.
+     */
+    public void purchaseAndPlaceRoad(int playerIndex, EdgeLocation edgeLocation){
         players[playerIndex].purchaseRoad();
+        map.buildRoadManager.placeRoad(playerIndex, edgeLocation);
     }
 
-    public void purcahseSettlement(int playerIndex){
-        //TODO: Access map and place settlement
+    /**
+     * Purchase and place a settlement.
+     * @param playerIndex
+     * @param vertexLocation of where to place settlement.
+     */
+    public void purcahseAndPlaceSettlement(int playerIndex, VertexLocation vertexLocation){
         players[playerIndex].purchaseSettlement();
+        map.buildSettlementManager.placeSettlement(playerIndex, vertexLocation);
     }
 
-    public void purchaseCity(int playerIndex){
-        //TODO: Access map and place city
+    /**
+     * Purchase and place a city.
+     * @param playerIndex
+     * @param vertexLocation of where to place the city.
+     */
+    public void purchaseAndPlaceCity(int playerIndex, VertexLocation vertexLocation){
         players[playerIndex].purchaseCity();
+        map.buildCityManager.placeCity(playerIndex, vertexLocation);
     }
 
+    /**
+     * Purchase a dev card from the bank.
+     * @param playerIndex of player purchasing the card.
+     */
     public void purchaseDevCard(int playerIndex){
         DevCardType purcahsedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
         players[playerIndex].purchaseDevelopmentCard(purcahsedDevCard); //Send to player
     }
 
+    /**
+     * Soldier card functionality.
+     * @param playerIndex
+     */
     public void playSoldierCard(int playerIndex){
         //TODO: Access map and move soldier
+        //TODO: Steal random card from potential players
         players[playerIndex].playSoldierCard();
     }
 
+    /**
+     * Play a monument card.
+     * @param playerIndex
+     */
     public void playMonumentCard(int playerIndex){
         players[playerIndex].playMonumentCard();
     }
 
+    /**
+     * Play a road building card.
+     * @param playerIndex
+     */
     public void playRoadBuildingCard(int playerIndex){
         int roadsUsed = 0;
         if(players[playerIndex].getRoadCount() > 0){
@@ -183,12 +290,23 @@ public class ClientModel {
         players[playerIndex].playRoadBuildingCard(roadsUsed);
     }
 
+    /**
+     * Play a year of plenty card.
+     * @param playerIndex
+     * @param resource1
+     * @param resource2
+     */
     public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){
         //TODO: Need a method or way that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
         resourceBank.playYearOfPlenty(resource1, resource2);
         players[playerIndex].playYearOfPlentyCard(resource1, resource2);
     }
 
+    /**
+     * Play Monopoly card.
+     * @param recieverPlayerIndex
+     * @param monopolizedResource
+     */
     public void playMonopolyCard(int recieverPlayerIndex, ResourceType monopolizedResource){
         int totalCardsGained = 0;
         //Take all cards of specified resource from each opposing player
@@ -235,17 +353,43 @@ public class ClientModel {
     public ClientUpdateManager getUpdateManager() {return updateManager;}
 
     //SETTERS
-    public void setVersion(int newModVer) {
-        version = newModVer;}
+    public void setVersion(int newModVer) {version = newModVer;}
     public void setWinner(int newGameWinner) {
         winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
+
+    public void setMessageManager(MessageManager messageManager) {
+        this.messageManager = messageManager;
+    }
+
+    public int getGameNumber() {
+        return gameNumber;
+    }
+
+    public void setGameNumber(int gameNumber) {
+        this.gameNumber = gameNumber;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
+
+    public void setTradeOffer(TradeOffer tradeOffer) {
+        this.tradeOffer = tradeOffer;
+    }
+
     public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
     /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/
     public void setChat(MessageList newChat) {chat = newChat;}
     public void setLog(MessageList newLog) {log = newLog;}
-    // ....???? Come back to this
-
 }
 
 

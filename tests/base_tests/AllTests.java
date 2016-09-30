@@ -9,7 +9,7 @@ public class AllTests {
     public static void main(String[] args) {
 
         String[] testClasses = new String[] {"client_tests.ServerProxyTest", "client_tests.JSONTranslatorTest",
-                "client_tests.ServerPollerTest"};//add the rest of the junits
+                "client_tests.ServerPollerTest","shared_tests.TradeTest"};//add the rest of the junits
 
         org.junit.runner.JUnitCore.main(testClasses);
     }

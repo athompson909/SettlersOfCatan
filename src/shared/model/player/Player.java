@@ -3,9 +3,15 @@ package shared.model.player;
 import com.google.gson.annotations.SerializedName;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static shared.definitions.PortType.*;
 
 /**
  * The Player class represents each player's status, including the player's identity, points, available pieces, and cards.
@@ -95,16 +101,19 @@ public class Player { //
      */
     private boolean discarded = false;
 
+    /**
+     * Maritime Trade manager so the player can trade with the bank using ports.
+     */
     private MaritimeTradeManager maritimeTradeManager = new MaritimeTradeManager();
 
 
     /**
      * Constructor for creating a new player.
      *
-     * @param color
-     * @param name
-     * @param playerID
-     * @param playerIndex
+     * @param color of the player.
+     * @param name of the player.
+     * @param playerID of the player.
+     * @param playerIndex of the player.
      */
     public Player(CatanColor color, String name, String playerID, int playerIndex) {
         this.color = color;
@@ -114,14 +123,22 @@ public class Player { //
     }
 
     /**
-     * Updates the player through the server.
-     *
-     * @param player The new player object to use.
+     * Update the player with a newPlayer.
+     * @param newPlayer
      */
-    public void update(Player player) {
-
+    public void updatePlayer(Player newPlayer) {
+        setVictoryPoints(newPlayer.getVictoryPoints());
+        setMonuments(newPlayer.getMonuments());
+        setSoldiersPlayed(newPlayer.getSoldiersPlayed());
+        setCityCount(newPlayer.getCityCount());
+        setSettlementCount(newPlayer.getSettlementCount());
+        setRoadCount(newPlayer.getRoadCount());
+        setPlayerResourceList(newPlayer.getPlayerResourceList());
+        setOldDevCardList(newPlayer.getOldDevCardList());
+        setNewDevCardList(newPlayer.getNewDevCardList());
+        setPlayedDevCard(newPlayer.hasPlayedDevCard());
+        setDiscarded(newPlayer.hasDiscarded());
     }
-
 
     //CAN FUNCTIONS
     /**
@@ -235,20 +252,6 @@ public class Player { //
         return false;
     }
 
-    public void updatePlayer(Player newPlayer) {
-        setVictoryPoints(newPlayer.getVictoryPoints());
-        setMonuments(newPlayer.getMonuments());
-        setSoldiersPlayed(newPlayer.getSoldiersPlayed());
-        setCityCount(newPlayer.getCityCount());
-        setSettlementCount(newPlayer.getSettlementCount());
-        setRoadCount(newPlayer.getRoadCount());
-        setPlayerResourceList(newPlayer.getPlayerResourceList());
-        setOldDevCardList(newPlayer.getOldDevCardList());
-        setNewDevCardList(newPlayer.getNewDevCardList());
-        setPlayedDevCard(newPlayer.hasPlayedDevCard());
-        setDiscarded(newPlayer.hasDiscarded());
-    }
-
     //DO METHODS:
     /**
      * Purchases a new road, which uses 1 Brick and 1 Wood
@@ -293,12 +296,18 @@ public class Player { //
         newDevCardList.addDevCard(newDevCard);
     }
 
+    /**
+     * Play a solider card from the player's hand.
+     */
     public void playSoldierCard() {
         oldDevCardList.removeDevCard(DevCardType.SOLDIER);
         soldiersPlayed++;
         playedDevCard = true;
     }
 
+    /**
+     * play a monument card from the player's hand.
+     */
     public void playMonumentCard() {
         oldDevCardList.removeDevCard(DevCardType.MONUMENT);
         monuments++;
@@ -306,6 +315,10 @@ public class Player { //
         //playedDevCard = true; //Monument
     }
 
+    /**
+     * Play a road building card from the player's hand, and lose the amount of roads.
+     * @param roadsUsed when playing the card. Usually will be 2, unless the player has 0-1 road pieces.
+     */
     public void playRoadBuildingCard(int roadsUsed) {
         for(int i = 0; i < roadsUsed; i++){
             roadCount--;
@@ -314,6 +327,11 @@ public class Player { //
         playedDevCard = true;
     }
 
+    /**
+     * Play a Monopoly card from the player's hand.
+     * @param monopolizedResource the player will recieve.
+     * @param cardsGained How many cards of the specified resource the player will gain.
+     */
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {
         oldDevCardList.removeDevCard(DevCardType.MONOPOLY);
         switch (monopolizedResource) {
@@ -345,17 +363,67 @@ public class Player { //
         return playerResourceList.loseAllCardsOfType(resource);
     }
 
-
+    /**
+     * Called when a year of plenty card is played.
+     * @param resource1 First resource the player desires from the bank.
+     * @param resource2 Second resource the player desires from the bank.
+     */
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-        //TODO: Figure out where verification of these resources being available is done
+        //TODO: Figure out what to do if the Bank does not have the desired resources. In the client or player?
         oldDevCardList.removeDevCard(DevCardType.YEAR_OF_PLENTY);
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);
         playedDevCard = true;
     }
 
+    //This could return the actual trades player can do...just by returning the Set enoughCards
+    public boolean canMaritimeTrade(Set ports) {
+        Set<PortType> enoughCards = new HashSet<>();
+        for(Object portType : ports) {
+           if(portType == WOOD)
+               if(playerResourceList.getWoodCardCount() >= 2) {enoughCards.add(WOOD);}
+            if(portType == WHEAT)
+                if(playerResourceList.getWheatCardCount() >= 2) {enoughCards.add(WHEAT);}
+            if(portType == BRICK)
+                if(playerResourceList.getBrickCardCount() >= 2) {enoughCards.add(BRICK);}
+            if(portType == ORE)
+                if(playerResourceList.getOreCardCount() >= 2) {enoughCards.add(ORE);}
+            if(portType == SHEEP)
+                if(playerResourceList.getSheepCardCount() >= 2) {enoughCards.add(SHEEP);}
+            if(portType == THREE){} //NOT sure if anything needs to happen here
+        }
+        //return enoughCards;
+        if(!enoughCards.isEmpty()) {return true;}
+        else {return false;}
+    }
 
+    public boolean canDomesticTrade() {
+        int[] cardsToTrade = new int[5];
+        cardsToTrade[0] = canTradeWood();
+        cardsToTrade[1] = canTradeWheat();
+        cardsToTrade[2] = canTradeBrick();
+        cardsToTrade[3] = canTradeOre();
+        cardsToTrade[4] = canTradeSheep();
+       // return cardsToTrade;
+        if(cardsToTrade.length != 0) {return true;}
+        else {return false;}
+    }
 
+    private int canTradeWood() {
+        return playerResourceList.getWoodCardCount();
+    }
+    private int canTradeWheat() {
+        return playerResourceList.getWheatCardCount();
+    }
+    private int canTradeBrick() {
+        return playerResourceList.getBrickCardCount();
+    }
+    private int canTradeOre() {
+        return playerResourceList.getOreCardCount();
+    }
+    private int canTradeSheep() {
+        return playerResourceList.getSheepCardCount();
+    }
 
     //GETTERS
     public CatanColor getColor() {
@@ -418,7 +486,7 @@ public class Player { //
         return discarded;
     }
 
-    //SETTERS - Possibly don't need these, leaving as private for now
+    //SETTERS
     private void setVictoryPoints(int numVict) {
         victoryPoints = numVict;
     }
