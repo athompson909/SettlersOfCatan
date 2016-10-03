@@ -120,72 +120,74 @@
 	</target>
 
 	<target name="package" depends="compile" description="package the jar file" >
-		<mkdir dir="${java.dist}/lib"/>
-		<copy todir="${java.dist}/lib">
-			<fileset dir="/lib">
-				<include name="**"/>
-			</fileset>
-		</copy>
-		<mkdir dir="${java.dist}/images"/>
-		<copy todir="${java.dist}/images">
-			<fileset dir="${java.images}">
-				<include name="**"/>
-			</fileset>
-		</copy>
- 		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
-			<manifest>
-				<attribute name="Main-Class" value="client.main.Catan"/>
-				<attribute name="Class-Path"
-					value="lib/gson-2.2.4.jar" />
-			</manifest>
-		</jar>
- 		<jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
-			<manifest>
-				<attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
-				<attribute name="Class-Path"
-					value="lib/gson-2.2.4.jar" />
-			</manifest>
-		</jar>
-	</target>
+		<!--  **************THIS SECTION IS THE ONLY THING YOU SHOULD NEED TO CHANGE  ************************** -->
+      <mkdir dir="${java.dist}/lib"/>  <!-- ${java.dist} is the base folder where build.xml is -->
+      <copy todir="${java.dist}/lib">  <!--  Ant has to copy all necessary files into folder "java" to run itself -->
+          <fileset dir="${java.dist}/lib">   <!-- this is where OUR lib folder is located  -->
+              <include name="**"/>
+          </fileset>
+      </copy>
+      <mkdir dir="${java.dist}/images"/>
+      <copy todir="${java.dist}/images">  <!-- Copy the following files into Ant's special runtime folder "java/images"-->
+          <fileset dir="images">   <!-- Get all image files from the base folder SettlersOfCatan/images -->
+              <include name="**"/>  <!-- include all images names/filetypes -->
+          </fileset>
+      </copy>
+		<!-- ****************************************************************************** -->
+       <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
+          <manifest>
+              <attribute name="Main-Class" value="client.main.Catan"/>
+              <attribute name="Class-Path"
+                  value="lib/gson-2.2.4.jar" />
+          </manifest>
+      </jar>
+       <jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
+          <manifest>
+              <attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
+              <attribute name="Class-Path"
+                  value="lib/gson-2.2.4.jar" />
+          </manifest>
+      </jar>
+  </target>
 
-	<target name="our-client" depends="package" description="compiles, packages, and runs the student client">
-		<java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
-			<sysproperty key="com.sun.management.jmxremote" value=""/>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
-	</target>
+  <target name="our-client" depends="package" description="compiles, packages, and runs the student client">
+      <java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
+          <sysproperty key="com.sun.management.jmxremote" value=""/>
+          <assertions>
+              <enable/>
+          </assertions>
+      </java>
+  </target>
 
-	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
-		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
-			<sysproperty key="com.sun.management.jmxremote" value=""/>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
-	</target>
+  <target name="our-server" depends="package" description="compiles, packages, and runs the student server">
+      <java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
+          <sysproperty key="com.sun.management.jmxremote" value=""/>
+          <assertions>
+              <enable/>
+          </assertions>
+      </java>
+  </target>
 
-    <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
-        <zip destfile="./tester.zip" basedir="${java.dist}" />
-    </target>
-
-
-	<target name="test" depends="compile-test, compile" description="runs our junit tests">
-		<java classname="base_tests.AllTests" fork="yes">
-			<classpath>
-				<path refid="java.lib.classpath"/>
-			</classpath>
-			<classpath>
-				<pathelement location="${java.build}"/>
-				<pathelement location="${java.build.base_tests}"/>
-			</classpath>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
+  <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
+      <zip destfile="./tester.zip" basedir="${java.dist}" />
+  </target>
 
 
-	</target>
+  <target name="test" depends="compile-test, compile" description="runs our junit tests">
+      <java classname="base_tests.AllTests" fork="yes">
+          <classpath>
+              <path refid="java.lib.classpath"/>
+          </classpath>
+          <classpath>
+              <pathelement location="${java.build}"/>
+              <pathelement location="${java.build.base_tests}"/>
+          </classpath>
+          <assertions>
+              <enable/>
+          </assertions>
+      </java>
+
+
+  </target>
 
 </project>
