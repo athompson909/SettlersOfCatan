@@ -47,6 +47,7 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testUserLogin() throws ClientException {
+        System.out.println("Testing ServerProxy: userLogin()");
 
         JSONObject loginJson = new JSONObject(LOGIN_STR);
         assertEquals("Success", serverProxy.userLogin(loginJson));
@@ -58,6 +59,7 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testUserRegister() throws ClientException {
+        System.out.println("Testing ServerProxy: userRegister()");
 
         JSONObject loginJson = new JSONObject(LOGIN_STR);
         assertEquals("{\"http error 400\":\"Bad Request\"}", serverProxy.userRegister(loginJson));
@@ -73,6 +75,7 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testGamesList() throws ClientException {
+        System.out.println("Testing ServerProxy: gamesList()");
         //compare variables in the two games lists
         JSONArray jsonArray = serverProxy.gamesList();
         String jsonArrayStr = jsonArray.toString();
@@ -83,6 +86,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testGameCreate() throws ClientException {
+        System.out.println("Testing ServerProxy: gameCreate()");
+
         JSONObject jsonObject = new JSONObject(GAME_CREATE_STR);
         String responseStr = serverProxy.gameCreate(jsonObject).toString();
         assertEquals("{\"players\":[{},{},{},{}],\"id\":", responseStr.substring(0, 30));
@@ -94,6 +99,7 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testGameJoin() throws ClientException {
+        System.out.println("Testing ServerProxy: gameJoin()");
 
         JSONObject jsonObject = new JSONObject(JOIN_STR);
         String jsonStr = serverProxy.gameJoin(jsonObject);
@@ -102,6 +108,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testGameSave() throws ClientException {
+        System.out.println("Testing ServerProxy: gameSave()");
+
         JSONObject jsonObject = new JSONObject(GAME_SAVE_STR);
         String str = serverProxy.gameSave(jsonObject);
         assertEquals("Success", str);
@@ -109,6 +117,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testGameLoad() throws ClientException {
+        System.out.println("Testing ServerProxy: gameLoad()");
+
         JSONObject jsonObject = new JSONObject("{\"name\":\"testgame1002-Adam\"}");
         String str = serverProxy.gameLoad(jsonObject);
         assertEquals("Success", str);
@@ -123,6 +133,8 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testGameModelVersion() throws ClientException {
+        System.out.println("Testing ServerProxy: gameModelVersion()");
+
         String model = serverProxy.gameModelVersion(0);
         assertEquals("\"true\"", model);
         model = serverProxy.gameModelVersion(1);
@@ -136,6 +148,8 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testGameReset() throws ClientException {
+        System.out.println("Testing ServerProxy: gameReset()");
+
         JSONObject jsonObject = serverProxy.gameReset();
         String jsonStr = jsonObject.toString();
         assertEquals("{\"bank\":{\"", jsonStr.substring(0, 10));
@@ -143,12 +157,16 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testGetGameCommands() throws ClientException {
+        System.out.println("Testing ServerProxy: getGameCommands()");
+
         JSONArray jsonArray = serverProxy.getGameCommands();
         assertEquals("[]", jsonArray.toString());
     }
 
     @Test
     public void testListAI() throws ClientException {
+        System.out.println("Testing ServerProxy: listAI()");
+
         assertEquals("[\"LARGEST_ARMY\"]", serverProxy.listAI().toString());
     }
 
@@ -158,18 +176,24 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testSendChat() throws ClientException {
+        System.out.println("Testing ServerProxy: sendChat()");
+
         JSONObject response = serverProxy.sendChat(new JSONObject(SEND_CHAT));
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
     }
 
     @Test
     public void testRollNumber() throws ClientException {
+        System.out.println("Testing ServerProxy: rollNumber()");
+
         JSONObject response = serverProxy.rollNumber(new JSONObject(ROLL_NUMBER));
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
     }
 
     @Test
     public void testRobPlayer() throws ClientException {
+        System.out.println("Testing ServerProxy: robPlayer()");
+
         JSONObject request = new JSONObject(ROB_PLAYER);
         JSONObject response = serverProxy.robPlayer(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -177,6 +201,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testFinishTurn() throws ClientException {
+        System.out.println("Testing ServerProxy: finishTurn()");
+
         JSONObject request = new JSONObject(FINISH_TURN);
         JSONObject response = serverProxy.finishTurn(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -188,6 +214,8 @@ public class ServerProxyTest extends TestCase {
      */
     @Test
     public void testYearOfPlenty() throws ClientException {
+        System.out.println("Testing ServerProxy: playYearOfPlenty()");
+
         JSONObject request = new JSONObject(YEAR_OF_PLENTY);
         JSONObject response = serverProxy.playYearOfPlenty(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -195,6 +223,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testPurchaseDevCard() throws ClientException {
+        System.out.println("Testing ServerProxy: purchaseDevCard()");
+
         JSONObject request = new JSONObject(BUY_DEV_CARD);
         JSONObject response = serverProxy.purchaseDevCard(request);
         assertEquals("{\"http error 400\":\"Bad Request\"}", response.toString());
@@ -202,6 +232,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testPlaySoldier() throws ClientException {
+        System.out.println("Testing ServerProxy: playSoldier()");
+
         JSONObject request = new JSONObject(PLAY_SOLDIER);
         JSONObject response = serverProxy.playSoldier(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -209,6 +241,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testPlayMonopoly() throws ClientException {
+        System.out.println("Testing ServerProxy: playMonopoly()");
+
         JSONObject request = new JSONObject(MONOPOLY);
         JSONObject response = serverProxy.playMonopoly(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -216,6 +250,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testPlayMonument() throws ClientException {
+        System.out.println("Testing ServerProxy: playMonument()");
+
         JSONObject request = new JSONObject(MONUMENT);
         JSONObject response = serverProxy.playMonument(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -223,6 +259,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testBuildRoad() throws ClientException {
+        System.out.println("Testing ServerProxy: buildRoad()");
+
         JSONObject request = new JSONObject(BUILD_ROAD);
         JSONObject response = serverProxy.buildRoad(request);
         assertEquals("{\"http error 400\":\"Bad Request\"}", response.toString());
@@ -230,6 +268,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testOfferTrade() throws ClientException {
+        System.out.println("Testing ServerProxy: offerTrade()");
+
         JSONObject request = new JSONObject(OFFER_TRADE);
         JSONObject response = serverProxy.offerTrade(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -237,6 +277,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testMaritimeTrade() throws ClientException {
+        System.out.println("Testing ServerProxy: maritimeTrade()");
+
         JSONObject request = new JSONObject(MARITIME_TRADE);
         JSONObject response = serverProxy.maritimeTrade(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
@@ -244,6 +286,8 @@ public class ServerProxyTest extends TestCase {
 
     @Test
     public void testDiscardCards() throws ClientException {
+        System.out.println("Testing ServerProxy: discardCards()");
+
         JSONObject request = new JSONObject(DISCARD_CARDS);
         JSONObject response = serverProxy.discardCards(request);
         assertEquals("{\"bank\":{", response.toString().substring(0, 9));
