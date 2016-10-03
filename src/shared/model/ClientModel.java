@@ -241,7 +241,7 @@ public class ClientModel {
      * @param playerIndex
      * @param vertexLocation of where to place settlement.
      */
-    public void purcahseAndPlaceSettlement(int playerIndex, VertexLocation vertexLocation){
+    public void purchaseAndPlaceSettlement(int playerIndex, VertexLocation vertexLocation){
         players[playerIndex].purchaseSettlement();
         map.buildSettlementManager.placeSettlement(playerIndex, vertexLocation);
     }
