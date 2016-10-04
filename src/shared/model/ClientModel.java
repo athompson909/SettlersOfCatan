@@ -1,13 +1,12 @@
 package shared.model;
 
 import shared.definitions.DevCardType;
-import shared.definitions.ResourceType;
 import shared.definitions.PortType;
+import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
-import shared.model.map.VertexObject;
-import shared.model.messagemanager.MessageList;
 import shared.model.map.Map;
+import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
@@ -21,6 +20,10 @@ import java.util.Set;
  * and that will be updated every time the ServerPoller requests a copy of the model.
  *
  * Created by Mitchell on 9/15/2016.
+ *
+ * from spec: "1. Use the Observer pattern to make your model observable. Each time the model is updated
+ from the server, it should notify its observers."
+ * TODO: would this have to implement Observer?
  */
 public class ClientModel {
 
