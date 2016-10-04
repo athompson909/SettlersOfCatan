@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Created by Mitchell on 9/15/2016.
  *
  * all the JSONObject parameters of overridden functions here can be passed in as null
  */

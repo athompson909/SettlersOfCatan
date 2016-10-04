@@ -6,165 +6,145 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
+import shared.model.map.*;
 
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+
+
+
+
+
+//Game manger should be singleton that extends observable.
+//Game manager holds a list of GameModels.
+//Game Model holds all the information for a game, so pretty much everything being created in the JSON Translator.
+//Some how, (need to clarify this), by having GameManager extend observable, all of its subcontrollers will then extend observable.
+
+/*
+ this.addObserver(map);
+//JUST ALWAYS DO THESE TWO in this order:
+setChanged(); //What does this do?
+notifyObservers(); You could pass in the arg, or to make life easier, just pass in nothing, and have what ever is being updated go straight to the singleton.
+	*/
 
 /**
  * Implementation for the map controller
  */
 public class MapController extends Controller implements IMapController {
-	
-	private IRobView robView;
-	
-	public MapController(IMapView view, IRobView robView) {
-		
-		super(view);
-		
-		setRobView(robView);
-		
-		initFromModel();
-	}
-	
-	public IMapView getView() {
-		
-		return (IMapView)super.getView();
-	}
-	
-	private IRobView getRobView() {
-		return robView;
-	}
-	private void setRobView(IRobView robView) {
-		this.robView = robView;
-	}
-	
-	protected void initFromModel() {
-		
-		//<temp>
-		
-		Random rand = new Random();
 
-		for (int x = 0; x <= 3; ++x) {
-			
-			int maxY = 3 - x;			
-			for (int y = -3; y <= maxY; ++y) {				
-				int r = rand.nextInt(HexType.values().length);
-				HexType hexType = HexType.values()[r];
-				HexLocation hexLoc = new HexLocation(x, y);
-				getView().addHex(hexLoc, hexType);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-						CatanColor.RED);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-						CatanColor.BLUE);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-						CatanColor.ORANGE);
-				getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-				getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
-			}
-			
-			if (x != 0) {
-				int minY = x - 3;
-				for (int y = minY; y <= 3; ++y) {
-					int r = rand.nextInt(HexType.values().length);
-					HexType hexType = HexType.values()[r];
-					HexLocation hexLoc = new HexLocation(-x, y);
-					getView().addHex(hexLoc, hexType);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-							CatanColor.RED);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-							CatanColor.BLUE);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-							CatanColor.ORANGE);
-					getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-					getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
-				}
-			}
-		}
-		
-		PortType portType = PortType.BRICK;
-		getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
-		
-		getView().placeRobber(new HexLocation(0, 0));
-		
-		getView().addNumber(new HexLocation(-2, 0), 2);
-		getView().addNumber(new HexLocation(-2, 1), 3);
-		getView().addNumber(new HexLocation(-2, 2), 4);
-		getView().addNumber(new HexLocation(-1, 0), 5);
-		getView().addNumber(new HexLocation(-1, 1), 6);
-		getView().addNumber(new HexLocation(1, -1), 8);
-		getView().addNumber(new HexLocation(1, 0), 9);
-		getView().addNumber(new HexLocation(2, -2), 10);
-		getView().addNumber(new HexLocation(2, -1), 11);
-		getView().addNumber(new HexLocation(2, 0), 12);
-		
-		//</temp>
-	}
+    private IRobView robView;
 
-	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
-	}
+    //TODO: Erase this later, should connect to actual game model map.
+    private shared.model.map.Map catanMap = new shared.model.map.Map(false, false, false);
 
-	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		
-		return true;
-	}
+    public MapController(IMapView view, IRobView robView) {
+        super(view);
+        System.out.println("Map Controller Constructor");
 
-	public boolean canPlaceCity(VertexLocation vertLoc) {
-		
-		return true;
-	}
+        setRobView(robView);
 
-	public boolean canPlaceRobber(HexLocation hexLoc) {
-		
-		return true;
-	}
+        initFromModel();
+    }
 
-	public void placeRoad(EdgeLocation edgeLoc) {
-		
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
-	}
+    public IMapView getView() {
 
-	public void placeSettlement(VertexLocation vertLoc) {
-		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
-	}
+        return (IMapView) super.getView();
+    }
 
-	public void placeCity(VertexLocation vertLoc) {
-		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
-	}
+    private IRobView getRobView() {
+        return robView;
+    }
 
-	public void placeRobber(HexLocation hexLoc) {
-		
-		getView().placeRobber(hexLoc);
-		
-		getRobView().showModal();
-	}
-	
-	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-		
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
-	}
-	
-	public void cancelMove() {
-		
-	}
-	
-	public void playSoldierCard() {	
-		
-	}
-	
-	public void playRoadBuildingCard() {	
-		
-	}
-	
-	public void robPlayer(RobPlayerInfo victim) {	
-		
-	}
-	
+    private void setRobView(IRobView robView) {
+        this.robView = robView;
+    }
+
+    protected void initFromModel() {
+        //Place the hexes, numbers, and robber.
+        for (HexLocation key : catanMap.getHexes().keySet()) {
+            Hex currentHex = catanMap.getHexes().get(key);
+            getView().addHex(currentHex.getLocation(), currentHex.getResource());
+            if(currentHex.getResource() != HexType.WATER){
+                if(currentHex.getResource() != HexType.DESERT) {
+                    getView().addNumber(currentHex.getLocation(), currentHex.getNumber());
+                }else {
+                    getView().placeRobber(currentHex.getLocation());
+                }
+            }
+        }
+
+        //Place the ports
+        for(HexLocation key : catanMap.getPorts().keySet()){
+            Port currentPort = catanMap.getPorts().get(key);
+            getView().addPort(new EdgeLocation(currentPort.getLocation(),currentPort.getEdgeDirection()), currentPort.getResource());
+        }
+
+        //TEMPORARY: Start out with a road
+        EdgeLocation edgeLoc = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North);
+        placeRoad(edgeLoc);
+    }
+
+    public boolean canPlaceRoad(EdgeLocation edgeLoc) {
+        return catanMap.buildRoadManager.canPlace(0, edgeLoc);
+    }
+
+    public boolean canPlaceSettlement(VertexLocation vertLoc) {
+       return catanMap.buildSettlementManager.canPlace(0, vertLoc);
+    }
+
+    public boolean canPlaceCity(VertexLocation vertLoc) {
+        return catanMap.buildCityManager.canPlaceCity(0, vertLoc);
+    }
+
+    public boolean canPlaceRobber(HexLocation hexLoc) {
+
+        return true;
+    }
+
+    public void placeRoad(EdgeLocation edgeLoc) {
+        catanMap.buildRoadManager.placeRoad(0, edgeLoc);  //TODO: Should use the update stuff...
+        getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+    }
+
+    public void placeSettlement(VertexLocation vertLoc) {
+        catanMap.buildSettlementManager.placeSettlement(0, vertLoc);  //TODO: Should use the update stuff...
+        getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+    }
+
+    public void placeCity(VertexLocation vertLoc) {
+        catanMap.buildCityManager.placeCity(0, vertLoc);  //TODO: Should use the update stuff...
+        getView().placeCity(vertLoc, CatanColor.ORANGE);
+    }
+
+    public void placeRobber(HexLocation hexLoc) {
+
+        getView().placeRobber(hexLoc);
+
+        getRobView().showModal();
+    }
+
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
+
+        getView().startDrop(pieceType, CatanColor.ORANGE, true);
+    }
+
+    public void cancelMove() {
+
+    }
+
+    public void playSoldierCard() {
+
+    }
+
+    public void playRoadBuildingCard() {
+
+    }
+
+    public void robPlayer(RobPlayerInfo victim) {
+
+    }
+
+
 }
 
