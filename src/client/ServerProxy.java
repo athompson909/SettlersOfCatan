@@ -121,7 +121,7 @@ public class ServerProxy implements IServerProxy {
             System.out.println("Error: bad url");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Error: probably cause by obj.openConnection()");
+            System.out.println("Error: probably caused by obj.openConnection()");
             e.printStackTrace();
         } catch (Exception e) {
             System.out.println("Error: other exception");
@@ -219,7 +219,7 @@ public class ServerProxy implements IServerProxy {
             System.out.println("Error: bad url");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Error: probably cause by obj.openConnection()");
+            System.out.println("Error: probably caused by obj.openConnection()");
             e.printStackTrace();
         } catch (Exception e) {
             System.out.println("Error: other exception");

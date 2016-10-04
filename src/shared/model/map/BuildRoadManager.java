@@ -9,7 +9,7 @@ import shared.locations.EdgeLocation;
 public class BuildRoadManager {
 
     /**
-     * Pointer reference to the original mao.
+     * Pointer reference to the original map.
      */
     private Map map;
 
