@@ -81,6 +81,8 @@ public class MapController extends Controller implements IMapController {
         }
 
         //TEMPORARY: Start out with a road
+        VertexLocation verLoc = new VertexLocation(new HexLocation(1,1), VertexDirection.NorthEast);
+        placeSettlement(verLoc);
         EdgeLocation edgeLoc = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North);
         placeRoad(edgeLoc);
     }
@@ -98,7 +100,6 @@ public class MapController extends Controller implements IMapController {
     }
 
     public boolean canPlaceRobber(HexLocation hexLoc) {
-
         return true;
     }
 
