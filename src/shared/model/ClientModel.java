@@ -12,6 +12,8 @@ import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 
@@ -23,9 +25,8 @@ import java.util.Set;
  *
  * from spec: "1. Use the Observer pattern to make your model observable. Each time the model is updated
  from the server, it should notify its observers."
- * TODO: would this have to implement Observer?
  */
-public class ClientModel {
+public class ClientModel extends Observable {
 
     /**
      * The current version of the ClientModel
@@ -403,6 +404,55 @@ public class ClientModel {
     /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/
     public void setChat(MessageList newChat) {chat = newChat;}
     public void setLog(MessageList newLog) {log = newLog;}
+
+
+
+    // observable override methods
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
+
+    @Override
+    public synchronized void deleteObserver(Observer o) {
+        super.deleteObserver(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        super.notifyObservers();
+    }
+
+    @Override
+    public void notifyObservers(Object arg) {
+        super.notifyObservers(arg);
+    }
+
+    @Override
+    public synchronized void deleteObservers() {
+        super.deleteObservers();
+    }
+
+    @Override
+    protected synchronized void setChanged() {
+        super.setChanged();
+    }
+
+    @Override
+    protected synchronized void clearChanged() {
+        super.clearChanged();
+    }
+
+    @Override
+    public synchronized boolean hasChanged() {
+        return super.hasChanged();
+    }
+
+    @Override
+    public synchronized int countObservers() {
+        return super.countObservers();
+    }
 }
 
 

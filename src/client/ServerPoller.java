@@ -18,6 +18,8 @@ import java.util.TimerTask;
  * to create a proxy object, the poller should instead have a constructor parameter or setter that
  * can be used to pass in the proxy it should use."
  *
+ * *** once the user enters an actual game, have the server poller start polling the server ***
+ *
  * Created by Mitchell on 9/15/2016.
  * Sierra renamed this class from ServerPuller to ServerPoller on 9/18/2016 :)
  */
@@ -68,13 +70,12 @@ public class ServerPoller {
         public void run() {
             //System.out.println("fetching new model");
             fetchCount++;
-            // todo: uncomment below:
-//            try {
-//                fetchNewModel();
-//            }
-//            catch (ClientException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                fetchNewModel(); //todo: work on fetchNewModel() and clientFacade interactions
+            }
+            catch (ClientException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -83,8 +84,8 @@ public class ServerPoller {
      * FetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
      * This function is called every 2-3 seconds when pollTimer tells it to.
      */
-    public String fetchNewModel() throws ClientException {
-        return proxy.gameModelVersion(0);//clientFacade.gameModelVersion();
+    public void fetchNewModel() throws ClientException {
+        clientFacade.gameModelVersion();
     }
 
     public ClientFacade getClientFacade() {
