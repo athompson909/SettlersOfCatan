@@ -1,11 +1,14 @@
 package shared.model.map;
 
+import client.map.MapController;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.*;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -13,6 +16,8 @@ import java.util.*;
  * contains all data related to hexes, hex values, ports, objects on map, dimensions, and the robber
  */
 public class Map {
+
+
 
     /**
      * List of all hexes used to create map
@@ -89,7 +94,6 @@ public class Map {
         createAllVertexObjects();
         populatePortVertexLocations();
         createAllEdgeValues();
-
     }
 
     //this constructor is for when the new model comes back and we need to make a new Map object
@@ -99,7 +103,7 @@ public class Map {
     {
         setHexes(newHexes);
         setPorts(newPorts);
-
+        //TODO: Look into this...
     }
 
     /**

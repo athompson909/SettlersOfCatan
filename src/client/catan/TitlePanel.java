@@ -16,7 +16,7 @@ public class TitlePanel extends JPanel
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
-		titleLabel = new JLabel("CS 340: Settlers");
+		titleLabel = new JLabel("CS 340 - Team 11: Settlers of Catan");
 		titleLabel.setOpaque(true);
 		
 		Font font = titleLabel.getFont();

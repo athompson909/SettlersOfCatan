@@ -25,7 +25,7 @@ public class VertexObject {
     /**
      * By default, the piece type is null since nothing is there until a player builds on it.
      */
-    private PieceType pieceType = null;
+    private PieceType pieceType;
 
     //constructor
     public VertexObject(VertexLocation location){
