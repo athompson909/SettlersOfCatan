@@ -1,5 +1,6 @@
 package client.map;
 
+import client.ClientFacade;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
 import shared.definitions.CatanColor;
@@ -105,8 +106,9 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
+        //This should send it to the server
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
-
+        ClientFacade.getInstance().buildRoad(buildRoadCommand);
 
         catanMap.buildRoadManager.placeRoad(0, edgeLoc);  //TODO: Should use the update stuff...
         getView().placeRoad(edgeLoc, CatanColor.ORANGE);
@@ -150,7 +152,7 @@ public class MapController extends Controller implements IMapController {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        
     }
 
 
