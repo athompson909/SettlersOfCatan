@@ -33,13 +33,13 @@ public class Map {
      * Hashmap of all the vertex objects on the map,
      * including unoccupied vertex objects (null), settlements, and cities.
      */
-    private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>();
+    private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>(); //These are the Settlements and Cities
 
     /**
      * Hashmap of all possible edgeValues
      * including unoccupied edges (null), and roads.
      */
-    private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>();
+    private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>(); //These are the Roads
 
     /**
      * List of the static vertex locations
@@ -478,10 +478,11 @@ public class Map {
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
-        setRobber(newMap.robber);
         //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
 
-        this.robber = newMap.robber;
+        this.robber = newMap.robber; //Updates Robber
+        this.vertexObjects = newMap.vertexObjects; //Updates Settlements and Cities
+        this.edgeValues = newMap.edgeValues; //Updates Roads
         //edgeValues
         //vertexObjects
     }

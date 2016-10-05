@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.ClientFacade;
 import shared.model.map.Map;
 import shared.model.player.Player;
 import shared.model.turntracker.TurnTracker;
@@ -63,7 +64,7 @@ public class ClientUpdateManager {
 
         // Trade Offer???
         // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
-
+        currentModel.setChanged(true);
     }
 
     /**
