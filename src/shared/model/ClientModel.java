@@ -84,7 +84,7 @@ public class ClientModel extends Observable {
     //Constructor
     public ClientModel (int gameNumber){
         this.gameNumber = gameNumber;
-        //this.addObserver(Controller);
+        //this.addObserver(Controller); //How do we get a reference to the controller?
     }
 
     /**

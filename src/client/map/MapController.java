@@ -107,8 +107,8 @@ public class MapController extends Controller implements IMapController {
 
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
-        ClientFacade.getInstance().buildRoad(buildRoadCommand);
+        //BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
+        //ClientFacade.getInstance().buildRoad(buildRoadCommand);
 
         catanMap.buildRoadManager.placeRoad(0, edgeLoc);  //TODO: Should use the update stuff...
         getView().placeRoad(edgeLoc, CatanColor.ORANGE);
@@ -152,7 +152,7 @@ public class MapController extends Controller implements IMapController {
 
     @Override
     public void update(Observable o, Object arg) {
-        
+
     }
 
 
