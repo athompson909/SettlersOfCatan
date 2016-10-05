@@ -64,7 +64,7 @@ public class ClientUpdateManager {
 
         // Trade Offer???
         // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
-
+        currentModel.setChanged(true);
     }
 
     /**

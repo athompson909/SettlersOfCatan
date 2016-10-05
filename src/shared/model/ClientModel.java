@@ -357,6 +357,7 @@ public class ClientModel extends Observable {
     }
 
     //GETTERS
+    public boolean getChanged() {return changed;}
     public int getVersion() {return version;}
     public int getWinner() {return winner;}
     public ResourceBank getResourceBank() {return resourceBank;}
@@ -370,6 +371,7 @@ public class ClientModel extends Observable {
     public ClientUpdateManager getUpdateManager() {return updateManager;}
 
     //SETTERS
+    public void setChanged(boolean set) {changed = set;}
     public void setVersion(int newModVer) {version = newModVer;}
     public void setWinner(int newGameWinner) {
         winner = newGameWinner;}
