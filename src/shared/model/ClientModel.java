@@ -45,7 +45,7 @@ public class ClientModel extends Observable {
      * The index of the player who won the game. -1 if no one has won yet.
      */
     public int winner = -1;
-
+    public boolean changed = false;
     public ResourceBank resourceBank;
     public MessageManager messageManager;
     public TurnTracker turnTracker;
