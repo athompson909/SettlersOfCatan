@@ -1,12 +1,14 @@
 package client.main;
 
-import javax.swing.*;
-
-import client.catan.*;
-import client.login.*;
+import client.Client;
+import client.base.IAction;
+import client.catan.CatanPanel;
 import client.join.*;
-import client.misc.*;
-import client.base.*;
+import client.login.LoginController;
+import client.login.LoginView;
+import client.misc.MessageView;
+
+import javax.swing.*;
 
 /**
  * Main entry point for the Catan program
@@ -27,6 +29,8 @@ public class Catan extends JFrame
 		
 		catanPanel = new CatanPanel();
 		this.setContentPane(catanPanel);
+
+
 		
 		display();
 	}
@@ -56,6 +60,9 @@ public class Catan extends JFrame
 			public void run()
 			{
 				new Catan();
+
+				//instantiating a new Client object
+				Client client = new Client();
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(

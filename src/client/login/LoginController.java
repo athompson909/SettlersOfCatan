@@ -1,9 +1,9 @@
 package client.login;
 
+import client.ClientFacade;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
-import shared.model.ClientModel;
 import shared.model.commandmanager.game.LoginCommand;
 
 import java.util.Observable;
@@ -74,9 +74,13 @@ public class LoginController extends Controller implements ILoginController {
 		String password = getLoginView().getLoginPassword();
 		LoginCommand loginCommand = new LoginCommand(username, password);
 
-		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(ClientFacade.getInstance().userLogin(loginCommand)) {
+			getLoginView().closeModal();
+			loginAction.execute();
+		}
+		else {
+			//notify user to retry
+		}
 	}
 
 	@Override
@@ -91,8 +95,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//to get to the client model:
-		ClientModel clientModel = (ClientModel) o;
+
 	}
 }
 
