@@ -12,10 +12,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-
-
-
-
 //Game manger should be singleton that extends observable.
 //Game manager holds a list of GameModels.
 //Game Model holds all the information for a game, so pretty much everything being created in the JSON Translator.
@@ -26,7 +22,7 @@ import java.util.Observer;
 //JUST ALWAYS DO THESE TWO in this order:
 setChanged(); //What does this do?
 notifyObservers(); You could pass in the arg, or to make life easier, just pass in nothing, and have what ever is being updated go straight to the singleton.
-	*/
+*/
 
 /**
  * Implementation for the map controller
@@ -85,6 +81,11 @@ public class MapController extends Controller implements IMapController {
         placeSettlement(verLoc);
         EdgeLocation edgeLoc = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North);
         placeRoad(edgeLoc);
+
+        VertexLocation verLocBlue = new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast);
+        placeSettlement(verLocBlue);
+        EdgeLocation edgeLocBlue = new EdgeLocation(new HexLocation(-1,-1), EdgeDirection.North);
+        placeRoad(edgeLocBlue);
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
@@ -119,9 +120,7 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void placeRobber(HexLocation hexLoc) {
-
         getView().placeRobber(hexLoc);
-
         getRobView().showModal();
     }
 

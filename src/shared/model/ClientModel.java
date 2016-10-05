@@ -93,10 +93,6 @@ public class ClientModel {
 
 
 
-
-
-
-
     //CAN METHODS
 
     /**
@@ -236,6 +232,12 @@ public class ClientModel {
         map.buildRoadManager.placeRoad(playerIndex, edgeLocation);
     }
 
+    /*
+    public void placeInitialRoad(){
+        map.buildRoadManager.placeRoad(playerIndex, edgeLocation);
+    }
+*/
+
     /**
      * Purchase and place a settlement.
      * @param playerIndex
@@ -290,7 +292,6 @@ public class ClientModel {
     public void playRoadBuildingCard(int playerIndex){
         int roadsUsed = 0;
         if(players[playerIndex].getRoadCount() > 0){
-            //TODO: Call maps road building function
             roadsUsed++;
         }
         if(players[playerIndex].getRoadCount() > 0){
