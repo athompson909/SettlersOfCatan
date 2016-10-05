@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.base.Controller;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -83,6 +84,7 @@ public class ClientModel extends Observable {
     //Constructor
     public ClientModel (int gameNumber){
         this.gameNumber = gameNumber;
+        //this.addObserver(Controller); //How do we get a reference to the controller?
     }
 
     /**
