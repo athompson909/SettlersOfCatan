@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.ClientFacade;
 import shared.model.map.Map;
 import shared.model.player.Player;
 import shared.model.turntracker.TurnTracker;
