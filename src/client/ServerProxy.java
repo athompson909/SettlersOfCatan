@@ -33,6 +33,13 @@ public class ServerProxy implements IServerProxy {
     private boolean hasJoined = false;
 
     /**
+     * this function is used by ServerPoller
+     * @return hasJoined
+     */
+    @Override
+    public boolean hasJoined() { return hasJoined; }
+
+    /**
      * the cookie returned when userLogin(...) is ran
      *  "all subsequent web service calls
      * should include an HTTP Cookie header that includes both the catan.user and

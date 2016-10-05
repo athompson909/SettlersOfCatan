@@ -117,6 +117,13 @@ public interface IServerProxy {
     */
    String gameJoin(JSONObject json) throws ClientException;
 
+
+   /**
+    * this function is used by ServerPoller
+    * @return true if the user has already joined a specific game
+    */
+   boolean hasJoined() throws ClientException;
+
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
     /games/save method to save the state of the game to a file, and attach the file to a bug report.

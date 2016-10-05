@@ -68,8 +68,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void signIn() {
-		
-		// TODO: log in user
+
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
 		LoginCommand loginCommand = new LoginCommand(username, password);
@@ -79,7 +78,7 @@ public class LoginController extends Controller implements ILoginController {
 			loginAction.execute();
 		}
 		else {
-			//notify user to retry
+			// todo: notify user to retry ?
 		}
 	}
 
@@ -87,6 +86,15 @@ public class LoginController extends Controller implements ILoginController {
 	public void register() {
 		
 		// TODO: register new user (which, if successful, also logs them in)
+		String registerUsername = getLoginView().getRegisterUsername();
+		String registerPassword = getLoginView().getRegisterPassword();
+		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
+
+		if(!registerPassword.equals(registerPasswordRepeat)
+			/*&& registerUsername is not in the list of users (on server)*/) {
+
+		}
+
 		
 		// If register succeeded
 		getLoginView().closeModal();

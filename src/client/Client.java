@@ -26,6 +26,7 @@ public class Client {
 
         ClientFacade.getInstance().setValues(serverProxy, clientModel);
         serverPoller = new ServerPoller();
+        serverPoller.setProxy(serverProxy);
     }
 
 

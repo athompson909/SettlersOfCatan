@@ -39,15 +39,6 @@ public class ServerPoller {
     /**
      * for testing
      */
-    private int fetchCount = 0;
-
-    public int getFetchCount() {
-        return fetchCount;
-    }
-
-    /**
-     * for testing
-     */
     private IServerProxy proxy;
     public void setProxy(IServerProxy proxy) {this.proxy = proxy;};
 
@@ -65,11 +56,15 @@ public class ServerPoller {
     private class ServerPollerTask extends TimerTask {
         public void run() {
             //System.out.println("fetching new model");
-            fetchCount++;
             try {
-                fetchNewModel(); //todo: work on fetchNewModel() and clientFacade interactions
+                if (proxy.hasJoined()) {
+                    fetchNewModel();
+                }
             }
             catch (ClientException e) {
+                System.out.println("ClientException thrown in ServerProxy.ServerPollerTask.run()," +
+                        "\nprobably because of the proxy.hasJoined() function" +
+                        "\nor could be from fetchNewModel() if proxy.hasJoined() returned true");
                 e.printStackTrace();
             }
         }
@@ -77,7 +72,7 @@ public class ServerPoller {
 
 
     /**
-     * FetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
+     * fetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
      * This function is called every 2-3 seconds when pollTimer tells it to.
      */
     public void fetchNewModel() throws ClientException {
