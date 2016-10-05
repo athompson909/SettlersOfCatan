@@ -5,6 +5,7 @@ import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
 import shared.model.commandmanager.game.LoginCommand;
+import shared.model.commandmanager.game.RegisterCommand;
 
 import java.util.Observable;
 
@@ -90,15 +91,21 @@ public class LoginController extends Controller implements ILoginController {
 		String registerPassword = getLoginView().getRegisterPassword();
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
 
-		if(!registerPassword.equals(registerPasswordRepeat)
-			/*&& registerUsername is not in the list of users (on server)*/) {
+		if(!registerPassword.equals(registerPasswordRepeat)) {
+			RegisterCommand registerCommand = new RegisterCommand(registerUsername, registerPassword);
 
+			if(ClientFacade.getInstance().userRegister(registerCommand)) {
+				// If register succeeded
+				getLoginView().closeModal();
+				loginAction.execute();
+			}
+			else {
+				// the server rejected the input
+			}
 		}
-
-		
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		else {
+			// the password and password repeat don't match
+		}
 	}
 
 	@Override

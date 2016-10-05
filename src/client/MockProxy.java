@@ -18,6 +18,12 @@ public class MockProxy implements IServerProxy {
     }
 
     /**
+     * todo: maybe modify this later for testing
+     * @return false always (as of now)
+     */
+    public boolean hasJoined() { return false; }
+
+    /**
      * note: the mock proxy does not interact with the server
      *
      * in ServerProxy:

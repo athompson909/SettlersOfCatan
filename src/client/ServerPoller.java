@@ -40,7 +40,9 @@ public class ServerPoller {
      * for testing
      */
     private IServerProxy proxy;
-    public void setProxy(IServerProxy proxy) {this.proxy = proxy;};
+    public void setProxy(IServerProxy proxy) {
+        this.proxy = proxy;
+    };
 
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
