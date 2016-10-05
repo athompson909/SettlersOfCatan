@@ -9,7 +9,6 @@ import shared.model.commandmanager.CommandManager;
  * Created by Alise on 9/20/2016.
  */
 public class Client {
-    private ClientFacade clientFacade;
     private ServerPoller serverPoller;
     private CommandManager commandManager;
     private ClientModel clientModel;
@@ -25,8 +24,8 @@ public class Client {
         clientModel = new ClientModel(0);
         serverProxy = new MockProxy();
 
-        clientFacade = new ClientFacade(serverProxy, clientModel);
-        serverPoller = new ServerPoller(clientFacade);
+        ClientFacade.getInstance().setValues(serverProxy, clientModel);
+        serverPoller = new ServerPoller();
     }
 
 

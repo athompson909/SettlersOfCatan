@@ -31,8 +31,6 @@ public class ServerPoller {
      */
     private Timer pollTimer;
 
-    private ClientFacade clientFacade;
-
     /**
      * number of seconds to wait between requesting updates from the server
      */
@@ -57,11 +55,9 @@ public class ServerPoller {
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
      *
-     * @param clientFacade the clientFacade specific to the current game
      *
      */
-    public ServerPoller(ClientFacade clientFacade) {
-        this.clientFacade = clientFacade;
+    public ServerPoller() {
         pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
@@ -85,10 +81,6 @@ public class ServerPoller {
      * This function is called every 2-3 seconds when pollTimer tells it to.
      */
     public void fetchNewModel() throws ClientException {
-        clientFacade.gameModelVersion();
-    }
-
-    public ClientFacade getClientFacade() {
-        return clientFacade;
+        ClientFacade.getInstance().gameModelVersion();
     }
 }

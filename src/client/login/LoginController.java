@@ -93,7 +93,6 @@ public class LoginController extends Controller implements ILoginController {
 	public void update(Observable o, Object arg) {
 		//to get to the client model:
 		ClientModel clientModel = (ClientModel) o;
-
 	}
 }
 

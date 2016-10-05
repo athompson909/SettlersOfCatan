@@ -38,7 +38,13 @@ public class ClientFacade {
 
     private int version = 0;
 
-    public ClientFacade(IServerProxy serverProxy, ClientModel model) {
+    private static ClientFacade instance = new ClientFacade();
+
+    public static ClientFacade getInstance() {
+        return instance;
+    }
+
+    public void setValues(IServerProxy serverProxy, ClientModel model) {
         this.serverProxy = serverProxy;
         jsonTranslator = new JSONTranslator();
         clientUpdateManager = new ClientUpdateManager(model);
