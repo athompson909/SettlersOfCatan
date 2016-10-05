@@ -26,6 +26,6 @@ public abstract class Controller implements IController, Observer
 	{
 		return this.view;
 	}
-	
+
 }
 
