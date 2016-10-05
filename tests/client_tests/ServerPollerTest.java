@@ -15,7 +15,6 @@ import java.util.Timer;
 public class ServerPollerTest extends TestCase {
     private IServerProxy proxy = new ServerProxy();
     private ClientModel model = new ClientModel(0);
-    private ClientFacade clientFacade = new ClientFacade(proxy, model);
     private ServerPoller poller;
 
     private Timer timer;
@@ -39,7 +38,7 @@ public class ServerPollerTest extends TestCase {
     public void testServerPoller() throws ClientException {
         System.out.println("Testing ServerPoller: fetchNewModel()");
         String jsonNewModelStr = proxy.gameModelVersion(0);
-        poller = new ServerPoller(clientFacade);
+        poller = new ServerPoller();
         poller.setProxy(proxy);
         //String str =poller.fetchNewModel();
         //assertEquals("{\"deck", str.substring(0, 6));
