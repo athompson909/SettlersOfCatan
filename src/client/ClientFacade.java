@@ -54,8 +54,13 @@ public class ClientFacade {
      * @param updatedClientModel - model returned by server
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
-        version = updatedClientModel.getVersion();
-        clientUpdateManager.delegateUpdates(updatedClientModel);
+        if(version == updatedClientModel.getVersion()) {
+            // DON'T CHANGE
+        }
+        else {
+            version = updatedClientModel.getVersion();
+            clientUpdateManager.delegateUpdates(updatedClientModel);
+        }
     }
 
     /**
