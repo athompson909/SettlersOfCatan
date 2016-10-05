@@ -1,8 +1,11 @@
 package client.resources;
 
-import java.util.*;
+import client.base.Controller;
+import client.base.IAction;
 
-import client.base.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Observable;
 
 
 /**
@@ -69,5 +72,9 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		}
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+
+	}
 }
 

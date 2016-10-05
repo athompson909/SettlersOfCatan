@@ -5,6 +5,8 @@ import client.base.*;
 import client.data.*;
 import client.misc.*;
 
+import java.util.Observable;
+
 
 /**
  * Implementation for the join game controller
@@ -130,6 +132,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
 	}
 
 }

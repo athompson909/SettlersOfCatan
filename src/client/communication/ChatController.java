@@ -2,6 +2,8 @@ package client.communication;
 
 import client.base.*;
 
+import java.util.Observable;
+
 
 /**
  * Chat controller implementation
@@ -21,6 +23,11 @@ public class ChatController extends Controller implements IChatController {
 	@Override
 	public void sendMessage(String message) {
 		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
 	}
 
 }

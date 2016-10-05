@@ -2,6 +2,8 @@ package client.points;
 
 import client.base.*;
 
+import java.util.Observable;
+
 
 /**
  * Implementation for the points controller
@@ -41,6 +43,11 @@ public class PointsController extends Controller implements IPointsController {
 		//<temp>		
 		getPointsView().setPoints(5);
 		//</temp>
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
 	}
 	
 }

@@ -1,14 +1,12 @@
 package client.login;
 
-import client.base.*;
-import client.misc.*;
+import client.base.Controller;
+import client.base.IAction;
+import client.misc.IMessageView;
+import shared.model.ClientModel;
+import shared.model.commandmanager.game.LoginCommand;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import java.util.Observable;
 
 
 /**
@@ -72,7 +70,9 @@ public class LoginController extends Controller implements ILoginController {
 	public void signIn() {
 		
 		// TODO: log in user
-		
+		String username = getLoginView().getLoginUsername();
+		String password = getLoginView().getLoginPassword();
+		LoginCommand loginCommand = new LoginCommand(username, password);
 
 		// If log in succeeded
 		getLoginView().closeModal();
@@ -89,5 +89,11 @@ public class LoginController extends Controller implements ILoginController {
 		loginAction.execute();
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		//to get to the client model:
+		ClientModel clientModel = (ClientModel) o;
+
+	}
 }
 

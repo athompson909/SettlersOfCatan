@@ -1,16 +1,15 @@
 package client.map;
 
-import java.util.*;
-
-import shared.definitions.*;
+import client.base.Controller;
+import client.data.RobPlayerInfo;
+import shared.definitions.CatanColor;
+import shared.definitions.HexType;
+import shared.definitions.PieceType;
 import shared.locations.*;
-import client.base.*;
-import client.data.*;
-import shared.model.map.*;
+import shared.model.map.Hex;
+import shared.model.map.Port;
 
-import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 
 //Game manger should be singleton that extends observable.
 //Game manager holds a list of GameModels.
@@ -142,6 +141,11 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void robPlayer(RobPlayerInfo victim) {
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 

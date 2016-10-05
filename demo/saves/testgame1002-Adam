@@ -151,7 +151,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Brick</resource>
+                <resource>Wood</resource>
               </eC>
               <eC>
                 <location>
@@ -214,7 +214,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Brick</resource>
+                <resource>Wheat</resource>
               </eC>
             </en-array>
             <en-array>
@@ -279,7 +279,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wheat</resource>
+                <resource>Sheep</resource>
               </eC>
               <eC>
                 <location>
@@ -326,7 +326,7 @@
                 </edges>
                 <resource>Sheep</resource>
               </eC>
-              <eC>
+              <ew>
                 <location>
                   <x>1</x>
                   <y>-1</y>
@@ -369,15 +369,14 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
-              </eC>
+              </ew>
               <eC>
                 <location>
                   <x>2</x>
                   <y>-1</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../eC[3]/vertexes/eq[5]"/>
+                  <eq reference="../../../ew/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array/eC[3]/vertexes/eq[6]"/>
                   <eq reference="../../../../en-array/eC[3]/vertexes/eq[5]"/>
                   <eq>
@@ -400,7 +399,7 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../eC[3]/edges/ej[4]"/>
+                  <ej reference="../../../ew/edges/ej[4]"/>
                   <ej reference="../../../../en-array/eC[3]/edges/ej[5]"/>
                   <ej>
                     <value class="em">
@@ -423,7 +422,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wheat</resource>
+                <resource>Brick</resource>
               </eC>
             </en-array>
             <en-array>
@@ -488,9 +487,9 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Sheep</resource>
+                <resource>Wood</resource>
               </eC>
-              <ew>
+              <eC>
                 <location>
                   <x>-1</x>
                   <y>0</y>
@@ -533,17 +532,18 @@
                     </value>
                   </ej>
                 </edges>
-              </ew>
+                <resource>Wheat</resource>
+              </eC>
               <eC>
                 <location>
                   <x>0</x>
                   <y>0</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../ew/vertexes/eq[5]"/>
+                  <eq reference="../../../eC[2]/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[2]/eC[2]/vertexes/eq[6]"/>
                   <eq reference="../../../../en-array[2]/eC[2]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[2]/ew/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -558,9 +558,9 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../ew/edges/ej[4]"/>
+                  <ej reference="../../../eC[2]/edges/ej[4]"/>
                   <ej reference="../../../../en-array[2]/eC[2]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[2]/ew/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -577,7 +577,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
+                <resource>Ore</resource>
               </eC>
               <eC>
                 <location>
@@ -585,10 +585,10 @@
                   <y>0</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../eC[2]/vertexes/eq[5]"/>
+                  <eq reference="../../../eC[3]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[2]/ew/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[2]/ew/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[2]/eC[4]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -603,9 +603,9 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../eC[2]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[2]/eC[4]/edges/ej[6]"/>
+                  <ej reference="../../../eC[3]/edges/ej[4]"/>
+                  <ej reference="../../../../en-array[2]/ew/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -630,9 +630,9 @@
                   <y>0</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../eC[3]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[2]/eC[4]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[2]/eC[4]/vertexes/eq[5]"/>
+                  <eq reference="../../../eC[4]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[5]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -653,8 +653,8 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../eC[3]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[2]/eC[4]/edges/ej[5]"/>
+                  <ej reference="../../../eC[4]/edges/ej[4]"/>
+                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[5]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -676,7 +676,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Sheep</resource>
+                <resource>Wood</resource>
               </eC>
             </en-array>
             <en-array>
@@ -694,7 +694,7 @@
                   </eq>
                   <eq reference="../../../../en-array[3]/eC/vertexes/eq[6]"/>
                   <eq reference="../../../../en-array[3]/eC/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/ew/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -715,7 +715,52 @@
                     </value>
                   </ej>
                   <ej reference="../../../../en-array[3]/eC/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/ew/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[6]"/>
+                  <ej>
+                    <value class="em">
+                      <ownerIndex>-1</ownerIndex>
+                    </value>
+                  </ej>
+                  <ej>
+                    <value class="em">
+                      <ownerIndex>-1</ownerIndex>
+                    </value>
+                  </ej>
+                  <ej>
+                    <value class="em">
+                      <ownerIndex>-1</ownerIndex>
+                    </value>
+                  </ej>
+                </edges>
+                <resource>Sheep</resource>
+              </eC>
+              <eC>
+                <location>
+                  <x>-1</x>
+                  <y>1</y>
+                </location>
+                <vertexes>
+                  <eq reference="../../../eC/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[6]"/>
+                  <eq>
+                    <value class="et">
+                      <ownerIndex>-1</ownerIndex>
+                      <worth>0</worth>
+                    </value>
+                  </eq>
+                  <eq>
+                    <value class="et">
+                      <ownerIndex>-1</ownerIndex>
+                      <worth>0</worth>
+                    </value>
+                  </eq>
+                </vertexes>
+                <edges>
+                  <ej reference="../../../eC/edges/ej[4]"/>
+                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -736,59 +781,14 @@
               </eC>
               <eC>
                 <location>
-                  <x>-1</x>
-                  <y>1</y>
-                </location>
-                <vertexes>
-                  <eq reference="../../../eC/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/ew/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[3]/ew/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
-                  <eq>
-                    <value class="et">
-                      <ownerIndex>-1</ownerIndex>
-                      <worth>0</worth>
-                    </value>
-                  </eq>
-                  <eq>
-                    <value class="et">
-                      <ownerIndex>-1</ownerIndex>
-                      <worth>0</worth>
-                    </value>
-                  </eq>
-                </vertexes>
-                <edges>
-                  <ej reference="../../../eC/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[3]/ew/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[6]"/>
-                  <ej>
-                    <value class="em">
-                      <ownerIndex>-1</ownerIndex>
-                    </value>
-                  </ej>
-                  <ej>
-                    <value class="em">
-                      <ownerIndex>-1</ownerIndex>
-                    </value>
-                  </ej>
-                  <ej>
-                    <value class="em">
-                      <ownerIndex>-1</ownerIndex>
-                    </value>
-                  </ej>
-                </edges>
-                <resource>Ore</resource>
-              </eC>
-              <eC>
-                <location>
                   <x>0</x>
                   <y>1</y>
                 </location>
                 <vertexes>
                   <eq reference="../../../eC[2]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[4]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -804,8 +804,8 @@
                 </vertexes>
                 <edges>
                   <ej reference="../../../eC[2]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[3]/eC[4]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -831,9 +831,9 @@
                 </location>
                 <vertexes>
                   <eq reference="../../../eC[3]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[3]/eC[4]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[4]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[5]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -849,8 +849,8 @@
                 </vertexes>
                 <edges>
                   <ej reference="../../../eC[3]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/eC[4]/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[3]/eC[4]/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[3]/eC[5]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -923,7 +923,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
+                <resource>Wheat</resource>
               </eC>
               <eC>
                 <location>
@@ -968,7 +968,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wheat</resource>
+                <resource>Wood</resource>
               </eC>
               <eC>
                 <location>
@@ -1013,7 +1013,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
+                <resource>Brick</resource>
               </eC>
             </en-array>
           </hexes>
@@ -1035,7 +1035,7 @@
             <set>
               <eo>
                 <x>-1</x>
-                <y>2</y>
+                <y>1</y>
               </eo>
             </set>
           </entry>
@@ -1047,8 +1047,8 @@
                 <y>1</y>
               </eo>
               <eo>
-                <x>-2</x>
-                <y>2</y>
+                <x>2</x>
+                <y>0</y>
               </eo>
             </set>
           </entry>
@@ -1056,12 +1056,12 @@
             <int>4</int>
             <set>
               <eo>
-                <x>1</x>
-                <y>-2</y>
+                <x>0</x>
+                <y>1</y>
               </eo>
               <eo>
                 <x>1</x>
-                <y>-1</y>
+                <y>-2</y>
               </eo>
             </set>
           </entry>
@@ -1069,12 +1069,12 @@
             <int>5</int>
             <set>
               <eo>
-                <x>1</x>
+                <x>0</x>
                 <y>0</y>
               </eo>
               <eo>
-                <x>2</x>
-                <y>-2</y>
+                <x>0</x>
+                <y>2</y>
               </eo>
             </set>
           </entry>
@@ -1082,11 +1082,11 @@
             <int>6</int>
             <set>
               <eo>
-                <x>-1</x>
-                <y>-1</y>
+                <x>-2</x>
+                <y>0</y>
               </eo>
               <eo>
-                <x>0</x>
+                <x>-2</x>
                 <y>2</y>
               </eo>
             </set>
@@ -1095,8 +1095,8 @@
             <int>8</int>
             <set>
               <eo>
-                <x>0</x>
-                <y>1</y>
+                <x>2</x>
+                <y>-2</y>
               </eo>
               <eo>
                 <x>2</x>
@@ -1108,12 +1108,12 @@
             <int>9</int>
             <set>
               <eo>
-                <x>0</x>
-                <y>-1</y>
+                <x>1</x>
+                <y>0</y>
               </eo>
               <eo>
-                <x>-1</x>
-                <y>1</y>
+                <x>0</x>
+                <y>-1</y>
               </eo>
             </set>
           </entry>
@@ -1121,21 +1121,8 @@
             <int>10</int>
             <set>
               <eo>
-                <x>2</x>
-                <y>0</y>
-              </eo>
-              <eo>
-                <x>0</x>
-                <y>-2</y>
-              </eo>
-            </set>
-          </entry>
-          <entry>
-            <int>11</int>
-            <set>
-              <eo>
-                <x>0</x>
-                <y>0</y>
+                <x>-1</x>
+                <y>-1</y>
               </eo>
               <eo>
                 <x>-2</x>
@@ -1144,11 +1131,24 @@
             </set>
           </entry>
           <entry>
+            <int>11</int>
+            <set>
+              <eo>
+                <x>-1</x>
+                <y>0</y>
+              </eo>
+              <eo>
+                <x>-1</x>
+                <y>2</y>
+              </eo>
+            </set>
+          </entry>
+          <entry>
             <int>12</int>
             <set>
               <eo>
-                <x>-2</x>
-                <y>0</y>
+                <x>0</x>
+                <y>-2</y>
               </eo>
             </set>
           </entry>
@@ -1156,123 +1156,30 @@
         <ports>
           <ez>
             <location>
-              <x>-3</x>
-              <y>2</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Ore</inputResource>
-            <validVertex1>
-              <x>-3</x>
-              <y>2</y>
-              <direction class="er">NE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>-3</x>
-              <y>2</y>
-              <direction class="er">E</direction>
-            </validVertex2>
-            <orientation>NE</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>2</x>
-              <y>1</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Brick</inputResource>
-            <validVertex1>
-              <x>2</x>
-              <y>1</y>
-              <direction class="er">W</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>2</x>
-              <y>1</y>
-              <direction class="er">NW</direction>
-            </validVertex2>
-            <orientation>NW</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>-2</x>
-              <y>3</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Wood</inputResource>
-            <validVertex1>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">NE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">E</direction>
-            </validVertex2>
-            <orientation>NE</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>3</x>
-              <y>-1</y>
-            </location>
-            <ratio>3</ratio>
-            <validVertex1>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">W</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">NW</direction>
-            </validVertex2>
-            <orientation>NW</orientation>
-          </ez>
-          <ez>
-            <location>
               <x>1</x>
               <y>-3</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Wheat</inputResource>
-            <validVertex1>
-              <x>1</x>
-              <y>-3</y>
-              <direction class="er">SE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>1</x>
-              <y>-3</y>
-              <direction class="er">SW</direction>
-            </validVertex2>
-            <orientation>S</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>-3</x>
-              <y>0</y>
             </location>
             <ratio>2</ratio>
             <inputResource>Sheep</inputResource>
             <validVertex1>
-              <x>-3</x>
-              <y>0</y>
-              <direction class="er">E</direction>
+              <x>1</x>
+              <y>-3</y>
+              <direction class="er">SE</direction>
             </validVertex1>
             <validVertex2>
-              <x>-3</x>
-              <y>0</y>
-              <direction class="er">SE</direction>
+              <x>1</x>
+              <y>-3</y>
+              <direction class="er">SW</direction>
             </validVertex2>
-            <orientation>SE</orientation>
+            <orientation>S</orientation>
           </ez>
           <ez>
             <location>
               <x>-1</x>
               <y>-2</y>
             </location>
-            <ratio>3</ratio>
+            <ratio>2</ratio>
+            <inputResource>Brick</inputResource>
             <validVertex1>
               <x>-1</x>
               <y>-2</y>
@@ -1288,9 +1195,47 @@
           <ez>
             <location>
               <x>3</x>
-              <y>-3</y>
+              <y>-1</y>
             </location>
             <ratio>3</ratio>
+            <validVertex1>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">W</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">NW</direction>
+            </validVertex2>
+            <orientation>NW</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>2</x>
+              <y>1</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Wood</inputResource>
+            <validVertex1>
+              <x>2</x>
+              <y>1</y>
+              <direction class="er">W</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>2</x>
+              <y>1</y>
+              <direction class="er">NW</direction>
+            </validVertex2>
+            <orientation>NW</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>3</x>
+              <y>-3</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Ore</inputResource>
             <validVertex1>
               <x>3</x>
               <y>-3</y>
@@ -1321,51 +1266,69 @@
             </validVertex2>
             <orientation>N</orientation>
           </ez>
+          <ez>
+            <location>
+              <x>-3</x>
+              <y>2</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Wheat</inputResource>
+            <validVertex1>
+              <x>-3</x>
+              <y>2</y>
+              <direction class="er">NE</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-3</x>
+              <y>2</y>
+              <direction class="er">E</direction>
+            </validVertex2>
+            <orientation>NE</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>-3</x>
+              <y>0</y>
+            </location>
+            <ratio>3</ratio>
+            <validVertex1>
+              <x>-3</x>
+              <y>0</y>
+              <direction class="er">E</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-3</x>
+              <y>0</y>
+              <direction class="er">SE</direction>
+            </validVertex2>
+            <orientation>SE</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>-2</x>
+              <y>3</y>
+            </location>
+            <ratio>3</ratio>
+            <validVertex1>
+              <x>-2</x>
+              <y>3</y>
+              <direction class="er">NE</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-2</x>
+              <y>3</y>
+              <direction class="er">E</direction>
+            </validVertex2>
+            <orientation>NE</orientation>
+          </ez>
         </ports>
         <robber>
-          <x>-1</x>
-          <y>0</y>
+          <x>1</x>
+          <y>-1</y>
         </robber>
       </map>
       <players>
-        <eJ>
-          <MAX__GAME__POINTS>10</MAX__GAME__POINTS>
-          <resources>
-            <brick>0</brick>
-            <wood>2</wood>
-            <sheep>0</sheep>
-            <wheat>0</wheat>
-            <ore>0</ore>
-          </resources>
-          <oldDevCards>
-            <yearOfPlenty>-1</yearOfPlenty>
-            <monopoly>0</monopoly>
-            <soldier>0</soldier>
-            <roadBuilding>0</roadBuilding>
-            <monument>0</monument>
-          </oldDevCards>
-          <newDevCards>
-            <yearOfPlenty>0</yearOfPlenty>
-            <monopoly>0</monopoly>
-            <soldier>0</soldier>
-            <roadBuilding>0</roadBuilding>
-            <monument>0</monument>
-          </newDevCards>
-          <roads>15</roads>
-          <cities>4</cities>
-          <settlements>5</settlements>
-          <soldiers>0</soldiers>
-          <victoryPoints>0</victoryPoints>
-          <monuments>0</monuments>
-          <longestRoad>false</longestRoad>
-          <largestArmy>false</largestArmy>
-          <playedDevCard>true</playedDevCard>
-          <discarded>false</discarded>
-          <playerID>0</playerID>
-          <playerIndex>0</playerIndex>
-          <name>Sam</name>
-          <color>blue</color>
-        </eJ>
+        <null/>
         <null/>
         <null/>
         <null/>
@@ -1542,7 +1505,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Brick</resource>
+                <resource>Wood</resource>
               </eC>
               <eC>
                 <location>
@@ -1605,7 +1568,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Brick</resource>
+                <resource>Wheat</resource>
               </eC>
             </en-array>
             <en-array>
@@ -1670,7 +1633,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wheat</resource>
+                <resource>Sheep</resource>
               </eC>
               <eC>
                 <location>
@@ -1717,7 +1680,7 @@
                 </edges>
                 <resource>Sheep</resource>
               </eC>
-              <eC>
+              <ew>
                 <location>
                   <x>1</x>
                   <y>-1</y>
@@ -1760,15 +1723,14 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
-              </eC>
+              </ew>
               <eC>
                 <location>
                   <x>2</x>
                   <y>-1</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../eC[3]/vertexes/eq[5]"/>
+                  <eq reference="../../../ew/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array/eC[3]/vertexes/eq[6]"/>
                   <eq reference="../../../../en-array/eC[3]/vertexes/eq[5]"/>
                   <eq>
@@ -1791,7 +1753,7 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../eC[3]/edges/ej[4]"/>
+                  <ej reference="../../../ew/edges/ej[4]"/>
                   <ej reference="../../../../en-array/eC[3]/edges/ej[5]"/>
                   <ej>
                     <value class="em">
@@ -1814,7 +1776,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wheat</resource>
+                <resource>Brick</resource>
               </eC>
             </en-array>
             <en-array>
@@ -1879,9 +1841,9 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Sheep</resource>
+                <resource>Wood</resource>
               </eC>
-              <ew>
+              <eC>
                 <location>
                   <x>-1</x>
                   <y>0</y>
@@ -1924,17 +1886,18 @@
                     </value>
                   </ej>
                 </edges>
-              </ew>
+                <resource>Wheat</resource>
+              </eC>
               <eC>
                 <location>
                   <x>0</x>
                   <y>0</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../ew/vertexes/eq[5]"/>
+                  <eq reference="../../../eC[2]/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[2]/eC[2]/vertexes/eq[6]"/>
                   <eq reference="../../../../en-array[2]/eC[2]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[2]/ew/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -1949,9 +1912,9 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../ew/edges/ej[4]"/>
+                  <ej reference="../../../eC[2]/edges/ej[4]"/>
                   <ej reference="../../../../en-array[2]/eC[2]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[2]/ew/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -1968,7 +1931,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
+                <resource>Ore</resource>
               </eC>
               <eC>
                 <location>
@@ -1976,10 +1939,10 @@
                   <y>0</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../eC[2]/vertexes/eq[5]"/>
+                  <eq reference="../../../eC[3]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[2]/ew/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[2]/ew/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[2]/eC[4]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -1994,9 +1957,9 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../eC[2]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[2]/eC[4]/edges/ej[6]"/>
+                  <ej reference="../../../eC[3]/edges/ej[4]"/>
+                  <ej reference="../../../../en-array[2]/ew/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -2021,9 +1984,9 @@
                   <y>0</y>
                 </location>
                 <vertexes>
-                  <eq reference="../../../eC[3]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[2]/eC[4]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[2]/eC[4]/vertexes/eq[5]"/>
+                  <eq reference="../../../eC[4]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[2]/eC[3]/vertexes/eq[5]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -2044,8 +2007,8 @@
                   </eq>
                 </vertexes>
                 <edges>
-                  <ej reference="../../../eC[3]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[2]/eC[4]/edges/ej[5]"/>
+                  <ej reference="../../../eC[4]/edges/ej[4]"/>
+                  <ej reference="../../../../en-array[2]/eC[3]/edges/ej[5]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -2067,7 +2030,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Sheep</resource>
+                <resource>Wood</resource>
               </eC>
             </en-array>
             <en-array>
@@ -2085,7 +2048,7 @@
                   </eq>
                   <eq reference="../../../../en-array[3]/eC/vertexes/eq[6]"/>
                   <eq reference="../../../../en-array[3]/eC/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/ew/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -2106,7 +2069,52 @@
                     </value>
                   </ej>
                   <ej reference="../../../../en-array[3]/eC/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/ew/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[6]"/>
+                  <ej>
+                    <value class="em">
+                      <ownerIndex>-1</ownerIndex>
+                    </value>
+                  </ej>
+                  <ej>
+                    <value class="em">
+                      <ownerIndex>-1</ownerIndex>
+                    </value>
+                  </ej>
+                  <ej>
+                    <value class="em">
+                      <ownerIndex>-1</ownerIndex>
+                    </value>
+                  </ej>
+                </edges>
+                <resource>Sheep</resource>
+              </eC>
+              <eC>
+                <location>
+                  <x>-1</x>
+                  <y>1</y>
+                </location>
+                <vertexes>
+                  <eq reference="../../../eC/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[6]"/>
+                  <eq>
+                    <value class="et">
+                      <ownerIndex>-1</ownerIndex>
+                      <worth>0</worth>
+                    </value>
+                  </eq>
+                  <eq>
+                    <value class="et">
+                      <ownerIndex>-1</ownerIndex>
+                      <worth>0</worth>
+                    </value>
+                  </eq>
+                </vertexes>
+                <edges>
+                  <ej reference="../../../eC/edges/ej[4]"/>
+                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -2127,59 +2135,14 @@
               </eC>
               <eC>
                 <location>
-                  <x>-1</x>
-                  <y>1</y>
-                </location>
-                <vertexes>
-                  <eq reference="../../../eC/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/ew/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[3]/ew/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
-                  <eq>
-                    <value class="et">
-                      <ownerIndex>-1</ownerIndex>
-                      <worth>0</worth>
-                    </value>
-                  </eq>
-                  <eq>
-                    <value class="et">
-                      <ownerIndex>-1</ownerIndex>
-                      <worth>0</worth>
-                    </value>
-                  </eq>
-                </vertexes>
-                <edges>
-                  <ej reference="../../../eC/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[3]/ew/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[6]"/>
-                  <ej>
-                    <value class="em">
-                      <ownerIndex>-1</ownerIndex>
-                    </value>
-                  </ej>
-                  <ej>
-                    <value class="em">
-                      <ownerIndex>-1</ownerIndex>
-                    </value>
-                  </ej>
-                  <ej>
-                    <value class="em">
-                      <ownerIndex>-1</ownerIndex>
-                    </value>
-                  </ej>
-                </edges>
-                <resource>Ore</resource>
-              </eC>
-              <eC>
-                <location>
                   <x>0</x>
                   <y>1</y>
                 </location>
                 <vertexes>
                   <eq reference="../../../eC[2]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[3]/eC[2]/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[4]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -2195,8 +2158,8 @@
                 </vertexes>
                 <edges>
                   <ej reference="../../../eC[2]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[3]/eC[2]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[3]/eC[4]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -2222,9 +2185,9 @@
                 </location>
                 <vertexes>
                   <eq reference="../../../eC[3]/vertexes/eq[5]"/>
-                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[6]"/>
-                  <eq reference="../../../../en-array[3]/eC[3]/vertexes/eq[5]"/>
                   <eq reference="../../../../en-array[3]/eC[4]/vertexes/eq[6]"/>
+                  <eq reference="../../../../en-array[3]/eC[4]/vertexes/eq[5]"/>
+                  <eq reference="../../../../en-array[3]/eC[5]/vertexes/eq[6]"/>
                   <eq>
                     <value class="et">
                       <ownerIndex>-1</ownerIndex>
@@ -2240,8 +2203,8 @@
                 </vertexes>
                 <edges>
                   <ej reference="../../../eC[3]/edges/ej[4]"/>
-                  <ej reference="../../../../en-array[3]/eC[3]/edges/ej[5]"/>
-                  <ej reference="../../../../en-array[3]/eC[4]/edges/ej[6]"/>
+                  <ej reference="../../../../en-array[3]/eC[4]/edges/ej[5]"/>
+                  <ej reference="../../../../en-array[3]/eC[5]/edges/ej[6]"/>
                   <ej>
                     <value class="em">
                       <ownerIndex>-1</ownerIndex>
@@ -2314,7 +2277,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
+                <resource>Wheat</resource>
               </eC>
               <eC>
                 <location>
@@ -2359,7 +2322,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wheat</resource>
+                <resource>Wood</resource>
               </eC>
               <eC>
                 <location>
@@ -2404,7 +2367,7 @@
                     </value>
                   </ej>
                 </edges>
-                <resource>Wood</resource>
+                <resource>Brick</resource>
               </eC>
             </en-array>
           </hexes>
@@ -2426,7 +2389,7 @@
             <set>
               <eo>
                 <x>-1</x>
-                <y>2</y>
+                <y>1</y>
               </eo>
             </set>
           </entry>
@@ -2438,8 +2401,8 @@
                 <y>1</y>
               </eo>
               <eo>
-                <x>-2</x>
-                <y>2</y>
+                <x>2</x>
+                <y>0</y>
               </eo>
             </set>
           </entry>
@@ -2447,12 +2410,12 @@
             <int>4</int>
             <set>
               <eo>
-                <x>1</x>
-                <y>-2</y>
+                <x>0</x>
+                <y>1</y>
               </eo>
               <eo>
                 <x>1</x>
-                <y>-1</y>
+                <y>-2</y>
               </eo>
             </set>
           </entry>
@@ -2460,12 +2423,12 @@
             <int>5</int>
             <set>
               <eo>
-                <x>1</x>
+                <x>0</x>
                 <y>0</y>
               </eo>
               <eo>
-                <x>2</x>
-                <y>-2</y>
+                <x>0</x>
+                <y>2</y>
               </eo>
             </set>
           </entry>
@@ -2473,11 +2436,11 @@
             <int>6</int>
             <set>
               <eo>
-                <x>-1</x>
-                <y>-1</y>
+                <x>-2</x>
+                <y>0</y>
               </eo>
               <eo>
-                <x>0</x>
+                <x>-2</x>
                 <y>2</y>
               </eo>
             </set>
@@ -2486,8 +2449,8 @@
             <int>8</int>
             <set>
               <eo>
-                <x>0</x>
-                <y>1</y>
+                <x>2</x>
+                <y>-2</y>
               </eo>
               <eo>
                 <x>2</x>
@@ -2499,12 +2462,12 @@
             <int>9</int>
             <set>
               <eo>
-                <x>0</x>
-                <y>-1</y>
+                <x>1</x>
+                <y>0</y>
               </eo>
               <eo>
-                <x>-1</x>
-                <y>1</y>
+                <x>0</x>
+                <y>-1</y>
               </eo>
             </set>
           </entry>
@@ -2512,21 +2475,8 @@
             <int>10</int>
             <set>
               <eo>
-                <x>2</x>
-                <y>0</y>
-              </eo>
-              <eo>
-                <x>0</x>
-                <y>-2</y>
-              </eo>
-            </set>
-          </entry>
-          <entry>
-            <int>11</int>
-            <set>
-              <eo>
-                <x>0</x>
-                <y>0</y>
+                <x>-1</x>
+                <y>-1</y>
               </eo>
               <eo>
                 <x>-2</x>
@@ -2535,11 +2485,24 @@
             </set>
           </entry>
           <entry>
+            <int>11</int>
+            <set>
+              <eo>
+                <x>-1</x>
+                <y>0</y>
+              </eo>
+              <eo>
+                <x>-1</x>
+                <y>2</y>
+              </eo>
+            </set>
+          </entry>
+          <entry>
             <int>12</int>
             <set>
               <eo>
-                <x>-2</x>
-                <y>0</y>
+                <x>0</x>
+                <y>-2</y>
               </eo>
             </set>
           </entry>
@@ -2547,123 +2510,30 @@
         <ports>
           <ez>
             <location>
-              <x>-3</x>
-              <y>2</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Ore</inputResource>
-            <validVertex1>
-              <x>-3</x>
-              <y>2</y>
-              <direction class="er">NE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>-3</x>
-              <y>2</y>
-              <direction class="er">E</direction>
-            </validVertex2>
-            <orientation>NE</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>2</x>
-              <y>1</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Brick</inputResource>
-            <validVertex1>
-              <x>2</x>
-              <y>1</y>
-              <direction class="er">W</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>2</x>
-              <y>1</y>
-              <direction class="er">NW</direction>
-            </validVertex2>
-            <orientation>NW</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>-2</x>
-              <y>3</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Wood</inputResource>
-            <validVertex1>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">NE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">E</direction>
-            </validVertex2>
-            <orientation>NE</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>3</x>
-              <y>-1</y>
-            </location>
-            <ratio>3</ratio>
-            <validVertex1>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">W</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">NW</direction>
-            </validVertex2>
-            <orientation>NW</orientation>
-          </ez>
-          <ez>
-            <location>
               <x>1</x>
               <y>-3</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Wheat</inputResource>
-            <validVertex1>
-              <x>1</x>
-              <y>-3</y>
-              <direction class="er">SE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>1</x>
-              <y>-3</y>
-              <direction class="er">SW</direction>
-            </validVertex2>
-            <orientation>S</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>-3</x>
-              <y>0</y>
             </location>
             <ratio>2</ratio>
             <inputResource>Sheep</inputResource>
             <validVertex1>
-              <x>-3</x>
-              <y>0</y>
-              <direction class="er">E</direction>
+              <x>1</x>
+              <y>-3</y>
+              <direction class="er">SE</direction>
             </validVertex1>
             <validVertex2>
-              <x>-3</x>
-              <y>0</y>
-              <direction class="er">SE</direction>
+              <x>1</x>
+              <y>-3</y>
+              <direction class="er">SW</direction>
             </validVertex2>
-            <orientation>SE</orientation>
+            <orientation>S</orientation>
           </ez>
           <ez>
             <location>
               <x>-1</x>
               <y>-2</y>
             </location>
-            <ratio>3</ratio>
+            <ratio>2</ratio>
+            <inputResource>Brick</inputResource>
             <validVertex1>
               <x>-1</x>
               <y>-2</y>
@@ -2679,9 +2549,47 @@
           <ez>
             <location>
               <x>3</x>
-              <y>-3</y>
+              <y>-1</y>
             </location>
             <ratio>3</ratio>
+            <validVertex1>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">W</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">NW</direction>
+            </validVertex2>
+            <orientation>NW</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>2</x>
+              <y>1</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Wood</inputResource>
+            <validVertex1>
+              <x>2</x>
+              <y>1</y>
+              <direction class="er">W</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>2</x>
+              <y>1</y>
+              <direction class="er">NW</direction>
+            </validVertex2>
+            <orientation>NW</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>3</x>
+              <y>-3</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Ore</inputResource>
             <validVertex1>
               <x>3</x>
               <y>-3</y>
@@ -2712,10 +2620,65 @@
             </validVertex2>
             <orientation>N</orientation>
           </ez>
+          <ez>
+            <location>
+              <x>-3</x>
+              <y>2</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Wheat</inputResource>
+            <validVertex1>
+              <x>-3</x>
+              <y>2</y>
+              <direction class="er">NE</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-3</x>
+              <y>2</y>
+              <direction class="er">E</direction>
+            </validVertex2>
+            <orientation>NE</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>-3</x>
+              <y>0</y>
+            </location>
+            <ratio>3</ratio>
+            <validVertex1>
+              <x>-3</x>
+              <y>0</y>
+              <direction class="er">E</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-3</x>
+              <y>0</y>
+              <direction class="er">SE</direction>
+            </validVertex2>
+            <orientation>SE</orientation>
+          </ez>
+          <ez>
+            <location>
+              <x>-2</x>
+              <y>3</y>
+            </location>
+            <ratio>3</ratio>
+            <validVertex1>
+              <x>-2</x>
+              <y>3</y>
+              <direction class="er">NE</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-2</x>
+              <y>3</y>
+              <direction class="er">E</direction>
+            </validVertex2>
+            <orientation>NE</orientation>
+          </ez>
         </ports>
         <robber>
-          <x>-1</x>
-          <y>0</y>
+          <x>1</x>
+          <y>-1</y>
         </robber>
       </map>
       <players>
