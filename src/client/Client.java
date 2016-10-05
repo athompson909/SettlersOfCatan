@@ -22,7 +22,7 @@ public class Client {
 
         //todo this parameter is hardcoded
         clientModel = new ClientModel(0);
-        serverProxy = new MockProxy();
+        serverProxy = new ServerProxy();
 
         ClientFacade.getInstance().setValues(serverProxy, clientModel);
         serverPoller = new ServerPoller();

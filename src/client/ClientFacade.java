@@ -24,7 +24,7 @@ public class ClientFacade {
     /**
      * Translates to and from JSON
      */
-    private JSONTranslator jsonTranslator;
+    private JSONTranslator jsonTranslator = new JSONTranslator();
 
     /**
      * Used to update the model
@@ -46,7 +46,6 @@ public class ClientFacade {
 
     public void setValues(IServerProxy serverProxy, ClientModel model) {
         this.serverProxy = serverProxy;
-        jsonTranslator = new JSONTranslator();
         clientUpdateManager = new ClientUpdateManager(model);
     }
 
