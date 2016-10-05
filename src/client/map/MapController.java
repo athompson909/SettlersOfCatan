@@ -6,6 +6,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
+import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.map.Hex;
 import shared.model.map.Port;
 
@@ -104,6 +105,9 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
+
+
         catanMap.buildRoadManager.placeRoad(0, edgeLoc);  //TODO: Should use the update stuff...
         getView().placeRoad(edgeLoc, CatanColor.ORANGE);
     }
