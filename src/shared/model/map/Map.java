@@ -4,6 +4,7 @@ import client.map.MapController;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.*;
+import shared.model.resourcebank.ResourceList;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -16,7 +17,6 @@ import java.util.Observer;
  * contains all data related to hexes, hex values, ports, objects on map, dimensions, and the robber
  */
 public class Map {
-
 
 
     /**
@@ -99,8 +99,7 @@ public class Map {
     //this constructor is for when the new model comes back and we need to make a new Map object
     // WITHOUT creating/placing all hexes again.
     public Map(HashMap<HexLocation, Hex> newHexes, HashMap<HexLocation, Port> newPorts,
-               HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues)
-    {
+               HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues) {
         setHexes(newHexes);
         setPorts(newPorts);
         //TODO: Look into this...
@@ -143,6 +142,7 @@ public class Map {
 
     /**
      * Places all the ports on the map.
+     *
      * @param randomlyPlacePorts if the ports are being randomized.
      */
     private void placeAllPorts(boolean randomlyPlacePorts) {
@@ -183,9 +183,10 @@ public class Map {
 
     /**
      * Places an individual port
-     * @param x coordinate
-     * @param y coordinate
-     * @param portType to place.
+     *
+     * @param x             coordinate
+     * @param y             coordinate
+     * @param portType      to place.
      * @param edgeDirection of the port.
      */
     private void placePort(int x, int y, PortType portType, EdgeDirection edgeDirection) {
@@ -196,7 +197,8 @@ public class Map {
 
     /**
      * Creates all the land hexes, with their accompanying numbers.
-     * @param randomlyPlaceHexes if the hexes are to be placed randomly.
+     *
+     * @param randomlyPlaceHexes   if the hexes are to be placed randomly.
      * @param randomlyPlaceNumbers if the numbers are to be placed randomly.
      */
     private void createAllLandHexes(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers) {
@@ -212,7 +214,7 @@ public class Map {
             Collections.shuffle(landHexTypeOrder, new Random(seed));
         }
 
-        if(randomlyPlaceNumbers){ //shuffle the number order
+        if (randomlyPlaceNumbers) { //shuffle the number order
             long seed = System.nanoTime();
             Collections.shuffle(numberOrder, new Random(seed));
         }
@@ -242,16 +244,16 @@ public class Map {
 
     /**
      * Creates a single land hex.
-     * @param x coordinate.
-     * @param y y coordinate
+     *
+     * @param x       coordinate.
+     * @param y       y coordinate
      * @param hexType for the hex.
      */
     private void createLandHex(int x, int y, HexType hexType) {
         Hex landHex = new Hex(new HexLocation(x, y), hexType);
         if (hexType != HexType.DESERT) {
             landHex.setNumber(numberIterator.next().intValue());
-        }
-        else{
+        } else {
             robber.placeRobber(landHex.getLocation());
         }
         hexes.put(landHex.getLocation(), landHex);
@@ -263,169 +265,173 @@ public class Map {
      */
     private void createAllVertexObjects() {
         //First Column (West Most Column)
-        createSingleVertexObject(-3,1, VertexDirection.NorthEast);
-        createSingleVertexObject(-3,2, VertexDirection.NorthEast);
-        createSingleVertexObject(-3,3, VertexDirection.NorthEast);
+        createSingleVertexObject(-3, 1, VertexDirection.NorthEast);
+        createSingleVertexObject(-3, 2, VertexDirection.NorthEast);
+        createSingleVertexObject(-3, 3, VertexDirection.NorthEast);
 
         //Second Column
-        createTwoVertexObject(-2,0);
-        createTwoVertexObject(-2,1);
-        createTwoVertexObject(-2,2);
-        createTwoVertexObject(-2,3);
+        createTwoVertexObject(-2, 0);
+        createTwoVertexObject(-2, 1);
+        createTwoVertexObject(-2, 2);
+        createTwoVertexObject(-2, 3);
 
         //Third Column
-        createTwoVertexObject(-1,-1);
-        createTwoVertexObject(-1,0);
-        createTwoVertexObject(-1,1);
-        createTwoVertexObject(-1,2);
-        createTwoVertexObject(-1,3);
+        createTwoVertexObject(-1, -1);
+        createTwoVertexObject(-1, 0);
+        createTwoVertexObject(-1, 1);
+        createTwoVertexObject(-1, 2);
+        createTwoVertexObject(-1, 3);
 
         //Center Column
-        createTwoVertexObject(0,-2);
-        createTwoVertexObject(0,-1);
-        createTwoVertexObject(0,0);
-        createTwoVertexObject(0,1);
-        createTwoVertexObject(0,2);
-        createTwoVertexObject(0,3);
+        createTwoVertexObject(0, -2);
+        createTwoVertexObject(0, -1);
+        createTwoVertexObject(0, 0);
+        createTwoVertexObject(0, 1);
+        createTwoVertexObject(0, 2);
+        createTwoVertexObject(0, 3);
 
         //5th Column
-        createTwoVertexObject(1,-2);
-        createTwoVertexObject(1,-1);
-        createTwoVertexObject(1,0);
-        createTwoVertexObject(1,1);
-        createTwoVertexObject(1,2);
+        createTwoVertexObject(1, -2);
+        createTwoVertexObject(1, -1);
+        createTwoVertexObject(1, 0);
+        createTwoVertexObject(1, 1);
+        createTwoVertexObject(1, 2);
 
         //6th Column
-        createTwoVertexObject(2,-2);
-        createTwoVertexObject(2,-1);
-        createTwoVertexObject(2,0);
-        createTwoVertexObject(2,1);
+        createTwoVertexObject(2, -2);
+        createTwoVertexObject(2, -1);
+        createTwoVertexObject(2, 0);
+        createTwoVertexObject(2, 1);
 
         //East Most Column
-        createSingleVertexObject(3,-2, VertexDirection.NorthWest);
-        createSingleVertexObject(3,-1, VertexDirection.NorthWest);
-        createSingleVertexObject(3,0, VertexDirection.NorthWest);
+        createSingleVertexObject(3, -2, VertexDirection.NorthWest);
+        createSingleVertexObject(3, -1, VertexDirection.NorthWest);
+        createSingleVertexObject(3, 0, VertexDirection.NorthWest);
     }
 
     /**
      * Creates two vertex objects on the Northwest and NorthEast Locations of the hex.
+     *
      * @param x coordinate of the hex.
      * @param y coordinate of the hex.
      */
-    private void createTwoVertexObject(int x, int y){
-        VertexLocation northWestVertextLocation = new VertexLocation(new HexLocation(x,y), VertexDirection.NorthWest);
+    private void createTwoVertexObject(int x, int y) {
+        VertexLocation northWestVertextLocation = new VertexLocation(new HexLocation(x, y), VertexDirection.NorthWest);
         vertexObjects.put(northWestVertextLocation, new VertexObject(northWestVertextLocation));
-        VertexLocation northEastVertextLocation = new VertexLocation(new HexLocation(x,y), VertexDirection.NorthEast);
+        VertexLocation northEastVertextLocation = new VertexLocation(new HexLocation(x, y), VertexDirection.NorthEast);
         vertexObjects.put(northEastVertextLocation, new VertexObject(northEastVertextLocation));
     }
 
     /**
      * Creates a single vertex object on a hex, to be used for west and east columns of ocean hexes.
-     * @param x coordinate of the hex.
-     * @param y coordinate of the hex.
+     *
+     * @param x         coordinate of the hex.
+     * @param y         coordinate of the hex.
      * @param direction of the hex, should be NorthEast or NorthWest.
      */
-    private void createSingleVertexObject(int x, int y, VertexDirection direction){
-        VertexLocation newVertextLocation = new VertexLocation(new HexLocation(x,y), direction);
+    private void createSingleVertexObject(int x, int y, VertexDirection direction) {
+        VertexLocation newVertextLocation = new VertexLocation(new HexLocation(x, y), direction);
         vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
     /**
      * Creates a map containing vertex locations and their associated ports
      * This list will not change throughout the game
-     *
+     * <p>
      * Purpose: In maritimeTrade state, this enables us to learn what type of ports a player is associated with.
      */
-    private void populatePortVertexLocations(){
+    private void populatePortVertexLocations() {
 
-        portVertexLocations.put(new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest), ports.get(new HexLocation(-3,0)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-3,1), VertexDirection.NorthEast), ports.get(new HexLocation(-3,0)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-3,2), VertexDirection.NorthEast), ports.get(new HexLocation(-3,2)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest), ports.get(new HexLocation(-3,2)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-2,3), VertexDirection.NorthEast), ports.get(new HexLocation(-2,3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-1,3), VertexDirection.NorthWest), ports.get(new HexLocation(-2,3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthWest), ports.get(new HexLocation(0,3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(0,3), VertexDirection.NorthEast), ports.get(new HexLocation(0,3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(1,2), VertexDirection.NorthEast), ports.get(new HexLocation(2,1)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest), ports.get(new HexLocation(2,1)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast), ports.get(new HexLocation(3,-1)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(3,-1), VertexDirection.NorthWest), ports.get(new HexLocation(3,-1)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(3,-2), VertexDirection.NorthWest), ports.get(new HexLocation(3,-3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(2,-2), VertexDirection.NorthEast), ports.get(new HexLocation(3,-3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthEast), ports.get(new HexLocation(1,-3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(1,-2), VertexDirection.NorthWest), ports.get(new HexLocation(1,-3)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthEast), ports.get(new HexLocation(-1,-2)));
-        portVertexLocations.put(new VertexLocation(new HexLocation(-1,-1), VertexDirection.NorthWest), ports.get(new HexLocation(-1,-2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2, 0), VertexDirection.NorthWest), ports.get(new HexLocation(-3, 0)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-3, 1), VertexDirection.NorthEast), ports.get(new HexLocation(-3, 0)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-3, 2), VertexDirection.NorthEast), ports.get(new HexLocation(-3, 2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2, 2), VertexDirection.NorthWest), ports.get(new HexLocation(-3, 2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthEast), ports.get(new HexLocation(-2, 3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1, 3), VertexDirection.NorthWest), ports.get(new HexLocation(-2, 3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthWest), ports.get(new HexLocation(0, 3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthEast), ports.get(new HexLocation(0, 3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthEast), ports.get(new HexLocation(2, 1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthWest), ports.get(new HexLocation(2, 1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2, 0), VertexDirection.NorthEast), ports.get(new HexLocation(3, -1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(3, -1), VertexDirection.NorthWest), ports.get(new HexLocation(3, -1)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(3, -2), VertexDirection.NorthWest), ports.get(new HexLocation(3, -3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(2, -2), VertexDirection.NorthEast), ports.get(new HexLocation(3, -3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1, -2), VertexDirection.NorthEast), ports.get(new HexLocation(1, -3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(1, -2), VertexDirection.NorthWest), ports.get(new HexLocation(1, -3)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1, -1), VertexDirection.NorthEast), ports.get(new HexLocation(-1, -2)));
+        portVertexLocations.put(new VertexLocation(new HexLocation(-1, -1), VertexDirection.NorthWest), ports.get(new HexLocation(-1, -2)));
     }
 
     /**
      * Creates all of the edge values, starting with the west most values, going through each column.
      */
-    private void createAllEdgeValues(){
+    private void createAllEdgeValues() {
         //First Column (West Most Column)
-        createSingleEdgeValue(-3,1, EdgeDirection.NorthEast);
-        createSingleEdgeValue(-3,2, EdgeDirection.NorthEast);
-        createSingleEdgeValue(-3,3, EdgeDirection.NorthEast);
+        createSingleEdgeValue(-3, 1, EdgeDirection.NorthEast);
+        createSingleEdgeValue(-3, 2, EdgeDirection.NorthEast);
+        createSingleEdgeValue(-3, 3, EdgeDirection.NorthEast);
 
         //Second Column
-        createTripleEdgeValue(-2,0);
-        createTripleEdgeValue(-2,1);
-        createTripleEdgeValue(-2,2);
-        createNorthAndSpecifiedEdgeValue(-2,3, EdgeDirection.NorthEast);
+        createTripleEdgeValue(-2, 0);
+        createTripleEdgeValue(-2, 1);
+        createTripleEdgeValue(-2, 2);
+        createNorthAndSpecifiedEdgeValue(-2, 3, EdgeDirection.NorthEast);
 
         //Third Column
-        createTripleEdgeValue(-1,-1);
-        createTripleEdgeValue(-1,0);
-        createTripleEdgeValue(-1,1);
-        createTripleEdgeValue(-1,2);
-        createNorthAndSpecifiedEdgeValue(-1,3, EdgeDirection.NorthEast);
+        createTripleEdgeValue(-1, -1);
+        createTripleEdgeValue(-1, 0);
+        createTripleEdgeValue(-1, 1);
+        createTripleEdgeValue(-1, 2);
+        createNorthAndSpecifiedEdgeValue(-1, 3, EdgeDirection.NorthEast);
 
         //Center Column
-        createTripleEdgeValue(0,-2);
-        createTripleEdgeValue(0,-1);
-        createTripleEdgeValue(0,0);
-        createTripleEdgeValue(0,1);
-        createTripleEdgeValue(0,2);
-        createSingleEdgeValue(0,3, EdgeDirection.North);
+        createTripleEdgeValue(0, -2);
+        createTripleEdgeValue(0, -1);
+        createTripleEdgeValue(0, 0);
+        createTripleEdgeValue(0, 1);
+        createTripleEdgeValue(0, 2);
+        createSingleEdgeValue(0, 3, EdgeDirection.North);
 
         //5th Column
-        createTripleEdgeValue(1,-2);
-        createTripleEdgeValue(1,-1);
-        createTripleEdgeValue(1,0);
-        createTripleEdgeValue(1,1);
-        createNorthAndSpecifiedEdgeValue(1,2, EdgeDirection.NorthWest);
+        createTripleEdgeValue(1, -2);
+        createTripleEdgeValue(1, -1);
+        createTripleEdgeValue(1, 0);
+        createTripleEdgeValue(1, 1);
+        createNorthAndSpecifiedEdgeValue(1, 2, EdgeDirection.NorthWest);
 
         //6th Column
-        createTripleEdgeValue(2,-2);
-        createTripleEdgeValue(2,-1);
-        createTripleEdgeValue(2,0);
-        createNorthAndSpecifiedEdgeValue(2,1, EdgeDirection.NorthWest);
+        createTripleEdgeValue(2, -2);
+        createTripleEdgeValue(2, -1);
+        createTripleEdgeValue(2, 0);
+        createNorthAndSpecifiedEdgeValue(2, 1, EdgeDirection.NorthWest);
 
         //East Most Column
-        createSingleEdgeValue(3,-2, EdgeDirection.NorthWest);
-        createSingleEdgeValue(3,-1, EdgeDirection.NorthWest);
-        createSingleEdgeValue(3,0, EdgeDirection.NorthWest);
+        createSingleEdgeValue(3, -2, EdgeDirection.NorthWest);
+        createSingleEdgeValue(3, -1, EdgeDirection.NorthWest);
+        createSingleEdgeValue(3, 0, EdgeDirection.NorthWest);
     }
 
     /**
      * Creates a single edge value in the specified direction.
-     * @param x coordinate of the hex.
-     * @param y coordinate of the hex.
+     *
+     * @param x         coordinate of the hex.
+     * @param y         coordinate of the hex.
      * @param direction of the edge value. Should only be northeast, northwest, or north.
      */
-    private void createSingleEdgeValue(int x, int y, EdgeDirection direction){
-        EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x,y), direction);
+    private void createSingleEdgeValue(int x, int y, EdgeDirection direction) {
+        EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x, y), direction);
         edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
     }
 
     /**
      * Creates a north edge value and an additional edge value in the specified direction.
-     * @param x coordinate of the hex.
-     * @param y coordinate of the hex.
+     *
+     * @param x         coordinate of the hex.
+     * @param y         coordinate of the hex.
      * @param direction of the edge value to be created, in addition to the north value.
      */
-    private void createNorthAndSpecifiedEdgeValue(int x, int y, EdgeDirection direction){
-        HexLocation currentHex = new HexLocation(x,y);
+    private void createNorthAndSpecifiedEdgeValue(int x, int y, EdgeDirection direction) {
+        HexLocation currentHex = new HexLocation(x, y);
 
         EdgeLocation newEdgeLocation = new EdgeLocation(currentHex, direction);
         edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
@@ -437,11 +443,12 @@ public class Map {
     /**
      * Creates 3 edge values for North, Northwest, and NorthEast.
      * This function is only called for coordinates that correspond to land hexes.
+     *
      * @param x coordinate of the hex.
      * @param y coordinate of the hex.
      */
-    private void createTripleEdgeValue(int x, int y){
-        HexLocation currentHex = new HexLocation(x,y);
+    private void createTripleEdgeValue(int x, int y) {
+        HexLocation currentHex = new HexLocation(x, y);
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
         edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
@@ -456,8 +463,8 @@ public class Map {
     public Set<PortType> getPlayersPorts(int playerIndex) {
         Set<PortType> ports = new HashSet<>();
         Set myKeys = portVertexLocations.keySet();
-        for(Object vertLoc : myKeys) {
-            if(vertexObjects.get(vertLoc).getOwner() == playerIndex) {
+        for (Object vertLoc : myKeys) {
+            if (vertexObjects.get(vertLoc).getOwner() == playerIndex) {
                 PortType type = portVertexLocations.get(vertLoc).getResource();
                 ports.add(type);
             }
@@ -472,7 +479,7 @@ public class Map {
      * Updates list of EdgeValues where roads are stored
      * Updates list of VertexObjects where settlements are built
      * Updates list of VertexObjects where cities are built
-     *
+     * <p>
      * Nothing else about the map changes during the game, so keep everything else the same!
      *
      * @param newMap updated map received from the updated clientModel
@@ -487,8 +494,62 @@ public class Map {
         //vertexObjects
     }
 
-    //GETTERS
 
+    //TODO: THIS IS NOT COMPLETE YET
+    public void getDiceRollResults(int diceRollNumber) {
+        for (HexLocation key : hexes.keySet()) {
+            if (hexes.get(key).getNumber() == diceRollNumber) {
+
+            }
+        }
+    }
+
+    //TODO: THIS IS NOT COMPLETE YET, to be called by getDiceRollResults
+    private void getVertices(HexLocation hexLocation){
+        //ArrayList<ResourceList> resourceList = new ArrayList<>();
+        ArrayList<VertexLocation> verticeList = new ArrayList();
+        VertexLocation northWestVertex = new VertexLocation(hexLocation, VertexDirection.NorthWest);
+        if(vertexObjects.get(northWestVertex).getOwner() != -1){
+
+        }
+        VertexLocation northEastVertex = new VertexLocation(hexLocation, VertexDirection.NorthEast);
+        if(vertexObjects.get(northEastVertex).getOwner() != -1){
+
+        }
+        VertexLocation eastVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest);
+        if(vertexObjects.get(eastVertex).getOwner() != -1){
+
+        }
+
+        VertexLocation westVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast);
+        if(vertexObjects.get(westVertex).getOwner() != -1){
+
+        }
+        VertexLocation southEastVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast);
+        if(vertexObjects.get(southEastVertex).getOwner() != -1){
+
+        }
+        VertexLocation southWestVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest);
+        if(vertexObjects.get(southWestVertex).getOwner() != -1){
+
+        }
+    }
+
+    public boolean canPlaceRobber(HexLocation desiredHexLoc) {
+        if (hexes.get(desiredHexLoc).getResource().equals(HexType.WATER) ||
+                desiredHexLoc.equals(robber.getCurrentHexlocation())) {
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    public void placeRobber(HexLocation desiredHexLoc){
+        robber.setCurrentHexlocation(desiredHexLoc);
+    }
+
+
+    //GETTERS
     public HashMap<VertexLocation, Port> getPortVertexLocations() {
         return portVertexLocations;
     }
@@ -512,15 +573,6 @@ public class Map {
     public void setRobber(Robber robber) {
         this.robber = robber;
     }
-/*
-    public BuildingManager getBuildingManager() {
-        return buildingManager;
-    }
-
-    public void setBuildingManager(BuildingManager buildingManager) {
-        this.buildingManager = buildingManager;
-    }
-*/
 
     public HashMap<VertexLocation, VertexObject> getVertexObjects() {
         return vertexObjects;
@@ -536,7 +588,9 @@ public class Map {
 
     //SETTERS
 
-    public void setRadius(int radius) {this.radius = radius;}
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 
     public void setHexes(HashMap<HexLocation, Hex> hexes) {
         this.hexes = hexes;

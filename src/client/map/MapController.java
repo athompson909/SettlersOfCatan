@@ -7,6 +7,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
+import shared.model.ClientModel;
 import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.map.Hex;
 import shared.model.map.Port;
@@ -37,7 +38,7 @@ public class MapController extends Controller implements IMapController {
 
     public MapController(IMapView view, IRobView robView) {
         super(view);
-        System.out.println("Map Controller Constructor");
+        //System.out.println("Map Controller Constructor");
 
         setRobView(robView);
 
@@ -110,6 +111,10 @@ public class MapController extends Controller implements IMapController {
         //BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
         //ClientFacade.getInstance().buildRoad(buildRoadCommand);
 
+        //ClientModel tempClientModel = new ClientModel(1);
+        //tempClientModel.purchaseAndPlaceRoad(0, edgeLoc);
+
+
         catanMap.buildRoadManager.placeRoad(0, edgeLoc);  //TODO: Should use the update stuff...
         getView().placeRoad(edgeLoc, CatanColor.ORANGE);
     }
@@ -130,7 +135,6 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-
         getView().startDrop(pieceType, CatanColor.ORANGE, true);
     }
 

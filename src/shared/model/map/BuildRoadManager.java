@@ -33,6 +33,11 @@ public class BuildRoadManager {
         return (isEdgeLocationAvailable(edgeLocation) && isRoadConnected(playerID, edgeLocation));
     }
 
+    public boolean canPlaceSetUpRound(int playerID, EdgeLocation edgeLocation) {
+        return (isEdgeLocationAvailable(edgeLocation));
+    }
+
+
     /**
      * Checks that there is a road of the correct color adjacent to
      * the vertex where player is trying to build

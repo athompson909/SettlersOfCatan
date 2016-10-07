@@ -2,6 +2,9 @@ package shared.model.map;
 
 import shared.definitions.HexType;
 import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+
+import java.util.ArrayList;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -84,5 +87,8 @@ public class Hex {
                 ", resource=" + resource.toString() +
                 '}';
     }
+
+
+
 
 }

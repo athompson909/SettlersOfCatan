@@ -38,6 +38,13 @@ public class BuildSettlementManager {
         );
     }
 
+    /* //Do not use, have player place road first
+    public boolean canPlaceSetUpRound(int playerID, VertexLocation vertexLocation) {
+        return (isVertexLocationAvailable(vertexLocation)
+                && isVertexObjectTwoAway(vertexLocation)
+        );
+    }
+*/
 
     /**
      * Checks to validate if edgeLocation is already occupied or not

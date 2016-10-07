@@ -5,6 +5,7 @@ import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageList;
@@ -207,6 +208,15 @@ public class ClientModel extends Observable {
 
     /**
      * @param playerIndex of player performing the action.
+     * @param edgeLocation to place the road.
+     * @return true if the specified edge is not taken.
+     */
+    public boolean canPlaceRoadDuringSetUp(int playerIndex, EdgeLocation edgeLocation){
+        return map.buildRoadManager.canPlaceSetUpRound(playerIndex, edgeLocation);
+    }
+
+    /**
+     * @param playerIndex of player performing the action.
      * @param vertexLocation to place the settlement.
      * @return true if the player can place a settlement at the specified vertexLocation
      */
@@ -224,6 +234,13 @@ public class ClientModel extends Observable {
 
     }
 
+    /**
+     * @param desiredHexLoc to place the robber.
+     * @return true if its a new location that's not water.
+     */
+    public boolean canPlaceRobber(HexLocation desiredHexLoc){
+        return map.canPlaceRobber(desiredHexLoc);
+    }
 
 
     //DO METHODS
@@ -334,6 +351,14 @@ public class ClientModel extends Observable {
         }
         //Give those cards to the player who used the monopoly card.
         players[recieverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+    }
+
+    /**
+     * Places the robber at the desired Hex Location.
+     * @param desiredHexLoc to place the robber.
+     */
+    public void placeRobber(HexLocation desiredHexLoc){
+        map.placeRobber(desiredHexLoc);
     }
 
 
