@@ -38,6 +38,14 @@ public class ClientUpdateManager {
      * and splits it into smaller objects to give to the subsequent individual update functions.
      */
     public void delegateUpdates(ClientModel newModel) {
+        ResourceBank currResourceBank = currentModel.resourceBank;
+        ResourceBank newResourceBank = newModel.resourceBank;
+        updateResourceBank(currResourceBank, newResourceBank);
+
+        MessageManager currMessageMgr = currentModel.messageManager;
+        MessageManager newMessageMgr = newModel.messageManager;
+        updateMessageManager(currMessageMgr, newMessageMgr);
+
         Map currMap = currentModel.map;
         Map newMap = newModel.map;
         updateMap(currMap, newMap);
@@ -46,17 +54,11 @@ public class ClientUpdateManager {
         Player newPlayer = newModel.players[0]; /*Index of player */////////
         updatePlayer(currPlayer, newPlayer);
 
-        MessageManager currMessageMgr = currentModel.messageManager;
-        MessageManager newMessageMgr = newModel.messageManager;
-        updateMessageManager(currMessageMgr, newMessageMgr);
+
 
         TurnTracker currTurnTracker = currentModel.turnTracker;
         TurnTracker newTurnTracker = newModel.turnTracker;
         updateTurnTracker(currTurnTracker, newTurnTracker);
-
-        ResourceBank currResourceBank = currentModel.resourceBank;
-        ResourceBank newResourceBank = newModel.resourceBank;
-        updateResourceBank(currResourceBank, newResourceBank);
 
         int currVersionNum = currentModel.version;
         int newVersionNum = newModel.version;

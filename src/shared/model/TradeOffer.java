@@ -53,7 +53,9 @@ public class TradeOffer {
 
     }
 
+    public void updateTradeOffer() {
 
+    }
     public int getSenderIndex() {
         return senderIndex;
     }
