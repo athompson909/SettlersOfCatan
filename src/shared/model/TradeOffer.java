@@ -53,8 +53,9 @@ public class TradeOffer {
 
     }
 
-    public void updateTradeOffer() {
-
+    public void updateTradeOffer(TradeOffer newTradeOffer) {
+        this.tradeOfferList = newTradeOffer.tradeOfferList;
+        //The controller needs to notice if this has changed for their player and change views
     }
     public int getSenderIndex() {
         return senderIndex;

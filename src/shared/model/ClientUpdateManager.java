@@ -54,7 +54,9 @@ public class ClientUpdateManager {
         Player newPlayer = newModel.players[0]; /*Index of player */////////
         updatePlayer(currPlayer, newPlayer);
 
-
+        TradeOffer currTradeOffer = currentModel.tradeOffer;
+        TradeOffer newTradeOffer = newModel.tradeOffer;
+        updateTradeOffer(currTradeOffer, newTradeOffer);
 
         TurnTracker currTurnTracker = currentModel.turnTracker;
         TurnTracker newTurnTracker = newModel.turnTracker;
@@ -90,7 +92,11 @@ public class ClientUpdateManager {
     private void updatePlayer(Player currPlayer, Player newPlayer) {
         currPlayer.updatePlayer(newPlayer);
     }
+//-----------------
 
+    private void updateTradeOffer(TradeOffer currTradeOffer, TradeOffer newTradeOffer) {
+        currTradeOffer.updateTradeOffer(newTradeOffer);
+    }
 //-----------------
 
     /**
