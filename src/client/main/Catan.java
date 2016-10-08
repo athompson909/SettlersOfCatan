@@ -109,7 +109,6 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 				loginView.setController(loginController);
 
-				//TODO: TAKE THIS COMMENT OUT
 				  loginController.start();
 			}
 		});

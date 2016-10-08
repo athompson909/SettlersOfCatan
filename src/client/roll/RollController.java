@@ -1,6 +1,9 @@
 package client.roll;
 
+import client.ClientFacade;
 import client.base.*;
+import shared.model.commandmanager.moves.RollDiceCommand;
+import shared.model.dicemanager.DiceManager;
 
 import java.util.Observable;
 
@@ -11,6 +14,8 @@ import java.util.Observable;
 public class RollController extends Controller implements IRollController {
 
 	private IRollResultView resultView;
+
+	private DiceManager dice = new DiceManager();
 
 	/**
 	 * RollController constructor
@@ -38,8 +43,14 @@ public class RollController extends Controller implements IRollController {
 	
 	@Override
 	public void rollDice() {
-
+		//roll dice and display number
+		int number = dice.rollDice();
+		resultView.setRollValue(number);
 		getResultView().showModal();
+
+		//send result accross to the server
+		RollDiceCommand command = new RollDiceCommand(number);
+		ClientFacade.getInstance().rollNumber(command);
 	}
 
 	@Override
