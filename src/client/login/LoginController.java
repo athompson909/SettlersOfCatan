@@ -29,6 +29,8 @@ public class LoginController extends Controller implements ILoginController {
 		super(view);
 		
 		this.messageView = messageView;
+
+		System.out.println("LOGINCONTROLLER: constructor called");
 	}
 	
 	public ILoginView getLoginView() {
@@ -65,6 +67,9 @@ public class LoginController extends Controller implements ILoginController {
 	public void start() {
 		
 		getLoginView().showModal();
+
+		System.out.println("LOGINCONTROLLER: START called");
+
 	}
 
 	@Override
@@ -123,6 +128,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void update(Observable o, Object arg) {
+
 
 	}
 }

@@ -1142,7 +1142,7 @@ public class JSONTranslatorTest extends TestCase {
         String[]  allAIsList = jsonTranslator.listAIResponseFromJSON(jsonExpectedResponse);
 
         //there should really only be one AI available, but we're planning for more
-        assertEquals(3, allAIsList.length);
+        assertEquals(50, allAIsList.length);
         assertEquals(allAIsList[0], "LARGEST_ARMY");
     }
 

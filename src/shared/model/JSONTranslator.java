@@ -51,7 +51,7 @@ public class JSONTranslator {
      * This Gson object can be reused as many times as you want
      * we're just using it to access its translating functions
      */
-    private Gson gsonConverter = new Gson();
+    private com.google.gson.Gson gsonConverter = new Gson();
 
     /**
      * This is the string that always is returned by the GsonTranslator (in each function)
