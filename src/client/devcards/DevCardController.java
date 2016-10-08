@@ -82,6 +82,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	public void playMonopolyCard(ResourceType resource) {
 		PlayMonopolyCommand command = new PlayMonopolyCommand(ClientUser.getInstance().getIndex(), resource);
 		ClientFacade.getInstance().playMonopoly(command);
+		//Todo: should I close the modal after I call the facade?
 	}
 
 	@Override
