@@ -74,12 +74,17 @@ public class LoginController extends Controller implements ILoginController {
 		String password = getLoginView().getLoginPassword();
 		LoginCommand loginCommand = new LoginCommand(username, password);
 
+		System.out.println("LOGINCONTROLLER: SIGNIN called: un= " + username + ", pw= " + password);
+
 		if(ClientFacade.getInstance().userLogin(loginCommand)) {
+			System.out.println("LOGINCONTROLLER: got success from ClientFacade, finishing login");
 			getLoginView().closeModal();
-			loginAction.execute();
+			loginAction.execute();  //how do we implement this action from IAction?
 		}
 		else {
 			// todo: notify user to retry ?
+			System.out.println("LOGINCONTROLLER: got FAIL from ClientFacade");
+
 		}
 	}
 
@@ -91,19 +96,27 @@ public class LoginController extends Controller implements ILoginController {
 		String registerPassword = getLoginView().getRegisterPassword();
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
 
-		if(!registerPassword.equals(registerPasswordRepeat)) {
+		System.out.println("LOGINCONTROLLER: REG: run= " + registerUsername + ", rpw= " + registerPassword);
+
+		//This originally (?) had a !equals, which didn't make sense to me, so I took it out - Sierra
+		if(registerPassword.equals(registerPasswordRepeat)) {
 			RegisterCommand registerCommand = new RegisterCommand(registerUsername, registerPassword);
 
 			if(ClientFacade.getInstance().userRegister(registerCommand)) {
+				System.out.println("LOGINCONTROLLER: REG: got success from ClientFacade, finishing reg");
 				// If register succeeded
 				getLoginView().closeModal();
 				loginAction.execute();
 			}
 			else {
+				System.out.println("LOGINCONTROLLER: REG: got FAIL from ClientFacade");
+
 				// the server rejected the input
 			}
 		}
 		else {
+			System.out.println("LOGINCONTROLLER: REG: passwords don't match");
+
 			// the password and password repeat don't match
 		}
 	}

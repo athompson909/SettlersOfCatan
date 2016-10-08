@@ -24,6 +24,9 @@ public class ChatView extends PanelView implements IChatView {
      * Creates a new chat view component.
      */
     public ChatView() {
+
+        System.out.println("CHATVIEW constructor called");
+
         // Create the components
         chatPanel = new LogComponent();
         chatScrollPane = new JScrollPane(chatPanel);
@@ -74,6 +77,7 @@ public class ChatView extends PanelView implements IChatView {
         return (IChatController) super.getController();
     }
 
+    //TODO: I think this is where it gets the list of entries from ClientModel
     @Override
     public void setEntries(final List<LogEntry> entries) {
         chatPanel.setEntries(entries);

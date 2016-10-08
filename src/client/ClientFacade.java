@@ -14,7 +14,7 @@ import shared.model.commandmanager.moves.*;
 import java.util.List;
 
 /**
- *
+ * THIS IS A SINGLETON
  *
  * Created by Alise on 9/17/2016.
  */
@@ -55,7 +55,7 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
         if(version == updatedClientModel.getVersion()) {
-            // DON'T CHANGE
+            // DON'T UPDATE EXISTING MODEL
         }
         else {
             version = updatedClientModel.getVersion();
@@ -81,12 +81,20 @@ public class ClientFacade {
      */
     public boolean userLogin(LoginCommand loginCommand){
         JSONObject json = jsonTranslator.loginCmdToJSON(loginCommand);
+
+        System.out.println(">CLIENTFACADE: USERLOGIN - trying with server");
+
         try {
             String response = serverProxy.userLogin(json);
+
+            System.out.println(">CLIENTFACADE: USERLOGIN: server said " + response);
+
             if(response.equals("Success")) {
+                System.out.println(">CLIENTFACADE: USERLOGIN: server was happy");
                 return true;
             }
             else {
+                System.out.println(">CLIENTFACADE: USERLOGIN: server sad :(");
                 return false;
             }
         }
@@ -116,11 +124,21 @@ public class ClientFacade {
      */
     public boolean userRegister(RegisterCommand registerCommand){
         JSONObject json = jsonTranslator.registerCmdToJSON(registerCommand);
+
+        System.out.println(">CLIENTFACADE: USERREGISTER- trying with server");
+
         try {
             String response = serverProxy.userRegister(json);
+
+            System.out.println(">CLIENTFACADE: USERREGISTER: server said " + response);
+
             if(response.equals("Success")){
-               return true;
+                System.out.println(">CLIENTFACADE: USERREGISTER: server was happy");
+
+                return true;
             }else{
+                System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");
+
                 return false;
             }
         }

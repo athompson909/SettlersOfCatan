@@ -26,11 +26,13 @@ public class LeftPanel extends JPanel {
 		Font font = tabPane.getFont();
 		Font newFont = font.deriveFont(font.getStyle(), 20);
 		tabPane.setFont(newFont);
-		
+
+		//GAME HISTORY COMPONENTS  ********************
 		historyView = new GameHistoryView();
 		historyController = new GameHistoryController(historyView);
 		historyView.setController(historyController);
-		
+
+		//CHAT COMPONENTS  ********************
 		chatView = new ChatView();
         chatController = new ChatController(chatView);
         chatView.setController(chatController);

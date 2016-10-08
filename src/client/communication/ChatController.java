@@ -13,6 +13,8 @@ public class ChatController extends Controller implements IChatController {
 	public ChatController(IChatView view) {
 		
 		super(view);
+
+		System.out.println("CHATCONTROLLER constructor called");
 	}
 
 	@Override
@@ -27,6 +29,10 @@ public class ChatController extends Controller implements IChatController {
 
 	@Override
 	public void update(Observable o, Object arg) {
+
+		System.out.println("CHATCONTROLLER UPDATE called");
+
+		//set view.setEntries(list of entries from ClientModel) here?
 
 	}
 

@@ -19,7 +19,8 @@ public class GameHistoryView extends PanelView implements IGameHistoryView
 	
 	public GameHistoryView()
 	{
-		
+		System.out.println("GAMEHISTORYVIEW constructor called");
+
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.white);
 		

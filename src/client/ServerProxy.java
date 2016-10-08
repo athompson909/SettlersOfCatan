@@ -260,6 +260,8 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String userLogin(JSONObject json) throws ClientException {
 
+        System.out.println(">>SERVERPROXY: userLogin has json: " + json);
+
         isLogin = true;
         String urlStr = "http://localhost:8081/user/login";
         return httpPost(urlStr, json.toString());
@@ -286,6 +288,9 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public String userRegister(JSONObject json) throws ClientException {
+
+        System.out.println(">>SERVERPROXY: userRegister has json: " + json);
+
 
         isRegister = true;
         String urlStr = "http://localhost:8081/user/register";

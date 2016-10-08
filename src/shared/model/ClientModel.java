@@ -94,7 +94,7 @@ public class ClientModel extends Observable {
      *
      * @param newModel - the JSON object representing the newly updated ClientModel being sent from the server
      */
-    public void UpdateClientModel(ClientModel newModel){
+    public void updateClientModel(ClientModel newModel){
         updateManager.delegateUpdates(newModel);
     }
 

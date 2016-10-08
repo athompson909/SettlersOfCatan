@@ -26,8 +26,10 @@ public class Catan extends JFrame
 		
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
+		//this CatanPanel initializes a LeftPanel, which initializes the Chat/GameHistory components
 		catanPanel = new CatanPanel();
+
 		this.setContentPane(catanPanel);
 
 
@@ -47,6 +49,8 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
+		System.out.println("CATAN - MAIN called");
+
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -104,8 +108,9 @@ public class Catan extends JFrame
 				});
 				loginView.setController(loginController);
 				loginView.setController(loginController);
-				
-				loginController.start();
+
+				//TODO: TAKE THIS COMMENT OUT
+				  loginController.start();
 			}
 		});
 	}

@@ -26,7 +26,7 @@ public class MessageView extends OverlayView implements IMessageView {
 	
 
 	public MessageView() {
-		
+
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
