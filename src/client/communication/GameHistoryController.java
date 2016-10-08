@@ -11,6 +11,7 @@ import java.util.Observable;
 
 /**
  * Game history controller implementation
+ * This needs to extend Observer I think?
  */
 public class GameHistoryController extends Controller implements IGameHistoryController {
 
@@ -54,12 +55,13 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 
 
 	//This will be called by notifyObservers() when the ClientModel gets updated?
+	//I think this is extending Observable class even though the GHC class declaration doesn't say that it does...
 	@Override
 	public void update(Observable o, Object arg) {
 
 		System.out.println("GAMEHISTORYCONTROLLER UPDATE called");
 
-
+		//call setEntries with the GameLog MessageList coming in as part of the Object arg field (which is the new Model I think)
 	}
 	
 }
