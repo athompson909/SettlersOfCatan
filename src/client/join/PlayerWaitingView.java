@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import client.ClientFacade;
 import client.base.*;
 import client.data.*;
 import client.utils.*;
@@ -32,7 +33,9 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 	private JSpinner aiChoices;
 
 	public PlayerWaitingView() {
-		
+
+		System.out.println("PLAYERWAITINGVIEW: constructor called:");
+
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
@@ -94,6 +97,11 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		
 		//add the AI panel
 		this.add(aiPanel, BorderLayout.SOUTH);
+
+
+		//SET AI CHOICES - Sierra put this here, but we can totally move it to a smarter spot
+		String[] allAIsArr = ClientFacade.getInstance().listAI();
+		setAIChoices(allAIsArr);
 	}
 
 	//listener for the "add AI player" button
@@ -149,10 +157,18 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		}
 	}
 
+	//This list of AITypes should come from the server: listAICommand
+	//we can access the server/ClientFacade since the ClientFacade is a singleton!
 	@Override
 	public void setAIChoices(String[] value) {	
-		
+
+		System.out.println("PLAYERWAITINGVIEW: setAIChoices called:");
+
 		java.util.List<String> choiceList = new ArrayList<String>();
+		//java.util.List<String> choiceList = ClientFacade.getInstance().listAI();
+
+		//adds all Strings from String[] into an ArrayList<String>
+		// ... for some reason. we couldn't just start with an ArrayList<String>? lol
 		for (String v : value) {
 			choiceList.add(v);
 		}

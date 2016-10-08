@@ -459,10 +459,10 @@ public class ClientFacade {
     These are the values that may be passed to the /game/addAI method.
      * @return list of AIs to pick from
      */
-    public List<String> listAI(){
+    public String[] listAI(){
         try {
             JSONArray response = serverProxy.listAI();
-            List<String> AIs = jsonTranslator.listAIResponseFromJSON(response);
+            String[] AIs = jsonTranslator.listAIResponseFromJSON(response);
             return AIs;
         }catch (ClientException e) {
             e.printStackTrace();

@@ -811,10 +811,13 @@ public class JSONTranslator {
      * but the server returns a JSON string array of all available AIs (probably only LARGEST_ARMY)
      * that needs to be translated.
      *
+     * Sierra changed this to return a String[] instead of an ArrayList<String>
+     *     because PlayerWaitingView
+     *
      * @param listAIResponseArr
-     * @return an arraylist of Strings representing all available AIs (should only be one)
+     * @return a String[] representing all available AIs (should only be one in there)
      */
-    public ArrayList<String> listAIResponseFromJSON(JSONArray listAIResponseArr) {
+    public String[] listAIResponseFromJSON(JSONArray listAIResponseArr) {
 
         //just going to do this manually since I don't know how Gson does arrays of only strings
 
@@ -822,13 +825,15 @@ public class JSONTranslator {
         List<Object> allAITypesObjList = listAIResponseArr.toList();
         //I don't want to deal with something as vague as a list<object>, so change it into an arrayList<String>:
 
-        ArrayList<String> allAITypes = new ArrayList<>();
+        //ArrayList<String> allAITypes = new ArrayList<>();
+        String[] allAITypes = new String[50];  //there is no way there will ever be more than 50 ai types
 
         //iterate through the List<Object> and copy its strings into allAITypes
         for (int a = 0; a < allAITypesObjList.size(); a++)
         {
             String currAITypeString = allAITypesObjList.get(a).toString();
-            allAITypes.add(currAITypeString);
+            //allAITypes.add(currAITypeString);
+            allAITypes[a] = currAITypeString;
         }
 
         return allAITypes;
