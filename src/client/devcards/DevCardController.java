@@ -1,7 +1,7 @@
 package client.devcards;
 
 import client.ClientFacade;
-import client.utils.ClientUser;
+import client.ClientUser;
 import shared.definitions.ResourceType;
 import client.base.*;
 import shared.model.commandmanager.moves.PlayMonopolyCommand;

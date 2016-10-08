@@ -1,0 +1,92 @@
+package client;
+
+import client.data.PlayerInfo;
+import shared.definitions.CatanColor;
+
+/**
+ *
+ * ClientUser is designed to be a small singleton that holds all important info about the user so that it can be
+ * accessed anytime throughout the game. This info includes name, index, ID, and color.
+ *
+ * For example, the JoinGameView uses this info (packaged into a PlayerInfo object) to determine whether the user is already
+ * added to a game or not.
+ *
+ * THIS IS A SINGLETON
+ *
+ * Created by Alise on 10/8/2016.
+ */
+public class ClientUser {
+
+    //I think we set this depending on what order they join the game in
+    private int index = -1;
+
+    //We can get this string when they login
+    private String name = "";
+
+    //Their ID is given back by the server in a cookie format
+    private int id = 0;
+
+    //We can get this when they pick a color upon joining a game
+    private CatanColor color = null;
+
+    //this PlayerInfo object just packages all 4 data items about the user (name, id, index, color) into an object,
+    //specifically for JoinGameView at least
+    //we might just build a PlayerInfo object inside JoinGameView, not right here
+    private PlayerInfo localPlayerInfo;
+
+    private static ClientUser instance = new ClientUser();
+
+    public static ClientUser getInstance() {
+        return instance;
+    }
+
+    private ClientUser(){}
+
+
+
+
+    //GETTERS AND SETTERS
+
+    public void setName(String username){
+        name = username;
+    }
+    public void setIndex(int playerIndex){
+        index = playerIndex;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public CatanColor getColor() {
+        return color;
+    }
+
+    public void setColor(CatanColor color) {
+        this.color = color;
+    }
+
+    public PlayerInfo getLocalPlayerInfo() {
+        return localPlayerInfo;
+    }
+
+    public void setLocalPlayerInfo(PlayerInfo localPlayerInfo) {
+        this.localPlayerInfo = localPlayerInfo;
+    }
+
+    public static void setInstance(ClientUser instance) {
+        ClientUser.instance = instance;
+    }
+}

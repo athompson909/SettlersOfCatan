@@ -16,7 +16,6 @@ import shared.definitions.*;
  */
 public class PlayerInfo
 {
-	
 	private int id;
 	private transient int playerIndex;  //I think we set this one arbitrarily based on who joined the game first - it doesn't come back
 	private String name;
@@ -29,6 +28,7 @@ public class PlayerInfo
 		setName("");
 		setColor(CatanColor.WHITE);
 	}
+
 	
 	public int getId()
 	{

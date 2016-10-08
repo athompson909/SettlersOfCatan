@@ -1,6 +1,7 @@
 package client.login;
 
 import client.ClientFacade;
+import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
@@ -83,6 +84,10 @@ public class LoginController extends Controller implements ILoginController {
 
 		if(ClientFacade.getInstance().userLogin(loginCommand)) {
 			System.out.println("LOGINCONTROLLER: got success from ClientFacade, finishing login");
+
+			//save the username to ClientUser singleton -> local Player data
+			ClientUser.getInstance().setName(username);
+
 			getLoginView().closeModal();
 			loginAction.execute();  //how do we implement this action from IAction?
 		}

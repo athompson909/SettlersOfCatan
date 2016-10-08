@@ -5,6 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import client.ClientFacade;
+import client.ClientUser;
 import client.base.*;
 import client.data.*;
 
@@ -89,6 +91,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(currentPlayer);
 		gamePanel.add(join);
 
+		//Go get list of games from the server, populate games[]:
+
+
+
 		// This is the looped layout
 		if (games != null && games.length > 0)
 		{
@@ -113,7 +119,8 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				tmp3.setFont(labelFont);
 				gamePanel.add(tmp3);
 				JButton joinButton;
-				
+
+				// ***************************************************localPlayer used here
 				if (game.getPlayers().contains(localPlayer))
 				{
 					joinButton = new JButton("Re-Join");
@@ -158,6 +165,15 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	{
 		return (IJoinGameController) super.getController();
 	}
+
+	//
+	public void fetchListOfGamesFromServer(){
+		GameInfo[] allGames = ClientFacade.getInstance().gamesList();
+
+		//Get/build localPlayer from ClientUser singleton data:
+		//ClientUser.getInstance().getName();
+	}
+
 
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
