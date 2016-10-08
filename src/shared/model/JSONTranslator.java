@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.data.GameInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 //import com.sun.tools.internal.ws.processor.model.Message;
@@ -726,14 +727,14 @@ public class JSONTranslator {
     //with data about the game you just created.
     //The response data contains the same data as a GameListItem, but with an empty Player array.
     // I don't actually know where this data is going to be used
-    public GameListItem gameCreateResponseFromJSON(JSONObject gameCreateResponse){
+    public GameInfo gameCreateResponseFromJSON(JSONObject gameCreateResponse){
         //For now I'm saving the new game data as a TreeMap (although it might be better to have
         //some sort of encapsualating object to hold this new data, since it includes 3 bools and 1 string)
 
         TreeMap<String, String> gameCreateResponseData = new TreeMap<>();
         String gameCreateResponseStr = gameCreateResponse.toString();
 
-        GameListItem newGameInfo = gsonConverter.fromJson(gameCreateResponseStr, GameListItem.class);
+        GameInfo newGameInfo = gsonConverter.fromJson(gameCreateResponseStr, GameInfo.class);
 
         return newGameInfo;
     }
@@ -745,23 +746,27 @@ public class JSONTranslator {
      * be easier to access/display in the Join Game view.
      *
      * @param gameCreateResponseJSON
-     * @return
+     * @return an array of GameInfo objects
      */
-    public ArrayList<GameListItem> gamesListResponseFromJSON(JSONArray gameCreateResponseJSON){
+    public GameInfo[] gamesListResponseFromJSON(JSONArray gameCreateResponseJSON){
 
-        ArrayList<GameListItem> allActiveGames = new ArrayList<>();
+        ArrayList<GameInfo> allActiveGames = new ArrayList<>();
 
         for (int g = 0; g < gameCreateResponseJSON.length(); g++)
         {
             JSONObject currGameListItem = gameCreateResponseJSON.getJSONObject(g);
             String currGameListItemString = currGameListItem.toString();
 
-            GameListItem newGLItem = gsonConverter.fromJson(currGameListItemString, GameListItem.class);
+           // GameListItem newGLItem = gsonConverter.fromJson(currGameListItemString, GameListItem.class);
+            GameInfo newGameInfo = gsonConverter.fromJson(currGameListItemString, GameInfo.class);
 
-            allActiveGames.add(newGLItem);
+            allActiveGames.add(newGameInfo);
         }
 
-        return allActiveGames;
+        //makes an array of GameInfos for the JoinGameView, based on the size of allActiveGames:
+        GameInfo[] allGameInfos = allActiveGames.toArray(new GameInfo[allActiveGames.size()]);
+
+        return allGameInfos;
     }
 
     /**

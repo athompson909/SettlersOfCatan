@@ -18,7 +18,7 @@ public class PlayerInfo
 {
 	
 	private int id;
-	private int playerIndex;
+	private transient int playerIndex;  //I think we set this one arbitrarily based on who joined the game first - it doesn't come back
 	private String name;
 	private CatanColor color;
 	
