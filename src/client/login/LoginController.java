@@ -95,6 +95,8 @@ public class LoginController extends Controller implements ILoginController {
 			// todo: notify user to retry ?
 			System.out.println("LOGINCONTROLLER: got FAIL from ClientFacade");
 
+			//need to reset action somehow, it just stops here
+
 		}
 	}
 

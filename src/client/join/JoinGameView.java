@@ -39,10 +39,17 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	private JPanel buttonPanel;
 
 	private GameInfo[] games;
+	private GameInfo[] gameInfoFromServer;  //give this to setGames();
+	private PlayerInfo localPlayerInfoSoFar;  //give this to setGames();
 	private PlayerInfo localPlayer;
 
 	public JoinGameView()
 	{
+		//trying here
+		//Go get list of games from the server, populate games[]:
+		fetchListOfGamesFromServer();
+		setGames(gameInfoFromServer, localPlayerInfoSoFar);
+
 		this.initialize();
 	}
 
@@ -90,10 +97,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(name);
 		gamePanel.add(currentPlayer);
 		gamePanel.add(join);
-
-		//Go get list of games from the server, populate games[]:
-
-
 
 		// This is the looped layout
 		if (games != null && games.length > 0)
@@ -168,10 +171,20 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 	//
 	public void fetchListOfGamesFromServer(){
-		GameInfo[] allGames = ClientFacade.getInstance().gamesList();
+
+		//get list of all games from the server
+		gameInfoFromServer = ClientFacade.getInstance().gamesList();
 
 		//Get/build localPlayer from ClientUser singleton data:
-		//ClientUser.getInstance().getName();
+		//at this point, we don't have the ClientUser's color or index, since those are assigned when they pick a color
+		// and when they actually join a game, respectively. So we'll just use a partial PlayerInfo object here
+
+		localPlayerInfoSoFar = new PlayerInfo();
+		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
+		localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
+
+		//let the view populate with that data:
+		//setGames(allGames, localPlayerInfoSoFar);
 	}
 
 

@@ -1,7 +1,7 @@
 package client.turntracker;
 
 import client.ClientFacade;
-import client.utils.ClientUser;
+import client.ClientUser;
 import shared.definitions.CatanColor;
 import client.base.*;
 import shared.model.ClientModel;
