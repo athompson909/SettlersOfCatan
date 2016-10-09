@@ -98,6 +98,16 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(currentPlayer);
 		gamePanel.add(join);
 
+
+        //CURRENT ISSUES *******************************
+        /*
+         the JoinGameView doesn't correctly say whether you are in a game or not - it thinks you are in multiple games
+         where you're definitely not joined
+        When you create a game, it counts the empty players as real players - the null ones shouldn't be counted
+         */  // - Sierra
+        //*******************************
+
+
 		// This is the looped layout
 		if (games != null && games.length > 0)
 		{
