@@ -4,12 +4,16 @@ import shared.definitions.*;
 import client.base.*;
 
 import java.util.Observable;
-
+import shared.definitions.CatanColor;
 
 /**
  * Implementation for the maritime trade controller
  */
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
+
+
+	//TODO: Erase this later, should connect to actual game model map.
+	private shared.model.player.Player catanPlayer = new shared.model.player.Player(CatanColor.BLUE, "name", "playerID", 0);
 
 	private IMaritimeTradeOverlay tradeOverlay;
 	
@@ -35,7 +39,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void startTrade() {
-		
+		if(catanPlayer.can)
+		ResourceType[] getResources =
+		getTradeOverlay().showGetOptions();
+
 		getTradeOverlay().showModal();
 	}
 

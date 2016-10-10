@@ -138,6 +138,7 @@ public class Player { //
         setNewDevCardList(newPlayer.getNewDevCardList());
         setPlayedDevCard(newPlayer.hasPlayedDevCard());
         setDiscarded(newPlayer.hasDiscarded());
+        setTradeManager();
     }
 
     //CAN FUNCTIONS
@@ -426,6 +427,8 @@ public class Player { //
     }
 
     //GETTERS
+    public MaritimeTradeManager getMaritimeTradeManager() {return maritimeTradeManager;}
+
     public CatanColor getColor() {
         return color;
     }
@@ -487,6 +490,10 @@ public class Player { //
     }
 
     //SETTERS
+
+    private void setTradeManager() {
+        maritimeTradeManager.update();
+    }
     private void setVictoryPoints(int numVict) {
         victoryPoints = numVict;
     }

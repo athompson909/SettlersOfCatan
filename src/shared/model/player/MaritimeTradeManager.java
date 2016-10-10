@@ -39,9 +39,13 @@ public class MaritimeTradeManager {
      */
     public boolean hasThreePort = false;
 
-    public MaritimeTradeManager(){}
+    public void update() {
 
+    }
 
+    public MaritimeTradeManager(){
+
+    }
 
     /**
      * CanDoTrade() checks whether the user has resources available to complete the desired trade,
@@ -53,7 +57,6 @@ public class MaritimeTradeManager {
     public boolean canDoTrade() {
         return false;
     }
-
 
     /**
      * Tells CommandManager to create a MaritimeTradeRequest object using the
