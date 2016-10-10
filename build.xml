@@ -119,11 +119,39 @@
 		</javac>
 	</target>
 
+
+    <!--    TESTING ERROR STUFF
+    <target name="init-classpath">
+        <path id="lib.classpath">
+            <fileset dir="./lib/">
+                <include name="**.jar" />
+            </fileset>
+        </path>
+        <pathconvert property="mf.classpath" pathsep=" ">
+            <path refid="lib.classpath" />
+            <flattenmapper />
+        </pathconvert>
+    </target>
+   TESTING ERROR STUFF   -->
+
+
+
+    <!--  Ask the TAs this stuff:
+     * the game compiles fine when you right-click the Catan class - > Run
+            * the LoginView shows up and you can login/register, etc
+     * When you try to run from the commandline, it says NoClassDefFoundError - it can't find the class files
+        for our external libraries, especially the JSON library (it used to be the Gson library)
+     * all the library .jars are copied into every possible lib folder it could be looking in
+     * Because of this error (I think) it doesn't show the LoginView after that
+     -->
+
+
+                                            <!-- add init-classpath in depends, before "compile"-->
 	<target name="package" depends="compile" description="package the jar file" >
-		<!--  **************THIS SECTION IS THE ONLY THING YOU SHOULD NEED TO CHANGE  ************************** -->
+		<!--  **************THIS SECTION IS THE ONLY THING YOU SHOULD NEED TO CHANGE FOR ANT TEST TO WORK ************************** -->
       <mkdir dir="${java.dist}/lib"/>  <!-- ${java.dist} is the base folder where build.xml is -->
       <copy todir="${java.dist}/lib">  <!--  Ant has to copy all necessary files into folder "java" to run itself -->
-          <fileset dir="${java.dist}/lib">   <!-- this is where OUR lib folder is located  -->
+          <fileset dir="lib">   <!-- this is where OUR lib folder is located  -->
               <include name="**"/>
           </fileset>
       </copy>
@@ -137,20 +165,20 @@
        <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
           <manifest>
               <attribute name="Main-Class" value="client.main.Catan"/>
-              <attribute name="Class-Path"
-                  value="lib/gson-2.2.4.jar" />
+              <attribute name="Class-Path" value="lib/gson-2.2.4.jar" />
+              <!--  <attribute name="Class-Path" value="${mf.classpath}" /> -->
           </manifest>
       </jar>
        <jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
           <manifest>
               <attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
-              <attribute name="Class-Path"
-                  value="lib/gson-2.2.4.jar" />
+               <attribute name="Class-Path" value="lib/gson-2.2.4.jar" />
+              <!-- <attribute name="Class-Path" value="${mf.classpath}" />  -->
           </manifest>
       </jar>
   </target>
 
-  <target name="our-client" depends="package" description="compiles, packages, and runs the student client">
+<target name="our-client" depends="package" description="compiles, packages, and runs the student client">
       <java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
           <sysproperty key="com.sun.management.jmxremote" value=""/>
           <assertions>

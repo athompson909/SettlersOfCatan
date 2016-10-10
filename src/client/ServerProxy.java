@@ -4,13 +4,11 @@ import exceptions.ClientException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 /**
  *
@@ -152,7 +150,8 @@ public class ServerProxy implements IServerProxy {
             // to take off the unneeded parts of the header:
             String undecodedLoginCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
             setLoginCookie(undecodedLoginCookie);
-            //setLoginCookie(URLDecoder.decode(undecodedLoginCookie));
+
+            saveUserIDFromLoginCookie();
             isLogin = false;
         }
         if (isRegister) {
@@ -171,6 +170,28 @@ public class ServerProxy implements IServerProxy {
 
         }
     }
+
+    /**
+     * This function is called right when the loginCookie is saved,
+     * so we can save the user's playerID to the ClientUser singleton.
+     *  - Sierra
+     */
+    public void saveUserIDFromLoginCookie(){
+        //GET THEIR ID OUT OF THE COOKIE
+        String rawCookie = getLoginCookie();
+        String decodedCookie = null;
+        try{
+            decodedCookie = URLDecoder.decode(rawCookie, "UTF-8");
+            //I'm putting it in a JSONObject so I can pull stuff out of it easier
+            JSONObject decodedCookieJSON = new JSONObject(decodedCookie);
+            int userID = decodedCookieJSON.getInt("playerID");
+            ClientUser.getInstance().setId(userID);
+        }
+        catch (UnsupportedEncodingException bad){
+            System.out.println(">SERVERPROXY: GETCOOKIES: Could not decode cookie");
+        }
+    }
+
 
     /**
      * sets in game cookies

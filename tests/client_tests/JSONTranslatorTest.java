@@ -1,5 +1,6 @@
 package client_tests;
 
+import client.data.GameInfo;
 import com.google.gson.Gson;
 import junit.framework.TestCase;
 import org.json.JSONArray;
@@ -12,7 +13,6 @@ import shared.definitions.LoggingLevel;
 import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.model.ClientModel;
-import shared.model.GameListItem;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
@@ -1009,11 +1009,11 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMECREATERESPONSE TRANSLATION!");
 
         JSONObject gameCreateResponse = new JSONObject(testGameCreateResponseJSON);
-        GameListItem newGameLI = jsonTranslator.gameCreateResponseFromJSON(gameCreateResponse);
+        GameInfo newGameInfo = jsonTranslator.gameCreateResponseFromJSON(gameCreateResponse);
 
         //asserts
-        assertEquals("yoo", newGameLI.getTitle());
-        assertEquals(3, newGameLI.getGameID());
+        assertEquals("yoo", newGameInfo.getTitle());
+        assertEquals(3, newGameInfo.getId());
     }
 
     //GOOD
@@ -1026,13 +1026,13 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMELISTRESPONSE TRANSLATION!");
 
         JSONArray testGamesListJSONArr = new JSONArray(testGamesListJSON);
-        ArrayList<GameListItem> gLIArrayResult = jsonTranslator.gamesListResponseFromJSON(testGamesListJSONArr);
+        GameInfo[] gLIArrayResult = jsonTranslator.gamesListResponseFromJSON(testGamesListJSONArr);
 
         //asserts
-        assertEquals(gLIArrayResult.size(), 3);
-        assertEquals(4, gLIArrayResult.get(0).getPlayers().size());
-        assertEquals(4, gLIArrayResult.get(1).getPlayers().size());
-        assertEquals(4, gLIArrayResult.get(2).getPlayers().size()); //the 4th one is null
+        assertEquals(gLIArrayResult.length, 3);
+        assertEquals(4, gLIArrayResult[0].getPlayers().size());
+        assertEquals(4, gLIArrayResult[1].getPlayers().size());
+        assertEquals(4, gLIArrayResult[2].getPlayers().size()); //the 4th one is null
     }
     //GOOD
     @Test
@@ -1142,7 +1142,7 @@ public class JSONTranslatorTest extends TestCase {
         String[]  allAIsList = jsonTranslator.listAIResponseFromJSON(jsonExpectedResponse);
 
         //there should really only be one AI available, but we're planning for more
-        assertEquals(3, allAIsList.length);
+        assertEquals(50, allAIsList.length);
         assertEquals(allAIsList[0], "LARGEST_ARMY");
     }
 

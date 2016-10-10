@@ -1,6 +1,7 @@
 package client.login;
 
 import client.ClientFacade;
+import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
@@ -29,6 +30,8 @@ public class LoginController extends Controller implements ILoginController {
 		super(view);
 		
 		this.messageView = messageView;
+
+		System.out.println("LOGINCONTROLLER: constructor called");
 	}
 	
 	public ILoginView getLoginView() {
@@ -65,6 +68,9 @@ public class LoginController extends Controller implements ILoginController {
 	public void start() {
 		
 		getLoginView().showModal();
+
+		//System.out.println("LOGINCONTROLLER: START called");
+
 	}
 
 	@Override
@@ -78,6 +84,10 @@ public class LoginController extends Controller implements ILoginController {
 
 		if(ClientFacade.getInstance().userLogin(loginCommand)) {
 			System.out.println("LOGINCONTROLLER: got success from ClientFacade, finishing login");
+
+			//save the username to ClientUser singleton -> local Player data
+			ClientUser.getInstance().setName(username);
+
 			getLoginView().closeModal();
 			loginAction.execute();  //how do we implement this action from IAction?
 		}
@@ -85,6 +95,7 @@ public class LoginController extends Controller implements ILoginController {
 			// todo: notify user to retry ?
 			System.out.println("LOGINCONTROLLER: got FAIL from ClientFacade");
 
+			//need to reset action somehow, it just stops here
 		}
 	}
 
@@ -123,6 +134,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void update(Observable o, Object arg) {
+
 
 	}
 }

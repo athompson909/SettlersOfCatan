@@ -1,11 +1,11 @@
 package client;
 
+import client.data.GameInfo;
 import exceptions.ClientException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
-import shared.model.GameListItem;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
@@ -160,10 +160,10 @@ public class ClientFacade {
     message.
      * @return List - a list of GameListItems containing information about each game on the Server
      */
-    public List gamesList(){
+    public GameInfo[] gamesList(){
         try {
             JSONArray response = serverProxy.gamesList();
-            List games = jsonTranslator.gamesListResponseFromJSON(response);
+            GameInfo[] games = jsonTranslator.gamesListResponseFromJSON(response);
             return games;
         }catch (ClientException e) {
             e.printStackTrace();
@@ -182,13 +182,13 @@ public class ClientFacade {
     1. The server returns an HTTP 400 error response, and the body contains an error
     message.
      * @param gameCreateCommand - item holding information needed to create a new game
-     * @return GameListItem - an item containing information about the game just created on the server
+     * @return GameInfo - an item containing information about the game just created on the server
      */
-    public GameListItem gameCreate(GameCreateCommand gameCreateCommand){
+    public GameInfo gameCreate(GameCreateCommand gameCreateCommand){
         JSONObject json = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
         try {
             JSONObject response = serverProxy.gameCreate(json);
-            GameListItem game = jsonTranslator.gameCreateResponseFromJSON(response);
+            GameInfo game = jsonTranslator.gameCreateResponseFromJSON(response);
             return game;
         }
         catch (ClientException e) {

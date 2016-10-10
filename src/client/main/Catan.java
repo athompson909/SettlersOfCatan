@@ -99,18 +99,29 @@ public class Catan extends JFrame
 				LoginController loginController = new LoginController(
 																	  loginView,
 																	  loginMessageView);
-				loginController.setLoginAction(new IAction() {
+
+				//THIS IS WHERE LOGIN STOPS AND JOINGAME BEGINS - THIS IS WHERE WE SHOULD INITIALIZE THE GAMELIST IN JOINGAMEVIEW
+                loginController.setLoginAction(new IAction() {
 					@Override
 					public void execute()
 					{
+                        /*
+                            Sierra put the JoinGameView's initialize() here so it would happen only AFTER the user has
+                            logged in, and the ClientUser singleton has saved their name/id as a PlayerInfo object (localPlayer).
+                            This ensures that the JoinGameView's populateGameList functions correctly check whether
+                            the localPlayer is actually added to one of the games or not.
+                            Before, joinView.initialize() was being called BEFORE the user had actually logged in,
+                            so the populateGameList functions were checking for the empty localPlayer info,
+                            and incorrectly returned true (that the localPlayer WAS added to a game, when they really weren't).
+                         */
+                        joinView.initialize();
 						joinController.start();
 					}
 				});
 				loginView.setController(loginController);
 				loginView.setController(loginController);
 
-				//TODO: TAKE THIS COMMENT OUT
-				  loginController.start();
+				loginController.start();
 			}
 		});
 	}

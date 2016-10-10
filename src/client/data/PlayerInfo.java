@@ -16,9 +16,8 @@ import shared.definitions.*;
  */
 public class PlayerInfo
 {
-	
 	private int id;
-	private int playerIndex;
+	private transient int playerIndex;  //I think we set this one arbitrarily based on who joined the game first - it doesn't come back
 	private String name;
 	private CatanColor color;
 	
@@ -29,6 +28,7 @@ public class PlayerInfo
 		setName("");
 		setColor(CatanColor.WHITE);
 	}
+
 	
 	public int getId()
 	{
@@ -91,5 +91,15 @@ public class PlayerInfo
 		
 		return this.id == other.id;
 	}
+
+    @Override
+    public String toString() {
+        return "PlayerInfo{" +
+                "id=" + id +
+                ", pIndex=" + playerIndex +
+                ", name='" + name + '\'' +
+                ", color=" + color +
+                '}';
+    }
 }
 
