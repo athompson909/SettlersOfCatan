@@ -31,6 +31,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void addAI() {
 
 		// TEMPORARY
+
+		//TODO: actually talk to the server to add the player HERE
+		//go check the addAI command, it really does add an AI player to the server
+
 		getView().closeModal();
 	}
 

@@ -149,6 +149,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void startJoinGame(GameInfo game) {
 
+		//add the user to the game they just created using the GameInfo object here
+
+		System.out.println(">JOINGAMECONTROLLER: startJoinGame called, gameInfo= " + game);
+
 		getSelectColorView().showModal();
 	}
 
