@@ -1029,10 +1029,10 @@ public class JSONTranslatorTest extends TestCase {
         GameInfo[] gLIArrayResult = jsonTranslator.gamesListResponseFromJSON(testGamesListJSONArr);
 
         //asserts
-        assertEquals(gLIArrayResult.length, 3);
+        assertEquals(3, gLIArrayResult.length);
         assertEquals(4, gLIArrayResult[0].getPlayers().size());
         assertEquals(4, gLIArrayResult[1].getPlayers().size());
-        assertEquals(4, gLIArrayResult[2].getPlayers().size()); //the 4th one is null
+        assertEquals(3, gLIArrayResult[2].getPlayers().size()); //the 4th one is null
     }
     //GOOD
     @Test

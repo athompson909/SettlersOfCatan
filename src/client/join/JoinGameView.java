@@ -112,7 +112,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
         //CURRENT ISSUES *******************************
         /*
-        When you create a game, it counts the empty players as real players - the null ones shouldn't be counted
+        	after you select a color, needs to let you add multiple computer players until the game is really full.
          */  // - Sierra
         //*******************************
 
