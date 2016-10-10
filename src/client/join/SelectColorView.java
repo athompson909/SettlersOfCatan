@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import client.ClientUser;
 import shared.definitions.*;
 import client.base.*;
 
@@ -174,6 +175,8 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			//TODO: This is where we set the Color field in the ClientUser singleton
+
 			if (e.getSource() == joinButton) {
 				if (selButton != 0) {
 					getController().joinGame(getSelectedColor());
@@ -192,6 +195,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnOrange.setForeground(Color.white);
 				btnOrange.setBackground(Color.LIGHT_GRAY);
 				btnOrange.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(1));
+
 			} else if (e.getSource() == btnRed) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -200,6 +206,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnRed.setForeground(Color.white);
 				btnRed.setBackground(Color.LIGHT_GRAY);
 				btnRed.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(2));
+
 			} else if (e.getSource() == btnYellow) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -208,6 +217,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnYellow.setForeground(Color.white);
 				btnYellow.setBackground(Color.LIGHT_GRAY);
 				btnYellow.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(3));
+
 			} else if (e.getSource() == btnGreen) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -216,6 +228,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnGreen.setForeground(Color.white);
 				btnGreen.setBackground(Color.LIGHT_GRAY);
 				btnGreen.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(4));
+
 			} else if (e.getSource() == btnPurple) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -224,6 +239,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnPurple.setForeground(Color.white);
 				btnPurple.setBackground(Color.LIGHT_GRAY);
 				btnPurple.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(5));
+
 			} else if (e.getSource() == btnBlue) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -232,6 +250,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnBlue.setForeground(Color.white);
 				btnBlue.setBackground(Color.LIGHT_GRAY);
 				btnBlue.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(6));
+
 			} else if (e.getSource() == btnWhite) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -240,6 +261,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnWhite.setForeground(Color.white);
 				btnWhite.setBackground(Color.LIGHT_GRAY);
 				btnWhite.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(7));
+
 			} else if (e.getSource() == btnBrown) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -248,6 +272,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnBrown.setForeground(Color.white);
 				btnBrown.setBackground(Color.LIGHT_GRAY);
 				btnBrown.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(8));
+
 			} else if (e.getSource() == btnPuce) {
 				if (selButton != 0) {
 					resetButton(selButton);
@@ -256,6 +283,8 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 				btnPuce.setForeground(Color.white);
 				btnPuce.setBackground(Color.LIGHT_GRAY);
 				btnPuce.setEnabled(false);
+
+				ClientUser.getInstance().setColor(getColorByNumber(9));
 			}
 		}
 	};
