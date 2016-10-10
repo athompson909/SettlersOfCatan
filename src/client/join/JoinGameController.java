@@ -1,9 +1,13 @@
 package client.join;
 
+import client.ClientFacade;
+import client.ClientUser;
 import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
+import shared.model.ClientUpdateManager;
+import shared.model.commandmanager.game.GameCreateCommand;
 
 import java.util.Observable;
 
@@ -109,8 +113,36 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void createNewGame() {
-		
+
+		System.out.println(">>JOINGAMECONTROLLER: createNewGame() called");
+
+		//I think this is where we need to put the functionality for getting the text fields/bools off the View
+		// and sending the info to the server to actually create the new game
+
+
+		//pull game title, bools off of the view
+		//build GameCreateCommand object, send it to ClientFacade
+		//server/clientFacade will return a GameInfo object
+		// we need to give that GameInfo object to the JoinGameView's GameInfo[] field
+		//either that or just reinitialize the JoinGameView? try both
+		String newGameTitle = getNewGameView().getTitle();
+		boolean newGameRandHexes = getNewGameView().getRandomlyPlaceHexes();
+		boolean newGameRandNums = getNewGameView().getRandomlyPlaceNumbers();
+		boolean newGameRandPorts = getNewGameView().getUseRandomPorts();
+
+		GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
+		GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
+
+
 		getNewGameView().closeModal();
+
+		//Refresh the list of games in the JoinGameView to include this new game
+		//I would just tell JoinGameView to do fetchListOfGamesFromServer() and then setGames(), but
+		//JoinGameController only has access to the functions that are in JoinGameView's interface class,
+		// and fetchList...() is not in that interface. :(
+		GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+		PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
+		this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
 	}
 
 	@Override

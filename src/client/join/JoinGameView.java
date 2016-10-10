@@ -110,8 +110,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
         //CURRENT ISSUES *******************************
         /*
-         the JoinGameView doesn't correctly say whether you are in a game or not - it thinks you are in multiple games
-         where you're definitely not joined
         When you create a game, it counts the empty players as real players - the null ones shouldn't be counted
          */  // - Sierra
         //*******************************
@@ -209,8 +207,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
 		localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
 
-		//let the view populate with that data:
-		//setGames(allGames, localPlayerInfoSoFar);
 	}
 
 
@@ -221,7 +217,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		this.localPlayer = localPlayer;
 		this.removeAll();
 	//	this.initialize();
+        //TESTING
+        this.initializeView();
 	}
+
 	
 	private ActionListener actionListener = new ActionListener()
 	{

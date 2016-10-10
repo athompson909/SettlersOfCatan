@@ -69,7 +69,7 @@ public class LoginController extends Controller implements ILoginController {
 		
 		getLoginView().showModal();
 
-		System.out.println("LOGINCONTROLLER: START called");
+		//System.out.println("LOGINCONTROLLER: START called");
 
 	}
 

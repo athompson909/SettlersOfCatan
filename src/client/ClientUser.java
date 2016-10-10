@@ -86,7 +86,14 @@ public class ClientUser {
     }
 
     public PlayerInfo getLocalPlayerInfo() {
-        return localPlayerInfo;
+
+        PlayerInfo localPlayerInfoSoFar = new PlayerInfo();
+        localPlayerInfoSoFar.setName(this.name);
+        localPlayerInfoSoFar.setId(this.id);
+        localPlayerInfoSoFar.setColor(this.color);
+        localPlayerInfoSoFar.setPlayerIndex(this.index);
+
+        return localPlayerInfoSoFar;
     }
 
     public void setLocalPlayerInfo(PlayerInfo localPlayerInfo) {
