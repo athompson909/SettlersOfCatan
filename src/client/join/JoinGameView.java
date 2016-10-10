@@ -45,16 +45,24 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 	public JoinGameView()
 	{
-		//trying here
-		//Go get list of games from the server, populate games[]:
-		fetchListOfGamesFromServer();
-		setGames(gameInfoFromServer, localPlayerInfoSoFar);
+        //TESTING
+            //trying here
+            //Go get list of games from the server, populate games[]:
+            //fetchListOfGamesFromServer();
+            //setGames(gameInfoFromServer, localPlayerInfoSoFar);
 
-		this.initialize();
+        //this.initialize();
 	}
 
-	private void initialize()
+	//I JUST CHANGED THIS TO PUBLIC
+	public void initialize()
 	{
+        //TESTING
+        //trying here
+        //Go get list of games from the server, populate games[]:
+        fetchListOfGamesFromServer();
+        setGames(gameInfoFromServer, localPlayerInfoSoFar);
+
 		this.initializeView();
 	}
 
@@ -85,6 +93,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.setLayout(new GridLayout(0, 4));
 		hash = new JLabel("#");
 		labelFont = new Font(labelFont.getFontName(), Font.BOLD, PANEL_TEXT_SIZE);
+
 		hash.setFont(labelFont);
 		name = new JLabel("Name");
 		name.setFont(labelFont);
@@ -133,9 +142,16 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				gamePanel.add(tmp3);
 				JButton joinButton;
 
-				// ***************************************************localPlayer used here
+                //Testing why it incorrectly thinks you're in lots of games
+                System.out.println("JOINGAMEVIEW:");
+                System.out.println("\t>>CurrentGame= " + game.getTitle() + ", players= " + game.getPlayers());
+                System.out.println("\t>>localPlayer= " + localPlayer);
+
+                // ***************************************************localPlayer used here
 				if (game.getPlayers().contains(localPlayer))
 				{
+                    System.out.println("\t>Game " + game.getTitle() + " contains LocalPlayer");
+
 					joinButton = new JButton("Re-Join");
 				}
 				else if (game.getPlayers().size() >= 4)
@@ -204,7 +220,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		this.games = games;
 		this.localPlayer = localPlayer;
 		this.removeAll();
-		this.initialize();
+	//	this.initialize();
 	}
 	
 	private ActionListener actionListener = new ActionListener()

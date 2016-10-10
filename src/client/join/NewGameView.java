@@ -31,6 +31,7 @@ public class NewGameView extends OverlayView implements INewGameView
 
     public NewGameView()
     {
+        System.out.println("NEWGAMEVIEW: constructor called");
 
         this.setOpaque(true);
         this.setLayout(new BorderLayout());

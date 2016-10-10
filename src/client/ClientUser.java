@@ -24,7 +24,7 @@ public class ClientUser {
     private String name = "";
 
     //Their ID is given back by the server in a cookie format
-    private int id = 0;
+    private int id = -1;
 
     //We can get this when they pick a color upon joining a game
     private CatanColor color = null;
@@ -49,9 +49,12 @@ public class ClientUser {
 
     public void setName(String username){
         name = username;
+        System.out.println(">CLIENTUSER: setName to " + username);
     }
     public void setIndex(int playerIndex){
         index = playerIndex;
+        System.out.println(">CLIENTUSER: setIndex to " + playerIndex);
+
     }
 
     public int getIndex() {
@@ -68,6 +71,8 @@ public class ClientUser {
 
     public void setId(int id) {
         this.id = id;
+        System.out.println(">CLIENTUSER: setID to " + id);
+
     }
 
     public CatanColor getColor() {
@@ -76,6 +81,8 @@ public class ClientUser {
 
     public void setColor(CatanColor color) {
         this.color = color;
+        System.out.println(">CLIENTUSER: setColor to " + color);
+
     }
 
     public PlayerInfo getLocalPlayerInfo() {

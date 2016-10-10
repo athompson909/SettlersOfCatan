@@ -96,7 +96,6 @@ public class LoginController extends Controller implements ILoginController {
 			System.out.println("LOGINCONTROLLER: got FAIL from ClientFacade");
 
 			//need to reset action somehow, it just stops here
-
 		}
 	}
 
