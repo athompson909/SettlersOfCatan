@@ -487,9 +487,12 @@ public class Map {
     public void updateMap(Map newMap) {
         //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
 
+        this.edgeValues = newMap.edgeValues; //Updates Roads
+
+
         this.robber = newMap.robber; //Updates Robber
         this.vertexObjects = newMap.vertexObjects; //Updates Settlements and Cities
-        this.edgeValues = newMap.edgeValues; //Updates Roads
+
         //edgeValues
         //vertexObjects
     }
