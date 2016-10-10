@@ -106,6 +106,30 @@ public class Map {
     }
 
     /**
+     * Updates all map data members to match the newly updated model
+     * <p>
+     * Updates robber to new position
+     * Updates list of EdgeValues where roads are stored
+     * Updates list of VertexObjects where settlements are built
+     * Updates list of VertexObjects where cities are built
+     * <p>
+     * Nothing else about the map changes during the game, so keep everything else the same!
+     *
+     * @param newMap updated map received from the updated clientModel
+     */
+    public void updateMap(Map newMap) {
+        //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
+
+        this.edgeValues = newMap.edgeValues; //Updates Roads
+        this.robber = newMap.robber; //Updates Robber
+        this.vertexObjects = newMap.vertexObjects; //Updates Settlements and Cities
+        this.hexes = newMap.hexes;
+        this.ports = newMap.ports;
+        //edgeValues
+        //vertexObjects
+    }
+
+    /**
      * Creates 18 Water hexes at these specified locations starting with north-west corner going counterclockwise
      */
     private void createAllWaterHexes() {
@@ -472,30 +496,7 @@ public class Map {
         return ports;
     }
 
-    /**
-     * Updates all map data members to match the newly updated model
-     * <p>
-     * Updates robber to new position
-     * Updates list of EdgeValues where roads are stored
-     * Updates list of VertexObjects where settlements are built
-     * Updates list of VertexObjects where cities are built
-     * <p>
-     * Nothing else about the map changes during the game, so keep everything else the same!
-     *
-     * @param newMap updated map received from the updated clientModel
-     */
-    public void updateMap(Map newMap) {
-        //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
 
-        this.edgeValues = newMap.edgeValues; //Updates Roads
-
-
-        this.robber = newMap.robber; //Updates Robber
-        this.vertexObjects = newMap.vertexObjects; //Updates Settlements and Cities
-
-        //edgeValues
-        //vertexObjects
-    }
 
 
     //TODO: THIS IS NOT COMPLETE YET
