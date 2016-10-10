@@ -47,7 +47,7 @@ public class ClientModel extends Observable {
      */
     public int winner = -1;
     public boolean changed = false;
-    public ResourceBank resourceBank;
+    public ResourceBank resourceBank = new ResourceBank();
     public MessageManager messageManager;
     public TurnTracker turnTracker;
     /**
@@ -75,6 +75,7 @@ public class ClientModel extends Observable {
      */
     public TradeOffer tradeOffer;
 
+
     /**
      * The ClientModel's ClientUpdateManager, which will take the update objects coming from the JSON translator
      * after the server has sent a newly updated model, and appropriately distribute the
@@ -85,6 +86,7 @@ public class ClientModel extends Observable {
     //Constructor
     public ClientModel (int gameNumber){
         this.gameNumber = gameNumber;
+        map = new Map(false, false, false);
         //this.addObserver(Controller); //How do we get a reference to the controller?
     }
 
