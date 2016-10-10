@@ -77,10 +77,6 @@ public class MapController extends Controller implements IMapController {
             getView().addPort(new EdgeLocation(currentPort.getLocation(), currentPort.getEdgeDirection()), currentPort.getResource());
         }
 
-        EdgeLocation edgeLoc = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North);
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
-        ClientFacade.getInstance().buildRoad(buildRoadCommand);
-
         //Place the Roads
         for (EdgeLocation edgeLocation : updatedMap.getEdgeObjects().keySet()) {
             if (updatedMap.getEdgeObjects().get(edgeLocation).getOwner() != -1) {
@@ -88,6 +84,11 @@ public class MapController extends Controller implements IMapController {
             }
         }
 
+/*
+        EdgeLocation edgeLoc = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North);
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
+        ClientFacade.getInstance().buildRoad(buildRoadCommand);
+*/
 /*
         //TEMPORARY: Start out with a road
         VertexLocation verLoc = new VertexLocation(new HexLocation(1, 1), VertexDirection.NorthEast);
@@ -179,6 +180,7 @@ public class MapController extends Controller implements IMapController {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.print("Map Controller: Update");
         ClientModel clientModel = (ClientModel) o;
         Map map = clientModel.getMap();
         initFromModel(map);

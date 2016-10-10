@@ -94,6 +94,7 @@ public class Map {
         createAllVertexObjects();
         populatePortVertexLocations();
         createAllEdgeValues();
+
     }
 
     //this constructor is for when the new model comes back and we need to make a new Map object

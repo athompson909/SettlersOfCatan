@@ -189,6 +189,9 @@ public class ClientFacade {
         try {
             JSONObject response = serverProxy.gameCreate(json);
             GameInfo game = jsonTranslator.gameCreateResponseFromJSON(response);
+            //TODO
+            //ClientModel clientModel = jsonTranslator.modelFromJSON(response);
+            //sendUpdatedModel(clientModel);
             return game;
         }
         catch (ClientException e) {
