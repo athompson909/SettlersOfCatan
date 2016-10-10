@@ -68,6 +68,8 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 	private void initializeView()
 	{
+		System.out.println("===JOINGAMEVIEW - INITIALIZEVIEW() called");
+
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
@@ -140,10 +142,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				gamePanel.add(tmp3);
 				JButton joinButton;
 
-                //Testing why it incorrectly thinks you're in lots of games
-                System.out.println("JOINGAMEVIEW:");
-                System.out.println("\t>>CurrentGame= " + game.getTitle() + ", players= " + game.getPlayers());
-                System.out.println("\t>>localPlayer= " + localPlayer);
+                //TESTING
+                System.out.println("\tJOINGAMEVIEW:");
+                System.out.println("\t\t>>CurrentGame= " + game.getTitle() + ", players= " + game.getPlayers());
+                System.out.println("\t\t>>localPlayer= " + localPlayer);
 
                 // ***************************************************localPlayer used here
 				if (game.getPlayers().contains(localPlayer))
@@ -206,18 +208,18 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		localPlayerInfoSoFar = new PlayerInfo();
 		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
 		localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
-
 	}
 
 
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
+		System.out.println(">JOINGAMEVIEW: setGames called");
 		this.games = games;
 		this.localPlayer = localPlayer;
 		this.removeAll();
-	//	this.initialize();
-        //TESTING
+		//TESTING
+		//	this.initialize();
         this.initializeView();
 	}
 
@@ -239,6 +241,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 			{
 				try
 				{
+					//if they pushed JOIN on an existing game
 					//System.out.println(e.getActionCommand());
 					int gameId = Integer.parseInt(e.getActionCommand());
 					GameInfo game = null;
