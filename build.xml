@@ -151,7 +151,7 @@
 		<!--  **************THIS SECTION IS THE ONLY THING YOU SHOULD NEED TO CHANGE FOR ANT TEST TO WORK ************************** -->
       <mkdir dir="${java.dist}/lib"/>  <!-- ${java.dist} is the base folder where build.xml is -->
       <copy todir="${java.dist}/lib">  <!--  Ant has to copy all necessary files into folder "java" to run itself -->
-          <fileset dir="lib">   <!-- this is where OUR lib folder is located  -->
+          <fileset dir="lib">   <!-- this is where OUR lib folder is located "lib" -->
               <include name="**"/>
           </fileset>
       </copy>
