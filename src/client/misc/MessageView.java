@@ -1,11 +1,11 @@
 package client.misc;
 
-import java.awt.*;
-import java.awt.event.*;
+import client.base.OverlayView;
 
 import javax.swing.*;
-
-import client.base.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -73,7 +73,28 @@ public class MessageView extends OverlayView implements IMessageView {
 	public void setMessage(String message) {
 		this.message.setText(String.format("<html><div style=\"width:%dpx;\">%s</div><html>", 500, message));
 	}
-	
+
+	/**
+	 * allows the user to add a custom width and adds some padding
+	 * @param title
+	 * @param width
+	 */
+	public void setTitle(String title, int width) {
+		label.setText(String.format("<html><div style=\"width:%dpx; padding-top: 4px; padding-left:8px;\">%s</div><html>", width, title));
+	}
+
+	/**
+	 * allows the user to add a custom width and adds some padding
+	 * @param message
+	 * @param width
+	 */
+	public void setMessage(String message, int width) {
+		this.message.setText(String.format("<html><div style=\"width:%dpx; padding-left:8px;\">%s</div><html>", width, message));
+	}
+
+	public void setCloseButton(String text) {
+		closeButton.setText(text);
+	}
 }
 
 

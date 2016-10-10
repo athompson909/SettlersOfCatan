@@ -1,14 +1,15 @@
 package client.login;
 
 import client.ClientFacade;
-import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
+import client.misc.MessageView;
 import shared.model.commandmanager.game.LoginCommand;
 import shared.model.commandmanager.game.RegisterCommand;
 
 import java.util.Observable;
+import java.util.regex.Pattern;
 
 
 /**
@@ -18,7 +19,13 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
-	
+
+	private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){1,24}");
+
+	public Pattern getDelimiter() {
+		return delimiter;
+	}
+
 	/**
 	 * LoginController constructor
 	 * 
@@ -30,8 +37,6 @@ public class LoginController extends Controller implements ILoginController {
 		super(view);
 		
 		this.messageView = messageView;
-
-		System.out.println("LOGINCONTROLLER: constructor called");
 	}
 	
 	public ILoginView getLoginView() {
@@ -68,73 +73,77 @@ public class LoginController extends Controller implements ILoginController {
 	public void start() {
 		
 		getLoginView().showModal();
-
-		//System.out.println("LOGINCONTROLLER: START called");
-
 	}
 
+	/**
+	 * reject blank strings or strings longer than 24 characters
+	 */
 	@Override
 	public void signIn() {
 
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
+		if (!delimiter.matcher(username).matches() ||
+				!delimiter.matcher(password).matches()) {
+			showRejectMessage("Error", "username and password must be between 1 and 24 alphanumeric characters");
+			return;
+		}
+
+
 		LoginCommand loginCommand = new LoginCommand(username, password);
 
-		System.out.println("LOGINCONTROLLER: SIGNIN called: un= " + username + ", pw= " + password);
-
 		if(ClientFacade.getInstance().userLogin(loginCommand)) {
-			System.out.println("LOGINCONTROLLER: got success from ClientFacade, finishing login");
-
-			//save the username to ClientUser singleton -> local Player data
-			ClientUser.getInstance().setName(username);
-
 			getLoginView().closeModal();
-			loginAction.execute();  //how do we implement this action from IAction?
+			loginAction.execute();
 		}
-		else {
-			// todo: notify user to retry ?
-			System.out.println("LOGINCONTROLLER: got FAIL from ClientFacade");
-
-			//need to reset action somehow, it just stops here
-		}
+		else showRejectMessage("Error", "invalid username or password");
 	}
 
 	@Override
 	public void register() {
-		
-		// TODO: register new user (which, if successful, also logs them in)
+
 		String registerUsername = getLoginView().getRegisterUsername();
 		String registerPassword = getLoginView().getRegisterPassword();
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
+		if(!delimiter.matcher(registerUsername).matches() ||
+				!delimiter.matcher(registerPassword).matches()) {
+			showRejectMessage("Error", "username must be between 1 and 24 alphanumeric characters");
+			return;
+		}
 
-		System.out.println("LOGINCONTROLLER: REG: run= " + registerUsername + ", rpw= " + registerPassword);
-
-		//This originally (?) had a !equals, which didn't make sense to me, so I took it out - Sierra
 		if(registerPassword.equals(registerPasswordRepeat)) {
 			RegisterCommand registerCommand = new RegisterCommand(registerUsername, registerPassword);
 
 			if(ClientFacade.getInstance().userRegister(registerCommand)) {
-				System.out.println("LOGINCONTROLLER: REG: got success from ClientFacade, finishing reg");
 				// If register succeeded
 				getLoginView().closeModal();
 				loginAction.execute();
 			}
-			else {
-				System.out.println("LOGINCONTROLLER: REG: got FAIL from ClientFacade");
-
-				// the server rejected the input
-			}
+			else showRejectMessage("Server Error", "invalid registration");
 		}
-		else {
-			System.out.println("LOGINCONTROLLER: REG: passwords don't match");
+		else showRejectMessage("Error", "the values in the two password fields don't match");
+	}
 
-			// the password and password repeat don't match
-		}
+	/**
+	 * after bad input is rejected a customizable message is displayed
+	 * @param title message title
+	 * @param message message content
+	 */
+	private void showRejectMessage(String title, String message) {
+		MessageView loginFailedView = (MessageView) messageView;
+
+		loginFailedView.setTitle(title, 220);
+		loginFailedView.setMessage(message, 220);
+		loginFailedView.setCloseButton("Retry");
+		loginFailedView.showModal();
+
+		// clear both panels
+		((LoginView) getLoginView()).clearLoginPanel();
+		((LoginView) getLoginView()).clearRegisterPanel();
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-
 
 	}
 }
