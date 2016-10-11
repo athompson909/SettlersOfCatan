@@ -814,12 +814,12 @@ public class JSONTranslator {
             //this should ensure that each GameInfo object's list of playerInfos only contains real players and not the default null PIs.
             JSONArray currGamePlayerInfosJSONArr = currGameListItem.getJSONArray("players");
 
-            System.out.println("\t ******* picking out real playerInfos:");
+           // System.out.println("\t ******* picking out real playerInfos:");
             //go through array result from JSON, and add each REAL player to the ArrayList
             for (int p = 0; p < currGamePlayerInfosJSONArr.length(); p++) {
                 JSONObject currPlayerInfoJSON = currGamePlayerInfosJSONArr.getJSONObject(p);
                 String currPlayerInfoStr = currPlayerInfoJSON.toString();
-                System.out.println("\t\tCurrPlayerInfo= " + currPlayerInfoStr);
+             //   System.out.println("\t\tCurrPlayerInfo= " + currPlayerInfoStr);
 
                 //check if it's a real player or just blank
                 if(!currPlayerInfoStr.equals("{}")){
@@ -827,17 +827,17 @@ public class JSONTranslator {
                     PlayerInfo newPlayerInfo = gsonConverter.fromJson(currPlayerInfoStr, PlayerInfo.class);
                     tempPIArrayList.add(newPlayerInfo);
 
-                    System.out.println("\t Player was good, added player: " + newPlayerInfo);
+               //     System.out.println("\t Player was good, added player: " + newPlayerInfo);
                 }
                 else{
                     //it was blank, so don't add it to the arraylist
-                    System.out.println("\t Player was null, skipping add");
+               //     System.out.println("\t Player was null, skipping add");
                 }
             }
 
             newGameInfo.setPlayers(tempPIArrayList);
 
-            System.out.println("\t *******>FINAL GAMEINFO: " + newGameInfo + ", playersArr size= " + newGameInfo.getPlayers().size());
+          //  System.out.println("\t *******>FINAL GAMEINFO: " + newGameInfo + ", playersArr size= " + newGameInfo.getPlayers().size());
 
 
 

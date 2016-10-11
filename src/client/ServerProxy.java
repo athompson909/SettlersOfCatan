@@ -76,6 +76,8 @@ public class ServerProxy implements IServerProxy {
     }
 
     public void setJoinCookie(String joinCookie) {
+
+    System.out.println(">SERVERPROXY: just set joinCookie: " + joinCookie);
         this.joinCookie = joinCookie;
     }
 

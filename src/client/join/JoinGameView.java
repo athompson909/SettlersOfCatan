@@ -113,8 +113,11 @@ public class JoinGameView extends OverlayView implements IJoinGameView
         //CURRENT ISSUES *******************************
         /*
         	after you select a color, needs to let you add multiple computer players until the game is really full.
+        	needs to add you to the game you just created
          */  // - Sierra
         //*******************************
+
+		System.out.println("\tJOINGAMEVIEW: setting games/players list");
 
 
 		// This is the looped layout
@@ -143,9 +146,9 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				JButton joinButton;
 
                 //TESTING
-                System.out.println("\tJOINGAMEVIEW:");
-                System.out.println("\t\t>>CurrentGame= " + game.getTitle() + ", players= " + game.getPlayers());
-                System.out.println("\t\t>>localPlayer= " + localPlayer);
+             //   System.out.println("\tJOINGAMEVIEW: setting games/players list");
+             //   System.out.println("\t\t>>CurrentGame= " + game.getTitle() + ", players= " + game.getPlayers());
+             //   System.out.println("\t\t>>localPlayer= " + localPlayer);
 
                 // ***************************************************localPlayer used here
 				if (game.getPlayers().contains(localPlayer))
@@ -203,7 +206,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 		//Get/build localPlayer from ClientUser singleton data:
 		//at this point, we don't have the ClientUser's color or index, since those are assigned when they pick a color
-		// and when they actually join a game, respectively. So we'll just use a partial PlayerInfo object here
+		// and when they actually join a game, respectively. So we'll just use a "partial" PlayerInfo object here
 
 		localPlayerInfoSoFar = new PlayerInfo();
 		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
@@ -242,7 +245,8 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				try
 				{
 					//if they pushed JOIN on an existing game
-					//System.out.println(e.getActionCommand());
+					System.out.println("They pushed " + e.getActionCommand());
+
 					int gameId = Integer.parseInt(e.getActionCommand());
 					GameInfo game = null;
 					for (GameInfo g : games)
@@ -253,6 +257,9 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 							break;
 						}
 					}
+
+					//"game" is the game they just clicked to join - should have all the info we need to join it
+
 					getController().startJoinGame(game);
 				}
 				catch (NumberFormatException ex)
