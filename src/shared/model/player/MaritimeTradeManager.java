@@ -1,5 +1,12 @@
 package shared.model.player;
 
+import shared.definitions.PortType;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static shared.definitions.PortType.*;
+
 /**
  * MaritimeTradeManager facilitates trade using ports that the player owns instead of other players.
  * It checks whether the player has the ports available to trade with, whether they have the resources
@@ -39,8 +46,21 @@ public class MaritimeTradeManager {
      */
     public boolean hasThreePort = false;
 
-    public void update() {
-
+    public void setPorts(Set ports) {
+        for(Object portType : ports) {
+            if(portType == WOOD)
+                {hasWoodPort = true;}
+            if(portType == WHEAT)
+                {hasWheatPort = true;}
+            if(portType == BRICK)
+                {hasBrickPort = true;}
+            if(portType == ORE)
+                {hasOrePort = true;}
+            if(portType == SHEEP)
+                {hasSheepPort = true;}
+            if(portType == THREE)
+                {hasThreePort = true;}
+        }
     }
 
     public MaritimeTradeManager(){
@@ -66,6 +86,12 @@ public class MaritimeTradeManager {
 
     }
 
-
+    //GETTERS
+    public boolean getHasWoodPort() {return hasWoodPort;}
+    public boolean getHasWheatPort() {return hasWheatPort;}
+    public boolean getHasBrickPort() {return hasBrickPort;}
+    public boolean getHasOrePort() {return hasOrePort;}
+    public boolean getHasSheepPort() {return hasSheepPort;}
+    public boolean getHasThreePort() {return hasThreePort;}
 
 }

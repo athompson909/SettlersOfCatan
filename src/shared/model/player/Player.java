@@ -10,6 +10,7 @@ import shared.model.resourcebank.ResourceList;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
 
 import static shared.definitions.PortType.*;
 
@@ -378,24 +379,45 @@ public class Player { //
     }
 
     //This could return the actual trades player can do...just by returning the Set enoughCards
-    public boolean canMaritimeTrade(Set ports) {
-        Set<PortType> enoughCards = new HashSet<>();
-        for(Object portType : ports) {
-           if(portType == WOOD)
-               if(playerResourceList.getWoodCardCount() >= 2) {enoughCards.add(WOOD);}
-            if(portType == WHEAT)
-                if(playerResourceList.getWheatCardCount() >= 2) {enoughCards.add(WHEAT);}
-            if(portType == BRICK)
-                if(playerResourceList.getBrickCardCount() >= 2) {enoughCards.add(BRICK);}
-            if(portType == ORE)
-                if(playerResourceList.getOreCardCount() >= 2) {enoughCards.add(ORE);}
-            if(portType == SHEEP)
-                if(playerResourceList.getSheepCardCount() >= 2) {enoughCards.add(SHEEP);}
-            if(portType == THREE){} //NOT sure if anything needs to happen here
+    public Set<PortType> canMaritimeTrade(Set ports) {
+        maritimeTradeManager.setPorts(ports);
+        Map<PortType, boolean[]> enoughCards;
+        //enoughCards<WOOD> -> CanTradeWood [2:1, 3:1, 4:1]
+        //enoughCards<WHEAT> -> CanTradeWheat [2:1, 3:1, 4:1]
+        //enoughCards<BRICK> -> CanTradeBrick [2:1, 3:1, 4:1]
+        //enoughCards<ORE> -> CanTradeOre [2:1, 3:1, 4:1]
+        //enoughCards<SHEEP> -> CanTradeSheep [2:1, 3:1, 4:1]
+
+
+        boolean threePort = false;
+        if(maritimeTradeManager.getHasThreePort()) {threePort = true;}
+        if(maritimeTradeManager.getHasWoodPort()) {
+            boolean[] arr = new boolean[3];
+            int wood = playerResourceList.getWoodCardCount();
+            if(wood >= 2) {arr[0] = true;}
+//3 and 4 need to be checked outside of the 2:! port list. errg
         }
-        //return enoughCards;
-        if(!enoughCards.isEmpty()) {return true;}
-        else {return false;}
+        if(maritimeTradeManager.getHasWheatPort()) {
+            boolean[] arr = new boolean[3];
+            int wheat = playerResourceList.getWheatCardCount();
+            if(wheat >= 2) {arr[0] = true;}
+
+        }
+        if(maritimeTradeManager.getHasBrickPort()) {
+            if(playerResourceList.getBrickCardCount() >= 2) {enoughCards.add(BRICK);}
+        }
+        if(maritimeTradeManager.getHasOrePort()) {
+            if(playerResourceList.getOreCardCount() >= 2) {enoughCards.add(ORE);}
+        }
+        if(maritimeTradeManager.getHasSheepPort()) {
+            if(playerResourceList.getSheepCardCount() >= 2) {enoughCards.add(SHEEP);}
+        }
+        if(maritimeTradeManager.getHasThreePort()) {
+
+        }
+        return enoughCards;
+      /*  if(!enoughCards.isEmpty()) {return true;}
+        else {return false;}*/
     }
 
     public boolean canDomesticTrade() {

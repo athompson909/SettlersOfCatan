@@ -192,9 +192,11 @@ public class ClientModel extends Observable {
      * @return true if player owns ports to trade from and enough cards to trade
      * IN THE FUTURE: This should return a set of PortTypes that player is able to trade
      */
-    public boolean canMaritimeTrade(int playerIndex) {
+    public Set<PortType> canMaritimeTrade(int playerIndex) {
         Set<PortType> ports = map.getPlayersPorts(playerIndex);
-        return players[playerIndex].canMaritimeTrade(ports);
+        players[playerIndex].getMaritimeTradeManager().setPorts(ports);
+        Set<PortType> enoughCards = players[playerIndex].canMaritimeTrade(ports);
+        return enoughCards;
     }
 
     //Map can Methods
