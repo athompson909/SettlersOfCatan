@@ -8,6 +8,7 @@ import shared.definitions.ResourceType;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Map;
@@ -378,46 +379,59 @@ public class Player { //
         playedDevCard = true;
     }
 
-    //This could return the actual trades player can do...just by returning the Set enoughCards
-    public Set<PortType> canMaritimeTrade(Set ports) {
+    public Map<PortType, boolean[]> canMaritimeTrade(Set ports) {
         maritimeTradeManager.setPorts(ports);
-        Map<PortType, boolean[]> enoughCards;
+        Map<PortType, boolean[]> enoughCards = new HashMap<>();
+
         //enoughCards<WOOD> -> CanTradeWood [2:1, 3:1, 4:1]
         //enoughCards<WHEAT> -> CanTradeWheat [2:1, 3:1, 4:1]
         //enoughCards<BRICK> -> CanTradeBrick [2:1, 3:1, 4:1]
         //enoughCards<ORE> -> CanTradeOre [2:1, 3:1, 4:1]
         //enoughCards<SHEEP> -> CanTradeSheep [2:1, 3:1, 4:1]
 
+        boolean threePort = maritimeTradeManager.getHasThreePort();
+        boolean woodPort = maritimeTradeManager.getHasWoodPort();
+        boolean wheatPort = maritimeTradeManager.getHasWheatPort();
+        boolean brickPort = maritimeTradeManager.getHasBrickPort();
+        boolean orePort = maritimeTradeManager.getHasOrePort();
+        boolean sheepPort = maritimeTradeManager.getHasSheepPort();
 
-        boolean threePort = false;
-        if(maritimeTradeManager.getHasThreePort()) {threePort = true;}
-        if(maritimeTradeManager.getHasWoodPort()) {
-            boolean[] arr = new boolean[3];
-            int wood = playerResourceList.getWoodCardCount();
-            if(wood >= 2) {arr[0] = true;}
-//3 and 4 need to be checked outside of the 2:! port list. errg
-        }
-        if(maritimeTradeManager.getHasWheatPort()) {
-            boolean[] arr = new boolean[3];
-            int wheat = playerResourceList.getWheatCardCount();
-            if(wheat >= 2) {arr[0] = true;}
+        boolean[] woodCards = new boolean[3];
+        int woodCount = playerResourceList.getWoodCardCount();
+        if(woodPort && (woodCount >= 2)) {woodCards[0] = true;}
+        if(threePort && (woodCount >= 3)) {woodCards[1] = true;}
+        if(woodCount >= 4) {woodCards[2] = true;}
+        enoughCards.put(WOOD, woodCards);
 
-        }
-        if(maritimeTradeManager.getHasBrickPort()) {
-            if(playerResourceList.getBrickCardCount() >= 2) {enoughCards.add(BRICK);}
-        }
-        if(maritimeTradeManager.getHasOrePort()) {
-            if(playerResourceList.getOreCardCount() >= 2) {enoughCards.add(ORE);}
-        }
-        if(maritimeTradeManager.getHasSheepPort()) {
-            if(playerResourceList.getSheepCardCount() >= 2) {enoughCards.add(SHEEP);}
-        }
-        if(maritimeTradeManager.getHasThreePort()) {
+        boolean[] wheatCards = new boolean[3];
+        int wheatCount = playerResourceList.getWheatCardCount();
+        if(wheatPort && (wheatCount >= 2)) {wheatCards[0] = true;}
+        if(threePort && (wheatCount >= 3)) {wheatCards[1] = true;}
+        if(wheatCount >= 4) {wheatCards[2] = true;}
+        enoughCards.put(WHEAT, wheatCards);
 
-        }
+        boolean[] brickCards = new boolean[3];
+        int brickCount = playerResourceList.getBrickCardCount();
+        if(brickPort && (brickCount >= 2)) {brickCards[0] = true;}
+        if(threePort && (brickCount >= 3)) {brickCards[1] = true;}
+        if(brickCount >= 4) {brickCards[2] = true;}
+        enoughCards.put(BRICK, brickCards);
+
+        boolean[] oreCards = new boolean[3];
+        int oreCount = playerResourceList.getOreCardCount();
+        if(orePort && (oreCount >= 2)) {oreCards[0] = true;}
+        if(threePort && (oreCount >= 3)) {oreCards[1] = true;}
+        if(oreCount >= 4) {oreCards[2] = true;}
+        enoughCards.put(ORE, oreCards);
+        
+        boolean[] sheepCards = new boolean[3];
+        int sheepCount = playerResourceList.getSheepCardCount();
+        if(sheepPort && (sheepCount >= 2)) {sheepCards[0] = true;}
+        if(threePort && (sheepCount >= 3)) {sheepCards[1] = true;}
+        if(sheepCount >= 4) {sheepCards[2] = true;}
+        enoughCards.put(SHEEP, sheepCards);
+
         return enoughCards;
-      /*  if(!enoughCards.isEmpty()) {return true;}
-        else {return false;}*/
     }
 
     public boolean canDomesticTrade() {
