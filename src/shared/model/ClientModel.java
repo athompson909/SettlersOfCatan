@@ -17,6 +17,7 @@ import shared.model.turntracker.TurnTracker;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.HashMap;
 
 
 /**
@@ -192,10 +193,10 @@ public class ClientModel extends Observable {
      * @return true if player owns ports to trade from and enough cards to trade
      * IN THE FUTURE: This should return a set of PortTypes that player is able to trade
      */
-    public Set<PortType> canMaritimeTrade(int playerIndex) {
+    public HashMap<PortType, boolean[]> canMaritimeTrade(int playerIndex) {
         Set<PortType> ports = map.getPlayersPorts(playerIndex);
         players[playerIndex].getMaritimeTradeManager().setPorts(ports);
-        Set<PortType> enoughCards = players[playerIndex].canMaritimeTrade(ports);
+        HashMap<PortType, boolean[]> enoughCards = players[playerIndex].canMaritimeTrade(ports);
         return enoughCards;
     }
 

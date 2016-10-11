@@ -378,9 +378,9 @@ public class Player { //
         playedDevCard = true;
     }
 
-    public Map<PortType, boolean[]> canMaritimeTrade(Set ports) {
+    public HashMap<PortType, boolean[]> canMaritimeTrade(Set ports) {
         maritimeTradeManager.setPorts(ports);
-        Map<PortType, boolean[]> enoughCards = new HashMap<>();
+        HashMap<PortType, boolean[]> enoughCards = new HashMap<>();
 
         //enoughCards<WOOD> -> CanTradeWood [2:1, 3:1, 4:1]
         //enoughCards<WHEAT> -> CanTradeWheat [2:1, 3:1, 4:1]
