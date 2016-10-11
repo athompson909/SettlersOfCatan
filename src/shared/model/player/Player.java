@@ -140,7 +140,6 @@ public class Player { //
         setNewDevCardList(newPlayer.getNewDevCardList());
         setPlayedDevCard(newPlayer.hasPlayedDevCard());
         setDiscarded(newPlayer.hasDiscarded());
-        setTradeManager();
     }
 
     //CAN FUNCTIONS
@@ -423,7 +422,7 @@ public class Player { //
         if(threePort && (oreCount >= 3)) {oreCards[1] = true;}
         if(oreCount >= 4) {oreCards[2] = true;}
         enoughCards.put(ORE, oreCards);
-        
+
         boolean[] sheepCards = new boolean[3];
         int sheepCount = playerResourceList.getSheepCardCount();
         if(sheepPort && (sheepCount >= 2)) {sheepCards[0] = true;}
@@ -527,9 +526,6 @@ public class Player { //
 
     //SETTERS
 
-    private void setTradeManager() {
-        maritimeTradeManager.update();
-    }
     private void setVictoryPoints(int numVict) {
         victoryPoints = numVict;
     }

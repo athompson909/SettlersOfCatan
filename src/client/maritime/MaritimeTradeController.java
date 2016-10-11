@@ -39,9 +39,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void startTrade() {
-		if(catanPlayer.can)
-		ResourceType[] getResources =
-		getTradeOverlay().showGetOptions();
+		//if(catanPlayer.can)
+	//	ResourceType[] getResources =
+	//	getTradeOverlay().showGetOptions();
 
 		getTradeOverlay().showModal();
 	}
