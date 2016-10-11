@@ -9,6 +9,7 @@ import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
+import shared.model.commandmanager.game.GameJoinCommand;
 
 import java.util.Observable;
 
@@ -118,7 +119,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
         System.out.println(">>JOINGAMECONTROLLER: createNewGame() called");
 
-        //I think this is where we need to put the functionality for getting the text fields/bools off the View
+        //This is where we need to put the functionality for getting the text fields/bools off the View
         // and sending the info to the server to actually create the new game
 
 
@@ -152,6 +153,18 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//add the user to the game they just created using the GameInfo object here
 
 		System.out.println(">JOINGAMECONTROLLER: startJoinGame called, gameInfo= " + game);
+		//ask ClientFacade to do JoinGameCommand
+
+        CatanColor userColor = ClientUser.getInstance().getColor();
+        int desiredGameID = game.getId();
+
+        //create joinGameCommand
+        GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, userColor);
+
+        //send it to ClientFacade
+        if (ClientFacade.getInstance().gameJoin(gameJoinCommand) == true) {
+
+        }
 
 		getSelectColorView().showModal();
 	}
