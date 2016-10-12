@@ -194,7 +194,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//user should now be added to the game the clicked on.
 
 		// If join succeeded
-
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
