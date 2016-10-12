@@ -37,6 +37,11 @@ public class ServerProxy implements IServerProxy {
     @Override
     public boolean hasJoined() { return hasJoined; }
 
+    @Override
+    public void setHasJoined(boolean hasJoined) {
+        this.hasJoined = hasJoined;
+    }
+
     /**
      * the cookie returned when userLogin(...) is ran
      *  "all subsequent web service calls
@@ -204,7 +209,7 @@ public class ServerProxy implements IServerProxy {
     private void setCookies(HttpURLConnection connection) throws ClientException {
         if (isJoin) {
             connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
-            hasJoined = true;
+            //hasJoined = true;
         }
         else if (hasJoined) {
             connection.setRequestProperty("Cookie", "catan.user=" + loginCookie + "; catan.game=" + joinCookie);

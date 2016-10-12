@@ -462,8 +462,8 @@ public class JSONTranslator {
             // but just to be sure/for testing purposes:
             if (playersArrJSON.get(p) != null) {
                 JSONObject currPlayerJSON = playersArrJSON.getJSONObject(p);
-                String currPlayerJSONSTr = currPlayerJSON.toString();
-                Player newPlayer = gsonConverter.fromJson(currPlayerJSONSTr, Player.class);
+                String currPlayerJSONStr = currPlayerJSON.toString();
+                Player newPlayer = gsonConverter.fromJson(currPlayerJSONStr, Player.class);
 
                 newPlayersArray[p] = newPlayer;
             }
@@ -838,7 +838,6 @@ public class JSONTranslator {
             newGameInfo.setPlayers(tempPIArrayList);
 
           //  System.out.println("\t *******>FINAL GAMEINFO: " + newGameInfo + ", playersArr size= " + newGameInfo.getPlayers().size());
-
 
 
             allActiveGames.add(newGameInfo);
