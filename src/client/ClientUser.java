@@ -1,5 +1,6 @@
 package client;
 
+import client.data.GameInfo;
 import client.data.PlayerInfo;
 import shared.definitions.CatanColor;
 
@@ -31,6 +32,10 @@ public class ClientUser {
 
     //keeps track of which game the clientUser is currently in
     private int currentGameID = 1;
+
+    //TESTING
+    private GameInfo currentAddedGame;
+
 
     //this PlayerInfo object just packages all 4 data items about the user (name, id, index, color) into an object,
     //specifically for JoinGameView at least
@@ -115,5 +120,13 @@ public class ClientUser {
         this.currentGameID = currentGameID;
         System.out.println(">CLIENTUSER: setCurrGameID to " + currentGameID);
 
+    }
+
+    public GameInfo getCurrentAddedGame() {
+        return currentAddedGame;
+    }
+
+    public void setCurrentAddedGame(GameInfo currentAddedGame) {
+        this.currentAddedGame = currentAddedGame;
     }
 }
