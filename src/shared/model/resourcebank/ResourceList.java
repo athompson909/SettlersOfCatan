@@ -269,6 +269,8 @@ public class ResourceList {
         return oreCardCount;
     }
 
+    public int getCardCount() { return (woodCardCount+ brickCardCount + sheepCardCount + wheatCardCount + oreCardCount);}
+
 
     @Override
     public String toString() {
