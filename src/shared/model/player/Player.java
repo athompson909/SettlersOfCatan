@@ -8,10 +8,7 @@ import shared.definitions.ResourceType;
 import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceList;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Map;
+import java.util.*;
 
 import static shared.definitions.PortType.*;
 
