@@ -117,20 +117,19 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 				System.out.println("PLAYERWAITINGVIEW: ADD AI BTN pushed");
 
 				getController().addAI();
+				//just moved all this vv to addAI() ^^
 
-				//now call setPlayers here:
-				//ask server for gamelist
-				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-				//get the list of players from the server response using the current gameID
-				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
-				//use that list of players to do setPlayers() here
-				List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
-				//turn it into an array
-				PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
-				//give that array of PlayerInfos to setPlayers()
-				setPlayers(setThesePlayerInfos);
-
-				//How can I tell the PWV to refresh its actual look with the new boxes? SetPlayers() doesn't do it.
+//				//now call setPlayers here:
+//				//ask server for gamelist
+//				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+//				//get the list of players from the server response using the current gameID
+//				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
+//				//use that list of players to do setPlayers() here
+//				List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
+//				//turn it into an array
+//				PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
+//				//give that array of PlayerInfos to setPlayers()
+//				setPlayers(setThesePlayerInfos);
 
 
 			}
