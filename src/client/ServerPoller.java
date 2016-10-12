@@ -60,7 +60,7 @@ public class ServerPoller {
             //System.out.println("fetching new model");
             try {
                 if (proxy.hasJoined()) {
-                    fetchNewModel();
+//                    fetchNewModel();
                 }
             }
             catch (ClientException e) {

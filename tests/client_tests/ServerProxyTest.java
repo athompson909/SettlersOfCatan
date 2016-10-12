@@ -20,6 +20,15 @@ public class ServerProxyTest extends TestCase {
 
     private ServerProxy serverProxy = new ServerProxy();
 
+    private void testAddAIFunc() throws ClientException {
+
+        JSONObject loginJson = new JSONObject(LOGIN_STR);
+        serverProxy.userLogin(loginJson);
+        JSONObject jsonObject = new JSONObject(JOIN_STR);
+        String jsonStr = serverProxy.gameJoin(jsonObject);
+        serverProxy.gameReset();
+    }
+
 
     @Override
     @Before
@@ -28,9 +37,13 @@ public class ServerProxyTest extends TestCase {
 
         JSONObject loginJson = new JSONObject(LOGIN_STR);
         serverProxy.userLogin(loginJson);
-        JSONObject jsonObject = new JSONObject(JOIN_STR);
+        String joinStr = "{\n" +
+                "  \"id\": 3,\n" +
+                "  \"color\": \"puce\"\n" +
+                "}";
+        JSONObject jsonObject = new JSONObject(joinStr);
         String jsonStr = serverProxy.gameJoin(jsonObject);
-        serverProxy.gameReset();
+
     }
 
     @Override
