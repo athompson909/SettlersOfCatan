@@ -30,6 +30,8 @@ public class ServerProxy implements IServerProxy {
 
     private boolean hasJoined = false;
 
+    private boolean pollerCanRun = false;
+
     /**
      * this function is used by ServerPoller
      * @return hasJoined
@@ -40,6 +42,16 @@ public class ServerProxy implements IServerProxy {
     @Override
     public void setHasJoined(boolean hasJoined) {
         this.hasJoined = hasJoined;
+    }
+
+    @Override
+    public boolean runPoller() throws ClientException {
+        return pollerCanRun;
+    }
+
+    @Override
+    public void startPoller() throws ClientException {
+        pollerCanRun = true;
     }
 
     /**

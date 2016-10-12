@@ -59,8 +59,8 @@ public class ServerPoller {
         public void run() {
             //System.out.println("fetching new model");
             try {
-                if (proxy.hasJoined()) {
-//                    fetchNewModel();
+                if (proxy.runPoller()) {
+                    fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
                 }
             }
             catch (ClientException e) {

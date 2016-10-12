@@ -17,6 +17,8 @@ import java.util.List;
  * THIS IS A SINGLETON
  *
  * Created by Alise on 9/17/2016.
+ *
+ * todo: PROPOSITION: HAVE A FUNCTION THAT INITIALIZES CLIENT MODEL THE FIRST TIME
  */
 public class ClientFacade {
 
@@ -36,7 +38,7 @@ public class ClientFacade {
      */
     private IServerProxy serverProxy;
 
-    private int version = 0;
+    private int version = -1;
 
     private static ClientFacade instance = new ClientFacade();
 
@@ -52,14 +54,24 @@ public class ClientFacade {
     /**
      * sends updated model to the updateManager to delegate updates
      * @param updatedClientModel - model returned by server
+     *
+     * todo: FYI THIS NEEDS TO BE CHANGED, IT ISN'T CURRENTLY CHECKING THE VERSION NUMBER (ask Adam why)
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
-        if(version == updatedClientModel.getVersion()) {
+        if(version == -1) {
+            //then it's the first time and the model needs to be initialized
+            //todo: maybe don't initialize clientModel here
+            clientUpdateManager.setCurrentModel(updatedClientModel);
+            clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
+
+
+        }
+        else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
         }
         else {
             version = updatedClientModel.getVersion();
-            clientUpdateManager.delegateUpdates(updatedClientModel);
+            clientUpdateManager.delegateUpdates(updatedClientModel);//todo: test here!
         }
     }
 
@@ -233,9 +245,10 @@ public class ClientFacade {
 
             if(response.equals("Success")){
                 System.out.println(">>CLIENTFACADE: gameJoin: join worked");
-                gameModelVersion();
+                gameModelVersion(); // ************* THIS IS WHERE THE MODEL IS FIRST INSTANTIATED ****************
+                serverProxy.startPoller();
                 return true;
-            }else{
+            } else {
                 System.out.println(">>CLIENTFACADE: gameJoin: join FAILED");
                 return false;
             }

@@ -1,11 +1,10 @@
 package shared.model;
 
-import client.ClientFacade;
 import shared.model.map.Map;
-import shared.model.player.Player;
-import shared.model.turntracker.TurnTracker;
-import shared.model.resourcebank.ResourceBank;
 import shared.model.messagemanager.MessageManager;
+import shared.model.player.Player;
+import shared.model.resourcebank.ResourceBank;
+import shared.model.turntracker.TurnTracker;
 
 
 /**
@@ -32,6 +31,10 @@ public class ClientUpdateManager {
 
     }
 
+    public void setCurrentModel(ClientModel currentModel) {
+        this.currentModel = currentModel;
+    }
+
     /**
      * DelegateUpdates() takes the newly updated ClientModel object coming from JSONTranslator,
      * who got it from translating the update the server sent,
@@ -56,7 +59,7 @@ public class ClientUpdateManager {
 
         TradeOffer currTradeOffer = currentModel.tradeOffer;
         TradeOffer newTradeOffer = newModel.tradeOffer;
-        updateTradeOffer(currTradeOffer, newTradeOffer);
+        updateTradeOffer(currTradeOffer, newTradeOffer);//shows as (null, null)
 
         TurnTracker currTurnTracker = currentModel.turnTracker;
         TurnTracker newTurnTracker = newModel.turnTracker;

@@ -156,13 +156,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//try
 		getSelectColorView().showModal();
 
-		if(game.getPlayers().size() < 4){
-			joinThisGameInfo = game;  //TEST
-
-		}
-		else {
-			//invalid game
-		}
+		joinThisGameInfo = game;  //TEST
+//		if(game.getPlayers().size() < 4){
+//
+//
+//		}
+//		else {
+//			//invalid game
+//		}
 	}
 
 	@Override
@@ -186,7 +187,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, userColor);
 
 		//send it to ClientFacade
-		if (ClientFacade.getInstance().gameJoin(gameJoinCommand) == true) {
+		if (ClientFacade.getInstance().gameJoin(gameJoinCommand)) {
 			//print - it worked
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
 

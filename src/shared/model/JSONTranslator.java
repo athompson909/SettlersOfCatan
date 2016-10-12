@@ -179,7 +179,7 @@ public class JSONTranslator {
         //TurnTracker is complete! Ready to add to the new ClientModel obj.
 
 //GET TRADE OFFER
-        TradeOffer newCMTradeOffer = null;
+        TradeOffer newCMTradeOffer = new TradeOffer();
         if (newModelJSON.has("tradeOffer")){
             JSONObject newTradeOfferJSONObj = newModelJSON.getJSONObject("tradeOffer");
             String newTradeOfferJSONString = newTradeOfferJSONObj.toString();
