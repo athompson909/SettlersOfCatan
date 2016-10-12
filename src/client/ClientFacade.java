@@ -228,6 +228,7 @@ public class ClientFacade {
         try {
             String response = serverProxy.gameJoin(json);
             if(response.equals("Success")){
+                gameModelVersion();
                 return true;
             }else{
                 return false;
