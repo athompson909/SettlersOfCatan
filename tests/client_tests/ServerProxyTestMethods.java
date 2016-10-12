@@ -120,9 +120,9 @@ public class ServerProxyTestMethods {
      * @throws ClientException
      */
     public void testGameModelVersion() throws ClientException {
-        String model = serverProxy.gameModelVersion(0);
+        String model = serverProxy.gameModelVersion();
         System.out.println("version=0:\n" + model + "\n");
-        model = serverProxy.gameModelVersion(1);
+        model = serverProxy.gameModelVersion();
         System.out.println("version=1:\n" + model + "\n");
     }
 

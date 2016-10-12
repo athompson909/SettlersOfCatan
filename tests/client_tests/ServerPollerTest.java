@@ -37,7 +37,7 @@ public class ServerPollerTest extends TestCase {
     @Test
     public void testServerPoller() throws ClientException {
         System.out.println("Testing ServerPoller: fetchNewModel()");
-        String jsonNewModelStr = proxy.gameModelVersion(0);
+        String jsonNewModelStr = proxy.gameModelVersion();
         poller = new ServerPoller();
         poller.setProxy(proxy);
         //String str =poller.fetchNewModel();

@@ -175,6 +175,8 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			//THIS IS WHERE WE SET THE CLIENTUSER'S COLOR
+
 			if (e.getSource() == joinButton) {
 				if (selButton != 0) {
 					getController().joinGame(getSelectedColor());

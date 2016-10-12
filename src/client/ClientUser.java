@@ -29,6 +29,9 @@ public class ClientUser {
     //We can get this when they pick a color upon joining a game
     private CatanColor color = null;
 
+    //keeps track of which game the clientUser is currently in
+    private int currentGameID = 1;
+
     //this PlayerInfo object just packages all 4 data items about the user (name, id, index, color) into an object,
     //specifically for JoinGameView at least
     //we might just build a PlayerInfo object inside JoinGameView, not right here
@@ -102,5 +105,15 @@ public class ClientUser {
 
     public static void setInstance(ClientUser instance) {
         ClientUser.instance = instance;
+    }
+
+    public int getCurrentGameID() {
+        return currentGameID;
+    }
+
+    public void setCurrentGameID(int currentGameID) {
+        this.currentGameID = currentGameID;
+        System.out.println(">CLIENTUSER: setCurrGameID to " + currentGameID);
+
     }
 }
