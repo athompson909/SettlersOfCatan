@@ -64,6 +64,7 @@ public class ClientFacade {
             clientUpdateManager.setCurrentModel(updatedClientModel);
             clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
 
+
         }
         else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
