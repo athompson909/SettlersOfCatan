@@ -1,8 +1,7 @@
 package client.join;
 
 import client.ClientFacade;
-import client.base.*;
-import client.login.LoginView;
+import client.base.Controller;
 import client.misc.IMessageView;
 import client.misc.MessageView;
 import shared.model.commandmanager.game.AddAICommand;
@@ -98,4 +97,3 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 }
-

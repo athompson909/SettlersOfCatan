@@ -233,6 +233,7 @@ public class ClientFacade {
 
             if(response.equals("Success")){
                 System.out.println(">>CLIENTFACADE: gameJoin: join worked");
+                gameModelVersion();
                 return true;
             }else{
                 System.out.println(">>CLIENTFACADE: gameJoin: join FAILED");
