@@ -119,6 +119,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 				//now call setPlayers here:
 				//ask server for gamelist
+				//YOLO
 				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
 				//get the list of players from the server response using the current gameID
 				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
