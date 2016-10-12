@@ -18,7 +18,7 @@ import java.util.List;
  *
  * Created by Alise on 9/17/2016.
  *
- * todo: PROPOSITION: HAVE A FUNCTION THAT INITIALZES CLIENT MODEL THE FIRST TIME
+ * todo: PROPOSITION: HAVE A FUNCTION THAT INITIALIZES CLIENT MODEL THE FIRST TIME
  */
 public class ClientFacade {
 
@@ -62,6 +62,7 @@ public class ClientFacade {
             //then it's the first time and the model needs to be initialized
             //todo: maybe don't initialize clientModel here
             clientUpdateManager.setCurrentModel(updatedClientModel);
+            clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
 
         }
         else if(version == updatedClientModel.getVersion()) {

@@ -59,7 +59,7 @@ public class ClientUpdateManager {
 
         TradeOffer currTradeOffer = currentModel.tradeOffer;
         TradeOffer newTradeOffer = newModel.tradeOffer;
-        updateTradeOffer(currTradeOffer, newTradeOffer);
+        updateTradeOffer(currTradeOffer, newTradeOffer);//shows as (null, null)
 
         TurnTracker currTurnTracker = currentModel.turnTracker;
         TurnTracker newTurnTracker = newModel.turnTracker;
