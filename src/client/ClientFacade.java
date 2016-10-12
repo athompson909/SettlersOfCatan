@@ -225,11 +225,17 @@ public class ClientFacade {
      */
     public boolean gameJoin(GameJoinCommand gameJoinCommand){
         JSONObject json = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
+        System.out.println(">>CLIENTFACADE: gameJoin: json to send= " + json);
+
         try {
             String response = serverProxy.gameJoin(json);
+            System.out.println(">>CLIENTFACADE: server response= " + response);
+
             if(response.equals("Success")){
+                System.out.println(">>CLIENTFACADE: gameJoin: join worked");
                 return true;
             }else{
+                System.out.println(">>CLIENTFACADE: gameJoin: join FAILED");
                 return false;
             }
         }
@@ -338,7 +344,7 @@ public class ClientFacade {
         try {
             String jsonNewModelStr = serverProxy.gameModelVersion(version);
             gameModelVersionStr = jsonNewModelStr;
-            if(gameModelVersionStr.equals("{\"http error 400\":\"Bad Request\"}")) throw new ClientException(); // todo: delete
+//            if(gameModelVersionStr.equals("{\"http error 400\":\"Bad Request\"}")) throw new ClientException(); // todo: delete
             jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
             sendUpdatedModel(updatedModel);
