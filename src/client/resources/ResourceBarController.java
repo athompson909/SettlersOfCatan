@@ -21,7 +21,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	private Map<ResourceBarElement, IAction> elementActions;
 	private ClientModel model;
 	private boolean turn;
-	
+	//Todo - check if we need the if statements that are commented out or if we don't because they are disabled
 	public ResourceBarController(IResourceBarView view) {
 
 		super(view);

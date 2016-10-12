@@ -137,7 +137,7 @@ public class DiscardController extends Controller implements IDiscardController 
 		DiscardCommand command = new DiscardCommand(ClientUser.getInstance().getIndex(), discardList);
 		ClientFacade.getInstance().discardCards(command);
 		//todo open waiting modal? do I want to use the state pattern here
-        //getWaitView().setMessage("Please wait while others finish discarding");
+        getWaitView().showModal();
 		getDiscardView().closeModal();
 	}
 
@@ -159,9 +159,10 @@ public class DiscardController extends Controller implements IDiscardController 
                 setDiscardModalValues();
             }else {//others are discarding
                 getWaitView().showModal();
-                //todo how do I close this modal when it is no longer discarding?
-                //idea - close the modal if not equal to "Discarding"
             }
+        }else{
+            //todo check if this appropriately closes the modal after others discard
+            getWaitView().closeModal();
         }
 	}
 
