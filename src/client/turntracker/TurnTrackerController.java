@@ -45,7 +45,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg) {
 		ClientModel model = (ClientModel)o;
-		TurnTracker turnTracker = model.getTurnTracker();
+		//TODO: Feel free to uncomment this if you're editing it. Now that update is getting called, it crashes here.
+		/*TurnTracker turnTracker = model.getTurnTracker();
 		int turn = turnTracker.getCurrentTurn();
 		int longestRoad = turnTracker.getLongestRoadHolder();
 		int largestArmy = turnTracker.getLargestArmyHolder();
@@ -56,7 +57,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			boolean road = (i == longestRoad);
 			boolean army = (i == largestArmy);
 			getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
-		}
+		}*/
 	}
 
 }

@@ -44,10 +44,9 @@ public class MapController extends Controller implements IMapController {
     }
 
     protected void initFromModel(Map updatedMap) {
-        System.out.println("Map Controller: initFromModel");
-
         //Place the hexes, numbers, and robber.
         for (HexLocation key : updatedMap.getHexes().keySet()) {
+
             Hex currentHex = updatedMap.getHexes().get(key);
             getView().addHex(currentHex.getLocation(), currentHex.getResource());
             if (currentHex.getResource() != HexType.WATER) {
@@ -58,6 +57,10 @@ public class MapController extends Controller implements IMapController {
                 }
             }
         }
+
+        //Place Water Hexes
+        drawWaterHexes();
+
 
         //Place the ports
         for (HexLocation key : updatedMap.getPorts().keySet()) {
@@ -89,6 +92,31 @@ public class MapController extends Controller implements IMapController {
         EdgeLocation edgeLocBlue = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.North);
         placeRoad(edgeLocBlue);
         */
+    }
+
+    private void drawWaterHexes(){
+        createWaterHex(-3, 0);
+        createWaterHex(-3, 1);
+        createWaterHex(-3, 2);
+        createWaterHex(-3, 3);
+        createWaterHex(-2, 3);
+        createWaterHex(-1, 3);
+        createWaterHex(0, 3);
+        createWaterHex(1, 2);
+        createWaterHex(2, 1);
+        createWaterHex(3, 0);
+        createWaterHex(3, -1);
+        createWaterHex(3, -2);
+        createWaterHex(3, -3);
+        createWaterHex(2, -3);
+        createWaterHex(1, -3);
+        createWaterHex(0, -3);
+        createWaterHex(-1, -2);
+        createWaterHex(-2, -1);
+    }
+
+    private void createWaterHex(int x, int y) {
+        getView().addHex(new HexLocation(x, y), HexType.WATER);
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {

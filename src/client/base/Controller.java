@@ -1,6 +1,8 @@
 package client.base;
 
+import client.Client;
 import javafx.beans.Observable;
+import shared.model.ClientModel;
 
 import java.util.Observer;
 
@@ -13,6 +15,7 @@ public abstract class Controller implements IController, Observer
 	
 	protected Controller(IView view)
 	{
+		Client.getInstance().getClientModel().addObserver(this);
 		setView(view);
 	}
 	

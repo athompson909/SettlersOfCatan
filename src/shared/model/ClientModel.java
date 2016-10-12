@@ -1,5 +1,6 @@
 package shared.model;
 
+import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -87,6 +88,19 @@ public class ClientModel extends Observable {
     public ClientModel (int gameNumber){
         this.gameNumber = gameNumber;
         map = new Map(false, false, false);
+
+        messageManager = new MessageManager();
+
+        //Temporary making 4 default players so we can test stuff - Mitch
+        players = new Player[4];
+        //players[0] = new Player(CatanColor.ORANGE, "Bob", "ID0", 0);
+        //players[1] = new Player(CatanColor.BLUE, "Carl", "ID1", 1);
+       // players[2] = new Player(CatanColor.GREEN, "Don", "ID2", 2);
+        //players[3] = new Player(CatanColor.RED, "Egbert", "ID3", 3);
+
+        tradeOffer = new TradeOffer();
+        turnTracker = new TurnTracker();
+
         //this.addObserver(Controller); //How do we get a reference to the controller?
     }
 

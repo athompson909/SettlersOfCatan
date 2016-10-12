@@ -53,9 +53,15 @@ public class ClientUpdateManager {
         Map newMap = newModel.map;
         updateMap(currMap, newMap);
 
-        Player currPlayer = currentModel.players[0]; /*Index of player] *///////////
-        Player newPlayer = newModel.players[0]; /*Index of player */////////
-        updatePlayer(currPlayer, newPlayer);
+        /*TODO: This is where have a problem. Sierra/Adam, talk to me (Mitch) about this.
+        Stephanie and I made the clientmodel initialize with 4 empty players so the players array in the clientmodel
+        wasn't null, that way it doesn't crash in these following functions. However, not that the client model has 4
+        players, when you click join game, it doesn't let you add players or computers because there's already 4 players.
+        We need to talk about how to approach this.
+         */
+        Player[] currPlayers = currentModel.getPlayers();
+        Player[] newPlayers = newModel.getPlayers();
+        updatePlayers(currPlayers, newPlayers);
 
         TradeOffer currTradeOffer = currentModel.tradeOffer;
         TradeOffer newTradeOffer = newModel.tradeOffer;
@@ -72,6 +78,7 @@ public class ClientUpdateManager {
         // Trade Offer???
         // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
 
+        currentModel.setChanged();
         currentModel.setChanged(true);
         currentModel.notifyObservers();
     }
@@ -92,10 +99,21 @@ public class ClientUpdateManager {
      * updatePlayer() takes the updated Player object from delegateUpdates(), extracts its smaller
      * objects, and sends them to the subsequent small update functions.
      *
-     * @param newPlayer the updated Player object
+     * @param newPlayers the updated Players object
      */
-    private void updatePlayer(Player currPlayer, Player newPlayer) {
-        currPlayer.updatePlayer(newPlayer);
+    private void updatePlayers(Player currPlayers[], Player newPlayers[]) {
+        for(int i = 0; i < newPlayers.length; i++) {
+            if(newPlayers[i] != null) {
+                /*The problem with this statement below is if, for example, currPlayers[3] is null and we're trying to update
+                him to be newPlayer[3], its going to crash because currPlayer[3] is null, and you can't call functions
+                on null objects.*/
+
+                //currPlayers[i].updatePlayer(newPlayers[i]);  //Read explanation above
+
+                //So can we just do this instead?
+                currPlayers[i] = newPlayers[i];
+            }
+        }
     }
 //-----------------
 

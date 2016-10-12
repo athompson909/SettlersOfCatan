@@ -66,7 +66,7 @@ public class Catan extends JFrame
 				new Catan();
 
 				//instantiating a new Client object
-				Client client = new Client();
+				Client.getInstance(); //Singleton
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(

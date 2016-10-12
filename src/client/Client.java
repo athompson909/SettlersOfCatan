@@ -1,9 +1,7 @@
 package client;
 
-import client.catan.CatanPanel;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
-import client.base.*;
 
 /**
  *
@@ -16,10 +14,16 @@ public class Client {
     private ClientModel clientModel;
     // private GameManager gameManager;
     // private View view;
-    private Controller controller;
+    // private Controller controller;
     private IServerProxy serverProxy;
 
-    public Client() {
+    private static Client instance = new Client();
+
+    public static Client getInstance() {
+        return instance;
+    }
+
+    private Client() {
         commandManager = new CommandManager();
 
         //todo this parameter is hardcoded
@@ -31,9 +35,7 @@ public class Client {
         serverPoller.setProxy(serverProxy);
     }
 
-    public void setController(CatanPanel catanPanel) {
-        //Get the panels from the catanPanel and set the Controllers...
-        //Add the controllers as observers of the model
+    public ClientModel getClientModel() {
+        return clientModel;
     }
-
 }

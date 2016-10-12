@@ -188,7 +188,7 @@ public class JSONTranslator {
             //    System.out.println(">newTradeOfferObj= " + newCMTradeOffer);
         }
         else{
-            newClientModel.tradeOffer = new TradeOffer();
+           // newClientModel.tradeOffer = newCMTradeOffer;
             System.out.println(">No TradeOffer found in newClientModel JSON");
         }
 
@@ -335,14 +335,15 @@ public class JSONTranslator {
                 currHexType = exchangeStringForHexType(currHexTypeStr.toString());
                 currHexNum = currHexStringJSON.getInt("number");
             }
-            else if (currHexStringJSON.has("number")){
+            //I'm commenting this out for now. It looks like the server doesn't hold water hexes
+            /*else if (currHexStringJSON.has("number")){
                 //if it doesn't have a resource, but DOES have a number, it's a desert hex:
                 currHexType = HexType.DESERT;
                 currHexNum = currHexStringJSON.getInt("number");
-            }
+            }*/
             else {
                 //if it doesn't have a resource OR a number, it's an ocean hex:
-                currHexType = HexType.WATER;
+                currHexType = HexType.DESERT;
                 currHexNum = 0;
             }
             newHex = new Hex(newHexLoc, currHexType);
