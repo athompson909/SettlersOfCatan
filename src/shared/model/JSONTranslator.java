@@ -4,7 +4,6 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-//import com.sun.tools.internal.ws.processor.model.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.HexType;
@@ -27,7 +26,8 @@ import shared.model.turntracker.TurnTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
+
+//import com.sun.tools.internal.ws.processor.model.Message;
 
 /**
  * JSONTranslator gets the new model from the server as a huge string, converts it to a JSONObject,
@@ -460,7 +460,7 @@ public class JSONTranslator {
         {
             //realistically I don't think the model will ever need to be parsed without 4 players added,
             // but just to be sure/for testing purposes:
-            if (playersArrJSON.get(p) != null) {
+            if (!playersArrJSON.get(p).equals(null) && playersArrJSON.get(p) != null) {//todo: delete if(sure)
                 JSONObject currPlayerJSON = playersArrJSON.getJSONObject(p);
                 String currPlayerJSONStr = currPlayerJSON.toString();
                 Player newPlayer = gsonConverter.fromJson(currPlayerJSONStr, Player.class);

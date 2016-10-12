@@ -190,8 +190,8 @@ public class ClientFacade {
             JSONObject response = serverProxy.gameCreate(json);
             GameInfo game = jsonTranslator.gameCreateResponseFromJSON(response);
             //TODO
-           // ClientModel clientModel = jsonTranslator.modelFromJSON(response);
-           // sendUpdatedModel(clientModel);
+//            ClientModel clientModel = jsonTranslator.modelFromJSON(response);
+//            sendUpdatedModel(clientModel);
             return game;
         }
         catch (ClientException e) {
@@ -233,7 +233,7 @@ public class ClientFacade {
 
             if(response.equals("Success")){
                 System.out.println(">>CLIENTFACADE: gameJoin: join worked");
-                //gameModelVersion();//todo: undelete
+                gameModelVersion();
                 return true;
             }else{
                 System.out.println(">>CLIENTFACADE: gameJoin: join FAILED");
