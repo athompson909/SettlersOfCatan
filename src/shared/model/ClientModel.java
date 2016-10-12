@@ -399,6 +399,7 @@ public class ClientModel extends Observable {
     public Player[] getPlayer() {return players;}
     public TradeOffer getTradeOffer() {return tradeOffer;}
     public ClientUpdateManager getUpdateManager() {return updateManager;}
+    public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
 
     //SETTERS
     public void setChanged(boolean set) {changed = set;}
