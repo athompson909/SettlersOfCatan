@@ -42,15 +42,13 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void startTrade() {
-		//  if(catanPlayer.can)
-		//	ResourceType[] getResources =
-		//	getTradeOverlay().showGetOptions();
+
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		Set ports = clientModel.getMap().getPlayersPorts(currentPlayer);
 		HashMap<PortType, boolean[]> isTradable = clientModel.getCurrentPlayer().canMaritimeTrade(ports);
 
 		ResourceType[] giveOptions = new ResourceType[5];
-
+/*
 		for(PortType p: isTradable.keySet()) {
 			switch(p) {
 				case WOOD:
@@ -84,7 +82,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 					}
 					break;
 			}
+
 		}
+		*/
+		//TODO: THE FOLLOWING LINE IS HARD CODED AND WILL NEED TO BE DELETED
 		giveOptions[0] = ResourceType.WOOD;
 		getTradeOverlay().showGiveOptions(giveOptions);
 		getTradeOverlay().showModal();
