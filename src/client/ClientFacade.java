@@ -502,8 +502,11 @@ public class ClientFacade {
         try {
             String response = serverProxy.addAI(json);
             if(response.equals("Success")){
+                System.out.println(">CLIENTFACADE: addAI: server said success");
+
                 return true;
             }else{
+                System.out.println(">CLIENTFACADE: addAI: server said FAIL :( ");
                 return false;
             }
         }

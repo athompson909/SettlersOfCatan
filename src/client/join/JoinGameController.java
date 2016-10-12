@@ -183,27 +183,18 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if (ClientFacade.getInstance().gameJoin(gameJoinCommand) == true) {
 			//print - it worked
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
+
+			//ok to save the id of the game they just joined to ClientUser singleton for later use
+			ClientUser.getInstance().setCurrentGameID(desiredGameID);
 		}
 		else{
 			//print - it didn't work
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
-
 		}
 		//user should now be added to the game the clicked on.
 
-		getSelectColorView().showModal();
-	}
-
-	@Override
-	public void cancelJoinGame() {
-
-		getJoinGameView().closeModal();
-	}
-
-	@Override
-	public void joinGame(CatanColor color) {
-
 		// If join succeeded
+
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
