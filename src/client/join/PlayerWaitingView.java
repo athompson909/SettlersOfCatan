@@ -3,13 +3,16 @@ package client.join;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 import javax.swing.*;
 
 import client.ClientFacade;
+import client.ClientUser;
 import client.base.*;
 import client.data.*;
 import client.utils.*;
+import shared.model.JSONTranslator;
 
 
 /**
@@ -112,13 +115,20 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 				System.out.println("PLAYERWAITINGVIEW: ADD AI BTN pushed");
 
-				//setPlayers here?
-				//ask server for gamelist
-				//have our gameId saved somewhere
-				//get the list of players from the server response using the current gameID
-				//use that list of players to do setPlayers() here
-
 				getController().addAI();
+
+				//now call setPlayers here:
+				//ask server for gamelist
+				//YOLO
+				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+				//get the list of players from the server response using the current gameID
+				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
+				//use that list of players to do setPlayers() here
+				List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
+				//turn it into an array
+				PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
+				//give that array of PlayerInfos to setPlayers()
+				setPlayers(setThesePlayerInfos);
 			}
 		}	
 	};
@@ -130,7 +140,6 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 	@Override
 	public void setPlayers(PlayerInfo[] value) {
-
 
 		//set header label indicating how many players are still needed
 		String labelText = "";

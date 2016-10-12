@@ -21,7 +21,13 @@ public class MockProxy implements IServerProxy {
      * todo: maybe modify this later for testing
      * @return false always (as of now)
      */
+    @Override
     public boolean hasJoined() { return false; }
+
+    @Override
+    public void setHasJoined(boolean hasJoined) throws ClientException {
+        return;
+    }
 
     /**
      * note: the mock proxy does not interact with the server

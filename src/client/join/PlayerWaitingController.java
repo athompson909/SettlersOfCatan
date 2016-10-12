@@ -51,7 +51,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//send cmd to ClientFacade:
 
-		if (ClientFacade.getInstance().addAI(addAICommand) == true){
+		if (ClientFacade.getInstance().addAI(addAICommand)) {
 			//it worked
 
 			System.out.println("PLAYERWAITINGCONT: AI Add successful! : " + selectedAI);

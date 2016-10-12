@@ -171,6 +171,8 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 		buttonPanel.add(button, gbc);		
 	}
 
+	//need to make sure the colors available are disabled as AIs/players take them
+
 	private ActionListener actionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {

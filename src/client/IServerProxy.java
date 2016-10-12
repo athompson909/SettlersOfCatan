@@ -124,6 +124,8 @@ public interface IServerProxy {
     */
    boolean hasJoined() throws ClientException;
 
+   void setHasJoined(boolean hasJoined) throws ClientException;
+
    /**
     * This method is for testing and debugging purposes. When a bug is found, you can use the
     /games/save method to save the state of the game to a file, and attach the file to a bug report.
