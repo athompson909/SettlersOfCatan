@@ -156,7 +156,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//try
 		getSelectColorView().showModal();
 
-		if(game.getPlayers().size() < 4) joinThisGameInfo = game;  //TEST
+		if(game.getPlayers().size() < 4){
+			joinThisGameInfo = game;  //TEST
+
+		}
 		else {
 			//invalid game
 		}
@@ -189,12 +192,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 			//ok to save the id of the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
+
+			//TESTING  - trying to pass the currAddedGameInfo item into PlayerWaitingController by saving it in CU
+			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
+			GameInfo currAddedGame = currGamesArr[desiredGameID];
+			ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
 		}
 		else{
 			//print - it didn't work
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
 		}
-		//user should now be added to the game the clicked on.
+		//user should now be added to the game they clicked on.
 
 		// If join succeeded
 		getSelectColorView().closeModal();
