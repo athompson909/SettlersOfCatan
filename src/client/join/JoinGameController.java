@@ -9,7 +9,6 @@ import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
-import shared.model.commandmanager.game.GameJoinCommand;
 
 import java.util.Observable;
 
@@ -154,17 +153,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println(">JOINGAMECONTROLLER: startJoinGame called, gameInfo= " + game);
 		//ask ClientFacade to do JoinGameCommand
-
-        CatanColor userColor = ClientUser.getInstance().getColor();
-        int desiredGameID = game.getId();
-
-        //create joinGameCommand
-        GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, userColor);
-
-        //send it to ClientFacade
-        if (ClientFacade.getInstance().gameJoin(gameJoinCommand) == true) {
-
-        }
 
 		getSelectColorView().showModal();
 	}
