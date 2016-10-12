@@ -117,21 +117,21 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 				System.out.println("PLAYERWAITINGVIEW: ADD AI BTN pushed");
 
 				getController().addAI();
+				//just moved all this vv to addAI() ^^
 
-				//now call setPlayers here:
-				//ask server for gamelist
-				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-				//get the list of players from the server response using the current gameID
-				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
-				//use that list of players to do setPlayers() here
-				List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
-				//turn it into an array
-				PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
-				//give that array of PlayerInfos to setPlayers()
-				setPlayers(setThesePlayerInfos);
+//				//now call setPlayers here:
+//				//ask server for gamelist
+//				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+//				//get the list of players from the server response using the current gameID
+//				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
+//				//use that list of players to do setPlayers() here
+//				List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
+//				//turn it into an array
+//				PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
+//				//give that array of PlayerInfos to setPlayers()
+//				setPlayers(setThesePlayerInfos);
 
-				//we may need to do SetPlayers() earlier than this.
-				//PlayerWaitingView needs to show the players existing in the game too
+
 			}
 		}	
 	};
@@ -147,7 +147,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		//set header label indicating how many players are still needed
 		String labelText = "";
 		if(value.length == NUMBER_OF_PLAYERS){
-			labelText = "This game is ready to go!";
+			labelText = "This game is ready to go!";   //this never happens in the demo - it just closes the modal and starts the game
 			addAiButton.setEnabled(false);
             startGame();
 		}
@@ -185,7 +185,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
      * this has everything to do with starting the game when ready
      */
 	private void startGame() {
-	    closeModal();
+	    this.closeModal(); //TEST: I just added "this"
     }
 
 	//This list of AITypes should come from the server: listAICommand

@@ -2,6 +2,7 @@ package shared.model.map;
 
 import client.map.MapController;
 import shared.definitions.HexType;
+import shared.definitions.PieceType;
 import shared.definitions.PortType;
 import shared.locations.*;
 import shared.model.resourcebank.ResourceList;
@@ -120,15 +121,11 @@ public class Map {
      * @param newMap updated map received from the updated clientModel
      */
     public void updateMap(Map newMap) {
-        //Needs to set everything else, but it sounds like we're changing structures, so I'm waiting a bit
-
         this.edgeValues = newMap.edgeValues; //Updates Roads
         this.robber = newMap.robber; //Updates Robber
         this.vertexObjects = newMap.vertexObjects; //Updates Settlements and Cities
         this.hexes = newMap.hexes;
         this.ports = newMap.ports;
-        //edgeValues
-        //vertexObjects
     }
 
     /**
@@ -500,23 +497,35 @@ public class Map {
 
 
 
-
+/*
     //TODO: THIS IS NOT COMPLETE YET
     public void getDiceRollResults(int diceRollNumber) {
         for (HexLocation key : hexes.keySet()) {
             if (hexes.get(key).getNumber() == diceRollNumber) {
-
+                getVertices(hexes.get(key));
             }
         }
     }
 
     //TODO: THIS IS NOT COMPLETE YET, to be called by getDiceRollResults
-    private void getVertices(HexLocation hexLocation){
-        //ArrayList<ResourceList> resourceList = new ArrayList<>();
-        ArrayList<VertexLocation> verticeList = new ArrayList();
-        VertexLocation northWestVertex = new VertexLocation(hexLocation, VertexDirection.NorthWest);
-        if(vertexObjects.get(northWestVertex).getOwner() != -1){
+    private void getVertices(Hex hexWithNumber){
+        ResourceList[] results = new ResourceList[4];
+        HexLocation hexLocation = hexWithNumber.getLocation();
 
+
+
+
+        VertexLocation northWestVertex = new VertexLocation(hexLocation, VertexDirection.NorthWest);
+        VertexObject currentVertexObject = vertexObjects.get(northWestVertex);
+        if(currentVertexObject.getOwner() != -1){
+            if(currentVertexObject.getPieceType().equals(PieceType.SETTLEMENT)){
+
+
+
+
+            } else { //It is a city
+                results[currentVertexObject.getOwner()].incWoodCardCount(2);
+            }
         }
         VertexLocation northEastVertex = new VertexLocation(hexLocation, VertexDirection.NorthEast);
         if(vertexObjects.get(northEastVertex).getOwner() != -1){
@@ -541,6 +550,26 @@ public class Map {
         }
     }
 
+    private void addResources(){
+        switch(getHexes().get(hexLocation).getResource()) {
+            case WOOD:
+                results[currentVertexObject.getOwner()].incWoodCardCount(1);
+                break;
+            case BRICK:
+                results[currentVertexObject.getOwner()].incBrickCardCount(1);
+                break;
+            case WHEAT:
+                results[currentVertexObject.getOwner()].incWheatCardCount(1);
+                break;
+            case SHEEP:
+                results[currentVertexObject.getOwner()].incSheepCardCount(1);
+                break;
+            case ORE:
+                results[currentVertexObject.getOwner()].incOreCardCount(1);
+                break;
+        }
+    }
+*/
     public boolean canPlaceRobber(HexLocation desiredHexLoc) {
         if (hexes.get(desiredHexLoc).getResource().equals(HexType.WATER) ||
                 desiredHexLoc.equals(robber.getCurrentHexlocation())) {

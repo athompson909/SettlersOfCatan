@@ -98,9 +98,9 @@ public class CatanPanel extends JPanel
 				discardView.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
 				discardView.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
 				
-				discardView.setStateMessage("0/6");
+				discardView.setStateMessage("Discard: 0/6");
 				
-				discardView.setDiscardButtonEnabled(true);
+				discardView.setDiscardButtonEnabled(false);
 				
 				if(state == 0)
 				{

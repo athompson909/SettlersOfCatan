@@ -64,6 +64,7 @@ public class ClientFacade {
             clientUpdateManager.setCurrentModel(updatedClientModel);
             clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
 
+
         }
         else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
@@ -244,9 +245,10 @@ public class ClientFacade {
 
             if(response.equals("Success")){
                 System.out.println(">>CLIENTFACADE: gameJoin: join worked");
-                gameModelVersion();
+                gameModelVersion(); // ************* THIS IS WHERE THE MODEL IS FIRST INSTANTIATED ****************
+                serverProxy.startPoller();
                 return true;
-            }else{
+            } else {
                 System.out.println(">>CLIENTFACADE: gameJoin: join FAILED");
                 return false;
             }

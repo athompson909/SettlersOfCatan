@@ -240,12 +240,11 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 			{
 				getController().startJoinGame(null);
 			}
-			else
+			else //if they pushed JOIN on an existing game
 			{
 				try
 				{
-					//if they pushed JOIN on an existing game
-					System.out.println("They pushed " + e.getActionCommand());
+					System.out.println("They pushed JOIN game " + e.getActionCommand());
 
 					int gameId = Integer.parseInt(e.getActionCommand());
 					GameInfo game = null;
@@ -259,8 +258,8 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 					}
 
 					//"game" is the game they just clicked to join - should have all the info we need to join it
-
 					getController().startJoinGame(game);
+
 				}
 				catch (NumberFormatException ex)
 				{

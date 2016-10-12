@@ -171,7 +171,7 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 		buttonPanel.add(button, gbc);		
 	}
 
-	//need to make sure the colors available are disabled as AIs/players take them
+	//need to make sure the colors available are disabled as AIs/players take them!
 
 	private ActionListener actionListener = new ActionListener() {
 		@Override
@@ -181,7 +181,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 
 			if (e.getSource() == joinButton) {
 				if (selButton != 0) {
-					getController().joinGame(getSelectedColor());
+
+                    System.out.println(">>SELECTCOLORVIEW: actionPerformed: JoinBtn pushed, color= " + getSelectedColor());
+					getController().joinGame(getSelectedColor()); //the controller for this view is JoinGameController
 				}
 			} else if (e.getSource() == cancelButton) {
 				if (selButton != 0) {
@@ -349,7 +351,8 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 		return (IJoinGameController) super.getController();
 	}
 
-	@Override
+    //this is what you use to tell the color buttons to turn off or on depending on which ones are taken already
+    @Override
 	public void setColorEnabled(CatanColor color, boolean enable) {
 
 		getButtonForColor(color).setEnabled(enable);

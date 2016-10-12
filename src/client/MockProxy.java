@@ -17,6 +17,14 @@ public class MockProxy implements IServerProxy {
         return null;
     }
 
+    @Override
+    public boolean runPoller() throws ClientException {
+        return false;
+    }
+
+    @Override
+    public void startPoller() throws ClientException {}
+
     /**
      * todo: maybe modify this later for testing
      * @return false always (as of now)

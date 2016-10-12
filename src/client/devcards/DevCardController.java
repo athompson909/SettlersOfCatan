@@ -4,6 +4,7 @@ import client.ClientFacade;
 import client.ClientUser;
 import shared.definitions.ResourceType;
 import client.base.*;
+import shared.model.ClientModel;
 import shared.model.commandmanager.moves.PlayMonopolyCommand;
 import shared.model.commandmanager.moves.PlayMonumentCommand;
 import shared.model.commandmanager.moves.PlayYearOfPlentyCommand;
@@ -17,102 +18,108 @@ import java.util.Observable;
  */
 public class DevCardController extends Controller implements IDevCardController {
 
-	private IBuyDevCardView buyCardView;
-	private IAction soldierAction;
-	private IAction roadAction;
-	
-	/**
-	 * DevCardController constructor
-	 * 
-	 * @param view "Play dev card" view
-	 * @param buyCardView "Buy dev card" view
-	 * @param soldierAction Action to be executed when the user plays a soldier card.  It calls "mapController.playSoldierCard()".
-	 * @param roadAction Action to be executed when the user plays a road building card.  It calls "mapController.playRoadBuildingCard()".
-	 */
-	public DevCardController(IPlayDevCardView view, IBuyDevCardView buyCardView, 
-								IAction soldierAction, IAction roadAction) {
+    private IBuyDevCardView buyCardView;
+    private IAction soldierAction;
+    private IAction roadAction;
 
-		super(view);
-		
-		this.buyCardView = buyCardView;
-		this.soldierAction = soldierAction;
-		this.roadAction = roadAction;
-	}
+    private ClientModel clientModel;
 
-	public IPlayDevCardView getPlayCardView() {
-		return (IPlayDevCardView)super.getView();
-	}
+    /**
+     * DevCardController constructor
+     *
+     * @param view          "Play dev card" view
+     * @param buyCardView   "Buy dev card" view
+     * @param soldierAction Action to be executed when the user plays a soldier card.  It calls "mapController.playSoldierCard()".
+     * @param roadAction    Action to be executed when the user plays a road building card.  It calls "mapController.playRoadBuildingCard()".
+     */
+    public DevCardController(IPlayDevCardView view, IBuyDevCardView buyCardView,
+                             IAction soldierAction, IAction roadAction) {
 
-	public IBuyDevCardView getBuyCardView() {
-		return buyCardView;
-	}
+        super(view);
 
-	@Override
-	public void startBuyCard() {
-		
-		getBuyCardView().showModal();
-	}
+        this.buyCardView = buyCardView;
+        this.soldierAction = soldierAction;
+        this.roadAction = roadAction;
+    }
 
-	@Override
-	public void cancelBuyCard() {
-		
-		getBuyCardView().closeModal();
-	}
+    public IPlayDevCardView getPlayCardView() {
+        return (IPlayDevCardView) super.getView();
+    }
 
-	@Override
-	public void buyCard() {
-		PurchaseDevCardCommand command = new PurchaseDevCardCommand(ClientUser.getInstance().getIndex());
-		ClientFacade.getInstance().purchaseDevCard(command);
-		getBuyCardView().closeModal();
-	}
+    public IBuyDevCardView getBuyCardView() {
+        return buyCardView;
+    }
 
-	@Override
-	public void startPlayCard() {
-		
-		getPlayCardView().showModal();
-	}
+    @Override
+    public void startBuyCard() {
 
-	@Override
-	public void cancelPlayCard() {
+        getBuyCardView().showModal();
+    }
 
-		getPlayCardView().closeModal();
-	}
+    @Override
+    public void cancelBuyCard() {
 
-	@Override
-	public void playMonopolyCard(ResourceType resource) {
-		PlayMonopolyCommand command = new PlayMonopolyCommand(ClientUser.getInstance().getIndex(), resource);
-		ClientFacade.getInstance().playMonopoly(command);
-		//Todo: should I close the modal after I call the facade?
-	}
+        getBuyCardView().closeModal();
+    }
 
-	@Override
-	public void playMonumentCard() {
-		PlayMonumentCommand command = new PlayMonumentCommand(ClientUser.getInstance().getIndex());
-		ClientFacade.getInstance().playMonument(command);
-	}
+    @Override
+    public void buyCard() {
+        if (clientModel.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
+            PurchaseDevCardCommand command = new PurchaseDevCardCommand(ClientUser.getInstance().getIndex());
+            ClientFacade.getInstance().purchaseDevCard(command);
+            getBuyCardView().closeModal();
+        }
+    }
 
-	@Override
-	public void playRoadBuildCard() {
-		
-		roadAction.execute();
-	}
+    @Override
+    public void startPlayCard() {
+        getPlayCardView().showModal();
+    }
 
-	@Override
-	public void playSoldierCard() {
+    @Override
+    public void cancelPlayCard() {
+        getPlayCardView().closeModal();
+    }
 
-		soldierAction.execute();
-	}
+    @Override
+    public void playMonopolyCard(ResourceType resource) {
+        if (clientModel.canPlayMonopoly(ClientUser.getInstance().getIndex())) {
+            PlayMonopolyCommand command = new PlayMonopolyCommand(ClientUser.getInstance().getIndex(), resource);
+            ClientFacade.getInstance().playMonopoly(command);
+        }
+        //Todo: should I close the modal after I call the facade?
+    }
 
-	@Override
-	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(ClientUser.getInstance().getIndex(), resource1, resource2);
-		ClientFacade.getInstance().playYearOfPlenty(command);
-	}
+    @Override
+    public void playMonumentCard() {
+        if (clientModel.canPlayMonument(ClientUser.getInstance().getIndex())) {
+            PlayMonumentCommand command = new PlayMonumentCommand(ClientUser.getInstance().getIndex());
+            ClientFacade.getInstance().playMonument(command);
+        }
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
+    @Override
+    public void playRoadBuildCard() {
 
-	}
+        roadAction.execute();
+    }
+
+    @Override
+    public void playSoldierCard() {
+
+        soldierAction.execute();
+    }
+
+    @Override
+    public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
+        PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(ClientUser.getInstance().getIndex(), resource1, resource2);
+        ClientFacade.getInstance().playYearOfPlenty(command);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        clientModel = (ClientModel) o;
+    }
 
 }
 
