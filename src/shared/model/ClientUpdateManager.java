@@ -1,11 +1,10 @@
 package shared.model;
 
-import client.ClientFacade;
 import shared.model.map.Map;
-import shared.model.player.Player;
-import shared.model.turntracker.TurnTracker;
-import shared.model.resourcebank.ResourceBank;
 import shared.model.messagemanager.MessageManager;
+import shared.model.player.Player;
+import shared.model.resourcebank.ResourceBank;
+import shared.model.turntracker.TurnTracker;
 
 
 /**
@@ -30,6 +29,10 @@ public class ClientUpdateManager {
      */
     public void getNewModel() {
 
+    }
+
+    public void setCurrentModel(ClientModel currentModel) {
+        this.currentModel = currentModel;
     }
 
     /**
