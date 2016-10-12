@@ -135,9 +135,9 @@ public class ServerProxyTest extends TestCase {
     public void testGameModelVersion() throws ClientException {
         System.out.println("Testing ServerProxy: gameModelVersion()");
 
-        String model = serverProxy.gameModelVersion(0);
+        String model = serverProxy.gameModelVersion();
         assertEquals("\"true\"", model);
-        model = serverProxy.gameModelVersion(1);
+        model = serverProxy.gameModelVersion();
         assertEquals("{\"deck\":{\"yearOfPlenty\":", model.substring(0, 24));
     }
 

@@ -15,18 +15,6 @@ import shared.model.map.Port;
 
 import java.util.Observable;
 
-//Game manger should be singleton that extends observable.
-//Game manager holds a list of GameModels.
-//Game Model holds all the information for a game, so pretty much everything being created in the JSON Translator.
-//Some how, (need to clarify this), by having GameManager extend observable, all of its subcontrollers will then extend observable.
-
-/*
- this.addObserver(map);
-//JUST ALWAYS DO THESE TWO in this order:
-setChanged(); //What does this do?
-notifyObservers(); You could pass in the arg, or to make life easier, just pass in nothing, and have what ever is being updated go straight to the singleton.
-*/
-
 /**
  * Implementation for the map controller
  */
@@ -34,8 +22,7 @@ public class MapController extends Controller implements IMapController {
 
     private IRobView robView;
 
-    //TODO: Erase this later, should connect to actual game model map.
-   // private shared.model.map.Map catanMap = new shared.model.map.Map(false, false, false);
+    private ClientModel clientModel;
 
     public MapController(IMapView view, IRobView robView) {
         super(view);
@@ -104,23 +91,23 @@ public class MapController extends Controller implements IMapController {
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        //return catanMap.buildRoadManager.canPlace(0, edgeLoc);
+        //return clientModel.canPlaceRoad(0, edgeLoc);
         return true;
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        //return catanMap.buildSettlementManager.canPlace(0, vertLoc);
+        //return clientModel.canPlaceSettlement(0, vertLoc);
         return true;
     }
 
     public boolean canPlaceCity(VertexLocation vertLoc) {
-        //return catanMap.buildCityManager.canPlaceCity(0, vertLoc);
+        //return clientModel.canPlaceCity(0, vertLoc);
         return true;
     }
 
     public boolean canPlaceRobber(HexLocation hexLoc) {
+        //return clientModel.canPlaceRobber(hexLoc);
         return true;
-        //return catanMap.canPlaceRobber(hexLoc);
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
@@ -181,9 +168,8 @@ public class MapController extends Controller implements IMapController {
     @Override
     public void update(Observable o, Object arg) {
         System.out.print("Map Controller: Update");
-        ClientModel clientModel = (ClientModel) o;
-        Map map = clientModel.getMap();
-        initFromModel(map);
+        clientModel = (ClientModel) o;
+        initFromModel(clientModel.getMap());
     }
 
 

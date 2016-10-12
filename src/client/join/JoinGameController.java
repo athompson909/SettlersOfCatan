@@ -161,13 +161,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void cancelJoinGame() {
-	
+
 		getJoinGameView().closeModal();
 	}
 
 	@Override
 	public void joinGame(CatanColor color) {
-		
+
 		// If join succeeded, send the server a GameJoin Cmd object:
 
 		//add the user to the game they just created using the GameInfo object here
@@ -191,7 +191,19 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 		//user should now be added to the game the clicked on.
 
+		getSelectColorView().showModal();
+	}
 
+	@Override
+	public void cancelJoinGame() {
+
+		getJoinGameView().closeModal();
+	}
+
+	@Override
+	public void joinGame(CatanColor color) {
+
+		// If join succeeded
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
