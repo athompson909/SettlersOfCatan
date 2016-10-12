@@ -456,7 +456,7 @@ public class ServerProxy implements IServerProxy {
      * already has the latest game state. This is merely an optimization. If the version number is
      * not included in the request URL, the server will return the full game state.
      *
-     * @param modelVer - version:int
+     * no longer passing this value in: @param/modelVer - version:int
      * @return String that either equals "true" or JSON model in string format (todo: convert to json)
      * @pre 1. The caller has previously logged in to the server and joined a game (i.e., they have
      * valid catan.user and catan.game HTTP cookies).
@@ -480,9 +480,9 @@ public class ServerProxy implements IServerProxy {
      *   todo: explain to group why return type changed from JSONObject to String
      */
     @Override
-    public String gameModelVersion(int modelVer) throws ClientException {
+    public String gameModelVersion() throws ClientException {
 
-        String urlStr = "http://localhost:8081/game/model?version=" + modelVer;
+        String urlStr = "http://localhost:8081/game/model";
         return httpGet(urlStr);
     }
 
