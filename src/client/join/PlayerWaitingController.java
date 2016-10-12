@@ -36,7 +36,15 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void start() {
 
-		//TEST------
+		System.out.println("PLAYERWAITINGCONTROLLER: start called");
+
+		//currently getting list of players from the server via ListGames.
+		// we should probably be getting it from the ClientModel>Players. VIA NOTIFYOBSERVERS!!
+		// yes we need to do that because if we're not updating the PlayerWaitingView based on the Players in the model
+		// the view will not be updated with the players that joined your game from different computers.
+
+		//maybe I could make a function that converts the Player object from ClientModel into PlayerInfo objects here in this class
+
 		//--------
 		//Give the PlayerWaitingView the existing list of players from the game they want to join:
 			GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGame();
@@ -46,7 +54,29 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			getView().setPlayers(setThesePlayerInfos);
 		//------------
 
-		getView().showModal();
+		//check HERE if there are enough player in the game
+		int numPlayersInGame = setThesePlayerInfos.length;
+		System.out.println("PLAYERWAITINGCONTROLLER: start(): there are " + numPlayersInGame +
+				" players in game " + addedGame.getId());
+
+
+		if (numPlayersInGame < 4) {
+			//there are still more players needed for this game, so show the PlayerWaitingView
+			System.out.println("PLAYERWAITINGCONTROLLER: start(): Showing the PlayerWaitingView!");
+			getView().showModal();
+		}
+		else if (numPlayersInGame == 4){
+			//ok to start the game, we have all the players
+			//so DON'T show the PlayerWaitingView
+			System.out.println("PLAYERWAITINGCONTROLLER: start(): SKIPPING the PlayerWaitingView");
+			//just start the game
+			//test:
+			getView().closeModal(); //might not be necessary. but where does the pgm execution go from here?
+		}
+		else {
+			//something weird is happening
+			System.out.println("PLAYERWAITINGCONTROLLER: start(): wat?");
+		}
 
 	}
 
@@ -85,13 +115,15 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 
 
-		//update PlayerWaitingView
+
+		//update PlayerWaitingView with newly added players
 
 		//don't close until it's done - all four players are there
 		if (ClientUser.getInstance().getCurrentAddedGame().getPlayers().size() < 4){
 			// we still need more players - go again
 			//make a new PlayerWaitingView?
 			System.out.println(">PLAYERWAITINGCONT: addAI: currGame #players < 4");
+
 
 		}
 		else{
@@ -117,10 +149,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 
-
 	@Override
 	public void update(Observable o, Object arg) {
 
+		//cast Observable into ClientModel
+
+		//the model comes back here, updated every 2 seconds.
+		//this is where PWV pulls out the updated list of Players for ClientUser's currAddedGameID
+		//and does setPlayers() or whatever it needs to do to show the new boxes on the view.
 	}
 
 }

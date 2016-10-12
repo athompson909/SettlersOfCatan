@@ -137,6 +137,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
         GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
 
+		System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
         getNewGameView().closeModal();
 
@@ -149,14 +150,22 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
     }
 
+    /**
+	 * This function just shows the SelectColorView
+     */
 	@Override
 	public void startJoinGame(GameInfo game) {
 
-				//WE CAN'T JOIN A GAME UNTIL WE'VE PICKED A COLOR
-		//try
+		//WE CAN'T JOIN A GAME UNTIL WE'VE PICKED A COLOR
+
+		System.out.println("JOINGAMECONTROLLER: startJoinGame called, game= " + game);
+
 		getSelectColorView().showModal();
 
 		joinThisGameInfo = game;  //TEST
+
+		//check HERE if the PlayerWaitingView really needs to show up or not?
+
 //		if(game.getPlayers().size() < 4){
 //
 //
@@ -174,6 +183,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void joinGame(CatanColor color) {
+
+		System.out.println("JOINGAMECONTROLLER: joinGame called, selectedColor= " + color);
 
 		// If join succeeded, send the server a GameJoin Cmd object:
 
@@ -198,6 +209,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
 			ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
+
+			//get the model for the first time here
 		}
 		else{
 			//print - it didn't work

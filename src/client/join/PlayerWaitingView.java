@@ -130,8 +130,9 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 				//give that array of PlayerInfos to setPlayers()
 				setPlayers(setThesePlayerInfos);
 
-				//we may need to do SetPlayers() earlier than this.
-				//PlayerWaitingView needs to show the players existing in the game too
+				//How can I tell the PWV to refresh its actual look with the new boxes? SetPlayers() doesn't do it.
+
+
 			}
 		}	
 	};
@@ -147,7 +148,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		//set header label indicating how many players are still needed
 		String labelText = "";
 		if(value.length == NUMBER_OF_PLAYERS){
-			labelText = "This game is ready to go!";
+			labelText = "This game is ready to go!";   //this never happens in the demo - it just closes the modal and starts the game
 			addAiButton.setEnabled(false);
             startGame();
 		}
@@ -185,7 +186,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
      * this has everything to do with starting the game when ready
      */
 	private void startGame() {
-	    closeModal();
+	    this.closeModal(); //TEST: I just added "this"
     }
 
 	//This list of AITypes should come from the server: listAICommand
