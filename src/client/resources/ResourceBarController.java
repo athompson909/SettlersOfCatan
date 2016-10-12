@@ -1,7 +1,11 @@
 package client.resources;
 
+import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
+import shared.model.ClientModel;
+import shared.model.player.Player;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +18,8 @@ import java.util.Observable;
 public class ResourceBarController extends Controller implements IResourceBarController {
 
 	private Map<ResourceBarElement, IAction> elementActions;
+	private ClientModel model;
+	private boolean turn;
 	
 	public ResourceBarController(IResourceBarView view) {
 
@@ -40,22 +46,30 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
 	@Override
 	public void buildRoad() {
-		executeElementAction(ResourceBarElement.ROAD);
+		if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
+			executeElementAction(ResourceBarElement.ROAD);
+		}
 	}
 
 	@Override
 	public void buildSettlement() {
-		executeElementAction(ResourceBarElement.SETTLEMENT);
+		if(model.canPurchaseSettlement(ClientUser.getInstance().getIndex())) {
+			executeElementAction(ResourceBarElement.SETTLEMENT);
+		}
 	}
 
 	@Override
 	public void buildCity() {
-		executeElementAction(ResourceBarElement.CITY);
+		if(model.canPurchaseCity(ClientUser.getInstance().getIndex())) {
+			executeElementAction(ResourceBarElement.CITY);
+		}
 	}
 
 	@Override
 	public void buyCard() {
-		executeElementAction(ResourceBarElement.BUY_CARD);
+		if(model.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
+			executeElementAction(ResourceBarElement.BUY_CARD);
+		}
 	}
 
 	@Override
@@ -74,7 +88,28 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
 	@Override
 	public void update(Observable o, Object arg) {
-
+		model = (ClientModel)o;
+		//todo add state checking
+		TurnTracker tracker = model.getTurnTracker();
+		//check if it is this players turn and enable or disable appropriately
+		if(tracker.getCurrentTurn() == ClientUser.getInstance().getIndex()){
+			//enable things that can be clicked on
+			if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
+				getView().setElementEnabled(ResourceBarElement.ROAD,true);
+			}else{
+				getView().setElementEnabled(ResourceBarElement.ROAD,false);
+			}
+		}else{
+			//disable everything
+			getView().setElementEnabled(ResourceBarElement.ROAD,false);
+			getView().setElementEnabled(ResourceBarElement.SETTLEMENT,false);
+			getView().setElementEnabled(ResourceBarElement.CITY,false);
+			getView().setElementEnabled(ResourceBarElement.BUY_CARD,false);
+			getView().setElementEnabled(ResourceBarElement.PLAY_CARD,false);
+		}
+		//todo reset numbers
+		//Player player = model.getCurrentPlayer();
+		//getView().setElementAmount(ResourceBarElement.SOLDIERS, );
 	}
 }
 
