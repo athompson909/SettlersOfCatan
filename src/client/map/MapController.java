@@ -28,6 +28,7 @@ public class MapController extends Controller implements IMapController {
         super(view);
         System.out.println("Map Controller Constructor");
         setRobView(robView);
+        
     }
 
     public IMapView getView() {

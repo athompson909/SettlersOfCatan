@@ -130,7 +130,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel)o;
 
-
 	}
 }
 

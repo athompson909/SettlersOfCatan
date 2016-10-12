@@ -457,6 +457,7 @@ public class ClientModel extends Observable {
 
     @Override
     public void notifyObservers() {
+
         super.notifyObservers();
     }
 
