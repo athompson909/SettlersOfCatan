@@ -9,6 +9,7 @@ import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
+import shared.model.commandmanager.game.GameJoinCommand;
 
 import java.util.Observable;
 
@@ -22,6 +23,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+	private GameInfo joinThisGameInfo;  //TEST
 
 	/**
 	 * JoinGameController constructor
@@ -146,27 +148,53 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
         this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
     }
+
 	@Override
 	public void startJoinGame(GameInfo game) {
 
-		//add the user to the game they just created using the GameInfo object here
-
-		System.out.println(">JOINGAMECONTROLLER: startJoinGame called, gameInfo= " + game);
-		//ask ClientFacade to do JoinGameCommand
-
+				//WE CAN'T JOIN A GAME UNTIL WE'VE PICKED A COLOR
+		//try
 		getSelectColorView().showModal();
+
+		joinThisGameInfo = game;  //TEST
 	}
 
 	@Override
 	public void cancelJoinGame() {
-	
+
 		getJoinGameView().closeModal();
 	}
 
 	@Override
 	public void joinGame(CatanColor color) {
-		
+
+		// If join succeeded, send the server a GameJoin Cmd object:
+
+		//add the user to the game they just created using the GameInfo object here
+
+		//ask ClientFacade to do JoinGameCommand
+		CatanColor userColor = ClientUser.getInstance().getColor();
+		int desiredGameID = joinThisGameInfo.getId();
+
+		//create joinGameCommand
+		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, userColor);
+
+		//send it to ClientFacade
+		if (ClientFacade.getInstance().gameJoin(gameJoinCommand) == true) {
+			//print - it worked
+			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
+
+			//ok to save the id of the game they just joined to ClientUser singleton for later use
+			ClientUser.getInstance().setCurrentGameID(desiredGameID);
+		}
+		else{
+			//print - it didn't work
+			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
+		}
+		//user should now be added to the game the clicked on.
+
 		// If join succeeded
+
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();

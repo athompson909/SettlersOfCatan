@@ -99,7 +99,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		this.add(aiPanel, BorderLayout.SOUTH);
 
 
-		//SET AI CHOICES - Sierra put this here, but we can totally move it to a smarter spot
+		//SET AI CHOICES -
 		String[] allAIsArr = ClientFacade.getInstance().listAI();
 		setAIChoices(allAIsArr);
 	}
@@ -108,7 +108,16 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 	private ActionListener actionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == addAiButton) {			
+			if (e.getSource() == addAiButton) {
+
+				System.out.println("PLAYERWAITINGVIEW: ADD AI BTN pushed");
+
+				//setPlayers here?
+				//ask server for gamelist
+				//have our gameId saved somewhere
+				//get the list of players from the server response using the current gameID
+				//use that list of players to do setPlayers() here
+
 				getController().addAI();
 			}
 		}	
@@ -121,6 +130,8 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 	@Override
 	public void setPlayers(PlayerInfo[] value) {
+
+
 		//set header label indicating how many players are still needed
 		String labelText = "";
 		if(value.length == NUMBER_OF_PLAYERS){

@@ -38,24 +38,39 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void addAI() {
 		// called when they push the "Add computer player" button
 
+		System.out.println("PLAYERWAITINGCONT: addAI called");
+
 		//actually talk to the server to add the player here
 
 		//get the AI they picked from the spinner (only really one choice though)
 		String selectedAI = getView().getSelectedAI();
 		//build a AddAICmd object:
 		AddAICommand addAICommand = new AddAICommand(selectedAI);
+
+		System.out.println("PLAYERWAITINGCONT: adding AI type: " + selectedAI);
+
 		//send cmd to ClientFacade:
+
 		if (ClientFacade.getInstance().addAI(addAICommand) == true){
 			//it worked
+
+			System.out.println("PLAYERWAITINGCONT: AI Add successful! : " + selectedAI);
+
 			//PlayerWaitingView now needs to update its list of players added to be able to show their name/color correctly
 			//setPlayers() wants a PlayerInfo[], which can come from GameInfo[] for this game.
 		}
 		else {
 			//it didn't work for some reason, show a message
-			String msgTitle = "AddAI Failed";
-			String message = "Adding computer player " + selectedAI + " failed!";
-			showRejectMessage(msgTitle, message);
+			System.out.println("PLAYERWAITINGCONT: AI Add didn't work :(");
+
 		}
+
+
+
+		//update PlayerWaitingView's setPlayers();
+
+
+		//don't close until it's done
 
 		getView().closeModal();
 	}
