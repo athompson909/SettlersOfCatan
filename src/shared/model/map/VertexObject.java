@@ -69,4 +69,6 @@ public class VertexObject {
                 ", pieceType=" + pieceType +
                 '}';
     }
+
+
 }

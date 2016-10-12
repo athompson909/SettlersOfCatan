@@ -292,6 +292,7 @@ public class ClientModel extends Observable {
     public void purchaseDevCard(int playerIndex){
         DevCardType purcahsedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
         players[playerIndex].purchaseDevelopmentCard(purcahsedDevCard); //Send to player
+
     }
 
     /**
