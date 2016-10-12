@@ -188,6 +188,7 @@ public class JSONTranslator {
             //    System.out.println(">newTradeOfferObj= " + newCMTradeOffer);
         }
         else{
+            newClientModel.tradeOffer = new TradeOffer();
             System.out.println(">No TradeOffer found in newClientModel JSON");
         }
 
