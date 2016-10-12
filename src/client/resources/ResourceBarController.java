@@ -5,6 +5,7 @@ import client.base.Controller;
 import client.base.IAction;
 import shared.model.ClientModel;
 import shared.model.player.Player;
+import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
 import java.util.HashMap;
@@ -26,6 +27,12 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		super(view);
 		
 		elementActions = new HashMap<ResourceBarElement, IAction>();
+
+		//disable everything
+		getView().setElementEnabled(ResourceBarElement.ROAD,false);
+		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,false);
+		getView().setElementEnabled(ResourceBarElement.CITY,false);
+		getView().setElementEnabled(ResourceBarElement.BUY_CARD,false);
 	}
 
 	@Override
@@ -46,30 +53,30 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
 	@Override
 	public void buildRoad() {
-		if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
+		//if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
 			executeElementAction(ResourceBarElement.ROAD);
-		}
+		//}
 	}
 
 	@Override
 	public void buildSettlement() {
-		if(model.canPurchaseSettlement(ClientUser.getInstance().getIndex())) {
+		//if(model.canPurchaseSettlement(ClientUser.getInstance().getIndex())) {
 			executeElementAction(ResourceBarElement.SETTLEMENT);
-		}
+		//}
 	}
 
 	@Override
 	public void buildCity() {
-		if(model.canPurchaseCity(ClientUser.getInstance().getIndex())) {
+		//if(model.canPurchaseCity(ClientUser.getInstance().getIndex())) {
 			executeElementAction(ResourceBarElement.CITY);
-		}
+		//}
 	}
 
 	@Override
 	public void buyCard() {
-		if(model.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
+		//if(model.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
 			executeElementAction(ResourceBarElement.BUY_CARD);
-		}
+		//}
 	}
 
 	@Override
@@ -99,17 +106,39 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			}else{
 				getView().setElementEnabled(ResourceBarElement.ROAD,false);
 			}
+			if(model.canPurchaseSettlement(ClientUser.getInstance().getIndex())) {
+				getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
+			}else{
+				getView().setElementEnabled(ResourceBarElement.SETTLEMENT,false);
+			}
+			if(model.canPurchaseCity(ClientUser.getInstance().getIndex())) {
+				getView().setElementEnabled(ResourceBarElement.CITY,true);
+			}else{
+				getView().setElementEnabled(ResourceBarElement.CITY,false);
+			}
+			if(model.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
+				getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);
+			}else {
+				getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+			}
+			//Note: we leave PLAY_CARD enabled and then it will disable within the modal itself
 		}else{
 			//disable everything
 			getView().setElementEnabled(ResourceBarElement.ROAD,false);
 			getView().setElementEnabled(ResourceBarElement.SETTLEMENT,false);
 			getView().setElementEnabled(ResourceBarElement.CITY,false);
 			getView().setElementEnabled(ResourceBarElement.BUY_CARD,false);
-			getView().setElementEnabled(ResourceBarElement.PLAY_CARD,false);
+			//Note: we leave PLAY_CARD enabled and then it will disable within the modal itself
 		}
-		//todo reset numbers
-		//Player player = model.getCurrentPlayer();
-		//getView().setElementAmount(ResourceBarElement.SOLDIERS, );
+		//update player values
+		Player player = model.getCurrentPlayer();
+		ResourceList resources = player.getPlayerResourceList();
+		getView().setElementAmount(ResourceBarElement.WOOD, resources.getWoodCardCount());
+		getView().setElementAmount(ResourceBarElement.BRICK, resources.getBrickCardCount());
+		getView().setElementAmount(ResourceBarElement.SHEEP, resources.getSheepCardCount());
+		getView().setElementAmount(ResourceBarElement.WHEAT, resources.getWheatCardCount());
+		getView().setElementAmount(ResourceBarElement.ORE, resources.getOreCardCount());
+		getView().setElementAmount(ResourceBarElement.SOLDIERS, player.getSoldiersPlayed());
 	}
 }
 
