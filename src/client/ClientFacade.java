@@ -245,9 +245,10 @@ public class ClientFacade {
 
             if(response.equals("Success")){
                 System.out.println(">>CLIENTFACADE: gameJoin: join worked");
-                gameModelVersion();
+                gameModelVersion(); // ************* THIS IS WHERE THE MODEL IS FIRST INSTANTIATED ****************
+                serverProxy.startPoller();
                 return true;
-            }else{
+            } else {
                 System.out.println(">>CLIENTFACADE: gameJoin: join FAILED");
                 return false;
             }
