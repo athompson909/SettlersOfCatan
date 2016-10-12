@@ -1,6 +1,5 @@
 package shared.model;
 
-import client.base.Controller;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -14,10 +13,10 @@ import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
 
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-import java.util.HashMap;
 
 
 /**
