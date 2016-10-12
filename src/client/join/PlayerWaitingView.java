@@ -1,18 +1,18 @@
 package client.join;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
-
-import javax.swing.*;
-
 import client.ClientFacade;
 import client.ClientUser;
-import client.base.*;
-import client.data.*;
-import client.utils.*;
-import shared.model.JSONTranslator;
+import client.base.OverlayView;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
+import client.utils.FontUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -148,6 +148,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		if(value.length == NUMBER_OF_PLAYERS){
 			labelText = "This game is ready to go!";
 			addAiButton.setEnabled(false);
+            startGame();
 		}
 		else{
 			labelText = ("Waiting for Players: Need " + (NUMBER_OF_PLAYERS-value.length) + " more");
@@ -178,6 +179,13 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 			center.add(new Box.Filler(minSize, prefSize, maxSize));			
 		}
 	}
+
+    /**
+     * this has everything to do with starting the game when ready
+     */
+	private void startGame() {
+	    closeModal();
+    }
 
 	//This list of AITypes should come from the server: listAICommand
 	//we can access the server/ClientFacade since the ClientFacade is a singleton!
