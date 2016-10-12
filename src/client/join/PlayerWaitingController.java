@@ -83,4 +83,3 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 }
-
