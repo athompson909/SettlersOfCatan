@@ -156,7 +156,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//try
 		getSelectColorView().showModal();
 
-		joinThisGameInfo = game;  //TEST
+		if(game.getPlayers().size() < 4) joinThisGameInfo = game;  //TEST
+		else {
+			//invalid game
+		}
 	}
 
 	@Override
