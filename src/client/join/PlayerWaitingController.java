@@ -169,7 +169,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void update(Observable o, Object arg) {
-
+		System.out.println("PLAYER WAITING CONTROLLER");
 		//cast Observable into ClientModel here
 
 		//the model comes back here, updated every 2 seconds.
