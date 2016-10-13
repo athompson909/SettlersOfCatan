@@ -1,5 +1,4 @@
 package client;
-
 import exceptions.ClientException;
 
 import java.util.Date;

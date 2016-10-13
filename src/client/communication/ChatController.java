@@ -56,6 +56,9 @@ public class ChatController extends Controller implements IChatController {
 		//create map of players and colors for easy translation between the two
 		Map<String, CatanColor> playerMap = new HashMap<>();
 		Player[] players = model.getPlayers();
+
+		//there may be less then 4 players in the game -
+		// if so, model.getPlayers() still returns an array of size 4, but it will have null entries
 		for(int i = 0; i < 4; i++){
 			if(players[i] == null) break;//takes care of when there are less than 4 players currently in the game
 			//that conditional however is only going to be necessary when a player is joining a game and there is only currently one player
@@ -67,6 +70,7 @@ public class ChatController extends Controller implements IChatController {
 			LogEntry entry = new LogEntry(playerMap.get(l.getSource()), l.getMessage());
 			logEntries.add(entry);
 		}
+
 		getView().setEntries(logEntries);
 	}
 

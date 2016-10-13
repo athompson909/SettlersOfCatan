@@ -189,7 +189,7 @@ public class JSONTranslator {
         }
         else{
            // newClientModel.tradeOffer = newCMTradeOffer;
-            System.out.println(">No TradeOffer found in newClientModel JSON");
+          //  System.out.println(">No TradeOffer found in newClientModel JSON");
         }
 
         //TradeOffer is complete! Ready to add to the new ClientModel obj.
@@ -203,7 +203,6 @@ public class JSONTranslator {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //BUILD NEW CLIENTMODEL OBJECT
-        //TODO: same as just above this - how can we access the previous ClientModel's gameNumber?
         newClientModel = new ClientModel(0);
         newClientModel.setVersion(newCMVersion);
         newClientModel.setWinner(newCMWinner);
@@ -215,6 +214,8 @@ public class JSONTranslator {
         newClientModel.setTradeOffer(newCMTradeOffer);
         newClientModel.setPlayers(newPlayersArray);
         newClientModel.setMap(newCMMap);
+
+        System.out.println("===== POLL FINISHED - MODEL TRANSLATION COMPLETE ====");
 
         return newClientModel;
     }
@@ -455,13 +456,12 @@ public class JSONTranslator {
      * @return
      */
     public Player[] parsePlayersArrFromJSON(JSONArray playersArrJSON){
-        Player[] newPlayersArray = new Player[4]; //there is a max of 4 players per game
+        Player[] newPlayersArray = new Player[playersArrJSON.length()]; //there is a max of 4 players per game
         //for loop through newPlayersJSONArr, make a Player obj out of each one, and add it to the Player[]
 
         for (int p = 0; p < playersArrJSON.length(); p++)
         {
-            //realistically I don't think the model will ever need to be parsed without 4 players added,
-            // but just to be sure/for testing purposes:
+            // check if the players coming in are valid
             if (!playersArrJSON.get(p).equals(null) && playersArrJSON.get(p) != null) {//todo: delete if(sure)
                 JSONObject currPlayerJSON = playersArrJSON.getJSONObject(p);
                 String currPlayerJSONStr = currPlayerJSON.toString();
@@ -801,7 +801,7 @@ public class JSONTranslator {
             String currGameListItemString = currGameListItem.toString();
             //GameInfo newGameInfo = gsonConverter.fromJson(currGameListItemString, GameInfo.class);
 
-            System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: currGameListItemStr= " + currGameListItemString);
+            System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: game " + g + "= " + currGameListItemString);
 
             //we need to do this manually to remove all null/empty players:
             GameInfo newGameInfo = new GameInfo();

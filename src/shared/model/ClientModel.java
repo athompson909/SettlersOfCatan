@@ -473,16 +473,21 @@ public class ClientModel extends Observable {
     @Override
     public void notifyObservers() {
 
+        System.out.println(">CLIENTMODEL: notifyObservers called");
+
         super.notifyObservers();
     }
 
     /**
-     * I'm added an increment to the version everytime here because I think this goes eeverytime the model is changed
+     * I'm added an increment to the version everytime here because I think this goes everytime the model is changed
      * @param arg
      */
     @Override
     public void notifyObservers(Object arg) {
+
         version++;
+        System.out.println(">CLIENTMODEL: notifyObservers called, new ver= " + version);
+
         super.notifyObservers(arg);
     }
 
