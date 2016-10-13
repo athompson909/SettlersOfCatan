@@ -416,7 +416,6 @@ public class ClientModel extends Observable {
 
     //SETTERS
     public void setChanged(boolean set) {
-        notifyObservers();//the observers need to be aware of the change//todo: test
         changed = set;
     }
     public void setVersion(int newModVer) {version = newModVer;}
