@@ -39,6 +39,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	private void initFromModel() {
 		//<temp>//todo do I need to change this to a real color?
 		getView().setLocalPlayerColor(CatanColor.BLUE);
+		//getView().setLocalPlayerColor(ClientUser.getInstance().getColor());
 		//</temp>
 	}
 

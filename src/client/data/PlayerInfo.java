@@ -26,7 +26,7 @@ public class PlayerInfo
 		setId(-1);
 		setPlayerIndex(-1);
 		setName(null);  //changed from ""
-		setColor(CatanColor.WHITE);
+		setColor(null);
 	}
 
 	

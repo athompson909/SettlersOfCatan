@@ -110,15 +110,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(join);
 
 
-        //CURRENT ISSUES *******************************
-        /*
-        	after you select a color, needs to let you add multiple computer players until the game is really full.
-        	needs to add you to the game you just created
-         */  // - Sierra
-        //*******************************
-
 		System.out.println("\tJOINGAMEVIEW: setting games/players list");
-
 
 		// This is the looped layout
 		if (games != null && games.length > 0)
@@ -153,7 +145,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
                 // ***************************************************localPlayer used here
 				if (game.getPlayers().contains(localPlayer))
 				{
-                    System.out.println("\t>Game " + game.getTitle() + " contains LocalPlayer");
+                //    System.out.println("\t>Game " + game.getTitle() + " contains LocalPlayer");
 
 					joinButton = new JButton("Re-Join");
 				}

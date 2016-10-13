@@ -223,6 +223,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//PWC should have its own personal ClientModel that gets updated every time this function happens
 		clientModel = model;
+		int newLocalPlayerIndex = model.getCurrentPlayer().getPlayerIndex();// try this
+		ClientUser.getInstance().setIndex(newLocalPlayerIndex);
+
 
 //		//this is where PWC pulls out the updated list of Players for ClientUser's currAddedGameID
 //		Player[] updatedPlayersArr = clientModel.getPlayers(); //I'm pretty sure that this will be unique for each game. Check!
@@ -254,6 +257,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			I may want to ask the TAs how they got the PlayerList to update every 2 sec even when the server
 			doesn't count that as a model "update"... maybe they just don't even check the version numbers with the
 			new model coming back, and they just send the update around the observer network every time anyways?
+		 */
+
+		/*
+			**UPDATE: when looking at the server output while running the demo client, it shows games/list
+			* being called every 2 sec. That means the Poller just calls /games/List UNTIL you
+			* finish picking a color and join the game for real. So I still need to ask the TAs about the
+			* player list updating from the model during PlayerWaitingView, but for JoinGameView we need to
+			* add a state or something to the Poller to tell it to do /games/list until the end of SelectColorView.
 		 */
 	}
 

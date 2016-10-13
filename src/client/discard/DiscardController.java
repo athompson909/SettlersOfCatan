@@ -18,11 +18,13 @@ import java.util.Observable;
  * Discard controller implementation
  */
 public class DiscardController extends Controller implements IDiscardController {
-
+//todo make sure to check if they have already discarded this turn (ex: if they have 15 cards and discard 7 they don't need to discard 4 more)
 	private ResourceList discardList = new ResourceList();
     private ResourceList resources;
-    private int amount = 0;
-    private int total = 6;
+    private int amount;
+    private int total;
+    private boolean modalOpen = false;
+    private boolean waitModalOpen = false;
 	private IWaitView waitView;
 	
 	/**
@@ -36,6 +38,9 @@ public class DiscardController extends Controller implements IDiscardController 
 		super(view);
 		
 		this.waitView = waitView;
+
+        //set arrows to false
+        reset();
 	}
 
 	public IDiscardView getDiscardView() {
@@ -48,102 +53,62 @@ public class DiscardController extends Controller implements IDiscardController 
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-        updateAmount(1);
 
 		if(resource.toString().equals("WOOD")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
 			discardList.incWoodCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getWoodCardCount());
-            if(discardList.getWoodCardCount() == resources.getWoodCardCount()){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
-            }
 		}else if(resource.toString().equals("BRICK")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
 			discardList.incBrickCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getBrickCardCount());
-            if(discardList.getBrickCardCount() == resources.getBrickCardCount()){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
-            }
 		}else if(resource.toString().equals("SHEEP")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
 			discardList.incSheepCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getSheepCardCount());
-            if(discardList.getSheepCardCount() == resources.getSheepCardCount()){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
-            }
 		}else if(resource.toString().equals("WHEAT")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
 			discardList.incWheatCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getWheatCardCount());
-            if(discardList.getWheatCardCount() == resources.getWheatCardCount()){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
-            }
 		}else if(resource.toString().equals("ORE")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
 			discardList.incOreCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getOreCardCount());
-            if(discardList.getOreCardCount() == resources.getOreCardCount()){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
-            }
 		}
+        updateButton();
+		setArrows();
 	}
 
 	@Override
 	public void decreaseAmount(ResourceType resource) {
-        updateAmount(-1);
-        //I am assuming if they ever decrease it could not be at the amount needed
-        getDiscardView().setDiscardButtonEnabled(false);
 
 		if(resource.toString().equals("WOOD")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
 			discardList.decWoodCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getWoodCardCount());
-            if(discardList.getWoodCardCount() == 0){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
-            }
 		}else if(resource.toString().equals("BRICK")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
 			discardList.decBrickCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getBrickCardCount());
-            if(discardList.getBrickCardCount() == 0){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
-            }
 		}else if(resource.toString().equals("SHEEP")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
 			discardList.decSheepCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getSheepCardCount());
-            if(discardList.getSheepCardCount() == 0){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
-            }
 		}else if(resource.toString().equals("WHEAT")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
 			discardList.decWheatCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getWheatCardCount());
-            if(discardList.getWheatCardCount() == 0){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
-            }
 		}else if(resource.toString().equals("ORE")){
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
 			discardList.decOreCardCount(1);
 			getDiscardView().setResourceDiscardAmount( resource, discardList.getOreCardCount());
-            if(discardList.getOreCardCount() == 0){
-                getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
-            }
 		}
+        updateButton();
+		setArrows();
 	}
 
 	@Override
 	public void discard() {
+        getDiscardView().closeModal();
+        reset();
 		DiscardCommand command = new DiscardCommand(ClientUser.getInstance().getIndex(), discardList);
 		ClientFacade.getInstance().discardCards(command);
-		//todo open waiting modal? do I want to use the state pattern here
-        getWaitView().showModal();
-		getDiscardView().closeModal();
+        //set arrows to false to prep for next time
+        modalOpen = false;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-	//todo check if the player needs to discard or wait for others to discard
         ClientModel model = (ClientModel)o;
 
         //save current players resource list
@@ -157,14 +122,21 @@ public class DiscardController extends Controller implements IDiscardController 
         if (tracker.getStatus() != null){
             if(tracker.getStatus().equals("Discarding")){
                 //I need to discard
-                if(resources.getCardCount() > 7){
-                    setDiscardModalValues();
-                }else {//others are discarding
+                if(resources.getCardCount() > 7 ){
+                    if(!modalOpen) {
+                        setDiscardModalValues();
+                        getDiscardView().showModal();
+                        //modalOpen = true; todo figure out why this doesnt work
+                    }
+                    //todo fix this so it doesn't do things over and over and cause flashing
+                }else if(!waitModalOpen){//others are discarding
                     getWaitView().showModal();
+                    waitModalOpen = true;
                 }
             }else{
                 //todo check if this appropriately closes the modal after others discard
                 getWaitView().closeModal();
+                waitModalOpen = false;
             }
         }
 
@@ -178,37 +150,66 @@ public class DiscardController extends Controller implements IDiscardController 
         getDiscardView().setResourceMaxAmount(ResourceType.WHEAT, resources.getWheatCardCount());
         getDiscardView().setResourceMaxAmount(ResourceType.ORE, resources.getOreCardCount());
 
-        //set appropriate up arrows
-        if(resources.getWoodCardCount() > 0) {
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
-        }
-        if(resources.getBrickCardCount() > 0) {
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
-        }
-        if(resources.getSheepCardCount() > 0) {
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
-        }
-        if(resources.getWheatCardCount() > 0) {
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
-        }
-        if(resources.getOreCardCount() > 0) {
-            getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
-        }
+        //set button
+        updateButton();
 
-        //set disabled button
-        amount = 0;
-        getDiscardView().setStateMessage("Discard: " + amount + "/" + total);
-        getDiscardView().setDiscardButtonEnabled(true);
-
+        setArrows();
     }
 
-    public void updateAmount(int num){
-        amount += num;
+    public void updateButton(){
+        amount = discardList.getCardCount();
         getDiscardView().setStateMessage("Discard: " +amount + "/" + total);
         if(amount == total) {//needed discard amount reached
             //enable button
             getDiscardView().setDiscardButtonEnabled(true);
+        }else {
+            getDiscardView().setDiscardButtonEnabled(false);
         }
+    }
+
+    public void setArrows(){
+        //allow increases only if more need to be discarded
+        boolean up = !(amount == total);
+
+        //allow decreases only if the count is above zero
+        boolean woodDown = (discardList.getWoodCardCount() > 0);
+        boolean brickDown = (discardList.getBrickCardCount() > 0);
+        boolean sheepDown = (discardList.getSheepCardCount() > 0);
+        boolean wheatDown = (discardList.getWheatCardCount() > 0);
+        boolean oreDown = (discardList.getOreCardCount() > 0);
+
+		//allow decreases only if the count is above zero
+		boolean woodUp = (discardList.getWoodCardCount() < resources.getWoodCardCount());
+		boolean brickUp = (discardList.getBrickCardCount() < resources.getBrickCardCount());
+		boolean sheepUp = (discardList.getSheepCardCount() < resources.getSheepCardCount());
+		boolean wheatUp = (discardList.getWheatCardCount() < resources.getWheatCardCount());
+		boolean oreUp = (discardList.getOreCardCount() < resources.getOreCardCount());
+
+        //set appropriate arrows
+        if(resources.getWoodCardCount() > 0 ) {
+            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, (up&&woodUp), woodDown);
+        }
+        if(resources.getBrickCardCount() > 0) {
+            getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, (up&&brickUp), brickDown);
+        }
+        if(resources.getSheepCardCount() > 0) {
+            getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, (up&&sheepUp), sheepDown);
+        }
+        if(resources.getWheatCardCount() > 0) {
+            getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, (up&&wheatUp), wheatDown);
+        }
+        if(resources.getOreCardCount() > 0) {
+            getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, (up&&oreUp), oreDown);
+        }
+    }
+
+    public void reset() {
+        //set arrows to false
+        getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
+        getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
+        getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
+        getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
+        getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
     }
 
 }
