@@ -43,7 +43,7 @@ public class ChatController extends Controller implements IChatController {
 	@Override
 	public void update(Observable o, Object arg) {
 
-		System.out.println("CHATCONTROLLER UPDATE called");
+	//	System.out.println("CHATCONTROLLER UPDATE called");
 
 		//set view.setEntries(list of entries from ClientModel) here?
 		ClientModel model = (ClientModel) o;
@@ -68,6 +68,7 @@ public class ChatController extends Controller implements IChatController {
 			LogEntry entry = new LogEntry(playerMap.get(l.getSource()), l.getMessage());
 			logEntries.add(entry);
 		}
+
 		getView().setEntries(logEntries);
 	}
 

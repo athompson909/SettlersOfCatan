@@ -203,7 +203,6 @@ public class JSONTranslator {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //BUILD NEW CLIENTMODEL OBJECT
-        //TODO: same as just above this - how can we access the previous ClientModel's gameNumber?
         newClientModel = new ClientModel(0);
         newClientModel.setVersion(newCMVersion);
         newClientModel.setWinner(newCMWinner);
@@ -216,7 +215,7 @@ public class JSONTranslator {
         newClientModel.setPlayers(newPlayersArray);
         newClientModel.setMap(newCMMap);
 
-        System.out.println("===== POLL FINISED - MODEL TRANSLATION COMPLETE ====");
+        System.out.println("===== POLL FINISHED - MODEL TRANSLATION COMPLETE ====");
 
         return newClientModel;
     }
@@ -457,7 +456,7 @@ public class JSONTranslator {
      * @return
      */
     public Player[] parsePlayersArrFromJSON(JSONArray playersArrJSON){
-        Player[] newPlayersArray = new Player[4]; //there is a max of 4 players per game
+        Player[] newPlayersArray = new Player[playersArrJSON.length()]; //there is a max of 4 players per game
         //for loop through newPlayersJSONArr, make a Player obj out of each one, and add it to the Player[]
 
         for (int p = 0; p < playersArrJSON.length(); p++)
@@ -802,7 +801,7 @@ public class JSONTranslator {
             String currGameListItemString = currGameListItem.toString();
             //GameInfo newGameInfo = gsonConverter.fromJson(currGameListItemString, GameInfo.class);
 
-            System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: currGameListItemStr= " + currGameListItemString);
+            System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: game " + g + "= " + currGameListItemString);
 
             //we need to do this manually to remove all null/empty players:
             GameInfo newGameInfo = new GameInfo();
