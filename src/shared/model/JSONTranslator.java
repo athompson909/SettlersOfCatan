@@ -189,7 +189,7 @@ public class JSONTranslator {
         }
         else{
            // newClientModel.tradeOffer = newCMTradeOffer;
-            System.out.println(">No TradeOffer found in newClientModel JSON");
+          //  System.out.println(">No TradeOffer found in newClientModel JSON");
         }
 
         //TradeOffer is complete! Ready to add to the new ClientModel obj.
@@ -215,6 +215,8 @@ public class JSONTranslator {
         newClientModel.setTradeOffer(newCMTradeOffer);
         newClientModel.setPlayers(newPlayersArray);
         newClientModel.setMap(newCMMap);
+
+        System.out.println("===== POLL FINISED - MODEL TRANSLATION COMPLETE ====");
 
         return newClientModel;
     }
@@ -460,8 +462,7 @@ public class JSONTranslator {
 
         for (int p = 0; p < playersArrJSON.length(); p++)
         {
-            //realistically I don't think the model will ever need to be parsed without 4 players added,
-            // but just to be sure/for testing purposes:
+            // check if the players coming in are valid
             if (!playersArrJSON.get(p).equals(null) && playersArrJSON.get(p) != null) {//todo: delete if(sure)
                 JSONObject currPlayerJSON = playersArrJSON.getJSONObject(p);
                 String currPlayerJSONStr = currPlayerJSON.toString();

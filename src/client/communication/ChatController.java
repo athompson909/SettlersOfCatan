@@ -55,8 +55,13 @@ public class ChatController extends Controller implements IChatController {
 		//create map of players and colors for easy translation between the two
 		Map<String, CatanColor> playerMap = new HashMap<>();
 		Player[] players = model.getPlayers();
+
+		//there may be less then 4 players in the game -
+		// if so, model.getPlayers() still returns an array of size 4, but it will have null entries
 		for(int i = 0; i < 4; i++){
-			playerMap.put(players[i].getName(), players[i].getColor());
+			if (players[i] != null){
+				playerMap.put(players[i].getName(), players[i].getColor());
+			}
 		}
 		for(MessageLine l: lines){
 			//create a log entry for each message line

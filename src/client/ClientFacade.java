@@ -146,11 +146,11 @@ public class ClientFacade {
             System.out.println(">CLIENTFACADE: USERREGISTER: server said " + response);
 
             if(response.equals("Success")){
-                System.out.println(">CLIENTFACADE: USERREGISTER: server was happy");
+              //  System.out.println(">CLIENTFACADE: USERREGISTER: server was happy");
 
                 return true;
             }else{
-                System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");
+             //   System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");
 
                 return false;
             }
