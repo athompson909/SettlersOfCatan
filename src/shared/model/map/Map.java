@@ -105,6 +105,8 @@ public class Map {
                HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues) {
         setHexes(newHexes);
         setPorts(newPorts);
+        setEdgeValues(newEdgeValues);
+        setVertexObjects(newVertexLocs);
         //TODO: Look into this...
     }
 
