@@ -48,6 +48,7 @@ public class ChatController extends Controller implements IChatController {
 		//set view.setEntries(list of entries from ClientModel) here?
 		ClientModel model = (ClientModel) o;
 		//TODO: I commented this out for now because it was causing a few errors now that update is actually getting called. Feel free to uncomment it if you're working on it! - Mitch
+		//I'm working on this, -Adam
 		MessageList chat = model.getChat();
 		List<MessageLine> lines = chat.getLines();
 		//create LogEntry list from MessageList
@@ -56,6 +57,9 @@ public class ChatController extends Controller implements IChatController {
 		Map<String, CatanColor> playerMap = new HashMap<>();
 		Player[] players = model.getPlayers();
 		for(int i = 0; i < 4; i++){
+			if(players[i] == null) break;//takes care of when there are less than 4 players currently in the game
+			//that conditional however is only going to be necessary when a player is joining a game and there is only currently one player
+			//todo: find a better solution for above
 			playerMap.put(players[i].getName(), players[i].getColor());
 		}
 		for(MessageLine l: lines){
