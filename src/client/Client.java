@@ -14,9 +14,16 @@ public class Client {
     private ClientModel clientModel;
     // private GameManager gameManager;
     // private View view;
+    // private Controller controller;
     private IServerProxy serverProxy;
 
-    public Client() {
+    private static Client instance = new Client();
+
+    public static Client getInstance() {
+        return instance;
+    }
+
+    private Client() {
         commandManager = new CommandManager();
 
         //todo this parameter is hardcoded
@@ -28,5 +35,7 @@ public class Client {
         serverPoller.setProxy(serverProxy);
     }
 
-
+    public ClientModel getClientModel() {
+        return clientModel;
+    }
 }

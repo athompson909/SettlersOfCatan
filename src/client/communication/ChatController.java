@@ -43,7 +43,8 @@ public class ChatController extends Controller implements IChatController {
 
 		//set view.setEntries(list of entries from ClientModel) here?
 		ClientModel model = (ClientModel)o;
-		MessageList chat = model.getChat();
+		//TODO: I commented this out for now because it was causing a few errors now that update is actually getting called. Feel free to uncomment it if you're working on it! - Mitch
+		/*MessageList chat = model.getChat();
 		List<MessageLine> lines = chat.getLines();
 		//create LogEntry list from MessageList
 		List<LogEntry> logEntries= new ArrayList<LogEntry>();
@@ -58,7 +59,7 @@ public class ChatController extends Controller implements IChatController {
 			LogEntry entry = new LogEntry(playerMap.get(l.getSource()), l.getMessage());
 			logEntries.add(entry);
 		}
-		getView().setEntries(logEntries);
+		getView().setEntries(logEntries);*/
 	}
 
 }
