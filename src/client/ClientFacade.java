@@ -123,6 +123,8 @@ public class ClientFacade {
 
             if(response.equals("Success")) {
                // System.out.println(">CLIENTFACADE: USERLOGIN: server was happy");
+                //save username
+                ClientUser.getInstance().setName(loginCommand.getUsername());
                 return true;
             }
             else {

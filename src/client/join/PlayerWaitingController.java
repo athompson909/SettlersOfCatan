@@ -223,8 +223,13 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//PWC should have its own personal ClientModel that gets updated every time this function happens
 		clientModel = model;
-		int newLocalPlayerIndex = model.getCurrentPlayer().getPlayerIndex();// try this
-		ClientUser.getInstance().setIndex(newLocalPlayerIndex);
+		Player[] players = model.getPlayers();
+		for(int i = 0; i < 4; i++){
+			if(players[i].getName().equals(ClientUser.getInstance().getName())){
+				ClientUser.getInstance().setIndex(i);
+				break;
+			}
+		}
 
 
 //		//this is where PWC pulls out the updated list of Players for ClientUser's currAddedGameID

@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.ClientUser;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;

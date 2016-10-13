@@ -120,8 +120,7 @@ public class DiscardController extends Controller implements IDiscardController 
         TurnTracker tracker = model.getTurnTracker();
         //TESTING
         if (tracker.getStatus() != null){
-            //Todo remove the !
-            if(!tracker.getStatus().equals("Discarding")){
+            if(tracker.getStatus().equals("Discarding")){
                 //I need to discard
                 if(resources.getCardCount() > 7 ){
                     if(!modalOpen) {

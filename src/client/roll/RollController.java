@@ -69,13 +69,15 @@ public class RollController extends Controller implements IRollController {
 		TurnTracker tracker = model.getTurnTracker();
 
 		//See if it is our turn to roll
-		//Todo change Discarding to Rolling
-		if(tracker.getStatus().equals("Discarding") && tracker.getCurrentTurn()== ClientUser.getInstance().getIndex()){
+		if(tracker.getStatus().equals("Rolling") && tracker.getCurrentTurn()== ClientUser.getInstance().getIndex()){
 			if(!rollModal) {
-				getRollView().setMessage("Rolling automatically in... 5 seconds");
+				System.out.println("Roll Modal open");
+				//todo figure out rolling automatically and message setting
+				//getRollView().setMessage("Rolling automatically in... 5 seconds");
 				getRollView().showModal();
 				timer.schedule(new SetMessage(),0, 5000);
-				rollModal = true;
+				//todo figure out how to get the modal to not flash
+				//rollModal = true;
 			}
 		}
 	}
@@ -86,7 +88,7 @@ public class RollController extends Controller implements IRollController {
 		}
 		@Override
 		public void run() {
-			getRollView().setMessage("Rolling automatically in... " + seconds + "seconds");
+			//getRollView().setMessage("Rolling automatically in... " + seconds + "seconds");
 			seconds--;
 			if(seconds == 0){
 				rollDice();

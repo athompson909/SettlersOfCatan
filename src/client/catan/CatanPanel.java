@@ -86,7 +86,8 @@ public class CatanPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-//				rollView.showModal();
+				rollView.showModal();
+               // rollView.setMessage("Rolling automatically in 5 seconds");
 				
 //				discardView.setResourceMaxAmount(ResourceType.WOOD, 1);
 //				discardView.setResourceMaxAmount(ResourceType.BRICK, 0);
@@ -100,18 +101,18 @@ public class CatanPanel extends JPanel
 				
 //				discardView.setStateMessage("Discard: 0/6");
 				
-				discardView.setDiscardButtonEnabled(false);
+//				discardView.setDiscardButtonEnabled(false);
 				
-				if(state == 0)
-				{
-					discardView.showModal();
-					state = 1;
-				}
-				else if(state == 1)
-				{
-					discardWaitView.showModal();
-					state = 2;
-				}
+//				if(state == 0)
+//				{
+//					discardView.showModal();
+//					state = 1;
+//				}
+//				else if(state == 1)
+//				{
+//					discardWaitView.showModal();
+//					state = 2;
+//				}
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);
