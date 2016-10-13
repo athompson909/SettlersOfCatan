@@ -78,12 +78,13 @@ public class ClientFacade {
     */
         //-----TESTING--------
 
-        clientUpdateManager.setCurrentModel(updatedClientModel);
-        if(version == -1) {
+     //   clientUpdateManager.setCurrentModel(updatedClientModel);
+        version = -5;
+        if(version != updatedClientModel.getVersion()) {
 
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
-            version = -2;
+            version = updatedClientModel.getVersion();
         }
         else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
