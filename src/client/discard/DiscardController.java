@@ -120,13 +120,16 @@ public class DiscardController extends Controller implements IDiscardController 
         TurnTracker tracker = model.getTurnTracker();
         //TESTING
         if (tracker.getStatus() != null){
-            if(tracker.getStatus().equals("Discarding")){
+            //Todo remove the !
+            if(!tracker.getStatus().equals("Discarding")){
                 //I need to discard
                 if(resources.getCardCount() > 7 ){
                     if(!modalOpen) {
+                        System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
-                        //modalOpen = true; todo figure out why this doesnt work
+                        //modalOpen = true; //todo figure out why this doesnt work
+                        //maybe because it is trying to update the map, log, and chat?
                     }
                     //todo fix this so it doesn't do things over and over and cause flashing
                 }else if(!waitModalOpen){//others are discarding
