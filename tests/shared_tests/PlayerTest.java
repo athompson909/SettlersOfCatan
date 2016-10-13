@@ -14,12 +14,12 @@ import shared.model.resourcebank.*;
  * Created by Mitchell on 9/24/2016.
  */
 public class PlayerTest extends TestCase {
-    private Player player = new Player(CatanColor.BLUE, "Bob", "bob37", 1);;
+    private Player player = new Player(CatanColor.BLUE, "Bob", 37, 1);;
     private ResourceBank resourceBank = new ResourceBank();
 
     @Before
     public void init(){
-        player =  new Player(CatanColor.BLUE, "Bob", "bob37", 1);
+        player =  new Player(CatanColor.BLUE, "Bob", 37, 1);
     }
 
     //Initialization Asserts

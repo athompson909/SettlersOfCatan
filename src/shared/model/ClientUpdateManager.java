@@ -117,6 +117,31 @@ public class ClientUpdateManager {
     }
 //-----------------
 
+    //TESTING
+    public void testForceUpdatePlayersList(Player[] newPlayersArr){
+        if (currentModel.getPlayers() != newPlayersArr) {
+            currentModel.setPlayers(newPlayersArr);
+
+            System.out.print(">CUM: testForceUpdatePL: newPlayersArr= ");
+
+            for (int i = 0; i < currentModel.getPlayers().length; i++) {
+                if (currentModel.getPlayers()[i] != null) {
+                    System.out.print(currentModel.getPlayers()[i].getName() + ", ");
+                }
+            }
+            System.out.println();
+
+            //this?
+            currentModel.setChanged();
+            currentModel.setChanged(true);
+            currentModel.notifyObservers();
+        }
+        else {
+            System.out.println(">CUM: testForceUpdatePL: arrs were the same");
+        }
+    }
+
+
     private void updateTradeOffer(TradeOffer currTradeOffer, TradeOffer newTradeOffer) {
         currTradeOffer.updateTradeOffer(newTradeOffer);
     }

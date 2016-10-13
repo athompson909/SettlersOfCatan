@@ -117,21 +117,6 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 				System.out.println("PLAYERWAITINGVIEW: ADD AI BTN pushed");
 
 				getController().addAI();
-				//just moved all this vv to addAI() ^^
-
-//				//now call setPlayers here:
-//				//ask server for gamelist
-//				GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-//				//get the list of players from the server response using the current gameID
-//				GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
-//				//use that list of players to do setPlayers() here
-//				List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
-//				//turn it into an array
-//				PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
-//				//give that array of PlayerInfos to setPlayers()
-//				setPlayers(setThesePlayerInfos);
-
-
 			}
 		}	
 	};
@@ -143,6 +128,15 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 	@Override
 	public void setPlayers(PlayerInfo[] value) {
+
+		System.out.print(">PLAYERWAITINGVIEW: setPlayers called, PlayerInfo[]= ");
+		for (int i = 0; i < value.length; i++) {
+			if (value[i] != null) {
+				System.out.print(value[i]);
+			}
+		}
+		System.out.println();
+
 
 		//set header label indicating how many players are still needed
 		String labelText = "";
@@ -163,6 +157,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		
 		//build an individual player panel and add it to the center panel
 		for(int i = 0; i < value.length; i++){
+			//maybe just check if it's null right nere
 			String builtString = (i+1) + " " + value[i].getName();
 			JPanel playerPanel = new JPanel();
 			playerPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); //left justify the text in the panel
