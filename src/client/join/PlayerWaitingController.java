@@ -244,6 +244,17 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			//I tried forcing an observer network update so the updated Playerslist would be sent through to PWV,
 			but for some reason it just closes the PWV modal after update() is called.
 		 */
+		/*
+			We used to have PWV update just whenever you click the AddAI button, at which point it would go
+			ask the server for the GamesList, but then we remembered that we need to be asking the constantly updating
+			ClientModel for the list of players, to be sure that we update PWV every 2 sec to account for real players
+			joining from around the server at any time.
+		 */
+		/*
+			I may want to ask the TAs how they got the PlayerList to update every 2 sec even when the server
+			doesn't count that as a model "update"... maybe they just don't even check the version numbers with the
+			new model coming back, and they just send the update around the observer network every time anyways?
+		 */
 	}
 
 
