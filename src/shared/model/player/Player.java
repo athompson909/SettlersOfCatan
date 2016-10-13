@@ -31,8 +31,10 @@ public class Player { //
     /**
      * The unique playerID. This is used to pick the client player apart from the
      * others. This is only used here and in your cookie.,
+     *
+     * [Sierra] Why was this a String earlier? according to the model schema, it's an int.
      */
-    private String playerID;
+    private int playerID;
 
     /**
      * What place in the array is this player? 0-3. It determines their turn order.
@@ -114,7 +116,7 @@ public class Player { //
      * @param playerID of the player.
      * @param playerIndex of the player.
      */
-    public Player(CatanColor color, String name, String playerID, int playerIndex) {
+    public Player(CatanColor color, String name, int playerID, int playerIndex) {
         this.color = color;
         this.name = name;
         this.playerID = playerID;
@@ -469,7 +471,7 @@ public class Player { //
         return name;
     }
 
-    public String getPlayerID() {
+    public int getPlayerID() {
         return playerID;
     }
 

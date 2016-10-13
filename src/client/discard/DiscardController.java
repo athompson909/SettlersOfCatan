@@ -153,17 +153,21 @@ public class DiscardController extends Controller implements IDiscardController 
 
     //check if this player needs to discard or wait for others to discard
         TurnTracker tracker = model.getTurnTracker();
-        if(tracker.getStatus().equals("Discarding")){
-            //I need to discard
-            if(resources.getCardCount() > 7){
-                setDiscardModalValues();
-            }else {//others are discarding
-                getWaitView().showModal();
+        //TESTING
+        if (tracker.getStatus() != null){
+            if(tracker.getStatus().equals("Discarding")){
+                //I need to discard
+                if(resources.getCardCount() > 7){
+                    setDiscardModalValues();
+                }else {//others are discarding
+                    getWaitView().showModal();
+                }
+            }else{
+                //todo check if this appropriately closes the modal after others discard
+                getWaitView().closeModal();
             }
-        }else{
-            //todo check if this appropriately closes the modal after others discard
-            getWaitView().closeModal();
         }
+
 	}
 
 	private void setDiscardModalValues(){
