@@ -59,14 +59,31 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
 
-        clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-        clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
+        System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
 
-   /*     if(version != updatedClientModel.getVersion()) {
-            //then it's the first time and the model needs to be initialized
-            //todo: maybe don't initialize clientModel here
+
+        //-----TESTING--------
+    /*
+        System.out.print(">>CLIENTFACADE: sUM: new PlayersList= ");
+        for (int i = 0; i < updatedClientModel.getPlayers().length; i++){
+            if (updatedClientModel.getPlayers()[i] != null){
+                System.out.print(updatedClientModel.getPlayers()[i].getName() + ", ");
+            }
+        }
+        System.out.println();
+        //the server doesn't increment the model verNum after you add a player, so
+        //clientUpdateManager isn't sending PlayerWaitingView the new list of players.
+        //try forcing it to update the list of players on every poll no matter what
+        clientUpdateManager.testForceUpdatePlayersList(updatedClientModel.getPlayers());
+    */
+        //-----TESTING--------
+
+        clientUpdateManager.setCurrentModel(updatedClientModel);
+        if(version == -1) {
+
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-            clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
+            clientUpdateManager.delegateUpdates(updatedClientModel);
+            version = -2;
         }
         else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
@@ -75,7 +92,7 @@ public class ClientFacade {
             version = updatedClientModel.getVersion();
             clientUpdateManager.delegateUpdates(updatedClientModel);//todo: test here!
         }
-    */
+
     }
 
     /**
@@ -148,11 +165,11 @@ public class ClientFacade {
             System.out.println(">CLIENTFACADE: USERREGISTER: server said " + response);
 
             if(response.equals("Success")){
-                System.out.println(">CLIENTFACADE: USERREGISTER: server was happy");
+              //  System.out.println(">CLIENTFACADE: USERREGISTER: server was happy");
 
                 return true;
             }else{
-                System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");
+             //   System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");
 
                 return false;
             }
@@ -357,6 +374,8 @@ public class ClientFacade {
     titled “client Model JSON Documentation”
      */
     public void gameModelVersion() {
+        System.out.println(">>CLIENTFACADE: modelUpdate called");
+
         JSONObject jsonNewModel;
         try {
             String jsonNewModelStr = serverProxy.gameModelVersion();

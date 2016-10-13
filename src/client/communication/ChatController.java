@@ -2,7 +2,7 @@ package client.communication;
 
 import client.ClientFacade;
 import client.ClientUser;
-import client.base.*;
+import client.base.Controller;
 import shared.definitions.CatanColor;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.SendChatCommand;
@@ -32,34 +32,44 @@ public class ChatController extends Controller implements IChatController {
 
 	@Override
 	public void sendMessage(String message) {
-		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getIndex(), message);
+		/*NOTE: even though the json command has the format {..."playerIndex":X...} that does not mean we want the
+		playerIndex, we actually want the playerId... this is really annoying but just remember that playerIndex is
+		playerId
+		 */
+		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getId(), message);
 		ClientFacade.getInstance().sendChat(command);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 
-		System.out.println("CHATCONTROLLER UPDATE called");
+	//	System.out.println("CHATCONTROLLER UPDATE called");
 
 		//set view.setEntries(list of entries from ClientModel) here?
-		ClientModel model = (ClientModel)o;
+		ClientModel model = (ClientModel) o;
 		//TODO: I commented this out for now because it was causing a few errors now that update is actually getting called. Feel free to uncomment it if you're working on it! - Mitch
-		/*MessageList chat = model.getChat();
+		MessageList chat = model.getChat();
 		List<MessageLine> lines = chat.getLines();
 		//create LogEntry list from MessageList
 		List<LogEntry> logEntries= new ArrayList<LogEntry>();
 		//create map of players and colors for easy translation between the two
 		Map<String, CatanColor> playerMap = new HashMap<>();
 		Player[] players = model.getPlayers();
+
+		//there may be less then 4 players in the game -
+		// if so, model.getPlayers() still returns an array of size 4, but it will have null entries
 		for(int i = 0; i < 4; i++){
-			playerMap.put(players[i].getName(), players[i].getColor());
+			if (players[i] != null){
+				playerMap.put(players[i].getName(), players[i].getColor());
+			}
 		}
 		for(MessageLine l: lines){
 			//create a log entry for each message line
 			LogEntry entry = new LogEntry(playerMap.get(l.getSource()), l.getMessage());
 			logEntries.add(entry);
 		}
-		getView().setEntries(logEntries);*/
+
+		getView().setEntries(logEntries);
 	}
 
 }

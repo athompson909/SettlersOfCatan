@@ -1,5 +1,6 @@
 package shared.model.messagemanager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ public class MessageList {
     /**
      * A list of all messsages or logs sent during the game
      */
-    private List<MessageLine> lines;
+    private List<MessageLine> lines = new ArrayList<>();
 
     public void setLines(List<MessageLine> lines) {
         this.lines = lines;

@@ -196,7 +196,7 @@ public class MapController extends Controller implements IMapController {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.print("Map Controller: Update");
+        System.out.println("Map Controller: Update");
         clientModel = (ClientModel) o;
         initFromModel(clientModel.getMap());
     }
