@@ -36,6 +36,13 @@ public class ClientUser {
     //TESTING
     private GameInfo currentAddedGame;
 
+    //used to mark whether WHITE is really available on SelectColorView or not. If the user created their own game,
+    //they are added to it using the WHITE as a default color. But on the SelectColorView, white may actually be
+    // an available color to pick when they are really starting the game.
+    //So, this bool is used to help determine whether to enable the WHITE button or not.
+    private boolean joinedWithDefaultColor = true; //assuming they did, so SelectColorView will let us choose WHITE after logging back in
+
+
 
     //this PlayerInfo object just packages all 4 data items about the user (name, id, index, color) into an object,
     //specifically for JoinGameView at least
@@ -128,5 +135,13 @@ public class ClientUser {
 
     public void setCurrentAddedGame(GameInfo currentAddedGame) {
         this.currentAddedGame = currentAddedGame;
+    }
+
+    public boolean joinedWithDefaultColor() {
+        return joinedWithDefaultColor;
+    }
+
+    public void setJoinedWithDefaultColor(boolean joinedWithDefaultColor) {
+        this.joinedWithDefaultColor = joinedWithDefaultColor;
     }
 }

@@ -280,6 +280,38 @@ public class ClientFacade {
     }
 
     /**
+     * Called when the user creates a game and needs to be added to it. At that point, they haven't chosen
+     * a color yet, so we add them to the game with the default color WHITE.
+     * When they click Re-Join on the GameList view, they will be asked to pick a new color.
+     * The server will then re-add them to that game with the new color they just picked. Holla
+     * @param gameJoinCommand
+     * @return
+     */
+    public boolean gameJoinWithDefaultColor(GameJoinCommand gameJoinCommand){
+        JSONObject json = jsonTranslator.gameJoinCmdToJSON(gameJoinCommand);
+        System.out.println(">>CLIENTFACADE: gameJoinW/DefaultClr: json to send= " + json);
+
+        try {
+            String response = serverProxy.gameJoin(json);
+            System.out.println(">>CLIENTFACADE: server response= " + response);
+
+            if(response.equals("Success")){
+                System.out.println(">>CLIENTFACADE: gameJoinWD: join worked");
+                //we don't want to get the model yet, not until PlayerWaitingView is done!
+                return true;
+            } else {
+                System.out.println(">>CLIENTFACADE: gameJoinWD: join FAILED");
+                return false;
+            }
+        }
+        catch (ClientException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    /**
      * This method is for testing and debugging purposes. When a bug is found, you can use the
      /games/save method to save the state of the game to a file, and attach the file to a bug report.
      A developer can later restore the state of the game when the bug occurred by loading the
