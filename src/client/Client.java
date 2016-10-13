@@ -1,9 +1,7 @@
 package client;
 
-import client.catan.CatanPanel;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
-import client.base.*;
 
 /**
  *
@@ -16,7 +14,6 @@ public class Client {
     private ClientModel clientModel;
     // private GameManager gameManager;
     // private View view;
-    private Controller controller;
     private IServerProxy serverProxy;
 
     public Client() {
@@ -31,9 +28,5 @@ public class Client {
         serverPoller.setProxy(serverProxy);
     }
 
-    public void setController(CatanPanel catanPanel) {
-        //Get the panels from the catanPanel and set the Controllers...
-        //Add the controllers as observers of the model
-    }
 
 }
