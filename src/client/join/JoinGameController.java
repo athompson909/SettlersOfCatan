@@ -11,6 +11,8 @@ import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
 import shared.model.commandmanager.game.GameJoinCommand;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 
@@ -139,6 +141,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
+		//TODO: add user to the game they just created!!
+
         getNewGameView().closeModal();
 
         //Refresh the list of games in the JoinGameView to include this new game
@@ -160,9 +164,23 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println("JOINGAMECONTROLLER: startJoinGame called, game= " + game);
 
+		joinThisGameInfo = game;  //TEST
+
+		//set available color buttons here using SelectColorView.setColorEnable
+		//for each player in GameInfo "game", get all its players.
+		//then look at each Player's color in that game.
+		List<PlayerInfo> playersInGame = game.getPlayers();
+		for (int i = 0; i < playersInGame.size(); i++){
+			if (playersInGame.get(i).getColor() != null){	//someone else has taken this color already
+				//set this color button to be disabled
+				getSelectColorView().setColorEnabled(playersInGame.get(i).getColor(), false);
+			}
+				//else, they're all enabled
+		}
+
+
 		getSelectColorView().showModal();
 
-		joinThisGameInfo = game;  //TEST
 
 		// THE INDEX HAS TO BE SET
 
@@ -203,7 +221,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
 			ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
 
-			//get the model for the first time here
 		}
 		else{
 			//print - it didn't work
@@ -219,6 +236,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void update(Observable o, Object arg) {
+		//TODO: update gamelist from model
 
 	}
 
