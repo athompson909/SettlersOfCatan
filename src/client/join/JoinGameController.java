@@ -164,15 +164,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		joinThisGameInfo = game;  //TEST
 
-		//check HERE if the PlayerWaitingView really needs to show up or not?
+		// THE INDEX HAS TO BE SET
 
-//		if(game.getPlayers().size() < 4){
-//
-//
-//		}
-//		else {
-//			//invalid game
-//		}
 	}
 
 	@Override

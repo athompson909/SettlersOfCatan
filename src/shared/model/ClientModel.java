@@ -1,6 +1,5 @@
 package shared.model;
 
-import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -54,7 +53,7 @@ public class ClientModel extends Observable {
     /**
      * The messageList object holding all the Chat messages
      */
-    public MessageList chat;
+    public MessageList chat = new MessageList();
 
     /**
      * The messageList object holding all the GameLog messages
@@ -416,7 +415,10 @@ public class ClientModel extends Observable {
     public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
 
     //SETTERS
-    public void setChanged(boolean set) {changed = set;}
+    public void setChanged(boolean set) {
+        notifyObservers();//the observers need to be aware of the change//todo: test
+        changed = set;
+    }
     public void setVersion(int newModVer) {version = newModVer;}
     public void setWinner(int newGameWinner) {
         winner = newGameWinner;}
@@ -475,8 +477,13 @@ public class ClientModel extends Observable {
         super.notifyObservers();
     }
 
+    /**
+     * I'm added an increment to the version everytime here because I think this goes eeverytime the model is changed
+     * @param arg
+     */
     @Override
     public void notifyObservers(Object arg) {
+        version++;
         super.notifyObservers(arg);
     }
 

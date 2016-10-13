@@ -7,7 +7,6 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
-import shared.model.ClientUpdateManager;
 import shared.model.commandmanager.game.AddAICommand;
 
 import java.util.List;
@@ -47,11 +46,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//--------
 		//Give the PlayerWaitingView the existing list of players from the game they want to join:
-			GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGame();
-			List<PlayerInfo> newPlayerInfoList = addedGame.getPlayers();
-			PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
+		GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGame();
+		List<PlayerInfo> newPlayerInfoList = addedGame.getPlayers();
+		PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
 
-			getView().setPlayers(setThesePlayerInfos);
+		getView().setPlayers(setThesePlayerInfos);
 		//------------
 
 		//check HERE if there are enough player in the game

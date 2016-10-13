@@ -59,14 +59,12 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
 
-        clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-        clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
+        clientUpdateManager.setCurrentModel(updatedClientModel);
+        if(version == -1) {
 
-   /*     if(version != updatedClientModel.getVersion()) {
-            //then it's the first time and the model needs to be initialized
-            //todo: maybe don't initialize clientModel here
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-            clientUpdateManager.delegateUpdates(updatedClientModel);//for safety?
+            clientUpdateManager.delegateUpdates(updatedClientModel);
+            version = -2;
         }
         else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
@@ -75,7 +73,7 @@ public class ClientFacade {
             version = updatedClientModel.getVersion();
             clientUpdateManager.delegateUpdates(updatedClientModel);//todo: test here!
         }
-    */
+
     }
 
     /**
