@@ -53,6 +53,7 @@ public class PointsController extends Controller implements IPointsController {
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel) o;
+		getPointsView().setPoints(((ClientModel) o).getCurrentPlayer().getVictoryPoints());
 	}
 	
 }
