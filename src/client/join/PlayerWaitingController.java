@@ -1,9 +1,7 @@
 package client.join;
 
-import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
-import client.ServerPoller;
 import client.base.Controller;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
@@ -23,10 +21,10 @@ import java.util.*;
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
 
-	//TRY HAVING A PERSONAL MINI-POLLER HERE
+	//lightweight personal poller for PlayerWaitingController
 	private Timer miniPollTimer;
 	//number of seconds to wait between requesting updates from the server
-	private int seconds = 2;
+	private int pollInterval = 2;
 
 
 
@@ -56,9 +54,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		System.out.println("PLAYERWAITINGCONTROLLER: start called");
 
 		//start PWC's personal poller
-		//TRY
 		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
-		miniPollTimer.scheduleAtFixedRate(new PlayerWaitingController.MiniPollerTask(), 1, seconds*1000);
+		miniPollTimer.scheduleAtFixedRate(new PlayerWaitingMiniPoller(), 1, pollInterval *1000);
 
 		//--------
 		//Give the PlayerWaitingView the existing list of players from the game they want to join:
@@ -239,7 +236,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//System.out.println("PLAYERWAITINGCONT: Update called! +++++++++++++++++++++++++");
 
-		//the model comes back here, updated every 2 seconds, via the Observable object
+		//the model comes back here, updated every 2 pollInterval, via the Observable object
 		//cast Observable into ClientModel here
 		//ClientModel model = (ClientModel) o;
 
@@ -264,12 +261,13 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 //////////////
 
-	//TRY ANOTHER POLLER HERE
-	//this poller should only be happening for the duration of PlayerWaitingController being visible.
-	//need a start/stop function
-	private class MiniPollerTask extends TimerTask {
+	/**
+	 * MiniPoller is the poller only for PlayerWaitingController to get an updated list of games every 2 sec.
+	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
+	 * This TimerTask is started upon PlayerWaitingController.start() and stopped just before PlayerWaitingview closes.
+	 */
+	private class PlayerWaitingMiniPoller extends TimerTask {
 		public void run() {
-			//System.out.println("fetching new model");
 			try {
 				System.out.println("miniPoller: fetching gamesList: " + new Date().toString());
 				fetchGamesList();
@@ -281,8 +279,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		}
 
 		/**
-		 * fetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
-		 * This function is called every 2 seconds when pollTimer tells it to.
+		 * fetchNewModel() sends an gamesList update request to the saved proxy (currentProxy) via HTTP request.
+		 * This function is called every 2 pollInterval when pollTimer tells it to.
 		 */
 		public void fetchGamesList() throws ClientException {
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

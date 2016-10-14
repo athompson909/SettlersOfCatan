@@ -54,12 +54,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
         //this.initialize();
 	}
 
-	//I JUST CHANGED THIS TO PUBLIC
+	//MiniPoller should probably call this function
 	public void initialize()
 	{
-        //TESTING
-        //trying here
-        //Go get list of games from the server, populate games[]:
+		//Go get list of games from the server, populate games[]:
         fetchListOfGamesFromServer();
         setGames(gameInfoFromServer, localPlayerInfoSoFar);
 
@@ -206,6 +204,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	}
 
 
+	//actually have minipoller call this functoin
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{

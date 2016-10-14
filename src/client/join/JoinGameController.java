@@ -7,13 +7,12 @@ import client.base.IAction;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
+import exceptions.ClientException;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
 import shared.model.commandmanager.game.GameJoinCommand;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 
 /**
@@ -25,7 +24,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
-	private GameInfo joinThisGameInfo;  //TEST
+	private GameInfo joinThisGameInfo;
+	//lightweight personal poller for PlayerWaitingController
+	public Timer miniPollTimer; //made public so SelectColorView can stop the timer
+	//number of seconds to wait between requesting updates from the server
+	private int pollInterval = 2;
 
 	/**
 	 * JoinGameController constructor
@@ -37,7 +40,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	public JoinGameController(IJoinGameView view, INewGameView newGameView, 
 								ISelectColorView selectColorView, IMessageView messageView) {
-
 		super(view);
 
 		setNewGameView(newGameView);
@@ -100,6 +102,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
+
+		//start JGC's personal poller
+		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+		miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval *1000);
 		
 		getJoinGameView().showModal();
 	}
@@ -131,7 +137,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         //build GameCreateCommand object, send it to ClientFacade
         //server/clientFacade will return a GameInfo object
         // we need to give that GameInfo object to the JoinGameView's GameInfo[] field
-        //either that or just reinitialize the JoinGameView? try both
         String newGameTitle = getNewGameView().getTitle();
         boolean newGameRandHexes = getNewGameView().getRandomlyPlaceHexes();
         boolean newGameRandNums = getNewGameView().getRandomlyPlaceNumbers();
@@ -142,29 +147,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
-		//TODO: add user to the game they just created!!
 		//after you create a game, tell the server to add you to that same game, but don't go to SelectColorView yet.
 		//Just go back to JoinGameView.
-		//How can we tell the server to add you to the game you just created if you don't have a color yet?
-		//maybe just have a default/temp color? like white or something?
-		//that could work because on the demo it adds you to the game you just created and then you can ReJoin it.
-		//when you ReJoin it, you pick a color that could overwrite the temp/default color we added you with.
-		//I just checked, you can join a game twice with different colors and it will overwrite the previous color!
-		//so I'm going to default their join color to WHITE, and when they go back and choose ReJoin,
-		//it'll let them pick another color and overwrite the default one.
 
-		//TRY: JOINING THE NEW GAME WITH DEFAULT COLOR WHITE
+		//JOIN THE NEW GAME WITH DEFAULT COLOR WHITE
 		joinThisGameInfo = newGameCreatedInfo;
 		joinGameWithDefaultColor();
-		//joinGame(CatanColor.WHITE);  //I think we need to make a different JoinGame function for when you're joining
-		// a game you just created, because JoinGame wants to go right in to color select/some later step
-		//and skip going back to the GameList view.
-
 
         getNewGameView().closeModal();
 
         //Refresh the list of games in the JoinGameView to include this new game
-		//		I THINK THIS NEEDS TO HAPPEN VIA POLLER - update gamelist every 2 sec - ask TAs
         GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
         PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
         this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
@@ -188,12 +180,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			getSelectColorView().setColorEnabled(color, true);
 		}
 
-
-		//the default color is white, and we use that to "join" a game before picking a color,
-		// so selectcolorview is showing that white is taken.
-		//maybe set a bool inside ClientUser, joinedWithDefaultColor, that we check here to see if we should enable white or not.
-		//but still check that no one has already picked white who's actually in the game.
-
 		//check if WHITE was used as a default color or not. If so, we should enable it to be selectable
 		// unless someone else in the game actually chose WHITE as their color.
 
@@ -205,7 +191,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					// for WHITE: if the user joined with default color, this will be taken already.
 					// Enable it again IF they joined with default color (they created their own game):
 					System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
-					System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
+					//System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
 
 					//only enable WHITE if you either created the game AND if it's you picking your own color again
 					if (ClientUser.getInstance().joinedWithDefaultColor() && playersInGame.get(i).getId() == ClientUser.getInstance().getId()) {
@@ -219,13 +205,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					//set this color button to be disabled
 					//UNLESS ITS YOU PICKING A NEW COLOR FOR YOURSELF
 					//don't disable the button if this color was previously chosen by you
-					System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
+				//	System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
 
 					if (playersInGame.get(i).getId() != ClientUser.getInstance().getId()) {
 						getSelectColorView().setColorEnabled(playersInGame.get(i).getColor(), false);
 					}
 				}
-
 			}
 				//else, they're all enabled
 		}
@@ -284,6 +269,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println("JOINGAMECONTROLLER: joinGame called, selectedColor= " + color);
 
+		//stop timer here?
+		miniPollTimer.cancel();
+
+
 		// If join succeeded, send the server a GameJoin Cmd object:
 
 		//add the user to the game they just picked using the GameInfo object here
@@ -319,6 +308,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//user should now be added to the game they clicked on.
 
 		// If join succeeded
+
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
@@ -326,14 +316,74 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//TODO: update gamelist from model
-		//actually we don't have the model until PlayerWaitingView is happening.
-		//I think JoinGamecontroller is going to be on its own personal observer pattern because it only wants
-		//the gamesList from the server.
-
 		// just make a miniPoller for JoinGameController!
-
+		//don't bother with this update() crap
 	}
 
+
+
+
+
+
+	//////////////
+
+	/**
+	 * JoinGameMiniPoller is the poller only for JoinGameController to get an updated list of games every 2 sec.
+	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
+	 * This TimerTask is started upon JoinGameController.start() and stopped right when the user finishes picking a color.
+	 */
+	private class JoinGameMiniPoller extends TimerTask {
+		public void run() {
+			try {
+				System.out.println("JGminiPoller: fetching gamesList: " + new Date().toString());
+				fetchGamesList();
+			}
+			catch (Exception e) {
+				System.out.println("JGminiPoller Exception!");
+				e.printStackTrace();
+			}
+		}
+
+		/**
+		 * fetchNewModel() sends an gamesList update request to the saved proxy (currentProxy) via HTTP request.
+		 * This function is called every 2 seconds when pollTimer tells it to.
+		 */
+		public void fetchGamesList() throws ClientException {
+			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^JGC miniPoller^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+			//don't get the model, just the gamesList!
+			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
+
+			System.out.print("\t\tJCGminiPoller: just got new gamesList: ");
+
+			//FOR TESTING ONLY------
+			for (int i = 0; i < newGameInfos.length; i++) {
+				if (newGameInfos[i] != null) {
+					System.out.println(newGameInfos[i]);
+				}
+			} System.out.println();
+			//----------------------
+
+
+			//update the View with the new GameList info
+			PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
+			getJoinGameView().setGames(newGameInfos, currPlayerInfo);
+			//try closing/reopening the view
+			//but not if SelectColorView is open, or else JoinGameView will awkwardly pop up again over that
+			if (!getSelectColorView().isModalShowing()){
+
+				if (getJoinGameView().isModalShowing()){
+					getJoinGameView().closeModal();
+				}
+				getJoinGameView().showModal();
+			}
+
+
+			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^");
+		}
+	}
+
+
 }
+
 
