@@ -131,24 +131,24 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//pull out the game we need
 		GameInfo currGameToDisplay = updatedGameInfos[ClientUser.getInstance().getCurrentGameID()];
-		System.out.println("\t\tCurrGameToDisplay: " + currGameToDisplay);
+//		System.out.println("\t\tCurrGameToDisplay: " + currGameToDisplay);
 
 		//pull out PlayerInfo[] and use that to do PWV.setPlayers and update the view
 		//GameInfo stores PlayerInfos in an ArrayList
 		List<PlayerInfo> tempPIArrList = currGameToDisplay.getPlayers();
-		System.out.println("PlayerInfos to display:" + tempPIArrList);
+//		System.out.println("PlayerInfos to display:" + tempPIArrList);
 
 		PlayerInfo[] newPlayerInfosToDisplay = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
 		//use this array to update the view
-
-		//FOR TESTING ONLY------
-		System.out.print(">PWC: updateView(): setting players with content: ");
-		for (int i = 0; i < newPlayerInfosToDisplay.length; i++) {
-			if (newPlayerInfosToDisplay[i] != null) {
-				System.out.print(newPlayerInfosToDisplay[i].getName() + ", ");
-			}
-		} System.out.println();
-		//----------------------
+//
+//		//FOR TESTING ONLY------
+//		System.out.print(">PWC: updateView(): setting players with content: ");
+//		for (int i = 0; i < newPlayerInfosToDisplay.length; i++) {
+//			if (newPlayerInfosToDisplay[i] != null) {
+//				System.out.print(newPlayerInfosToDisplay[i].getName() + ", ");
+//			}
+//		} System.out.println();
+//		//----------------------
 
 
 		//update the View with the new players:  ***************************
@@ -272,6 +272,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	private class PlayerWaitingMiniPoller extends TimerTask {
 		public void run() {
 			try {
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				System.out.println("miniPoller: fetching gamesList: " + new Date().toString());
 				fetchGamesList();
 			}
@@ -286,7 +287,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		 * This function is called every 2 pollInterval when pollTimer tells it to.
 		 */
 		public void fetchGamesList() throws ClientException {
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 			//don't get the model, just the gamesList!
 			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
