@@ -44,15 +44,14 @@ public class PointsController extends Controller implements IPointsController {
 	}
 
 	private void initFromModel() {
-		//<temp>
-		getPointsView().setPoints(5);
+		getPointsView().setPoints(0);
 		//getPointsView().setPoints(clientModel.getCurrentPlayer().getVictoryPoints());
-		//</temp>
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel) o;
+		getPointsView().setPoints(((ClientModel) o).getCurrentPlayer().getVictoryPoints());
 	}
 	
 }

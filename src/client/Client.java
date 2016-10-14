@@ -1,5 +1,7 @@
 package client;
 
+import client.turntracker.IState;
+import client.turntracker.WaitingState;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
 
@@ -12,10 +14,13 @@ public class Client {
     private ServerPoller serverPoller;
     private CommandManager commandManager;
     private ClientModel clientModel;
+    private IState state = new WaitingState();
     // private GameManager gameManager;
     // private View view;
     // private Controller controller;
     private IServerProxy serverProxy;
+
+    private boolean updateOverride = false;
 
     private static Client instance = new Client();
 
@@ -37,5 +42,18 @@ public class Client {
 
     public ClientModel getClientModel() {
         return clientModel;
+    }
+
+    public void setUpdateOverride(boolean bool) {
+        updateOverride = bool;
+    }
+
+    public boolean isUpdateOverride() {
+        return updateOverride;
+    }
+
+    public IState updateGameState(){
+        state = state.update(clientModel.getTurnTracker());
+        return state;
     }
 }
