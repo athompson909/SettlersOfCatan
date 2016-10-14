@@ -1,8 +1,7 @@
 package client.roll;
 
 import client.ClientFacade;
-import client.ClientUser;
-import client.base.*;
+import client.base.Controller;
 import shared.model.ClientModel;
 import shared.model.commandmanager.moves.RollDiceCommand;
 import shared.model.dicemanager.DiceManager;
@@ -10,7 +9,6 @@ import shared.model.turntracker.TurnTracker;
 
 import java.util.Observable;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -20,6 +18,8 @@ public class RollController extends Controller implements IRollController {
 //Todo check if roll modal opens
 //todo count down on roll time
 	private IRollResultView resultView;
+
+	private IRollView view;
 
 	private DiceManager dice = new DiceManager();
 
@@ -36,13 +36,15 @@ public class RollController extends Controller implements IRollController {
 	public RollController(IRollView view, IRollResultView resultView) {
 
 		super(view);
-		
+
+		setView(view);
 		setResultView(resultView);
 	}
 	
 	public IRollResultView getResultView() {
 		return resultView;
 	}
+
 	public void setResultView(IRollResultView resultView) {
 		this.resultView = resultView;
 	}
@@ -55,12 +57,14 @@ public class RollController extends Controller implements IRollController {
 	public void rollDice() {
 		//roll dice and display number
 		int number = dice.rollDice();
-		resultView.setRollValue(number);
-		getResultView().showModal();
 
-		//send result accross to the server
+		//send result across to the server
 		RollDiceCommand command = new RollDiceCommand(number);
 		ClientFacade.getInstance().rollNumber(command);
+
+//		getView().closeModal();
+		resultView.setRollValue(number);
+		resultView.showModal();
 	}
 
 	@Override
@@ -84,19 +88,16 @@ public class RollController extends Controller implements IRollController {
 		}
 		*/
 	}
-	class SetMessage extends TimerTask{
-		private int seconds;
-		public SetMessage(){
-			seconds = 5;
-		}
-		@Override
-		public void run() {
-			//getRollView().setMessage("Rolling automatically in... " + seconds + "seconds");
-			seconds--;
-			if(seconds == 0){
-				rollDice();
-			}
-		}
+
+
+	// maybe get rid of all this:
+	@Override
+	public IRollView getView() {
+		return view;
+	}
+
+	public void setView(IRollView view) {
+		this.view = view;
 	}
 }
 

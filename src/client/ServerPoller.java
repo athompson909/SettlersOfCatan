@@ -64,6 +64,6 @@ public class ServerPoller {
      * ***comment off method body to stop the modals from closing (WARNING: also stops poller from updating model)
      */
     private void fetchNewModel() throws ClientException {
-        ClientFacade.getInstance().gameModelVersion();
+//        ClientFacade.getInstance().gameModelVersion();
     }
 }

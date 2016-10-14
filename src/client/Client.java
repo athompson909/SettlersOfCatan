@@ -50,7 +50,7 @@ public class Client {
     }
 
     public void setServerPoller() {
-        this.serverPoller = new ServerPoller(serverProxy);
+        this.serverPoller = new ServerPoller();
     }
 
     public IState updateGameState(){
