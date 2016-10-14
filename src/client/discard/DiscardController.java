@@ -119,11 +119,13 @@ public class DiscardController extends Controller implements IDiscardController 
     //check if this player needs to discard or wait for others to discard
         TurnTracker tracker = model.getTurnTracker();
         //TESTING
+        //todo change these if statements to checking the state instance
         if (tracker.getStatus() != null){
             if(tracker.getStatus().equals("Discarding")){
                 //I need to discard
-                if(resources.getCardCount() > 7 ){
+                if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()){
                     if(!modalOpen) {
+                        ClientUser.getInstance().setNeedToDiscard(true);
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
@@ -132,6 +134,7 @@ public class DiscardController extends Controller implements IDiscardController 
                     }
                     //todo fix this so it doesn't do things over and over and cause flashing
                 }else if(!waitModalOpen){//others are discarding
+                    ClientUser.getInstance().setNeedToDiscard(false);
                     getWaitView().showModal();
                     waitModalOpen = true;
                 }

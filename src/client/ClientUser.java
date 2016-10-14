@@ -33,6 +33,9 @@ public class ClientUser {
     //keeps track of which game the clientUser is currently in
     private int currentGameID = 1;
 
+    /**tracks whether the player has discarded this turn already */
+    private boolean needToDiscard = true;
+
     //TESTING
     private GameInfo currentAddedGame;
 
@@ -143,5 +146,13 @@ public class ClientUser {
 
     public void setJoinedWithDefaultColor(boolean joinedWithDefaultColor) {
         this.joinedWithDefaultColor = joinedWithDefaultColor;
+    }
+
+    public void setNeedToDiscard(boolean discarded){
+        needToDiscard = discarded;
+    }
+
+    public boolean getNeedToDiscard(){
+        return needToDiscard;
     }
 }

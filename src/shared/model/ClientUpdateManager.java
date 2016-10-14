@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.Client;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
@@ -175,6 +176,7 @@ public class ClientUpdateManager {
      */
     private void updateTurnTracker(TurnTracker currTurnTracker, TurnTracker newTurnTracker) {
         currTurnTracker.updateTurnTracker(newTurnTracker);
+        Client.getInstance().updateGameState();
     }
 //-----------------
 

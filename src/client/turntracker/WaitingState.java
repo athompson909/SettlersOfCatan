@@ -9,6 +9,6 @@ public class WaitingState extends IState {
 
     @Override
     public void updateStateButton(ITurnTrackerView view) {
-        view.updateGameState("Waiting for other players", false);
+        view.updateGameState("Waiting for Other Players", false);
     }
 }
