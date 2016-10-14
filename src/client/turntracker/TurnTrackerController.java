@@ -1,5 +1,6 @@
 package client.turntracker;
 
+import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
 import shared.definitions.CatanColor;
@@ -17,6 +18,7 @@ import java.util.Observable;
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController {
 
+	private CatanColor localPlayerColor;
 	public TurnTrackerController(ITurnTrackerView view) {
 		
 		super(view);
@@ -37,18 +39,25 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	}
 	
 	private void initFromModel() {
-		//<temp>//todo do I need to change this to a real color?
-		getView().setLocalPlayerColor(CatanColor.BLUE);
-		//getView().setLocalPlayerColor(ClientUser.getInstance().getColor());
-		//</temp>
+		getView().setLocalPlayerColor(CatanColor.WHITE);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		ClientModel model = (ClientModel)o;
+		if(localPlayerColor == null){
+			localPlayerColor = model.getCurrentPlayer().getColor();
+			getView().setLocalPlayerColor(localPlayerColor);
+		}
 		//TODO: Feel free to uncomment this if you're editing it. Now that update is getting called, it crashes here.
-		/*TurnTracker turnTracker = model.getTurnTracker();
+		TurnTracker turnTracker = model.getTurnTracker();
 		int turn = turnTracker.getCurrentTurn();
+
+		//update game state
+		IState state = Client.getInstance().updateGameState();
+		state.updateStateButton(getView());
+		/*
+		//update player info
 		int longestRoad = turnTracker.getLongestRoadHolder();
 		int largestArmy = turnTracker.getLargestArmyHolder();
 		Player[] players = model.getPlayers();
