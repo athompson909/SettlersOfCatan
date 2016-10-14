@@ -441,7 +441,7 @@ public class JSONTranslator {
             //get the road's owner:
             int newRoadOwnerIndex = currRoadJSON.getInt("owner");
             //now build a complete EdgeValue obj to represent the new road:
-            EdgeValue newRoad = new EdgeValue(newRoadEdgeLoc);
+            EdgeValue newRoad = new EdgeValue(newRoadEdgeLoc.getNormalizedLocation());
             newRoad.setOwner(newRoadOwnerIndex);
 
             newRoadsMap.put(newRoad.getEdgeLocation(), newRoad);
@@ -501,11 +501,11 @@ public class JSONTranslator {
             //get the stlmt owner:
             int newStlmtOwnerIndex = currStlmtJSON.getInt("owner");
             //now build a complete VertexObject to represent the new settlement:
-            VertexObject newSettlement = new VertexObject(newStlmtVtxLoc);
+            VertexObject newSettlement = new VertexObject(newStlmtVtxLoc.getNormalizedLocation());
             newSettlement.setOwner(newStlmtOwnerIndex);
             newSettlement.setPieceType(PieceType.SETTLEMENT);  //these are all of Settlement pieceType!
 
-            newCitiesStlmtsMap.put(newSettlement.getVertexLocation(), newSettlement);
+            newCitiesStlmtsMap.put(newSettlement.getVertexLocation().getNormalizedLocation(), newSettlement);
         }
 
         //CITIES
@@ -524,11 +524,11 @@ public class JSONTranslator {
             //get the city owner:
             int newCityOwnerIndex = currCityJSON.getInt("owner");
             //now build a complete VertexObject to represent the new city:
-            VertexObject newCity = new VertexObject(newCityVtxLoc);
+            VertexObject newCity = new VertexObject(newCityVtxLoc.getNormalizedLocation());
             newCity.setOwner(newCityOwnerIndex);
             newCity.setPieceType(PieceType.CITY);  //these are all of City pieceType!
 
-            newCitiesStlmtsMap.put(newCity.getVertexLocation(), newCity);
+            newCitiesStlmtsMap.put(newCity.getVertexLocation().getNormalizedLocation(), newCity);
         }
 
         return newCitiesStlmtsMap;

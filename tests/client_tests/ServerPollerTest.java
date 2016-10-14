@@ -38,7 +38,7 @@ public class ServerPollerTest extends TestCase {
     public void testServerPoller() throws ClientException {
         System.out.println("Testing ServerPoller: fetchNewModel()");
         String jsonNewModelStr = proxy.gameModelVersion();
-        poller = new ServerPoller(proxy);
+        poller = new ServerPoller();
         //String str =poller.fetchNewModel();
         //assertEquals("{\"deck", str.substring(0, 6));
     }

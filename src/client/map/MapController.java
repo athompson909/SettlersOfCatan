@@ -1,5 +1,6 @@
 package client.map;
 
+import client.Client;
 import client.ClientFacade;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
@@ -8,11 +9,11 @@ import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
 import shared.model.ClientModel;
+import shared.model.commandmanager.moves.BuildCityCommand;
 import shared.model.commandmanager.moves.BuildRoadCommand;
-import shared.model.map.Hex;
-import shared.model.map.Map;
-import shared.model.map.Port;
-import shared.model.map.VertexObject;
+import shared.model.commandmanager.moves.BuildSettlementCommand;
+import shared.model.map.*;
+import sun.security.provider.certpath.Vertex;
 
 import java.util.Observable;
 
@@ -75,12 +76,16 @@ public class MapController extends Controller implements IMapController {
             }
         }
 
-        //Place the Settlement
+        //Place Vertex Objects
         for (VertexLocation vertexLocation : updatedMap.getVertexObjects().keySet()) {
-            if (updatedMap.getVertexObjects().get(vertexLocation).getOwner() != -1) {
+            VertexObject vertexObject = updatedMap.getVertexObjects().get(vertexLocation);
+            if (vertexObject.getPieceType().equals(PieceType.SETTLEMENT)) {
                 getView().placeSettlement(vertexLocation, CatanColor.ORANGE);
+            } else {
+                getView().placeCity(vertexLocation, CatanColor.ORANGE);
             }
         }
+
 
 /*
         EdgeLocation edgeLoc = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North);
@@ -132,43 +137,48 @@ public class MapController extends Controller implements IMapController {
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        //return clientModel.canPlaceSettlement(0, vertLoc);
-        return true;
+        return clientModel.canPlaceSettlement(0, vertLoc);
+        //return true;
     }
 
     public boolean canPlaceCity(VertexLocation vertLoc) {
-        //return clientModel.canPlaceCity(0, vertLoc);
-        return true;
+        return clientModel.canPlaceCity(0, vertLoc);
+        //return true;
     }
 
     public boolean canPlaceRobber(HexLocation hexLoc) {
-        //return clientModel.canPlaceRobber(hexLoc);
-        return true;
+        return clientModel.canPlaceRobber(hexLoc);
+        //return true;
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
-
-        //ClientModel tempClientModel = new ClientModel(1);
-        //tempClientModel.purchaseAndPlaceRoad(0, edgeLoc);
-
-
-        //catanMap.buildRoadManager.placeRoad(0, edgeLoc);  //TODO: Should use the update stuff...
-        //getView().placeRoad(edgeLoc, CatanColor.ORANGE);
     }
 
     public void placeSettlement(VertexLocation vertLoc) {
-        //catanMap.buildSettlementManager.placeSettlement(0, vertLoc);  //TODO: Should use the update stuff...
-        getView().placeSettlement(vertLoc, CatanColor.ORANGE);
-        getView().placeCity(vertLoc, CatanColor.ORANGE);
-        getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+        int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
+        VertexObject vertObj = new VertexObject(vertLoc);
+        vertObj.setOwner(currTurn);
+        vertObj.setPieceType(PieceType.SETTLEMENT);
+
+        BuildSettlementCommand buildSettlementCommand = new BuildSettlementCommand(vertObj);
+        ClientFacade.getInstance().buildSettlement(buildSettlementCommand);
     }
 
     public void placeCity(VertexLocation vertLoc) {
+        int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
+        VertexObject vertObj = new VertexObject(vertLoc);
+        vertObj.setOwner(currTurn);
+        vertObj.setPieceType(PieceType.CITY);
+
+        BuildCityCommand buildCityCommand = new BuildCityCommand(vertObj);
+        ClientFacade.getInstance().buildCity(buildCityCommand);
+
+
         //catanMap.buildCityManager.placeCity(0, vertLoc);  //TODO: Should use the update stuff...
-        getView().placeCity(vertLoc, CatanColor.ORANGE);
+       // getView().placeCity(vertLoc, CatanColor.ORANGE);
     }
 
     public void placeRobber(HexLocation hexLoc) {

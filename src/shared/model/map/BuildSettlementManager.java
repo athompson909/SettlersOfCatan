@@ -19,6 +19,7 @@ public class BuildSettlementManager {
 
     /**
      * Constructor for a BuildSettlementManager.
+     *
      * @param map reference.
      */
     public BuildSettlementManager(Map map) {
@@ -32,6 +33,9 @@ public class BuildSettlementManager {
      * Checks that there is a conneting road of the correct color
      */
     public boolean canPlace(int playerID, VertexLocation vertexLocation) {
+        System.out.println(isVertexLocationAvailable(vertexLocation));
+        System.out.println(isVertexObjectTwoAway(vertexLocation));
+        System.out.println(isRoadConnected(playerID, vertexLocation));
         return (isVertexLocationAvailable(vertexLocation)
                 && isVertexObjectTwoAway(vertexLocation)
                 && isRoadConnected(playerID, vertexLocation)
@@ -48,20 +52,25 @@ public class BuildSettlementManager {
 
     /**
      * Checks to validate if edgeLocation is already occupied or not
+     *
      * @return true if location is empty
      */
     private boolean isVertexLocationAvailable(VertexLocation vertexLocation) {
         if (map.getVertexObjects().containsKey(vertexLocation)) {
-            if (map.getVertexObjects().get(vertexLocation).getOwner() == -1) {
+            return false;
+            /*if (map.getVertexObjects().get(vertexLocation).getOwner() == -1) {
                 return true;
-            }
+            }*/
+        } else {
+            return true;
         }
-        return false;
+
     }
 
     /**
      * Checks to see if there are any settlements (ANY color) located at a
      * vertex adjacent to location where player is trying to build
+     *
      * @return true if there are no settlements located at adjacent vertex
      */
     private boolean isVertexObjectTwoAway(VertexLocation desiredVertexLocation) {
@@ -75,6 +84,7 @@ public class BuildSettlementManager {
 
     /**
      * Checks if a NorthWestVertex has any occupied neighbors.
+     *
      * @param desiredVertexLocation to consider.
      * @return true if the NorthWestVertex has no neighbors.
      */
@@ -114,6 +124,7 @@ public class BuildSettlementManager {
 
     /**
      * Checks if a NorthEastVertex has any occupied neighbors.
+     *
      * @param desiredVertexLocation to consider.
      * @return true if the NorthEastVertex has no neighbors.
      */
@@ -155,10 +166,11 @@ public class BuildSettlementManager {
     /**
      * Checks that there is a road of the correct color adjacent to
      * the vertex where player is trying to build
+     *
      * @return true if there is an adjacent road
      */
     public boolean isRoadConnected(int playerID, VertexLocation vertexLocation) {
-        if(vertexLocation.getDir().equals(VertexDirection.NorthWest)) {
+        if (vertexLocation.getDir().equals(VertexDirection.NorthWest)) {
             return doesNorthWestVertexHaveAdjacentRoads(playerID, vertexLocation);
         } else {
             return doesNorthEastVertexHaveAdjacentRoads(playerID, vertexLocation);
@@ -167,7 +179,8 @@ public class BuildSettlementManager {
 
     /**
      * Checks to see if a NorthWestVertex has a road connected to it.
-     * @param playerID of the player.
+     *
+     * @param playerID              of the player.
      * @param desiredVertexLocation
      * @return true if the player owns a road connected to the vertex.
      */
@@ -198,7 +211,8 @@ public class BuildSettlementManager {
 
     /**
      * Checks to see if a NorthEastVertex has a road connected to it.
-     * @param playerID of the player.
+     *
+     * @param playerID              of the player.
      * @param desiredVertexLocation
      * @return true if the player owns a road connected to the vertex.
      */
@@ -229,6 +243,7 @@ public class BuildSettlementManager {
 
     /**
      * Checks to see if the player owns an edge value.
+     *
      * @param tempEdgeValue to check if the player owns.
      * @param edgeDirection of the edge value.
      * @param playerID
@@ -247,6 +262,7 @@ public class BuildSettlementManager {
     /**
      * Executes on the server side
      * Updates model to reflect new settlement at specified location
+     *
      * @param vertexLocation Location of new settlement
      * @param playerID       ID of player who owns settlement
      */
