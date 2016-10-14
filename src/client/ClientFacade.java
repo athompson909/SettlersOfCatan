@@ -59,7 +59,7 @@ public class ClientFacade {
      * sends updated model to the updateManager to delegate updates
      * @param updatedClientModel - model returned by server
      */
-    public void sendUpdatedModel(ClientModel updatedClientModel){
+    public void sendUpdatedModel(ClientModel updatedClientModel) {
 
         System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
 
