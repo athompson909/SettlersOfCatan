@@ -31,8 +31,8 @@ public class BuildCityManager {
      */
     public boolean canPlaceCity(int playerID, VertexLocation desiredVertexLocation) {
         VertexObject currentVertexObject = map.getVertexObjects().get(desiredVertexLocation);
-        System.out.println(currentVertexObject != null);
-       /* if(currentVertexObject != null) {
+       /*  System.out.println(currentVertexObject != null);
+       if(currentVertexObject != null) {
             System.out.println(currentVertexObject.getPieceType().equals(PieceType.SETTLEMENT));
             System.out.println(currentVertexObject.getOwner() == playerID);
         }*/

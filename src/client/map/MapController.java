@@ -137,29 +137,29 @@ public class MapController extends Controller implements IMapController {
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerID();
-        return clientModel.canPlaceRoad(0, edgeLoc);
-        //return true;
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        //return clientModel.canPlaceRoad(currentPlayerId, edgeLoc);
+        return true;
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        return clientModel.canPlaceSettlement(0, vertLoc);
-        //return true;
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        return clientModel.canPlaceSettlement(currentPlayerId, vertLoc);
     }
 
     public boolean canPlaceCity(VertexLocation vertLoc) {
-        return clientModel.canPlaceCity(0, vertLoc);
-        //return true;
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        return clientModel.canPlaceCity(currentPlayerId, vertLoc);
     }
 
     public boolean canPlaceRobber(HexLocation hexLoc) {
         return clientModel.canPlaceRobber(hexLoc);
-        //return true;
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, 0);
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerId);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
     }
 
@@ -181,22 +181,14 @@ public class MapController extends Controller implements IMapController {
 
         BuildCityCommand buildCityCommand = new BuildCityCommand(vertObj);
         ClientFacade.getInstance().buildCity(buildCityCommand);
-
-
-        //catanMap.buildCityManager.placeCity(0, vertLoc);  //TODO: Should use the update stuff...
-       // getView().placeCity(vertLoc, CatanColor.ORANGE);
     }
 
     public void placeRobber(HexLocation hexLoc) {
         System.out.println("MAP: PLACEROBBER");
-        /*
-        RobPlayerCommand robPlayerCommand = new RobPlayerCommand(0, hexLoc, 0);
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        //TODO: Robbing should not be hard coded with the 1...
+        RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, hexLoc, 1);
         ClientFacade.getInstance().robPlayer(robPlayerCommand);
-        */
-
-        /*
-        getView().placeRobber(hexLoc);
-        getRobView().showModal();*/
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
@@ -216,16 +208,20 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void playRoadBuildingCard() {
+        System.out.println("MAP: PLAY ROAD BUILDING CARD.");
 
         //THIS IS TEMPORARY CODE TO MAKE PLAYER START WITH A ROAD
         EdgeLocation temp = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(temp, 0);
-        ClientFacade.getInstance().buildRoad(buildRoadCommand);
-        /*
-        System.out.println("MAP: PLAY ROAD BUILDING CARD");
+
         CatanColor color = clientModel.getCurrentPlayer().getColor();
         getView().startDrop(PieceType.ROAD, color, true);
-        getView().startDrop(PieceType.ROAD, color, true);*/
+        getView().startDrop(PieceType.ROAD, color, true);
+
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(temp, currentPlayerId);
+        ClientFacade.getInstance().buildRoad(buildRoadCommand);
+
+
     }
 
     public void robPlayer(RobPlayerInfo victim) {

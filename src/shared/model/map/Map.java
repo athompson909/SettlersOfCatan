@@ -573,7 +573,7 @@ public class Map {
     }
 */
     public boolean canPlaceRobber(HexLocation desiredHexLoc) {
-        if(desiredHexLoc != null) {
+        if(hexes.containsKey(desiredHexLoc)) {
             if (!desiredHexLoc.equals(robber.getCurrentHexlocation())) {
                 return true;
             }
