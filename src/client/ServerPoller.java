@@ -26,53 +26,31 @@ import java.util.TimerTask;
  */
 public class ServerPoller {
 
-    /**
-     * The Timer object that fires an ActionListener (according to Java's documentation page)
-     * that signals the Poller to send an update request to the server.
-     */
-    private Timer pollTimer;
-
-    /**
-     * number of seconds to wait between requesting updates from the server
-     */
-    private int seconds = 2;
-
-    /**
-     * for testing
-     */
-    private IServerProxy proxy;
-    public void setProxy(IServerProxy proxy) {
-        this.proxy = proxy;
-    };
 
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
-     *
-     *
      */
     public ServerPoller() {
-        pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+        int seconds = 2;
+        Timer pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
 
+    /**
+     * executes every 2 seconds
+     */
     private class ServerPollerTask extends TimerTask {
         public void run() {
-            //System.out.println("fetching new model");
+
             try {
-                if (proxy.runPoller()) {
-                    System.out.println("ServerPoller: fetching new model: " + new Date().toString());
-                    //fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
-                }
-                else {
-                    //System.out.println("ServerPoller: fetching games list: " + new Date().toString());
-                  //  fetchGamesList();
-                }
+                System.out.println("ServerPoller: fetching new model: " + new Date().toString());
+                fetchNewModel();
+
+
+
             }
             catch (ClientException e) {
-                System.out.println("ClientException thrown in ServerProxy.ServerPollerTask.run()," +
-                        "\nprobably because of the proxy.hasJoined() function" +
-                        "\nor could be from fetchNewModel() if proxy.hasJoined() returned true");
                 e.printStackTrace();
             }
         }
@@ -82,12 +60,10 @@ public class ServerPoller {
     /**
      * fetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
      * This function is called every 2-3 seconds when pollTimer tells it to.
+     *
+     * ***comment off method body to stop the modals from closing (WARNING: also stops poller from updating model)
      */
-    public void fetchNewModel() throws ClientException {
+    private void fetchNewModel() throws ClientException {
         ClientFacade.getInstance().gameModelVersion();
-    }
-
-    public void fetchGamesList() throws ClientException {
-        ClientFacade.getInstance().gamesList();
     }
 }

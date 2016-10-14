@@ -1,7 +1,9 @@
 package client.join;
 
+import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
+import client.ServerPoller;
 import client.base.Controller;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
@@ -173,6 +175,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			//ok to be done picking players
 			System.out.println(">PWC: updateView: currGame has enough players! ");
 			miniPollTimer.cancel();  //stop the polling loop
+			Client.getInstance().setServerPoller();
 			getView().closeModal();
 		}
 

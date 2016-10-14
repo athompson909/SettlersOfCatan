@@ -369,8 +369,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
 			getJoinGameView().setGames(newGameInfos, currPlayerInfo);
 			//try closing/reopening the view
-			//but not if SelectColorView is open, or else JoinGameView will awkwardly pop up again over that
-			if (!getSelectColorView().isModalShowing()){
+			//but not if the other views are open, or else JoinGameView will awkwardly pop up again over that
+			if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
 
 				if (getJoinGameView().isModalShowing()){
 					getJoinGameView().closeModal();
