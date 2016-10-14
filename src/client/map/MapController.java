@@ -12,6 +12,7 @@ import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.map.Hex;
 import shared.model.map.Map;
 import shared.model.map.Port;
+import shared.model.map.VertexObject;
 
 import java.util.Observable;
 
@@ -71,6 +72,13 @@ public class MapController extends Controller implements IMapController {
         for (EdgeLocation edgeLocation : updatedMap.getEdgeObjects().keySet()) {
             if (updatedMap.getEdgeObjects().get(edgeLocation).getOwner() != -1) {
                 getView().placeRoad(edgeLocation, CatanColor.ORANGE);
+            }
+        }
+
+        //Place the Settlement
+        for (VertexLocation vertexLocation : updatedMap.getVertexObjects().keySet()) {
+            if (updatedMap.getVertexObjects().get(vertexLocation).getOwner() != -1) {
+                getView().placeSettlement(vertexLocation, CatanColor.ORANGE);
             }
         }
 

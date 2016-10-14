@@ -60,7 +60,7 @@ public class ServerPoller {
             //System.out.println("fetching new model");
             try {
                 if (proxy.runPoller()) {
-                    fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
+//                    fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
                 }
             }
             catch (ClientException e) {

@@ -101,11 +101,11 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		//check if it is this players turn and enable or disable appropriately
 		if(tracker.getCurrentTurn() == ClientUser.getInstance().getIndex()){
 			//enable things that can be clicked on
-			//if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
+			if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
 				getView().setElementEnabled(ResourceBarElement.ROAD,true);
-			//}else{
-			//	getView().setElementEnabled(ResourceBarElement.ROAD,false);
-			//}
+			}else{
+				getView().setElementEnabled(ResourceBarElement.ROAD,false);
+			}
 			if(model.canPurchaseSettlement(ClientUser.getInstance().getIndex())) {
 				getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
 			}else{
@@ -139,6 +139,13 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		getView().setElementAmount(ResourceBarElement.WHEAT, resources.getWheatCardCount());
 		getView().setElementAmount(ResourceBarElement.ORE, resources.getOreCardCount());
 		getView().setElementAmount(ResourceBarElement.SOLDIERS, player.getSoldiersPlayed());
+
+
+		//TODO: Delete THIS IS TEMPORARY SO WE CAN TEST MAP FUNCTIONS
+		getView().setElementEnabled(ResourceBarElement.ROAD,true);
+		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
+		getView().setElementEnabled(ResourceBarElement.CITY,true);
+		getView().setElementEnabled(ResourceBarElement.BUY_CARD,true);
 	}
 }
 
