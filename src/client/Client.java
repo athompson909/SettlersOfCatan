@@ -33,8 +33,7 @@ public class Client {
         serverProxy = new ServerProxy();
 
         ClientFacade.getInstance().setValues(serverProxy, clientModel);
-        serverPoller = new ServerPoller();
-        serverPoller.setProxy(serverProxy);
+        serverPoller = null;
     }
 
     public ClientModel getClientModel() {
@@ -47,5 +46,9 @@ public class Client {
 
     public boolean isUpdateOverride() {
         return updateOverride;
+    }
+
+    public void setServerPoller() {
+        this.serverPoller = new ServerPoller(serverProxy);
     }
 }

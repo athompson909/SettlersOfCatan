@@ -51,23 +51,22 @@ public class ServerPoller {
      *
      *
      */
-    public ServerPoller() {
+    public ServerPoller(IServerProxy proxy) {
+        this.proxy = proxy;
         pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
 
     private class ServerPollerTask extends TimerTask {
         public void run() {
-            //System.out.println("fetching new model");
+
             try {
-                if (proxy.runPoller()) {
-                    System.out.println("ServerPoller: fetching new model: " + new Date().toString());
-                    //fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
-                }
-                else {
-                    //System.out.println("ServerPoller: fetching games list: " + new Date().toString());
-                  //  fetchGamesList();
-                }
+                System.out.println("ServerPoller: fetching new model: " + new Date().toString());
+                fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
+
+
+
+
             }
             catch (ClientException e) {
                 System.out.println("ClientException thrown in ServerProxy.ServerPollerTask.run()," +
