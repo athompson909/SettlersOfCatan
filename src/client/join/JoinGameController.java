@@ -232,7 +232,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		getSelectColorView().showModal();
 
-		// THE INDEX HAS TO BE SET
 	}
 
 	@Override
@@ -331,6 +330,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//actually we don't have the model until PlayerWaitingView is happening.
 		//I think JoinGamecontroller is going to be on its own personal observer pattern because it only wants
 		//the gamesList from the server.
+
+		// just make a miniPoller for JoinGameController!
 
 	}
 

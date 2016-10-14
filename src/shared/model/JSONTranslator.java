@@ -801,7 +801,7 @@ public class JSONTranslator {
             String currGameListItemString = currGameListItem.toString();
             //GameInfo newGameInfo = gsonConverter.fromJson(currGameListItemString, GameInfo.class);
 
-            System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: game " + g + "= " + currGameListItemString);
+         //   System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: game " + g + "= " + currGameListItemString);
 
             //we need to do this manually to remove all null/empty players:
             GameInfo newGameInfo = new GameInfo();

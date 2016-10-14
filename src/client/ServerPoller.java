@@ -62,11 +62,11 @@ public class ServerPoller {
             try {
                 if (proxy.runPoller()) {
                     System.out.println("ServerPoller: fetching new model: " + new Date().toString());
-                    fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
+                    //fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
                 }
                 else {
-                    System.out.println("ServerPoller: fetching games list: " + new Date().toString());
-                    fetchGamesList();
+                    //System.out.println("ServerPoller: fetching games list: " + new Date().toString());
+                  //  fetchGamesList();
                 }
             }
             catch (ClientException e) {

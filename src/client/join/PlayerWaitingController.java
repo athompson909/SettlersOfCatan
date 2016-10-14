@@ -1,20 +1,21 @@
 package client.join;
 
+import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
+import client.ServerPoller;
 import client.base.Controller;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
+import exceptions.ClientException;
 import shared.definitions.CatanColor;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.AddAICommand;
 import shared.model.player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 
 /**
@@ -22,10 +23,16 @@ import java.util.Observable;
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
 
+	//TRY HAVING A PERSONAL MINI-POLLER HERE
+	private Timer miniPollTimer;
+	//number of seconds to wait between requesting updates from the server
+	private int seconds = 2;
+
+
+
 	//used to show messages
 	private IMessageView messageView;
 
-	//used to pull out the list of players in each game
 	private ClientModel clientModel;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
@@ -39,15 +46,19 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		return (IPlayerWaitingView)super.getView();
 	}
 
+	/**
+	 * Initializes the MiniPoller so it starts the poll loop, gives the PlayerWaitingView an initial list of players
+	 * in the chosen game, and checks if we actually need to show this view at all (if there are less than 4 players)
+	 */
 	@Override
 	public void start() {
 
 		System.out.println("PLAYERWAITINGCONTROLLER: start called");
 
-		//currently getting list of players from the server via ListGames.
-		// we should probably be getting it from the ClientModel>Players. VIA NOTIFYOBSERVERS!
-		// yes we need to do that because if we're not updating the PlayerWaitingView based on the Players in the model
-		// the view will not be updated with the players that joined your game from different computers.
+		//start PWC's personal poller
+		//TRY
+		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+		miniPollTimer.scheduleAtFixedRate(new PlayerWaitingController.MiniPollerTask(), 1, seconds*1000);
 
 		//--------
 		//Give the PlayerWaitingView the existing list of players from the game they want to join:
@@ -58,7 +69,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		getView().setPlayers(setThesePlayerInfos);
 		//------------
 
-		//check HERE if there are enough player in the game
+
+		//check if there are enough players in the game to actually need to show this view
 		int numPlayersInGame = setThesePlayerInfos.length;
 		System.out.println("PLAYERWAITINGCONTROLLER: start(): there are " + numPlayersInGame +
 				" players in game " + addedGame.getId());
@@ -69,8 +81,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			getView().showModal();
 		}
 		else if (numPlayersInGame == 4){
-			//ok to start the game, we have all the players
-			//so DON'T show the PlayerWaitingView
+			//ok to start the game, we have all the players - so DON'T show the PlayerWaitingView
 			System.out.println("PLAYERWAITINGCONTROLLER: start(): SKIPPING the PlayerWaitingView");
 			//just start the game
 			//test:
@@ -107,53 +118,64 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			System.out.println("PLAYERWAITINGCONT: AI Add didn't work :(");
 		}
 
-		//maybe special request the model from the server right here?
-		//ClientFacade.getInstance().gameModelVersion(); //try forcing model update
-		//updateView();
+		//get the new list of players from the server and call updateView()
+		GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
+		updateView(newGameInfos);
 
 	}
 
-	//called after AddAI() or Update() happens  - gets new list of players from server, refreshes view
-	private void updateView(){
 
-		//THIS NEEDS TO ASK MODEL FOR PLAYERS INSTEAD ****
-//		//ask server for gamelist:
-//		GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-//		//get the list of players from the server response using the current gameID
-//		GameInfo currGameInfo = newGameInfoArr[ClientUser.getInstance().getCurrentGameID()];
-//		//use that list of players to do setPlayers() here
-//		List<PlayerInfo> newPlayerInfoList = currGameInfo.getPlayers();
-//		//turn it into an array
-//		PlayerInfo[] setThesePlayerInfos = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
-//		//give that array of PlayerInfos to setPlayers()
+	/**
+	 * 	called after AddAI() or MiniPoller happens  - gets new list of players from server, refreshes PlayerWaitingView
+	 */
+	private void updateView(GameInfo[] updatedGameInfos){
 
-		//this is where PWC pulls out the updated list of Players for ClientUser's currAddedGameID
-		Player[] updatedPlayersArr = clientModel.getPlayers(); //I'm pretty sure that this will be unique for each game. Check!
-		//convert the Player[] to PlayerInfo[] by pulling out the relevant info from each Player and
-		//packaging it into a PlayerInfo object instead.
-		PlayerInfo[] updatePlayerInfosArr = playersToPlayerInfos(updatedPlayersArr);
+		//pull out the game we need
+		GameInfo currGameToDisplay = updatedGameInfos[ClientUser.getInstance().getCurrentGameID()];
+		System.out.println("\t\tCurrGameToDisplay: " + currGameToDisplay);
+
+		//pull out PlayerInfo[] and use that to do PWV.setPlayers and update the view
+		//GameInfo stores PlayerInfos in an ArrayList
+		List<PlayerInfo> tempPIArrList = currGameToDisplay.getPlayers();
+		System.out.println("PlayerInfos to display:" + tempPIArrList);
+
+		PlayerInfo[] newPlayerInfosToDisplay = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
+		//use this array to update the view
+
+		//FOR TESTING ONLY------
+		System.out.print(">PWC: updateView(): setting players with content: ");
+		for (int i = 0; i < newPlayerInfosToDisplay.length; i++) {
+			if (newPlayerInfosToDisplay[i] != null) {
+				System.out.print(newPlayerInfosToDisplay[i].getName() + ", ");
+			}
+		} System.out.println();
+		//----------------------
 
 
+		//update the View with the new players:  ***************************
+		getView().setPlayers(newPlayerInfosToDisplay);
 
-		getView().setPlayers(updatePlayerInfosArr);
-		int numPlayersInGame = updatePlayerInfosArr.length;
+		int numPlayersInGame = newPlayerInfosToDisplay.length;
 		//-----------------
 
+		//Decide whether or not to close the modal and start the game
 		//update PlayerWaitingView with newly added players IF THERE ARE LESS THAN 4 PLAYERS:
 		if (numPlayersInGame < 4){
 			// we still need more players - go again
-			System.out.println(">PLAYERWAITINGCONT: addAI: currGame #players < 4");
+			System.out.println(">PWC: updateView: currGame #players < 4");
 
-			//try just closing the modal/reopening it:   - TA
+			//Close/reopen the modal to refresh it
+			//is there any way to make it not blink like that? it's pretty tacky lol
 			if (getView().isModalShowing()){
 				getView().closeModal();
 			}
 			getView().showModal();
 
 		}
-		else{
+		else {
 			//ok to be done picking players
-			System.out.println(">PLAYERWAITINGCONT: addAI: currGame has enough players! ");
+			System.out.println(">PWC: updateView: currGame has enough players! ");
+			miniPollTimer.cancel();  //stop the polling loop
 			getView().closeModal();
 		}
 
@@ -200,7 +222,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 				newPI.setPlayerIndex(newPIIndex);
 				newPI.setId(newPIID);
 
-				//playerInfosArr[p] = newPI;
 				tempArrList.add(newPI);
 			}
 		}
@@ -212,67 +233,68 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		return playerInfosArr;
 	}
 
+	//this is blank right now
 	@Override
 	public void update(Observable o, Object arg) {
 
-		System.out.println("PLAYERWAITINGCONT: Update called! +++++++++++++++++++++++++");
+		//System.out.println("PLAYERWAITINGCONT: Update called! +++++++++++++++++++++++++");
 
 		//the model comes back here, updated every 2 seconds, via the Observable object
 		//cast Observable into ClientModel here
-		ClientModel model = (ClientModel) o;
+		//ClientModel model = (ClientModel) o;
 
 		//PWC should have its own personal ClientModel that gets updated every time this function happens
-		clientModel = model;
-		Player[] players = model.getPlayers();
-		for(int i = 0; i < 4; i++){
-			if(players[i].getName().equals(ClientUser.getInstance().getName())){
-				ClientUser.getInstance().setIndex(i);
-				break;
+		//clientModel = model;
+//		Player[] players = model.getPlayers();
+//		for(int i = 0; i < 4; i++){
+//			if(players[i].getName().equals(ClientUser.getInstance().getName())){
+//				ClientUser.getInstance().setIndex(i);
+//				break;
+//			}
+//		}
+
+		//and does setPlayers() or whatever it needs to do to show the new boxes on the view:
+	//	updateView();
+
+	}
+
+
+
+
+
+//////////////
+
+	//TRY ANOTHER POLLER HERE
+	//this poller should only be happening for the duration of PlayerWaitingController being visible.
+	//need a start/stop function
+	private class MiniPollerTask extends TimerTask {
+		public void run() {
+			//System.out.println("fetching new model");
+			try {
+				System.out.println("miniPoller: fetching gamesList: " + new Date().toString());
+				fetchGamesList();
+			}
+			catch (Exception e) {
+				System.out.println("miniPoller Exception!");
+				e.printStackTrace();
 			}
 		}
 
-
-//		//this is where PWC pulls out the updated list of Players for ClientUser's currAddedGameID
-//		Player[] updatedPlayersArr = clientModel.getPlayers(); //I'm pretty sure that this will be unique for each game. Check!
-//		//convert the Player[] to PlayerInfo[] by pulling out the relevant info from each Player and
-//		//packaging it into a PlayerInfo object instead.
-//		PlayerInfo[] updatePlayerInfosArr = playersToPlayerInfos(updatedPlayersArr);
-
-		//and does setPlayers() or whatever it needs to do to show the new boxes on the view:
-		updateView();
-
-
-
-		/*
-			My issue right now is that when you add an AI player, and presumably a real player too,
-			the server doesn't count that as a model update, and so it doesn't increment the model version number.
-			This means that ClientUpdateManager doesn't notifyObservers since there was "no change".
-			So PlayerWaitingView doesn't get the new list of players added to the game.
-			How can I give PlayerWaitingView an updated list of Players from the server every 2 sec?
-			//I tried forcing an observer network update so the updated Playerslist would be sent through to PWV,
-			but for some reason it just closes the PWV modal after update() is called.
+		/**
+		 * fetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
+		 * This function is called every 2 seconds when pollTimer tells it to.
 		 */
-		/*
-			We used to have PWV update just whenever you click the AddAI button, at which point it would go
-			ask the server for the GamesList, but then we remembered that we need to be asking the constantly updating
-			ClientModel for the list of players, to be sure that we update PWV every 2 sec to account for real players
-			joining from around the server at any time.
-		 */
-		/*
-			I may want to ask the TAs how they got the PlayerList to update every 2 sec even when the server
-			doesn't count that as a model "update"... maybe they just don't even check the version numbers with the
-			new model coming back, and they just send the update around the observer network every time anyways?
-		 */
+		public void fetchGamesList() throws ClientException {
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
-		/*
-			**UPDATE: when looking at the server output while running the demo client, it shows games/list
-			* being called every 2 sec. That means the Poller just calls /games/List UNTIL you
-			* finish picking a color and join the game for real. So I still need to ask the TAs about the
-			* player list updating from the model during PlayerWaitingView, but for JoinGameView we need to
-			* add a state or something to the Poller to tell it to do /games/list until the end of SelectColorView.
-		 */
+			//don't get the model, just the gamesList!
+			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
+
+			updateView(newGameInfos);
+
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
+		}
 	}
-
 
 
 }

@@ -69,6 +69,7 @@ public class RollController extends Controller implements IRollController {
 		TurnTracker tracker = model.getTurnTracker();
 
 		//See if it is our turn to roll
+		/*
 		if(tracker.getStatus().equals("Rolling") && tracker.getCurrentTurn()== ClientUser.getInstance().getIndex()){
 			if(!rollModal) {
 				System.out.println("Roll Modal open");
@@ -79,7 +80,9 @@ public class RollController extends Controller implements IRollController {
 				//todo figure out how to get the modal to not flash
 				//rollModal = true;
 			}
+
 		}
+		*/
 	}
 	class SetMessage extends TimerTask{
 		private int seconds;
