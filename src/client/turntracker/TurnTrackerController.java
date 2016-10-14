@@ -19,6 +19,7 @@ import java.util.Observable;
 public class TurnTrackerController extends Controller implements ITurnTrackerController {
 
 	private CatanColor localPlayerColor;
+	private boolean initialized = false;
 	public TurnTrackerController(ITurnTrackerView view) {
 		
 		super(view);
@@ -48,32 +49,39 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		if(localPlayerColor == null){
 			localPlayerColor = model.getCurrentPlayer().getColor();
 			getView().setLocalPlayerColor(localPlayerColor);
-
-            //initialize players
-            Player[] players = model.getPlayers();
-            for(int i = 0; i < players.length; i++){
-                Player player = players[i];
-//                getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
-            }
 		}
-		//TODO: Feel free to uncomment this if you're editing it. Now that update is getting called, it crashes here.
-		TurnTracker turnTracker = model.getTurnTracker();
-		int turn = turnTracker.getCurrentTurn();
 
-		//update game state
-		IState state = Client.getInstance().getGameState();
-		state.updateStateButton(getView());
-
-		//update player info
-		int longestRoad = turnTracker.getLongestRoadHolder();
-		int largestArmy = turnTracker.getLargestArmyHolder();
 		Player[] players = model.getPlayers();
-		for(int i = 0; i < players.length; i++){
-			Player player = players[i];
-			boolean highlight = (i == turn);
-			boolean road = (i == longestRoad);
-			boolean army = (i == largestArmy);
-			//getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
+		if(players[3] != null) {//all players are ready
+
+			//initialize players
+			if(!initialized) {
+				initialized = true;
+				for (int i = 0; i < players.length; i++) {
+					Player player = players[i];
+					getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
+				}
+			}
+			
+			TurnTracker turnTracker = model.getTurnTracker();
+			int turn = turnTracker.getCurrentTurn();
+
+			//update game state
+			IState state = Client.getInstance().getGameState();
+			state.updateStateButton(getView());
+
+			//update player info
+			int longestRoad = turnTracker.getLongestRoadHolder();
+			int largestArmy = turnTracker.getLargestArmyHolder();
+			for (int i = 0; i < players.length; i++) {
+				Player player = players[i];
+				if (player != null) {
+					boolean highlight = (i == turn);
+					boolean road = (i == longestRoad);
+					boolean army = (i == largestArmy);
+					getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
+				}
+			}
 		}
 	}
 
