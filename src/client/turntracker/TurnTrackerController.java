@@ -48,6 +48,13 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		if(localPlayerColor == null){
 			localPlayerColor = model.getCurrentPlayer().getColor();
 			getView().setLocalPlayerColor(localPlayerColor);
+
+            //initialize players
+            Player[] players = model.getPlayers();
+            for(int i = 0; i < players.length; i++){
+                Player player = players[i];
+                getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
+            }
 		}
 		//TODO: Feel free to uncomment this if you're editing it. Now that update is getting called, it crashes here.
 		TurnTracker turnTracker = model.getTurnTracker();
@@ -56,7 +63,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		//update game state
 		IState state = Client.getInstance().getGameState();
 		state.updateStateButton(getView());
-		/*
+
 		//update player info
 		int longestRoad = turnTracker.getLongestRoadHolder();
 		int largestArmy = turnTracker.getLargestArmyHolder();
@@ -67,7 +74,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			boolean road = (i == longestRoad);
 			boolean army = (i == largestArmy);
 			getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
-		}*/
+		}
 	}
 
 }
