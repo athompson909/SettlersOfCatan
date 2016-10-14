@@ -31,8 +31,6 @@ public class Player { //
     /**
      * The unique playerID. This is used to pick the client player apart from the
      * others. This is only used here and in your cookie.,
-     *
-     * [Sierra] Why was this a String earlier? according to the model schema, it's an int.
      */
     private int playerID;
 
