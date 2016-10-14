@@ -53,7 +53,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
             Player[] players = model.getPlayers();
             for(int i = 0; i < players.length; i++){
                 Player player = players[i];
-                getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
+//                getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
             }
 		}
 		//TODO: Feel free to uncomment this if you're editing it. Now that update is getting called, it crashes here.
@@ -73,7 +73,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			boolean highlight = (i == turn);
 			boolean road = (i == longestRoad);
 			boolean army = (i == largestArmy);
-			getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
+			//getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
 		}
 	}
 

@@ -4,14 +4,17 @@ import client.Client;
 import client.ClientFacade;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
+import client.main.Catan;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
 import shared.model.ClientModel;
+import shared.model.commandmanager.CommandManager;
 import shared.model.commandmanager.moves.BuildCityCommand;
 import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.commandmanager.moves.BuildSettlementCommand;
+import shared.model.commandmanager.moves.RobPlayerCommand;
 import shared.model.map.*;
 import sun.security.provider.certpath.Vertex;
 
@@ -30,7 +33,6 @@ public class MapController extends Controller implements IMapController {
         super(view);
         System.out.println("Map Controller Constructor");
         setRobView(robView);
-        
     }
 
     public IMapView getView() {
@@ -54,8 +56,6 @@ public class MapController extends Controller implements IMapController {
             if (currentHex.getResource() != HexType.WATER) {
                 if (currentHex.getResource() != HexType.DESERT) {
                     getView().addNumber(currentHex.getLocation(), currentHex.getNumber());
-                } else {
-                    getView().placeRobber(currentHex.getLocation());
                 }
             }
         }
@@ -71,20 +71,25 @@ public class MapController extends Controller implements IMapController {
 
         //Place the Roads
         for (EdgeLocation edgeLocation : updatedMap.getEdgeObjects().keySet()) {
-            if (updatedMap.getEdgeObjects().get(edgeLocation).getOwner() != -1) {
-                getView().placeRoad(edgeLocation, CatanColor.ORANGE);
-            }
+            int owner = updatedMap.getEdgeObjects().get(edgeLocation).getOwner();
+            getView().placeRoad(edgeLocation,  clientModel.getPlayers()[owner].getColor());
         }
 
         //Place Vertex Objects
         for (VertexLocation vertexLocation : updatedMap.getVertexObjects().keySet()) {
             VertexObject vertexObject = updatedMap.getVertexObjects().get(vertexLocation);
+            CatanColor color = clientModel.getPlayers()[vertexObject.getOwner()].getColor()  ;
             if (vertexObject.getPieceType().equals(PieceType.SETTLEMENT)) {
-                getView().placeSettlement(vertexLocation, CatanColor.ORANGE);
+                getView().placeSettlement(vertexLocation, color);
             } else {
-                getView().placeCity(vertexLocation, CatanColor.ORANGE);
+                getView().placeCity(vertexLocation, color);
             }
         }
+
+
+        getView().placeRobber(updatedMap.getRobber().getCurrentHexlocation());
+
+        //Place the Robber
 
 
 /*
@@ -132,8 +137,9 @@ public class MapController extends Controller implements IMapController {
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        //return clientModel.canPlaceRoad(0, edgeLoc);
-        return true;
+        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerID();
+        return clientModel.canPlaceRoad(0, edgeLoc);
+        //return true;
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
@@ -182,13 +188,20 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void placeRobber(HexLocation hexLoc) {
-        //catanMap.placeRobber(hexLoc);
+        System.out.println("MAP: PLACEROBBER");
+        /*
+        RobPlayerCommand robPlayerCommand = new RobPlayerCommand(0, hexLoc, 0);
+        ClientFacade.getInstance().robPlayer(robPlayerCommand);
+        */
+
+        /*
         getView().placeRobber(hexLoc);
-        getRobView().showModal();
+        getRobView().showModal();*/
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-        getView().startDrop(pieceType, CatanColor.ORANGE, true);
+        CatanColor color = clientModel.getCurrentPlayer().getColor();
+        getView().startDrop(pieceType, color, true);
     }
 
     public void cancelMove() {
@@ -197,14 +210,22 @@ public class MapController extends Controller implements IMapController {
 
     public void playSoldierCard() {
         System.out.println("MAP: PLAYER SOLDIER CARD!");
+        CatanColor color = clientModel.getCurrentPlayer().getColor();
         //getRobView().showModal(); //This gets the counters for how many cards possible players have.
-        getView().startDrop(PieceType.ROBBER, CatanColor.WHITE, true); //3rd variable is boolean, cancel allowed
+        getView().startDrop(PieceType.ROBBER, color, true); //3rd variable is boolean, cancel allowed
     }
 
     public void playRoadBuildingCard() {
+
+        //THIS IS TEMPORARY CODE TO MAKE PLAYER START WITH A ROAD
+        EdgeLocation temp = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(temp, 0);
+        ClientFacade.getInstance().buildRoad(buildRoadCommand);
+        /*
         System.out.println("MAP: PLAY ROAD BUILDING CARD");
-        getView().startDrop(PieceType.ROAD, CatanColor.ORANGE, true);
-        getView().startDrop(PieceType.ROAD, CatanColor.ORANGE, true);
+        CatanColor color = clientModel.getCurrentPlayer().getColor();
+        getView().startDrop(PieceType.ROAD, color, true);
+        getView().startDrop(PieceType.ROAD, color, true);*/
     }
 
     public void robPlayer(RobPlayerInfo victim) {

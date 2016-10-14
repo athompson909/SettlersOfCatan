@@ -53,7 +53,7 @@ public class ServerPoller {
             catch (ClientException e) {
                 e.printStackTrace();
             }
-            
+
         }
     }
 

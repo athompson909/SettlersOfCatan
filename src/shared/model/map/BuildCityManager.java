@@ -31,16 +31,11 @@ public class BuildCityManager {
      */
     public boolean canPlaceCity(int playerID, VertexLocation desiredVertexLocation) {
         VertexObject currentVertexObject = map.getVertexObjects().get(desiredVertexLocation);
-        //System.out.println("Piece type " + currentVertexObject.toString());
-        //System.out.println("Piece Type not null: " + currentVertexObject.getPieceType().toString());
-        //System.out.println("Player owns settlement: " + currentVertexObject.getOwner() == playerID);
-       // System.out.println("Owner: " + currentVertexObject.getOwner());
-
         System.out.println(currentVertexObject != null);
-        if(currentVertexObject != null) {
+       /* if(currentVertexObject != null) {
             System.out.println(currentVertexObject.getPieceType().equals(PieceType.SETTLEMENT));
             System.out.println(currentVertexObject.getOwner() == playerID);
-        }
+        }*/
         return (currentVertexObject != null &&
                 currentVertexObject.getPieceType().equals(PieceType.SETTLEMENT) &&
                 currentVertexObject.getOwner() == playerID);
