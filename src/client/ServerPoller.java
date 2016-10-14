@@ -48,8 +48,6 @@ public class ServerPoller {
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
-     *
-     *
      */
     public ServerPoller(IServerProxy proxy) {
         this.proxy = proxy;
@@ -57,21 +55,20 @@ public class ServerPoller {
         pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
 
+    /**
+     * executes every 2 seconds
+     */
     private class ServerPollerTask extends TimerTask {
         public void run() {
 
             try {
                 System.out.println("ServerPoller: fetching new model: " + new Date().toString());
-                fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
-
+                fetchNewModel();
 
 
 
             }
             catch (ClientException e) {
-                System.out.println("ClientException thrown in ServerProxy.ServerPollerTask.run()," +
-                        "\nprobably because of the proxy.hasJoined() function" +
-                        "\nor could be from fetchNewModel() if proxy.hasJoined() returned true");
                 e.printStackTrace();
             }
         }
@@ -81,6 +78,8 @@ public class ServerPoller {
     /**
      * fetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.
      * This function is called every 2-3 seconds when pollTimer tells it to.
+     *
+     * ***comment off method body to stop the modals from closing (WARNING: also stops poller from updating model)
      */
     public void fetchNewModel() throws ClientException {
         ClientFacade.getInstance().gameModelVersion();
