@@ -29,10 +29,10 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 
 		//disable everything
-		getView().setElementEnabled(ResourceBarElement.ROAD,false);
-		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,false);
-		getView().setElementEnabled(ResourceBarElement.CITY,false);
-		getView().setElementEnabled(ResourceBarElement.BUY_CARD,false);
+		getView().setElementEnabled(ResourceBarElement.ROAD,true);
+		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
+		getView().setElementEnabled(ResourceBarElement.CITY,true);
+		getView().setElementEnabled(ResourceBarElement.BUY_CARD,true);
 	}
 
 	@Override
@@ -101,11 +101,11 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		//check if it is this players turn and enable or disable appropriately
 		if(tracker.getCurrentTurn() == ClientUser.getInstance().getIndex()){
 			//enable things that can be clicked on
-			if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
+			//if(model.canPurchaseRoad(ClientUser.getInstance().getIndex())) {
 				getView().setElementEnabled(ResourceBarElement.ROAD,true);
-			}else{
-				getView().setElementEnabled(ResourceBarElement.ROAD,false);
-			}
+			//}else{
+			//	getView().setElementEnabled(ResourceBarElement.ROAD,false);
+			//}
 			if(model.canPurchaseSettlement(ClientUser.getInstance().getIndex())) {
 				getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
 			}else{
@@ -138,6 +138,9 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		getView().setElementAmount(ResourceBarElement.SHEEP, resources.getSheepCardCount());
 		getView().setElementAmount(ResourceBarElement.WHEAT, resources.getWheatCardCount());
 		getView().setElementAmount(ResourceBarElement.ORE, resources.getOreCardCount());
+		getView().setElementAmount(ResourceBarElement.ROAD, player.getRoadCount());
+		getView().setElementAmount(ResourceBarElement.SETTLEMENT, player.getSettlementCount());
+		getView().setElementAmount(ResourceBarElement.CITY, player.getCityCount());
 		getView().setElementAmount(ResourceBarElement.SOLDIERS, player.getSoldiersPlayed());
 	}
 }

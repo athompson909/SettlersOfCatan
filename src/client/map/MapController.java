@@ -61,7 +61,6 @@ public class MapController extends Controller implements IMapController {
         //Place Water Hexes
         drawWaterHexes();
 
-
         //Place the ports
         for (HexLocation key : updatedMap.getPorts().keySet()) {
             Port currentPort = updatedMap.getPorts().get(key);

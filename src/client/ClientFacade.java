@@ -10,6 +10,7 @@ import shared.model.JSONTranslator;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.player.Player;
 
 import java.util.List;
 
@@ -52,18 +53,19 @@ public class ClientFacade {
     }
 
     /**
+     * todo: program version number checking
+     * right now the model is being constantly updated
+     * *this function is not called as a result of ServerPoller->run->fetchNewModel()
+     *
      * sends updated model to the updateManager to delegate updates
      * @param updatedClientModel - model returned by server
-     *
-     * todo: FYI THIS NEEDS TO BE CHANGED, IT ISN'T CURRENTLY CHECKING THE VERSION NUMBER (ask Adam why)
      */
-    public void sendUpdatedModel(ClientModel updatedClientModel){
+    public void sendUpdatedModel(ClientModel updatedClientModel) {
 
         System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
 
-
         //-----TESTING--------
-    /*
+
         System.out.print(">>CLIENTFACADE: sUM: new PlayersList= ");
         for (int i = 0; i < updatedClientModel.getPlayers().length; i++){
             if (updatedClientModel.getPlayers()[i] != null){
@@ -74,25 +76,30 @@ public class ClientFacade {
         //the server doesn't increment the model verNum after you add a player, so
         //clientUpdateManager isn't sending PlayerWaitingView the new list of players.
         //try forcing it to update the list of players on every poll no matter what
-        clientUpdateManager.testForceUpdatePlayersList(updatedClientModel.getPlayers());
-    */
-        //-----TESTING--------
+      //  clientUpdateManager.testForceUpdatePlayersList(updatedClientModel.getPlayers());
+
+        //-------------
 
         clientUpdateManager.setCurrentModel(updatedClientModel);
         if(version == -1) {
-
+            System.out.println(">>CLIENTFACADE: sUM: currVerNum = -1");
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
+
             version = -2;
         }
         else if(version == updatedClientModel.getVersion()) {
             // DON'T UPDATE EXISTING MODEL
+            System.out.println(">>CLIENTFACADE: sUM: currVerNum = newVerNum, NOT UPDATING MODEL XXXXXXXX");
         }
         else {
+            System.out.println(">>CLIENTFACADE: sUM: modelVerNum is NEW, updating model! $$$$$$$");
             version = updatedClientModel.getVersion();
             clientUpdateManager.delegateUpdates(updatedClientModel);//todo: test here!
         }
 
+        clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
+        clientUpdateManager.delegateUpdates(updatedClientModel);
     }
 
     /**
@@ -123,6 +130,8 @@ public class ClientFacade {
 
             if(response.equals("Success")) {
                // System.out.println(">CLIENTFACADE: USERLOGIN: server was happy");
+                //save username
+                ClientUser.getInstance().setName(loginCommand.getUsername());
                 return true;
             }
             else {
@@ -415,6 +424,16 @@ public class ClientFacade {
 //            if(gameModelVersionStr.equals("{\"http error 400\":\"Bad Request\"}")) throw new ClientException(); // todo: delete
             jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
+
+            //try saving the ClientUser index right here============
+            Player[] players = updatedModel.getPlayers();
+            for(int i = 0; i < 4; i++){
+                if(players[i].getName().equals(ClientUser.getInstance().getName())){
+                    ClientUser.getInstance().setIndex(i);
+                    break;
+                }
+            }
+
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {

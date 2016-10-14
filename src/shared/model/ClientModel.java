@@ -1,5 +1,6 @@
 package shared.model;
 
+import client.ClientUser;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -412,12 +413,12 @@ public class ClientModel extends Observable {
     public Player[] getPlayer() {return players;}
     public TradeOffer getTradeOffer() {return tradeOffer;}
     public ClientUpdateManager getUpdateManager() {return updateManager;}
-    public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
+    //don't we want to return the player on this client with this method, not whose turn it is?
+    //public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
+    public Player getCurrentPlayer() {return players[ClientUser.getInstance().getIndex()];}
 
     //SETTERS
-    public void setChanged(boolean set) {
-        changed = set;
-    }
+    public void setChanged(boolean set) {changed = set;}
     public void setVersion(int newModVer) {version = newModVer;}
     public void setWinner(int newGameWinner) {
         winner = newGameWinner;}
@@ -445,6 +446,14 @@ public class ClientModel extends Observable {
 
     public void setPlayers(Player[] players) {
         this.players = players;
+
+        System.out.print("\t\t>CLIENTMODEL: just set PlayersArr with new content: ");
+        for (int i = 0; i < players.length; i++) {
+            if (players[i] != null) {
+                System.out.print(players[i].getName() + ", ");
+            }
+        }
+        System.out.println();
     }
 
     public void setTradeOffer(TradeOffer tradeOffer) {
@@ -473,21 +482,11 @@ public class ClientModel extends Observable {
     @Override
     public void notifyObservers() {
 
-        System.out.println(">CLIENTMODEL: notifyObservers called");
-
         super.notifyObservers();
     }
 
-    /**
-     * I'm added an increment to the version everytime here because I think this goes everytime the model is changed
-     * @param arg
-     */
     @Override
     public void notifyObservers(Object arg) {
-
-        version++;
-        System.out.println(">CLIENTMODEL: notifyObservers called, new ver= " + version);
-
         super.notifyObservers(arg);
     }
 

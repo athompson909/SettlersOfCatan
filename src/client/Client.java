@@ -17,6 +17,8 @@ public class Client {
     // private Controller controller;
     private IServerProxy serverProxy;
 
+    private boolean updateOverride = false;
+
     private static Client instance = new Client();
 
     public static Client getInstance() {
@@ -37,5 +39,13 @@ public class Client {
 
     public ClientModel getClientModel() {
         return clientModel;
+    }
+
+    public void setUpdateOverride(boolean bool) {
+        updateOverride = bool;
+    }
+
+    public boolean isUpdateOverride() {
+        return updateOverride;
     }
 }

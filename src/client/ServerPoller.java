@@ -1,6 +1,7 @@
 package client;
 import exceptions.ClientException;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,7 +61,12 @@ public class ServerPoller {
             //System.out.println("fetching new model");
             try {
                 if (proxy.runPoller()) {
-                    fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
+                    System.out.println("ServerPoller: fetching new model: " + new Date().toString());
+                    //fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
+                }
+                else {
+                    //System.out.println("ServerPoller: fetching games list: " + new Date().toString());
+                  //  fetchGamesList();
                 }
             }
             catch (ClientException e) {
@@ -79,5 +85,9 @@ public class ServerPoller {
      */
     public void fetchNewModel() throws ClientException {
         ClientFacade.getInstance().gameModelVersion();
+    }
+
+    public void fetchGamesList() throws ClientException {
+        ClientFacade.getInstance().gamesList();
     }
 }

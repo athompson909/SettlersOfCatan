@@ -41,6 +41,8 @@ public class ClientUpdateManager {
      * and splits it into smaller objects to give to the subsequent individual update functions.
      */
     public void delegateUpdates(ClientModel newModel) {
+        System.out.println(">delegateUpdates called!");
+
         ResourceBank currResourceBank = currentModel.resourceBank;
         ResourceBank newResourceBank = newModel.resourceBank;
         updateResourceBank(currResourceBank, newResourceBank);
@@ -62,6 +64,9 @@ public class ClientUpdateManager {
         Player[] currPlayers = currentModel.getPlayers();
         Player[] newPlayers = newModel.getPlayers();
         updatePlayers(currPlayers, newPlayers);
+
+        //why are we not updating chat?  -Adam... would this update function work?
+        currentModel.setChat(newModel.getChat());
 
         TradeOffer currTradeOffer = currentModel.tradeOffer;
         TradeOffer newTradeOffer = newModel.tradeOffer;
@@ -120,6 +125,8 @@ public class ClientUpdateManager {
     //TESTING
     public void testForceUpdatePlayersList(Player[] newPlayersArr){
         if (currentModel.getPlayers() != newPlayersArr) {
+
+            //put the new list of players in for the old one
             currentModel.setPlayers(newPlayersArr);
 
             System.out.print(">CUM: testForceUpdatePL: newPlayersArr= ");
@@ -135,6 +142,7 @@ public class ClientUpdateManager {
             currentModel.setChanged();
             currentModel.setChanged(true);
             currentModel.notifyObservers();
+            //ClientModel is now part of Client Singleton. so PWC can ask the singleton for the new list of players.
         }
         else {
             System.out.println(">CUM: testForceUpdatePL: arrs were the same");
@@ -195,5 +203,8 @@ public class ClientUpdateManager {
     private void updateTradeOffer(TradeOffer newTradeOffer) {
 
     }
+
+//-----------------
+
 
 }

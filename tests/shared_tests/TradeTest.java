@@ -22,6 +22,7 @@ public class TradeTest extends TestCase {
     private ClientModel model = new ClientModel(1);
     private Map map = new Map(false, false, false); //Don't randomize
     private Player player = new Player(CatanColor.BLUE, "Bob", 37, 1);
+    //private Player player = new Player(CatanColor.BLUE, "Bob", "bob37", 1);;
     private VertexLocation vertLoc = new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest);
 
     @Test
