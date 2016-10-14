@@ -38,7 +38,7 @@ public class ServerPoller {
     }
 
     /**
-     * executes every 2 seconds
+     * executes every 2 seconds//
      */
     private class ServerPollerTask extends TimerTask {
         public void run() {
