@@ -376,6 +376,7 @@ public class Player { //
     }
 
     public HashMap<PortType, boolean[]> canMaritimeTrade(Set ports) {
+        maritimeTradeManager = new MaritimeTradeManager();
         maritimeTradeManager.setPorts(ports);
         HashMap<PortType, boolean[]> enoughCards = new HashMap<>();
 

@@ -4,12 +4,13 @@ import shared.definitions.*;
 import shared.definitions.ResourceType.*;
 import client.base.*;
 import shared.model.ClientModel;
-
+import shared.model.map.Port;
 import java.util.Observable;
 import shared.definitions.CatanColor;
 
 import java.util.Set;
 import java.util.HashMap;
+
 
 /**
  * Implementation for the maritime trade controller
@@ -43,9 +44,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void startTrade() {
 
-//		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-//		Set ports = clientModel.getMap().getPlayersPorts(currentPlayer);
-/*		HashMap<PortType, boolean[]> isTradable = clientModel.getCurrentPlayer().canMaritimeTrade(ports);
+		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		Set ports = clientModel.getMap().getPlayersPorts(currentPlayer);
+
+		HashMap<PortType, boolean[]> isTradable = clientModel.getCurrentPlayer().canMaritimeTrade(ports);
 
 		ResourceType[] giveOptions = new ResourceType[5];
 
@@ -84,12 +86,13 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			}
 
 		}
-*/
-		ResourceType[] giveOptions = new ResourceType[5];
 
-		//TODO: THE FOLLOWING LINE IS HARD CODED AND WILL NEED TO BE DELETED
-		giveOptions[0] = ResourceType.WOOD;
-		giveOptions[3] = ResourceType.BRICK;
+		//TODO: THE FOLLOWING LINES ARE HARD CODED AND WILL NEED TO BE DELETED
+
+//		ResourceType[] giveOptions = new ResourceType[5];
+//		giveOptions[0] = ResourceType.BRICK;
+//		giveOptions[1] = ResourceType.WOOD;
+
 		getTradeOverlay().showGiveOptions(giveOptions);
 		getTradeOverlay().showModal();
 	}

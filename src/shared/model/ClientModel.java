@@ -95,7 +95,7 @@ public class ClientModel extends Observable {
         players = new Player[4];
         //players[0] = new Player(CatanColor.ORANGE, "Bob", "ID0", 0);
         //players[1] = new Player(CatanColor.BLUE, "Carl", "ID1", 1);
-       // players[2] = new Player(CatanColor.GREEN, "Don", "ID2", 2);
+        // players[2] = new Player(CatanColor.GREEN, "Don", "ID2", 2);
         //players[3] = new Player(CatanColor.RED, "Egbert", "ID3", 3);
 
         tradeOffer = new TradeOffer();
@@ -420,8 +420,7 @@ public class ClientModel extends Observable {
     //SETTERS
     public void setChanged(boolean set) {changed = set;}
     public void setVersion(int newModVer) {version = newModVer;}
-    public void setWinner(int newGameWinner) {
-        winner = newGameWinner;}
+    public void setWinner(int newGameWinner) {winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
 
     public void setMessageManager(MessageManager messageManager) {

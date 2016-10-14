@@ -489,9 +489,11 @@ public class Map {
         Set<PortType> ports = new HashSet<>();
         Set myKeys = portVertexLocations.keySet();
         for (Object vertLoc : myKeys) {
-            if (vertexObjects.get(vertLoc).getOwner() == playerIndex) {
-                PortType type = portVertexLocations.get(vertLoc).getResource();
-                ports.add(type);
+            if(vertexObjects.containsKey(vertLoc)) {
+                if (vertexObjects.get(vertLoc).getOwner() == playerIndex) {
+                    PortType type = portVertexLocations.get(vertLoc).getResource();
+                    ports.add(type);
+                }
             }
         }
         return ports;
