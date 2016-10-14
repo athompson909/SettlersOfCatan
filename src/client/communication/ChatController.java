@@ -34,9 +34,9 @@ public class ChatController extends Controller implements IChatController {
 	public void sendMessage(String message) {
 		/*NOTE: even though the json command has the format {..."playerIndex":X...} that does not mean we want the
 		playerIndex, we actually want the playerId... this is really annoying but just remember that playerIndex is
-		playerId
+		playerId//todo:revise
 		 */
-		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getId(), message);
+		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getIndex(), message);
 		//Client.getInstance().setUpdateOverride(true);
 		ClientFacade.getInstance().sendChat(command);
 	}
