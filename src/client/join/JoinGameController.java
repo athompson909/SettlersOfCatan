@@ -370,7 +370,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 //			} System.out.println();
 //			//----------------------
 
-			//save it the first time
+			//FIRST TIME THROUGH
 			if (savedInitialGamesList == false){
 				System.out.println("\t\t\tJCGminiPoller: just saved INITIAL GameList, size= " + newGameList.length);
 				currGamesList = newGameList;
@@ -380,31 +380,41 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
 				localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
 				getJoinGameView().setGames(currGamesList, localPlayerInfoSoFar);
+
+				// closing/reopening the view to refresh it
+				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
+				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
+
+					if (getJoinGameView().isModalShowing()){
+						getJoinGameView().closeModal();
+					}
+					getJoinGameView().showModal();
+				}
 			}
 
 
 			//only setGames() and refresh the view if there was actually a change
 			//compare currGamesList size to newGamesInfos size
-			if (newGameList.length > currGamesList.length){
+			if (newGameList.length > currGamesList.length){  //DO VIEW UPDATE
 				//ok to do update
-				System.out.println("\t\tJCGminiPoller: new games found in gameList");
+				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
+				System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
 				getJoinGameView().setGames(newGameList, currPlayerInfo);
+				setCurrGamesList(newGameList);
 
+				// closing/reopening the view to refresh it
+				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
+				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
 
-			}
-			else{
-				System.out.println("\t\tJCGminiPoller: no change in gameList");
-			}
-
-
-			// closing/reopening the view to refresh it
-			//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
-			if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
-
-				if (getJoinGameView().isModalShowing()){
-					getJoinGameView().closeModal();
+					if (getJoinGameView().isModalShowing()){
+						getJoinGameView().closeModal();
+					}
+					getJoinGameView().showModal();
 				}
-				getJoinGameView().showModal();
+			}
+			else{    //DON'T DO VIEW UPDATE
+				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
+				System.out.println("\t\tJCGminiPoller: no change in gameList");
 			}
 
 
