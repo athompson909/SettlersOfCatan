@@ -212,7 +212,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		this.initialGamesList = initialGamesList;
 	}
 
-	//actually have minipoller call this functoin
+	//actually have minipoller call this function
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{

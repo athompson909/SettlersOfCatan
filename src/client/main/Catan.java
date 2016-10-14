@@ -1,5 +1,6 @@
 package client.main;
 
+import client.Client;
 import client.base.IAction;
 import client.catan.CatanPanel;
 import client.join.*;
@@ -62,7 +63,7 @@ public class Catan extends JFrame
 				new Catan();
 
 				//instantiating a new Client object
-//				Client.getInstance(); //Singleton
+				Client.getInstance(); //Singleton
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(

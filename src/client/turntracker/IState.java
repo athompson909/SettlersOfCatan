@@ -30,6 +30,9 @@ public abstract class IState {
             }
         }else if(status.equals("Discarding")){
             //todo
+            //did they already discard?
+            //do they need to discard?
+            return new DiscardState();
         }else if(status.equals("FirstRound")){
             //todo -figure out what needs to be different about first and secondRound states
             if(myTurn){
