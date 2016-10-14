@@ -26,32 +26,14 @@ import java.util.TimerTask;
  */
 public class ServerPoller {
 
-    /**
-     * The Timer object that fires an ActionListener (according to Java's documentation page)
-     * that signals the Poller to send an update request to the server.
-     */
-    private Timer pollTimer;
-
-    /**
-     * number of seconds to wait between requesting updates from the server
-     */
-    private int seconds = 2;
-
-    /**
-     * for testing
-     */
-    private IServerProxy proxy;
-    public void setProxy(IServerProxy proxy) {
-        this.proxy = proxy;
-    };
 
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
      */
-    public ServerPoller(IServerProxy proxy) {
-        this.proxy = proxy;
-        pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+    public ServerPoller() {
+        int seconds = 2;
+        Timer pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
 
@@ -81,11 +63,7 @@ public class ServerPoller {
      *
      * ***comment off method body to stop the modals from closing (WARNING: also stops poller from updating model)
      */
-    public void fetchNewModel() throws ClientException {
+    private void fetchNewModel() throws ClientException {
         ClientFacade.getInstance().gameModelVersion();
-    }
-
-    public void fetchGamesList() throws ClientException {
-        ClientFacade.getInstance().gamesList();
     }
 }
