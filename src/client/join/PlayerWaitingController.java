@@ -104,7 +104,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		//build a AddAICmd object:
 		AddAICommand addAICommand = new AddAICommand(selectedAI);
 
-		System.out.println("PLAYERWAITINGCONT: adding AI type: " + selectedAI);
+	//	System.out.println("PLAYERWAITINGCONT: adding AI type: " + selectedAI);
 
 		//send addAI cmd to ClientFacade:
 
