@@ -37,6 +37,7 @@ public class ChatController extends Controller implements IChatController {
 		playerId
 		 */
 		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getId(), message);
+		//Client.getInstance().setUpdateOverride(true);
 		ClientFacade.getInstance().sendChat(command);
 	}
 

@@ -64,6 +64,10 @@ public class ServerPoller {
                     System.out.println("ServerPoller: fetching new model: " + new Date().toString());
                     fetchNewModel();//**** IF THERE ARE ANY PROBLEMS WITH THE PULLER THROWING EXCEPTIONS, COMMENT THIS LINE OFF
                 }
+                else {
+                    System.out.println("ServerPoller: fetching games list: " + new Date().toString());
+                    fetchGamesList();
+                }
             }
             catch (ClientException e) {
                 System.out.println("ClientException thrown in ServerProxy.ServerPollerTask.run()," +
@@ -81,5 +85,9 @@ public class ServerPoller {
      */
     public void fetchNewModel() throws ClientException {
         ClientFacade.getInstance().gameModelVersion();
+    }
+
+    public void fetchGamesList() throws ClientException {
+        ClientFacade.getInstance().gamesList();
     }
 }

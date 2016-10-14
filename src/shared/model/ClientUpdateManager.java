@@ -63,6 +63,9 @@ public class ClientUpdateManager {
         Player[] newPlayers = newModel.getPlayers();
         updatePlayers(currPlayers, newPlayers);
 
+        //why are we not updating chat?  -Adam... would this update function work?
+        currentModel.setChat(newModel.getChat());
+
         TradeOffer currTradeOffer = currentModel.tradeOffer;
         TradeOffer newTradeOffer = newModel.tradeOffer;
         updateTradeOffer(currTradeOffer, newTradeOffer);//shows as (null, null)
@@ -195,5 +198,8 @@ public class ClientUpdateManager {
     private void updateTradeOffer(TradeOffer newTradeOffer) {
 
     }
+
+//-----------------
+
 
 }

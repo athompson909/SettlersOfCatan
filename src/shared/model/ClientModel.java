@@ -485,7 +485,7 @@ public class ClientModel extends Observable {
     @Override
     public void notifyObservers(Object arg) {
 
-        version++;
+//        version++;
         System.out.println(">CLIENTMODEL: notifyObservers called, new ver= " + version);
 
         super.notifyObservers(arg);

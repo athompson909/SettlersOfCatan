@@ -52,48 +52,19 @@ public class ClientFacade {
     }
 
     /**
+     * todo: program version number checking
+     * right now the model is being constantly updated
+     * *this function is not called as a result of ServerPoller->run->fetchNewModel()
+     *
      * sends updated model to the updateManager to delegate updates
      * @param updatedClientModel - model returned by server
-     *
-     * todo: FYI THIS NEEDS TO BE CHANGED, IT ISN'T CURRENTLY CHECKING THE VERSION NUMBER (ask Adam why)
      */
     public void sendUpdatedModel(ClientModel updatedClientModel){
 
         System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
 
-
-        //-----TESTING--------
-    /*
-        System.out.print(">>CLIENTFACADE: sUM: new PlayersList= ");
-        for (int i = 0; i < updatedClientModel.getPlayers().length; i++){
-            if (updatedClientModel.getPlayers()[i] != null){
-                System.out.print(updatedClientModel.getPlayers()[i].getName() + ", ");
-            }
-        }
-        System.out.println();
-        //the server doesn't increment the model verNum after you add a player, so
-        //clientUpdateManager isn't sending PlayerWaitingView the new list of players.
-        //try forcing it to update the list of players on every poll no matter what
-        clientUpdateManager.testForceUpdatePlayersList(updatedClientModel.getPlayers());
-    */
-        //-----TESTING--------
-
-     //   clientUpdateManager.setCurrentModel(updatedClientModel);
-        version = -5;
-        if(version != updatedClientModel.getVersion()) {
-
-            clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-            clientUpdateManager.delegateUpdates(updatedClientModel);
-            version = updatedClientModel.getVersion();
-        }
-        else if(version == updatedClientModel.getVersion()) {
-            // DON'T UPDATE EXISTING MODEL
-        }
-        else {
-            version = updatedClientModel.getVersion();
-            clientUpdateManager.delegateUpdates(updatedClientModel);//todo: test here!
-        }
-
+        clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
+        clientUpdateManager.delegateUpdates(updatedClientModel);
     }
 
     /**
