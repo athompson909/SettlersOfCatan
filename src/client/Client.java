@@ -53,8 +53,11 @@ public class Client {
         this.serverPoller = new ServerPoller();
     }
 
-    public IState updateGameState(){
+    public void updateGameState(){
         state = state.update(clientModel.getTurnTracker());
+    }
+
+    public IState getGameState(){
         return state;
     }
 }

@@ -25,7 +25,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private GameInfo joinThisGameInfo;
+	public GameInfo[] currGamesList; //used to compare to incoming update - check if we really need to refresh the view
 	//lightweight personal poller for PlayerWaitingController
+	private boolean savedInitialGamesList = false; //whether we got the initial gameslist to start with
 	public Timer miniPollTimer; //made public so SelectColorView can stop the timer
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
@@ -106,7 +108,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//start JGC's personal poller
 		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
 		miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval *1000);
-		
+
 		getJoinGameView().showModal();
 	}
 
@@ -157,7 +159,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         getNewGameView().closeModal();
 
         //Refresh the list of games in the JoinGameView to include this new game
-        GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+		GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
         PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
         this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
     }
@@ -275,8 +277,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		// If join succeeded, send the server a GameJoin Cmd object:
 
-		//add the user to the game they just picked using the GameInfo object here
-
 		//ask ClientFacade to do JoinGameCommand
 		//CatanColor userColor = ClientUser.getInstance().getColor();  //TEST - use the color passed in here
 		int desiredGameID = joinThisGameInfo.getId();
@@ -320,12 +320,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//don't bother with this update() crap
 	}
 
+	public GameInfo[] getCurrGamesList() {
+		return currGamesList;
+	}
+
+	public void setCurrGamesList(GameInfo[] currGamesList) {
+		this.currGamesList = currGamesList;
+	}
 
 
-
-
-
-	//////////////
+//////////////
 
 	/**
 	 * JoinGameMiniPoller is the poller only for JoinGameController to get an updated list of games every 2 sec.
@@ -335,6 +339,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private class JoinGameMiniPoller extends TimerTask {
 		public void run() {
 			try {
+				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^JGC miniPoller^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 				System.out.println("JGminiPoller: fetching gamesList: " + new Date().toString());
 				fetchGamesList();
 			}
@@ -349,33 +354,67 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		 * This function is called every 2 seconds when pollTimer tells it to.
 		 */
 		public void fetchGamesList() throws ClientException {
-			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^JGC miniPoller^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 
 			//don't get the model, just the gamesList!
-			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
-
-			System.out.print("\t\tJCGminiPoller: just got new gamesList: ");
-
-			//FOR TESTING ONLY------
-			for (int i = 0; i < newGameInfos.length; i++) {
-				if (newGameInfos[i] != null) {
-					System.out.println(newGameInfos[i]);
-				}
-			} System.out.println();
-			//----------------------
-
-
+			GameInfo[] newGameList = ClientFacade.getInstance().gamesList();
 			//update the View with the new GameList info
 			PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
-			getJoinGameView().setGames(newGameInfos, currPlayerInfo);
-			//try closing/reopening the view
-			//but not if the other views are open, or else JoinGameView will awkwardly pop up again over that
-			if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
 
-				if (getJoinGameView().isModalShowing()){
-					getJoinGameView().closeModal();
+			System.out.println("\t\tJCGminiPoller: just got new gamesList, size= " + newGameList.length);
+//
+//			//FOR TESTING ONLY------
+//			for (int i = 0; i < newGameInfos.length; i++) {
+//				if (newGameInfos[i] != null) {
+//					System.out.println(newGameInfos[i]);
+//				}
+//			} System.out.println();
+//			//----------------------
+
+			//FIRST TIME THROUGH
+			if (savedInitialGamesList == false){
+				System.out.println("\t\t\tJCGminiPoller: just saved INITIAL GameList, size= " + newGameList.length);
+				currGamesList = newGameList;
+				savedInitialGamesList = true;
+
+				PlayerInfo localPlayerInfoSoFar = new PlayerInfo();
+				localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
+				localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
+				getJoinGameView().setGames(currGamesList, localPlayerInfoSoFar);
+
+				// closing/reopening the view to refresh it
+				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
+				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
+
+					if (getJoinGameView().isModalShowing()){
+						getJoinGameView().closeModal();
+					}
+					getJoinGameView().showModal();
 				}
-				getJoinGameView().showModal();
+			}
+
+
+			//only setGames() and refresh the view if there was actually a change
+			//compare currGamesList size to newGamesInfos size
+			if (newGameList.length > currGamesList.length){  //DO VIEW UPDATE
+				//ok to do update
+				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
+				System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
+				getJoinGameView().setGames(newGameList, currPlayerInfo);
+				setCurrGamesList(newGameList);
+
+				// closing/reopening the view to refresh it
+				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
+				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
+
+					if (getJoinGameView().isModalShowing()){
+						getJoinGameView().closeModal();
+					}
+					getJoinGameView().showModal();
+				}
+			}
+			else{    //DON'T DO VIEW UPDATE
+				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
+				System.out.println("\t\tJCGminiPoller: no change in gameList");
 			}
 
 
