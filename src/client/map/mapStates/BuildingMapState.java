@@ -10,7 +10,7 @@ import shared.locations.VertexLocation;
  * Used for normal building of roads, settlements and cities during the game
  * Created by Alise on 10/8/2016.
  */
-public class BuildingMapState implements IMapState {
+public class BuildingMapState {/*} implements IMapState {
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
@@ -76,4 +76,5 @@ public class BuildingMapState implements IMapState {
     public void robPlayer(RobPlayerInfo victim) {
 
     }
+    */
 }

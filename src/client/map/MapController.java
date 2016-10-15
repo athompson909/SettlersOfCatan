@@ -5,19 +5,18 @@ import client.ClientFacade;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
 import client.main.Catan;
+
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
+import shared.definitions.State;
 import shared.locations.*;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
-import shared.model.commandmanager.moves.BuildCityCommand;
-import shared.model.commandmanager.moves.BuildRoadCommand;
-import shared.model.commandmanager.moves.BuildSettlementCommand;
-import shared.model.commandmanager.moves.RobPlayerCommand;
+import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
 import sun.security.provider.certpath.Vertex;
-
+import client.map.mapStates.*;
 import java.util.Observable;
 
 /**
@@ -25,14 +24,17 @@ import java.util.Observable;
  */
 public class MapController extends Controller implements IMapController {
 
+    private MapState mapState;
+
     private IRobView robView;
 
-    private ClientModel clientModel;
+    public ClientModel clientModel;
 
     public MapController(IMapView view, IRobView robView) {
         super(view);
         System.out.println("Map Controller Constructor");
         setRobView(robView);
+        //mapState = new FirstRoundMapState(this);
     }
 
     public IMapView getView() {
@@ -48,6 +50,10 @@ public class MapController extends Controller implements IMapController {
     }
 
     protected void initFromModel(Map updatedMap) {
+        System.out.println("MAP CONTROLLER INIT FROM MODEL **************");
+        //mapState.initFromModel(updatedMap);
+
+        /*
         //Place the hexes, numbers, and robber.
         for (HexLocation key : updatedMap.getHexes().keySet()) {
 
@@ -137,58 +143,75 @@ public class MapController extends Controller implements IMapController {
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+        return mapState.canPlaceRoad(edgeLoc);
+
+        //int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
         //return clientModel.canPlaceRoad(currentPlayerId, edgeLoc);
-        return true;
+        //return true;
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
-        return clientModel.canPlaceSettlement(currentPlayerId, vertLoc);
+        return mapState.canPlaceSettlement(vertLoc);
+
+       // int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+       // return clientModel.canPlaceSettlement(currentPlayerId, vertLoc);
     }
 
     public boolean canPlaceCity(VertexLocation vertLoc) {
-        int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
-        return clientModel.canPlaceCity(currentPlayerId, vertLoc);
+        return mapState.canPlaceCity(vertLoc);
+       // int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
+       // return clientModel.canPlaceCity(currentPlayerId, vertLoc);
     }
 
     public boolean canPlaceRobber(HexLocation hexLoc) {
-        return clientModel.canPlaceRobber(hexLoc);
+        return mapState.canPlaceRobber(hexLoc);
+
+        //return clientModel.canPlaceRobber(hexLoc);
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
+        mapState.placeRoad(edgeLoc);
+        /*
         //This should send it to the server
         int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerId);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
+
+        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerId);
+        ClientFacade.getInstance().finishTurn(finishTurnCommand);
+        */
     }
 
     public void placeSettlement(VertexLocation vertLoc) {
-        int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
+        mapState.placeSettlement(vertLoc);
+
+        /*int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
         VertexObject vertObj = new VertexObject(vertLoc);
         vertObj.setOwner(currTurn);
         vertObj.setPieceType(PieceType.SETTLEMENT);
 
         BuildSettlementCommand buildSettlementCommand = new BuildSettlementCommand(vertObj);
-        ClientFacade.getInstance().buildSettlement(buildSettlementCommand);
+        ClientFacade.getInstance().buildSettlement(buildSettlementCommand);*/
     }
 
     public void placeCity(VertexLocation vertLoc) {
-        int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
+        mapState.placeCity(vertLoc);
+       /* int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
         VertexObject vertObj = new VertexObject(vertLoc);
         vertObj.setOwner(currTurn);
         vertObj.setPieceType(PieceType.CITY);
 
         BuildCityCommand buildCityCommand = new BuildCityCommand(vertObj);
-        ClientFacade.getInstance().buildCity(buildCityCommand);
+        ClientFacade.getInstance().buildCity(buildCityCommand);*/
     }
 
     public void placeRobber(HexLocation hexLoc) {
-        System.out.println("MAP: PLACEROBBER");
+        mapState.placeRobber(hexLoc);
+       /* System.out.println("MAP: PLACEROBBER");
         int currentPlayerId = clientModel.getCurrentPlayer().getPlayerIndex();
         //TODO: Robbing should not be hard coded with the 1...
         RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, hexLoc, 1);
-        ClientFacade.getInstance().robPlayer(robPlayerCommand);
+        ClientFacade.getInstance().robPlayer(robPlayerCommand);*/
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
@@ -228,11 +251,36 @@ public class MapController extends Controller implements IMapController {
 
     }
 
+    public void setState(State gameState) {
+        if(gameState.equals(State.FIRSTROUND)){
+            mapState = new FirstRoundMapState(this);
+        }
+        else if(gameState.equals(State.SECONDROUND)) {
+            mapState = new SecondRoundMapState(this);
+        }
+        else if(gameState.equals(State.DISCARDING)) {
+            mapState = new DiscardingMapState(this);
+        }
+        else if(gameState.equals(State.PLAYING)) {
+            mapState = new PlayingMapState(this);
+        }
+        else if(gameState.equals(State.WAITING)) {
+            mapState = new WaitingMapState(this);
+        }
+        else if(gameState.equals(State.ROBBING)) {
+            mapState = new RobbingMapState(this);
+        }
+        else if(gameState.equals(State.ROLLING)) {
+            mapState = new RollingMapState(this);
+        }
+    }
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("Map Controller: Update");
         clientModel = (ClientModel) o;
-        initFromModel(clientModel.getMap());
+        setState(Client.getInstance().getGameState());
+        mapState.initFromModel(clientModel.getMap());
+        //state.initFromModel(clientModel.getMap());
     }
 
 

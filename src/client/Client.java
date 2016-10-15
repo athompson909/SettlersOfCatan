@@ -1,7 +1,8 @@
 package client;
 
-import client.turntracker.IState;
-import client.turntracker.WaitingState;
+import client.map.mapStates.MapState;
+
+import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
 
@@ -18,7 +19,8 @@ public class Client {
 
     private ClientModel clientModel;
 
-    private IState state = new WaitingState();
+    private State gameState = State.WAITING;
+    private IServerProxy serverProxy;
 
     private ServerPoller serverPoller;
 
@@ -36,7 +38,6 @@ public class Client {
     }
 
     private Client() {
-
         commandManager = new CommandManager();
         clientModel = new ClientModel(0);
         ClientFacade.getInstance().setValues(new ServerProxy(), clientModel);
@@ -47,12 +48,24 @@ public class Client {
         return clientModel;
     }
 
-    public void updateGameState(){
-        state = state.update(clientModel.getTurnTracker());
+    public void setUpdateOverride(boolean bool) {
+        updateOverride = bool;
     }
 
-    public IState getGameState(){
-        return state;
+    public boolean isUpdateOverride() {
+        return updateOverride;
+    }
+
+    public void setServerPoller() {
+        this.serverPoller = new ServerPoller();
+    }
+    //The state will get updated via the updateTurnTracker method
+  /*  public void updateGameState(){
+        state = state.update(clientModel.getTurnTracker());
+    } */
+    public void setGameState(State newState) {gameState = newState;}
+    public State getGameState(){
+        return gameState;
     }
 
     public Pattern getUsernameDelimiter() {
