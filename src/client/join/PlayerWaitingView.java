@@ -113,9 +113,6 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == addAiButton) {
-
-				System.out.println("PLAYERWAITINGVIEW: ADD AI BTN pushed");
-
 				getController().addAI();
 			}
 		}	

@@ -64,40 +64,6 @@ public class ClientFacade {
 
         System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
 
-        //-----TESTING--------
-
-        System.out.print(">>CLIENTFACADE: sUM: new PlayersList= ");
-        for (int i = 0; i < updatedClientModel.getPlayers().length; i++){
-            if (updatedClientModel.getPlayers()[i] != null){
-                System.out.print(updatedClientModel.getPlayers()[i].getName() + ", ");
-            }
-        }
-        System.out.println();
-        //the server doesn't increment the model verNum after you add a player, so
-        //clientUpdateManager isn't sending PlayerWaitingView the new list of players.
-        //try forcing it to update the list of players on every poll no matter what
-      //  clientUpdateManager.testForceUpdatePlayersList(updatedClientModel.getPlayers());
-
-        //-------------
-
-        clientUpdateManager.setCurrentModel(updatedClientModel);
-        if(version == -1) {
-            System.out.println(">>CLIENTFACADE: sUM: currVerNum = -1");
-            clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-            clientUpdateManager.delegateUpdates(updatedClientModel);
-
-            version = -2;
-        }
-        else if(version == updatedClientModel.getVersion()) {
-            // DON'T UPDATE EXISTING MODEL
-            System.out.println(">>CLIENTFACADE: sUM: currVerNum = newVerNum, NOT UPDATING MODEL XXXXXXXX");
-        }
-        else {
-            System.out.println(">>CLIENTFACADE: sUM: modelVerNum is NEW, updating model! $$$$$$$");
-            version = updatedClientModel.getVersion();
-            clientUpdateManager.delegateUpdates(updatedClientModel);//todo: test here!
-        }
-
         clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
         clientUpdateManager.delegateUpdates(updatedClientModel);
     }
@@ -589,11 +555,11 @@ public class ClientFacade {
         try {
             String response = serverProxy.addAI(json);
             if(response.equals("Success")){
-                System.out.println(">CLIENTFACADE: addAI: server said success");
+          //      System.out.println(">CLIENTFACADE: addAI: server said success");
 
                 return true;
             }else{
-                System.out.println(">CLIENTFACADE: addAI: server said FAIL :( ");
+          //      System.out.println(">CLIENTFACADE: addAI: server said FAIL :( ");
                 return false;
             }
         }

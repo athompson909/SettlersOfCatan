@@ -192,11 +192,11 @@ public class BuildRoadManager {
      */
     private boolean isEdgeLocationAvailable(EdgeLocation edgeLocation) {
         if(map.getEdgeObjects().containsKey(edgeLocation)){
-            if(map.getEdgeObjects().get(edgeLocation).getOwner() == -1){
-                return true;
+            //if(map.getEdgeObjects().get(edgeLocation).getOwner() == -1){
+                return false;
             }
-        }
-        return false;
+        //}
+        return true;
     }
 
     /**

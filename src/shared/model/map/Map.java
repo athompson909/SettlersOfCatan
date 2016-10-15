@@ -96,17 +96,17 @@ public class Map {
         createAllVertexObjects();
         populatePortVertexLocations();
         createAllEdgeValues();
-
     }
 
     //this constructor is for when the new model comes back and we need to make a new Map object
     // WITHOUT creating/placing all hexes again.
     public Map(HashMap<HexLocation, Hex> newHexes, HashMap<HexLocation, Port> newPorts,
-               HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues) {
+               HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues, HexLocation newRobberLocation) {
         setHexes(newHexes);
         setPorts(newPorts);
         setEdgeValues(newEdgeValues);
         setVertexObjects(newVertexLocs);
+        placeRobber(newRobberLocation);
         //TODO: Look into this...
     }
 
@@ -575,12 +575,12 @@ public class Map {
     }
 */
     public boolean canPlaceRobber(HexLocation desiredHexLoc) {
-        if (hexes.get(desiredHexLoc).getResource().equals(HexType.WATER) ||
-                desiredHexLoc.equals(robber.getCurrentHexlocation())) {
-            return false;
-        } else{
-            return true;
+        if(hexes.containsKey(desiredHexLoc)) {
+            if (!desiredHexLoc.equals(robber.getCurrentHexlocation())) {
+                return true;
+            }
         }
+        return false;
     }
 
     public void placeRobber(HexLocation desiredHexLoc){

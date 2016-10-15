@@ -39,7 +39,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	private JPanel buttonPanel;
 
 	private GameInfo[] games;
-	private GameInfo[] gameInfoFromServer;  //give this to setGames();
+	private GameInfo[] initialGamesList;  //give this to setGames();
 	private PlayerInfo localPlayerInfoSoFar;  //give this to setGames();
 	private PlayerInfo localPlayer;
 
@@ -48,8 +48,8 @@ public class JoinGameView extends OverlayView implements IJoinGameView
         //TESTING
             //trying here
             //Go get list of games from the server, populate games[]:
-            //fetchListOfGamesFromServer();
-            //setGames(gameInfoFromServer, localPlayerInfoSoFar);
+            //fetchInitialGamesList();
+            //setGames(initialGamesList, localPlayerInfoSoFar);
 
         //this.initialize();
 	}
@@ -57,16 +57,18 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	//MiniPoller should probably call this function
 	public void initialize()
 	{
+		System.out.println("===JOINGAMEVIEW - INITIALIZE called");
+
 		//Go get list of games from the server, populate games[]:
-        fetchListOfGamesFromServer();
-        setGames(gameInfoFromServer, localPlayerInfoSoFar);
+       // fetchInitialGamesList();
+      //  setGames(initialGamesList, localPlayerInfoSoFar);
 
 		this.initializeView();
 	}
 
 	private void initializeView()
 	{
-		System.out.println("===JOINGAMEVIEW - INITIALIZEVIEW() called");
+		System.out.println("===JOINGAMEVIEW - INITIALIZEVIEW called");
 
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
@@ -188,27 +190,33 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		return (IJoinGameController) super.getController();
 	}
 
-	//
-	public void fetchListOfGamesFromServer(){
+	//I don't think the view should do this. it should be all in the minipoller/controller
+	public void fetchInitialGamesList(){
 
 		//get list of all games from the server
-		gameInfoFromServer = ClientFacade.getInstance().gamesList();
+		setInitialGamesList( ClientFacade.getInstance().gamesList());
 
 		//Get/build localPlayer from ClientUser singleton data:
 		//at this point, we don't have the ClientUser's color or index, since those are assigned when they pick a color
 		// and when they actually join a game, respectively. So we'll just use a "partial" PlayerInfo object here
-
 		localPlayerInfoSoFar = new PlayerInfo();
 		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
 		localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
 	}
 
+	public GameInfo[] getInitialGamesList() {
+		return initialGamesList;
+	}
 
-	//actually have minipoller call this functoin
+	public void setInitialGamesList(GameInfo[] initialGamesList) {
+		this.initialGamesList = initialGamesList;
+	}
+
+	//actually have minipoller call this function
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
-		System.out.println(">JOINGAMEVIEW: setGames called");
+		System.out.println(">JOINGAMEVIEW: SETGAMES called");
 		this.games = games;
 		this.localPlayer = localPlayer;
 		this.removeAll();
