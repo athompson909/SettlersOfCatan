@@ -1,5 +1,6 @@
 package client.login;
 
+import client.Client;
 import client.ClientFacade;
 import client.base.Controller;
 import client.base.IAction;
@@ -19,12 +20,6 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
-
-	private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){1,24}");
-
-	public Pattern getDelimiter() {
-		return delimiter;
-	}
 
 	/**
 	 * LoginController constructor
@@ -83,8 +78,9 @@ public class LoginController extends Controller implements ILoginController {
 
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
-		if (!delimiter.matcher(username).matches() ||
-				!delimiter.matcher(password).matches()) {
+		Pattern delim = Client.getInstance().getDelimiter();
+		if (!delim.matcher(username).matches() ||
+				!delim.matcher(password).matches()) {
 			showRejectMessage("Error", "username and password must be between 1 and 24 alphanumeric characters");
 			return;
 		}
@@ -105,9 +101,10 @@ public class LoginController extends Controller implements ILoginController {
 		String registerUsername = getLoginView().getRegisterUsername();
 		String registerPassword = getLoginView().getRegisterPassword();
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
-		if(!delimiter.matcher(registerUsername).matches() ||
-				!delimiter.matcher(registerPassword).matches()) {
-			showRejectMessage("Error", "username must be between 1 and 24 alphanumeric characters");
+		Pattern delim = Client.getInstance().getDelimiter();
+		if(!delim.matcher(registerUsername).matches() ||
+				!delim.matcher(registerPassword).matches()) {
+			showRejectMessage("Error", "username and password must be between 1 and 24 alphanumeric characters");
 			return;
 		}
 
@@ -121,7 +118,7 @@ public class LoginController extends Controller implements ILoginController {
 			}
 			else showRejectMessage("Server Error", "invalid registration");
 		}
-		else showRejectMessage("Error", "the values in the two password fields don't match");
+		else showRejectMessage("Error", "the passwords don't match");
 	}
 
 	/**

@@ -7,12 +7,14 @@ import client.base.IAction;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
+import client.misc.MessageView;
 import exceptions.ClientException;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
 import shared.model.commandmanager.game.GameJoinCommand;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 /**
@@ -31,6 +33,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public Timer miniPollTimer; //made public so SelectColorView can stop the timer
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
+	/**
+	 * used to check whether the user is trying to make a game title that is too long or has weird characters
+	 *
+	 */
+	private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){3,24}");
+
 
 	/**
 	 * JoinGameController constructor
@@ -105,17 +113,37 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void start() {
 
-		//start JGC's personal poller
+/*		//start JGC's personal poller
 		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
 		miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval *1000);
-
+*/
+        startTimer();
 		getJoinGameView().showModal();
 	}
+
+    /**
+     *
+     */
+	public void startTimer(){
+        //start JGC's personal poller
+        miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+        miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval * 1000);
+    }
+
+    /**
+     *
+     */
+    public void stopTimer(){
+        miniPollTimer.cancel();
+    }
 
 	@Override
 	public void startCreateNewGame() {
 
-		getNewGameView().showModal();
+        //get the previous game title out of there
+        ((NewGameView) getNewGameView()).clearTitleField();
+
+        getNewGameView().showModal();
 	}
 
 	@Override
@@ -125,15 +153,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 
+    /**
+     * This is where we get the text fields/bools off the View
+     * and send the new game info to the server to actually create the new game.
+     */
     @Override
     public void createNewGame() {
 
         System.out.println(">>JOINGAMECONTROLLER: createNewGame() called");
-
-        //This is where we need to put the functionality for getting the text fields/bools off the View
-        // and sending the info to the server to actually create the new game
-
-		//TODO: check if the game they're trying to make has the same title as a previous game?
 
         //pull game title, bools off of the view
         //build GameCreateCommand object, send it to ClientFacade
@@ -144,25 +171,106 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         boolean newGameRandNums = getNewGameView().getRandomlyPlaceNumbers();
         boolean newGameRandPorts = getNewGameView().getUseRandomPorts();
 
-        GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
-        GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
+        //check new game title against the other game titles
+        if (isGameNameAvailable(newGameTitle)) {
 
-		System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
+            System.out.println(">JOINGAMECONTROLLER: gametitle " + newGameTitle + " was available");
 
-		//after you create a game, tell the server to add you to that same game, but don't go to SelectColorView yet.
-		//Just go back to JoinGameView.
+            //make the timer wait here
+            stopTimer();
+            //////
+            GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
+            GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
+            //restart timer after command is done going through
+            startTimer();
+            /////
 
-		//JOIN THE NEW GAME WITH DEFAULT COLOR WHITE
-		joinThisGameInfo = newGameCreatedInfo;
-		joinGameWithDefaultColor();
+            System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
-        getNewGameView().closeModal();
+            //after you create a game, tell the server to add you to that same game, but don't go to SelectColorView yet.
+            //Just go back to JoinGameView.
 
-        //Refresh the list of games in the JoinGameView to include this new game
-		GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-        PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
-        this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
+            //JOIN THE NEW GAME WITH DEFAULT COLOR WHITE
+            joinThisGameInfo = newGameCreatedInfo;
+            joinGameWithDefaultColor();
+
+            getNewGameView().closeModal();
+
+            //Refresh the list of games in the JoinGameView to include this new game
+            GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+            PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
+            this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
+        }
+        else{
+            System.out.println(">JOINGAMECONTROLLER: gametitle " + newGameTitle + " was taken already");
+        }
     }
+
+    /**
+     *
+     * @param newGameName the name to be checked against all the other ones
+     * @return true if the game name hasn't been used yet, false if it has been taken already
+     */
+    public boolean isGameNameAvailable(String newGameName){
+
+		//first check if it's got only valid characters and if it is a decent length
+		if(!delimiter.matcher(newGameName).matches()){
+			System.out.println("\t>>>isGNA: name " + newGameName + " was found to be invalid!");
+			//there were some weird characters in there or the title was too long
+			showGameNameInvalidView();
+			return false;
+		}
+
+        //use titles in currGameList to see if newGameName is taken or not
+
+        for (int g = 0; g < currGamesList.length; g++){
+            String currGameName = currGamesList[g].getTitle();
+            if (currGameName.equals(newGameName)){
+                //show error message
+                showGameNameTakenView(newGameName);
+                System.out.println("\t>>>isGNA: name " + newGameName + " found in currGamesList!");
+                return false;
+            }
+        }
+
+        System.out.println("\t>>>isGNA: name " + newGameName + " NOT found in currGamesList!");
+        return true;
+    }
+
+    /**
+     * displays a little error message saying you lack originality
+     * @param takenGameName
+     */
+    private void showGameNameTakenView(String takenGameName) {
+        MessageView gameNameTakenView = (MessageView) messageView;
+        String msgTitle = "Error";
+        String msgContent = "The name " + takenGameName + "  is already used. Please choose another!";
+
+        gameNameTakenView.setTitle(msgTitle, 220);
+        gameNameTakenView.setMessage(msgContent, 220);
+        gameNameTakenView.setCloseButton("Ok");
+        gameNameTakenView.showModal();
+
+        // clear the field in NewGameView
+        ((NewGameView) getNewGameView()).clearTitleField();
+    }
+
+	/**
+	 * displays a little error message to say that you suck at picking game titles
+	 */
+	private void showGameNameInvalidView() {
+		MessageView gameNameTakenView = (MessageView) messageView;
+		String msgTitle = "Error";
+		String msgContent = "The game title is invalid. Please choose a name between 3-24 alphanumeric characters";
+
+		gameNameTakenView.setTitle(msgTitle, 220);
+		gameNameTakenView.setMessage(msgContent, 220);
+		gameNameTakenView.setCloseButton("Ok");
+		gameNameTakenView.showModal();
+
+		// clear the field in NewGameView
+		((NewGameView) getNewGameView()).clearTitleField();
+	}
 
     /**
 	 * This function just shows the SelectColorView
@@ -249,12 +357,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
 			//MARK THAT THEY WENT THROUGH THIS METHOD
 			ClientUser.getInstance().setJoinedWithDefaultColor(true);
-
-			//don't think we need these yet
-				//GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
-				//GameInfo currAddedGame = currGamesArr[desiredGameID];
-				//ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
-
 		}
 		else{
 			//print - it didn't work
@@ -289,16 +391,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			//print - it worked
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
 
-			//ok to save the id of the game they just joined to ClientUser singleton for later use
+			//ok to save current game info for the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
-			//TEST
+			ClientUser.getInstance().setCurrentAddedGameInfo(joinThisGameInfo);
 			ClientUser.getInstance().setJoinedWithDefaultColor(false);
 
 
 			//TESTING  - trying to pass the currAddedGameInfo item into PlayerWaitingController by saving it in CU
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
-			ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
+			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
 
 		}
 		else{

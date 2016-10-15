@@ -61,7 +61,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//--------
 		//Give the PlayerWaitingView the existing list of players from the game they want to join:
-		GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGame();
+		GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGameInfo();
 		List<PlayerInfo> newPlayerInfoList = addedGame.getPlayers();
 		currPlayerInfosList = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
 
@@ -82,15 +82,26 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		else if (numPlayersInGame == 4){
 			//ok to start the game, we have all the players - so DON'T show the PlayerWaitingView
 			System.out.println("PLAYERWAITINGCONTROLLER: start(): SKIPPING the PlayerWaitingView");
-			//just start the game
-			//test:
-			getView().closeModal();
+
+			startGamePlay();
 		}
 		else {
 			//something weird is happening
 			System.out.println("PLAYERWAITINGCONTROLLER: start(): wat?");
 		}
 
+	}
+
+	/**
+	 * Stops the PWVminiPoller, starts the main Poller, and closes the PWC modal.
+	 * Starts the main gameplay phase.
+	 */
+	public void startGamePlay(){
+		System.out.println(">PWC: STARTING GAME PLAY **************");
+		miniPollTimer.cancel();
+		Client.getInstance().startServerPoller();
+		ClientUser.getInstance().setPlayerColors();
+		getView().closeModal();
 	}
 
 	@Override
@@ -167,9 +178,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		else {
 			//ok to be done picking players
 			System.out.println(">PWC: updateView: currGame has enough players! ");
-			miniPollTimer.cancel();  //stop the polling loop
-			Client.getInstance().setServerPoller();
-			getView().closeModal();
+			startGamePlay();
 		}
 
 	}
@@ -260,6 +269,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 
+
+
+
 	//////////////
 
 	/**
@@ -290,11 +302,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
 			//pull out the game we need
 			GameInfo currGameToDisplay = newGameInfos[ClientUser.getInstance().getCurrentGameID()];
-//		System.out.println("\t\tCurrGameToDisplay: " + currGameToDisplay);
 			//pull out PlayerInfo[] and use that to do PWV.setPlayers and update the view
 			//GameInfo stores PlayerInfos in an ArrayList
 			List<PlayerInfo> tempPIArrList = currGameToDisplay.getPlayers();
-//		System.out.println("PlayerInfos to display:" + tempPIArrList);
 
 			PlayerInfo[] newPlayerInfos = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
 

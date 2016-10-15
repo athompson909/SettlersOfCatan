@@ -6,20 +6,26 @@ import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
 
+import java.util.regex.Pattern;
+
 /**
- *
+ * Contains the command manager, client model, state, and starts the server poller
  *
  * Created by Alise on 9/20/2016.
  */
 public class Client {
 
-    private ServerPoller serverPoller;
     private CommandManager commandManager;
+
     private ClientModel clientModel;
+
     private State gameState = State.WAITING;
     private IServerProxy serverProxy;
 
-    private boolean updateOverride = false;
+    private ServerPoller serverPoller;
+
+    //TODO: make this a minimum of 3 chars eventually
+    private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){1,24}");
 
     private static Client instance = new Client();
 
@@ -29,12 +35,8 @@ public class Client {
 
     private Client() {
         commandManager = new CommandManager();
-
-        //todo this parameter is hardcoded
         clientModel = new ClientModel(0);
-        serverProxy = new ServerProxy();
-
-        ClientFacade.getInstance().setValues(serverProxy, clientModel);
+        ClientFacade.getInstance().setValues(new ServerProxy(), clientModel);
         serverPoller = null;
     }
 
@@ -60,5 +62,20 @@ public class Client {
     public void setGameState(State newState) {gameState = newState;}
     public State getGameState(){
         return gameState;
+    }
+
+    public Pattern getDelimiter() {
+        return delimiter;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    /**
+     * creates a new instance of server poller which then starts the server poller task
+     */
+    public void startServerPoller() {
+        serverPoller = new ServerPoller();
     }
 }

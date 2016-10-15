@@ -61,7 +61,14 @@ public class NewGameView extends OverlayView implements INewGameView
         buttonPanel.add(cancelButton);        
         this.add(buttonPanel, BorderLayout.SOUTH);                
     }
-    
+
+    /**
+     * clears out the content of the new game title field
+     */
+    public void clearTitleField(){
+        txtTitle.setText("");
+    }
+
     private JComponent initInternalComponents()
     {
         JPanel mainPanel = new JPanel();

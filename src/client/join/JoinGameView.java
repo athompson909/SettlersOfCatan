@@ -167,20 +167,24 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		//Add all the above
 		this.add(gamePanel, BorderLayout.CENTER);
 
-		tempJoinButton = new JButton("Temporary Join Button");
-		tempJoinButton.addActionListener(actionListener);
-		Font buttonFont = tempJoinButton.getFont();
-		buttonFont = buttonFont.deriveFont(buttonFont.getStyle(), BUTTON_TEXT_SIZE);
-		tempJoinButton.setFont(buttonFont);
+		//TAKE THIS OUT
+//		tempJoinButton = new JButton("Temporary Join Button");
+//		tempJoinButton.addActionListener(actionListener);
+//		Font buttonFont = tempJoinButton.getFont();
+//		buttonFont = buttonFont.deriveFont(buttonFont.getStyle(), BUTTON_TEXT_SIZE);
+//		tempJoinButton.setFont(buttonFont);
+		///////
 
 		createButton = new JButton("Create Game");
 		createButton.addActionListener(actionListener);
+		Font buttonFont = createButton.getFont();
+		buttonFont = buttonFont.deriveFont(buttonFont.getStyle(), BUTTON_TEXT_SIZE);
 		createButton.setFont(buttonFont);
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(createButton);
-		buttonPanel.add(tempJoinButton);		
+//		buttonPanel.add(tempJoinButton);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -212,7 +216,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		this.initialGamesList = initialGamesList;
 	}
 
-	//actually have minipoller call this function
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
@@ -235,10 +238,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 			{
 				getController().startCreateNewGame();
 			}
-			else if (e.getSource() == tempJoinButton)
-			{
-				getController().startJoinGame(null);
-			}
+//			else if (e.getSource() == tempJoinButton)
+//			{
+//				getController().startJoinGame(null);
+//			}
 			else //if they pushed JOIN on an existing game
 			{
 				try
