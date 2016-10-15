@@ -130,7 +130,6 @@ public class ClientUser {
     public void setCurrentGameID(int currentGameID) {
         this.currentGameID = currentGameID;
         System.out.println(">CLIENTUSER: setCurrGameID to " + currentGameID);
-
     }
 
     public GameInfo getCurrentAddedGameInfo() {

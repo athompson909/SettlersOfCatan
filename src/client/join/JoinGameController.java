@@ -1,5 +1,6 @@
 package client.join;
 
+import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
 import client.base.Controller;
@@ -27,18 +28,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private GameInfo joinThisGameInfo;
-	public GameInfo[] currGamesList; //used to compare to incoming update - check if we really need to refresh the view
+	private GameInfo[] currGamesList; //used to compare to incoming update - check if we really need to refresh the view
 	//lightweight personal poller for PlayerWaitingController
 	private boolean savedInitialGamesList = false; //whether we got the initial gameslist to start with
-	public Timer miniPollTimer; //made public so SelectColorView can stop the timer
+	private Timer miniPollTimer; //made public so SelectColorView can stop the timer
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
-	/**
-	 * used to check whether the user is trying to make a game title that is too long or has weird characters
-	 *
-	 */
-	private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){3,24}");
-
 
 	/**
 	 * JoinGameController constructor
@@ -110,13 +105,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.messageView = messageView;
 	}
 
+	/**
+	 * starts the JGCminiPoller and shows the JoinGame modal
+	 */
 	@Override
 	public void start() {
-
-/*		//start JGC's personal poller
-		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
-		miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval *1000);
-*/
+		fetchInitialGamesList();
         startTimer();
 		getJoinGameView().showModal();
 	}
@@ -124,7 +118,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     /**
      *
      */
-	public void startTimer(){
+	private void startTimer(){
         //start JGC's personal poller
         miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval * 1000);
@@ -133,7 +127,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     /**
      *
      */
-    public void stopTimer(){
+    private void stopTimer(){
         miniPollTimer.cancel();
     }
 
@@ -214,7 +208,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public boolean isGameNameAvailable(String newGameName){
 
 		//first check if it's got only valid characters and if it is a decent length
-		if(!delimiter.matcher(newGameName).matches()){
+		Pattern delim = Client.getInstance().getDelimiter();
+		if(!delim.matcher(newGameName).matches()){
 			System.out.println("\t>>>isGNA: name " + newGameName + " was found to be invalid!");
 			//there were some weird characters in there or the title was too long
 			showGameNameInvalidView();
@@ -222,7 +217,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
         //use titles in currGameList to see if newGameName is taken or not
-
         for (int g = 0; g < currGamesList.length; g++){
             String currGameName = currGamesList[g].getTitle();
             if (currGameName.equals(newGameName)){
@@ -367,7 +361,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//We should be going back to the GameList view right now.
 	}
 
-
 	@Override
 	public void joinGame(CatanColor color) {
 
@@ -416,11 +409,33 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		joinAction.execute();
 	}
 
+	/**
+	 * Used to populate the games list in JoinGameView right when the modal starts showing
+	 * call this right when JoinGameController starts!
+	 */
+	public void fetchInitialGamesList(){
+
+		currGamesList = ClientFacade.getInstance().gamesList();
+		System.out.println("\t\tJCG: fetchInitialGL: just got FIRST gamesList, size= " + currGamesList.length);
+
+		PlayerInfo localPlayerInfoSoFar = new PlayerInfo();
+		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
+		localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
+		getJoinGameView().setGames(currGamesList, localPlayerInfoSoFar);
+
+		//showing the modal for the first time right after this complete should show with the initial gamelist data
+	}
+
+	//UNUSED
 	@Override
 	public void update(Observable o, Object arg) {
 		// just make a miniPoller for JoinGameController!
 		//don't bother with this update() crap
 	}
+
+
+
+	// GETTERS AND SETTERS
 
 	public GameInfo[] getCurrGamesList() {
 		return currGamesList;
@@ -473,26 +488,26 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 //			//----------------------
 
 			//FIRST TIME THROUGH
-			if (savedInitialGamesList == false){
-				System.out.println("\t\t\tJCGminiPoller: just saved INITIAL GameList, size= " + newGameList.length);
-				currGamesList = newGameList;
-				savedInitialGamesList = true;
-
-				PlayerInfo localPlayerInfoSoFar = new PlayerInfo();
-				localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
-				localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
-				getJoinGameView().setGames(currGamesList, localPlayerInfoSoFar);
-
-				// closing/reopening the view to refresh it
-				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
-				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
-
-					if (getJoinGameView().isModalShowing()){
-						getJoinGameView().closeModal();
-					}
-					getJoinGameView().showModal();
-				}
-			}
+//			if (savedInitialGamesList == false){
+//				System.out.println("\t\t\tJCGminiPoller: just saved INITIAL GameList, size= " + newGameList.length);
+//				currGamesList = newGameList;
+//				savedInitialGamesList = true;
+//
+//				PlayerInfo localPlayerInfoSoFar = new PlayerInfo();
+//				localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
+//				localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
+//				getJoinGameView().setGames(currGamesList, localPlayerInfoSoFar);
+//
+//				// closing/reopening the view to refresh it
+//				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
+//				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
+//
+//					if (getJoinGameView().isModalShowing()){
+//						getJoinGameView().closeModal();
+//					}
+//					getJoinGameView().showModal();
+//				}
+//			}
 
 
 			//only setGames() and refresh the view if there was actually a change
