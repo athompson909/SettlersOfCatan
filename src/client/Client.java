@@ -21,7 +21,7 @@ public class Client {
 
     private State gameState = State.WAITING;
     private IServerProxy serverProxy;
-
+    private boolean updateOverride;
     private ServerPoller serverPoller;
 
     //TODO: make this a minimum of 3 chars eventually
