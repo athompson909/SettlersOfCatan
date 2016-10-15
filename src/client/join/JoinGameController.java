@@ -467,7 +467,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 
 		/**
-		 * fetchNewModel() sends an gamesList update request to the saved proxy (currentProxy) via HTTP request.
+		 * FetchGamesList() sends an gamesList update request to the saved proxy (currentProxy) via HTTP request.
 		 * This function is called every 2 seconds when pollTimer tells it to.
 		 */
 		public void fetchGamesList() throws ClientException {
@@ -486,29 +486,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 //				}
 //			} System.out.println();
 //			//----------------------
-
-			//FIRST TIME THROUGH
-//			if (savedInitialGamesList == false){
-//				System.out.println("\t\t\tJCGminiPoller: just saved INITIAL GameList, size= " + newGameList.length);
-//				currGamesList = newGameList;
-//				savedInitialGamesList = true;
-//
-//				PlayerInfo localPlayerInfoSoFar = new PlayerInfo();
-//				localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
-//				localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
-//				getJoinGameView().setGames(currGamesList, localPlayerInfoSoFar);
-//
-//				// closing/reopening the view to refresh it
-//				//but not if the other views are open, or else JoinGameView will awkwardly pop up again over them
-//				if (!getSelectColorView().isModalShowing() && !getNewGameView().isModalShowing()){
-//
-//					if (getJoinGameView().isModalShowing()){
-//						getJoinGameView().closeModal();
-//					}
-//					getJoinGameView().showModal();
-//				}
-//			}
-
 
 			//only setGames() and refresh the view if there was actually a change
 			//compare currGamesList size to newGamesInfos size

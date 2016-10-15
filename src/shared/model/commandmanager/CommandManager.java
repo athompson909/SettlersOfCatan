@@ -1,7 +1,5 @@
 package shared.model.commandmanager;
 
-import client.ClientFacade;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class CommandManager {
     /**
      * Tracks commands of the Game - can be stored to save the state of the Game
      */
-    List <BaseCommand> baseCommands = new ArrayList<BaseCommand>();
+    List <BaseCommand> executedCommands = new ArrayList<BaseCommand>();
 
 
     public CommandManager() {
@@ -27,10 +25,21 @@ public class CommandManager {
      * Removes the last Command from the list
      */
     public void clientUndo(){
-        if(!baseCommands.isEmpty()){
-            baseCommands.remove(baseCommands.size() - 1);
+        if(!executedCommands.isEmpty()){
+            executedCommands.remove(executedCommands.size() - 1);
         }
     }
+
+    /*
+    Commands that are recorded in the GameHistory:
+    BuildRoad
+    BuildSettlement
+    BuildCity
+    RollDice
+    EndTurn
+    Robber (moving and robbing another player )
+     */
+
 
     /**
      * Executes all the commands again
@@ -39,5 +48,15 @@ public class CommandManager {
      */
     private void serverExec(BaseCommand command) {
 
+    }
+
+    /**
+     * Adds the command object to the list of commands that have been executed so far
+     * [Sierra] I don't think we actually need to use this, just get the history/log from the model each time.
+     * @param command
+     */
+    public void addCommandtoList(BaseCommand command){
+        executedCommands.add(command);
+        System.out.println("CommandManager: new cmdlist size= " + executedCommands.size());
     }
 }

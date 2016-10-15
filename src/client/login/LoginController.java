@@ -26,6 +26,8 @@ public class LoginController extends Controller implements ILoginController {
 	private final String invalidPasswordMsg = "Password must be 5-16 characters long, and can include letters, numbers," +
 			" underscore, or dash.";
 	private final String unmatchPasswordsMsg = "Passwords don't match. Please try again!";
+	private Pattern unDelim = Client.getInstance().getUsernameDelimiter();
+	private Pattern pwDelim = Client.getInstance().getPasswordDelimiter();
 
 	/**
 	 * LoginController constructor
@@ -85,8 +87,7 @@ public class LoginController extends Controller implements ILoginController {
 
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
-		Pattern delim = Client.getInstance().getUsernameDelimiter();
-		if (!delim.matcher(username).matches() || !delim.matcher(password).matches()){
+		if (!unDelim.matcher(username).matches() || !pwDelim.matcher(password).matches()){
 			showRejectMessage("Error", loginFailedMsg);
 			return;
 		}
@@ -110,12 +111,12 @@ public class LoginController extends Controller implements ILoginController {
 		String registerUsername = getLoginView().getRegisterUsername();
 		String registerPassword = getLoginView().getRegisterPassword();
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
-		Pattern delim = Client.getInstance().getUsernameDelimiter();
-		if(!delim.matcher(registerUsername).matches()){
+
+		if(!unDelim.matcher(registerUsername).matches()){
 			showRejectMessage("Error", invalidUsernameMsg);
 			return;
 		}
-		else if (!delim.matcher(registerPassword).matches()) {
+		else if (!pwDelim.matcher(registerPassword).matches()) {
 			showRejectMessage("Error", invalidPasswordMsg);
 			return;
 		}
@@ -153,8 +154,6 @@ public class LoginController extends Controller implements ILoginController {
 
 	//UNUSED
 	@Override
-	public void update(Observable o, Object arg) {
-
-	}
+	public void update(Observable o, Object arg) {}
 }
 
