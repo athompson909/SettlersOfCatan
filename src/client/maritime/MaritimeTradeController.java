@@ -84,14 +84,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 					}
 					break;
 			}
-
 		}
-
-		//TODO: THE FOLLOWING LINES ARE HARD CODED AND WILL NEED TO BE DELETED
-
-//		ResourceType[] giveOptions = new ResourceType[5];
-//		giveOptions[0] = ResourceType.BRICK;
-//		giveOptions[1] = ResourceType.WOOD;
 
 		getTradeOverlay().showGiveOptions(giveOptions);
 		getTradeOverlay().showModal();
