@@ -19,19 +19,17 @@ import java.util.*;
  * Implementation for the player waiting controller
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
-
-	//lightweight personal poller for PlayerWaitingController
+	/**
+	 * Lightweight personal poller for PlayerWaitingController
+	 */
 	private Timer miniPollTimer;
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
-	public PlayerInfo[] currPlayerInfosList;
-
-
-
-	//used to show messages
+	/**
+	 * The list of playerInfos that gets updated every time a new player is added (either AI or real)
+	 */
+	private PlayerInfo[] currPlayerInfosList;
 	private IMessageView messageView;
-
-	private ClientModel clientModel;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 
@@ -193,8 +191,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	/**
 	 * after bad input is rejected a customizable message is displayed
-	 * @param title message title
-	 * @param message message content
 	 */
 	private void showAddAIFailedMessage() {
 		MessageView addAIFailedView = (MessageView) messageView;
@@ -242,12 +238,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 
 
-
-
 	//////////////
 
 	/**
-	 * MiniPoller is the poller only for PlayerWaitingController to get an updated list of games every 2 sec.
+	 * MiniPoller is PlayerWaitingController's personal poller that gets an updated list of games every 2 sec.
 	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
 	 * This TimerTask is started upon PlayerWaitingController.start() and stopped just before PlayerWaitingview closes.
 	 */

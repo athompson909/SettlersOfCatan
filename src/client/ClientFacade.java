@@ -148,7 +148,8 @@ public class ClientFacade {
 
                 ClientUser.getInstance().setName(registerCommand.getUsername());
                 return true;
-            }else{
+            }
+            else {
              //   System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");
 
                 return false;

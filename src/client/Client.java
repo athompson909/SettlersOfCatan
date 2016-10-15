@@ -22,8 +22,12 @@ public class Client {
 
     private ServerPoller serverPoller;
 
-    //TODO: make this a minimum of 3 chars eventually
-    private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){1,24}");
+    //According to the TAs tooltips: username must be 3-7 chars long, and can include letters, numbers, underscore, or dash
+    private Pattern usernameDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){3,7}");
+    //According to the TAs tooltips: username must be 5+ chars long (stop at 16?),
+    // and can include letters, numbers, underscore, or dash
+    private Pattern passwordDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){5,16}");
+
 
     private static Client instance = new Client();
 
@@ -51,8 +55,8 @@ public class Client {
         return state;
     }
 
-    public Pattern getDelimiter() {
-        return delimiter;
+    public Pattern getUsernameDelimiter() {
+        return usernameDelimiter;
     }
 
     public CommandManager getCommandManager() {
