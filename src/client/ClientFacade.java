@@ -63,9 +63,13 @@ public class ClientFacade {
     public void sendUpdatedModel(ClientModel updatedClientModel) {
 
         System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
+        //HELLO I'M MAKING A CHANGE!!!
+        if(version != updatedClientModel.getVersion()) {
+            clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
+            clientUpdateManager.delegateUpdates(updatedClientModel);
+            version = updatedClientModel.getVersion();
+        }
 
-        clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
-        clientUpdateManager.delegateUpdates(updatedClientModel);
     }
 
     /**

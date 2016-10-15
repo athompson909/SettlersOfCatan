@@ -413,8 +413,7 @@ public class ClientModel extends Observable {
     //SETTERS
     public void setChanged(boolean set) {changed = set;}
     public void setVersion(int newModVer) {version = newModVer;}
-    public void setWinner(int newGameWinner) {
-        winner = newGameWinner;}
+    public void setWinner(int newGameWinner) {winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
 
     public void setMessageManager(MessageManager messageManager) {
