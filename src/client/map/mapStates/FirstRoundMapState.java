@@ -29,8 +29,6 @@ public class FirstRoundMapState extends MapState{
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
 
-        //CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        //mapController.startMove(PieceType.ROAD, true, true);
         if(Client.getInstance().getStartGame()) {
             mapController.startMove(PieceType.ROAD, true, true);
         }
