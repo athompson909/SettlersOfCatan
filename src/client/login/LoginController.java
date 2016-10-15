@@ -20,6 +20,14 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
+	private final String loginFailedMsg = "Invalid username or password. Please try again!";
+	private final String invalidUsernameMsg = "Username must be 3-7 characters long, and can include letters, numbers," +
+			" underscore, or dash.";
+	private final String invalidPasswordMsg = "Password must be 5-16 characters long, and can include letters, numbers," +
+			" underscore, or dash.";
+	private final String unmatchPasswordsMsg = "Passwords don't match. Please try again!";
+	private Pattern unDelim = Client.getInstance().getUsernameDelimiter();
+	private Pattern pwDelim = Client.getInstance().getPasswordDelimiter();
 
 	/**
 	 * LoginController constructor
@@ -71,20 +79,18 @@ public class LoginController extends Controller implements ILoginController {
 	}
 
 	/**
-	 * reject blank strings or strings longer than 24 characters
+	 * Checks Login username and password fields for validity
+	 * If they're both ok, sends LoginCommand to ClientFacade.
 	 */
 	@Override
 	public void signIn() {
 
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
-		Pattern delim = Client.getInstance().getDelimiter();
-		if (!delim.matcher(username).matches() ||
-				!delim.matcher(password).matches()) {
-			showRejectMessage("Error", "username and password must be between 1 and 24 alphanumeric characters");
+		if (!unDelim.matcher(username).matches() || !pwDelim.matcher(password).matches()){
+			showRejectMessage("Error", loginFailedMsg);
 			return;
 		}
-
 
 		LoginCommand loginCommand = new LoginCommand(username, password);
 
@@ -92,19 +98,26 @@ public class LoginController extends Controller implements ILoginController {
 			getLoginView().closeModal();
 			loginAction.execute();
 		}
-		else showRejectMessage("Error", "invalid username or password");
+		else showRejectMessage("Error", loginFailedMsg);
 	}
 
+	/**
+	 * Checks the Register username and password fields for validity
+	 * If they're all ok, sends Register command to ClientFacade.
+	 */
 	@Override
 	public void register() {
 
 		String registerUsername = getLoginView().getRegisterUsername();
 		String registerPassword = getLoginView().getRegisterPassword();
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
-		Pattern delim = Client.getInstance().getDelimiter();
-		if(!delim.matcher(registerUsername).matches() ||
-				!delim.matcher(registerPassword).matches()) {
-			showRejectMessage("Error", "username and password must be between 1 and 24 alphanumeric characters");
+
+		if(!unDelim.matcher(registerUsername).matches()){
+			showRejectMessage("Error", invalidUsernameMsg);
+			return;
+		}
+		else if (!pwDelim.matcher(registerPassword).matches()) {
+			showRejectMessage("Error", invalidPasswordMsg);
 			return;
 		}
 
@@ -116,13 +129,13 @@ public class LoginController extends Controller implements ILoginController {
 				getLoginView().closeModal();
 				loginAction.execute();
 			}
-			else showRejectMessage("Server Error", "invalid registration");
+			else showRejectMessage("Server Error", "Registration Failed");
 		}
-		else showRejectMessage("Error", "the passwords don't match");
+		else showRejectMessage("Error", unmatchPasswordsMsg);
 	}
 
 	/**
-	 * after bad input is rejected a customizable message is displayed
+	 * Displays a customizable error message
 	 * @param title message title
 	 * @param message message content
 	 */
@@ -131,7 +144,7 @@ public class LoginController extends Controller implements ILoginController {
 
 		loginFailedView.setTitle(title, 220);
 		loginFailedView.setMessage(message, 220);
-		loginFailedView.setCloseButton("Retry");
+		loginFailedView.setCloseButton("OK");
 		loginFailedView.showModal();
 
 		// clear both panels
@@ -139,9 +152,8 @@ public class LoginController extends Controller implements ILoginController {
 		((LoginView) getLoginView()).clearRegisterPanel();
 	}
 
+	//UNUSED
 	@Override
-	public void update(Observable o, Object arg) {
-
-	}
+	public void update(Observable o, Object arg) {}
 }
 

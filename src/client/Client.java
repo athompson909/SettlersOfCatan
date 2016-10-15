@@ -19,13 +19,17 @@ public class Client {
     private CommandManager commandManager;
 
     private ClientModel clientModel;
-
     private State gameState = State.WAITING;
     private IServerProxy serverProxy;
     private ServerPoller serverPoller;
 
-    //TODO: make this a minimum of 3 chars eventually
-    private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){1,24}");
+
+    //TODO: change unDelim to be min of 3, and pwDelim to be min of 5
+    //According to the TAs tooltips: username must be 3-7 chars long, and can include letters, numbers, underscore, or dash
+    private Pattern usernameDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,7}");
+    //According to the TAs tooltips: username must be 5-16 chars long, and can include letters, numbers, underscore, or dash
+    private Pattern passwordDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,16}");
+
 
     private static Client instance = new Client();
 
@@ -57,8 +61,12 @@ public class Client {
         return gameState;
     }
 
-    public Pattern getDelimiter() {
-        return delimiter;
+    public Pattern getUsernameDelimiter() {
+        return usernameDelimiter;
+    }
+
+    public Pattern getPasswordDelimiter() {
+        return passwordDelimiter;
     }
 
     public CommandManager getCommandManager() {

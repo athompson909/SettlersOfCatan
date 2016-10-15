@@ -1,7 +1,6 @@
 package controller_tests;
 
 import client.Client;
-import client.login.LoginController;
 import junit.framework.TestCase;
 
 import java.util.regex.Pattern;
@@ -14,7 +13,7 @@ import java.util.regex.Pattern;
 public class LoginControllerTest extends TestCase {
 
     public void testRegex() {
-        Pattern delimiter = Client.getInstance().getDelimiter();
+        Pattern delimiter = Client.getInstance().getUsernameDelimiter();
 
         String test1 = "a1a1a1a1a1";//10 chars
         String test2 = "aaaaaaa{";

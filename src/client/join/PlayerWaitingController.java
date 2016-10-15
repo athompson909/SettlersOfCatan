@@ -9,10 +9,8 @@ import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
 import exceptions.ClientException;
-import shared.definitions.CatanColor;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.AddAICommand;
-import shared.model.player.Player;
 
 import java.util.*;
 
@@ -21,19 +19,17 @@ import java.util.*;
  * Implementation for the player waiting controller
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
-
-	//lightweight personal poller for PlayerWaitingController
+	/**
+	 * Lightweight personal poller for PlayerWaitingController
+	 */
 	private Timer miniPollTimer;
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
-	public PlayerInfo[] currPlayerInfosList;
-
-
-
-	//used to show messages
+	/**
+	 * The list of playerInfos that gets updated every time a new player is added (either AI or real)
+	 */
+	private PlayerInfo[] currPlayerInfosList;
 	private IMessageView messageView;
-
-	private ClientModel clientModel;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 
@@ -105,10 +101,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		Client.getInstance().setStartGame(true);
 	}
 
+	/**
+	 * Called when they push the "Add a computer player" button
+	 *
+	 * Sends an addAI command to the ClientFacade. If the server returns true (it worked),
+	 * gets the new list of players from the server and updates the PWV.
+	 */
 	@Override
 	public void addAI() {
-		// called when they push the "Add computer player" button
-
 		System.out.println("PLAYERWAITINGCONT: addAI called");
 
 		//get the AI they picked from the spinner
@@ -116,28 +116,34 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		//build a AddAICmd object:
 		AddAICommand addAICommand = new AddAICommand(selectedAI);
 
-	//	System.out.println("PLAYERWAITINGCONT: adding AI type: " + selectedAI);
-
 		//send addAI cmd to ClientFacade:
-
 		if (ClientFacade.getInstance().addAI(addAICommand)) {
 			//it worked
 			System.out.println("PLAYERWAITINGCONT: AI Add successful! : " + selectedAI);
+			updateView(updatePlayerInfosList());
 		}
 		else {
 			//it didn't work for some reason, show a message
 			System.out.println("PLAYERWAITINGCONT: AI Add didn't work :(");
+			showAddAIFailedMessage();
 		}
+	}
 
-		//maybe this should be in another function
-		//get the new list of players from the server and call updateView()
+	/**
+	 * Holds functionality for asking server for gamesList, pulling out Players from the current game,
+	 * and returning those as an array that setPlayers() can use.
+	 *
+	 * Both the PWCminiPoller and addAI() use this!
+	 * @return
+	 */
+	public PlayerInfo[] updatePlayerInfosList(){
 		GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
 		GameInfo currGameToDisplay = newGameInfos[ClientUser.getInstance().getCurrentGameID()];
 		List<PlayerInfo> tempPIArrList = currGameToDisplay.getPlayers();
-		PlayerInfo[] newPlayerInfos = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
-		updateView(newPlayerInfos);
-	}
+		PlayerInfo[] newPlayerInfosList = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
 
+		return newPlayerInfosList;
+	}
 
 	/**
 	 * 	called after AddAI() or MiniPoller happens  - gets new list of players from server, refreshes PlayerWaitingView
@@ -146,6 +152,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		System.out.println(">PWC: updateView: called, newPlayerInfosList= " + newPlayerInfosToDisplay.length);
 
 		//use this array to update the view
+		setCurrPlayerInfosList(newPlayerInfosToDisplay);
+
 //
 //		//FOR TESTING ONLY------
 //		System.out.print(">PWC: updateView(): setting players with content: ");
@@ -181,16 +189,15 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			System.out.println(">PWC: updateView: currGame has enough players! ");
 			startGamePlay();
 		}
-
 	}
 
 	/**
 	 * after bad input is rejected a customizable message is displayed
-	 * @param title message title
-	 * @param message message content
 	 */
-	private void showRejectMessage(String title, String message) {
+	private void showAddAIFailedMessage() {
 		MessageView addAIFailedView = (MessageView) messageView;
+		String title = "Add AI Error";
+		String message = "Adding computer player failed!";
 
 		addAIFailedView.setTitle(title, 220);
 		addAIFailedView.setMessage(message, 220);
@@ -198,45 +205,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		addAIFailedView.showModal();
 	}
 
-	/**
-	 * pulls out the relevant info from each Player object (coming directly from the updated model)
-	 * and packages it into a PlayerInfo object so the PWV can do setPlayers()
-	 *
-	 * @param playersArr
-	 * @return
-	 */
-	public PlayerInfo[] playersToPlayerInfos(Player[] playersArr){
-		//convert this arrList into an array afterwards, to force PlayerInfo[] to be the right size (< 4 if there are < 4 players)
-		ArrayList<PlayerInfo> tempArrList = new ArrayList<>();
-
-		//for each Player object:
-		//pull out their Name, Color, Index, and ID
-		//package those into a new PlayerInfo object and add it to playerInfosArr
-		for (int p = 0; p < playersArr.length; p++){
-			if (playersArr[p] != null) {
-				PlayerInfo newPI = new PlayerInfo();
-				String newPIName = playersArr[p].getName();
-				CatanColor newPIColor = playersArr[p].getColor();
-				int newPIIndex = playersArr[p].getPlayerIndex();
-				int newPIID = playersArr[p].getPlayerID();
-
-				newPI.setName(newPIName);
-				newPI.setColor(newPIColor);
-				newPI.setPlayerIndex(newPIIndex);
-				newPI.setId(newPIID);
-
-				tempArrList.add(newPI);
-			}
-		}
-
-		PlayerInfo[] playerInfosArr = tempArrList.toArray(new PlayerInfo[tempArrList.size()]);
-		//now playerInfosArr should be the same size as there are REAL players - shouldn't have spots for null players
-		//so setPlayers() will only have real stuff to work with
-
-		return playerInfosArr;
-	}
-
-	//this is blank right now
+	//UNUSED
 	@Override
 	public void update(Observable o, Object arg) {
 
@@ -271,19 +240,17 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 
 
-
-
 	//////////////
 
 	/**
-	 * MiniPoller is the poller only for PlayerWaitingController to get an updated list of games every 2 sec.
+	 * MiniPoller is PlayerWaitingController's personal poller that gets an updated list of games every 2 sec.
 	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
 	 * This TimerTask is started upon PlayerWaitingController.start() and stopped just before PlayerWaitingview closes.
 	 */
 	private class PlayerWaitingMiniPoller extends TimerTask {
 		public void run() {
 			try {
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				System.out.println("PWVminiPoller: fetching gamesList: " + new Date().toString());
 				fetchGamesList();
 			}
@@ -299,15 +266,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		 */
 		public void fetchGamesList() throws ClientException {
 
-			//don't get the model, just the gamesList!
-			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
-			//pull out the game we need
-			GameInfo currGameToDisplay = newGameInfos[ClientUser.getInstance().getCurrentGameID()];
-			//pull out PlayerInfo[] and use that to do PWV.setPlayers and update the view
-			//GameInfo stores PlayerInfos in an ArrayList
-			List<PlayerInfo> tempPIArrList = currGameToDisplay.getPlayers();
-
-			PlayerInfo[] newPlayerInfos = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
+			//grab new list from server
+			PlayerInfo[] newPlayerInfos = updatePlayerInfosList();
 
 			System.out.println("\t\tPWVminiPoller: just got new playerInfosList, size= " + newPlayerInfos.length);
 			System.out.println("\t\tPWVminiPoller: currPlayerInfosList size= " + currPlayerInfosList.length);
@@ -315,7 +275,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			//check if we actually need to update the view
 			if (currPlayerInfosList.length < newPlayerInfos.length){
 				updateView(newPlayerInfos);
-				setCurrPlayerInfosList(newPlayerInfos);
 			}
 			else{  //don't update the view
 				System.out.println("\t\tPWVminiPoller: no change in PlayerInfoList");

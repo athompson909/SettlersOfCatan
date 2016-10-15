@@ -65,7 +65,15 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 			for (MessageLine line : log.getLines()) {
 				entries.add(new LogEntry(playerColors.get(line.getSource()), line.getMessage()));
 			}
+
+			System.out.println(">GAMEHISTCONT: updateList: new msgList= " + log);
+
 			getView().setEntries(entries);
+
+			//refresh view
+		}
+		else{
+			System.out.println(">GAMEHISTCONT: updateList: playerColors size= " + playerColors.size());
 		}
 	}
 
