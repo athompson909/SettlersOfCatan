@@ -6,19 +6,19 @@ import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
 
 /**
- *
+ * Contains the command manager, client model, state, and starts the server poller
  *
  * Created by Alise on 9/20/2016.
  */
 public class Client {
 
-    private ServerPoller serverPoller;
     private CommandManager commandManager;
-    private ClientModel clientModel;
-    private IState state = new WaitingState();
-    private IServerProxy serverProxy;
 
-    private boolean updateOverride = false;
+    private ClientModel clientModel;
+
+    private IState state = new WaitingState();
+
+    private ServerPoller serverPoller;
 
     private static Client instance = new Client();
 
@@ -27,30 +27,15 @@ public class Client {
     }
 
     private Client() {
+
         commandManager = new CommandManager();
-
-        //todo this parameter is hardcoded
         clientModel = new ClientModel(0);
-        serverProxy = new ServerProxy();
-
-        ClientFacade.getInstance().setValues(serverProxy, clientModel);
+        ClientFacade.getInstance().setValues(new ServerProxy(), clientModel);
         serverPoller = null;
     }
 
     public ClientModel getClientModel() {
         return clientModel;
-    }
-
-    public void setUpdateOverride(boolean bool) {
-        updateOverride = bool;
-    }
-
-    public boolean isUpdateOverride() {
-        return updateOverride;
-    }
-
-    public void setServerPoller() {
-        this.serverPoller = new ServerPoller();
     }
 
     public void updateGameState(){
@@ -59,5 +44,16 @@ public class Client {
 
     public IState getGameState(){
         return state;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    /**
+     * creates a new instance of server poller which then starts the server poller task
+     */
+    public void startServerPoller() {
+        serverPoller = new ServerPoller();
     }
 }
