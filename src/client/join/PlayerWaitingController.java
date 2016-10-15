@@ -96,6 +96,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		System.out.println(">PWC: STARTING GAME PLAY **************");
 		miniPollTimer.cancel();
 		Client.getInstance().startServerPoller();
+		ClientUser.getInstance().setPlayerColors();
 		getView().closeModal();
 	}
 

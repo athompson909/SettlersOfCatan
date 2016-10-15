@@ -68,6 +68,8 @@ public class ClientUpdateManager {
 
         //why are we not updating chat?  -Adam... would this update function work?
         currentModel.setChat(newModel.getChat());
+        currentModel.setLog(newModel.getLog());
+
 
         TradeOffer currTradeOffer = currentModel.tradeOffer;
         TradeOffer newTradeOffer = newModel.tradeOffer;

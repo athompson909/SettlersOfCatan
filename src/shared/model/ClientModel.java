@@ -59,7 +59,7 @@ public class ClientModel extends Observable {
     /**
      * The messageList object holding all the GameLog messages
      */
-    public MessageList log;
+    public MessageList log = new MessageList();
 
     /**
      * the Map object holding all the aspects of the map for this game
