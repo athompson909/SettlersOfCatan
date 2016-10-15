@@ -21,7 +21,6 @@ public class Client {
 
     private State gameState = State.WAITING;
     private IServerProxy serverProxy;
-
     private ServerPoller serverPoller;
 
     //According to the TAs tooltips: username must be 3-7 chars long, and can include letters, numbers, underscore, or dash
@@ -46,14 +45,6 @@ public class Client {
 
     public ClientModel getClientModel() {
         return clientModel;
-    }
-
-    public void setUpdateOverride(boolean bool) {
-        updateOverride = bool;
-    }
-
-    public boolean isUpdateOverride() {
-        return updateOverride;
     }
 
     public void setServerPoller() {
