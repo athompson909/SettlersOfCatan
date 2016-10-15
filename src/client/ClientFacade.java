@@ -348,6 +348,7 @@ public class ClientFacade {
         try {
             String response = serverProxy.gameLoad(json);
             if(response.equals("Success")){
+
                 return true;
             }else{
                 return false;
