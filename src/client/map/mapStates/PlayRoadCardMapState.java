@@ -10,7 +10,7 @@ import shared.locations.VertexLocation;
  * Used when playing the road building development card
  * Created by Alise on 10/8/2016.
  */
-public class PlayRoadCardMapState implements IMapState{
+public class PlayRoadCardMapState { /*} implements IMapState{
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
         return false;
@@ -75,4 +75,5 @@ public class PlayRoadCardMapState implements IMapState{
     public void robPlayer(RobPlayerInfo victim) {
 
     }
+    */
 }

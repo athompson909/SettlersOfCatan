@@ -1,13 +1,18 @@
 package client.turntracker;
 
 import client.ClientUser;
+import client.map.MapController;
+import shared.definitions.PieceType;
+import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
+import shared.model.map.Map;
 import shared.model.turntracker.TurnTracker;
 
 /**
  * Created by Alise on 10/11/2016.
  */
-public abstract class IState {
-    public IState update(TurnTracker tracker){
+public interface IState {
+   /* public IState update(TurnTracker tracker){
         String status = tracker.getStatus();
         boolean myTurn = (tracker.getCurrentTurn() == ClientUser.getInstance().getIndex());
         if(status.equals("Rolling")){
@@ -48,7 +53,23 @@ public abstract class IState {
             }
         }
         return null;
-    }
+    }*/
 
-    public abstract void updateStateButton(ITurnTrackerView view);
+
+    void updateStateButton(ITurnTrackerView view);
+
+    void initFromModel(Map updatedMap);
+
+    boolean canPlaceRoad(EdgeLocation edgeLoc);
+
+    boolean canPlaceSettlement(VertexLocation vertLoc) ;
+
+    void placeRoad(EdgeLocation edgeLoc);
+
+    void placeSettlement(VertexLocation vertLoc);
+
+    void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected);
+
+    void cancelMove();
+
 }

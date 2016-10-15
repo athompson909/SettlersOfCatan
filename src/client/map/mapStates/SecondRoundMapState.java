@@ -8,11 +8,11 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
 /**
- * Used when you roll a 7 or play a soldier card
+ * Used for placing road and settlement during the first second of the game
  * Created by Alise on 10/8/2016.
  */
-public class RobbingMapState extends MapState {
-    public RobbingMapState(MapController mapController) {
+public class SecondRoundMapState extends MapState {
+    public SecondRoundMapState(MapController mapController) {
         super(mapController);
     }
 }

@@ -1,7 +1,8 @@
 package client;
 
-import client.turntracker.IState;
-import client.turntracker.WaitingState;
+import client.map.mapStates.MapState;
+
+import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
 
@@ -15,7 +16,7 @@ public class Client {
     private ServerPoller serverPoller;
     private CommandManager commandManager;
     private ClientModel clientModel;
-    private IState state = new WaitingState();
+    private State gameState = State.WAITING;
     private IServerProxy serverProxy;
 
     private boolean updateOverride = false;
@@ -52,12 +53,12 @@ public class Client {
     public void setServerPoller() {
         this.serverPoller = new ServerPoller();
     }
-
-    public void updateGameState(){
+    //The state will get updated via the updateTurnTracker method
+  /*  public void updateGameState(){
         state = state.update(clientModel.getTurnTracker());
-    }
-
-    public IState getGameState(){
-        return state;
+    } */
+    public void setGameState(State newState) {gameState = newState;}
+    public State getGameState(){
+        return gameState;
     }
 }

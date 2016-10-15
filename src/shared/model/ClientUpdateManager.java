@@ -176,7 +176,7 @@ public class ClientUpdateManager {
      */
     private void updateTurnTracker(TurnTracker currTurnTracker, TurnTracker newTurnTracker) {
         currTurnTracker.updateTurnTracker(newTurnTracker);
-        Client.getInstance().updateGameState();
+    //    Client.getInstance().updateGameState();
     }
 //-----------------
 
