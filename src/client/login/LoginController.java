@@ -121,7 +121,7 @@ public class LoginController extends Controller implements ILoginController {
 			}
 			else showRejectMessage("Server Error", "invalid registration");
 		}
-		else showRejectMessage("Error", "the values in the two password fields don't match");
+		else showRejectMessage("Error", "the passwords don't match");
 	}
 
 	/**

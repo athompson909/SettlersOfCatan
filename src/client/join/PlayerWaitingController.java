@@ -82,9 +82,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		else if (numPlayersInGame == 4){
 			//ok to start the game, we have all the players - so DON'T show the PlayerWaitingView
 			System.out.println("PLAYERWAITINGCONTROLLER: start(): SKIPPING the PlayerWaitingView");
-			//just start the game
-			//test:
-			getView().closeModal();
+
+			startGamePlay();
 		}
 		else {
 			//something weird is happening
@@ -92,6 +91,18 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		}
 
 	}
+
+	/**
+	 * Stops the PWVminiPoller, starts the main Poller, and closes the PWC modal.
+	 * Starts the main gameplay phase.
+	 */
+	public void startGamePlay(){
+		System.out.println(">PWC: STARTING GAME PLAY **************");
+		miniPollTimer.cancel();
+		Client.getInstance().startServerPoller();
+		getView().closeModal();
+	}
+
 
 	@Override
 	public void addAI() {
@@ -167,9 +178,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		else {
 			//ok to be done picking players
 			System.out.println(">PWC: updateView: currGame has enough players! ");
-			miniPollTimer.cancel();  //stop the polling loop
-			Client.getInstance().setServerPoller();
-			getView().closeModal();
+			startGamePlay();
 		}
 
 	}
