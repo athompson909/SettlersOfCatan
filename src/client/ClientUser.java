@@ -33,14 +33,12 @@ public class ClientUser {
     //keeps track of which game the clientUser is currently in
     private int currentGameID = 1;
 
-    //saves the GameInfo object for the current game we are added to
-    private GameInfo currentGameInfo = null;
 
     /**tracks whether the player has discarded this turn already */
     private boolean needToDiscard = true;
 
-    //TESTING
-    private GameInfo currentAddedGame;
+    //saves the GameInfo object for the current game we are added to
+    private GameInfo currentAddedGameInfo;
 
     //used to mark whether WHITE is really available on SelectColorView or not. If the user created their own game,
     //they are added to it using the WHITE as a default color. But on the SelectColorView, white may actually be
@@ -135,12 +133,12 @@ public class ClientUser {
 
     }
 
-    public GameInfo getCurrentAddedGame() {
-        return currentAddedGame;
+    public GameInfo getCurrentAddedGameInfo() {
+        return currentAddedGameInfo;
     }
 
-    public void setCurrentAddedGame(GameInfo currentAddedGame) {
-        this.currentAddedGame = currentAddedGame;
+    public void setCurrentAddedGameInfo(GameInfo currentAddedGameInfo) {
+        this.currentAddedGameInfo = currentAddedGameInfo;
     }
 
     public boolean joinedWithDefaultColor() {

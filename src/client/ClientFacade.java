@@ -146,6 +146,7 @@ public class ClientFacade {
             if(response.equals("Success")){
               //  System.out.println(">CLIENTFACADE: USERREGISTER: server was happy");
 
+                ClientUser.getInstance().setName(registerCommand.getUsername());
                 return true;
             }else{
              //   System.out.println(">CLIENTFACADE: USERREGISTER: server sad :(");

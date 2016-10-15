@@ -6,7 +6,6 @@ import client.base.Controller;
 import client.base.IAction;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
-import client.login.LoginView;
 import client.misc.IMessageView;
 import client.misc.MessageView;
 import exceptions.ClientException;
@@ -394,14 +393,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 			//ok to save current game info for the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
-			ClientUser.getInstance().setCurrentAddedGame(joinThisGameInfo);
+			ClientUser.getInstance().setCurrentAddedGameInfo(joinThisGameInfo);
 			ClientUser.getInstance().setJoinedWithDefaultColor(false);
 
 
 			//TESTING  - trying to pass the currAddedGameInfo item into PlayerWaitingController by saving it in CU
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
-			ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
+			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
 
 		}
 		else{

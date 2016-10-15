@@ -61,7 +61,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//--------
 		//Give the PlayerWaitingView the existing list of players from the game they want to join:
-		GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGame();
+		GameInfo addedGame = ClientUser.getInstance().getCurrentAddedGameInfo();
 		List<PlayerInfo> newPlayerInfoList = addedGame.getPlayers();
 		currPlayerInfosList = newPlayerInfoList.toArray(new PlayerInfo[newPlayerInfoList.size()]);
 
