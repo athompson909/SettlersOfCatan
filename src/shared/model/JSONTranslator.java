@@ -215,6 +215,7 @@ public class JSONTranslator {
         newClientModel.setPlayers(newPlayersArray);
         newClientModel.setMap(newCMMap);
 
+
         System.out.println("===== POLL FINISHED - MODEL TRANSLATION COMPLETE ====");
 
         return newClientModel;

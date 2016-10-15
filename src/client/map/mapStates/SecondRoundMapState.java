@@ -1,12 +1,14 @@
 package client.map.mapStates;
 
 import client.Client;
+import client.ClientFacade;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.commandmanager.moves.FinishTurnCommand;
 import shared.model.map.Map;
 
 /**
@@ -22,13 +24,14 @@ public class SecondRoundMapState extends MapState {
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
 
-        mapController.startMove(PieceType.ROAD, true, true);
+        mapController.startMove(PieceType.ROAD, true, false);
+     //   mapController.startMove(PieceType.SETTLEMENT, true, false);
 
     }
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        return true;
+        return mapController.clientModel.canPlaceSetUpRoad(edgeLoc);
     }
 
     @Override
@@ -39,10 +42,15 @@ public class SecondRoundMapState extends MapState {
     @Override
     public void placeRoad(EdgeLocation edgeLoc) {
         super.placeRoad(edgeLoc);
+        startMove(PieceType.SETTLEMENT, true, true);
     }
 
     @Override
     public void placeSettlement(VertexLocation vertLoc) {
         super.placeSettlement(vertLoc);
+
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
+        ClientFacade.getInstance().finishTurn(finishTurnCommand);
     }
 }

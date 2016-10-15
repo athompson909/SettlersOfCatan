@@ -218,12 +218,11 @@ public class ClientModel extends Observable {
     }
 
     /**
-     * @param playerIndex of player performing the action.
      * @param edgeLocation to place the road.
      * @return true if the specified edge is not taken.
      */
-    public boolean canPlaceRoadDuringSetUp(int playerIndex, EdgeLocation edgeLocation){
-        return map.buildRoadManager.canPlaceSetUpRound(playerIndex, edgeLocation);
+    public boolean canPlaceSetUpRoad(EdgeLocation edgeLocation){
+        return map.buildRoadManager.canPlaceSetUpRound(edgeLocation);
     }
 
     /**

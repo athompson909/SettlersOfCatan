@@ -33,7 +33,7 @@ public class BuildRoadManager {
         return (isEdgeLocationAvailable(edgeLocation) && isRoadConnected(playerID, edgeLocation));
     }
 
-    public boolean canPlaceSetUpRound(int playerID, EdgeLocation edgeLocation) {
+    public boolean canPlaceSetUpRound(EdgeLocation edgeLocation) {
         return (isEdgeLocationAvailable(edgeLocation));
     }
 

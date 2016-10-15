@@ -99,9 +99,7 @@ public abstract class MapState  {
 
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        return mapController.clientModel.canPlaceRoad(currentPlayerId, edgeLoc);
-       // return true;
+        return true;
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
@@ -120,12 +118,10 @@ public abstract class MapState  {
 
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerId);
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
 
-        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerId);
-        ClientFacade.getInstance().finishTurn(finishTurnCommand);
     }
 
     public void placeSettlement(VertexLocation vertLoc) {
@@ -136,6 +132,7 @@ public abstract class MapState  {
 
         BuildSettlementCommand buildSettlementCommand = new BuildSettlementCommand(vertObj);
         ClientFacade.getInstance().buildSettlement(buildSettlementCommand);
+
     }
 
     public void placeCity(VertexLocation vertLoc) {
