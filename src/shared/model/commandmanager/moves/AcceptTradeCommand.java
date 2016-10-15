@@ -70,4 +70,6 @@ public class AcceptTradeCommand implements BaseCommand {
     public String getType() {
         return type;
     }
+
+
 }

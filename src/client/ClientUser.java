@@ -4,6 +4,10 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import shared.definitions.CatanColor;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * ClientUser is designed to be a small singleton that holds all important info about the user so that it can be
@@ -46,6 +50,8 @@ public class ClientUser {
     //So, this bool is used to help determine whether to enable the WHITE button or not.
     private boolean joinedWithDefaultColor = true; //assuming they did, so SelectColorView will let us choose WHITE after logging back in
 
+
+    private Map<String, CatanColor> playerColors = new HashMap<>();
 
 
     //this PlayerInfo object just packages all 4 data items about the user (name, id, index, color) into an object,
@@ -147,6 +153,22 @@ public class ClientUser {
 
     public void setJoinedWithDefaultColor(boolean joinedWithDefaultColor) {
         this.joinedWithDefaultColor = joinedWithDefaultColor;
+    }
+
+    public Map<String, CatanColor> getPlayerColors() {
+        return playerColors;
+    }
+
+    public void setPlayerColors(Map<String, CatanColor> playerColors) {
+        this.playerColors = playerColors;
+    }
+
+    public void setPlayerColors() {
+
+        List<PlayerInfo> players = ClientUser.getInstance().getCurrentAddedGameInfo().getPlayers();
+        for(PlayerInfo player : players) {
+            playerColors.put(player.getName(), player.getColor());
+        }
     }
 
     public void setNeedToDiscard(boolean discarded){
