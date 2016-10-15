@@ -105,12 +105,29 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void start() {
 
-		//start JGC's personal poller
+/*		//start JGC's personal poller
 		miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
 		miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval *1000);
-
+*/
+        startTimer();
 		getJoinGameView().showModal();
 	}
+
+    /**
+     *
+     */
+	public void startTimer(){
+        //start JGC's personal poller
+        miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+        miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval * 1000);
+    }
+
+    /**
+     *
+     */
+    public void stopTimer(){
+        miniPollTimer.cancel();
+    }
 
 	@Override
 	public void startCreateNewGame() {
@@ -144,8 +161,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         boolean newGameRandNums = getNewGameView().getRandomlyPlaceNumbers();
         boolean newGameRandPorts = getNewGameView().getUseRandomPorts();
 
+        //make the timer wait here
+        stopTimer();
+        //////
         GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
         GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
+        //restart timer here
+        startTimer();
+        /////
 
 		System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
@@ -249,12 +272,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
 			//MARK THAT THEY WENT THROUGH THIS METHOD
 			ClientUser.getInstance().setJoinedWithDefaultColor(true);
-
-			//don't think we need these yet
-				//GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
-				//GameInfo currAddedGame = currGamesArr[desiredGameID];
-				//ClientUser.getInstance().setCurrentAddedGame(currAddedGame);
-
 		}
 		else{
 			//print - it didn't work
