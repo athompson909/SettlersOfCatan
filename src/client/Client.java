@@ -21,7 +21,6 @@ public class Client {
 
     private State gameState = State.WAITING;
     private IServerProxy serverProxy;
-    private boolean updateOverride;
     private ServerPoller serverPoller;
 
     //TODO: make this a minimum of 3 chars eventually
@@ -42,14 +41,6 @@ public class Client {
 
     public ClientModel getClientModel() {
         return clientModel;
-    }
-
-    public void setUpdateOverride(boolean bool) {
-        updateOverride = bool;
-    }
-
-    public boolean isUpdateOverride() {
-        return updateOverride;
     }
 
     public void setServerPoller() {
