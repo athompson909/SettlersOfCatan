@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  */
 public class Client {
 
+    private boolean startGame;
     private CommandManager commandManager;
 
     private ClientModel clientModel;
@@ -37,6 +38,7 @@ public class Client {
         clientModel = new ClientModel(0);
         ClientFacade.getInstance().setValues(new ServerProxy(), clientModel);
         serverPoller = null;
+        startGame = false;
     }
 
     public ClientModel getClientModel() {
@@ -47,7 +49,7 @@ public class Client {
         this.serverPoller = new ServerPoller();
     }
     //The state will get updated via the updateTurnTracker method
-  /*  public void updateGameState(){
+    /*  public void updateGameState(){
         state = state.update(clientModel.getTurnTracker());
     } */
     public void setGameState(State newState) {gameState = newState;}
@@ -69,4 +71,6 @@ public class Client {
     public void startServerPoller() {
         serverPoller = new ServerPoller();
     }
+    public boolean getStartGame() {return startGame;}
+    public void setStartGame(boolean set) {startGame = set;}
 }

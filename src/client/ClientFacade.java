@@ -69,7 +69,10 @@ public class ClientFacade {
             clientUpdateManager.delegateUpdates(updatedClientModel);
             version = updatedClientModel.getVersion();
         }
-
+        else if(Client.getInstance().getStartGame()) {
+            clientUpdateManager.delegateUpdates(updatedClientModel);
+            Client.getInstance().setStartGame(false);
+        }
     }
 
     /**

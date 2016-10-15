@@ -1,5 +1,6 @@
 package client.map.mapStates;
 
+import client.Client;
 import client.base.IView;
 import client.data.RobPlayerInfo;
 import client.map.MapComponent;
@@ -29,8 +30,10 @@ public class FirstRoundMapState extends MapState{
         super.initFromModel(updatedMap);
 
         //CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        mapController.startMove(PieceType.ROAD, true, true);
-
+        //mapController.startMove(PieceType.ROAD, true, true);
+        if(Client.getInstance().getStartGame()) {
+            mapController.startMove(PieceType.ROAD, true, true);
+        }
     }
 
     @Override

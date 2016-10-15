@@ -102,6 +102,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		Client.getInstance().startServerPoller();
 		ClientUser.getInstance().setPlayerColors();
 		getView().closeModal();
+		Client.getInstance().setStartGame(true);
 	}
 
 	@Override
