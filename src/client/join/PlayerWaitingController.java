@@ -103,7 +103,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		getView().closeModal();
 	}
 
-
 	@Override
 	public void addAI() {
 		// called when they push the "Add computer player" button
@@ -269,6 +268,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 
+
+
+
 	//////////////
 
 	/**
@@ -299,11 +301,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			GameInfo[] newGameInfos = ClientFacade.getInstance().gamesList();
 			//pull out the game we need
 			GameInfo currGameToDisplay = newGameInfos[ClientUser.getInstance().getCurrentGameID()];
-//		System.out.println("\t\tCurrGameToDisplay: " + currGameToDisplay);
 			//pull out PlayerInfo[] and use that to do PWV.setPlayers and update the view
 			//GameInfo stores PlayerInfos in an ArrayList
 			List<PlayerInfo> tempPIArrList = currGameToDisplay.getPlayers();
-//		System.out.println("PlayerInfos to display:" + tempPIArrList);
 
 			PlayerInfo[] newPlayerInfos = tempPIArrList.toArray(new PlayerInfo[tempPIArrList.size()]);
 

@@ -5,6 +5,8 @@ import client.turntracker.WaitingState;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
 
+import java.util.regex.Pattern;
+
 /**
  * Contains the command manager, client model, state, and starts the server poller
  *
@@ -19,6 +21,9 @@ public class Client {
     private IState state = new WaitingState();
 
     private ServerPoller serverPoller;
+
+    //TODO: make this a minimum of 3 chars eventually
+    private Pattern delimiter = Pattern.compile("([A-z]|[0-9]){1,24}");
 
     private static Client instance = new Client();
 
@@ -44,6 +49,10 @@ public class Client {
 
     public IState getGameState(){
         return state;
+    }
+
+    public Pattern getDelimiter() {
+        return delimiter;
     }
 
     public CommandManager getCommandManager() {
