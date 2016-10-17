@@ -5,7 +5,6 @@ import client.ClientFacade;
 import client.ClientUser;
 import shared.definitions.CatanColor;
 import client.base.*;
-import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.moves.FinishTurnCommand;
 import shared.model.player.Player;
@@ -68,7 +67,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			int turn = turnTracker.getCurrentTurn();
 
 			//update game state
-			ITurnTrackerState state = Client.getInstance().getState();
+			TurnTrackerState state = Client.getInstance().getState();
 			state.updateStateButton(getView());
 
 			//update player info

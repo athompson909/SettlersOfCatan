@@ -9,6 +9,7 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
+import client.utils.MessageUtils;
 import exceptions.ClientException;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
@@ -34,6 +35,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private Timer miniPollTimer; //made public so SelectColorView can stop the timer
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
+	private final String invalidGameTitle = "The game title is invalid. Please choose a name between 3-24 alphanumeric characters";
+
 
 	/**
 	 * JoinGameController constructor
@@ -201,7 +204,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     }
 
     /**
-     *
+     * Sends the user's chosen game title through three checks:
+	 * 1) it contains only valid characters
+	 * 2) it is a good length (1 and 2 are checked by gameTitleDelimiter pattern
+	 * 3) it hasn't been used already
+	 *
+	 * If the title passes these three checks, returns true. else, returns false.
+	 *
      * @param newGameName the name to be checked against all the other ones
      * @return true if the game name hasn't been used yet, false if it has been taken already
      */
@@ -212,7 +221,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if(!delim.matcher(newGameName).matches()){
 			System.out.println("\t>>>isGNA: name " + newGameName + " was found to be invalid!");
 			//there were some weird characters in there or the title was too long
-			showGameNameInvalidView();
+			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidGameTitle);
+			//showGameNameInvalidView();
 			return false;
 		}
 
@@ -221,8 +231,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             String currGameName = currGamesList[g].getTitle();
             if (currGameName.equals(newGameName)){
                 //show error message
-                showGameNameTakenView(newGameName);
-                System.out.println("\t>>>isGNA: name " + newGameName + " found in currGamesList!");
+                //showGameNameTakenView(newGameName);
+				String msgContent = "The name " + newGameName + "  is already used. Please choose another!";
+				MessageUtils.showRejectMessage((MessageView)messageView, "Error", msgContent);
+				System.out.println("\t>>>isGNA: name " + newGameName + " found in currGamesList!");
                 return false;
             }
         }
@@ -230,41 +242,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         System.out.println("\t>>>isGNA: name " + newGameName + " NOT found in currGamesList!");
         return true;
     }
-
-    /**
-     * displays a little error message to say that you lack originality
-     * @param takenGameName
-     */
-    private void showGameNameTakenView(String takenGameName) {
-        MessageView gameNameTakenView = (MessageView) messageView;
-        String msgTitle = "Error";
-        String msgContent = "The name " + takenGameName + "  is already used. Please choose another!";
-
-        gameNameTakenView.setTitle(msgTitle, 220);
-        gameNameTakenView.setMessage(msgContent, 220);
-        gameNameTakenView.setCloseButton("Ok");
-        gameNameTakenView.showModal();
-
-        // clear the field in NewGameView
-        ((NewGameView) getNewGameView()).clearTitleField();
-    }
-
-	/**
-	 * displays a little error message to say that you suck at picking game titles
-	 */
-	private void showGameNameInvalidView() {
-		MessageView gameNameTakenView = (MessageView) messageView;
-		String msgTitle = "Error";
-		String msgContent = "The game title is invalid. Please choose a name between 3-24 alphanumeric characters";
-
-		gameNameTakenView.setTitle(msgTitle, 220);
-		gameNameTakenView.setMessage(msgContent, 220);
-		gameNameTakenView.setCloseButton("Ok");
-		gameNameTakenView.showModal();
-
-		// clear the field in NewGameView
-		((NewGameView) getNewGameView()).clearTitleField();
-	}
 
     /**
 	 * This function just shows the SelectColorView
@@ -365,9 +342,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println("JOINGAMECONTROLLER: joinGame called, selectedColor= " + color);
 
-		//stop timer here?
+		//stop timer here, this view is done
 		miniPollTimer.cancel();
-
 
 		// If join succeeded, send the server a GameJoin Cmd object:
 
@@ -378,9 +354,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//create joinGameCommand
 		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, color);
 
-		//send it to ClientFacade
+		//send command to ClientFacade
 		if (ClientFacade.getInstance().gameJoin(gameJoinCommand)) {
-			//print - it worked
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
 
 			//ok to save current game info for the game they just joined to ClientUser singleton for later use
@@ -393,13 +368,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
 			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
-
 		}
 		else{
 			//print - it didn't work
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
 		}
-		//user should now be added to the game they clicked on.
 
 		// If join succeeded
 
@@ -448,7 +421,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 //////////////
 
 	/**
-	 * JoinGameMiniPoller is the poller only for JoinGameController to get an updated list of games every 2 sec.
+	 * JoinGameMiniPoller is JoinGameController's personal poller that gets an updated list of games every 2 sec.
 	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
 	 * This TimerTask is started upon JoinGameController.start() and stopped right when the user finishes picking a color.
 	 */

@@ -21,7 +21,7 @@ import shared.model.map.Map;
  * Created by Alise on 10/8/2016.
  */
 //todo write all methods
-public class FirstRoundMapState extends MapState{
+public class FirstRoundMapState extends MapState {
 
     public FirstRoundMapState(MapController mapController) {
         super(mapController);
@@ -31,15 +31,13 @@ public class FirstRoundMapState extends MapState{
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
 
-        if(Client.getInstance().getStartGame()) {
+        if (Client.getInstance().getStartGame()) {
             startGame();
         }
     }
 
     public void startGame() {
         startMove(PieceType.SETTLEMENT, true, true);
-
-        //Can't figure out how to force a settlement placement and then switch to next user
     }
 
     @Override
@@ -50,7 +48,7 @@ public class FirstRoundMapState extends MapState{
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-       return mapController.clientModel.canPlaceSetUpRoad(edgeLoc, super.getFirstVertexLocation());
+        return mapController.clientModel.canPlaceSetUpRoad(edgeLoc, super.getFirstVertexLocation());
     }
 
     @Override

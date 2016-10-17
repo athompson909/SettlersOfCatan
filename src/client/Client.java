@@ -1,9 +1,6 @@
 package client;
 
-import client.map.mapStates.MapState;
-
-import client.turntracker.IState;
-import client.turntracker.ITurnTrackerState;
+import client.turntracker.TurnTrackerState;
 import client.turntracker.WaitingState;
 import shared.definitions.State;
 import shared.model.ClientModel;
@@ -23,18 +20,19 @@ public class Client {
 
     private ClientModel clientModel;
     private State gameState = State.WAITING;
-    private ITurnTrackerState state = new WaitingState();
+    private TurnTrackerState state = new WaitingState();
     private IServerProxy serverProxy;
     private ServerPoller serverPoller;
 
 
     //TODO: change unDelim to be min of 3, and pwDelim to be min of 5
+    //old ones: ([A-z]|[0-9]|_|-){1,24}
     //According to the TAs tooltips: username must be 3-7 chars long, and can include letters, numbers, underscore, or dash
-    private Pattern usernameDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,7}");
+    private Pattern usernameDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{1,7}");
     //According to the TAs tooltips: username must be 5-16 chars long, and can include letters, numbers, underscore, or dash
-    private Pattern passwordDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,16}");
+    private Pattern passwordDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{1,16}");
     //I just picked this length
-    private Pattern gameTitleDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,24}");
+    private Pattern gameTitleDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{1,24}");
 
 
 
@@ -67,7 +65,7 @@ public class Client {
     public State getGameState(){
         return gameState;
     }
-    public ITurnTrackerState getState() {return state;}
+    public TurnTrackerState getState() {return state;}
     public void updateState() {
         state = state.update(clientModel.getTurnTracker());
         gameState = state.toEnum();
