@@ -208,7 +208,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public boolean isGameNameAvailable(String newGameName){
 
 		//first check if it's got only valid characters and if it is a decent length
-		Pattern delim = Client.getInstance().getUsernameDelimiter();
+		Pattern delim = Client.getInstance().getGameTitleDelimiter();
 		if(!delim.matcher(newGameName).matches()){
 			System.out.println("\t>>>isGNA: name " + newGameName + " was found to be invalid!");
 			//there were some weird characters in there or the title was too long
@@ -273,7 +273,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startJoinGame(GameInfo game) {
 
 		//WE CAN'T JOIN A GAME UNTIL WE'VE PICKED A COLOR
-		//fyi you select a color if you're "re-joining" too
 
 		System.out.println("JOINGAMECONTROLLER: startJoinGame called, game= " + game);
 
@@ -386,11 +385,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 			//ok to save current game info for the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
-			ClientUser.getInstance().setCurrentAddedGameInfo(joinThisGameInfo);
 			ClientUser.getInstance().setJoinedWithDefaultColor(false);
 
-
-			//TESTING  - trying to pass the currAddedGameInfo item into PlayerWaitingController by saving it in CU
+			//Saving the CurrAddedGame again to the CU so it reflects what color they just picked instead of the default WHITE
+			//asking the server for the gameList again is easier than going way down into CU's currAddedGame and
+			//changing the color value for one player in the PlayerInfo array.
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
 			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);

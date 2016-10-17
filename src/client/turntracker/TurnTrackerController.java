@@ -68,8 +68,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			int turn = turnTracker.getCurrentTurn();
 
 			//update game state
-			State state = Client.getInstance().getGameState();
-		//	state.updateStateButton(getView());
+			ITurnTrackerState state = Client.getInstance().getState();
+			state.updateStateButton(getView());
 
 			//update player info
 			int longestRoad = turnTracker.getLongestRoadHolder();
