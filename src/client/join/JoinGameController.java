@@ -273,7 +273,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startJoinGame(GameInfo game) {
 
 		//WE CAN'T JOIN A GAME UNTIL WE'VE PICKED A COLOR
-		//fyi you select a color if you're "re-joining" too
 
 		System.out.println("JOINGAMECONTROLLER: startJoinGame called, game= " + game);
 
@@ -389,11 +388,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			ClientUser.getInstance().setCurrentAddedGameInfo(joinThisGameInfo);
 			ClientUser.getInstance().setJoinedWithDefaultColor(false);
 
-
 			//TESTING  - trying to pass the currAddedGameInfo item into PlayerWaitingController by saving it in CU
-			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
-			GameInfo currAddedGame = currGamesArr[desiredGameID];
-			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
+			//GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
+			//GameInfo currAddedGame = currGamesArr[desiredGameID];
+			//ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
 
 		}
 		else{
