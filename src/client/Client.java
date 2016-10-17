@@ -2,6 +2,9 @@ package client;
 
 import client.map.mapStates.MapState;
 
+import client.turntracker.IState;
+import client.turntracker.ITurnTrackerState;
+import client.turntracker.WaitingState;
 import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;
@@ -20,6 +23,7 @@ public class Client {
 
     private ClientModel clientModel;
     private State gameState = State.WAITING;
+    private ITurnTrackerState state = new WaitingState();
     private IServerProxy serverProxy;
     private ServerPoller serverPoller;
 
@@ -59,6 +63,11 @@ public class Client {
     public void setGameState(State newState) {gameState = newState;}
     public State getGameState(){
         return gameState;
+    }
+    public ITurnTrackerState getState() {return state;}
+    public void updateState() {
+        state = state.update(clientModel.getTurnTracker());
+        gameState = state.toEnum();
     }
 
     public Pattern getUsernameDelimiter() {
