@@ -33,8 +33,15 @@ public class BuildRoadManager {
         return (isEdgeLocationAvailable(edgeLocation) && isRoadConnected(playerID, edgeLocation));
     }
 
-    public boolean canPlaceSetUpRound(EdgeLocation edgeLocation, VertexLocation firstVertexLocation) {
-        return (isEdgeLocationAvailable(edgeLocation) && isSettlementConnected(firstVertexLocation, edgeLocation));
+    /**
+     * Checks for valid road placement during the setup round.
+     *
+     * @param desiredEdgeLocation to place the road.
+     * @param firstVertexLocation of the settlement placed before.
+     * @return true if the road is connected to the settlement the player has placed.
+     */
+    public boolean canPlaceSetUpRound(EdgeLocation desiredEdgeLocation, VertexLocation firstVertexLocation) {
+        return (isEdgeLocationAvailable(desiredEdgeLocation) && isSettlementConnected(firstVertexLocation, desiredEdgeLocation));
     }
 
 
@@ -206,38 +213,68 @@ public class BuildRoadManager {
         return false;
     }
 
+    /**
+     * Checks if a vertex location is adjacent to the desired edge location.
+     *
+     * @param firstVertexLocation of the settlement placed.
+     * @param desiredEdgeLocation adjacent to tthe first vertex location.
+     * @return
+     */
     private boolean isSettlementConnected(VertexLocation firstVertexLocation, EdgeLocation desiredEdgeLocation) {
         HexLocation currentHexLocation = firstVertexLocation.getHexLoc();
 
         //If VertexObject is a Northwest vertex object
         if (firstVertexLocation.getDir().equals(VertexDirection.NorthWest)) {
-            EdgeLocation eastEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.North);
-            EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHexLocation.getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast);
-            EdgeLocation southWestEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.NorthWest);
-
-            if (eastEdgeLocation.equals(desiredEdgeLocation)) {
-                return true;
-            } else if (northWestEdgeLocation.equals(desiredEdgeLocation)) {
-                return true;
-            } else if (southWestEdgeLocation.equals(desiredEdgeLocation)) {
-                return true;
-            } else {
-                return false;
-            }
+            return isNorthWestVertexObjectHasAdjacentRoad(currentHexLocation, desiredEdgeLocation);
         } else {//If our vertex object is a north east vertex object
-            EdgeLocation westEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.North);
-            EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHexLocation.getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest);
-            EdgeLocation southEastEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.NorthEast);
+            return isNorthEastVertexObjectHasAdjacentRoad(currentHexLocation, desiredEdgeLocation);
+        }
+    }
 
-            if (westEdgeLocation.equals(desiredEdgeLocation)) {
-                return true;
-            } else if (northEastEdgeLocation.equals(desiredEdgeLocation)) {
-                return true;
-            } else if (southEastEdgeLocation.equals(desiredEdgeLocation)) {
-                return true;
-            } else {
-                return false;
-            }
+    /**
+     * Checks to see if a North West vertex object has an adjacent edge location
+     *
+     * @param desiredEdgeLocation of where the player wants to place the road.
+     * @param currentHexLocation  of the vertex object.
+     * @return true if the player has chosen an edge location adjacent to the chosen vertex location.
+     */
+    private boolean isNorthWestVertexObjectHasAdjacentRoad(HexLocation currentHexLocation, EdgeLocation desiredEdgeLocation) {
+
+        EdgeLocation eastEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.North);
+        EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHexLocation.getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast);
+        EdgeLocation southWestEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.NorthWest);
+
+        if (eastEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else if (northWestEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else if (southWestEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks to see if a North East vertex object has an adjacent edge location
+     *
+     * @param desiredEdgeLocation of where the player wants to place the road.
+     * @param currentHexLocation  of the vertex object.
+     * @return true if the player has chosen an edge location adjacent to the chosen vertex location.
+     */
+    private boolean isNorthEastVertexObjectHasAdjacentRoad(HexLocation currentHexLocation, EdgeLocation desiredEdgeLocation) {
+        EdgeLocation westEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.North);
+        EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHexLocation.getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest);
+        EdgeLocation southEastEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.NorthEast);
+
+        if (westEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else if (northEastEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else if (southEastEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

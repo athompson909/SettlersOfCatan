@@ -6,7 +6,7 @@ import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
 import client.misc.MessageView;
-import client.view_utils.MessageUtils;
+import client.utils.MessageUtils;
 import shared.model.commandmanager.game.LoginCommand;
 import shared.model.commandmanager.game.RegisterCommand;
 
@@ -89,7 +89,10 @@ public class LoginController extends Controller implements ILoginController {
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
 		if (!unDelim.matcher(username).matches() || !pwDelim.matcher(password).matches()){
-			showRejectMessage("Error", loginFailedMsg);
+			//showRejectMessage("Error", loginFailedMsg);
+			MessageUtils.showRejectMessage((MessageView)messageView, "Error", loginFailedMsg);
+			((LoginView) getLoginView()).clearLoginPanel();
+			((LoginView) getLoginView()).clearRegisterPanel();
 			return;
 		}
 
@@ -99,7 +102,13 @@ public class LoginController extends Controller implements ILoginController {
 			getLoginView().closeModal();
 			loginAction.execute();
 		}
-		else showRejectMessage("Error", loginFailedMsg);
+		else {
+			MessageUtils.showRejectMessage((MessageView)messageView, "Error", loginFailedMsg);
+			((LoginView) getLoginView()).clearLoginPanel();
+			((LoginView) getLoginView()).clearRegisterPanel();
+		}
+
+		//showRejectMessage("Error", loginFailedMsg);
 	}
 
 	/**
@@ -114,11 +123,17 @@ public class LoginController extends Controller implements ILoginController {
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
 
 		if(!unDelim.matcher(registerUsername).matches()){
-			showRejectMessage("Error", invalidUsernameMsg);
+			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidUsernameMsg);
+			((LoginView) getLoginView()).clearLoginPanel();
+			((LoginView) getLoginView()).clearRegisterPanel();
+			//showRejectMessage("Error", invalidUsernameMsg);
 			return;
 		}
 		else if (!pwDelim.matcher(registerPassword).matches()) {
-			showRejectMessage("Error", invalidPasswordMsg);
+			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidPasswordMsg);
+			((LoginView) getLoginView()).clearLoginPanel();
+			((LoginView) getLoginView()).clearRegisterPanel();
+			//showRejectMessage("Error", invalidPasswordMsg);
 			return;
 		}
 
@@ -130,9 +145,20 @@ public class LoginController extends Controller implements ILoginController {
 				getLoginView().closeModal();
 				loginAction.execute();
 			}
-			else showRejectMessage("Server Error", "Registration Failed");
+			else {
+				MessageUtils.showRejectMessage((MessageView)messageView, "Server Error", "Registration Failed");
+				((LoginView) getLoginView()).clearLoginPanel();
+				((LoginView) getLoginView()).clearRegisterPanel();
+			}
+
+			// showRejectMessage("Server Error", "Registration Failed");
 		}
-		else showRejectMessage("Error", unmatchPasswordsMsg);
+		else {
+			MessageUtils.showRejectMessage((MessageView)messageView, "Server Error", "Registration Failed");
+			((LoginView) getLoginView()).clearLoginPanel();
+			((LoginView) getLoginView()).clearRegisterPanel();
+		}
+			//showRejectMessage("Error", unmatchPasswordsMsg);
 	}
 
 	/**

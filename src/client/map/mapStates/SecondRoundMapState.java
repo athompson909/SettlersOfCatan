@@ -24,10 +24,9 @@ public class SecondRoundMapState extends MapState {
     @Override
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
-
-        mapController.startMove(PieceType.SETTLEMENT, true, false);
-     //   mapController.startMove(PieceType.SETTLEMENT, true, false);
-
+        if (getSecondVertexLocation() == null) {
+            mapController.startMove(PieceType.SETTLEMENT, true, false);
+        }
     }
 
     @Override

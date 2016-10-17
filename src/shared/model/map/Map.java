@@ -18,9 +18,6 @@ import java.util.Observer;
  * contains all data related to hexes, hex values, ports, objects on map, dimensions, and the robber
  */
 public class Map {
-
-
-
     /**
      * List of all hexes used to create map
      */
@@ -37,7 +34,10 @@ public class Map {
      */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>(); //These are the Settlements and Cities
 
-
+    /**
+     * Hashmap of all the valid vertex locations for placing a settlement.
+     * Hence, this list will not include vertices in the ocean.
+     */
     private HashMap<VertexLocation, VertexLocation> allValidVertexLocations = new HashMap<>();
 
     /**
@@ -46,6 +46,10 @@ public class Map {
      */
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>(); //These are the Roads
 
+    /**
+     * Hashmap of all the valid edge locations for building roads.
+     * Hence, this list will not include edge locations in the ocean.
+     */
     private HashMap<EdgeLocation, EdgeLocation> allValidEdgeLocations = new HashMap<>();
 
     /**
@@ -103,8 +107,15 @@ public class Map {
         createAllEdgeValues();
     }
 
-    //this constructor is for when the new model comes back and we need to make a new Map object
-    // WITHOUT creating/placing all hexes again.
+    /**
+     * This is the constructor used to update the model.
+     *
+     * @param newHexes
+     * @param newPorts
+     * @param newVertexLocs
+     * @param newEdgeValues
+     * @param newRobberLocation
+     */
     public Map(HashMap<HexLocation, Hex> newHexes, HashMap<HexLocation, Port> newPorts,
                HashMap<VertexLocation, VertexObject> newVertexLocs, HashMap<EdgeLocation, EdgeValue> newEdgeValues, HexLocation newRobberLocation) {
         setHexes(newHexes);
@@ -115,17 +126,14 @@ public class Map {
 
         createAllEdgeValues();
         createAllVertexObjects();
-        //TODO: Look into this...
     }
 
     /**
      * Updates all map data members to match the newly updated model
-     * <p>
      * Updates robber to new position
      * Updates list of EdgeValues where roads are stored
      * Updates list of VertexObjects where settlements are built
      * Updates list of VertexObjects where cities are built
-     * <p>
      * Nothing else about the map changes during the game, so keep everything else the same!
      *
      * @param newMap updated map received from the updated clientModel
@@ -367,7 +375,7 @@ public class Map {
     private void createSingleVertexObject(int x, int y, VertexDirection direction) {
         VertexLocation newVertextLocation = new VertexLocation(new HexLocation(x, y), direction);
         allValidVertexLocations.put(newVertextLocation, newVertextLocation);
-       // vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
+        // vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
     /**
@@ -506,7 +514,7 @@ public class Map {
         Set<PortType> ports = new HashSet<>();
         Set myKeys = portVertexLocations.keySet();
         for (Object vertLoc : myKeys) {
-            if(vertexObjects.containsKey(vertLoc)) {
+            if (vertexObjects.containsKey(vertLoc)) {
                 if (vertexObjects.get(vertLoc).getOwner() == playerIndex) {
                     PortType type = portVertexLocations.get(vertLoc).getResource();
                     ports.add(type);
@@ -591,8 +599,15 @@ public class Map {
         }
     }
 */
+
+    /**
+     * Checks to see if the robber can be placed on a desired hex.
+     *
+     * @param desiredHexLoc for the robber to be placed.
+     * @return
+     */
     public boolean canPlaceRobber(HexLocation desiredHexLoc) {
-        if(hexes.containsKey(desiredHexLoc)) {
+        if (hexes.containsKey(desiredHexLoc)) {
             if (!desiredHexLoc.equals(robber.getCurrentHexlocation())) {
                 return true;
             }
@@ -600,7 +615,7 @@ public class Map {
         return false;
     }
 
-    public void placeRobber(HexLocation desiredHexLoc){
+    public void placeRobber(HexLocation desiredHexLoc) {
         robber.setCurrentHexlocation(desiredHexLoc);
     }
 

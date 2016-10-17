@@ -5,7 +5,7 @@ import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.MessageView;
-import client.view_utils.MessageUtils;
+import client.utils.MessageUtils;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.model.ClientModel;
@@ -153,6 +153,7 @@ public class DevCardController extends Controller implements IDevCardController 
     @Override
     public void update(Observable o, Object arg) {
         clientModel = (ClientModel) o;
+        setCardAmounts(clientModel.getCurrentPlayer().getNewDevCardList());
     }
 
 }
