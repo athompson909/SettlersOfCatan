@@ -3,6 +3,8 @@ package client.domestic;
 import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
@@ -10,8 +12,10 @@ import shared.model.ClientModel;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.moves.AcceptTradeCommand;
 import shared.model.commandmanager.moves.OfferTradeCommand;
+import shared.model.player.Player;
 import shared.model.resourcebank.ResourceList;
 
+import java.util.List;
 import java.util.Observable;
 
 
@@ -19,13 +23,21 @@ import java.util.Observable;
  * Domestic trade controller implementation
  */
 public class DomesticTradeController extends Controller implements IDomesticTradeController {
-
+//Todo - allow trade when send, receive and player selected
+	//todo - allow increase on send only if you have the resource
+	//todo - allow decrease only if above zero
+	
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
 	/**this tracks the resources they want to send/receive*/
 	private ResourceList tradeList;
 	private int receiver;
+	private int wood = 0;
+	private int brick = 0;
+	private int sheep = 0;
+	private int wheat = 0;
+	private int ore = 0;
 
 	/**
 	 * DomesticTradeController constructor
@@ -76,16 +88,37 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void startTrade() {
-		//getTradeView().enableDomesticTrade(Client.getInstance().getState().toEnum()==State.PLAYING);
-		//getTradeOverlay().setTradeEnabled(Client.getInstance().getState().toEnum()==State.PLAYING);
-		//getTradeOverlay().setPlayerSelectionEnabled(Client.getInstance().getState().toEnum()==State.PLAYING);
+		getTradeOverlay().setPlayerSelectionEnabled(Client.getInstance().getState().toEnum()==State.PLAYING);
 
 		//if it is this players turn enable trade otherwise set message
 		boolean myTurn = (Client.getInstance().getState().toEnum()==State.PLAYING);
 		getTradeOverlay().setResourceSelectionEnabled(myTurn);
-		if(!myTurn) {
-			getTradeOverlay().setStateMessage("It is not your turn.");
+		if(myTurn) {
+			getTradeOverlay().setStateMessage("Set the trade you want to make");
+		}else{
+			getTradeOverlay().setStateMessage("Not Your Turn");
 		}
+
+		getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
+		getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
+		getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
+		getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
+		getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
+
+		//set player info
+		GameInfo gameInfo = ClientUser.getInstance().getCurrentAddedGameInfo();
+		List<PlayerInfo> playerInfoList = gameInfo.getPlayers();
+		PlayerInfo[] playerInfo = new PlayerInfo[3];
+		int index = 0;
+		for(int i = 0; i < playerInfoList.size(); i++){
+			//don't add currentPlayer
+			if(ClientUser.getInstance().getIndex() != i) {
+				playerInfo[index] = playerInfoList.get(i);
+				index++;
+			}
+		}
+		getTradeOverlay().setPlayers(playerInfo);
+
 		getTradeOverlay().showModal();
 		tradeList = new ResourceList();
 	}
@@ -93,31 +126,35 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void decreaseResourceAmount(ResourceType resource) {
 		if(resource.toString().equals("WOOD")){
-			tradeList.decWoodCardCount(1);
+			tradeList.decWoodCardCount(wood);
 		}else if(resource.toString().equals("BRICK")){
-			tradeList.decBrickCardCount(1);
+			tradeList.decBrickCardCount(brick);
 		}else if(resource.toString().equals("SHEEP")){
-			tradeList.decSheepCardCount(1);
+			tradeList.decSheepCardCount(sheep);
 		}else if(resource.toString().equals("WHEAT")){
-			tradeList.decWheatCardCount(1);
+			tradeList.decWheatCardCount(wheat);
 		}else if(resource.toString().equals("ORE")){
-			tradeList.decOreCardCount(1);
+			tradeList.decOreCardCount(ore);
 		}
 	}
 
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
 		if(resource.toString().equals("WOOD")){
-			tradeList.incWoodCardCount(1);
+			tradeList.incWoodCardCount(wood);
 		}else if(resource.toString().equals("BRICK")){
-			tradeList.incBrickCardCount(1);
+			tradeList.incBrickCardCount(brick);
 		}else if(resource.toString().equals("SHEEP")){
-			tradeList.incSheepCardCount(1);
+			tradeList.incSheepCardCount(sheep);
 		}else if(resource.toString().equals("WHEAT")){
-			tradeList.incWheatCardCount(1);
+			tradeList.incWheatCardCount(wheat);
 		}else if(resource.toString().equals("ORE")){
-			tradeList.incOreCardCount(1);
+			tradeList.incOreCardCount(ore);
 		}
+
+		//reset number
+		getTradeOverlay().setResourceAmount(resource, "0");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 	}
 
 	@Override
@@ -135,17 +172,59 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
+		if(resource.toString().equals("WOOD")){
+			wood = -1;
+		}else if(resource.toString().equals("BRICK")){
+			brick = -1;
+		}else if(resource.toString().equals("SHEEP")){
+			sheep = -1;
+		}else if(resource.toString().equals("WHEAT")){
+			wheat = -1;
+		}else if(resource.toString().equals("ORE")){
+			ore = -1;
+		}
 
+		//reset number
+		getTradeOverlay().setResourceAmount(resource, "0");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
 
+		if(resource.toString().equals("WOOD")){
+			wood = 1;
+		}else if(resource.toString().equals("BRICK")){
+			brick = 1;
+		}else if(resource.toString().equals("SHEEP")){
+			sheep = 1;
+		}else if(resource.toString().equals("WHEAT")){
+			wheat = 1;
+		}else if(resource.toString().equals("ORE")){
+			ore = 1;
+		}
+
+		//reset number
+		getTradeOverlay().setResourceAmount(resource, "0");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 	}
 
 	@Override
 	public void unsetResource(ResourceType resource) {
+		if(resource.toString().equals("WOOD")){
+			wood = 0;
+		}else if(resource.toString().equals("BRICK")){
+			brick = 0;
+		}else if(resource.toString().equals("SHEEP")){
+			sheep = 0;
+		}else if(resource.toString().equals("WHEAT")){
+			wheat = 0;
+		}else if(resource.toString().equals("ORE")){
+			ore = 0;
+		}
 
+		getTradeOverlay().setResourceAmount(resource, "0");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
 	}
 
 	@Override
