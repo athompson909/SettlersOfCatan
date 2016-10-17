@@ -385,13 +385,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 			//ok to save current game info for the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
-			ClientUser.getInstance().setCurrentAddedGameInfo(joinThisGameInfo);
 			ClientUser.getInstance().setJoinedWithDefaultColor(false);
 
-			//TESTING  - trying to pass the currAddedGameInfo item into PlayerWaitingController by saving it in CU
-			//GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
-			//GameInfo currAddedGame = currGamesArr[desiredGameID];
-			//ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
+			//Saving the CurrAddedGame again to the CU so it reflects what color they just picked instead of the default WHITE
+			//asking the server for the gameList again is easier than going way down into CU's currAddedGame and
+			//changing the color value for one player in the PlayerInfo array.
+			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
+			GameInfo currAddedGame = currGamesArr[desiredGameID];
+			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
 
 		}
 		else{

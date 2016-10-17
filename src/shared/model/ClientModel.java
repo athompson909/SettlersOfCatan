@@ -221,8 +221,8 @@ public class ClientModel extends Observable {
      * @param edgeLocation to place the road.
      * @return true if the specified edge is not taken.
      */
-    public boolean canPlaceSetUpRoad(EdgeLocation edgeLocation){
-        return map.buildRoadManager.canPlaceSetUpRound(edgeLocation);
+    public boolean canPlaceSetUpRoad(EdgeLocation edgeLocation, VertexLocation firstVertexLocation){
+        return map.buildRoadManager.canPlaceSetUpRound(edgeLocation, firstVertexLocation);
     }
 
     /**
@@ -232,6 +232,10 @@ public class ClientModel extends Observable {
      */
     public boolean canPlaceSettlement(int playerIndex, VertexLocation vertexLocation){
         return map.buildSettlementManager.canPlace(playerIndex, vertexLocation);
+    }
+
+    public boolean canPlaceSetUpSettlement(int playerIndex, VertexLocation vertexLocation){
+        return map.buildSettlementManager.canPlaceSetUp(playerIndex, vertexLocation);
     }
 
     /**
@@ -408,6 +412,8 @@ public class ClientModel extends Observable {
     //don't we want to return the player on this client with this method, not whose turn it is?
     //public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
     public Player getCurrentPlayer() {return players[ClientUser.getInstance().getIndex()];}
+
+
 
     //SETTERS
     public void setChanged(boolean set) {changed = set;}

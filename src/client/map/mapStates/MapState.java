@@ -25,6 +25,9 @@ public abstract class MapState  {
 
     public MapController mapController;
 
+    private VertexLocation firstVertexLocation;
+    private VertexLocation secondVertexLocation;
+
     public MapState(MapController mapController){
         this.mapController = mapController;
     }
@@ -99,17 +102,18 @@ public abstract class MapState  {
 
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        return true;
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        return mapController.clientModel.canPlaceRoad(currentPlayerIndex, edgeLoc);
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        return mapController.clientModel.canPlaceSettlement(currentPlayerId, vertLoc);
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        return mapController.clientModel.canPlaceSettlement(currentPlayerIndex, vertLoc);
     }
 
     public boolean canPlaceCity(VertexLocation vertLoc) {
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        return mapController.clientModel.canPlaceCity(currentPlayerId, vertLoc);
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        return mapController.clientModel.canPlaceCity(currentPlayerIndex, vertLoc);
     }
 
     public boolean canPlaceRobber(HexLocation hexLoc) {
@@ -190,4 +194,19 @@ public abstract class MapState  {
 
     }
 
+    public VertexLocation getFirstVertexLocation() {
+        return firstVertexLocation;
+    }
+
+    public void setFirstVertexLocation(VertexLocation firstVertexLocation) {
+        this.firstVertexLocation = firstVertexLocation;
+    }
+
+    public VertexLocation getSecondVertexLocation() {
+        return secondVertexLocation;
+    }
+
+    public void setSecondVertexLocation(VertexLocation secondVertexLocation) {
+        this.secondVertexLocation = secondVertexLocation;
+    }
 }
