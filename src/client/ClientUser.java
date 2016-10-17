@@ -164,7 +164,8 @@ public class ClientUser {
 
     public void setPlayerColors() {
 
-        List<PlayerInfo> players = ClientUser.getInstance().getCurrentAddedGameInfo().getPlayers();
+        GameInfo[] gamesList = ClientFacade.getInstance().gamesList();
+        List<PlayerInfo> players = gamesList[ClientUser.getInstance().getCurrentGameID()].getPlayers();
         for(PlayerInfo player : players) {
             playerColors.put(player.getName(), player.getColor());
         }

@@ -16,6 +16,7 @@ import shared.model.map.Map;
  * Created by Alise on 10/8/2016.
  */
 public class SecondRoundMapState extends MapState {
+
     public SecondRoundMapState(MapController mapController) {
         super(mapController);
     }
@@ -24,35 +25,36 @@ public class SecondRoundMapState extends MapState {
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
 
-        mapController.startMove(PieceType.ROAD, true, false);
+        mapController.startMove(PieceType.SETTLEMENT, true, false);
+     //   mapController.startMove(PieceType.SETTLEMENT, true, false);
 
     }
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        return mapController.clientModel.canPlaceSetUpRoad(edgeLoc);
+        return mapController.clientModel.canPlaceSetUpRoad(edgeLoc, super.getSecondVertexLocation());
     }
 
     @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        return super.canPlaceSettlement(vertLoc);
+        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        return mapController.clientModel.canPlaceSetUpSettlement(currentPlayerId, vertLoc);
     }
 
     @Override
     public void placeRoad(EdgeLocation edgeLoc) {
         super.placeRoad(edgeLoc);
-        startMove(PieceType.SETTLEMENT, true, true);
+
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
+        ClientFacade.getInstance().finishTurn(finishTurnCommand);
+
     }
 
     @Override
     public void placeSettlement(VertexLocation vertLoc) {
+        super.setSecondVertexLocation(vertLoc);
         super.placeSettlement(vertLoc);
-
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-
-        // Player needs to have cards added to hand...
-
-        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
-        ClientFacade.getInstance().finishTurn(finishTurnCommand);
+        startMove(PieceType.ROAD, true, true);
     }
 }

@@ -251,12 +251,15 @@ public class MapController extends Controller implements IMapController {
 
     }
 
+    FirstRoundMapState firstRoundMapState = new FirstRoundMapState(this);
+    SecondRoundMapState secondRoundMapState = new SecondRoundMapState(this);
+    
     public void setState(State gameState) {
         if(gameState.equals(State.FIRSTROUND)){
-            mapState = new FirstRoundMapState(this);
+            mapState = firstRoundMapState;
         }
         else if(gameState.equals(State.SECONDROUND)) {
-            mapState = new SecondRoundMapState(this);
+            mapState = secondRoundMapState;
         }
         else if(gameState.equals(State.DISCARDING)) {
             mapState = new DiscardingMapState(this);
