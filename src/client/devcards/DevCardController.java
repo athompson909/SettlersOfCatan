@@ -2,13 +2,19 @@ package client.devcards;
 
 import client.ClientFacade;
 import client.ClientUser;
+import client.base.Controller;
+import client.base.IAction;
+import client.misc.MessageView;
+import client.view_utils.MessageUtils;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
-import client.base.*;
 import shared.model.ClientModel;
 import shared.model.commandmanager.moves.PlayMonopolyCommand;
 import shared.model.commandmanager.moves.PlayMonumentCommand;
 import shared.model.commandmanager.moves.PlayYearOfPlentyCommand;
 import shared.model.commandmanager.moves.PurchaseDevCardCommand;
+import shared.model.player.Player;
+import shared.model.resourcebank.DevCardList;
 
 import java.util.Observable;
 
@@ -19,6 +25,7 @@ import java.util.Observable;
 public class DevCardController extends Controller implements IDevCardController {
 
     private IBuyDevCardView buyCardView;
+    private IPlayDevCardView playDevCardView;
     private IAction soldierAction;
     private IAction roadAction;
 
@@ -38,6 +45,7 @@ public class DevCardController extends Controller implements IDevCardController 
         super(view);
 
         this.buyCardView = buyCardView;
+        this.playDevCardView = view;
         this.soldierAction = soldierAction;
         this.roadAction = roadAction;
     }
@@ -62,13 +70,39 @@ public class DevCardController extends Controller implements IDevCardController 
         getBuyCardView().closeModal();
     }
 
+    /**
+     * updates playDevCardView
+     */
     @Override
     public void buyCard() {
+        getBuyCardView().closeModal();
         if (clientModel.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
             PurchaseDevCardCommand command = new PurchaseDevCardCommand(ClientUser.getInstance().getIndex());
             ClientFacade.getInstance().purchaseDevCard(command);
-            getBuyCardView().closeModal();
+            Player thisPlayer = clientModel.getCurrentPlayer();
+            setCardAmounts(thisPlayer.getNewDevCardList());
         }
+        else {
+            MessageUtils.showRejectMessage(new MessageView(), "Not enough resources",
+                    "you do not have sufficient resources to buy a development card at this time");
+        }
+    }
+
+    /**
+     * sets the cards to be enabled if their counts >= 1, I don't know if that's the right response)
+     * @param devCardList the current player's devCardList
+     */
+    private void setCardAmounts(DevCardList devCardList) {
+        playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount());
+        playDevCardView.setCardEnabled(DevCardType.SOLDIER, (devCardList.getSoldierCardCount() >= 1));
+        playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount());
+        playDevCardView.setCardEnabled(DevCardType.MONUMENT, (devCardList.getMonumentCardCount() >= 1));
+        playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount());
+        playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
+        playDevCardView.setCardAmount(DevCardType.MONOPOLY, devCardList.getMonopolyCardCount());
+        playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
+        playDevCardView.setCardAmount(DevCardType.ROAD_BUILD, devCardList.getRoadBuildingCardCount());
+        playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1));
     }
 
     @Override
