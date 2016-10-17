@@ -201,7 +201,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     }
 
     /**
-     *
+     * Sends the user's chosen game title through three checks:
+	 * 1) it contains only valid characters
+	 * 2) it is a good length (1 and 2 are checked by gameTitleDelimiter pattern
+	 * 3) it hasn't been used already
+	 *
+	 * If the title passes these three checks, returns true. else, returns false.
+	 *
      * @param newGameName the name to be checked against all the other ones
      * @return true if the game name hasn't been used yet, false if it has been taken already
      */
@@ -365,9 +371,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		System.out.println("JOINGAMECONTROLLER: joinGame called, selectedColor= " + color);
 
-		//stop timer here?
+		//stop timer here, this view is done
 		miniPollTimer.cancel();
-
 
 		// If join succeeded, send the server a GameJoin Cmd object:
 
@@ -378,9 +383,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		//create joinGameCommand
 		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, color);
 
-		//send it to ClientFacade
+		//send command to ClientFacade
 		if (ClientFacade.getInstance().gameJoin(gameJoinCommand)) {
-			//print - it worked
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
 
 			//ok to save current game info for the game they just joined to ClientUser singleton for later use
@@ -393,13 +397,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
 			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
-
 		}
 		else{
 			//print - it didn't work
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
 		}
-		//user should now be added to the game they clicked on.
 
 		// If join succeeded
 
@@ -448,7 +450,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 //////////////
 
 	/**
-	 * JoinGameMiniPoller is the poller only for JoinGameController to get an updated list of games every 2 sec.
+	 * JoinGameMiniPoller is JoinGameController's personal poller that gets an updated list of games every 2 sec.
 	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
 	 * This TimerTask is started upon JoinGameController.start() and stopped right when the user finishes picking a color.
 	 */

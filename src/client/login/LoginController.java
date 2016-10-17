@@ -6,6 +6,7 @@ import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
 import client.misc.MessageView;
+import client.view_utils.MessageUtils;
 import shared.model.commandmanager.game.LoginCommand;
 import shared.model.commandmanager.game.RegisterCommand;
 
@@ -140,12 +141,7 @@ public class LoginController extends Controller implements ILoginController {
 	 * @param message message content
 	 */
 	private void showRejectMessage(String title, String message) {
-		MessageView loginFailedView = (MessageView) messageView;
-
-		loginFailedView.setTitle(title, 220);
-		loginFailedView.setMessage(message, 220);
-		loginFailedView.setCloseButton("OK");
-		loginFailedView.showModal();
+		MessageUtils.showRejectMessage((MessageView) messageView, title, message);
 
 		// clear both panels
 		((LoginView) getLoginView()).clearLoginPanel();
