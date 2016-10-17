@@ -37,11 +37,16 @@ public class Map {
      */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>(); //These are the Settlements and Cities
 
+
+    private HashMap<VertexLocation, VertexLocation> allValidVertexLocations = new HashMap<>();
+
     /**
      * Hashmap of all possible edgeValues
      * including unoccupied edges (null), and roads.
      */
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>(); //These are the Roads
+
+    private HashMap<EdgeLocation, EdgeLocation> allValidEdgeLocations = new HashMap<>();
 
     /**
      * List of the static vertex locations
@@ -107,6 +112,9 @@ public class Map {
         setEdgeValues(newEdgeValues);
         setVertexObjects(newVertexLocs);
         placeRobber(newRobberLocation);
+
+        createAllEdgeValues();
+        createAllVertexObjects();
         //TODO: Look into this...
     }
 
@@ -342,9 +350,11 @@ public class Map {
      */
     private void createTwoVertexObject(int x, int y) {
         VertexLocation northWestVertextLocation = new VertexLocation(new HexLocation(x, y), VertexDirection.NorthWest);
-        vertexObjects.put(northWestVertextLocation, new VertexObject(northWestVertextLocation));
+        allValidVertexLocations.put(northWestVertextLocation, northWestVertextLocation);
+        //vertexObjects.put(northWestVertextLocation, new VertexObject(northWestVertextLocation));
         VertexLocation northEastVertextLocation = new VertexLocation(new HexLocation(x, y), VertexDirection.NorthEast);
-        vertexObjects.put(northEastVertextLocation, new VertexObject(northEastVertextLocation));
+        allValidVertexLocations.put(northEastVertextLocation, northEastVertextLocation);
+        //vertexObjects.put(northEastVertextLocation, new VertexObject(northEastVertextLocation));
     }
 
     /**
@@ -356,7 +366,8 @@ public class Map {
      */
     private void createSingleVertexObject(int x, int y, VertexDirection direction) {
         VertexLocation newVertextLocation = new VertexLocation(new HexLocation(x, y), direction);
-        vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
+        allValidVertexLocations.put(newVertextLocation, newVertextLocation);
+       // vertexObjects.put(newVertextLocation, new VertexObject(newVertextLocation));
     }
 
     /**
@@ -445,7 +456,8 @@ public class Map {
      */
     private void createSingleEdgeValue(int x, int y, EdgeDirection direction) {
         EdgeLocation newEdgeLocation = new EdgeLocation(new HexLocation(x, y), direction);
-        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        allValidEdgeLocations.put(newEdgeLocation, newEdgeLocation);
+        //edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
     }
 
     /**
@@ -459,10 +471,12 @@ public class Map {
         HexLocation currentHex = new HexLocation(x, y);
 
         EdgeLocation newEdgeLocation = new EdgeLocation(currentHex, direction);
-        edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
+        allValidEdgeLocations.put(newEdgeLocation, newEdgeLocation);
+        //edgeValues.put(newEdgeLocation, new EdgeValue(newEdgeLocation));
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        allValidEdgeLocations.put(northEdgeLocation, northEdgeLocation);
+        //edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
     }
 
     /**
@@ -476,13 +490,16 @@ public class Map {
         HexLocation currentHex = new HexLocation(x, y);
 
         EdgeLocation northEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.North);
-        edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
+        allValidEdgeLocations.put(northEdgeLocation, northEdgeLocation);
+        //edgeValues.put(northEdgeLocation, new EdgeValue(northEdgeLocation));
 
         EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthEast);
-        edgeValues.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
+        allValidEdgeLocations.put(northEastEdgeLocation, northEastEdgeLocation);
+        //edgeValues.put(northEastEdgeLocation, new EdgeValue(northEastEdgeLocation));
 
         EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHex, EdgeDirection.NorthWest);
-        edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
+        allValidEdgeLocations.put(northWestEdgeLocation, northWestEdgeLocation);
+        //edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
     public Set<PortType> getPlayersPorts(int playerIndex) {
@@ -623,6 +640,14 @@ public class Map {
 
     public int getRadius() {
         return radius;
+    }
+
+    public HashMap<VertexLocation, VertexLocation> getAllValidVertexLocations() {
+        return allValidVertexLocations;
+    }
+
+    public HashMap<EdgeLocation, EdgeLocation> getAllValidEdgeLocations() {
+        return allValidEdgeLocations;
     }
 
     //SETTERS

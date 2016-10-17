@@ -42,6 +42,15 @@ public class BuildSettlementManager {
         );
     }
 
+    public boolean canPlaceSetUp(int playerID, VertexLocation vertexLocation) {
+       /* System.out.println(isVertexLocationAvailable(vertexLocation));
+        System.out.println(isVertexObjectTwoAway(vertexLocation));
+        System.out.println(isRoadConnected(playerID, vertexLocation));*/
+        return (isVertexLocationAvailable(vertexLocation)
+                && isVertexObjectTwoAway(vertexLocation)
+        );
+    }
+
     /* //Do not use, have player place road first
     public boolean canPlaceSetUpRound(int playerID, VertexLocation vertexLocation) {
         return (isVertexLocationAvailable(vertexLocation)
@@ -56,14 +65,12 @@ public class BuildSettlementManager {
      * @return true if location is empty
      */
     private boolean isVertexLocationAvailable(VertexLocation vertexLocation) {
-        if (map.getVertexObjects().containsKey(vertexLocation)) {
-            return false;
-            /*if (map.getVertexObjects().get(vertexLocation).getOwner() == -1) {
+        if (map.getAllValidVertexLocations().containsKey(vertexLocation)) {
+            if (!map.getVertexObjects().containsKey(vertexLocation)) {
                 return true;
-            }*/
-        } else {
-            return true;
+            }
         }
+        return false;
 
     }
 
