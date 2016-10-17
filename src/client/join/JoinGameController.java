@@ -208,7 +208,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public boolean isGameNameAvailable(String newGameName){
 
 		//first check if it's got only valid characters and if it is a decent length
-		Pattern delim = Client.getInstance().getUsernameDelimiter();
+		Pattern delim = Client.getInstance().getGameTitleDelimiter();
 		if(!delim.matcher(newGameName).matches()){
 			System.out.println("\t>>>isGNA: name " + newGameName + " was found to be invalid!");
 			//there were some weird characters in there or the title was too long

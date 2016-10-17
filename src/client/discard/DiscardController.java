@@ -100,10 +100,10 @@ public class DiscardController extends Controller implements IDiscardController 
 	@Override
 	public void discard() {
         getDiscardView().closeModal();
+        //set values to prep for next time
         reset();
 		DiscardCommand command = new DiscardCommand(ClientUser.getInstance().getIndex(), discardList);
 		ClientFacade.getInstance().discardCards(command);
-        //set arrows to false to prep for next time
         modalOpen = false;
 	}
 
@@ -122,17 +122,13 @@ public class DiscardController extends Controller implements IDiscardController 
         //todo change these if statements to checking the state instance
         if (tracker.getStatus() != null){
             if(tracker.getStatus().equals("Discarding")){
+
                 //I need to discard
                 if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()){
-                    if(!modalOpen) {
                         ClientUser.getInstance().setNeedToDiscard(true);
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
-                        //modalOpen = true; //todo figure out why this doesnt work
-                        //maybe because it is trying to update the map, log, and chat?
-                    }
-                    //todo fix this so it doesn't do things over and over and cause flashing
                 }else if(!waitModalOpen){//others are discarding
                     ClientUser.getInstance().setNeedToDiscard(false);
                     getWaitView().showModal();
@@ -215,6 +211,13 @@ public class DiscardController extends Controller implements IDiscardController 
         getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
         getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
         getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
+
+        discardList = new ResourceList();
+        getDiscardView().setResourceDiscardAmount(ResourceType.WOOD, 0);
+        getDiscardView().setResourceDiscardAmount(ResourceType.BRICK, 0);
+        getDiscardView().setResourceDiscardAmount(ResourceType.SHEEP, 0);
+        getDiscardView().setResourceDiscardAmount(ResourceType.WHEAT, 0);
+        getDiscardView().setResourceDiscardAmount(ResourceType.ORE, 0);
     }
 
 }

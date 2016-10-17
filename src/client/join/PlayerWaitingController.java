@@ -100,6 +100,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		Client.getInstance().setStartGame(true);
 	}
 
+
 	/**
 	 * Called when they push the "Add a computer player" button
 	 *
