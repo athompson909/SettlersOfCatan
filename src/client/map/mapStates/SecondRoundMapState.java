@@ -25,7 +25,6 @@ public class SecondRoundMapState extends MapState {
         super.initFromModel(updatedMap);
 
         mapController.startMove(PieceType.ROAD, true, false);
-     //   mapController.startMove(PieceType.SETTLEMENT, true, false);
 
     }
 
@@ -50,6 +49,9 @@ public class SecondRoundMapState extends MapState {
         super.placeSettlement(vertLoc);
 
         int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+
+        // Player needs to have cards added to hand...
+
         FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
         ClientFacade.getInstance().finishTurn(finishTurnCommand);
     }
