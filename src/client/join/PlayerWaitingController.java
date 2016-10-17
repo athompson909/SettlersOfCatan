@@ -9,7 +9,6 @@ import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
 import exceptions.ClientException;
-import shared.model.ClientModel;
 import shared.model.commandmanager.game.AddAICommand;
 
 import java.util.*;
@@ -100,6 +99,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		getView().closeModal();
 		Client.getInstance().setStartGame(true);
 	}
+
 
 	/**
 	 * Called when they push the "Add a computer player" button

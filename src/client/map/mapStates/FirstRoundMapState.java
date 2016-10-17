@@ -23,7 +23,6 @@ import shared.model.map.Map;
 //todo write all methods
 public class FirstRoundMapState extends MapState{
 
-
     public FirstRoundMapState(MapController mapController) {
         super(mapController);
     }
@@ -38,7 +37,7 @@ public class FirstRoundMapState extends MapState{
     }
 
     public void startGame() {
-        startMove(PieceType.ROAD, true, true);
+        startMove(PieceType.SETTLEMENT, true, true);
 
         //Can't figure out how to force a settlement placement and then switch to next user
     }
@@ -51,26 +50,28 @@ public class FirstRoundMapState extends MapState{
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        return mapController.clientModel.canPlaceSetUpRoad(edgeLoc);
+       return mapController.clientModel.canPlaceSetUpRoad(edgeLoc, super.getFirstVertexLocation());
     }
 
     @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        return super.canPlaceSettlement(vertLoc);
+        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        return mapController.clientModel.canPlaceSetUpSettlement(currentPlayerId, vertLoc);
     }
 
     @Override
     public void placeRoad(EdgeLocation edgeLoc) {
         super.placeRoad(edgeLoc);
-        startMove(PieceType.SETTLEMENT, true, true);
+        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
+        ClientFacade.getInstance().finishTurn(finishTurnCommand);
     }
 
     @Override
     public void placeSettlement(VertexLocation vertLoc) {
+        super.setFirstVertexLocation(vertLoc);
         super.placeSettlement(vertLoc);
+        startMove(PieceType.ROAD, true, true);
 
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
-        ClientFacade.getInstance().finishTurn(finishTurnCommand);
     }
 }

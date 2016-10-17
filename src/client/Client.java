@@ -30,6 +30,9 @@ public class Client {
     private Pattern usernameDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,7}");
     //According to the TAs tooltips: username must be 5-16 chars long, and can include letters, numbers, underscore, or dash
     private Pattern passwordDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,16}");
+    //I just picked this length
+    private Pattern gameTitleDelimiter = Pattern.compile("([A-z]|[0-9]|_|-){1,24}");
+
 
 
     private static Client instance = new Client();
@@ -73,6 +76,10 @@ public class Client {
 
     public Pattern getPasswordDelimiter() {
         return passwordDelimiter;
+    }
+
+    public Pattern getGameTitleDelimiter() {
+        return gameTitleDelimiter;
     }
 
     public CommandManager getCommandManager() {
