@@ -1,4 +1,4 @@
-package client.view_utils;
+package client.utils;
 
 import client.misc.MessageView;
 
