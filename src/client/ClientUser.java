@@ -41,6 +41,9 @@ public class ClientUser {
     /**tracks whether the player has discarded this turn already */
     private boolean needToDiscard = true;
 
+    //saves the GameInfo object for the current game we are added to
+    private GameInfo currentAddedGameInfo;
+
     //used to mark whether WHITE is really available on SelectColorView or not. If the user created their own game,
     //they are added to it using the WHITE as a default color. But on the SelectColorView, white may actually be
     // an available color to pick when they are really starting the game.
@@ -133,6 +136,14 @@ public class ClientUser {
     public void setCurrentGameID(int currentGameID) {
         this.currentGameID = currentGameID;
         System.out.println(">CLIENTUSER: setCurrGameID to " + currentGameID);
+    }
+
+    public GameInfo getCurrentAddedGameInfo() {
+        return currentAddedGameInfo;
+    }
+
+    public void setCurrentAddedGameInfo(GameInfo currentAddedGameInfo) {
+        this.currentAddedGameInfo = currentAddedGameInfo;
     }
 
     public boolean joinedWithDefaultColor() {
