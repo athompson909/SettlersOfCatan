@@ -20,15 +20,15 @@ import java.util.Observable;
 /**
  * Created by Alise on 10/8/2016.
  */
-public abstract class MapState  {
-   //Todo Note: I don't know if all these functions will be needed or not; add or delete as neededan
+public abstract class MapState {
+    //Todo Note: I don't know if all these functions will be needed or not; add or delete as neededan
 
     public MapController mapController;
 
     private VertexLocation firstVertexLocation;
     private VertexLocation secondVertexLocation;
 
-    public MapState(MapController mapController){
+    public MapState(MapController mapController) {
         this.mapController = mapController;
     }
 
@@ -57,13 +57,13 @@ public abstract class MapState  {
         //Place the Roads
         for (EdgeLocation edgeLocation : updatedMap.getEdgeObjects().keySet()) {
             int owner = updatedMap.getEdgeObjects().get(edgeLocation).getOwner();
-            mapController.getView().placeRoad(edgeLocation,  mapController.clientModel.getPlayers()[owner].getColor());
+            mapController.getView().placeRoad(edgeLocation, mapController.clientModel.getPlayers()[owner].getColor());
         }
 
         //Place Vertex Objects
         for (VertexLocation vertexLocation : updatedMap.getVertexObjects().keySet()) {
             VertexObject vertexObject = updatedMap.getVertexObjects().get(vertexLocation);
-            CatanColor color = mapController.clientModel.getPlayers()[vertexObject.getOwner()].getColor()  ;
+            CatanColor color = mapController.clientModel.getPlayers()[vertexObject.getOwner()].getColor();
             if (vertexObject.getPieceType().equals(PieceType.SETTLEMENT)) {
                 mapController.getView().placeSettlement(vertexLocation, color);
             } else {
@@ -71,11 +71,11 @@ public abstract class MapState  {
             }
         }
 
-
+        //Place the Robber
         mapController.getView().placeRobber(updatedMap.getRobber().getCurrentHexlocation());
     }
 
-    public void drawWaterHexes(){
+    public void drawWaterHexes() {
         createWaterHex(-3, 0);
         createWaterHex(-3, 1);
         createWaterHex(-3, 2);
@@ -121,7 +121,6 @@ public abstract class MapState  {
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
-        //This should send it to the server
         int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
@@ -177,7 +176,7 @@ public abstract class MapState  {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
 
         //THIS IS TEMPORARY CODE TO MAKE PLAYER START WITH A ROAD
-        EdgeLocation temp = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
+        EdgeLocation temp = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North);
 
         CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
         mapController.getView().startDrop(PieceType.ROAD, color, true);
