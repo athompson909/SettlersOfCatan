@@ -7,8 +7,8 @@ import shared.model.turntracker.TurnTracker;
 /**
  * Created by Alise on 10/17/2016.
  */
-public abstract class ITurnTrackerState {
-     public ITurnTrackerState update(TurnTracker tracker){
+public abstract class TurnTrackerState {
+     public TurnTrackerState update(TurnTracker tracker){
         String status = tracker.getStatus();
         boolean myTurn = (tracker.getCurrentTurn() == ClientUser.getInstance().getIndex());
         if(status.equals("Rolling")){

@@ -3,6 +3,7 @@ package client.domestic;
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import shared.model.resourcebank.ResourceList;
 
 import java.util.Observable;
 
@@ -15,6 +16,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
+	/**this tracks the resources they want to send/receive*/
+	private ResourceList tradeList;
 
 	/**
 	 * DomesticTradeController constructor
@@ -67,6 +70,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void startTrade() {
 
 		getTradeOverlay().showModal();
+		tradeList = new ResourceList();
 	}
 
 	@Override

@@ -29,10 +29,10 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 
 		//disable everything
-		getView().setElementEnabled(ResourceBarElement.ROAD,true);
-		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
-		getView().setElementEnabled(ResourceBarElement.CITY,true);
-		getView().setElementEnabled(ResourceBarElement.BUY_CARD,true);
+		getView().setElementEnabled(ResourceBarElement.ROAD,false);
+		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,false);
+		getView().setElementEnabled(ResourceBarElement.CITY,false);
+		getView().setElementEnabled(ResourceBarElement.BUY_CARD,false);
 	}
 
 	@Override
@@ -144,11 +144,11 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		getView().setElementAmount(ResourceBarElement.SOLDIERS, player.getSoldiersPlayed());
 
 
-		//TODO: Delete THIS IS TEMPORARY SO WE CAN TEST MAP FUNCTIONS
-		getView().setElementEnabled(ResourceBarElement.ROAD,true);
-		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
-		getView().setElementEnabled(ResourceBarElement.CITY,true);
-		getView().setElementEnabled(ResourceBarElement.BUY_CARD,true);
+//		//TODO: Delete THIS IS TEMPORARY SO WE CAN TEST MAP FUNCTIONS
+//		getView().setElementEnabled(ResourceBarElement.ROAD,true);
+//		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
+//		getView().setElementEnabled(ResourceBarElement.CITY,true);
+//		getView().setElementEnabled(ResourceBarElement.BUY_CARD,true);
 	}
 }
 

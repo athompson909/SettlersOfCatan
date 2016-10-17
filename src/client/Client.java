@@ -1,9 +1,6 @@
 package client;
 
-import client.map.mapStates.MapState;
-
-import client.turntracker.IState;
-import client.turntracker.ITurnTrackerState;
+import client.turntracker.TurnTrackerState;
 import client.turntracker.WaitingState;
 import shared.definitions.State;
 import shared.model.ClientModel;
@@ -23,7 +20,7 @@ public class Client {
 
     private ClientModel clientModel;
     private State gameState = State.WAITING;
-    private ITurnTrackerState state = new WaitingState();
+    private TurnTrackerState state = new WaitingState();
     private IServerProxy serverProxy;
     private ServerPoller serverPoller;
 
@@ -64,7 +61,7 @@ public class Client {
     public State getGameState(){
         return gameState;
     }
-    public ITurnTrackerState getState() {return state;}
+    public TurnTrackerState getState() {return state;}
     public void updateState() {
         state = state.update(clientModel.getTurnTracker());
         gameState = state.toEnum();
