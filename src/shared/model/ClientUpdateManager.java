@@ -83,9 +83,6 @@ public class ClientUpdateManager {
         int newVersionNum = newModel.version;
         updateModelVersion(newVersionNum);
 
-        // Trade Offer???
-        // REMINDER: Call whatever needs to check for and reassign longest road  and largest army HERE
-
         currentModel.setChanged();
         currentModel.setChanged(true);
         currentModel.notifyObservers();
