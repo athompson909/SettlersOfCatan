@@ -55,6 +55,8 @@ public class TradeOffer {
 
     public void updateTradeOffer(TradeOffer newTradeOffer) {
         this.tradeOfferList = newTradeOffer.tradeOfferList;
+        senderIndex = newTradeOffer.senderIndex;
+        receiverIndex = newTradeOffer.receiverIndex;
         //The controller needs to notice if this has changed for their player and change views
     }
     public int getSenderIndex() {
@@ -88,5 +90,28 @@ public class TradeOffer {
                 ", receiverIndex=" + receiverIndex +
                 ", tradeOfferList=" + tradeOfferList +
                 '}';
+    }
+
+    public boolean tradeToAccept(){
+        if(receiverIndex != senderIndex){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean canPlayerAccept(ResourceList playerResources){
+        //resources required for player to send will be negative so as long as all counts >= 0 they can accept
+        int woodTotal = tradeOfferList.getWoodCardCount() + playerResources.getWoodCardCount();
+        int brickTotal = tradeOfferList.getBrickCardCount() + playerResources.getBrickCardCount();
+        int sheepTotal = tradeOfferList.getSheepCardCount() + playerResources.getSheepCardCount();
+        int wheatTotal = tradeOfferList.getWheatCardCount() + playerResources.getWheatCardCount();
+        int oreTotal = tradeOfferList.getOreCardCount() + playerResources.getOreCardCount();
+
+        if(woodTotal >= 0 && brickTotal >= 0 && sheepTotal >= 0 && wheatTotal >= 0 && oreTotal >= 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

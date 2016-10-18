@@ -9,6 +9,7 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
+import client.utils.MessageUtils;
 import exceptions.ClientException;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;
@@ -34,6 +35,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private Timer miniPollTimer; //made public so SelectColorView can stop the timer
 	//number of seconds to wait between requesting updates from the server
 	private int pollInterval = 2;
+	private final String invalidGameTitle = "The game title is invalid. Please choose a name between 3-24 alphanumeric characters";
+
 
 	/**
 	 * JoinGameController constructor
@@ -218,7 +221,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if(!delim.matcher(newGameName).matches()){
 			System.out.println("\t>>>isGNA: name " + newGameName + " was found to be invalid!");
 			//there were some weird characters in there or the title was too long
-			showGameNameInvalidView();
+			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidGameTitle);
+			//showGameNameInvalidView();
 			return false;
 		}
 
@@ -227,8 +231,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             String currGameName = currGamesList[g].getTitle();
             if (currGameName.equals(newGameName)){
                 //show error message
-                showGameNameTakenView(newGameName);
-                System.out.println("\t>>>isGNA: name " + newGameName + " found in currGamesList!");
+                //showGameNameTakenView(newGameName);
+				String msgContent = "The name " + newGameName + "  is already used. Please choose another!";
+				MessageUtils.showRejectMessage((MessageView)messageView, "Error", msgContent);
+				System.out.println("\t>>>isGNA: name " + newGameName + " found in currGamesList!");
                 return false;
             }
         }
@@ -236,41 +242,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         System.out.println("\t>>>isGNA: name " + newGameName + " NOT found in currGamesList!");
         return true;
     }
-
-    /**
-     * displays a little error message to say that you lack originality
-     * @param takenGameName
-     */
-    private void showGameNameTakenView(String takenGameName) {
-        MessageView gameNameTakenView = (MessageView) messageView;
-        String msgTitle = "Error";
-        String msgContent = "The name " + takenGameName + "  is already used. Please choose another!";
-
-        gameNameTakenView.setTitle(msgTitle, 220);
-        gameNameTakenView.setMessage(msgContent, 220);
-        gameNameTakenView.setCloseButton("Ok");
-        gameNameTakenView.showModal();
-
-        // clear the field in NewGameView
-        ((NewGameView) getNewGameView()).clearTitleField();
-    }
-
-	/**
-	 * displays a little error message to say that you suck at picking game titles
-	 */
-	private void showGameNameInvalidView() {
-		MessageView gameNameTakenView = (MessageView) messageView;
-		String msgTitle = "Error";
-		String msgContent = "The game title is invalid. Please choose a name between 3-24 alphanumeric characters";
-
-		gameNameTakenView.setTitle(msgTitle, 220);
-		gameNameTakenView.setMessage(msgContent, 220);
-		gameNameTakenView.setCloseButton("Ok");
-		gameNameTakenView.showModal();
-
-		// clear the field in NewGameView
-		((NewGameView) getNewGameView()).clearTitleField();
-	}
 
     /**
 	 * This function just shows the SelectColorView

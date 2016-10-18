@@ -5,7 +5,7 @@ import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.MessageView;
-import client.view_utils.MessageUtils;
+import client.utils.MessageUtils;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.model.ClientModel;
@@ -76,7 +76,8 @@ public class DevCardController extends Controller implements IDevCardController 
     @Override
     public void buyCard() {
         getBuyCardView().closeModal();
-        if (clientModel.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
+        //(for testing)
+        /*if(true) {*/if (clientModel.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
             PurchaseDevCardCommand command = new PurchaseDevCardCommand(ClientUser.getInstance().getIndex());
             ClientFacade.getInstance().purchaseDevCard(command);
             Player thisPlayer = clientModel.getCurrentPlayer();
@@ -120,6 +121,7 @@ public class DevCardController extends Controller implements IDevCardController 
         if (clientModel.canPlayMonopoly(ClientUser.getInstance().getIndex())) {
             PlayMonopolyCommand command = new PlayMonopolyCommand(ClientUser.getInstance().getIndex(), resource);
             ClientFacade.getInstance().playMonopoly(command);
+            setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
         }
         //Todo: should I close the modal after I call the facade?
     }
@@ -129,6 +131,7 @@ public class DevCardController extends Controller implements IDevCardController 
         if (clientModel.canPlayMonument(ClientUser.getInstance().getIndex())) {
             PlayMonumentCommand command = new PlayMonumentCommand(ClientUser.getInstance().getIndex());
             ClientFacade.getInstance().playMonument(command);
+            setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
         }
     }
 
@@ -136,24 +139,27 @@ public class DevCardController extends Controller implements IDevCardController 
     public void playRoadBuildCard() {
 
         roadAction.execute();
+        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
     }
 
     @Override
     public void playSoldierCard() {
 
         soldierAction.execute();
+        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
     }
 
     @Override
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
         PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(ClientUser.getInstance().getIndex(), resource1, resource2);
         ClientFacade.getInstance().playYearOfPlenty(command);
+        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());//will this help?
     }
 
     @Override
     public void update(Observable o, Object arg) {
         clientModel = (ClientModel) o;
-        setCardAmounts(clientModel.getCurrentPlayer().getNewDevCardList());
+        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
     }
 
 }
