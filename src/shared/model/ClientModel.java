@@ -48,7 +48,7 @@ public class ClientModel extends Observable {
      */
     public int winner = -1;
     public boolean changed = false;
-    public ResourceBank resourceBank = new ResourceBank();
+    public ResourceBank resourceBank;
     public MessageManager messageManager;
     public TurnTracker turnTracker;
     /**
@@ -93,6 +93,7 @@ public class ClientModel extends Observable {
         players = new Player[4];
         tradeOffer = new TradeOffer();
         turnTracker = new TurnTracker();
+        resourceBank = new ResourceBank();
 
         //this.addObserver(Controller); //How do we get a reference to the controller?
     }

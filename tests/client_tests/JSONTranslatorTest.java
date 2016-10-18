@@ -195,8 +195,8 @@ public class JSONTranslatorTest extends TestCase {
         EdgeDirection bREdgeDir = EdgeDirection.NorthEast;
         HexLocation brELHexLoc = new HexLocation(1, 1);
         EdgeLocation bREdgeLocation = new EdgeLocation(brELHexLoc, bREdgeDir);
-        buildRoadCommand = new BuildRoadCommand(bREdgeLocation, bRPlayerID);
-        buildRoadCommand.setFree(true);
+        buildRoadCommand = new BuildRoadCommand(bREdgeLocation, bRPlayerID, true);
+     //   buildRoadCommand.setFree(true);
         //-----------------
 
         //BUILD CITY CMD SETUP
@@ -218,8 +218,8 @@ public class JSONTranslatorTest extends TestCase {
         VertexLocation bSVertexLocation = new VertexLocation(bSELHexLoc, bSVertexDir);
         VertexObject stlmtVtx = new VertexObject(bSVertexLocation);
         stlmtVtx.setOwner(bSOwner);
-        buildSettlementCommand = new BuildSettlementCommand(stlmtVtx);
-        buildSettlementCommand.setFree(false);
+        buildSettlementCommand = new BuildSettlementCommand(stlmtVtx, false);
+    //    buildSettlementCommand.setFree(false);
         //----------------
 
         //DISCARD CARDS CMD SETUP
