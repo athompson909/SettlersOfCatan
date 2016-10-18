@@ -194,20 +194,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		return (IJoinGameController) super.getController();
 	}
 
-	//I don't think the view should do this. it should be all in the minipoller/controller
-	public void fetchInitialGamesList(){
-
-		//get list of all games from the server
-		setInitialGamesList( ClientFacade.getInstance().gamesList());
-
-		//Get/build localPlayer from ClientUser singleton data:
-		//at this point, we don't have the ClientUser's color or index, since those are assigned when they pick a color
-		// and when they actually join a game, respectively. So we'll just use a "partial" PlayerInfo object here
-		localPlayerInfoSoFar = new PlayerInfo();
-		localPlayerInfoSoFar.setName(ClientUser.getInstance().getName());
-		localPlayerInfoSoFar.setId(ClientUser.getInstance().getId());
-	}
-
 	public GameInfo[] getInitialGamesList() {
 		return initialGamesList;
 	}

@@ -96,6 +96,12 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		miniPollTimer.cancel();
 		Client.getInstance().startServerPoller();
 		ClientUser.getInstance().setPlayerColors();
+
+		//Save the final GameInfo item to the ClientUser singleton
+		GameInfo[] updatedGameInfosList = ClientFacade.getInstance().gamesList();
+		GameInfo finalGameInfo = updatedGameInfosList[ClientUser.getInstance().getCurrentGameID()];
+		ClientUser.getInstance().setCurrentAddedGameInfo(finalGameInfo);
+
 		getView().closeModal();
 		Client.getInstance().setStartGame(true);
 	}

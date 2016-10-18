@@ -140,6 +140,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         //get the previous game title out of there
         ((NewGameView) getNewGameView()).clearTitleField();
 
+		//try pausing the timer here
+
         getNewGameView().showModal();
 	}
 
