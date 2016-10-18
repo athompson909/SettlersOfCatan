@@ -38,9 +38,10 @@ public class BuildRoadCommand implements BaseCommand {
      * @param edgeLocation
      * @param ID
      */
-    public BuildRoadCommand(EdgeLocation edgeLocation, int ID){
+    public BuildRoadCommand(EdgeLocation edgeLocation, int ID, boolean free){
         playerIndex = ID;
         roadLocation = edgeLocation;
+        this.free = free;
     }
 
     /**

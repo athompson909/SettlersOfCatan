@@ -13,8 +13,11 @@ import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.commandmanager.moves.BuildRoadCommand;
+import shared.model.commandmanager.moves.BuildSettlementCommand;
 import shared.model.commandmanager.moves.FinishTurnCommand;
 import shared.model.map.Map;
+import shared.model.map.VertexObject;
 
 /**
  * Used for placing road and settlement during the first round of the game
@@ -59,8 +62,11 @@ public class FirstRoundMapState extends MapState {
 
     @Override
     public void placeRoad(EdgeLocation edgeLoc) {
-        super.placeRoad(edgeLoc);
+        //This should send it to the server
         int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, true);
+
+        ClientFacade.getInstance().buildRoad(buildRoadCommand);
         FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
         ClientFacade.getInstance().finishTurn(finishTurnCommand);
     }
@@ -68,7 +74,17 @@ public class FirstRoundMapState extends MapState {
     @Override
     public void placeSettlement(VertexLocation vertLoc) {
         super.setFirstVertexLocation(vertLoc);
-        super.placeSettlement(vertLoc);
+        //super.placeSettlement(vertLoc);
+
+        int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
+        VertexObject vertObj = new VertexObject(vertLoc);
+        vertObj.setOwner(currTurn);
+        vertObj.setPieceType(PieceType.SETTLEMENT);
+
+        BuildSettlementCommand buildSettlementCommand = new BuildSettlementCommand(vertObj, true);
+        ClientFacade.getInstance().buildSettlement(buildSettlementCommand);
+
+
         startMove(PieceType.ROAD, true, true);
 
     }

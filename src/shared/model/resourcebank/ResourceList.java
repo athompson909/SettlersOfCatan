@@ -53,7 +53,7 @@ public class ResourceList {
      * @param newResourceList to replace the existing resource list.
      */
     public void update(ResourceList newResourceList) {
-        //TODO: Update the resource list.
+        //this = newResourceList;
     }
 
     /**
