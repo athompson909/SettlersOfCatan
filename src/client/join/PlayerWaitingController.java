@@ -102,7 +102,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		GameInfo finalGameInfo = updatedGameInfosList[ClientUser.getInstance().getCurrentGameID()];
 		ClientUser.getInstance().setCurrentAddedGameInfo(finalGameInfo);
 
-		getView().closeModal();
+		if (getView().isModalShowing()){
+			getView().closeModal();  ///TESTING CMDLINE
+		}
+
 		Client.getInstance().setStartGame(true);
 	}
 

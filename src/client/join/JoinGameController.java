@@ -184,7 +184,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             //after you create a game, tell the server to add you to that same game, but don't go to SelectColorView yet.
             //Just go back to JoinGameView.
 
-            //JOIN THE NEW GAME WITH DEFAULT COLOR WHITE
             joinThisGameInfo = newGameCreatedInfo;
 			//join them to the game they just created using WHITE as the temporary/default color
             joinGameWithDefaultColor();
@@ -193,13 +192,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             startTimer();
             /////
 
-            getNewGameView().closeModal();
+            if (getNewGameView().isModalShowing()){			//TESTING FOR CMDLINE
+				getNewGameView().closeModal();
+			}
 
             //Refresh the list of games in the JoinGameView to include this new game
-			//might not need this since startTimer() tells the poller to update the gamesList!
-            //GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-           // PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
-           // this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
+            GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+            PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
+            this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
         }
         else{
             System.out.println(">JOINGAMECONTROLLER: gametitle " + newGameTitle + " was taken already");
@@ -358,6 +358,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, color);
 
 		//send command to ClientFacade
+		//this starts the MAIN poller loop
 		if (ClientFacade.getInstance().gameJoin(gameJoinCommand)) {
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin said TRUE");
 
@@ -371,17 +372,23 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			GameInfo[] currGamesArr = ClientFacade.getInstance().gamesList();
 			GameInfo currAddedGame = currGamesArr[desiredGameID];
 			ClientUser.getInstance().setCurrentAddedGameInfo(currAddedGame);
+
+			// If join succeeded
+
+			if (getSelectColorView().isModalShowing()){
+				getSelectColorView().closeModal();
+			}
+			if (getJoinGameView().isModalShowing()) {
+				getJoinGameView().closeModal();  //TESTING FOR CMDLINE
+			}
+			joinAction.execute(); //goes to playerWaitingController
 		}
 		else{
 			//print - it didn't work
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
 		}
 
-		// If join succeeded
-
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		joinAction.execute();
+		//moved temporarily
 	}
 
 	/**
