@@ -19,6 +19,7 @@ import java.util.Timer;
 public class RollController extends Controller implements IRollController {
 //Todo check if roll modal opens
 //todo count down on roll time
+
 	private IRollResultView resultView;
 
 	private IRollView view;
@@ -73,7 +74,7 @@ public class RollController extends Controller implements IRollController {
 	public void update(Observable o, Object arg) {
 		ClientModel model = (ClientModel)o;
 		TurnTracker tracker = model.getTurnTracker();
-
+		
 		//See if it is our turn to roll
 		if(Client.getInstance().getGameState() == State.ROLLING){
 		//if(tracker.getStatus().equals("Rolling") && tracker.getCurrentTurn()== ClientUser.getInstance().getIndex()){

@@ -62,13 +62,13 @@ public class Client {
         state = state.update(clientModel.getTurnTracker());
     } */
     public void setGameState(State newState) {gameState = newState;}
-    public State getGameState(){
-        return gameState;
-    }
+
+    public State getGameState() {return gameState;}
+
     public TurnTrackerState getState() {return state;}
+
     public void updateState() {
         state = state.update(clientModel.getTurnTracker());
-        gameState = state.toEnum();
     }
 
     public Pattern getUsernameDelimiter() {
