@@ -5,6 +5,8 @@ import client.ClientFacade;
 import client.data.RobPlayerInfo;
 import client.map.IMapController;
 import client.map.MapController;
+import client.map.RobView;
+import client.resources.ResourceBarElement;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
@@ -149,12 +151,16 @@ public abstract class MapState  {
         ClientFacade.getInstance().buildCity(buildCityCommand);
     }
 
+    private HexLocation robberHex;
+
     public void placeRobber(HexLocation hexLoc) {
         System.out.println("MAP: PLACEROBBER");
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        //TODO: Robbing should not be hard coded with the 1...
-        RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, hexLoc, 1);
-        ClientFacade.getInstance().robPlayer(robPlayerCommand);
+        robberHex = hexLoc;
+
+
+        //RobPlayerInfo[] victims = null;
+        //mapController.getRobView().setPlayers(victims);
+        mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
@@ -169,14 +175,22 @@ public abstract class MapState  {
     public void playSoldierCard() {
         System.out.println("MAP: PLAYER SOLDIER CARD!");
         CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        //getRobView().showModal(); //This gets the counters for how many cards possible players have.
         mapController.getView().startDrop(PieceType.ROBBER, color, true); //3rd variable is boolean, cancel allowed
     }
 
     public void playRoadBuildingCard() {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
 
-        //THIS IS TEMPORARY CODE TO MAKE PLAYER START WITH A ROAD
+        //This is what the ResourceBarController Calls...
+        //executeElementAction(ResourceBarElement.ROAD);
+
+        startMove(PieceType.ROAD, true, false);
+
+        startMove(PieceType.ROAD, true, false);
+
+
+
+       /*
         EdgeLocation temp = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
 
         CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
@@ -186,11 +200,16 @@ public abstract class MapState  {
         int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(temp, currentPlayerId, true);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
-
-
+        */
     }
 
     public void robPlayer(RobPlayerInfo victim) {
+        System.out.println("MAP: ROB PLAYER!");
+
+        //Why does the ROb PLayer command need a hex and victim? Where do I get the hex from?
+        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, victim.getPlayerIndex());
+        ClientFacade.getInstance().robPlayer(robPlayerCommand);
 
     }
 

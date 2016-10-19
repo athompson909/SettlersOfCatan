@@ -83,6 +83,8 @@ public class ClientUpdateManager {
         int newVersionNum = newModel.version;
         updateModelVersion(newVersionNum);
 
+        currentModel.setWinner(newModel.getWinner());
+
         currentModel.setChanged();
         currentModel.setChanged(true);
         currentModel.notifyObservers();

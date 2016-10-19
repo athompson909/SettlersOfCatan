@@ -42,7 +42,7 @@ public class MapController extends Controller implements IMapController {
         return (IMapView) super.getView();
     }
 
-    private IRobView getRobView() {
+    public IRobView getRobView() {
         return robView;
     }
 
@@ -52,10 +52,6 @@ public class MapController extends Controller implements IMapController {
 
     protected void initFromModel(Map updatedMap) {
         System.out.println("MAP CONTROLLER INIT FROM MODEL **************");
-    }
-
-    private void createWaterHex(int x, int y) {
-        getView().addHex(new HexLocation(x, y), HexType.WATER);
     }
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
