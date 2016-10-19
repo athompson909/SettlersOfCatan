@@ -65,7 +65,7 @@ public class PointsController extends Controller implements IPointsController {
 					break;
 				}
 			}
-			if(winner > 0){
+			if(winner >= 0){
 				boolean winnerIsMe = (winner == ClientUser.getInstance().getIndex());
 				getFinishedView().setWinner(clientModel.getPlayers()[winner].getName(), winnerIsMe);
 				getFinishedView().showModal();

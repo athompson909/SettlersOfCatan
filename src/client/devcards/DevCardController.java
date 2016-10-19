@@ -50,24 +50,24 @@ public class DevCardController extends Controller implements IDevCardController 
         this.roadAction = roadAction;
     }
 
-    public IPlayDevCardView getPlayCardView() {
-        return (IPlayDevCardView) super.getView();
-    }
-
     public IBuyDevCardView getBuyCardView() {
         return buyCardView;
+    }
+
+    public IPlayDevCardView getPlayDevCardView() {
+        return playDevCardView;
     }
 
     @Override
     public void startBuyCard() {
 
-        getBuyCardView().showModal();
+        buyCardView.showModal();
     }
 
     @Override
     public void cancelBuyCard() {
 
-        getBuyCardView().closeModal();
+        buyCardView.closeModal();
     }
 
     /**
@@ -75,13 +75,13 @@ public class DevCardController extends Controller implements IDevCardController 
      */
     @Override
     public void buyCard() {
-        getBuyCardView().closeModal();
+        buyCardView.closeModal();
         //(for testing)
         /*if(true) {*/if (clientModel.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
             PurchaseDevCardCommand command = new PurchaseDevCardCommand(ClientUser.getInstance().getIndex());
             ClientFacade.getInstance().purchaseDevCard(command);
             Player thisPlayer = clientModel.getCurrentPlayer();
-            setCardAmounts(thisPlayer.getNewDevCardList());
+            setCardAmounts(thisPlayer.getOldDevCardList());
         }
         else {
             MessageUtils.showRejectMessage(new MessageView(), "Not enough resources",
@@ -108,12 +108,13 @@ public class DevCardController extends Controller implements IDevCardController 
 
     @Override
     public void startPlayCard() {
-        getPlayCardView().showModal();
+        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+        playDevCardView.showModal();
     }
 
     @Override
     public void cancelPlayCard() {
-        getPlayCardView().closeModal();
+        playDevCardView.closeModal();
     }
 
     @Override
@@ -159,7 +160,7 @@ public class DevCardController extends Controller implements IDevCardController 
     @Override
     public void update(Observable o, Object arg) {
         clientModel = (ClientModel) o;
-        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+//        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
     }
 
 }
