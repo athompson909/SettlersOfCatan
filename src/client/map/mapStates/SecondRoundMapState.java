@@ -57,7 +57,7 @@ public class SecondRoundMapState extends MapState {
 
     @Override
     public void placeSettlement(VertexLocation vertLoc) {
-        super.setSecondVertexLocation(vertLoc);
+        setSecondVertexLocation(vertLoc);
         int currTurn = Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn();
         VertexObject vertObj = new VertexObject(vertLoc);
         vertObj.setOwner(currTurn);
