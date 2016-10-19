@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import client.base.IAction;
+import shared.definitions.CatanColor;
 
 
 @SuppressWarnings("serial")
@@ -54,6 +55,11 @@ public class GameStatePanel extends JPanel
 			}
 		};
 		button.addActionListener(actionListener);
+	}
+
+	public void setButtonColor(CatanColor color){
+		button.setForeground(color.getJavaColor());
+		button.setBackground(color.getJavaColor());
 	}
 }
 
