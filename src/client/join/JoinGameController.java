@@ -336,7 +336,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			//MARK THAT THEY WENT THROUGH THIS METHOD
 			ClientUser.getInstance().setJoinedWithDefaultColor(true);
 		}
-		else{
+		else {
 			//print - it didn't work
 			System.out.println("\t>JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
 		}
