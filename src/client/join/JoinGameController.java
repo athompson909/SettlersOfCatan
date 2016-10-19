@@ -140,9 +140,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         //get the previous game title out of there
         ((NewGameView) getNewGameView()).clearTitleField();
 
-		//try pausing the timer here - newGameView doesn't need it and it may be causing a problem.
-		stopTimer();
-		//////
         getNewGameView().showModal();
 	}
 
@@ -176,14 +173,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
             System.out.println(">JOINGAMECONTROLLER: gametitle " + newGameTitle + " was available");
 
-            //make the timer wait here
-            //stopTimer();
+            //make the timer wait here  - synchronous thread safety business
+            stopTimer();
             //////
             GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
             GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
-            //restart timer after command is done going through
-           // startTimer();
-            /////
 
             System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
@@ -195,10 +189,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			//join them to the game they just created using WHITE as the temporary/default color
             joinGameWithDefaultColor();
 
-            getNewGameView().closeModal();
-			//TRY THIS - the NewGameView is closing, so restart the timer
-			startTimer();
+            //restart timer after commands are done going through
+            startTimer();
+            /////
 
+            getNewGameView().closeModal();
 
             //Refresh the list of games in the JoinGameView to include this new game
 			//might not need this since startTimer() tells the poller to update the gamesList!
