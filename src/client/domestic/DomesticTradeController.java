@@ -105,7 +105,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			}
 			getTradeOverlay().setPlayers(playerInfo);
 		}
-		
+
 		getTradeOverlay().reset();
 		getTradeOverlay().setPlayerSelectionEnabled(Client.getInstance().getState().toEnum()==State.PLAYING);
 
@@ -172,10 +172,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void sendTradeOffer() {
+        getTradeOverlay().closeModal();
+        getWaitOverlay().showModal();
 		OfferTradeCommand command = new OfferTradeCommand(ClientUser.getInstance().getIndex(), tradeList, receiver);
 		ClientFacade.getInstance().offerTrade(command);
-		getTradeOverlay().closeModal();
-		getWaitOverlay().showModal();
 	}
 
 	@Override
@@ -317,6 +317,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			getAcceptOverlay().setAcceptEnabled(offer.canPlayerAccept(resources));
 
 			getAcceptOverlay().showModal();
+		}else if(getWaitOverlay().isModalShowing()){
+			getWaitOverlay().closeModal();
 		}
 	}
 

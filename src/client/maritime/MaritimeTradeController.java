@@ -8,9 +8,7 @@ import shared.definitions.ResourceType;
 import shared.model.ClientModel;
 import shared.model.commandmanager.moves.MaritimeTradeCommand;
 
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -26,7 +24,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	private ResourceType getResource;
 
-	private ResourceType[] giveOptions;
+	private List<ResourceType> giveOptions;
 
 	private final ResourceType[] getOptions = {
 			ResourceType.WOOD,
@@ -67,7 +65,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	}
 
 	private ResourceType[] getGiveOption() {
-		giveOptions = new ResourceType[5];
+		giveOptions = new ArrayList<>();
 
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		Set ports = clientModel.getMap().getPlayersPorts(currentPlayer);
@@ -75,28 +73,32 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 		for(PortType p: isTradable.keySet()) {
 			switch(p) {
-				case WOOD: setTradeOption(giveOptions, isTradable, ResourceType.WOOD, p); break;
-				case WHEAT: setTradeOption(giveOptions, isTradable, ResourceType.WHEAT, p); break;
-				case BRICK: setTradeOption(giveOptions, isTradable, ResourceType.BRICK, p); break;
-				case ORE: setTradeOption(giveOptions, isTradable, ResourceType.ORE, p); break;
-				case SHEEP: setTradeOption(giveOptions, isTradable, ResourceType.SHEEP, p); break;
+				case WOOD: setTradeOption(isTradable, ResourceType.WOOD, p); break;
+				case WHEAT: setTradeOption(isTradable, ResourceType.WHEAT, p); break;
+				case BRICK: setTradeOption(isTradable, ResourceType.BRICK, p); break;
+				case ORE: setTradeOption(isTradable, ResourceType.ORE, p); break;
+				case SHEEP: setTradeOption(isTradable, ResourceType.SHEEP, p); break;
 			}
 		}
-		return giveOptions;
+
+		return giveOptionsArr();
 	}
 
-	private void setTradeOption(ResourceType[] giveOptions, HashMap<PortType, boolean[]> isTradable,
-								ResourceType resourceType, PortType p) {
+	private ResourceType[] giveOptionsArr() {
+		return giveOptions.toArray(new ResourceType[giveOptions.size()]);
+	}
+
+	private void setTradeOption(HashMap<PortType, boolean[]> isTradable, ResourceType resourceType, PortType p) {
 		if(isTradable.get(p)[0]) {//2:1
-			giveOptions[0] = resourceType;
+			giveOptions.add(resourceType);
 			tradeRates.put(resourceType, 2);
 		}
 		else if(isTradable.get(p)[1]) {//3:1
-			giveOptions[0] = resourceType;
+			giveOptions.add(resourceType);
 			tradeRates.put(resourceType, 3);
 		}
 		else if(isTradable.get(p)[2]) {//4:1
-			giveOptions[0] = resourceType;
+			giveOptions.add(resourceType);
 			tradeRates.put(resourceType, 4);
 		}
 
@@ -110,14 +112,21 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		//create command
 		MaritimeTradeCommand command = new MaritimeTradeCommand(ClientUser.getInstance().getIndex(),
 				tradeRates.get(giveResource), giveResource, getResource);
+		unsetGetValue();
+		tradeOverlay.hideGetOptions();
 		ClientFacade.getInstance().maritimeTrade(command);
 		tradeOverlay.closeModal();
+		setDefaults();
 	}
 
 	@Override
 	public void cancelTrade() {
 
 		tradeOverlay.closeModal();
+		setDefaults();
+	}
+
+	private void setDefaults() {
 	}
 
 	@Override
@@ -135,7 +144,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void unsetGiveValue() {
-		tradeOverlay.showGiveOptions(giveOptions);
+		tradeOverlay.showGiveOptions(giveOptionsArr());
 	}
 
 	@Override

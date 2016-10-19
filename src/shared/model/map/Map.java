@@ -89,7 +89,6 @@ public class Map {
      */
     private int radius = 0;
 
-
     /**
      * the constructor for a Map object
      * is called when a user starts a new game and the map needs to be created (in initialization mode)
@@ -377,10 +376,11 @@ public class Map {
     /**
      * Creates a map containing vertex locations and their associated ports
      * This list will not change throughout the game
+     * **note: this will be changed when Client.startGame == true
      * <p>
      * Purpose: In maritimeTrade state, this enables us to learn what type of ports a player is associated with.
      */
-    private void populatePortVertexLocations() {
+    public void populatePortVertexLocations() {
 
         portVertexLocations.put(new VertexLocation(new HexLocation(-2, 0), VertexDirection.NorthWest), ports.get(new HexLocation(-3, 0)));
         portVertexLocations.put(new VertexLocation(new HexLocation(-3, 1), VertexDirection.NorthEast), ports.get(new HexLocation(-3, 0)));

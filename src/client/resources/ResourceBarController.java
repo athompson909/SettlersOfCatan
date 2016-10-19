@@ -143,12 +143,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		getView().setElementAmount(ResourceBarElement.CITY, player.getCityCount());
 		getView().setElementAmount(ResourceBarElement.SOLDIERS, player.getSoldiersPlayed());
 
-
-//		//TODO: Delete THIS IS TEMPORARY SO WE CAN TEST MAP FUNCTIONS
-//		getView().setElementEnabled(ResourceBarElement.ROAD,true);
-//		getView().setElementEnabled(ResourceBarElement.SETTLEMENT,true);
-//		getView().setElementEnabled(ResourceBarElement.CITY,true);
-//		getView().setElementEnabled(ResourceBarElement.BUY_CARD,true);
 	}
 }
 

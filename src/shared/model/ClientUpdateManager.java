@@ -83,6 +83,8 @@ public class ClientUpdateManager {
         int newVersionNum = newModel.version;
         updateModelVersion(newVersionNum);
 
+        currentModel.setWinner(newModel.getWinner());
+
         currentModel.setChanged();
         currentModel.setChanged(true);
         currentModel.notifyObservers();
@@ -96,6 +98,7 @@ public class ClientUpdateManager {
      */
     private void updateMap(Map currMap, Map newMap) {
         currMap.updateMap(newMap);
+        if(Client.getInstance().getStartGame()) currMap.populatePortVertexLocations();
     }
 
 //-----------------

@@ -3,6 +3,7 @@ package client.points;
 import client.ClientUser;
 import client.base.*;
 import shared.model.ClientModel;
+import shared.model.player.Player;
 
 import java.util.Observable;
 
@@ -50,8 +51,26 @@ public class PointsController extends Controller implements IPointsController {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		clientModel = (ClientModel) o;
-		getPointsView().setPoints(((ClientModel) o).getCurrentPlayer().getVictoryPoints());
+		clientModel = (ClientModel)o;
+		getPointsView().setPoints(clientModel.getCurrentPlayer().getVictoryPoints());
+
+		//check for winner
+		int winnerID = clientModel.getWinner();
+		Player[] players = clientModel.getPlayers();
+		if(players[3] != null){
+			int winner = -1;
+			for(int i = 0; i < players.length; i++){
+				if(players[i].getPlayerID()== winnerID){
+					winner = i;
+					break;
+				}
+			}
+			if(winner >= 0){
+				boolean winnerIsMe = (winner == ClientUser.getInstance().getIndex());
+				getFinishedView().setWinner(clientModel.getPlayers()[winner].getName(), winnerIsMe);
+				getFinishedView().showModal();
+			}
+		}
 	}
 	
 }
