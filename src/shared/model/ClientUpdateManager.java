@@ -98,6 +98,7 @@ public class ClientUpdateManager {
      */
     private void updateMap(Map currMap, Map newMap) {
         currMap.updateMap(newMap);
+        if(Client.getInstance().getStartGame()) currMap.populatePortVertexLocations();
     }
 
 //-----------------

@@ -102,6 +102,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		GameInfo finalGameInfo = updatedGameInfosList[ClientUser.getInstance().getCurrentGameID()];
 		ClientUser.getInstance().setCurrentAddedGameInfo(finalGameInfo);
 
+		//repopulates the port vertex locations to the correct values each time the player rejoins
+		//todo: optimize
+		Client.getInstance().getClientModel().getMap().populatePortVertexLocations();
+
 		if (getView().isModalShowing()){
 			getView().closeModal();  ///TESTING CMDLINE
 		}
