@@ -4,6 +4,7 @@ import client.data.GameInfo;
 import exceptions.ClientException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.JSONTranslator;
@@ -64,14 +65,15 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel) {
 
-        System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
-        //HELLO I'M MAKING A CHANGE!!!
+        System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion() + "\n");
+
         if(version != updatedClientModel.getVersion()) {
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
             version = updatedClientModel.getVersion();
+
         }
-        else if(Client.getInstance().getStartGame()) {
+        else if(Client.getInstance().getGameState().equals(State.FIRSTROUND)) {
             clientUpdateManager.delegateUpdates(updatedClientModel);
             Client.getInstance().setStartGame(false);
         }
