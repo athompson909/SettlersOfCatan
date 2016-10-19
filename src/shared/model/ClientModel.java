@@ -2,6 +2,7 @@ package shared.model;
 
 import client.ClientUser;
 import client.data.RobPlayerInfo;
+import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -16,10 +17,7 @@ import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
 
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -379,9 +377,40 @@ public class ClientModel extends Observable {
         map.placeRobber(desiredHexLoc);
     }
 
-
+    /**
+     * Calculates which players are adjacent to a hex, how many cards they have, and other important
+     * information for RobPlayerInfo.
+     * @param hexLoc that is getting robbed.
+     * @return An array of RobPLayerInfo.
+     */
     public RobPlayerInfo[] calculateRobPlayerInfo(HexLocation hexLoc){
-        return map.calculateRobPlayerInfo(hexLoc);
+        ArrayList<Integer> adjacentPlayers = map.getPlayersAdjacentToHex(hexLoc);
+
+        //Remove the current player from the robbing list.
+        if(adjacentPlayers.contains(getCurrentPlayer().getPlayerIndex())){
+            adjacentPlayers.remove(getCurrentPlayer().getPlayerIndex());
+        }
+
+        //Remove players that have 0 cards
+        ArrayList<Integer> adjacentPlayersWithCards = new ArrayList<>();
+        for(int i=0; i < adjacentPlayers.size(); i++){
+            if(players[adjacentPlayers.get(i)].getPlayerResourceList().getCardCount() > 0){
+                adjacentPlayersWithCards.add(adjacentPlayers.get(i));
+            }
+        }
+
+        //Create the Array of RobberPlayerInfo
+        RobPlayerInfo[] victims = new RobPlayerInfo[adjacentPlayersWithCards.size()];
+        for(int i=0; i < adjacentPlayersWithCards.size(); i++){
+            int playerIndex = adjacentPlayersWithCards.get(i);
+            victims[i] = new RobPlayerInfo();
+            victims[i].setPlayerIndex(playerIndex);
+            victims[i].setNumCards(getPlayers()[playerIndex].getPlayerResourceList().getCardCount());
+            victims[i].setName(getPlayers()[playerIndex].getName());
+            victims[i].setColor(getPlayers()[playerIndex].getColor());
+        }
+
+        return victims;
     }
 
 

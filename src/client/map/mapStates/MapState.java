@@ -158,8 +158,15 @@ public abstract class MapState  {
 
         RobPlayerInfo[] victims = mapController.clientModel.calculateRobPlayerInfo(hexLoc);
 
-        mapController.getRobView().setPlayers(victims);
-        mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
+        if(victims.length > 0){
+            mapController.getRobView().setPlayers(victims);
+            mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
+        } else {
+            //Don't rob anyone... so -1?
+            int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+            RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, -1);
+            ClientFacade.getInstance().robPlayer(robPlayerCommand);
+        }
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
