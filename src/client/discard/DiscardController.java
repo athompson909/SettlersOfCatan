@@ -136,7 +136,9 @@ public class DiscardController extends Controller implements IDiscardController 
                 }
             }else{
                 //todo check if this appropriately closes the modal after others discard
-                getWaitView().closeModal();
+                if (getWaitView().isModalShowing()) {
+                    getWaitView().closeModal();  //TEST CMDLINE
+                }
                 waitModalOpen = false;
             }
         }
