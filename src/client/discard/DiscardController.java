@@ -23,8 +23,6 @@ public class DiscardController extends Controller implements IDiscardController 
     private ResourceList resources;
     private int amount;
     private int total;
-    private boolean modalOpen = false;
-    private boolean waitModalOpen = false;
 	private IWaitView waitView;
 	
 	/**
@@ -100,11 +98,10 @@ public class DiscardController extends Controller implements IDiscardController 
 	@Override
 	public void discard() {
         getDiscardView().closeModal();
-        //set values to prep for next time
-        reset();
 		DiscardCommand command = new DiscardCommand(ClientUser.getInstance().getIndex(), discardList);
 		ClientFacade.getInstance().discardCards(command);
-        modalOpen = false;
+        //set values to prep for next time
+        reset();
 	}
 
 	@Override
@@ -129,17 +126,14 @@ public class DiscardController extends Controller implements IDiscardController 
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
-                }else if(!waitModalOpen){//others are discarding
+                }else if(!getWaitView().isModalShowing()){//others are discarding
                     ClientUser.getInstance().setNeedToDiscard(false);
                     getWaitView().showModal();
-                    waitModalOpen = true;
                 }
             }else{
-                //todo check if this appropriately closes the modal after others discard
                 if (getWaitView().isModalShowing()) {
                     getWaitView().closeModal();  //TEST CMDLINE
                 }
-                waitModalOpen = false;
             }
         }
 
