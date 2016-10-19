@@ -67,6 +67,7 @@ public class ServerProxy implements IServerProxy {
      *  "all subsequent web service calls
      * should include an HTTP Cookie header that includes both the catan.user and
      * catan.game cookies"
+     * todo: delete
      */
     private String registerCookie;
 
