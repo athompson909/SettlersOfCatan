@@ -162,7 +162,7 @@ public abstract class MapState  {
             mapController.getRobView().setPlayers(victims);
             mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
         } else {
-            //Don't rob anyone... so -1?
+            //Don't rob anyone, so send a command with -1.
             int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
             RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, -1);
             ClientFacade.getInstance().robPlayer(robPlayerCommand);

@@ -30,6 +30,8 @@ public class RollController extends Controller implements IRollController {
 
 	private int millisecondsToWait = 5000;
 
+	private int SEVEN = 7;
+
 	/**
 	 * RollController constructor
 	 * 
