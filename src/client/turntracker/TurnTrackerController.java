@@ -46,6 +46,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg) {
 		ClientModel model = (ClientModel)o;
+
 		if(localPlayerColor == null){
 			localPlayerColor = model.getCurrentPlayer().getColor();
 			getView().setLocalPlayerColor(localPlayerColor);
@@ -62,7 +63,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 					getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
 				}
 			}
-			
+
 			TurnTracker turnTracker = model.getTurnTracker();
 			int turn = turnTracker.getCurrentTurn();
 
