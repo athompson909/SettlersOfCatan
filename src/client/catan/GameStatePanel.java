@@ -28,6 +28,8 @@ public class GameStatePanel extends JPanel
 		button.setFont(newFont);
 		
 		button.setPreferredSize(new Dimension(400, 50));
+		//TEST
+		button.setOpaque(true);
 		
 		this.add(button);
 		
@@ -58,6 +60,7 @@ public class GameStatePanel extends JPanel
 	}
 
 	public void setButtonColor(CatanColor color){
+		//button.setOpaque(true);
 		button.setForeground(color.getJavaColor());
 		button.setBackground(color.getJavaColor());
 	}
