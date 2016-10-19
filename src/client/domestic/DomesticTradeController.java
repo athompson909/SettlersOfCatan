@@ -172,10 +172,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void sendTradeOffer() {
+        getTradeOverlay().closeModal();
+        getWaitOverlay().showModal();
 		OfferTradeCommand command = new OfferTradeCommand(ClientUser.getInstance().getIndex(), tradeList, receiver);
 		ClientFacade.getInstance().offerTrade(command);
-		getTradeOverlay().closeModal();
-		getWaitOverlay().showModal();
 	}
 
 	@Override
