@@ -388,7 +388,9 @@ public class ClientModel extends Observable {
 
         //Remove the current player from the robbing list.
         if(adjacentPlayers.contains(getCurrentPlayer().getPlayerIndex())){
-            adjacentPlayers.remove(getCurrentPlayer().getPlayerIndex());
+            Integer currentPlayerIndex= getCurrentPlayer().getPlayerIndex();
+            adjacentPlayers.remove(currentPlayerIndex);
+
         }
 
         //Remove players that have 0 cards

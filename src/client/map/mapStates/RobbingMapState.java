@@ -23,7 +23,8 @@ public class RobbingMapState extends MapState {
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
 
+        //TODO: Only do this if it is your turn?
         CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        mapController.getView().startDrop(PieceType.ROBBER, color, true); //3rd variable is boolean, cancel allowed
+        mapController.getView().startDrop(PieceType.ROBBER, color, true);
     }
 }
