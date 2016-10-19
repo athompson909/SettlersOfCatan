@@ -67,6 +67,7 @@ public class ServerProxy implements IServerProxy {
      *  "all subsequent web service calls
      * should include an HTTP Cookie header that includes both the catan.user and
      * catan.game cookies"
+     * todo: delete
      */
     private String registerCookie;
 
@@ -176,7 +177,7 @@ public class ServerProxy implements IServerProxy {
         if (isRegister) {
             String fullCookieStr = connection.getHeaderFields().get("Set-cookie").get(0);
             String undecodedRegisterCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
-            setRegisterCookie(undecodedRegisterCookie);
+            setLoginCookie(undecodedRegisterCookie);
             //setRegisterCookie(URLDecoder.decode(undecodedRegisterCookie));
             isRegister = false;
         }

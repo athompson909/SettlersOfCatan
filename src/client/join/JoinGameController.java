@@ -121,7 +121,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     /**
      *
      */
-	private void startTimer(){
+	public void startTimer(){
         //start JGC's personal poller
         miniPollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         miniPollTimer.scheduleAtFixedRate(new JoinGameMiniPoller(), 1, pollInterval * 1000);
@@ -130,7 +130,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     /**
      *
      */
-    private void stopTimer(){
+    public void stopTimer(){
         miniPollTimer.cancel();
     }
 
@@ -173,14 +173,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
             System.out.println(">JOINGAMECONTROLLER: gametitle " + newGameTitle + " was available");
 
-            //make the timer wait here
+            //make the timer wait here  - synchronous thread safety business
             stopTimer();
             //////
             GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
             GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
-            //restart timer after command is done going through
-            startTimer();
-            /////
 
             System.out.println(">JOINGAMECONTROLLER: just created game " + newGameCreatedInfo);
 
@@ -189,14 +186,20 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
             //JOIN THE NEW GAME WITH DEFAULT COLOR WHITE
             joinThisGameInfo = newGameCreatedInfo;
+			//join them to the game they just created using WHITE as the temporary/default color
             joinGameWithDefaultColor();
+
+            //restart timer after commands are done going through
+            startTimer();
+            /////
 
             getNewGameView().closeModal();
 
             //Refresh the list of games in the JoinGameView to include this new game
-            GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
-            PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
-            this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
+			//might not need this since startTimer() tells the poller to update the gamesList!
+            //GameInfo[] newGameInfoArr = ClientFacade.getInstance().gamesList();
+           // PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
+           // this.getJoinGameView().setGames(newGameInfoArr, currPlayerInfo);
         }
         else{
             System.out.println(">JOINGAMECONTROLLER: gametitle " + newGameTitle + " was taken already");
@@ -328,7 +331,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			//MARK THAT THEY WENT THROUGH THIS METHOD
 			ClientUser.getInstance().setJoinedWithDefaultColor(true);
 		}
-		else{
+		else {
 			//print - it didn't work
 			System.out.println("\t>JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
 		}
