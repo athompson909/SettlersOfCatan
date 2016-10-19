@@ -3,8 +3,11 @@ package client.map.mapStates;
 import client.Client;
 import client.ClientFacade;
 import client.data.RobPlayerInfo;
+import client.map.IMapController;
 import client.map.MapController;
+import client.map.MapView;
 import shared.definitions.PieceType;
+import shared.definitions.State;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -27,8 +30,9 @@ public class SecondRoundMapState extends MapState {
     @Override
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
-        if (getSecondVertexLocation() == null) {
-            mapController.startMove(PieceType.SETTLEMENT, true, false);
+        //THIS IS NOT WORKING THE WAY WE THINK IT IS BECAUSE I'M GETTING A BUILD SETTLEMENT MODAL
+        if ((getSecondVertexLocation() == null) && Client.getInstance().getGameState().equals(State.SECONDROUND)) {
+            startMove(PieceType.SETTLEMENT, true, false);
         }
     }
 
@@ -50,9 +54,11 @@ public class SecondRoundMapState extends MapState {
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, true);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
 
+        Client.getInstance().setGameState(State.WAITING);
+        mapController.setState(State.WAITING);
+
         FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
         ClientFacade.getInstance().finishTurn(finishTurnCommand);
-
     }
 
     @Override

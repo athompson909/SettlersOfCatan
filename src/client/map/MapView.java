@@ -174,7 +174,6 @@ public class MapView extends PanelView implements IMapView
 		@Override
 		public void cancelMove()
 		{
-			
 			closeModal();
 			getController().cancelMove();
 		}
@@ -196,14 +195,16 @@ public class MapView extends PanelView implements IMapView
 		{
 			assert false;
 		}
-		
+
 		private void closeModal()
 		{
 			overlay.cancelDrop();
 			overlay.closeModal();
 		}
 	};
-	
+
+	public IMapController getOverlayController() {return overlayController;}
+
 	private static class MapOverlay extends OverlayView
 	{
 		
