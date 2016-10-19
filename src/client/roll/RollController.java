@@ -18,8 +18,6 @@ import java.util.TimerTask;
  * Implementation for the roll controller
  */
 public class RollController extends Controller implements IRollController {
-//Todo check if roll modal opens
-//todo count down on roll time
 	private IRollResultView resultView;
 
 	private IRollView view;
@@ -68,7 +66,6 @@ public class RollController extends Controller implements IRollController {
 		RollDiceCommand command = new RollDiceCommand(number);
 		ClientFacade.getInstance().rollNumber(command);
 
-//		getView().closeModal();
 		resultView.setRollValue(number);
 		resultView.showModal();
 	}
