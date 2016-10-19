@@ -1,12 +1,14 @@
 package shared.model;
 
 import client.ClientUser;
+import client.data.RobPlayerInfo;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.map.Hex;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -376,6 +378,12 @@ public class ClientModel extends Observable {
     public void placeRobber(HexLocation desiredHexLoc){
         map.placeRobber(desiredHexLoc);
     }
+
+
+    public RobPlayerInfo[] calculateRobPlayerInfo(HexLocation hexLoc){
+        return map.calculateRobPlayerInfo(hexLoc);
+    }
+
 
 
     //ADDITIONAL DO METHODS (With no accompanying can methods)

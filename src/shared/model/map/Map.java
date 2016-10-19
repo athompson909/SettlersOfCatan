@@ -1,9 +1,11 @@
 package shared.model.map;
 
+import client.data.RobPlayerInfo;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -517,6 +519,16 @@ public class Map {
             }
         }
         return ports;
+    }
+
+    public RobPlayerInfo[] calculateRobPlayerInfo(HexLocation hexLoc){
+        RobPlayerInfo[] victims = new RobPlayerInfo[4];
+
+        victims[0].setNumCards(4);
+        victims[0].setPlayerIndex(0); //Player 0
+
+
+        return victims;
     }
 
 

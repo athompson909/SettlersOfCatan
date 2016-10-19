@@ -11,6 +11,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
+import shared.model.ClientModel;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.Hex;
 import shared.model.map.Map;
@@ -23,9 +24,7 @@ import java.util.Observable;
  * Created by Alise on 10/8/2016.
  */
 public abstract class MapState  {
-   //Todo Note: I don't know if all these functions will be needed or not; add or delete as neededan
-
-    public MapController mapController;
+     public MapController mapController;
 
     private VertexLocation firstVertexLocation;
     private VertexLocation secondVertexLocation;
@@ -157,9 +156,9 @@ public abstract class MapState  {
         System.out.println("MAP: PLACEROBBER");
         robberHex = hexLoc;
 
+        RobPlayerInfo[] victims = mapController.clientModel.calculateRobPlayerInfo(hexLoc);
 
-        //RobPlayerInfo[] victims = null;
-        //mapController.getRobView().setPlayers(victims);
+        mapController.getRobView().setPlayers(victims);
         mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
     }
 
@@ -185,7 +184,6 @@ public abstract class MapState  {
         //executeElementAction(ResourceBarElement.ROAD);
 
         startMove(PieceType.ROAD, true, false);
-
         startMove(PieceType.ROAD, true, false);
 
 
@@ -228,4 +226,6 @@ public abstract class MapState  {
     public void setSecondVertexLocation(VertexLocation secondVertexLocation) {
         this.secondVertexLocation = secondVertexLocation;
     }
+
+
 }
