@@ -1,16 +1,10 @@
 package shared.model.map;
 
-import client.map.MapController;
 import shared.definitions.HexType;
-import shared.definitions.PieceType;
 import shared.definitions.PortType;
 import shared.locations.*;
-import shared.model.resourcebank.ResourceList;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -510,6 +504,7 @@ public class Map {
         //edgeValues.put(northWestEdgeLocation, new EdgeValue(northWestEdgeLocation));
     }
 
+    //todo: fix this function
     public Set<PortType> getPlayersPorts(int playerIndex) {
         Set<PortType> ports = new HashSet<>();
         Set myKeys = portVertexLocations.keySet();
