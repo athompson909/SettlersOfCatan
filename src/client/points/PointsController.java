@@ -57,17 +57,19 @@ public class PointsController extends Controller implements IPointsController {
 		//check for winner
 		int winnerID = clientModel.getWinner();
 		Player[] players = clientModel.getPlayers();
-		int winner = -1;
-		for(int i = 0; i < players.length; i++){
-			if(players[i].getPlayerID()== winnerID){
-				winner = i;
-				break;
+		if(players[3] != null){
+			int winner = -1;
+			for(int i = 0; i < players.length; i++){
+				if(players[i].getPlayerID()== winnerID){
+					winner = i;
+					break;
+				}
 			}
-		}
-		if(winner > 0){
-			boolean winnerIsMe = (winner == ClientUser.getInstance().getIndex());
-			getFinishedView().setWinner(clientModel.getPlayers()[winner].getName(), winnerIsMe);
-			getFinishedView().showModal();
+			if(winner > 0){
+				boolean winnerIsMe = (winner == ClientUser.getInstance().getIndex());
+				getFinishedView().setWinner(clientModel.getPlayers()[winner].getName(), winnerIsMe);
+				getFinishedView().showModal();
+			}
 		}
 	}
 	
