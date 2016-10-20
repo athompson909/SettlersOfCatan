@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import client.Client;
 import shared.definitions.ResourceType;
 import client.discard.DiscardController;
 import client.discard.DiscardView;
@@ -60,10 +61,12 @@ public class CatanPanel extends JPanel
 		
 		JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
+
+
 			
 //			 @Override
 //			 public void actionPerformed(ActionEvent e) {
-//			
+//
 //			 new client.points.GameFinishedView().showModal();
 //			 }
 //			
@@ -86,7 +89,7 @@ public class CatanPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				rollView.showModal();
+				//rollView.showModal();
                // rollView.setMessage("Rolling automatically in 5 seconds");
 				
 //				discardView.setResourceMaxAmount(ResourceType.WOOD, 1);
@@ -113,6 +116,12 @@ public class CatanPanel extends JPanel
 //					discardWaitView.showModal();
 //					state = 2;
 //				}
+
+				//TESTING
+				System.out.println(">>TESTING: stopping main poller %%%%%%%%%%%%%%%%%%%%%");
+
+				Client.getInstance().stopServerPoller();
+
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);

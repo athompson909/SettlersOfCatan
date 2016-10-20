@@ -26,6 +26,8 @@ import java.util.TimerTask;
  */
 public class ServerPoller {
 
+    //TESTING - for a way to end the ServerPoller loop from the GameFinishedView
+    private Timer pollTimer;
 
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
@@ -33,7 +35,7 @@ public class ServerPoller {
      */
     public ServerPoller() {
         int seconds = 2;
-        Timer pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
+        pollTimer = new Timer(true);//true tells the program to end this thread if it is the only one left so we cand exit the program
         pollTimer.scheduleAtFixedRate(new ServerPollerTask(), 1, seconds*1000);
     }
 
@@ -57,6 +59,16 @@ public class ServerPoller {
         }
     }
 
+
+    //TESTING --------
+    public Timer getPollTimer() {
+        return pollTimer;
+    }
+
+    public void setPollTimer(Timer pollTimer) {
+        this.pollTimer = pollTimer;
+    }
+    //---------
 
     /**
      * fetchNewModel() sends an update request to the saved proxy (currentProxy) via HTTP request.

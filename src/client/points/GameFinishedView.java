@@ -6,6 +6,7 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import client.Client;
 import client.base.*;
 import client.join.*;
 import client.login.LoginController;
@@ -81,8 +82,19 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == okButton) {
-				closeModal();
+
+				if (isModalShowing()){
+					closeModal();
+				}
+
 				//Todo open gameList view here
+				//maybe call a function in the Client singleton up top that can stop the main poller,
+				//reset everything (except the login info) and show the GameListView again
+				//TRY:
+				Client.getInstance().restartGame();
+
+
+
 				//do we need to change pollers?
 //				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 //				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(

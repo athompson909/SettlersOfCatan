@@ -247,7 +247,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     }
 
     /**
-	 * This function just shows the SelectColorView'
+	 * This function just shows the SelectColorView
 	 * Sets all the color buttons to enabled/disabled depending on who is joined to the game right now
      */
 	@Override
