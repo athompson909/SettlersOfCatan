@@ -7,6 +7,10 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import client.base.*;
+import client.join.*;
+import client.login.LoginController;
+import client.login.LoginView;
+import client.misc.MessageView;
 import client.utils.*;
 
 
@@ -80,6 +84,34 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 				closeModal();
 				//Todo open gameList view here
 				//do we need to change pollers?
+//				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
+//				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
+//						playerWaitingView);
+//				playerWaitingView.setController(playerWaitingController);
+//
+//				JoinGameView joinView = new JoinGameView();
+//				NewGameView newGameView = new NewGameView();
+//				SelectColorView selectColorView = new SelectColorView();
+//				MessageView joinMessageView = new MessageView();
+//				final JoinGameController joinController = new JoinGameController(
+//						joinView,
+//						newGameView,
+//						selectColorView,
+//						joinMessageView);
+//				joinController.setJoinAction(new IAction() {
+//					@Override
+//					public void execute()
+//					{
+//						playerWaitingController.start();
+//					}
+//				});
+//				joinView.setController(joinController);
+//				newGameView.setController(joinController);
+//				selectColorView.setController(joinController);
+//				joinMessageView.setController(joinController);
+//
+//				joinView.initialize();
+//				joinController.start();
 			}
 		}	
 	};

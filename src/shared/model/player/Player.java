@@ -298,7 +298,7 @@ public class Player { //
 
     /**
      * Play a Monopoly card from the player's hand.
-     * @param monopolizedResource the player will recieve.
+     * @param monopolizedResource the player will receive.
      * @param cardsGained How many cards of the specified resource the player will gain.
      */
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {

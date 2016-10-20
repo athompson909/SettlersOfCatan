@@ -209,11 +209,11 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 	        });
 	        toggleButtonGroup.add(noneToggle);
 	        
-	        JToggleButton recieveToggle = new JToggleButton("recieve");
-	        recieveToggle.setActionCommand("recieve");
-	        recieveToggle.putClientProperty( "JButton.buttonType", "segmented" );
-	        recieveToggle.putClientProperty( "JButton.segmentPosition", "last" );
-	        recieveToggle.addActionListener(new ActionListener(){
+	        JToggleButton receiveToggle = new JToggleButton("receive");
+	        receiveToggle.setActionCommand("receive");
+	        receiveToggle.putClientProperty( "JButton.buttonType", "segmented" );
+	        receiveToggle.putClientProperty( "JButton.segmentPosition", "last" );
+	        receiveToggle.addActionListener(new ActionListener(){
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -222,7 +222,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 				}
 	        	
 	        });
-	        toggleButtonGroup.add(recieveToggle);
+	        toggleButtonGroup.add(receiveToggle);
 			
 
 	        
@@ -231,7 +231,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			segmentedButtonPanel.setLayout(new BoxLayout(segmentedButtonPanel, BoxLayout.X_AXIS));
 			segmentedButtonPanel.add(sendToggle);
 			segmentedButtonPanel.add(noneToggle);
-			segmentedButtonPanel.add(recieveToggle);
+			segmentedButtonPanel.add(receiveToggle);
 			
 			JPanel resourceSelectionPanel = new JPanel();
 			resourceSelectionPanel.setAlignmentX(CENTER_ALIGNMENT);

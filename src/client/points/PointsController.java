@@ -46,7 +46,6 @@ public class PointsController extends Controller implements IPointsController {
 
 	private void initFromModel() {
 		getPointsView().setPoints(0);
-		//getPointsView().setPoints(clientModel.getCurrentPlayer().getVictoryPoints());
 	}
 
 	@Override

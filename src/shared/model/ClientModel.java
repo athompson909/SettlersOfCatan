@@ -354,19 +354,19 @@ public class ClientModel extends Observable {
 
     /**
      * Play Monopoly card.
-     * @param recieverPlayerIndex
+     * @param receiverPlayerIndex
      * @param monopolizedResource
      */
-    public void playMonopolyCard(int recieverPlayerIndex, ResourceType monopolizedResource){
+    public void playMonopolyCard(int receiverPlayerIndex, ResourceType monopolizedResource){
         int totalCardsGained = 0;
         //Take all cards of specified resource from each opposing player
         for(int index = 0; index < players.length; index++){
-            if(index != recieverPlayerIndex){
+            if(index != receiverPlayerIndex){
                 totalCardsGained += players[index].loseAllCardsOfType(monopolizedResource);
             }
         }
         //Give those cards to the player who used the monopoly card.
-        players[recieverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+        players[receiverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
     }
 
     /**
@@ -418,10 +418,10 @@ public class ClientModel extends Observable {
     //ADDITIONAL DO METHODS (With no accompanying can methods)
 
     /*
-    Rulebook: If there are not enough of a resource type, then no one recieve any of that resource
+    Rulebook: If there are not enough of a resource type, then no one receive any of that resource
     (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
-    public void recieveResourcesFromDiceRoll(){
+    public void receiveResourcesFromDiceRoll(){
         //TODO: Go to map and calculate how many cards each player gets
 
         //TODO: Calculate resource production, and consider special rulebook exception.

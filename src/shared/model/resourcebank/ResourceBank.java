@@ -55,14 +55,14 @@ public class ResourceBank {
 
     /**
      * Remove a random dev Card from the bank when purchased.
-     * @return the devcard the player will recieve.
+     * @return the devcard the player will receive.
      */
     public DevCardType removeRandomDevCard() {
         return devCardList.removeRandomCard();
     }
 
     /**
-     * Remove the cards from the bank the player will recieve.
+     * Remove the cards from the bank the player will receive.
      * @param resource1
      * @param resource2
      */
