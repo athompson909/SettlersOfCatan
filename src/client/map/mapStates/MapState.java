@@ -175,7 +175,7 @@ public abstract class MapState  {
     }
 
     public void cancelMove() {
-
+        System.out.println("MAPSTATE: CANCELMOVE");
     }
 
     public void playSoldierCard() {
@@ -186,26 +186,15 @@ public abstract class MapState  {
 
     public void playRoadBuildingCard() {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
-
-        //This is what the ResourceBarController Calls...
-        //executeElementAction(ResourceBarElement.ROAD);
-
-        startMove(PieceType.ROAD, true, false);
-        startMove(PieceType.ROAD, true, false);
-
-
-
-       /*
-        EdgeLocation temp = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
-
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        mapController.getView().startDrop(PieceType.ROAD, color, true);
-        mapController.getView().startDrop(PieceType.ROAD, color, true);
-
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(temp, currentPlayerId, true);
-        ClientFacade.getInstance().buildRoad(buildRoadCommand);
-        */
+        int roadCount = mapController.clientModel.getCurrentPlayer().getRoadCount();
+        if(roadCount > 1) {
+            startMove(PieceType.ROAD, true, false);
+            // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
+        }
+        if(roadCount > 1) {
+            startMove(PieceType.ROAD, true, false);
+            // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
+        }
     }
 
     public void robPlayer(RobPlayerInfo victim) {
