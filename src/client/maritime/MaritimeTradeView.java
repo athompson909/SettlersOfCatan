@@ -36,14 +36,16 @@ public class MaritimeTradeView extends PanelView implements IMaritimeTradeView {
 
 	@Override
 	public void enableMaritimeTrade(boolean value) {
-		
+		//I think this is for the button that says "Maritime Trade", so not one that enables/disables during the overlays
+
 		button.setEnabled(value);
 	}
 	
 	private ActionListener buttonListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
+			System.out.println(">MTVIEW: actionListener fired");
 			getController().startTrade();
 		}
 	};

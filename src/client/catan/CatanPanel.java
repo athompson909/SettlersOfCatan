@@ -58,7 +58,9 @@ public class CatanPanel extends JPanel
 		rollController = new RollController(rollView, rollResultView);
 		rollView.setController(rollController);
 		rollResultView.setController(rollController);
-		
+
+		//uncomment this Test button if you want to use it to test something
+/*
 		JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
 
@@ -124,7 +126,9 @@ public class CatanPanel extends JPanel
 
 			}
 		});
+
 		this.add(testButton, BorderLayout.SOUTH);
+*/
 	}
 	
 }
