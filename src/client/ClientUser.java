@@ -37,6 +37,10 @@ public class ClientUser {
     //keeps track of which game the clientUser is currently in
     private int currentGameID = 1;
 
+
+    /**tracks whether the player has discarded this turn already */
+    private boolean needToDiscard = true;
+
     //saves the GameInfo object for the current game we are added to
     private GameInfo currentAddedGameInfo;
 
@@ -167,4 +171,11 @@ public class ClientUser {
         }
     }
 
+    public void setNeedToDiscard(boolean discarded){
+        needToDiscard = discarded;
+    }
+
+    public boolean getNeedToDiscard(){
+        return needToDiscard;
+    }
 }
