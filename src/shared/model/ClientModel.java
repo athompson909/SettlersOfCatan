@@ -449,8 +449,6 @@ public class ClientModel extends Observable {
     public Player[] getPlayer() {return players;}
     public TradeOffer getTradeOffer() {return tradeOffer;}
     public ClientUpdateManager getUpdateManager() {return updateManager;}
-    //don't we want to return the player on this client with this method, not whose turn it is?
-    //public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
     public Player getCurrentPlayer() {return players[ClientUser.getInstance().getIndex()];}
 
 

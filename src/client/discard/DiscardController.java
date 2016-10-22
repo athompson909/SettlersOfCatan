@@ -18,12 +18,13 @@ import java.util.Observable;
  * Discard controller implementation
  */
 public class DiscardController extends Controller implements IDiscardController {
-//todo make sure to check if they have already discarded this turn (ex: if they have 15 cards and discard 7 they don't need to discard 4 more)
+
 	private ResourceList discardList = new ResourceList();
     private ResourceList resources;
     private int amount;
     private int total;
 	private IWaitView waitView;
+    private boolean discarded = false;
 	
 	/**
 	 * DiscardController constructor
@@ -100,6 +101,7 @@ public class DiscardController extends Controller implements IDiscardController 
         getDiscardView().closeModal();
 		DiscardCommand command = new DiscardCommand(ClientUser.getInstance().getIndex(), discardList);
 		ClientFacade.getInstance().discardCards(command);
+        discarded = true;
         //set values to prep for next time
         reset();
 	}
@@ -115,24 +117,23 @@ public class DiscardController extends Controller implements IDiscardController 
 
     //check if this player needs to discard or wait for others to discard
         TurnTracker tracker = model.getTurnTracker();
-        //TESTING
-        //todo change these if statements to checking the state instance
+
         if (tracker.getStatus() != null){
             if(tracker.getStatus().equals("Discarding")){
 
                 //I need to discard
-                if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()){
-                        ClientUser.getInstance().setNeedToDiscard(true);
+                if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded() && !discarded){
+                        discarded = true;
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
                 }else if(!getWaitView().isModalShowing()){//others are discarding
-                    ClientUser.getInstance().setNeedToDiscard(false);
                     getWaitView().showModal();
                 }
             }else{
                 if (getWaitView().isModalShowing()) {
                     getWaitView().closeModal();  //TEST CMDLINE
+                    discarded = false;
                 }
             }
         }
