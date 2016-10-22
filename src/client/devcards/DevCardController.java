@@ -95,15 +95,24 @@ public class DevCardController extends Controller implements IDevCardController 
      */
     private void setCardAmounts(DevCardList devCardList) {
         playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount());
-        playDevCardView.setCardEnabled(DevCardType.SOLDIER, (devCardList.getSoldierCardCount() >= 1));
         playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount());
-        playDevCardView.setCardEnabled(DevCardType.MONUMENT, (devCardList.getMonumentCardCount() >= 1));
         playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount());
-        playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
         playDevCardView.setCardAmount(DevCardType.MONOPOLY, devCardList.getMonopolyCardCount());
-        playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
         playDevCardView.setCardAmount(DevCardType.ROAD_BUILD, devCardList.getRoadBuildingCardCount());
-        playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1));
+        if(clientModel.getTurnTracker().getStatus().equals("Playing")) {
+            playDevCardView.setCardEnabled(DevCardType.SOLDIER, (devCardList.getSoldierCardCount() >= 1));
+            playDevCardView.setCardEnabled(DevCardType.MONUMENT, (devCardList.getMonumentCardCount() >= 1));
+            playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
+            playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
+            playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1));
+        }
+        else {
+            playDevCardView.setCardEnabled(DevCardType.SOLDIER, false);
+            playDevCardView.setCardEnabled(DevCardType.MONUMENT, false);
+            playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, false);
+            playDevCardView.setCardEnabled(DevCardType.MONOPOLY, false);
+            playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, false);
+        }
     }
 
     @Override
