@@ -1,9 +1,11 @@
 package client;
 
 import client.data.GameInfo;
+import client.turntracker.FirstRoundState;
 import exceptions.ClientException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.JSONTranslator;
@@ -64,15 +66,17 @@ public class ClientFacade {
      */
     public void sendUpdatedModel(ClientModel updatedClientModel) {
 
-        System.out.println(">>CLIENTFACADE: sendUpdatedModel called, newModelVer= " + updatedClientModel.getVersion());
-        //HELLO I'M MAKING A CHANGE!!!
+        System.out.println("SendUpdatedModel: newModelVer= " + updatedClientModel.getVersion() + "\n");
+        System.out.println("==================== CURRENT STATUS: " + updatedClientModel.getTurnTracker().getStatus() + "====================");
         if(version != updatedClientModel.getVersion()) {
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
             version = updatedClientModel.getVersion();
         }
         else if(Client.getInstance().getStartGame()) {
+            clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
+            version = updatedClientModel.getVersion();
             Client.getInstance().setStartGame(false);
         }
     }
@@ -393,7 +397,6 @@ public class ClientFacade {
     titled “client Model JSON Documentation”
      */
     public void gameModelVersion() {
-        System.out.println(">>CLIENTFACADE: modelUpdate called");
 
         JSONObject jsonNewModel;
         try {
@@ -411,7 +414,7 @@ public class ClientFacade {
                     break;
                 }
             }
-
+            System.out.println(">> CLIENTFACADE: sendUpdatedModel called");
             sendUpdatedModel(updatedModel);
         }
         catch (ClientException e) {

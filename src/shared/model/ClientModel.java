@@ -1,12 +1,15 @@
 package shared.model;
 
 import client.ClientUser;
+import client.data.RobPlayerInfo;
+import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.map.Hex;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -14,10 +17,7 @@ import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.turntracker.TurnTracker;
 
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -354,19 +354,19 @@ public class ClientModel extends Observable {
 
     /**
      * Play Monopoly card.
-     * @param recieverPlayerIndex
+     * @param receiverPlayerIndex
      * @param monopolizedResource
      */
-    public void playMonopolyCard(int recieverPlayerIndex, ResourceType monopolizedResource){
+    public void playMonopolyCard(int receiverPlayerIndex, ResourceType monopolizedResource){
         int totalCardsGained = 0;
         //Take all cards of specified resource from each opposing player
         for(int index = 0; index < players.length; index++){
-            if(index != recieverPlayerIndex){
+            if(index != receiverPlayerIndex){
                 totalCardsGained += players[index].loseAllCardsOfType(monopolizedResource);
             }
         }
         //Give those cards to the player who used the monopoly card.
-        players[recieverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+        players[receiverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
     }
 
     /**
@@ -377,14 +377,53 @@ public class ClientModel extends Observable {
         map.placeRobber(desiredHexLoc);
     }
 
+    /**
+     * Calculates which players are adjacent to a hex, how many cards they have, and other important
+     * information for RobPlayerInfo.
+     * @param hexLoc that is getting robbed.
+     * @return An array of RobPLayerInfo.
+     */
+    public RobPlayerInfo[] calculateRobPlayerInfo(HexLocation hexLoc){
+        ArrayList<Integer> adjacentPlayers = map.getPlayersAdjacentToHex(hexLoc);
+
+        //Remove the current player from the robbing list.
+        if(adjacentPlayers.contains(getCurrentPlayer().getPlayerIndex())){
+            Integer currentPlayerIndex= getCurrentPlayer().getPlayerIndex();
+            adjacentPlayers.remove(currentPlayerIndex);
+
+        }
+
+        //Remove players that have 0 cards
+        ArrayList<Integer> adjacentPlayersWithCards = new ArrayList<>();
+        for(int i=0; i < adjacentPlayers.size(); i++){
+            if(players[adjacentPlayers.get(i)].getPlayerResourceList().getCardCount() > 0){
+                adjacentPlayersWithCards.add(adjacentPlayers.get(i));
+            }
+        }
+
+        //Create the Array of RobberPlayerInfo
+        RobPlayerInfo[] victims = new RobPlayerInfo[adjacentPlayersWithCards.size()];
+        for(int i=0; i < adjacentPlayersWithCards.size(); i++){
+            int playerIndex = adjacentPlayersWithCards.get(i);
+            victims[i] = new RobPlayerInfo();
+            victims[i].setPlayerIndex(playerIndex);
+            victims[i].setNumCards(getPlayers()[playerIndex].getPlayerResourceList().getCardCount());
+            victims[i].setName(getPlayers()[playerIndex].getName());
+            victims[i].setColor(getPlayers()[playerIndex].getColor());
+        }
+
+        return victims;
+    }
+
+
 
     //ADDITIONAL DO METHODS (With no accompanying can methods)
 
     /*
-    Rulebook: If there are not enough of a resource type, then no one recieve any of that resource
+    Rulebook: If there are not enough of a resource type, then no one receive any of that resource
     (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
-    public void recieveResourcesFromDiceRoll(){
+    public void receiveResourcesFromDiceRoll(){
         //TODO: Go to map and calculate how many cards each player gets
 
         //TODO: Calculate resource production, and consider special rulebook exception.

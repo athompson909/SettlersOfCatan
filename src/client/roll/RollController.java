@@ -11,14 +11,13 @@ import shared.model.turntracker.TurnTracker;
 
 import java.util.Observable;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
  * Implementation for the roll controller
  */
 public class RollController extends Controller implements IRollController {
-//Todo check if roll modal opens
-//todo count down on roll time
 	private IRollResultView resultView;
 
 	private IRollView view;
@@ -28,6 +27,10 @@ public class RollController extends Controller implements IRollController {
 	private boolean rollModal = false;
 
 	private Timer timer = new Timer();
+
+	private int millisecondsToWait = 5000;
+
+	private int SEVEN = 7;
 
 	/**
 	 * RollController constructor
@@ -58,13 +61,13 @@ public class RollController extends Controller implements IRollController {
 	@Override
 	public void rollDice() {
 		//roll dice and display number
+		timer.cancel();
 		int number = dice.rollDice();
 
 		//send result across to the server
 		RollDiceCommand command = new RollDiceCommand(number);
 		ClientFacade.getInstance().rollNumber(command);
 
-//		getView().closeModal();
 		resultView.setRollValue(number);
 		resultView.showModal();
 	}
@@ -76,23 +79,29 @@ public class RollController extends Controller implements IRollController {
 
 		//See if it is our turn to roll
 		if(Client.getInstance().getGameState() == State.ROLLING){
-		//if(tracker.getStatus().equals("Rolling") && tracker.getCurrentTurn()== ClientUser.getInstance().getIndex()){
-			if(!rollModal) {
-				System.out.println("Roll Modal open");
-				//todo figure out rolling automatically and message setting
-				//getRollView().setMessage("Rolling automatically in... 5 seconds");
+			if(!getRollView().isModalShowing()) {
 				getRollView().showModal();
-				//timer.schedule(new SetMessage(),0, 5000);
-				//todo figure out how to get the modal to not flash
-				//rollModal = true;
+				timer = new Timer();
+				timer.schedule(
+					new TimerTask(){
+						@Override
+						public void run() {
+							if(getRollView().isModalShowing()) {
+								getRollView().closeModal();
+								rollDice();
+							}
+						}
+					},
+						millisecondsToWait
+				);
 			}
 
+		}else if(getRollView().isModalShowing()){
+			getRollView().closeModal();
 		}
 
 	}
 
-
-	// maybe get rid of all this:
 	@Override
 	public IRollView getView() {
 		return view;

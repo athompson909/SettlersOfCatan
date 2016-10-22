@@ -27,6 +27,7 @@ public class Catan extends JFrame
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		//this CatanPanel initializes a LeftPanel, which initializes the Chat/GameHistory components
+		//also a RightPanel, which includes the FinishedGameView
 		catanPanel = new CatanPanel();
 
 		this.setContentPane(catanPanel);

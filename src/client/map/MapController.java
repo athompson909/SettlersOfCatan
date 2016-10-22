@@ -92,7 +92,7 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void cancelMove() {
-
+        mapState.cancelMove();
     }
 
     public void playSoldierCard() {
@@ -133,6 +133,8 @@ public class MapController extends Controller implements IMapController {
             mapState = new RollingMapState(this);
         }
     }
+
+
 
 
 }

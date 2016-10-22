@@ -6,7 +6,12 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import client.Client;
 import client.base.*;
+import client.join.*;
+import client.login.LoginController;
+import client.login.LoginView;
+import client.misc.MessageView;
 import client.utils.*;
 
 
@@ -77,9 +82,48 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == okButton) {
-				closeModal();
+
+				if (isModalShowing()){
+					closeModal();
+				}
+
 				//Todo open gameList view here
+				//maybe call a function in the Client singleton up top that can stop the main poller,
+				//reset everything (except the login info) and show the GameListView again
+				//TRY:
+				Client.getInstance().restartGame();
+
+
+
 				//do we need to change pollers?
+//				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
+//				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
+//						playerWaitingView);
+//				playerWaitingView.setController(playerWaitingController);
+//
+//				JoinGameView joinView = new JoinGameView();
+//				NewGameView newGameView = new NewGameView();
+//				SelectColorView selectColorView = new SelectColorView();
+//				MessageView joinMessageView = new MessageView();
+//				final JoinGameController joinController = new JoinGameController(
+//						joinView,
+//						newGameView,
+//						selectColorView,
+//						joinMessageView);
+//				joinController.setJoinAction(new IAction() {
+//					@Override
+//					public void execute()
+//					{
+//						playerWaitingController.start();
+//					}
+//				});
+//				joinView.setController(joinController);
+//				newGameView.setController(joinController);
+//				selectColorView.setController(joinController);
+//				joinMessageView.setController(joinController);
+//
+//				joinView.initialize();
+//				joinController.start();
 			}
 		}	
 	};

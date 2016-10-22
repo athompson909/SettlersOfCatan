@@ -10,6 +10,7 @@ import client.map.MapController;
 import client.turntracker.IState;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
+import shared.definitions.State;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -23,7 +24,6 @@ import shared.model.map.VertexObject;
  * Used for placing road and settlement during the first round of the game
  * Created by Alise on 10/8/2016.
  */
-//todo write all methods
 public class FirstRoundMapState extends MapState {
 
     public FirstRoundMapState(MapController mapController) {
@@ -33,8 +33,10 @@ public class FirstRoundMapState extends MapState {
     @Override
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
+        //Test
 
-        if (Client.getInstance().getStartGame()) {
+        if (Client.getInstance().getGameState().equals(State.FIRSTROUND) &&
+                (Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex())) {
             startGame();
         }
     }
