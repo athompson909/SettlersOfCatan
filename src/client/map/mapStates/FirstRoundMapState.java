@@ -33,6 +33,7 @@ public class FirstRoundMapState extends MapState {
     @Override
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
+        //Test
 
         if (Client.getInstance().getGameState().equals(State.FIRSTROUND) &&
                 (Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex())) {
