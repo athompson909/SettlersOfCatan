@@ -11,6 +11,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
+import shared.model.ClientModel;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.Hex;
 import shared.model.map.Map;
@@ -23,9 +24,7 @@ import java.util.Observable;
  * Created by Alise on 10/8/2016.
  */
 public abstract class MapState  {
-   //Todo Note: I don't know if all these functions will be needed or not; add or delete as neededan
-
-    public MapController mapController;
+     public MapController mapController;
 
     private VertexLocation firstVertexLocation;
     private VertexLocation secondVertexLocation;
@@ -157,10 +156,17 @@ public abstract class MapState  {
         System.out.println("MAP: PLACEROBBER");
         robberHex = hexLoc;
 
+        RobPlayerInfo[] victims = mapController.clientModel.calculateRobPlayerInfo(hexLoc);
 
-        //RobPlayerInfo[] victims = null;
-        //mapController.getRobView().setPlayers(victims);
-        mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
+        if(victims.length > 0){
+            mapController.getRobView().setPlayers(victims);
+            mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
+        } else {
+            //Don't rob anyone, so send a command with -1.
+            int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+            RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, -1);
+            ClientFacade.getInstance().robPlayer(robPlayerCommand);
+        }
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
@@ -169,7 +175,7 @@ public abstract class MapState  {
     }
 
     public void cancelMove() {
-
+        System.out.println("MAPSTATE: CANCELMOVE");
     }
 
     public void playSoldierCard() {
@@ -180,27 +186,15 @@ public abstract class MapState  {
 
     public void playRoadBuildingCard() {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
-
-        //This is what the ResourceBarController Calls...
-        //executeElementAction(ResourceBarElement.ROAD);
-
-        startMove(PieceType.ROAD, true, false);
-
-        startMove(PieceType.ROAD, true, false);
-
-
-
-       /*
-        EdgeLocation temp = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
-
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        mapController.getView().startDrop(PieceType.ROAD, color, true);
-        mapController.getView().startDrop(PieceType.ROAD, color, true);
-
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        BuildRoadCommand buildRoadCommand = new BuildRoadCommand(temp, currentPlayerId, true);
-        ClientFacade.getInstance().buildRoad(buildRoadCommand);
-        */
+        int roadCount = mapController.clientModel.getCurrentPlayer().getRoadCount();
+        if(roadCount > 1) {
+            startMove(PieceType.ROAD, true, false);
+            // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
+        }
+        if(roadCount > 1) {
+            startMove(PieceType.ROAD, true, false);
+            // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
+        }
     }
 
     public void robPlayer(RobPlayerInfo victim) {
@@ -228,4 +222,6 @@ public abstract class MapState  {
     public void setSecondVertexLocation(VertexLocation secondVertexLocation) {
         this.secondVertexLocation = secondVertexLocation;
     }
+
+
 }

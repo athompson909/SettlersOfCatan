@@ -23,7 +23,6 @@ import shared.model.map.VertexObject;
  * Used for placing road and settlement during the first round of the game
  * Created by Alise on 10/8/2016.
  */
-//todo write all methods
 public class FirstRoundMapState extends MapState {
 
     public FirstRoundMapState(MapController mapController) {

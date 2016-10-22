@@ -1,5 +1,6 @@
 package client;
 
+import client.points.GameFinishedView;
 import client.turntracker.TurnTrackerState;
 import client.turntracker.WaitingState;
 import shared.definitions.State;
@@ -54,6 +55,11 @@ public class Client {
         return clientModel;
     }
 
+    //TESTING FOR RESTARTGAME
+    public void setNewClientModel(){
+        this.clientModel = new ClientModel(0);
+    }
+
     public void setServerPoller() {
         this.serverPoller = new ServerPoller();
     }
@@ -89,10 +95,37 @@ public class Client {
 
     /**
      * creates a new instance of server poller which then starts the server poller task
-     */
+     */;
     public void startServerPoller() {
         serverPoller = new ServerPoller();
     }
+
+    public void stopServerPoller(){
+        serverPoller.getPollTimer().cancel();
+    }
+
+
     public boolean getStartGame() {return startGame;}
     public void setStartGame(boolean set) {startGame = set;}
+
+
+
+    //TESTING
+    /*
+    will be called when "ok" pushed on GameFinishedView
+    should do stuff to clear out the current game data:
+      stop main poller
+      clear current clientModel from Client?
+      go back to JoinGameView *with the user still logged in*
+         JGV should start its own poller again and all that
+     */
+    public void restartGame(){
+        stopServerPoller();
+        setNewClientModel();
+
+        //TODO: i want to ask the TAs how they got the original JoinGameView to show up from the Catan
+        // class so it has all the original action listeners and so we don't have to set up the whole
+        //game flow here too.
+    }
+
 }

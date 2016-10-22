@@ -248,6 +248,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
     /**
 	 * This function just shows the SelectColorView
+	 * Sets all the color buttons to enabled/disabled depending on who is joined to the game right now
      */
 	@Override
 	public void startJoinGame(GameInfo game) {
@@ -274,9 +275,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					// for WHITE: if the user joined with default color, this will be taken already.
 					// Enable it again IF they joined with default color (they created their own game):
 					System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
-					//System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
+					System.out.println(">comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
 
-					//only enable WHITE if you either created the game AND if it's you picking your own color again
+					//only enable WHITE if you created the game AND if it's you picking your own color again
 					if (ClientUser.getInstance().joinedWithDefaultColor() && playersInGame.get(i).getId() == ClientUser.getInstance().getId()) {
 						getSelectColorView().setColorEnabled(CatanColor.WHITE, true); //enable WHITE
 					}
@@ -329,7 +330,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			//ok to save the id of the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
 			//MARK THAT THEY WENT THROUGH THIS METHOD
-			ClientUser.getInstance().setJoinedWithDefaultColor(true);
+			ClientUser.getInstance().setJoinedWithDefaultColor(true);  //is this not setting if you just registered?
 		}
 		else {
 			//print - it didn't work
@@ -379,7 +380,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				getSelectColorView().closeModal();
 			}
 			if (getJoinGameView().isModalShowing()) {
-				getJoinGameView().closeModal();  //TESTING FOR CMDLINE
+				getJoinGameView().closeModal();
 			}
 			joinAction.execute(); //goes to playerWaitingController
 		}

@@ -179,6 +179,9 @@ public class ServerProxy implements IServerProxy {
             String undecodedRegisterCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
             setLoginCookie(undecodedRegisterCookie);
             //setRegisterCookie(URLDecoder.decode(undecodedRegisterCookie));
+
+            saveUserIDFromLoginCookie();  //TEST
+
             isRegister = false;
         }
         if (isJoin) {
@@ -186,6 +189,7 @@ public class ServerProxy implements IServerProxy {
             String undecodedJoinCookie = fullCookieStr.substring(11, fullCookieStr.length() - 8);
             setJoinCookie(undecodedJoinCookie);
             //setRegisterCookie(URLDecoder.decode(undecodedJoinCookie));
+
             isJoin = false;
 
         }

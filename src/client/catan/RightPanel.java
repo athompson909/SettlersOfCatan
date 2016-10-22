@@ -53,7 +53,8 @@ public class RightPanel extends JPanel
 		// Initialize victory point view and controller
 		//
 		pointsView = new PointsView();
-		finishedView = new GameFinishedView();
+		finishedView = new GameFinishedView();   //********
+
 		pointsController = new PointsController(pointsView, finishedView);
 		pointsView.setController(pointsController);
 		

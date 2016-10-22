@@ -1,9 +1,12 @@
 package shared.model.map;
 
+import client.data.RobPlayerInfo;
+import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -517,6 +520,52 @@ public class Map {
             }
         }
         return ports;
+    }
+
+    /**
+     *
+     * @param hexLoc The hex to evaluate
+     * @return an arraylist of all the players that have a settlement or city on a hexes vertex
+     */
+    public ArrayList getPlayersAdjacentToHex(HexLocation hexLoc){
+        ArrayList<Integer> adjacentPlayers = new ArrayList();
+
+        VertexLocation northWestVertex = new VertexLocation(hexLoc, VertexDirection.NorthWest);
+        addPlayeratVertex(northWestVertex, adjacentPlayers);
+
+        VertexLocation northEastVertex = new VertexLocation(hexLoc, VertexDirection.NorthEast);
+        addPlayeratVertex(northEastVertex, adjacentPlayers);
+
+        VertexLocation eastVertex = new VertexLocation(hexLoc.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest);
+        addPlayeratVertex(eastVertex, adjacentPlayers);
+
+        VertexLocation westVertex = new VertexLocation(hexLoc.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast);
+        addPlayeratVertex(westVertex, adjacentPlayers);
+
+        VertexLocation southEastVertex = new VertexLocation(hexLoc.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast);
+        addPlayeratVertex(southEastVertex, adjacentPlayers);
+
+        VertexLocation southWestVertex = new VertexLocation(hexLoc.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest);
+        addPlayeratVertex(southWestVertex, adjacentPlayers);
+
+        return adjacentPlayers;
+    }
+
+    /**
+     * Checks if a player is at the specificed vertex Location, and adds that player's index
+     * to an array list if the player is not already in that array list.
+     * @param vertexLocation
+     * @param adjacentPlayers
+     */
+    private void addPlayeratVertex(VertexLocation vertexLocation, ArrayList adjacentPlayers){
+        if(vertexObjects.containsKey(vertexLocation)){
+            int ownerIndex = vertexObjects.get(vertexLocation).getOwner();
+            if(ownerIndex != -1){
+                if(!adjacentPlayers.contains(ownerIndex)){
+                    adjacentPlayers.add(ownerIndex);
+                }
+            }
+        }
     }
 
 

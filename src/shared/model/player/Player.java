@@ -144,50 +144,38 @@ public class Player { //
      * @return true if the player has the required resources to purchase a road.
      */
     public boolean canPurchaseRoad() {
-        if (playerResourceList.getBrickCardCount() >= 1
+        return (playerResourceList.getBrickCardCount() >= 1
                 && playerResourceList.getWoodCardCount() >= 1
-                && roadCount > 0) {
-            return true;
-        }
-        return false;
+                && roadCount > 0);
     }
 
     /**
      * @return true if the player has the required resources to purchase a settlement.
      */
     public boolean canPurchaseSettlement() {
-        if (playerResourceList.getBrickCardCount() >= 1
+        return (playerResourceList.getBrickCardCount() >= 1
                 && playerResourceList.getWoodCardCount() >= 1
                 && playerResourceList.getSheepCardCount() >= 1
                 && playerResourceList.getWheatCardCount() >= 1
-                && settlementCount > 0) {
-            return true;
-        }
-        return false;
+                && settlementCount > 0);
     }
 
     /**
      * @return true if the player has the required resources to purchase a city.
      */
     public boolean canPurchaseCity() {
-        if (playerResourceList.getWheatCardCount() >= 2
+        return (playerResourceList.getWheatCardCount() >= 2
                 && playerResourceList.getOreCardCount() >= 3
-                && cityCount > 0) {
-            return true;
-        }
-        return false;
+                && cityCount > 0);
     }
 
     /**
      * @return true if the player has the required resources to purchase a Development Card.
      */
     public boolean canPurchaseDevelopmentCard() {
-        if (playerResourceList.getOreCardCount() >= 1
+        return (playerResourceList.getOreCardCount() >= 1
                 && playerResourceList.getSheepCardCount() >= 1
-                && playerResourceList.getWheatCardCount() >= 1) {
-            return true;
-        }
-        return false;
+                && playerResourceList.getWheatCardCount() >= 1);
     }
 
     /**
@@ -195,60 +183,42 @@ public class Player { //
      */
     public boolean canPlayDevelopmentCards() {
         //If the player has already played a Dev card
-        if (playedDevCard) {
-            return false;
-        }
-        return true;
+        return playedDevCard;
     }
 
     /**
      * @return true if the player can play a solider card.
      */
     public boolean canPlaySoldierCard() {
-        if (oldDevCardList.getSoldierCardCount() > 0) {
-            return true;
-        }
-        return false;
+        return (oldDevCardList.getSoldierCardCount() > 0);
     }
 
     /**
      * @return true if the player can play a monument card.
      */
     public boolean canPlayMonumentCard() {
-        if (oldDevCardList.getMonumentCardCount() > 0) {
-            return true;
-        }
-        return false;
+        return (oldDevCardList.getMonumentCardCount() > 0);
     }
 
     /**
      * @return true if the player can play a YearOfPlenty card.
      */
     public boolean canPlayYearOfPlentyCard() {
-        if (oldDevCardList.getYearOfPlentyCardCount() > 0) {
-            return true;
-        }
-        return false;
+        return (oldDevCardList.getYearOfPlentyCardCount() > 0);
     }
 
     /**
      * @return true if the player can play a RoadBuilding card.
      */
     public boolean canPlayRoadBuildingCard() {
-        if (oldDevCardList.getRoadBuildingCardCount() > 0) {
-            return true;
-        }
-        return false;
+        return (oldDevCardList.getRoadBuildingCardCount() > 0);
     }
 
     /**
      * @return true if the player can play a Monopoly card.
      */
     public boolean canPlayMonopolyCard() {
-        if (oldDevCardList.getMonopolyCardCount() > 0) {
-            return true;
-        }
-        return false;
+        return (oldDevCardList.getMonopolyCardCount() > 0);
     }
 
     //DO METHODS:
@@ -328,7 +298,7 @@ public class Player { //
 
     /**
      * Play a Monopoly card from the player's hand.
-     * @param monopolizedResource the player will recieve.
+     * @param monopolizedResource the player will receive.
      * @param cardsGained How many cards of the specified resource the player will gain.
      */
     public void playMonopolyCard(ResourceType monopolizedResource, int cardsGained) {

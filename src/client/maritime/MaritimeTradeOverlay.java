@@ -11,8 +11,6 @@ import shared.definitions.*;
 import client.base.*;
 import client.utils.ImageUtils;
 
-//TODO Craig: I think one thing that could help layout is to simply add .preferedSize() to the createGet/GivePane
-// Also, I'm not sure if you have moved the folder for the images, but that is just in the starting variables.  :D
 /**
  * Implementation for the maritime trade overlay, which lets the user make a maritime trade
  */
@@ -23,7 +21,7 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 	private final int BUTTON_TEXT_SIZE = 28;
 	private final int BORDER_WIDTH = 10;
 
-	private JLabel label; //Where is this used? //It's for the name
+	private JLabel label;
 	private JPanel mainPane;
 
 	//Image variables
@@ -113,6 +111,8 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		giveAmount.setVisible(false);
 	}
 
+	//make the Trade! button enable here, since this is the last view before actually executing the trade.
+	//but if they pick the Reload back arrow, disable it again
 	@Override
 	public void selectGetOption(ResourceType selectedResource, int amount) {
 		getAmount.setText(Integer.toString(amount));
@@ -144,10 +144,19 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		//displays the undo button
 		getreload.setVisible(true);
 		getreload.setEnabled(true);
+
+
+		//enable the Trade! button
+		setTradeEnabled(true);
+
 	}
 
+
+	//this is all for the first part of the MT views
 	@Override
 	public void selectGiveOption(ResourceType selectedResource, int amount) {
+		System.out.println(">MTOVERLAY: selectGIVEOption called, ResType= " + selectedResource);
+
 		giveAmount.setText(Integer.toString(amount));
 		giveAmount.setVisible(true);
 		
@@ -177,6 +186,7 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		//displays the undo button
 		givereload.setVisible(true);
 		givereload.setEnabled(true);
+
 	}
 
 	@Override
@@ -271,17 +281,20 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (e.getSource() == givereload)	
-				{getController().unsetGiveValue();hideGetOptions();}
+				if (e.getSource() == givereload) {
+					getController().unsetGiveValue();hideGetOptions();
+				}
 
 				else if (e.getSource() == givewood) 
-				{getController().setGiveResource(ResourceType.WOOD);}
+				{
+					getController().setGiveResource(ResourceType.WOOD);}
 
 				else if (e.getSource() == givebrick) 
 				{getController().setGiveResource(ResourceType.BRICK);}
 
 				else if (e.getSource() == givesheep) 
-				{getController().setGiveResource(ResourceType.SHEEP);}
+				{
+					getController().setGiveResource(ResourceType.SHEEP);}
 
 				else if (e.getSource() == givewheat) 
 				{getController().setGiveResource(ResourceType.WHEAT);}
@@ -294,17 +307,25 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (e.getSource() == getreload)	
-				{getController().unsetGetValue();}
+				if (e.getSource() == getreload) {
+					//try disabling Trade! button here:
+					setTradeEnabled(false);
 
-				else if (e.getSource() == getwood) 
-				{getController().setGetResource(ResourceType.WOOD);}
+					getController().unsetGetValue();
+				}
+
+				else if (e.getSource() == getwood) {
+
+					getController().setGetResource(ResourceType.WOOD);
+				}
 
 				else if (e.getSource() == getbrick) 
 				{getController().setGetResource(ResourceType.BRICK);}
 
-				else if (e.getSource() == getsheep) 
-				{getController().setGetResource(ResourceType.SHEEP);}
+				else if (e.getSource() == getsheep) {
+
+					getController().setGetResource(ResourceType.SHEEP);
+				}
 
 				else if (e.getSource() == getwheat) 
 				{getController().setGetResource(ResourceType.WHEAT);}
@@ -485,6 +506,8 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		tradeButton = new JButton("Trade!");
 		tradeButton.addActionListener(actionListener);
 		tradeButton.setFont(buttonFont);
+		//TEST
+		tradeButton.setEnabled(false);
 
 		
 		buttonPanel = new JPanel();
