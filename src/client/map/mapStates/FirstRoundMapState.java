@@ -10,6 +10,7 @@ import client.map.MapController;
 import client.turntracker.IState;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
+import shared.definitions.State;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -33,7 +34,8 @@ public class FirstRoundMapState extends MapState {
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
 
-        if (Client.getInstance().getStartGame()) {
+        if (Client.getInstance().getGameState().equals(State.FIRSTROUND) &&
+                (Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex())) {
             startGame();
         }
     }

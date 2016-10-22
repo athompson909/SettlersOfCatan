@@ -72,7 +72,6 @@ public abstract class MapState  {
             }
         }
 
-
         mapController.getView().placeRobber(updatedMap.getRobber().getCurrentHexlocation());
     }
 
