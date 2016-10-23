@@ -164,8 +164,8 @@ public abstract class MapState  {
         } else {
             //Don't rob anyone, so send a command with -1.
             int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-            RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, -1);
-            ClientFacade.getInstance().robPlayer(robPlayerCommand);
+            PlaySoldierCommand playSoldierCommand = new PlaySoldierCommand(currentPlayerId, robberHex, -1);
+            ClientFacade.getInstance().playSoldier(playSoldierCommand);
         }
     }
 
@@ -202,8 +202,8 @@ public abstract class MapState  {
 
         //Why does the ROb PLayer command need a hex and victim? Where do I get the hex from?
         int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, victim.getPlayerIndex());
-        ClientFacade.getInstance().robPlayer(robPlayerCommand);
+        PlaySoldierCommand playSoldierCommand = new PlaySoldierCommand(currentPlayerId, robberHex, victim.getPlayerIndex());
+        ClientFacade.getInstance().playSoldier(playSoldierCommand);
 
     }
 

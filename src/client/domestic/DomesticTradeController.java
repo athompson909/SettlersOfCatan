@@ -277,46 +277,53 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		TradeOffer offer = model.getTradeOffer();
 
 		//there is a trade and this user is the receiver
-		if(offer.tradeToAccept() && offer.getReceiverIndex()==ClientUser.getInstance().getIndex()){
+		if(offer.tradeToAccept()){
+			if (offer.getReceiverIndex()==ClientUser.getInstance().getIndex()) {//need to accept/reject
 
-			getAcceptOverlay().reset();
-			ResourceList tradeList = offer.getTradeOfferList();
+				getAcceptOverlay().reset();
+				ResourceList tradeList = offer.getTradeOfferList();
 
-			if(tradeList.getWoodCardCount() > 0){
-				getAcceptOverlay().addGetResource(ResourceType.WOOD, tradeList.getWoodCardCount());
-			}else if(tradeList.getWoodCardCount() < 0){
-				getAcceptOverlay().addGiveResource(ResourceType.WOOD, -1*tradeList.getWoodCardCount());
-			}
+				if (tradeList.getWoodCardCount() > 0) {
+					getAcceptOverlay().addGetResource(ResourceType.WOOD, tradeList.getWoodCardCount());
+				} else if (tradeList.getWoodCardCount() < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.WOOD, -1 * tradeList.getWoodCardCount());
+				}
 
-			if(tradeList.getBrickCardCount() > 0){
-				getAcceptOverlay().addGetResource(ResourceType.BRICK, tradeList.getBrickCardCount());
-			}else if(tradeList.getBrickCardCount() < 0){
-				getAcceptOverlay().addGiveResource(ResourceType.BRICK, -1*tradeList.getBrickCardCount());
-			}
+				if (tradeList.getBrickCardCount() > 0) {
+					getAcceptOverlay().addGetResource(ResourceType.BRICK, tradeList.getBrickCardCount());
+				} else if (tradeList.getBrickCardCount() < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.BRICK, -1 * tradeList.getBrickCardCount());
+				}
 
-			if(tradeList.getSheepCardCount() > 0){
-				getAcceptOverlay().addGetResource(ResourceType.SHEEP, tradeList.getSheepCardCount());
-			}else if(tradeList.getSheepCardCount() < 0){
-				getAcceptOverlay().addGiveResource(ResourceType.SHEEP, -1*tradeList.getSheepCardCount());
-			}
+				if (tradeList.getSheepCardCount() > 0) {
+					getAcceptOverlay().addGetResource(ResourceType.SHEEP, tradeList.getSheepCardCount());
+				} else if (tradeList.getSheepCardCount() < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.SHEEP, -1 * tradeList.getSheepCardCount());
+				}
 
-			if(tradeList.getWheatCardCount() > 0){
-				getAcceptOverlay().addGetResource(ResourceType.WHEAT, tradeList.getWheatCardCount());
-			}else if(tradeList.getWheatCardCount() < 0){
-				getAcceptOverlay().addGiveResource(ResourceType.WHEAT, -1*tradeList.getWheatCardCount());
-			}
+				if (tradeList.getWheatCardCount() > 0) {
+					getAcceptOverlay().addGetResource(ResourceType.WHEAT, tradeList.getWheatCardCount());
+				} else if (tradeList.getWheatCardCount() < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.WHEAT, -1 * tradeList.getWheatCardCount());
+				}
 
-			if(tradeList.getOreCardCount() > 0){
-				getAcceptOverlay().addGetResource(ResourceType.ORE, tradeList.getOreCardCount());
-			}else if(tradeList.getOreCardCount() < 0){
-				getAcceptOverlay().addGiveResource(ResourceType.ORE, -1*tradeList.getOreCardCount());
-			}
+				if (tradeList.getOreCardCount() > 0) {
+					getAcceptOverlay().addGetResource(ResourceType.ORE, tradeList.getOreCardCount());
+				} else if (tradeList.getOreCardCount() < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.ORE, -1 * tradeList.getOreCardCount());
+				}
 
-			//enable accept button if this player has enough resources
-			ResourceList resources = model.getCurrentPlayer().getPlayerResourceList();
-			getAcceptOverlay().setAcceptEnabled(offer.canPlayerAccept(resources));
+				//enable accept button if this player has enough resources
+				ResourceList resources = model.getCurrentPlayer().getPlayerResourceList();
+				getAcceptOverlay().setAcceptEnabled(offer.canPlayerAccept(resources));
 
-			getAcceptOverlay().showModal();
+				getAcceptOverlay().showModal();
+			}else if(offer.getSenderIndex() == ClientUser.getInstance().getIndex()){//I am waiting
+                //show waiting overlay if not showing
+                if(!getWaitOverlay().isModalShowing()){
+                    getWaitOverlay().showModal();
+                }
+            }
 		}else if(getWaitOverlay().isModalShowing()){
 			getWaitOverlay().closeModal();
 		}
