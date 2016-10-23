@@ -39,26 +39,19 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
 		super(tradeView);
-
-		setTradeOverlay(tradeOverlay);
+		this.tradeOverlay = tradeOverlay;
 	}
 	
 	public IMaritimeTradeView getTradeView() {
 		
 		return (IMaritimeTradeView)super.getView();
 	}
-	
-	public IMaritimeTradeOverlay getTradeOverlay() {
-		return tradeOverlay;
-	}
-
-	public void setTradeOverlay(IMaritimeTradeOverlay tradeOverlay) {
-		this.tradeOverlay = tradeOverlay;
-	}
 
 	@Override
 	public void startTrade() {
-
+		tradeOverlay.reset();
+		//make sure trade button is disabled here
+//		getTradeView().enableMaritimeTrade(false);
 		tradeOverlay.showGiveOptions(getGiveOption());
 
 		tradeOverlay.showModal();
@@ -116,17 +109,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		tradeOverlay.hideGetOptions();
 		ClientFacade.getInstance().maritimeTrade(command);
 		tradeOverlay.closeModal();
-		setDefaults();
 	}
 
 	@Override
 	public void cancelTrade() {
 
 		tradeOverlay.closeModal();
-		setDefaults();
-	}
-
-	private void setDefaults() {
 	}
 
 	@Override
@@ -140,6 +128,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void setGetResource(ResourceType resource) {
 		getResource = resource;
 		tradeOverlay.selectGetOption(resource, 1);
+		//enable trade button here
+//		getTradeView().enableMaritimeTrade(true);
 	}
 
 	@Override
@@ -155,6 +145,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel)o;
+		getTradeView().enableMaritimeTrade(getGiveOption().length > 0);
 
 	}
 }

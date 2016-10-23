@@ -51,12 +51,12 @@ public class SecondRoundMapState extends MapState {
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
         int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, true);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
 
         FinishTurnCommand finishTurnCommand = new FinishTurnCommand(currentPlayerIndex);
         ClientFacade.getInstance().finishTurn(finishTurnCommand);
-
     }
 
     @Override

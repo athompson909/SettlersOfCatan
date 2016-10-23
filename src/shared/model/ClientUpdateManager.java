@@ -56,12 +56,6 @@ public class ClientUpdateManager {
         Map newMap = newModel.map;
         updateMap(currMap, newMap);
 
-        /*TODO: This is where have a problem. Sierra/Adam, talk to me (Mitch) about this.
-        Stephanie and I made the clientmodel initialize with 4 empty players so the players array in the clientmodel
-        wasn't null, that way it doesn't crash in these following functions. However, not that the client model has 4
-        players, when you click join game, it doesn't let you add players or computers because there's already 4 players.
-        We need to talk about how to approach this.
-         */
         Player[] currPlayers = currentModel.getPlayers();
         Player[] newPlayers = newModel.getPlayers();
         updatePlayers(currPlayers, newPlayers);
