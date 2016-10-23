@@ -2,9 +2,11 @@ package client.map.mapStates;
 
 import client.Client;
 import client.ClientFacade;
+import client.ClientUser;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import shared.definitions.PieceType;
+import shared.definitions.State;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -27,7 +29,9 @@ public class SecondRoundMapState extends MapState {
     @Override
     public void initFromModel(Map updatedMap) {
         super.initFromModel(updatedMap);
-        if (getSecondVertexLocation() == null) {
+        if(Client.getInstance().getGameState().equals(State.SECONDROUND)
+                && Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()
+                && getSecondVertexLocation() == null) {
             mapController.startMove(PieceType.SETTLEMENT, true, false);
         }
     }

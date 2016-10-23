@@ -110,6 +110,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			getView().closeModal();  ///TESTING CMDLINE
 		}
 
+		//Client.getInstance().getClientModel().notifyObservers();
 		Client.getInstance().setStartGame(true);
 	}
 
