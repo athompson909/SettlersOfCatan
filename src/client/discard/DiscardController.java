@@ -24,7 +24,6 @@ public class DiscardController extends Controller implements IDiscardController 
     private int amount;
     private int total;
 	private IWaitView waitView;
-    private boolean discarded = false;
 	
 	/**
 	 * DiscardController constructor
@@ -101,7 +100,6 @@ public class DiscardController extends Controller implements IDiscardController 
         getDiscardView().closeModal();
 		DiscardCommand command = new DiscardCommand(ClientUser.getInstance().getIndex(), discardList);
 		ClientFacade.getInstance().discardCards(command);
-        discarded = true;
         //set values to prep for next time
         reset();
 	}
@@ -122,7 +120,7 @@ public class DiscardController extends Controller implements IDiscardController 
             if(tracker.getStatus().equals("Discarding")){
 
                 //I need to discard
-                if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()) {
+                if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()){
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
@@ -131,7 +129,6 @@ public class DiscardController extends Controller implements IDiscardController 
                 }
             }else if (getWaitView().isModalShowing()) {
                 getWaitView().closeModal();  //TEST CMDLINE
-                discarded = false;
             }
         }
 
