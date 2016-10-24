@@ -138,9 +138,5 @@ public class MapController extends Controller implements IMapController {
         mapState = new RoadBuildingMapState(this);
     }
 
-
-
-
-
 }
 

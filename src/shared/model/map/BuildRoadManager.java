@@ -288,4 +288,9 @@ public class BuildRoadManager {
     public void placeRoad(int playerID, EdgeLocation edgeLocation) {
         map.getEdgeObjects().get(edgeLocation).setOwner(playerID);
     }
+
+    public void addTempRoad(EdgeValue edgeValue){
+        map.getEdgeObjects().put(edgeValue.getEdgeLocation(), edgeValue);
+    }
+
 }
