@@ -31,6 +31,8 @@ public class RoadBuildingMapState extends MapState {
             EdgeValue edgeValue = new EdgeValue(edgeLoc);
             edgeValue.setOwner(mapController.clientModel.getCurrentPlayer().getPlayerIndex());
             mapController.clientModel.getMap().buildRoadManager.addTempRoad(edgeValue);
+            CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+            mapController.getView().startDrop(PieceType.ROAD, color, false);
         } else {
             mapController.clientModel.getMap().buildRoadManager.removeTempRoad(edgeLocation1);
             int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
@@ -43,7 +45,7 @@ public class RoadBuildingMapState extends MapState {
     public void cancelMove() {
         System.out.println("MAPSTATE: CANCELMOVE");
         mapController.clientModel.getMap().buildRoadManager.removeTempRoad(edgeLocation1);
-        initFromModel(mapController.clientModel.getMap());
+        super.cancelMove();
     }
 
 }
