@@ -113,7 +113,6 @@ public class MapController extends Controller implements IMapController {
         clientModel = (ClientModel) o;
         setState(Client.getInstance().getGameState());
         mapState.initFromModel(clientModel.getMap());
-        //state.initFromModel(clientModel.getMap());
     }
 
     public void setState(State gameState) {

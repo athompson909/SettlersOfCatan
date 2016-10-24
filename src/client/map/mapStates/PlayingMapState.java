@@ -9,4 +9,5 @@ public class PlayingMapState extends MapState {
     public PlayingMapState(MapController mapController) {
         super(mapController);
     }
+
 }
