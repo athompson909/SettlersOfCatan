@@ -121,11 +121,9 @@ public abstract class MapState  {
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
-        //This should send it to the server
         int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, false);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
-
     }
 
     public void placeSettlement(VertexLocation vertLoc) {
@@ -185,6 +183,8 @@ public abstract class MapState  {
 
     public void playRoadBuildingCard() {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
+        mapController.setMapStateToRoadBuilding();
+
         int roadCount = mapController.clientModel.getCurrentPlayer().getRoadCount();
         if(roadCount > 1) {
             startMove(PieceType.ROAD, true, false);
@@ -194,6 +194,9 @@ public abstract class MapState  {
             startMove(PieceType.ROAD, true, false);
             // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
         }
+
+
+
     }
 
     public void robPlayer(RobPlayerInfo victim) {

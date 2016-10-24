@@ -134,6 +134,11 @@ public class MapController extends Controller implements IMapController {
         }
     }
 
+    public void setMapStateToRoadBuilding(){
+        mapState = new RoadBuildingMapState(this);
+    }
+
+
 
 
 
