@@ -66,6 +66,16 @@ public class BuildRoadManager {
         }
     }
 
+    private boolean opposingPlayerOwnsSettlement(int playerID, EdgeLocation vertexLocation){
+        if(map.getVertexObjects().containsKey(vertexLocation)){
+            if(map.getVertexObjects().get(vertexLocation).getOwner() != playerID){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     /**
      * Checks to see if the player has roads connected to a northEdge Value
      *
@@ -82,6 +92,7 @@ public class BuildRoadManager {
             //If the player owns the Northwest or Northeast edgeValues on the same hex, then the road is connected.
             if (tempEdgeLocation.getHexLoc().equals(desiredEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthWest, playerID)) {
+                    if(opposingPlayerOwnsSettlement(playerID, desiredEdgeLocation))
                     return true;
                 }
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthEast, playerID)) {
