@@ -3,8 +3,10 @@ package client.map.mapStates;
 import client.ClientFacade;
 import client.map.MapController;
 import shared.locations.EdgeLocation;
+import shared.model.ClientModel;
 import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.commandmanager.moves.PlayRoadBuilderCommand;
+import shared.model.map.EdgeValue;
 import shared.model.map.Map;
 
 /**
@@ -20,6 +22,12 @@ public class RoadBuildingMapState extends MapState {
     public void placeRoad(EdgeLocation edgeLoc) {
         if(edgeLocation1 == null){
             edgeLocation1 = edgeLoc;
+            //Draw it
+            mapController.getView().placeRoad(edgeLoc,  mapController.clientModel.getCurrentPlayer().getColor());
+
+            EdgeValue edgeValue = new EdgeValue(edgeLoc);
+            edgeValue.setOwner(mapController.clientModel.getCurrentPlayer().getPlayerIndex());
+            mapController.clientModel.getMap().buildRoadManager.addTempRoad(edgeValue);
         }
         else{
             int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();

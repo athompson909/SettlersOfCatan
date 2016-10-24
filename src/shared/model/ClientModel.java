@@ -311,8 +311,6 @@ public class ClientModel extends Observable {
      * @param playerIndex
      */
     public void playSoldierCard(int playerIndex){
-        //TODO: Access map and move soldier
-        //TODO: Steal random card from potential players
         players[playerIndex].playSoldierCard();
     }
 
