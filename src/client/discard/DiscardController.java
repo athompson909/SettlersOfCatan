@@ -121,9 +121,11 @@ public class DiscardController extends Controller implements IDiscardController 
 
                 //I need to discard
                 if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()){
+                    if(!getDiscardView().isModalShowing()) {
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();
                         getDiscardView().showModal();
+                    }
                 }else if(!getWaitView().isModalShowing()){//others are discarding
                     getWaitView().showModal();
                 }
