@@ -110,6 +110,7 @@ public class Client {
 
 
 
+
     //TESTING
     /*
     will be called when "ok" pushed on GameFinishedView
@@ -118,14 +119,13 @@ public class Client {
       clear current clientModel from Client?
       go back to JoinGameView *with the user still logged in*
          JGV should start its own poller again and all that
+         EDIT: TA's said to just quit the program here
      */
-    public void restartGame(){
+    public void endGame(){
         stopServerPoller();
-        setNewClientModel();
 
-        //TODO: i want to ask the TAs how they got the original JoinGameView to show up from the Catan
-        // class so it has all the original action listeners and so we don't have to set up the whole
-        //game flow here too.
+        //just quit the program here
+        System.exit(0);
     }
 
 }
