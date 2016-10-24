@@ -1,5 +1,6 @@
 package shared.model.map;
 
+import shared.definitions.PieceType;
 import shared.locations.*;
 
 /**
@@ -320,7 +321,9 @@ public class BuildRoadManager {
      * @param playerID     ID of player who owns road
      */
     public void placeRoad(int playerID, EdgeLocation edgeLocation) {
-        map.getEdgeObjects().get(edgeLocation).setOwner(playerID);
+        EdgeValue edgeValue = new EdgeValue(edgeLocation);
+        edgeValue.setOwner(playerID);
+        map.getEdgeObjects().put(edgeLocation, edgeValue);
     }
 
     public void addTempRoad(EdgeValue edgeValue){

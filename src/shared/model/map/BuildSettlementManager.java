@@ -274,7 +274,9 @@ public class BuildSettlementManager {
      * @param playerID       ID of player who owns settlement
      */
     public void placeSettlement(int playerID, VertexLocation vertexLocation) {
-        map.getVertexObjects().get(vertexLocation).setOwner(playerID);
-        map.getVertexObjects().get(vertexLocation).setPieceType(PieceType.SETTLEMENT);
+        VertexObject vertexObject = new VertexObject(vertexLocation);
+        vertexObject.setOwner(playerID);
+        vertexObject.setPieceType(PieceType.SETTLEMENT);
+        map.getVertexObjects().put(vertexLocation, vertexObject);
     }
 }
