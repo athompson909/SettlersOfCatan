@@ -107,6 +107,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 
 		getTradeOverlay().reset();
+		receiver = -1;
 		getTradeOverlay().setPlayerSelectionEnabled(Client.getInstance().getState().toEnum()==State.PLAYING);
 
 		//if it is this players turn enable trade otherwise set message
