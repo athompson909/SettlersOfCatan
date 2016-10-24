@@ -87,11 +87,11 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 					closeModal();
 				}
 
-				//Todo open gameList view here
 				//maybe call a function in the Client singleton up top that can stop the main poller,
 				//reset everything (except the login info) and show the GameListView again
 				//TRY:
-				Client.getInstance().restartGame();
+				//just quit the program here
+				Client.getInstance().endGame();
 
 
 

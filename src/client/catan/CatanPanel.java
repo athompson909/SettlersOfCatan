@@ -120,15 +120,14 @@ public class CatanPanel extends JPanel
 //				}
 
 				//TESTING
-				System.out.println(">>TESTING: stopping main poller %%%%%%%%%%%%%%%%%%%%%");
-
-				Client.getInstance().stopServerPoller();
+				Client.getInstance().endGame();
 
 			}
 		});
 
 		this.add(testButton, BorderLayout.SOUTH);
 */
+
 	}
 	
 }
