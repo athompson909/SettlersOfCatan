@@ -53,6 +53,9 @@ public class BuildCityManager {
      * @param desiredVertexLocation Vertex where city is built
      */
     public void placeCity(int playerID, VertexLocation desiredVertexLocation) {
-        map.getVertexObjects().get(desiredVertexLocation).setPieceType(PieceType.CITY);
+        VertexObject vertexObject = new VertexObject(desiredVertexLocation);
+        vertexObject.setOwner(playerID);
+        vertexObject.setPieceType(PieceType.CITY);
+        map.getVertexObjects().put(desiredVertexLocation, vertexObject);
     }
 }

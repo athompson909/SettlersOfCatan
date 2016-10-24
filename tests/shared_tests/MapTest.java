@@ -86,12 +86,12 @@ public class MapTest extends TestCase {
 
     public void testMapVertices(){
         System.out.println("testMapVertices");
-        assert (map.getVertexObjects().size() == 54);
+        assert (map.getVertexObjects().size() == 0);
     }
 
     public void testMapEdges(){
         System.out.println("testMapEdges");
-        assert (map.getEdgeObjects().size() == 72);
+        assert (map.getEdgeObjects().size() == 0);
     }
 
 
