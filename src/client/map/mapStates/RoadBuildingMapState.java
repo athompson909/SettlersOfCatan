@@ -2,6 +2,8 @@ package client.map.mapStates;
 
 import client.ClientFacade;
 import client.map.MapController;
+import shared.definitions.CatanColor;
+import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.moves.BuildRoadCommand;
@@ -43,4 +45,17 @@ public class RoadBuildingMapState extends MapState {
         mapController.clientModel.getMap().buildRoadManager.removeTempRoad(edgeLocation1);
         initFromModel(mapController.clientModel.getMap());
     }
+
+    @Override
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
+        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        if(getFirstVertexLocation() == null) {
+            mapController.getView().startDrop(pieceType, color, true);
+        } else {
+            mapController.getView().startDrop(pieceType, color, false);
+        }
+    }
 }
+
+
+

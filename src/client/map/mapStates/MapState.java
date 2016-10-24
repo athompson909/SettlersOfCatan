@@ -191,7 +191,7 @@ public abstract class MapState  {
 
 
         startMove(PieceType.ROAD, true, false);
-        // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
+        //mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
 
 
         //int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
