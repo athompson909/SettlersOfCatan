@@ -15,6 +15,7 @@ import shared.model.commandmanager.moves.PlayYearOfPlentyCommand;
 import shared.model.commandmanager.moves.PurchaseDevCardCommand;
 import shared.model.player.Player;
 import shared.model.resourcebank.DevCardList;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.Observable;
 
@@ -30,6 +31,7 @@ public class DevCardController extends Controller implements IDevCardController 
     private IAction roadAction;
 
     private ClientModel clientModel;
+    private boolean playedCard = false;
 
     /**
      * DevCardController constructor
@@ -94,17 +96,32 @@ public class DevCardController extends Controller implements IDevCardController 
      * @param devCardList the current player's devCardList
      */
     private void setCardAmounts(DevCardList devCardList) {
-        playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount());
-        playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount());
-        playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount());
-        playDevCardView.setCardAmount(DevCardType.MONOPOLY, devCardList.getMonopolyCardCount());
-        playDevCardView.setCardAmount(DevCardType.ROAD_BUILD, devCardList.getRoadBuildingCardCount());
-        if(clientModel.getTurnTracker().getStatus().equals("Playing")) {
-            playDevCardView.setCardEnabled(DevCardType.SOLDIER, (devCardList.getSoldierCardCount() >= 1));
-            playDevCardView.setCardEnabled(DevCardType.MONUMENT, (devCardList.getMonumentCardCount() >= 1));
-            playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
-            playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
-            playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1));
+        
+        //Show sum of old and new cards
+        DevCardList newCardList = clientModel.getCurrentPlayer().getNewDevCardList();
+        playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount()+ newCardList.getSoldierCardCount());
+        playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount() + newCardList.getMonumentCardCount());
+        playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount() + newCardList.getYearOfPlentyCardCount());
+        playDevCardView.setCardAmount(DevCardType.MONOPOLY, devCardList.getMonopolyCardCount() + newCardList.getMonopolyCardCount());
+        playDevCardView.setCardAmount(DevCardType.ROAD_BUILD, devCardList.getRoadBuildingCardCount() + newCardList.getRoadBuildingCardCount());
+
+        //Must be their turn and in playing state to play cards
+        TurnTracker turnTracker = clientModel.getTurnTracker();
+        if(turnTracker.getStatus().equals("Playing") && turnTracker.getCurrentTurn() == ClientUser.getInstance().getIndex()) {
+           //can only play one card per turn except monuments
+            if(!clientModel.getCurrentPlayer().hasPlayedDevCard()) {
+                //can only play old cards except for monuments
+                playDevCardView.setCardEnabled(DevCardType.SOLDIER, (devCardList.getSoldierCardCount() >= 1));
+                playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
+                playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
+                playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1));
+            }else{
+                playDevCardView.setCardEnabled(DevCardType.SOLDIER, false);
+                playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, false);
+                playDevCardView.setCardEnabled(DevCardType.MONOPOLY, false);
+                playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, false);
+            }
+            playDevCardView.setCardEnabled(DevCardType.MONUMENT, (devCardList.getMonumentCardCount() >= 1 || newCardList.getMonumentCardCount() >= 1));
         }
         else {
             playDevCardView.setCardEnabled(DevCardType.SOLDIER, false);
@@ -147,7 +164,8 @@ public class DevCardController extends Controller implements IDevCardController 
 
     @Override
     public void playRoadBuildCard() {
-
+//todo - why is this not sending (probably issue like play soldier card was
+        //if needed can create function in client or model to update map state here
         roadAction.execute();
         setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
     }
