@@ -186,18 +186,9 @@ public abstract class MapState  {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
         mapController.setMapStateToRoadBuilding();
 
-        startMove(PieceType.ROAD, true, false);
-        // mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, true);
-
-
-        startMove(PieceType.ROAD, true, false);
-        //mapController.getView().startDrop(PieceType.ROAD, CatanColor.GREEN, false);
-
-
-        //int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
-        //PlayRoadBuilderCommand playRoadBuilderCommand = new PlayRoadBuilderCommand(currentPlayerId, null, null);
-        //ClientFacade.getInstance().playRoadBuilding(playRoadBuilderCommand);
-
+        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        mapController.getView().startDrop(PieceType.ROAD, color, false);
+        mapController.getView().startDrop(PieceType.ROAD, color, true);
 
     }
 
