@@ -186,9 +186,10 @@ public abstract class MapState  {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
         mapController.setMapStateToRoadBuilding();
 
-        startMove(PieceType.ROAD, true, false);
+        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        mapController.getView().startDrop(PieceType.ROAD, color, false);
+        mapController.getView().startDrop(PieceType.ROAD, color, true);
 
-        startMove(PieceType.ROAD, true, false);
     }
 
     public void robPlayer(RobPlayerInfo victim) {

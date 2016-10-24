@@ -46,15 +46,6 @@ public class RoadBuildingMapState extends MapState {
         initFromModel(mapController.clientModel.getMap());
     }
 
-    @Override
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        if(getFirstVertexLocation() == null) {
-            mapController.getView().startDrop(pieceType, color, true);
-        } else {
-            mapController.getView().startDrop(pieceType, color, false);
-        }
-    }
 }
 
 

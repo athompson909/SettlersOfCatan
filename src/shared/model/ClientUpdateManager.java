@@ -111,8 +111,6 @@ public class ClientUpdateManager {
                 on null objects.*/
 
                 //currPlayers[i].updatePlayer(newPlayers[i]);  //Read explanation above
-
-                //So can we just do this instead?
                 currPlayers[i] = newPlayers[i];
             }
         }
