@@ -374,6 +374,7 @@ public class JSONTranslator {
         //Build ResourceBank out of ResourceList and DevCardList
         ResourceBank newCMResourceBank = new ResourceBank();
         newCMResourceBank.setResourceList(newResourceList);
+        newCMResourceBank.setDevCardList(newDevCardList);
 
         return newCMResourceBank;
     }
