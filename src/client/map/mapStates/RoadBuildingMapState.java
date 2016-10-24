@@ -19,21 +19,28 @@ public class RoadBuildingMapState extends MapState {
 
     private EdgeLocation edgeLocation1;
 
+    @Override
     public void placeRoad(EdgeLocation edgeLoc) {
-        if(edgeLocation1 == null){
+        if (edgeLocation1 == null) {
             edgeLocation1 = edgeLoc;
             //Draw it
-            mapController.getView().placeRoad(edgeLoc,  mapController.clientModel.getCurrentPlayer().getColor());
+            mapController.getView().placeRoad(edgeLoc, mapController.clientModel.getCurrentPlayer().getColor());
 
             EdgeValue edgeValue = new EdgeValue(edgeLoc);
             edgeValue.setOwner(mapController.clientModel.getCurrentPlayer().getPlayerIndex());
             mapController.clientModel.getMap().buildRoadManager.addTempRoad(edgeValue);
-        }
-        else{
+        } else {
+            mapController.clientModel.getMap().buildRoadManager.removeTempRoad(edgeLocation1);
             int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
             PlayRoadBuilderCommand playRoadBuilderCommand = new PlayRoadBuilderCommand(currentPlayerId, edgeLocation1, edgeLoc);
             ClientFacade.getInstance().playRoadBuilding(playRoadBuilderCommand);
         }
+    }
 
+    @Override
+    public void cancelMove() {
+        System.out.println("MAPSTATE: CANCELMOVE");
+        mapController.clientModel.getMap().buildRoadManager.removeTempRoad(edgeLocation1);
+        initFromModel(mapController.clientModel.getMap());
     }
 }

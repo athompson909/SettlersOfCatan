@@ -293,4 +293,8 @@ public class BuildRoadManager {
         map.getEdgeObjects().put(edgeValue.getEdgeLocation(), edgeValue);
     }
 
+    public void removeTempRoad(EdgeLocation edgeLocation){
+        map.getEdgeObjects().remove(edgeLocation);
+    }
+
 }
