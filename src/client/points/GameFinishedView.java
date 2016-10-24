@@ -68,7 +68,7 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 
 		middle.add(Box.createRigidArea(new Dimension(0,5))); // Spacing
 		
-		okButton = new JButton("OK");
+		okButton = new JButton("Quit");
 		okButton.addActionListener(actionListener);
 		Font buttonFont = okButton.getFont();
 		buttonFont = buttonFont.deriveFont(buttonFont.getStyle(), BUTTON_TEXT_SIZE);
