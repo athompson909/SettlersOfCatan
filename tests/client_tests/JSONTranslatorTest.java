@@ -640,11 +640,11 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"roads\": 15,\n" +
                 "      \"cities\": 4,\n" +
                 "      \"settlements\": 5,\n" +
-                "      \"soldiers\": 0,\n" +
+                "      \"soldiers\": 60,\n" +
                 "      \"victoryPoints\": 0,\n" +
                 "      \"monuments\": 0,\n" +
                 "      \"playedDevCard\": false,\n" +
-                "      \"discarded\": false,\n" +
+                "      \"discarded\": true,\n" +
                 "      \"playerID\": 2,\n" +
                 "      \"playerIndex\": 0,\n" +
                 "      \"name\": \"bacon\",\n" +
@@ -675,7 +675,7 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"roads\": 15,\n" +
                 "      \"cities\": 4,\n" +
                 "      \"settlements\": 5,\n" +
-                "      \"soldiers\": 0,\n" +
+                "      \"soldiers\": 40,\n" +
                 "      \"victoryPoints\": 0,\n" +
                 "      \"monuments\": 0,\n" +
                 "      \"playedDevCard\": false,\n" +
@@ -710,7 +710,7 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"roads\": 15,\n" +
                 "      \"cities\": 4,\n" +
                 "      \"settlements\": 5,\n" +
-                "      \"soldiers\": 0,\n" +
+                "      \"soldiers\": 22,\n" +
                 "      \"victoryPoints\": 0,\n" +
                 "      \"monuments\": 0,\n" +
                 "      \"playedDevCard\": false,\n" +
@@ -745,7 +745,7 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"roads\": 15,\n" +
                 "      \"cities\": 4,\n" +
                 "      \"settlements\": 5,\n" +
-                "      \"soldiers\": 0,\n" +
+                "      \"soldiers\": 14,\n" +
                 "      \"victoryPoints\": 0,\n" +
                 "      \"monuments\": 0,\n" +
                 "      \"playedDevCard\": false,\n" +

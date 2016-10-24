@@ -463,7 +463,7 @@ public class JSONTranslator {
         for (int p = 0; p < playersArrJSON.length(); p++)
         {
             // check if the players coming in are valid
-            if (!playersArrJSON.get(p).equals(null) && playersArrJSON.get(p) != null) {//todo: delete if(sure)
+            if (!playersArrJSON.get(p).equals(null) && playersArrJSON.get(p) != null) {
                 JSONObject currPlayerJSON = playersArrJSON.getJSONObject(p);
                 String currPlayerJSONStr = currPlayerJSON.toString();
                 Player newPlayer = gsonConverter.fromJson(currPlayerJSONStr, Player.class);

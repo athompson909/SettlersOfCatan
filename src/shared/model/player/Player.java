@@ -52,6 +52,7 @@ public class Player { //
     /**
      * How many soldiers the player has played.
      */
+    @SerializedName("soldiers")
     private int soldiersPlayed = 0;
 
     /**
