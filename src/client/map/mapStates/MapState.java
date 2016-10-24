@@ -202,6 +202,9 @@ public abstract class MapState  {
 
     }
 
+
+
+
     public VertexLocation getFirstVertexLocation() {
         return firstVertexLocation;
     }

@@ -145,6 +145,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel)o;
+
 		getTradeView().enableMaritimeTrade(getGiveOption().length > 0);
 
 	}

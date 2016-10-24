@@ -66,13 +66,13 @@ public class BuildRoadManager {
         }
     }
 
-    private boolean opposingPlayerOwnsSettlement(int playerID, EdgeLocation vertexLocation){
+    private boolean isOpposingVertexObjectObstructing(int playerID, VertexLocation vertexLocation){
         if(map.getVertexObjects().containsKey(vertexLocation)){
             if(map.getVertexObjects().get(vertexLocation).getOwner() != playerID){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 
@@ -92,23 +92,30 @@ public class BuildRoadManager {
             //If the player owns the Northwest or Northeast edgeValues on the same hex, then the road is connected.
             if (tempEdgeLocation.getHexLoc().equals(desiredEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthWest, playerID)) {
-                    if(opposingPlayerOwnsSettlement(playerID, desiredEdgeLocation))
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthWest))) {
+                        return true;
+                    }
                 }
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthEast, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthEast))) {
+                        return true;
+                    }
                 }
             }
             //If the player owns the edgeValue on hexes northwest neighbor's northeast edgeValue, then the road is connected.
             else if (desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest).equals(tempEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthEast, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthWest))) {
+                        return true;
+                    }
                 }
             }
             //If the player owns the edgeValue on hexes northeast neighbor's northwest edgeValue, then the road is connected.
             else if (desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast).equals(tempEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthWest, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthEast))) {
+                        return true;
+                    }
                 }
             }
         }
@@ -131,22 +138,30 @@ public class BuildRoadManager {
             //If the player owns the North edgeValue on the same hex, then the road is connected.
             if (tempEdgeLocation.getHexLoc().equals(desiredEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.North, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthWest))) {
+                        return true;
+                    }
                 }
             }
             //If the player owns the edgeValue on hexes northwest neighbor's northeast edgeValue, then the road is connected.
             else if (desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest).equals(tempEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthEast, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthWest))) {
+                        return true;
+                    }
                 }
             }
-            //If the player owns the edgeValue on hexes southeast neighbor's north or northeast edge value, then the road is conected.
+            //If the player owns the edgeValue on hexes southwest neighbor's north or northeast edge value, then the road is conected.
             else if (desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest).equals(tempEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthEast, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast))) {
+                        return true;
+                    }
                 }
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.North, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast))) {
+                        return true;
+                    }
                 }
             }
         }
@@ -169,22 +184,30 @@ public class BuildRoadManager {
             //If the player owns the North edgeValue on the same hex, then the road is connected.
             if (tempEdgeLocation.getHexLoc().equals(desiredEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.North, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthEast))) {
+                        return true;
+                    }
                 }
             }
             //If the player owns the edgeValue on hexes northeast neighbor's northwest edgeValue, then the road is connected.
             else if (desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast).equals(tempEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthWest, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc(), VertexDirection.NorthEast))) {
+                        return true;
+                    }
                 }
             }
             //If the player owns the edgeValue on hexes southe neighbor's north or northeast edge value, then the road is conected.
             else if (desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast).equals(tempEdgeLocation.getHexLoc())) {
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.NorthWest, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest))) {
+                        return true;
+                    }
                 }
                 if (doesPlayerOwnEdgeDirection(tempEdgeValue, EdgeDirection.North, playerID)) {
-                    return true;
+                    if(!isOpposingVertexObjectObstructing(playerID, new VertexLocation(desiredEdgeLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest))) {
+                        return true;
+                    }
                 }
             }
         }

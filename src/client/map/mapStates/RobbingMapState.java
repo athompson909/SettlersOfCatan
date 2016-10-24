@@ -30,7 +30,7 @@ public class RobbingMapState extends MapState {
 
         //TODO: Only do this if it is your turn?
         CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
-        mapController.getView().startDrop(PieceType.ROBBER, color, true);
+        mapController.getView().startDrop(PieceType.ROBBER, color, false);
     }
 @Override
     public void placeRobber(HexLocation hexLoc) {
