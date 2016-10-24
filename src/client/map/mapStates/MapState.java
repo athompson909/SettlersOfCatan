@@ -173,6 +173,7 @@ public abstract class MapState  {
 
     public void cancelMove() {
         System.out.println("MAPSTATE: CANCELMOVE");
+        //initFromModel(mapController.clientModel.getMap());
     }
 
     public void playSoldierCard() {
@@ -209,6 +210,9 @@ public abstract class MapState  {
         ClientFacade.getInstance().playSoldier(playSoldierCommand);
 
     }
+
+
+
 
     public VertexLocation getFirstVertexLocation() {
         return firstVertexLocation;
