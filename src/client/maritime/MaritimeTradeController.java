@@ -60,7 +60,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	private ResourceType[] getGiveOption() {
 		giveOptions = new ArrayList<>();
 
-		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		int currentPlayer = ClientUser.getInstance().getIndex();
 		Set ports = clientModel.getMap().getPlayersPorts(currentPlayer);
 		HashMap<PortType, boolean[]> isTradable = clientModel.getCurrentPlayer().canMaritimeTrade(ports);
 
@@ -145,7 +145,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel)o;
-		getTradeView().enableMaritimeTrade(getGiveOption().length > 0);
+		int currentTurn = clientModel.getTurnTracker().getCurrentTurn();
+		if(currentTurn == ClientUser.getInstance().getIndex()) {
+			getTradeView().enableMaritimeTrade(getGiveOption().length > 0);
+		}else{
+			getTradeView().enableMaritimeTrade(false);
+		}
 
 	}
 }

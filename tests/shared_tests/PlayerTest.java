@@ -30,7 +30,7 @@ public class PlayerTest extends TestCase {
     @Test
     public void testInitialization() {
         System.out.println("testInitialization");
-        assert (player.canPlayDevelopmentCards());
+        assert (!player.canPlayDevelopmentCards());
         assert (!player.canPlaySoldierCard());
         assert (!player.canPlayMonumentCard());
         assert (!player.canPlayMonopolyCard());
