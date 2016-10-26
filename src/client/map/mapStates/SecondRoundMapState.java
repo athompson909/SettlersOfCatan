@@ -5,6 +5,7 @@ import client.ClientFacade;
 import client.ClientUser;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
+import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.definitions.State;
 import shared.locations.EdgeLocation;
@@ -32,7 +33,9 @@ public class SecondRoundMapState extends MapState {
         if(Client.getInstance().getGameState().equals(State.SECONDROUND)
                 && Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()
                 && getSecondVertexLocation() == null) {
-            mapController.startMove(PieceType.SETTLEMENT, true, false);
+           // mapController.startMove(PieceType.SETTLEMENT, true, false);
+            CatanColor color = mapController.getClientModel().getCurrentPlayer().getColor();
+            mapController.getView().startDrop(PieceType.SETTLEMENT, color, false);
         }
     }
 
@@ -69,6 +72,7 @@ public class SecondRoundMapState extends MapState {
 
         BuildSettlementCommand buildSettlementCommand = new BuildSettlementCommand(vertObj, true);
         ClientFacade.getInstance().buildSettlement(buildSettlementCommand);
-        startMove(PieceType.ROAD, true, true);
+        CatanColor color = mapController.getClientModel().getCurrentPlayer().getColor();
+        mapController.getView().startDrop(PieceType.ROAD, color, false);
     }
 }
