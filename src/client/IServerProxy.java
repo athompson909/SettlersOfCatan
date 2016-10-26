@@ -8,6 +8,14 @@ import org.json.JSONObject;
  */
 public interface IServerProxy {
 
+   String getPort();
+
+   void setPort(String port);
+
+   String getHost();
+
+   void setHost(String host);
+
    /**
     * Posts HTTP
     * @param url the url determined by other methods within IServerProxy

@@ -17,6 +17,30 @@ public class MockProxy implements IServerProxy {
         return null;
     }
 
+    private String port;
+
+    private String host;
+
+    @Override
+    public String getPort() {
+        return port;
+    }
+
+    @Override
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    @Override
+    public String getHost() {
+        return host;
+    }
+
+    @Override
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     @Override
     public boolean runPoller() throws ClientException {
         return false;

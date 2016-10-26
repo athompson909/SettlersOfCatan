@@ -36,18 +36,22 @@ public class ServerProxy implements IServerProxy {
 
     private String port = "";
 
+    @Override
     public String getHost() {
         return host;
     }
 
+    @Override
     public void setHost(String host) {
         this.host = host;
     }
 
+    @Override
     public String getPort() {
         return port;
     }
 
+    @Override
     public void setPort(String port) {
         this.port = port;
     }
