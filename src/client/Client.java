@@ -17,6 +17,8 @@ public class Client {
 
     private boolean startGame;
     private CommandManager commandManager;
+    //private String hostNumber = "";
+    //private String portNumber = "";
 
     private ClientModel clientModel;
     private State gameState = State.WAITING;
@@ -113,8 +115,21 @@ public class Client {
     public boolean getStartGame() {return startGame;}
     public void setStartGame(boolean set) {startGame = set;}
 
-
-
+//    public String getHostNumber() {
+//        return hostNumber;
+//    }
+//
+//    public void setHostNumber(String hostNumber) {
+//        this.hostNumber = hostNumber;
+//    }
+//
+//    public String getPortNumber() {
+//        return portNumber;
+//    }
+//
+//    public void setPortNumber(String portNumber) {
+//        this.portNumber = portNumber;
+//    }
 
     //TESTING
     /*

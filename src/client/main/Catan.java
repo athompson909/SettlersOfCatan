@@ -18,6 +18,9 @@ public class Catan extends JFrame
 {
 	
 	private CatanPanel catanPanel;
+	//these are changed if they specify a host/port nubmer in the command line
+	public static String hostNumber = "localhost";
+	public static String portNumber = "8081";
 	
 	public Catan()
 	{
@@ -63,9 +66,26 @@ public class Catan extends JFrame
 			{
 				new Catan();
 
+				//if they specified a host/port number
+				if (args.length > 0){
+					//use default host/port number
+				}
+				else if (args.length == 1){
+				  //error
+					System.out.println("ERROR: invalid host/port args");
+					System.exit(0);
+				}
+				else if (args.length == 2){
+					//good to pass the host/port nums to the ClientFacade
+					hostNumber = args[0];
+					portNumber = args[1];
+				}
+
 				//instantiating a new Client object
 				Client.getInstance(); //Singleton
-				
+
+				Client.getInstance().setServerHostPort(hostNumber, portNumber);
+
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
 																									playerWaitingView);
