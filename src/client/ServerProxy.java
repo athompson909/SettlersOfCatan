@@ -32,6 +32,26 @@ public class ServerProxy implements IServerProxy {
 
     private boolean pollerCanRun = false;
 
+    private String host = "";
+
+    private String port = "";
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
     /**
      * this function is used by ServerPoller
      * @return hasJoined
@@ -308,7 +328,7 @@ public class ServerProxy implements IServerProxy {
         System.out.println(">>SERVERPROXY: userLogin has json: " + json);
 
         isLogin = true;
-        String urlStr = "http://localhost:8081/user/login";
+        String urlStr = "http://"+port+":"+host+"/user/login";
         return httpPost(urlStr, json.toString());
     }
 
@@ -338,7 +358,7 @@ public class ServerProxy implements IServerProxy {
 
 
         isRegister = true;
-        String urlStr = "http://localhost:8081/user/register";
+        String urlStr = "http://"+port+":"+host+"/user/register";
         return httpPost(urlStr, json.toString());
     }
 
@@ -357,7 +377,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONArray gamesList() throws ClientException {//todo change to JSONArray return type
-        String urlStr = "http://localhost:8081/games/list";
+        String urlStr = "http://"+port+":"+host+"/games/list";
         String jsonStr = httpGet(urlStr);
 
         return new JSONArray(jsonStr);
@@ -380,7 +400,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject gameCreate(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/games/create";
+        String urlStr = "http://"+port+":"+host+"/games/create";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -410,7 +430,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String gameJoin(JSONObject json) throws ClientException {
         isJoin = true;
-        String urlStr = "http://localhost:8081/games/join";
+        String urlStr = "http://"+port+":"+host+"/games/join";
         return httpPost(urlStr, json.toString());
     }
 
@@ -436,7 +456,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String gameSave(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/games/save";
+        String urlStr = "http://"+port+":"+host+"/games/save";
         return httpPost(urlStr, json.toString());
     }
 
@@ -464,7 +484,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String gameLoad(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/games/load";
+        String urlStr = "http://"+port+":"+host+"/games/load";
         return httpPost(urlStr, json.toString());
     }
 
@@ -504,7 +524,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public String gameModelVersion() throws ClientException {
 
-        String urlStr = "http://localhost:8081/game/model";
+        String urlStr = "http://"+port+":"+host+"/game/model";
         return httpGet(urlStr);
     }
 
@@ -534,7 +554,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject gameReset() throws ClientException {
 
-        String urlStr = "http://localhost:8081/game/reset";
+        String urlStr = "http://"+port+":"+host+"/game/reset";
         return new JSONObject(httpGet(urlStr));
     }
 
@@ -567,7 +587,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONArray getGameCommands() throws ClientException {//todo change to JSONArray return type
 
-        String urlStr = "http://localhost:8081/game/commands";
+        String urlStr = "http://"+port+":"+host+"/game/commands";
         String arr = httpGet(urlStr);
         // todo: change when interacting with actual server
         if(!arr.equals("")) return new JSONArray(arr);
@@ -600,7 +620,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject executeGameCommands(JSONArray json) throws ClientException {
-        String urlStr = "http://localhost:8081/game/commands";
+        String urlStr = "http://"+port+":"+host+"/game/commands";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -617,7 +637,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONArray listAI() throws ClientException {
-        String urlStr = "http://localhost:8081/game/listAI";
+        String urlStr = "http://"+port+":"+host+"/game/listAI";
         String responseStr = httpGet(urlStr);
         return new JSONArray(responseStr);
     }
@@ -643,7 +663,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public String addAI(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/game/addAI";
+        String urlStr = "http://"+port+":"+host+"/game/addAI";
         return httpPost(urlStr, json.toString());
     }
 
@@ -663,7 +683,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public String utilChangeLogLevel(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/util/changeLogLevel";
+        String urlStr = "http://"+port+":"+host+"/util/changeLogLevel";
         return httpPost(urlStr, json.toString());
     }
 
@@ -677,7 +697,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject sendChat(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/moves/sendChat";
+        String urlStr = "http://"+port+":"+host+"/moves/sendChat";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -691,7 +711,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject rollNumber(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/moves/rollNumber";
+        String urlStr = "http://"+port+":"+host+"/moves/rollNumber";
         String responseStr = httpPost(urlStr, json.toString());
         return new JSONObject(responseStr);
     }
@@ -707,7 +727,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject finishTurn(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/moves/finishTurn";
+        String urlStr = "http://"+port+":"+host+"/moves/finishTurn";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -723,7 +743,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject discardCards(JSONObject json) throws ClientException{
 
-        String urlStr = "http://localhost:8081/moves/discardCards";
+        String urlStr = "http://"+port+":"+host+"/moves/discardCards";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -744,7 +764,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject buildRoad(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/buildRoad";
+        String urlStr = "http://"+port+":"+host+"/moves/buildRoad";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -765,7 +785,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject buildSettlement(JSONObject json) throws ClientException{
 
-        String urlStr = "http://localhost:8081/moves/buildSettlement";
+        String urlStr = "http://"+port+":"+host+"/moves/buildSettlement";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -783,7 +803,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject buildCity(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/buildCity";
+        String urlStr = "http://"+port+":"+host+"/moves/buildCity";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -798,7 +818,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject offerTrade(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/offerTrade";
+        String urlStr = "http://"+port+":"+host+"/moves/offerTrade";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -816,7 +836,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject acceptTrade(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/acceptTrade";
+        String urlStr = "http://"+port+":"+host+"/moves/acceptTrade";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -833,7 +853,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject maritimeTrade(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/maritimeTrade";
+        String urlStr = "http://"+port+":"+host+"/moves/maritimeTrade";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -851,7 +871,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject robPlayer(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/robPlayer";
+        String urlStr = "http://"+port+":"+host+"/moves/robPlayer";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -870,7 +890,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject purchaseDevCard(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/buyDevCard";
+        String urlStr = "http://"+port+":"+host+"/moves/buyDevCard";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -893,7 +913,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject playSoldier(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/Soldier";
+        String urlStr = "http://"+port+":"+host+"/moves/Soldier";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -908,7 +928,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject playYearOfPlenty(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/Year_of_Plenty";
+        String urlStr = "http://"+port+":"+host+"/moves/Year_of_Plenty";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -929,7 +949,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject playRoadBuilding(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/Road_Building";
+        String urlStr = "http://"+port+":"+host+"/moves/Road_Building";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -945,7 +965,7 @@ public class ServerProxy implements IServerProxy {
     @Override
     public JSONObject playMonopoly(JSONObject json) throws ClientException {
 
-        String urlStr = "http://localhost:8081/moves/Monopoly";
+        String urlStr = "http://"+port+":"+host+"/moves/Monopoly";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 
@@ -960,7 +980,7 @@ public class ServerProxy implements IServerProxy {
      */
     @Override
     public JSONObject playMonument(JSONObject json) throws ClientException {
-        String urlStr = "http://localhost:8081/moves/Monument";
+        String urlStr = "http://"+port+":"+host+"/moves/Monument";
         return new JSONObject(httpPost(urlStr, json.toString()));
     }
 

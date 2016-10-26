@@ -89,10 +89,7 @@ public class LoginController extends Controller implements ILoginController {
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
 		if (!unDelim.matcher(username).matches() || !pwDelim.matcher(password).matches()){
-			//showRejectMessage("Error", loginFailedMsg);
-			MessageUtils.showRejectMessage((MessageView)messageView, "Error", loginFailedMsg);
-			((LoginView) getLoginView()).clearLoginPanel();
-			((LoginView) getLoginView()).clearRegisterPanel();
+			showRejectMessage("Error", loginFailedMsg);
 			return;
 		}
 
@@ -103,9 +100,7 @@ public class LoginController extends Controller implements ILoginController {
 			loginAction.execute();
 		}
 		else {
-			MessageUtils.showRejectMessage((MessageView)messageView, "Error", loginFailedMsg);
-			((LoginView) getLoginView()).clearLoginPanel();
-			((LoginView) getLoginView()).clearRegisterPanel();
+			showRejectMessage("Error", loginFailedMsg);
 		}
 
 		//showRejectMessage("Error", loginFailedMsg);
@@ -123,15 +118,11 @@ public class LoginController extends Controller implements ILoginController {
 		String registerPasswordRepeat = getLoginView().getRegisterPasswordRepeat();
 
 		if(!unDelim.matcher(registerUsername).matches()){
-			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidUsernameMsg);
-			((LoginView) getLoginView()).clearLoginPanel();
-			((LoginView) getLoginView()).clearRegisterPanel();
+			showRejectMessage("Error", invalidUsernameMsg);
 			return;
 		}
 		else if (!pwDelim.matcher(registerPassword).matches()) {
-			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidPasswordMsg);
-			((LoginView) getLoginView()).clearLoginPanel();
-			((LoginView) getLoginView()).clearRegisterPanel();
+			showRejectMessage("Error", invalidPasswordMsg);
 			return;
 		}
 
@@ -143,18 +134,11 @@ public class LoginController extends Controller implements ILoginController {
 				getLoginView().closeModal();
 				loginAction.execute();
 			}
-			else {
-				MessageUtils.showRejectMessage((MessageView)messageView, "Server Error", "Registration Failed");
-				((LoginView) getLoginView()).clearLoginPanel();
-				((LoginView) getLoginView()).clearRegisterPanel();
-			}
+			else showRejectMessage("Server Error", "Registration Failed");
+
 
 		}
-		else {
-			MessageUtils.showRejectMessage((MessageView)messageView, "Registration Error", "Passwords do not match");
-			((LoginView) getLoginView()).clearLoginPanel();
-			((LoginView) getLoginView()).clearRegisterPanel();
-		}
+		else showRejectMessage("Registration Error", "Passwords do not match");
 	}
 
 	/**

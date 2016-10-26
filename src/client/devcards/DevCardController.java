@@ -132,6 +132,34 @@ public class DevCardController extends Controller implements IDevCardController 
             playDevCardView.setCardEnabled(DevCardType.MONOPOLY, false);
             playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, false);
         }
+
+        addNewCard(clientModel.getCurrentPlayer().getNewDevCardList());
+    }
+
+    /**
+     * todo fix this, the new devcardlist seems do not have anything in it!!
+     * @param devCardList
+     */
+    private void addNewCard(DevCardList devCardList) {
+        if(devCardList.getMostRecentAddedCard() != null) {
+            switch(devCardList.getMostRecentAddedCard()) {
+                case SOLDIER:
+                    playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount() + 1);
+                    break;
+                case MONUMENT:
+                    playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount() + 1);
+                    break;
+                case YEAR_OF_PLENTY:
+                    playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount() + 1);
+                    break;
+                case MONOPOLY:
+                    playDevCardView.setCardAmount(DevCardType.MONOPOLY, devCardList.getMonopolyCardCount() + 1);
+                    break;
+                case ROAD_BUILD:
+                    playDevCardView.setCardAmount(DevCardType.ROAD_BUILD, devCardList.getRoadBuildingCardCount() + 1);
+                    break;
+            }
+        }
     }
 
     @Override

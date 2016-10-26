@@ -3,9 +3,6 @@ package shared.model.resourcebank;
 import com.google.gson.annotations.SerializedName;
 import shared.definitions.DevCardType;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import java.util.Random;
 
 /**
@@ -33,6 +30,11 @@ public class DevCardList {
      */
     public DevCardList(){}
 
+    private DevCardType mostRecentAddedCard;
+
+    public DevCardType getMostRecentAddedCard() {
+        return mostRecentAddedCard;
+    }
 
     /**
      * Initializes a DevCardList with the specified values, to be used for the resource bank.
@@ -73,6 +75,7 @@ public class DevCardList {
      * @param newDevCard The specified dev card to add.
      */
     public void addDevCard(DevCardType newDevCard){
+        mostRecentAddedCard = newDevCard;
         switch (newDevCard) {
             case SOLDIER:
                 soldierCardCount++;
