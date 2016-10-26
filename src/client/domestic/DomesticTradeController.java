@@ -411,10 +411,16 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				|| sheep == -1 && tradeList.getSheepCardCount() < 0
 				|| wheat == -1 && tradeList.getWheatCardCount() < 0
 				|| ore == -1 && tradeList.getOreCardCount() < 0);
-		if(receiver != -1 && sendingSomething && receivingSomething){
-			getTradeOverlay().setTradeEnabled(true);
-		}else {
+		if(!sendingSomething || !receivingSomething){
+			getTradeOverlay().setStateMessage("Set the trade you want to make");
 			getTradeOverlay().setTradeEnabled(false);
+		}else if(receiver == -1){
+			getTradeOverlay().setStateMessage("Select a player");
+			getTradeOverlay().setTradeEnabled(false);
+		}
+		else {
+			getTradeOverlay().setStateMessage("Trade!");
+			getTradeOverlay().setTradeEnabled(true);
 		}
 	}
 }
