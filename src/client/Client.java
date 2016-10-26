@@ -1,6 +1,5 @@
 package client;
 
-import client.points.GameFinishedView;
 import client.turntracker.TurnTrackerState;
 import client.turntracker.WaitingState;
 import shared.definitions.State;
@@ -46,9 +45,15 @@ public class Client {
     private Client() {
         commandManager = new CommandManager();
         clientModel = new ClientModel(0);
-        ClientFacade.getInstance().setValues(new ServerProxy(), clientModel);
+        serverProxy = new ServerProxy();
+        ClientFacade.getInstance().setValues(serverProxy, clientModel);
         serverPoller = null;
         startGame = false;
+    }
+
+    public void setServerHostPort(String host, String port) {
+        serverProxy.setHost(host);
+        serverProxy.setPort(port);
     }
 
     public ClientModel getClientModel() {
