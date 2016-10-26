@@ -126,14 +126,12 @@ public class LoginController extends Controller implements ILoginController {
 			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidUsernameMsg);
 			((LoginView) getLoginView()).clearLoginPanel();
 			((LoginView) getLoginView()).clearRegisterPanel();
-			//showRejectMessage("Error", invalidUsernameMsg);
 			return;
 		}
 		else if (!pwDelim.matcher(registerPassword).matches()) {
 			MessageUtils.showRejectMessage((MessageView)messageView, "Error", invalidPasswordMsg);
 			((LoginView) getLoginView()).clearLoginPanel();
 			((LoginView) getLoginView()).clearRegisterPanel();
-			//showRejectMessage("Error", invalidPasswordMsg);
 			return;
 		}
 
@@ -151,14 +149,12 @@ public class LoginController extends Controller implements ILoginController {
 				((LoginView) getLoginView()).clearRegisterPanel();
 			}
 
-			// showRejectMessage("Server Error", "Registration Failed");
 		}
 		else {
-			MessageUtils.showRejectMessage((MessageView)messageView, "Server Error", "Registration Failed");
+			MessageUtils.showRejectMessage((MessageView)messageView, "Registration Error", "Passwords do not match");
 			((LoginView) getLoginView()).clearLoginPanel();
 			((LoginView) getLoginView()).clearRegisterPanel();
 		}
-			//showRejectMessage("Error", unmatchPasswordsMsg);
 	}
 
 	/**
