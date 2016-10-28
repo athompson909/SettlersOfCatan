@@ -86,8 +86,7 @@ public class Catan extends JFrame
 				Client.getInstance().setServerHostPort(hostNumber, portNumber);
 
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
-																									playerWaitingView);
+				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
 				
 				JoinGameView joinView = new JoinGameView();
