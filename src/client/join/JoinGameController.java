@@ -472,6 +472,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 			//only setGames() and refresh the view if there was actually a change
 			//compare currGamesList size to newGamesInfos size
+			//*** UPDATE: we need to check that the # players in each game hasn't changed either!
+			//if more clients join a game remotely, we need to update the view accordingly.
+
+
 			if (newGameList.length > currGamesList.length){  //DO VIEW UPDATE
 				//ok to do update
 				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
