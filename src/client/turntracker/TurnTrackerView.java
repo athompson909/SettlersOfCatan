@@ -8,6 +8,7 @@ import shared.definitions.*;
 import client.base.*;
 import client.catan.*;
 import client.utils.ImageUtils;
+import shared.model.player.Player;
 
 
 /**
@@ -132,6 +133,12 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 	public void updateGameState(String stateMessage, boolean enable) {
 
 		gameStatePanel.updateGameState(stateMessage, enable);
+	}
+
+	public void updateColors(Player[] players){
+		for(int i = 0; i < players.length; i++){
+			playerPanel[i].setBackground(players[i].getColor().getJavaColor());
+		}
 	}
 	
 }
