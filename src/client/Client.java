@@ -54,6 +54,8 @@ public class Client {
     }
 
     public void setServerHostPort(String host, String port) {
+        System.out.println(">>CLIENT: setServerHostPost: host#= " + host + ", port#= " + port);
+
         serverProxy.setHost(host);
         serverProxy.setPort(port);
     }
