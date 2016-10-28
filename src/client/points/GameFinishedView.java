@@ -92,7 +92,7 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 				//TRY:
 				//just quit the program here
 				Client.getInstance().endGame();
-				
+
 			}
 		}	
 	};

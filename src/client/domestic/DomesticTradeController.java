@@ -14,6 +14,7 @@ import shared.model.commandmanager.moves.AcceptTradeCommand;
 import shared.model.commandmanager.moves.OfferTradeCommand;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceList;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.List;
 import java.util.Observable;
@@ -111,7 +112,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getTradeOverlay().setPlayerSelectionEnabled(Client.getInstance().getState().toEnum()==State.PLAYING);
 
 		//if it is this players turn enable trade otherwise set message
-		boolean myTurn = (Client.getInstance().getState().toEnum()==State.PLAYING);
+		TurnTracker tracker = Client.getInstance().getClientModel().getTurnTracker();
+		boolean myTurn = (ClientUser.getInstance().getIndex() == tracker.getCurrentTurn());
 		getTradeOverlay().setResourceSelectionEnabled(myTurn);
 		if(myTurn) {
 			getTradeOverlay().setStateMessage("Set the trade you want to make");
@@ -133,8 +135,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getTradeOverlay().setResourceAmount(ResourceType.ORE, "0");
 
 		getTradeOverlay().showModal();
-		tradeList = new ResourceList();
-		updateOptions();
+		if(myTurn) {
+			tradeList = new ResourceList();
+			updateOptions();
+		}
 	}
 
 	@Override
