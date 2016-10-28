@@ -476,10 +476,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			//if more clients join a game remotely, we need to update the view accordingly.
 
 
-			if (newGameList.length > currGamesList.length){  //DO VIEW UPDATE
-				//ok to do update
-				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
-				System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
+			if (isViewUpdateNeeded(newGameList)){
+				//DO VIEW UPDATE
+
+				System.out.println(">JCGminiPoller: DOING VIEW UPDATE");
+
+				//System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
+				//System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
 				getJoinGameView().setGames(newGameList, currPlayerInfo);
 				setCurrGamesList(newGameList);
 
@@ -492,16 +495,54 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					}
 					getJoinGameView().showModal();
 				}
+
 			}
 			else{    //DON'T DO VIEW UPDATE
 				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
-				System.out.println("\t\tJCGminiPoller: no change in gameList");
+				System.out.println("\t\tJCGminiPoller: no change in gameList or playersLists");
+				System.out.println(">JCGminiPoller: SKIPPING VIEW UPDATE");
+
 			}
 
 
 			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^");
 		}
+
+
+		/**
+		 * Checks the newGameList against the current one to see if the gameList or the PlayerLists have been updated.
+		 *
+		 * @param newGameList
+		 * @return true if a list has been updated, false otherwise
+		 */
+		public boolean isViewUpdateNeeded(GameInfo[] newGameList){
+
+			System.out.println(">isVUN: comparing newGL size " + newGameList.length + " \t to oldGL size " + currGamesList.length);
+
+			//if an entire new game was added
+			if (newGameList.length > currGamesList.length){
+				return true;
+			}
+
+			//check each PlayerList in the gamesList
+			for (int g = 0; g < newGameList.length; g++){
+				List<PlayerInfo> newPlayersList= newGameList[g].getPlayers();
+				List<PlayerInfo> existingPlayerList = currGamesList[g].getPlayers();
+
+				System.out.println(">isVUN: comparing newPL size " + newPlayersList.size() + "\t to oldPL size " + existingPlayerList.size());
+
+
+				if (newPlayersList.size() != existingPlayerList.size()){
+					return true;
+				}
+			}
+
+			return false;
+		}
 	}
+
+
+
 
 
 }
