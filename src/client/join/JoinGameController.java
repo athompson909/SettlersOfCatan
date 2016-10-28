@@ -269,16 +269,29 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		//Set available color buttons here using SelectColorView.setColorEnable
 		List<PlayerInfo> playersInGame = game.getPlayers();
-		for (int i = 0; i < playersInGame.size(); i++){
-			if (playersInGame.get(i).getColor() != null){	//someone else has taken this color already
-				if (playersInGame.get(i).getColor() == CatanColor.WHITE){
+		//make this a function we can call whenever the minipoller runs
+		setSelectColorViewBtnColors(playersInGame);
+
+		getSelectColorView().showModal();
+
+	}
+
+
+	//we should call this every time the miniPoller says to do the update
+	public void setSelectColorViewBtnColors(List<PlayerInfo> players){
+		System.out.println(">>>>> setting available color buttons <<<<<<");
+		System.out.println(">>>>> playersList = " + players);
+
+		for (int i = 0; i < players.size(); i++){
+			if (players.get(i).getColor() != null){	//someone else has taken this color already
+				if (players.get(i).getColor() == CatanColor.WHITE){
 					// for WHITE: if the user joined with default color, this will be taken already.
 					// Enable it again IF they joined with default color (they created their own game):
 					System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
-					System.out.println(">comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
+					System.out.println(">comparing " + players.get(i).getId() + " and " + ClientUser.getInstance().getId());
 
 					//only enable WHITE if you created the game AND if it's you picking your own color again
-					if (ClientUser.getInstance().joinedWithDefaultColor() && playersInGame.get(i).getId() == ClientUser.getInstance().getId()) {
+					if (ClientUser.getInstance().joinedWithDefaultColor() && players.get(i).getId() == ClientUser.getInstance().getId()) {
 						getSelectColorView().setColorEnabled(CatanColor.WHITE, true); //enable WHITE
 					}
 					else { //they did not create their own game, so WHITE should be disabled since someone is actually using it.
@@ -289,19 +302,19 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					//set this color button to be disabled
 					//UNLESS ITS YOU PICKING A NEW COLOR FOR YOURSELF
 					//don't disable the button if this color was previously chosen by you
-				//	System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
+					//	System.out.println("comparing " + playersInGame.get(i).getId() + " and " + ClientUser.getInstance().getId());
 
-					if (playersInGame.get(i).getId() != ClientUser.getInstance().getId()) {
-						getSelectColorView().setColorEnabled(playersInGame.get(i).getColor(), false);
+					if (players.get(i).getId() != ClientUser.getInstance().getId()) {
+						getSelectColorView().setColorEnabled(players.get(i).getColor(), false);
 					}
 				}
 			}
-				//else, they're all enabled
+			//else, they're all enabled
 		}
-
-		getSelectColorView().showModal();
-
+		System.out.println(">>>>> <<<<<<<<");
 	}
+
+
 
 	@Override
 	public void cancelJoinGame() {
@@ -496,6 +509,15 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					getJoinGameView().showModal();
 				}
 
+				//update the available colors to choose
+				else if (getSelectColorView().isModalShowing()){
+					//they are trying to pick a color, so update which ones they can choose from
+					setSelectColorViewBtnColors(newGameList[Client.getInstance().getTheyJustClickedJoinThisGame()].getPlayers());
+				}
+
+
+
+
 			}
 			else{    //DON'T DO VIEW UPDATE
 				System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
@@ -510,7 +532,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 
 		/**
-		 * Checks the newGameList against the current one to see if the gameList or the PlayerLists have been updated.
+		 * Checks the new GameList against the existing one to see if the gameList or the PlayerLists have been updated.
 		 *
 		 * @param newGameList
 		 * @return true if a list has been updated, false otherwise
