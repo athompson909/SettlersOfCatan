@@ -68,10 +68,7 @@ public class Catan extends JFrame
 				System.out.println("CATAN ************ args length =" + args.length);
 
 				//if they specified a host/port number
-				if (args.length == 0){
-					//use default host/port number (localhost:8081)
-				}
-				else if (args.length == 1){
+				if (args.length == 1) {
 				  //error
 					System.out.println("ERROR: invalid host/port args");
 					System.exit(0);
@@ -89,8 +86,7 @@ public class Catan extends JFrame
 				Client.getInstance().setServerHostPort(hostNumber, portNumber);
 
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
-																									playerWaitingView);
+				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
 				
 				JoinGameView joinView = new JoinGameView();
