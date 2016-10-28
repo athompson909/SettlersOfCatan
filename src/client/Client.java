@@ -25,6 +25,8 @@ public class Client {
     private TurnTrackerState state = new WaitingState();
     private IServerProxy serverProxy;
     private ServerPoller serverPoller;
+    //TESTING
+    private int theyJustClickedJoinThisGame = -1;
 
 
     //TODO: change unDelim to be min of 3, and pwDelim to be min of 5
@@ -113,6 +115,13 @@ public class Client {
         serverPoller.getPollTimer().cancel();
     }
 
+    public int getTheyJustClickedJoinThisGame() {
+        return theyJustClickedJoinThisGame;
+    }
+
+    public void setTheyJustClickedJoinThisGame(int theyJustClickedJoinThisGame) {
+        this.theyJustClickedJoinThisGame = theyJustClickedJoinThisGame;
+    }
 
     public boolean getStartGame() {return startGame;}
     public void setStartGame(boolean set) {startGame = set;}

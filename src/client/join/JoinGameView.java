@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
 import client.base.*;
@@ -241,6 +242,9 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 						if (g.getId() == gameId)
 						{
 							game = g;
+							//TESTING
+							Client.getInstance().setTheyJustClickedJoinThisGame(g.getId());
+
 							break;
 						}
 					}
