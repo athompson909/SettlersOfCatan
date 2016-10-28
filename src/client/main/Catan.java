@@ -68,7 +68,7 @@ public class Catan extends JFrame
 
 				//if they specified a host/port number
 				if (args.length > 0){
-					//use default host/port number
+					//use default host/port number (localhost:8081)
 				}
 				else if (args.length == 1){
 				  //error
@@ -83,7 +83,6 @@ public class Catan extends JFrame
 
 				//instantiating a new Client object
 				Client.getInstance(); //Singleton
-
 				Client.getInstance().setServerHostPort(hostNumber, portNumber);
 
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();

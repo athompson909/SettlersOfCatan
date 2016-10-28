@@ -43,6 +43,8 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public void setHost(String host) {
+        System.out.println(">SERVERPROXY: set Host# to " + host);
+
         this.host = host;
     }
 
@@ -53,6 +55,8 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public void setPort(String port) {
+        System.out.println(">SERVERPROXY: set Port# to " + port);
+
         this.port = port;
     }
 
