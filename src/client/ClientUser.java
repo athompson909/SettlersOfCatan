@@ -3,6 +3,7 @@ package client;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import shared.definitions.CatanColor;
+import shared.model.player.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -177,5 +178,12 @@ public class ClientUser {
 
     public boolean getNeedToDiscard(){
         return needToDiscard;
+    }
+
+
+    public void resetPlayerColors(Player[] players){
+        for(int i = 0; i < players.length; i++){
+            playerColors.put(players[i].getName(), players[i].getColor());
+        }
     }
 }
