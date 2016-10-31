@@ -502,8 +502,7 @@ public class ClientModel extends Observable {
 
 
 
-    // observable override methods
-
+    // Observable override methods
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
@@ -516,7 +515,6 @@ public class ClientModel extends Observable {
 
     @Override
     public void notifyObservers() {
-
         super.notifyObservers();
     }
 
