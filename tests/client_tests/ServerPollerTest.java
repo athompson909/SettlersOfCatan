@@ -22,7 +22,8 @@ public class ServerPollerTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-
+        proxy.setPort("8081");
+        proxy.setHost("localhost");
         JSONObject loginJson = new JSONObject(LOGIN_STR);
         proxy.userLogin(loginJson);
         JSONObject jsonObject = new JSONObject(JOIN_STR);
