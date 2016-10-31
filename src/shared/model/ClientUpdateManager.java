@@ -1,6 +1,7 @@
 package shared.model;
 
 import client.Client;
+import client.ClientUser;
 import shared.model.map.Map;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
@@ -59,7 +60,7 @@ public class ClientUpdateManager {
         Player[] currPlayers = currentModel.getPlayers();
         Player[] newPlayers = newModel.getPlayers();
         updatePlayers(currPlayers, newPlayers);
-//        ClientUser.getInstance().resetPlayerColors(newPlayers);
+        ClientUser.getInstance().resetPlayerColors(newPlayers);
 
         //why are we not updating chat?  -Adam... would this update function work?
         currentModel.setChat(newModel.getChat());
