@@ -6,8 +6,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import client.Client;
-import client.ClientFacade;
-import client.ClientUser;
 import client.base.*;
 import client.data.*;
 
@@ -138,16 +136,9 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				gamePanel.add(tmp3);
 				JButton joinButton;
 
-                //TESTING
-             //   System.out.println("\tJOINGAMEVIEW: setting games/players list");
-             //   System.out.println("\t\t>>CurrentGame= " + game.getTitle() + ", players= " + game.getPlayers());
-             //   System.out.println("\t\t>>localPlayer= " + localPlayer);
-
                 // ***************************************************localPlayer used here
 				if (game.getPlayers().contains(localPlayer))
 				{
-                //    System.out.println("\t>Game " + game.getTitle() + " contains LocalPlayer");
-
 					joinButton = new JButton("Re-Join");
 				}
 				else if (game.getPlayers().size() >= 4)
@@ -210,8 +201,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		this.games = games;
 		this.localPlayer = localPlayer;
 		this.removeAll();
-		//TESTING
-		//	this.initialize();
         this.initializeView();
 	}
 
@@ -221,14 +210,9 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			if (e.getSource() == createButton)
-			{
+			if (e.getSource() == createButton) {
 				getController().startCreateNewGame();
 			}
-//			else if (e.getSource() == tempJoinButton)
-//			{
-//				getController().startJoinGame(null);
-//			}
 			else //if they pushed JOIN on an existing game
 			{
 				try
@@ -242,14 +226,13 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 						if (g.getId() == gameId)
 						{
 							game = g;
-							//TESTING
-							Client.getInstance().setTheyJustClickedJoinThisGame(g.getId());
+							Client.getInstance().setCurrentJoinGameCandidate(g.getId());
 
 							break;
 						}
 					}
 
-					//"game" is the game they just clicked to join - should have all the info we need to join it
+					//"game" is the game they just clicked to join
 					getController().startJoinGame(game);
 
 				}

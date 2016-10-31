@@ -24,7 +24,7 @@ import java.util.Observable;
  * Created by Alise on 10/8/2016.
  */
 public abstract class MapState  {
-     public MapController mapController;
+    public MapController mapController;
 
     private VertexLocation firstVertexLocation;
     private VertexLocation secondVertexLocation;

@@ -61,7 +61,13 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 				for (int i = 0; i < players.length; i++) {
 					Player player = players[i];
 					getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
+					if(i == ClientUser.getInstance().getIndex()) {
+						getView().setLocalPlayerColor(players[i].getColor());
+					}
 				}
+			}else {
+				TurnTrackerView view = (TurnTrackerView)getView();
+				view.updateColors(players);
 			}
 
 			TurnTracker turnTracker = model.getTurnTracker();

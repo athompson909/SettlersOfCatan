@@ -102,8 +102,6 @@ public class LoginController extends Controller implements ILoginController {
 		else {
 			showRejectMessage("Error", loginFailedMsg);
 		}
-
-		//showRejectMessage("Error", loginFailedMsg);
 	}
 
 	/**
@@ -138,7 +136,7 @@ public class LoginController extends Controller implements ILoginController {
 
 
 		}
-		else showRejectMessage("Registration Error", "Passwords do not match");
+		else showRejectMessage("Registration Error", unmatchPasswordsMsg);
 	}
 
 	/**

@@ -103,14 +103,12 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		ClientUser.getInstance().setCurrentAddedGameInfo(finalGameInfo);
 
 		//repopulates the port vertex locations to the correct values each time the player rejoins
-		//todo: optimize
 		Client.getInstance().getClientModel().getMap().populatePortVertexLocations();
 
 		if (getView().isModalShowing()){
-			getView().closeModal();  ///TESTING CMDLINE
+			getView().closeModal();
 		}
 
-		//Client.getInstance().getClientModel().notifyObservers();
 		Client.getInstance().setStartGame(true);
 	}
 
@@ -123,8 +121,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 */
 	@Override
 	public void addAI() {
-		System.out.println("PLAYERWAITINGCONT: addAI called");
-
 		//get the AI they picked from the spinner
 		String selectedAI = getView().getSelectedAI();
 		//build a AddAICmd object:
@@ -133,7 +129,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		//send addAI cmd to ClientFacade:
 		if (ClientFacade.getInstance().addAI(addAICommand)) {
 			//it worked
-			System.out.println("PLAYERWAITINGCONT: AI Add successful! : " + selectedAI);
 			updateView(updatePlayerInfosList());
 		}
 		else {
@@ -167,17 +162,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 		//use this array to update the view
 		setCurrPlayerInfosList(newPlayerInfosToDisplay);
-
-//
-//		//FOR TESTING ONLY------
-//		System.out.print(">PWC: updateView(): setting players with content: ");
-//		for (int i = 0; i < newPlayerInfosToDisplay.length; i++) {
-//			if (newPlayerInfosToDisplay[i] != null) {
-//				System.out.print(newPlayerInfosToDisplay[i].getName() + ", ");
-//			}
-//		} System.out.println();
-//		//----------------------
-
 
 		//update the View with the new players:  ***************************
 		getView().setPlayers(newPlayerInfosToDisplay);
@@ -222,25 +206,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	//UNUSED
 	@Override
 	public void update(Observable o, Object arg) {
-
-		//System.out.println("PLAYERWAITINGCONT: Update called! +++++++++++++++++++++++++");
-
-		//the model comes back here, updated every 2 pollInterval, via the Observable object
-		//cast Observable into ClientModel here
-		//ClientModel model = (ClientModel) o;
-
-		//PWC should have its own personal ClientModel that gets updated every time this function happens
-		//clientModel = model;
-//		Player[] players = model.getPlayers();
-//		for(int i = 0; i < 4; i++){
-//			if(players[i].getName().equals(ClientUser.getInstance().getName())){
-//				ClientUser.getInstance().setIndex(i);
-//				break;
-//			}
-//		}
-
-		//and does setPlayers() or whatever it needs to do to show the new boxes on the view:
-	//	updateView();
 
 	}
 

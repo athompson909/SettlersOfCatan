@@ -113,8 +113,6 @@ public class NewGameView extends OverlayView implements INewGameView
 
             if (e.getSource() == createButton)
             {
-                System.out.println(">>NEWGAMEVIEW: ActionListener: createButton pushed");
-
                 getController().createNewGame();
             }
             else if (e.getSource() == cancelButton)

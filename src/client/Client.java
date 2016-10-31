@@ -25,18 +25,15 @@ public class Client {
     private TurnTrackerState state = new WaitingState();
     private IServerProxy serverProxy;
     private ServerPoller serverPoller;
-    //TESTING
-    private int theyJustClickedJoinThisGame = -1;
+    private int currentJoinGameCandidate = -1;
 
 
-    //TODO: change unDelim to be min of 3, and pwDelim to be min of 5
-    //old ones: ([A-z]|[0-9]|_|-){1,24}
     //According to the TAs tooltips: username must be 3-7 chars long, and can include letters, numbers, underscore, or dash
-    private Pattern usernameDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{1,7}");
+    private Pattern usernameDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{3,7}");
     //According to the TAs tooltips: username must be 5-16 chars long, and can include letters, numbers, underscore, or dash
-    private Pattern passwordDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{1,16}");
+    private Pattern passwordDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{5,16}");
     //I just picked this length
-    private Pattern gameTitleDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{1,24}");
+    private Pattern gameTitleDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{3,24}");
 
 
 
@@ -66,7 +63,6 @@ public class Client {
         return clientModel;
     }
 
-    //TESTING FOR RESTARTGAME
     public void setNewClientModel(){
         this.clientModel = new ClientModel(0);
     }
@@ -115,12 +111,12 @@ public class Client {
         serverPoller.getPollTimer().cancel();
     }
 
-    public int getTheyJustClickedJoinThisGame() {
-        return theyJustClickedJoinThisGame;
+    public int getCurrentJoinGameCandidate() {
+        return currentJoinGameCandidate;
     }
 
-    public void setTheyJustClickedJoinThisGame(int theyJustClickedJoinThisGame) {
-        this.theyJustClickedJoinThisGame = theyJustClickedJoinThisGame;
+    public void setCurrentJoinGameCandidate(int currentJoinGameCandidate) {
+        this.currentJoinGameCandidate = currentJoinGameCandidate;
     }
 
     public boolean getStartGame() {return startGame;}
@@ -142,16 +138,6 @@ public class Client {
 //        this.portNumber = portNumber;
 //    }
 
-    //TESTING
-    /*
-    will be called when "ok" pushed on GameFinishedView
-    should do stuff to clear out the current game data:
-      stop main poller
-      clear current clientModel from Client?
-      go back to JoinGameView *with the user still logged in*
-         JGV should start its own poller again and all that
-         EDIT: TA's said to just quit the program here
-     */
     public void endGame(){
         stopServerPoller();
 

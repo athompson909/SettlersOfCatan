@@ -29,8 +29,6 @@ public class Catan extends JFrame
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		//this CatanPanel initializes a LeftPanel, which initializes the Chat/GameHistory components
-		//also a RightPanel, which includes the FinishedGameView
 		catanPanel = new CatanPanel();
 
 		this.setContentPane(catanPanel);
@@ -65,7 +63,6 @@ public class Catan extends JFrame
 			public void run()
 			{
 				new Catan();
-				System.out.println("CATAN ************ args length =" + args.length);
 
 				//if they specified a host/port number
 				if (args.length == 1) {

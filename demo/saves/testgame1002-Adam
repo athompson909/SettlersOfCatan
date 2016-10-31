@@ -1156,6 +1156,24 @@
         <ports>
           <ez>
             <location>
+              <x>3</x>
+              <y>-1</y>
+            </location>
+            <ratio>3</ratio>
+            <validVertex1>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">W</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">NW</direction>
+            </validVertex2>
+            <orientation>NW</orientation>
+          </ez>
+          <ez>
+            <location>
               <x>1</x>
               <y>-3</y>
             </location>
@@ -1194,21 +1212,21 @@
           </ez>
           <ez>
             <location>
-              <x>3</x>
-              <y>-1</y>
+              <x>0</x>
+              <y>3</y>
             </location>
             <ratio>3</ratio>
             <validVertex1>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">W</direction>
+              <x>0</x>
+              <y>3</y>
+              <direction class="er">NW</direction>
             </validVertex1>
             <validVertex2>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">NW</direction>
+              <x>0</x>
+              <y>3</y>
+              <direction class="er">NE</direction>
             </validVertex2>
-            <orientation>NW</orientation>
+            <orientation>N</orientation>
           </ez>
           <ez>
             <location>
@@ -1231,40 +1249,21 @@
           </ez>
           <ez>
             <location>
-              <x>3</x>
-              <y>-3</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Ore</inputResource>
-            <validVertex1>
-              <x>3</x>
-              <y>-3</y>
-              <direction class="er">SW</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>3</x>
-              <y>-3</y>
-              <direction class="er">W</direction>
-            </validVertex2>
-            <orientation>SW</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>0</x>
+              <x>-2</x>
               <y>3</y>
             </location>
             <ratio>3</ratio>
             <validVertex1>
-              <x>0</x>
-              <y>3</y>
-              <direction class="er">NW</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>0</x>
+              <x>-2</x>
               <y>3</y>
               <direction class="er">NE</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-2</x>
+              <y>3</y>
+              <direction class="er">E</direction>
             </validVertex2>
-            <orientation>N</orientation>
+            <orientation>NE</orientation>
           </ez>
           <ez>
             <location>
@@ -1287,6 +1286,25 @@
           </ez>
           <ez>
             <location>
+              <x>3</x>
+              <y>-3</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Ore</inputResource>
+            <validVertex1>
+              <x>3</x>
+              <y>-3</y>
+              <direction class="er">SW</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>3</x>
+              <y>-3</y>
+              <direction class="er">W</direction>
+            </validVertex2>
+            <orientation>SW</orientation>
+          </ez>
+          <ez>
+            <location>
               <x>-3</x>
               <y>0</y>
             </location>
@@ -1303,24 +1321,6 @@
             </validVertex2>
             <orientation>SE</orientation>
           </ez>
-          <ez>
-            <location>
-              <x>-2</x>
-              <y>3</y>
-            </location>
-            <ratio>3</ratio>
-            <validVertex1>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">NE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">E</direction>
-            </validVertex2>
-            <orientation>NE</orientation>
-          </ez>
         </ports>
         <robber>
           <x>1</x>
@@ -1328,16 +1328,67 @@
         </robber>
       </map>
       <players>
-        <null/>
+        <eJ>
+          <MAX__GAME__POINTS>10</MAX__GAME__POINTS>
+          <resources>
+            <brick>2</brick>
+            <wood>-8</wood>
+            <sheep>0</sheep>
+            <wheat>2</wheat>
+            <ore>2</ore>
+          </resources>
+          <oldDevCards>
+            <yearOfPlenty>-2</yearOfPlenty>
+            <monopoly>0</monopoly>
+            <soldier>0</soldier>
+            <roadBuilding>0</roadBuilding>
+            <monument>-2</monument>
+          </oldDevCards>
+          <newDevCards>
+            <yearOfPlenty>0</yearOfPlenty>
+            <monopoly>0</monopoly>
+            <soldier>0</soldier>
+            <roadBuilding>0</roadBuilding>
+            <monument>0</monument>
+          </newDevCards>
+          <roads>15</roads>
+          <cities>4</cities>
+          <settlements>5</settlements>
+          <soldiers>0</soldiers>
+          <victoryPoints>2</victoryPoints>
+          <monuments>0</monuments>
+          <longestRoad>false</longestRoad>
+          <largestArmy>false</largestArmy>
+          <playedDevCard>true</playedDevCard>
+          <discarded>false</discarded>
+          <playerID>0</playerID>
+          <playerIndex>0</playerIndex>
+          <name>Sam</name>
+          <color>puce</color>
+        </eJ>
         <null/>
         <null/>
         <null/>
       </players>
       <log>
-        <lines/>
+        <lines>
+          <eG>
+            <source>Sam</source>
+            <message>Sam used Year of Plenty and got a ore and a wheat</message>
+          </eG>
+          <eG>
+            <source>Sam</source>
+            <message>Sam built a monument and gained a victory point</message>
+          </eG>
+        </lines>
       </log>
       <chat>
-        <lines/>
+        <lines>
+          <eG>
+            <source>Sam</source>
+            <message>hello</message>
+          </eG>
+        </lines>
       </chat>
       <bank>
         <brick>24</brick>
@@ -1353,7 +1404,7 @@
         <largestArmy>-1</largestArmy>
       </turnTracker>
       <winner>-1</winner>
-      <version>0</version>
+      <version>3</version>
     </model>
     <start>
       <deck>
@@ -2510,6 +2561,24 @@
         <ports>
           <ez>
             <location>
+              <x>3</x>
+              <y>-1</y>
+            </location>
+            <ratio>3</ratio>
+            <validVertex1>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">W</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>3</x>
+              <y>-1</y>
+              <direction class="er">NW</direction>
+            </validVertex2>
+            <orientation>NW</orientation>
+          </ez>
+          <ez>
+            <location>
               <x>1</x>
               <y>-3</y>
             </location>
@@ -2548,21 +2617,21 @@
           </ez>
           <ez>
             <location>
-              <x>3</x>
-              <y>-1</y>
+              <x>0</x>
+              <y>3</y>
             </location>
             <ratio>3</ratio>
             <validVertex1>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">W</direction>
+              <x>0</x>
+              <y>3</y>
+              <direction class="er">NW</direction>
             </validVertex1>
             <validVertex2>
-              <x>3</x>
-              <y>-1</y>
-              <direction class="er">NW</direction>
+              <x>0</x>
+              <y>3</y>
+              <direction class="er">NE</direction>
             </validVertex2>
-            <orientation>NW</orientation>
+            <orientation>N</orientation>
           </ez>
           <ez>
             <location>
@@ -2585,40 +2654,21 @@
           </ez>
           <ez>
             <location>
-              <x>3</x>
-              <y>-3</y>
-            </location>
-            <ratio>2</ratio>
-            <inputResource>Ore</inputResource>
-            <validVertex1>
-              <x>3</x>
-              <y>-3</y>
-              <direction class="er">SW</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>3</x>
-              <y>-3</y>
-              <direction class="er">W</direction>
-            </validVertex2>
-            <orientation>SW</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>0</x>
+              <x>-2</x>
               <y>3</y>
             </location>
             <ratio>3</ratio>
             <validVertex1>
-              <x>0</x>
-              <y>3</y>
-              <direction class="er">NW</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>0</x>
+              <x>-2</x>
               <y>3</y>
               <direction class="er">NE</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>-2</x>
+              <y>3</y>
+              <direction class="er">E</direction>
             </validVertex2>
-            <orientation>N</orientation>
+            <orientation>NE</orientation>
           </ez>
           <ez>
             <location>
@@ -2641,6 +2691,25 @@
           </ez>
           <ez>
             <location>
+              <x>3</x>
+              <y>-3</y>
+            </location>
+            <ratio>2</ratio>
+            <inputResource>Ore</inputResource>
+            <validVertex1>
+              <x>3</x>
+              <y>-3</y>
+              <direction class="er">SW</direction>
+            </validVertex1>
+            <validVertex2>
+              <x>3</x>
+              <y>-3</y>
+              <direction class="er">W</direction>
+            </validVertex2>
+            <orientation>SW</orientation>
+          </ez>
+          <ez>
+            <location>
               <x>-3</x>
               <y>0</y>
             </location>
@@ -2656,24 +2725,6 @@
               <direction class="er">SE</direction>
             </validVertex2>
             <orientation>SE</orientation>
-          </ez>
-          <ez>
-            <location>
-              <x>-2</x>
-              <y>3</y>
-            </location>
-            <ratio>3</ratio>
-            <validVertex1>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">NE</direction>
-            </validVertex1>
-            <validVertex2>
-              <x>-2</x>
-              <y>3</y>
-              <direction class="er">E</direction>
-            </validVertex2>
-            <orientation>NE</orientation>
           </ez>
         </ports>
         <robber>
@@ -2712,7 +2763,25 @@
     <h>
       <strict>false</strict>
       <verbose>true</verbose>
-      <commands/>
+      <commands>
+        <dO>
+          <type>Year_of_Plenty</type>
+          <playerIndex>0</playerIndex>
+          <cardType>Year_of_Plenty</cardType>
+          <resource1>Ore</resource1>
+          <resource2>Wheat</resource2>
+        </dO>
+        <dE>
+          <type>Monument</type>
+          <playerIndex>0</playerIndex>
+          <cardType>Monument</cardType>
+        </dE>
+        <dM>
+          <type>sendChat</type>
+          <playerIndex>0</playerIndex>
+          <content>hello</content>
+        </dM>
+      </commands>
     </h>
     <id>3</id>
     <aiPlayers/>

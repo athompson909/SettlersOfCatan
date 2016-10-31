@@ -8,6 +8,7 @@ import shared.definitions.*;
 import client.base.*;
 import client.catan.*;
 import client.utils.ImageUtils;
+import shared.model.player.Player;
 
 
 /**
@@ -19,6 +20,7 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 	private TitlePanel titlePanel;
 	private GameStatePanel gameStatePanel;
 	private JPanel [] playerPanel;
+	private JPanel [] indicatorPanel;
 	private JLabel [] playerPoints;
 	private JLabel [] playerRoad;
 	private JLabel [] playerArmy;
@@ -38,6 +40,7 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		this.setBorder(BorderFactory.createEmptyBorder(3,3,3,3)); 
 		
 		playerPanel = new JPanel[NUM_PLAYERS];
+		indicatorPanel = new JPanel[NUM_PLAYERS];
 		for(int i = 0; i < NUM_PLAYERS; i++)
 		{
 			playerPanel[i] = new JPanel();
@@ -89,18 +92,18 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		name.setFont(labelFont);
 		playerPanel[playerIndex].add(name, BorderLayout.WEST);
 		
-		JPanel indicatorPanel = new JPanel();
-		indicatorPanel.setBackground(playerColor.getJavaColor());
-		playerPanel[playerIndex].add(indicatorPanel, BorderLayout.CENTER);
+		indicatorPanel[playerIndex] = new JPanel();
+		indicatorPanel[playerIndex].setBackground(playerColor.getJavaColor());
+		playerPanel[playerIndex].add(indicatorPanel[playerIndex], BorderLayout.CENTER);
 		
 		playerArmy[playerIndex] = new JLabel();
 		playerArmy[playerIndex].setIcon(new ImageIcon(largestArmyImage));
-		indicatorPanel.add(playerArmy[playerIndex]);
+		indicatorPanel[playerIndex].add(playerArmy[playerIndex]);
 		playerArmy[playerIndex].setVisible(false);
 		
 		playerRoad[playerIndex] = new JLabel();
 		playerRoad[playerIndex].setIcon(new ImageIcon(longestRoadImage));
-		indicatorPanel.add(playerRoad[playerIndex]);
+		indicatorPanel[playerIndex].add(playerRoad[playerIndex]);
 		playerRoad[playerIndex].setVisible(false);
 		
 		playerPoints[playerIndex] = new JLabel("0");
@@ -132,6 +135,13 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 	public void updateGameState(String stateMessage, boolean enable) {
 
 		gameStatePanel.updateGameState(stateMessage, enable);
+	}
+
+	public void updateColors(Player[] players){
+		for(int i = 0; i < players.length; i++){
+			playerPanel[i].setBackground(players[i].getColor().getJavaColor());
+			indicatorPanel[i].setBackground(players[i].getColor().getJavaColor());
+		}
 	}
 	
 }

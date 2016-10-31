@@ -37,8 +37,6 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 	public PlayerWaitingView() {
 
-		System.out.println("PLAYERWAITINGVIEW: constructor called:");
-
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
@@ -188,10 +186,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		System.out.println("PLAYERWAITINGVIEW: setAIChoices called:");
 
 		java.util.List<String> choiceList = new ArrayList<String>();
-		//java.util.List<String> choiceList = ClientFacade.getInstance().listAI();
 
-		//adds all Strings from String[] into an ArrayList<String>
-		// ... for some reason. we couldn't just start with an ArrayList<String>? lol
 		for (String v : value) {
 			choiceList.add(v);
 		}
