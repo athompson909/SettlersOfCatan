@@ -155,8 +155,6 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 	//this is all for the first part of the MT views
 	@Override
 	public void selectGiveOption(ResourceType selectedResource, int amount) {
-		System.out.println(">MTOVERLAY: selectGIVEOption called, ResType= " + selectedResource);
-
 		giveAmount.setText(Integer.toString(amount));
 		giveAmount.setVisible(true);
 		
