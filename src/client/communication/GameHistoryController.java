@@ -61,18 +61,14 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 
 		Map<String, CatanColor> playerColors = ClientUser.getInstance().getPlayerColors();
 
-		if(playerColors.size() == 4) {//todo: remove this condition when states are fixed
+		if(playerColors.size() == 4) {
 			for (MessageLine line : log.getLines()) {
 				entries.add(new LogEntry(playerColors.get(line.getSource()), line.getMessage()));
 			}
-
-//			System.out.println(">GAMEHISTCONT: updateList: new msgList= " + log);
-
 			getView().setEntries(entries);
-
-			//refresh view
 		}
-		else{
+		else {
+
 			System.out.println(">GAMEHISTCONT: updateList: playerColors size= " + playerColors.size());
 		}
 	}
