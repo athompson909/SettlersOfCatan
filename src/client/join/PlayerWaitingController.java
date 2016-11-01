@@ -23,7 +23,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 */
 	private Timer miniPollTimer;
 	//number of seconds to wait between requesting updates from the server
-	private int pollInterval = 2;
+	private int pollInterval = 1;
 	/**
 	 * The list of playerInfos that gets updated every time a new player is added (either AI or real)
 	 */
