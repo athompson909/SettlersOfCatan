@@ -92,6 +92,10 @@ public class TradeOffer {
                 '}';
     }
 
+    /**
+     * tra
+     * @return
+     */
     public boolean tradeToAccept(){
         if(receiverIndex != senderIndex){
             return true;
@@ -100,6 +104,11 @@ public class TradeOffer {
         }
     }
 
+    /**
+     * Determines if a player can accept a trade.
+     * @param playerResources the player must have.
+     * @return true if the player can accept.
+     */
     public boolean canPlayerAccept(ResourceList playerResources){
         //resources required for player to send will be negative so as long as all counts >= 0 they can accept
         int woodTotal = tradeOfferList.getWoodCardCount() + playerResources.getWoodCardCount();
