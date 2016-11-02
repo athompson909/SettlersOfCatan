@@ -207,8 +207,6 @@ public class ClientModel extends Observable {
         return enoughCards;
     }
 
-    //Map can Methods
-
     /**
      * @param playerIndex of player performing the action.
      * @param edgeLocation to place the road.
@@ -269,12 +267,6 @@ public class ClientModel extends Observable {
         players[playerIndex].purchaseRoad();
         map.buildRoadManager.placeRoad(playerIndex, edgeLocation);
     }
-
-    /*
-    public void placeInitialRoad(){
-        map.buildRoadManager.placeRoad(playerIndex, edgeLocation);
-    }
-*/
 
     /**
      * Purchase and place a settlement.
@@ -413,11 +405,7 @@ public class ClientModel extends Observable {
         return victims;
     }
 
-
-
-    //ADDITIONAL DO METHODS (With no accompanying can methods)
-
-    /*
+    /**
     Rulebook: If there are not enough of a resource type, then no one receive any of that resource
     (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
@@ -447,38 +435,28 @@ public class ClientModel extends Observable {
     public Player[] getPlayer() {return players;}
     public TradeOffer getTradeOffer() {return tradeOffer;}
     public ClientUpdateManager getUpdateManager() {return updateManager;}
-    //don't we want to return the player on this client with this method, not whose turn it is?
-    //public Player getCurrentPlayer() {return players[turnTracker.getCurrentTurn()];}
     public Player getCurrentPlayer() {return players[ClientUser.getInstance().getIndex()];}
-
-
+    public int getGameNumber() {
+        return gameNumber;
+    }
+    public Player[] getPlayers() {
+        return players;
+    }
 
     //SETTERS
     public void setChanged(boolean set) {changed = set;}
     public void setVersion(int newModVer) {version = newModVer;}
     public void setWinner(int newGameWinner) {winner = newGameWinner;}
     public void setResourceBank(ResourceBank newResBank) {resourceBank = newResBank;}
-
     public void setMessageManager(MessageManager messageManager) {
         this.messageManager = messageManager;
     }
-
-    public int getGameNumber() {
-        return gameNumber;
-    }
-
     public void setGameNumber(int gameNumber) {
         this.gameNumber = gameNumber;
     }
-
     public void setMap(Map map) {
         this.map = map;
     }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
     public void setPlayers(Player[] players) {
         this.players = players;
 
@@ -490,17 +468,12 @@ public class ClientModel extends Observable {
         }
         System.out.println();
     }
-
     public void setTradeOffer(TradeOffer tradeOffer) {
         this.tradeOffer = tradeOffer;
     }
-
     public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
-    /*Not sure if I can just set the TurnTracker so easily or if I need to break it down into smaller parts*/
     public void setChat(MessageList newChat) {chat = newChat;}
     public void setLog(MessageList newLog) {log = newLog;}
-
-
 
     // Observable override methods
     @Override
