@@ -22,6 +22,7 @@ public class LoginController extends Controller implements ILoginController {
 	private IMessageView messageView;
 	private IAction loginAction;
 	private final String loginFailedMsg = "Invalid username or password. Please try again!";
+	private final String invalidLoginCharsMsg = "Username or password contains invalid characters!";
 	private final String invalidUsernameMsg = "Username must be 3-7 characters long, and can include letters, numbers," +
 			" underscore, or dash.";
 	private final String invalidPasswordMsg = "Password must be 5-16 characters long, and can include letters, numbers," +
@@ -29,6 +30,7 @@ public class LoginController extends Controller implements ILoginController {
 	private final String unmatchPasswordsMsg = "Passwords don't match. Please try again!";
 	private Pattern unDelim = Client.getInstance().getUsernameDelimiter();
 	private Pattern pwDelim = Client.getInstance().getPasswordDelimiter();
+	private Pattern loginDelim = Client.getInstance().getLoginDelimiter();
 
 	/**
 	 * LoginController constructor
@@ -88,8 +90,8 @@ public class LoginController extends Controller implements ILoginController {
 
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
-		if (!unDelim.matcher(username).matches() || !pwDelim.matcher(password).matches()){
-			showRejectMessage("Error", loginFailedMsg);
+		if (!loginDelim.matcher(username).matches() || !loginDelim.matcher(password).matches()){
+			showRejectMessage("Error", invalidLoginCharsMsg);
 			return;
 		}
 

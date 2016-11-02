@@ -34,6 +34,8 @@ public class Client {
     private Pattern passwordDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{5,16}");
     //I just picked this length
     private Pattern gameTitleDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{3,24}");
+    //when they're logging in we don't need to check if the fields are the right length, just if there are any weird chars
+    private Pattern loginDelimiter = Pattern.compile("^[a-zA-Z0-9]+$");
 
 
 
@@ -94,6 +96,10 @@ public class Client {
 
     public Pattern getGameTitleDelimiter() {
         return gameTitleDelimiter;
+    }
+
+    public Pattern getLoginDelimiter() {
+        return loginDelimiter;
     }
 
     public CommandManager getCommandManager() {

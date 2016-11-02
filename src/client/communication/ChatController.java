@@ -30,26 +30,30 @@ public class ChatController extends Controller implements IChatController {
 		return (IChatView)super.getView();
 	}
 
+	/**
+	 * gives a chat command to the client facade which will be for the server proxy
+	 * @param message taken from the view
+	 */
 	@Override
 	public void sendMessage(String message) {
-		/*NOTE: even though the json command has the format {..."playerIndex":X...} that does not mean we want the
-		playerIndex, we actually want the playerId... this is really annoying but just remember that playerIndex is
-		playerId//todo:revise
-		 */
+
 		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getIndex(), message);
 		//Client.getInstance().setUpdateOverride(true);
 		ClientFacade.getInstance().sendChat(command);
 	}
 
+	/**
+	 * sets the message list every time update(...) is called
+	 * @param o the ClientModel
+	 * @param arg not used
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 
 		System.out.println("CHATCONTROLLER UPDATE called");
 
-		//set view.setEntries(list of entries from ClientModel) here?
 		ClientModel model = (ClientModel) o;
-		//TODO: I commented this out for now because it was causing a few errors now that update is actually getting called. Feel free to uncomment it if you're working on it! - Mitch
-		//I'm working on this, -Adam
+
 		MessageList chat = model.getChat();
 		List<MessageLine> lines = chat.getLines();
 		//create LogEntry list from MessageList
@@ -62,8 +66,6 @@ public class ChatController extends Controller implements IChatController {
 		// if so, model.getPlayers() still returns an array of size 4, but it will have null entries
 		for(int i = 0; i < 4; i++){
 			if(players[i] == null) break;//takes care of when there are less than 4 players currently in the game
-			//that conditional however is only going to be necessary when a player is joining a game and there is only currently one player
-			//todo: find a better solution for above
 			playerMap.put(players[i].getName(), players[i].getColor());
 		}
 		for(MessageLine l: lines){
