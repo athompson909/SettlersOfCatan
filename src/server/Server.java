@@ -7,8 +7,11 @@ import java.net.InetSocketAddress;
 import java.lang.String;
 
 /**
+ * The Catan Server
  *
- *
+ * sets contexts
+ * assigns handlers
+ * has a base command object
  *
  * Created by adamthompson on 11/4/16.
  */
@@ -27,6 +30,9 @@ public class Server {
         setPortNumber(portNumber);
     }
 
+    /**
+     * this is called in the main method (of ServerMain)
+     */
     public void run() {
         try {
             httpServer = HttpServer.create(new InetSocketAddress(portNumber), MAX_WAITING_CONNECTIONS);
