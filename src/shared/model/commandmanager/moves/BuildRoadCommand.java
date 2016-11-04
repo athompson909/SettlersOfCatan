@@ -1,12 +1,13 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.locations.EdgeLocation;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class BuildRoadCommand implements BaseCommand {
+public class BuildRoadCommand extends BaseCommand {
 
     /**
      * Index of player who is building settlement
@@ -54,8 +55,9 @@ public class BuildRoadCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 //Getters and Setters

@@ -1,13 +1,14 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.locations.EdgeLocation;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayRoadBuilderCommand implements BaseCommand {
+public class PlayRoadBuilderCommand extends BaseCommand {
 
     /**
      * Index of player playing roadBuilding card
@@ -60,8 +61,9 @@ public class PlayRoadBuilderCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 

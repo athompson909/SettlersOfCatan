@@ -1,11 +1,12 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class RollDiceCommand implements BaseCommand {
+public class RollDiceCommand extends BaseCommand {
     /**
      * number rolled
      */
@@ -34,8 +35,9 @@ public class RollDiceCommand implements BaseCommand {
      * Tells server the dice were rolled and to distribute/require discarding of resources
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     public int getNumber() {

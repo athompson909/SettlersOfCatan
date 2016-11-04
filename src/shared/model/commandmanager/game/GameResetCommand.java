@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameResetCommand implements BaseCommand {
+public class GameResetCommand extends BaseCommand {
     /**
      * Creates GameResetCommand to send to the client.ClientFacade
      */
@@ -18,7 +19,8 @@ public class GameResetCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 }

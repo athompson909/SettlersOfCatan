@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.locations.VertexLocation;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.map.VertexObject;
@@ -7,7 +8,7 @@ import shared.model.map.VertexObject;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class BuildCityCommand implements BaseCommand {
+public class BuildCityCommand extends BaseCommand {
 
     /**
      * ID of player who is building city
@@ -54,8 +55,9 @@ public class BuildCityCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
     //Getters and Setters

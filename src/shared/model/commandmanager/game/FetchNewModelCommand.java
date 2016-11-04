@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class FetchNewModelCommand implements BaseCommand {
+public class FetchNewModelCommand extends BaseCommand {
     /**
      * version of the client model
      */
@@ -24,8 +25,9 @@ public class FetchNewModelCommand implements BaseCommand {
      * Asks server if there is an updated model
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     //Getters

@@ -1,11 +1,12 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayMonumentCommand implements BaseCommand {
+public class PlayMonumentCommand extends BaseCommand {
 
     /**
      * Index of player playing monument card
@@ -40,8 +41,9 @@ public class PlayMonumentCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 //Getters

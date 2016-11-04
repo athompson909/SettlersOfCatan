@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -7,7 +8,7 @@ import shared.model.commandmanager.BaseCommand;
  *
  * Created by Alise on 9/18/2016.
  */
-public class ListAICommand implements BaseCommand {
+public class ListAICommand extends BaseCommand {
     /**
      * Creates ListAICommand to send to the client.ClientFacade
      */
@@ -20,7 +21,8 @@ public class ListAICommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 }

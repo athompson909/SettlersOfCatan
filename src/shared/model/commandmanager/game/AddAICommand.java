@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class AddAICommand implements BaseCommand {
+public class AddAICommand extends BaseCommand {
 
 
     /**
@@ -27,8 +28,9 @@ public class AddAICommand implements BaseCommand {
      * Tells server to add AI to game
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
 

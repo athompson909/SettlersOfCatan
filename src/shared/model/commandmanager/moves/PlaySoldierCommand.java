@@ -1,13 +1,14 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlaySoldierCommand implements BaseCommand {
+public class PlaySoldierCommand extends BaseCommand {
 
     /**
      * Index of player placing the soldier/moving the robber
@@ -55,8 +56,9 @@ public class PlaySoldierCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 //Getters and Setters

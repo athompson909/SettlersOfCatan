@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -8,7 +9,7 @@ import shared.model.commandmanager.BaseCommand;
  *
  * Created by Alise on 9/18/2016.
  */
-public class FinishTurnCommand implements BaseCommand {
+public class FinishTurnCommand extends BaseCommand {
 
     /**
      * index of player finishing turn
@@ -43,8 +44,9 @@ public class FinishTurnCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 //Getters

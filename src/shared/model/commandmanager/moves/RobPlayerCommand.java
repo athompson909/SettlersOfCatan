@@ -1,12 +1,13 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.locations.HexLocation;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class RobPlayerCommand implements BaseCommand {
+public class RobPlayerCommand extends BaseCommand {
     /**
      * int 0-3 of player
      */
@@ -44,8 +45,9 @@ public class RobPlayerCommand implements BaseCommand {
      * Tells server to move resource from victim to robbing players hand
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     //Getters
