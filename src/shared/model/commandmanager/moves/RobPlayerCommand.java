@@ -49,9 +49,11 @@ public class RobPlayerCommand extends BaseCommand {
 
     /**
      * Tells server to move resource from victim to robbing players hand
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

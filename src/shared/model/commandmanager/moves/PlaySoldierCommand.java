@@ -58,10 +58,11 @@ public class PlaySoldierCommand extends BaseCommand {
      * Calls Map robber update functions to reset roadLocation of the robber
      * Calls Player update functions to reflect changes in hands
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

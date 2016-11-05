@@ -44,10 +44,11 @@ public class GameJoinCommand extends BaseCommand {
 
     /**
      * Tells server to add user as new player of game with given gameID
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

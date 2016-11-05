@@ -67,10 +67,11 @@ public class MaritimeTradeCommand extends BaseCommand {
      * Calls ResourceTypeBan update methods to reflect change in
      * recources in bank
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

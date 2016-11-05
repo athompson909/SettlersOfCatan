@@ -28,10 +28,11 @@ public class UtilChangeLogLevelCommand extends BaseCommand {
 
     /**
      * Sets the server's logging level
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

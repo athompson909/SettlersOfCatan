@@ -23,5 +23,5 @@ public abstract class BaseCommand implements HttpHandler{
     /**
      * Kicks off server Execution
      */
-    public abstract JSONObject serverExec(BaseCommand command);
+    public abstract String serverExec(int userid, int gameid);
 }

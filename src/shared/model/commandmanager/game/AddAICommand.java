@@ -31,9 +31,11 @@ public class AddAICommand extends BaseCommand {
     private String AIType;
     /**
      * Tells server to add AI to game
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }
