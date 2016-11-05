@@ -70,7 +70,7 @@ public class Catan extends JFrame
 					System.out.println("ERROR: invalid host/port args");
 					System.exit(0);
 				}
-				else if (args.length == 2){
+				else if (args.length == 2) {
 					//good to pass the host/port nums to the ClientFacade
 					hostNumber = args[0];
 					portNumber = args[1];

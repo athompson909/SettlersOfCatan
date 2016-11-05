@@ -1,6 +1,7 @@
 package shared.model.commandmanager.game;
 
 import org.json.JSONObject;
+import server.IServerFacade;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -21,8 +22,8 @@ public class ListAICommand extends BaseCommand {
      * @param command
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
-
+    public JSONObject serverExec(BaseCommand command) {
+        IServerFacade facade = IServerFacade.getInstance();
         return null;
     }
 }

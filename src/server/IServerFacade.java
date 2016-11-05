@@ -17,6 +17,12 @@ public interface IServerFacade {
 
     //MOVES COMMANDS
 
+    IServerFacade instance = new MockServerFacade() {};
+
+    static IServerFacade getInstance() {
+        return instance;
+    };
+
     /**
      * Finishes the players turn, and changes to the next turn.
      * @param index of the player ending their turn.
