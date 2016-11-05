@@ -1,12 +1,13 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayYearOfPlentyCommand implements BaseCommand {
+public class PlayYearOfPlentyCommand extends BaseCommand {
     /**
      * int 0-3 of player using card
      */
@@ -45,8 +46,9 @@ public class PlayYearOfPlentyCommand implements BaseCommand {
      *Tells server to give player these two resources from the bank
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
 //Getters

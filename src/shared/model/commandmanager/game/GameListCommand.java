@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameListCommand implements BaseCommand {
+public class GameListCommand extends BaseCommand {
     /**
      * Creates GameListCommand to send to client.ClientFacade
      */
@@ -18,7 +19,8 @@ public class GameListCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 }

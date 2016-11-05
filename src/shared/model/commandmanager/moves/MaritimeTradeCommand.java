@@ -1,13 +1,14 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class MaritimeTradeCommand implements BaseCommand {
+public class MaritimeTradeCommand extends BaseCommand {
 
     /**
      * Index of player involved in maritime trade
@@ -64,8 +65,9 @@ public class MaritimeTradeCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 

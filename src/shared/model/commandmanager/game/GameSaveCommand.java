@@ -1,12 +1,12 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
-import java.io.File;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameSaveCommand implements BaseCommand {
+public class GameSaveCommand extends BaseCommand {
     /**
      * id of game to save
      */
@@ -34,8 +34,9 @@ public class GameSaveCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     //Getters

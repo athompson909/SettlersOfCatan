@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class SendChatCommand implements BaseCommand {
+public class SendChatCommand extends BaseCommand {
     /**
      * int 0-3 representing player
      */
@@ -38,8 +39,9 @@ public class SendChatCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
 

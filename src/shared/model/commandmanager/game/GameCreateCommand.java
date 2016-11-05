@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameCreateCommand implements BaseCommand {
+public class GameCreateCommand extends BaseCommand {
     /**
      * name of game
      */
@@ -50,8 +51,9 @@ public class GameCreateCommand implements BaseCommand {
      * Tells the server to create new game
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     //Getters

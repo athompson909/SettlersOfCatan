@@ -1,12 +1,13 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class PlayMonopolyCommand implements BaseCommand {
+public class PlayMonopolyCommand extends BaseCommand {
 
     /**
      * Index of player playing Monopoly
@@ -47,8 +48,9 @@ public class PlayMonopolyCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
 
+        return null;
     }
 
 //Getters

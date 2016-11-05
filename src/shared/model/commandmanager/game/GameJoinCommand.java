@@ -1,12 +1,13 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.CatanColor;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameJoinCommand implements BaseCommand {
+public class GameJoinCommand extends BaseCommand {
 
     /**
      * gameID of game the player wants to join
@@ -41,8 +42,9 @@ public class GameJoinCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     //Getters

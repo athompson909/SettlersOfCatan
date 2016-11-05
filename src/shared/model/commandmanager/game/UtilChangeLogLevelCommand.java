@@ -1,11 +1,12 @@
 package shared.model.commandmanager.game;
+import org.json.JSONObject;
 import shared.definitions.LoggingLevel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class UtilChangeLogLevelCommand implements BaseCommand {
+public class UtilChangeLogLevelCommand extends BaseCommand {
     /**
      * log level: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, or FINEST
      */
@@ -24,8 +25,9 @@ public class UtilChangeLogLevelCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 
     //Getters

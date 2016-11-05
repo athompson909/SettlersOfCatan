@@ -1,12 +1,12 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
-import java.io.File;
 /**
  * Created by Alise on 9/18/2016.
  */
-public class GameLoadCommand implements BaseCommand {
+public class GameLoadCommand extends BaseCommand {
     /**
      * name of file to Load
      */
@@ -27,7 +27,8 @@ public class GameLoadCommand implements BaseCommand {
      * @param command
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 }

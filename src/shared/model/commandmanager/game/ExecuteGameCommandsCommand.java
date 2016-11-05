@@ -1,9 +1,7 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -11,7 +9,7 @@ import java.util.List;
  *
  * Created by Alise on 9/18/2016.
  */
-public class ExecuteGameCommandsCommand implements BaseCommand {
+public class ExecuteGameCommandsCommand extends BaseCommand {
     /**
      * Creates ExecuteGameCommandsCommand to send to client.ClientFacade
      */
@@ -27,7 +25,8 @@ public class ExecuteGameCommandsCommand implements BaseCommand {
      * Tells server to execute the list of game commands
      */
     @Override
-    public void serverExec(BaseCommand command){
+    public JSONObject serverExec(BaseCommand command){
 
+        return null;
     }
 }

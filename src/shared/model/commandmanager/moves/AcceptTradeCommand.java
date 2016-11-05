@@ -1,11 +1,12 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
  */
-public class AcceptTradeCommand implements BaseCommand {
+public class AcceptTradeCommand extends BaseCommand {
 //Data Members
     /**
      * Index of player who is being offered a trade
@@ -43,11 +44,12 @@ public class AcceptTradeCommand implements BaseCommand {
      * @param BC
      */
     @Override
-    public void serverExec(BaseCommand BC) {
+    public JSONObject serverExec(BaseCommand BC) {
         //do we need access to the update manager? should we pass that in as the parameter instead?
 
         //OR should we just do the server-side updates here so we don't bloat our update manager and so these command
         //objects aren't completely empty? - should we return something so we know whether or not it worked?
+        return null;
     }
 
     //Getters

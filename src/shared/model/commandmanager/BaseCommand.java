@@ -1,14 +1,24 @@
 package shared.model.commandmanager;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import org.json.JSONObject;
+
 /**
  * Created by Mitchell on 9/15/2016.
  */
-public interface BaseCommand {
+public abstract class BaseCommand implements HttpHandler{
 
-
+    @Override
+    public void handle(HttpExchange exchange){
+        //Todo
+        //translate and set parameters
+        //get cookie
+        //call serverExec and return JSON to the client
+    }
 
     /**
      * Kicks off server Execution
      */
-    public void serverExec(BaseCommand command);
+    public abstract JSONObject serverExec(BaseCommand command);
 }
