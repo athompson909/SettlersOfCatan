@@ -21,10 +21,8 @@ import java.util.List;
  *
  * Created by Alise on 9/17/2016.
  *
- * todo: PROPOSITION: HAVE A FUNCTION THAT INITIALIZES CLIENT MODEL THE FIRST TIME
  */
 public class ClientFacade {
-
 
     /**
      * Translates to and from JSON

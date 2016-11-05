@@ -95,10 +95,6 @@ public class JSONTranslator {
         int newCMRadius = newMapJSON.getInt("radius");
 
 //GET HEXES
-        //The Hexes data in a map never change during the game.
-        //Only the roads/cities/settlements/robber do.
-        //So this may not need to be used during the model update in UpdateManager...
-        //But just in case: the Map wants a HashMap of HexLocation->Hex objs.
         JSONArray newHexesJSONArr = newMapJSON.getJSONArray("hexes");
         HashMap<HexLocation, Hex> newHexesMap = parseHexesFromJSON(newHexesJSONArr);
         //HashMap<Hexes> complete! Ready to add to Map obj.
@@ -187,10 +183,6 @@ public class JSONTranslator {
             newCMTradeOffer = gsonConverter.fromJson(newTradeOfferJSONString, TradeOffer.class);
             //    System.out.println(">newTradeOfferObj= " + newCMTradeOffer);
         }
-        else{
-           // newClientModel.tradeOffer = newCMTradeOffer;
-          //  System.out.println(">No TradeOffer found in newClientModel JSON");
-        }
 
         //TradeOffer is complete! Ready to add to the new ClientModel obj.
 
@@ -198,8 +190,6 @@ public class JSONTranslator {
 //GET ADDITIONAL INTS/OTHER CLIENTMODEL DATA
         int newCMVersion = newModelJSON.getInt("version");
         int newCMWinner = newModelJSON.getInt("winner");
-        //TODO: ask - where (in the future) will we get the old/existing ClientModel's gameNumber so we can
-        //apply it to the new one?
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //BUILD NEW CLIENTMODEL OBJECT
@@ -209,12 +199,11 @@ public class JSONTranslator {
         newClientModel.setResourceBank(newCMResourceBank);
         newClientModel.setMessageManager(newCMMsgMgr);
         newClientModel.setTurnTracker(newCMTurnTracker);
-        newClientModel.setChat(newChatMsgList);    //do we really need this if we're already giving it a MsgMgr?
-        newClientModel.setLog(newLogMsgList);     // same thing here?
+        newClientModel.setChat(newChatMsgList);
+        newClientModel.setLog(newLogMsgList);
         newClientModel.setTradeOffer(newCMTradeOffer);
         newClientModel.setPlayers(newPlayersArray);
         newClientModel.setMap(newCMMap);
-
 
         System.out.println("===== POLL FINISHED - MODEL TRANSLATION COMPLETE ====");
 
@@ -563,15 +552,6 @@ public class JSONTranslator {
 
     //------------------------------------------------------------------------------------------------------------
 
-    /**
-     * I don't think this is necessary
-     * @param num
-     * @return
-     */
-    public JSONObject modelVerNumToJSON(int num) {
-        return null;
-    }
-
 //COMMAND OBJECT TRANSLATORS ==================================================
 
     //GAME COMMANDS~~~~~~~~~~~~~~~~~~~~~~
@@ -728,10 +708,12 @@ public class JSONTranslator {
     }
 
 
-    //When you use a gameCreateCommand on the server, it sends back a JSONObject
-    //with data about the game you just created.
-    //The response data contains the same data as a GameListItem, but with an empty Player array.
-    public GameInfo gameCreateResponseFromJSON(JSONObject gameCreateResponseJSON){
+    /**
+     * When you use a gameCreateCommand on the server, it sends back a JSONObject
+     * with data about the game you just created.
+     * The response data contains the same data as a GameListItem, but with an empty Player array.
+    */
+     public GameInfo gameCreateResponseFromJSON(JSONObject gameCreateResponseJSON){
 
         String gameCreateResponseStr = gameCreateResponseJSON.toString();
 
