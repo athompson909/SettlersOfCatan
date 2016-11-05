@@ -34,6 +34,16 @@ public class UserManager {
 
     }
 
-
+    /**
+     * checks whether or not the user login is valid
+     *
+     * @param username the username
+     * @param password the password
+     * @return true if valid
+     */
+    public boolean isValidLogin(String username, String password) {
+        User user = allUsers.get(username);
+        return (user != null && password.equals(user.getUserPassword()));
+    }
 
 }
