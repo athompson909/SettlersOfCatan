@@ -1,10 +1,11 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
+import shared.model.commandmanager.game.*;
+import shared.model.commandmanager.moves.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.lang.String;
 
 /**
  * The Catan Server
@@ -23,7 +24,7 @@ public class Server {
 
     private int portNumber;
 
-    private final int MAX_WAITING_CONNECTIONS = 20;
+    private final int MAX_WAITING_CONNECTIONS = 40;
 
     public Server(String hostNumber, int portNumber) {
         setHostNumber(hostNumber);
@@ -32,6 +33,7 @@ public class Server {
 
     /**
      * this is called in the main method (of ServerMain)
+     * creates all the contexts and sets the handlers as empty command objects
      */
     public void run() {
         try {
@@ -40,6 +42,47 @@ public class Server {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        httpServer.setExecutor(null);
+
+        // user contexts:
+        httpServer.createContext("/user/login", new LoginCommand());
+        httpServer.createContext("/user/register", new RegisterCommand());
+
+        // games (multiple) contexts:
+        httpServer.createContext("/games/list", new GameListCommand());
+        httpServer.createContext("/games/create", new GameCreateCommand());
+        httpServer.createContext("/games/join", new GameJoinCommand());
+        httpServer.createContext("/games/save", new GameSaveCommand());
+        httpServer.createContext("/games/load", new GameLoadCommand());
+
+        // game contexts:
+        httpServer.createContext("/game/model", new FetchNewModelCommand());
+        httpServer.createContext("/game/reset", new GameResetCommand());
+        httpServer.createContext("/game/commands", new GetGameCommandsCommand());
+        httpServer.createContext("/game/", new AddAICommand());
+        httpServer.createContext("/game/", new ListAICommand());
+
+        // moves contexts:
+        httpServer.createContext("moves/sendChat", new SendChatCommand());
+        httpServer.createContext("moves/rollNumber", new RollDiceCommand());
+        httpServer.createContext("moves/robPlayer", new RobPlayerCommand());
+        httpServer.createContext("moves/finishTurn", new FinishTurnCommand());
+        httpServer.createContext("moves/buyDevCard", new PurchaseDevCardCommand());
+        httpServer.createContext("moves/Year_of_Plenty", new PlayYearOfPlentyCommand());
+        httpServer.createContext("moves/Road_Building", new PlayRoadBuilderCommand());
+        httpServer.createContext("moves/Soldier", new PlaySoldierCommand());
+        httpServer.createContext("moves/Monopoly", new PlayMonopolyCommand());
+        httpServer.createContext("moves/Monument", new PlayMonumentCommand());
+        httpServer.createContext("moves/buildRoad", new BuildRoadCommand());
+        httpServer.createContext("moves/buildSettlement", new BuildSettlementCommand());
+        httpServer.createContext("moves/buildCity", new BuildCityCommand());
+        httpServer.createContext("moves/offerTrade", new OfferTradeCommand());
+        httpServer.createContext("moves/acceptTrade", new AcceptTradeCommand());
+        httpServer.createContext("moves/maritimeTrade", new MaritimeTradeCommand());
+        httpServer.createContext("moves/discardCards", new DiscardCommand());
+
+
     }
 
     public String getHostNumber() {
