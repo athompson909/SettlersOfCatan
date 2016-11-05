@@ -1,8 +1,8 @@
 package server;
 
+import client.data.GameInfo;
 import org.json.JSONObject;
 import shared.model.ClientModel;
-import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 
 import java.util.ArrayList;
@@ -126,8 +126,37 @@ public class ServerTranslator {
         return null;
     }
 
+    /**
+     * this will be for contexts such as login, register, join, and addAI
+     *
+     * @return "Success" if true (I think)
+     */
+    public String booleanToString(boolean bool) {
+        return null;
+    }
 
 
+    /**
+     * converts a string array to a string that follows json format
+     *
+     * @param listAIStr { "LARGEST_ARMY" }
+     * @return listAIStr as json (but a string)
+     */
+    public String listAIToString(String[] listAIStr) {
+        return null;
+    }
+
+    public String gameInfoToString(GameInfo gameInfo) {
+        return null;
+    }
+
+    public String gameListToString(GameInfo[] gameList) {
+        return null;
+    }
+
+    public String clientModelToString(ClientModel clientModel) {
+        return null;
+    }
 
 
 

@@ -23,7 +23,9 @@ public class ListAICommand extends BaseCommand {
      */
     @Override
     public JSONObject serverExec(BaseCommand command) {
-        IServerFacade facade = IServerFacade.getInstance();
+        String[] listAIStr = IServerFacade.getInstance().listAI();
+
+
         return null;
     }
 }
