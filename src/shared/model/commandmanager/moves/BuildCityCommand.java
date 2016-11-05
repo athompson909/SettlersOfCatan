@@ -44,6 +44,10 @@ public class BuildCityCommand extends BaseCommand {
         vertexLocation = vertexObject.getVertexLocation();
     }
 
+    /**
+     * Creates empty BuildCityCommand
+     */
+    public BuildCityCommand(){}
 
     /**
      * Calls all necessary model update functions

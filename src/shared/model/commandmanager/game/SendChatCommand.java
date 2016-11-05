@@ -23,6 +23,11 @@ public class SendChatCommand extends BaseCommand {
      */
     private final String type = "sendChat";
 
+    /**
+     * Creates empty Command
+     */
+    public SendChatCommand() {
+    }
 
     /**
      *

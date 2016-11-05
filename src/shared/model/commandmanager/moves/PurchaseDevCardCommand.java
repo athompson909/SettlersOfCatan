@@ -17,6 +17,13 @@ public class PurchaseDevCardCommand extends BaseCommand {
      * translations of the commands.
      */
     private final String type = "buyDevCard";
+
+    /**
+     * Creates empty PurchaseDevCardCommand
+     */
+    public PurchaseDevCardCommand() {
+    }
+
     /**
      * Creates PurchaseDevCardCommand to send to client.ClientFacade. sets player Index
      * @param playerIndex

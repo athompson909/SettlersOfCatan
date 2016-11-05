@@ -57,6 +57,12 @@ public class OfferTradeCommand extends BaseCommand {
     }
 
     /**
+     * Creates empty OfferTradeCommand
+     */
+    public OfferTradeCommand() {
+    }
+
+    /**
      * Calls all necessary model update methods
      * @param BC
      */

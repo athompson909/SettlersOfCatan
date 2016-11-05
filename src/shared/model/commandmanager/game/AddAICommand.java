@@ -8,9 +8,14 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class AddAICommand extends BaseCommand {
 
+    /**
+     * Creates empty AddAICommand
+     */
+    public AddAICommand() {
+    }
 
     /**
-     * Creates AICommand object to send to client.ClientFacade
+     * Creates AICommand object
      */
     public AddAICommand(String aiType) {
         setAIType(aiType);

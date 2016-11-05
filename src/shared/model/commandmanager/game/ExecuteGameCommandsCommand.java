@@ -11,7 +11,7 @@ import shared.model.commandmanager.BaseCommand;
  */
 public class ExecuteGameCommandsCommand extends BaseCommand {
     /**
-     * Creates ExecuteGameCommandsCommand to send to client.ClientFacade
+     * Creates ExecuteGameCommandsCommand
      */
     public ExecuteGameCommandsCommand(){
 

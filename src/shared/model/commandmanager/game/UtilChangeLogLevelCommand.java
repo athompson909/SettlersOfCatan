@@ -13,7 +13,13 @@ public class UtilChangeLogLevelCommand extends BaseCommand {
     private LoggingLevel logLevel;
 
     /**
-     * Creates UtilChangeLogLevelCommand to send to the client.ClientFacade. Sets data member.
+     * Creates empty Command
+     */
+    public UtilChangeLogLevelCommand() {
+    }
+
+    /**
+     * Creates UtilChangeLogLevelCommand. Sets data member.
      * @param logLevel
      */
     public UtilChangeLogLevelCommand(LoggingLevel logLevel){

@@ -26,6 +26,11 @@ public class GameJoinCommand extends BaseCommand {
      */
     private final transient String type = "joinGame";
 
+    /**
+     * Creates empty GameJoindCommand
+     */
+    public GameJoinCommand() {
+    }
 
     /**
      * Creates GameJoinCommand to send to the client.ClientFacade

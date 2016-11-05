@@ -18,6 +18,12 @@ public class LoginCommand extends BaseCommand {
     private String password;
 
     /**
+     * Creates empty Command
+     */
+    public LoginCommand() {
+    }
+
+    /**
      * Creates LoginCommand to send to the client.ClientFacade. Sets data members
      * @param username
      * @param password

@@ -23,6 +23,11 @@ public class FinishTurnCommand extends BaseCommand {
     private final String type = "finishTurn";
 
     /**
+     * Creates empty FinishTurnCommand
+     */
+    public FinishTurnCommand() {}
+
+    /**
      * Creates FinishTurnCommand object to be sent to client.ClientFacade
      * for translation into JSON
      *

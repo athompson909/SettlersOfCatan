@@ -14,6 +14,12 @@ public class GameLoadCommand extends BaseCommand {
     private String filename;
 
     /**
+     * Creates empty Command
+     */
+    public GameLoadCommand() {
+    }
+
+    /**
      * Creates GameLoadCommand to send to the client.ClientFacade. Sets fileName.
      * @param fileName
      */

@@ -30,6 +30,12 @@ public class RobPlayerCommand extends BaseCommand {
     private final String type = "robPlayer";
 
     /**
+     * Creates empty RobPlayerCommand
+     */
+    public RobPlayerCommand() {
+    }
+
+    /**
      * Creates RobPlayerCommand to send to client.ClientFacade. Sets data members
      * @param playerIndex
      * @param location

@@ -25,6 +25,11 @@ public class DiscardCommand extends BaseCommand {
     private String type;
 
     /**
+     * Creates empty DiscardCommand
+     */
+    public DiscardCommand() {}
+
+    /**
      * Creates DiscardCommand object to be sent to client.ClientFacade
      * for translation into JSON
      *

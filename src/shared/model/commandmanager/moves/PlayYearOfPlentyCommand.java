@@ -29,6 +29,11 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
      */
     private final String type = "Year_of_Plenty";
 
+    /**
+     * Creates empty Command
+     */
+    public PlayYearOfPlentyCommand() {
+    }
 
     /**
      * Creates PlayYearOfPlentyCommand to send to client.ClientFacade. Sets data members

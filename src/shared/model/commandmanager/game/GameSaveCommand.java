@@ -20,6 +20,12 @@ public class GameSaveCommand extends BaseCommand {
     private String fileName;
 
     /**
+     * Creates empty Command
+     */
+    public GameSaveCommand() {
+    }
+
+    /**
      * CreatesGameSaveCommand to send to the client.ClientFacade. Sets data members.
      * @param gameID
      * @param fileName

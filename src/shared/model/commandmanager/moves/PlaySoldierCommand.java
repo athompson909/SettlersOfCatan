@@ -30,6 +30,11 @@ public class PlaySoldierCommand extends BaseCommand {
      */
     private final String type = "Soldier";
 
+    /**
+     * Creates empty PlaySoldierCommand
+     */
+    public PlaySoldierCommand() {
+    }
 
     /**
      * Creates a PlaySoldierCommand object to be sent to client.ClientFacade

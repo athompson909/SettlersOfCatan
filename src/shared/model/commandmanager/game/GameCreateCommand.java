@@ -34,6 +34,12 @@ public class GameCreateCommand extends BaseCommand {
     private final transient String type = "createGame";
 
     /**
+     * Creates empty GameCreateCommand
+     */
+    public GameCreateCommand() {
+    }
+
+    /**
      * Creates GameCreateCommand to pass to the client.ClientFacade. Sets data members.
      * @param name
      * @param randomTiles

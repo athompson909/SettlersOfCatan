@@ -18,6 +18,12 @@ public class RegisterCommand extends BaseCommand {
     private String password;
 
     /**
+     * Creates empty Command
+     */
+    public RegisterCommand() {
+    }
+
+    /**
      * Creates RegisterCommand to send to client.ClientFacade. Sets data members.
      * @param username
      * @param password

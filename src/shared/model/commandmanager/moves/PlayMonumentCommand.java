@@ -19,6 +19,11 @@ public class PlayMonumentCommand extends BaseCommand {
      */
     private final String type = "Monument";
 
+    /**
+     * Creates empty PlayMonumentCommand
+     */
+    public PlayMonumentCommand() {
+    }
 
     /**
      * Creates PlayMonumentCard object to be sent to client.ClientFacade
