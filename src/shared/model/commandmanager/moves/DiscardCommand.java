@@ -48,10 +48,11 @@ public class DiscardCommand extends BaseCommand {
      *
      * Calls player updates methods to reflect new hand
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

@@ -16,10 +16,11 @@ public class GameListCommand extends BaseCommand {
 
     /**
      * Tells the server to send a list of all games
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

@@ -16,10 +16,11 @@ public class GetGameCommandsCommand extends BaseCommand {
 
     /**
      * Tells the server to get all the game commands
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

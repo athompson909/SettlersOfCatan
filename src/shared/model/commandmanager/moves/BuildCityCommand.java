@@ -56,10 +56,11 @@ public class BuildCityCommand extends BaseCommand {
      * Calls Player update methods to reflect decremented city count
      * and incremented settlement count
      * Calls TurnTracker update methods to reflect incremented victory points
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

@@ -19,7 +19,8 @@ public class ListAICommand extends BaseCommand {
 
     /**
      * Asks the server to send a list of all AI types
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
     public JSONObject serverExec(BaseCommand command) {
