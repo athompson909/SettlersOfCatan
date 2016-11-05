@@ -5,6 +5,4 @@ package server;
  */
 public class ServerFacade implements IServerFacade {
 
-    
-
 }
