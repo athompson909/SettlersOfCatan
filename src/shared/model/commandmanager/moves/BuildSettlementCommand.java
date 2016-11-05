@@ -68,10 +68,11 @@ public class BuildSettlementCommand extends BaseCommand {
      * Updates specified player to reflect decremented settlements
      * Updates TurnTracker to reflect victory points
      *
-     * @param BC BaseCommand object
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

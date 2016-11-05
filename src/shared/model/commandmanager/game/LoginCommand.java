@@ -1,6 +1,7 @@
 package shared.model.commandmanager.game;
 
-import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -35,12 +36,14 @@ public class LoginCommand extends BaseCommand {
 
     /**
      * Tells server to login this user
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
-        return null;
+        boolean response = IServerFacade.getInstance().login(username, password);
+        return ServerTranslator.getInstance().booleanToString(response);
     }
 
     //Getters

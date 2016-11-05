@@ -50,10 +50,11 @@ public class AcceptTradeCommand extends BaseCommand {
      *
      * Calls Player update methods to reflect a change of cards in hand
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
         //do we need access to the update manager? should we pass that in as the parameter instead?
 
         //OR should we just do the server-side updates here so we don't bloat our update manager and so these command

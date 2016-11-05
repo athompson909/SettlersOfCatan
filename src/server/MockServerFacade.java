@@ -246,7 +246,8 @@ public class MockServerFacade implements IServerFacade {
      * @return a string array of the names of the AI
      */
     public String[] listAI(){
-        return null;
+        return LIST_AI;
     }
 
+    private final String[] LIST_AI = { "LARGEST_ARMY" };
 }

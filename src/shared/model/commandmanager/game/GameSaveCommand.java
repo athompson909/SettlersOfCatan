@@ -37,10 +37,11 @@ public class GameSaveCommand extends BaseCommand {
 
     /**
      * Tells server to save given game with to a file with the given name
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

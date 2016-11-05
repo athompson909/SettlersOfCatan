@@ -41,10 +41,12 @@ public class SendChatCommand extends BaseCommand {
 
     /**
      * Tells server to add this message to the end of the chat
-     * @param command
+     *
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

@@ -63,10 +63,11 @@ public class PlayRoadBuilderCommand extends BaseCommand {
      * Calls Player update methods to reflect decremented road count
      * Calls TurnTracker to recount and reassign longestRoad
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

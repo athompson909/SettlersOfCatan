@@ -1,6 +1,7 @@
 package shared.model.commandmanager.game;
 
-import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -18,11 +19,13 @@ public class ListAICommand extends BaseCommand {
 
     /**
      * Asks the server to send a list of all AI types
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId) {
 
-        return null;
+        String[] listAI = IServerFacade.getInstance().listAI();
+        return ServerTranslator.getInstance().listAIToString(listAI);
     }
 }
