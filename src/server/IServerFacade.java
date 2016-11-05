@@ -1,9 +1,11 @@
 package server;
 
+import client.data.GameInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.model.ClientModel;
 import shared.model.map.EdgeValue;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
@@ -129,7 +131,7 @@ public interface IServerFacade {
     void buildSettlement(VertexObject newSettlement);
 
     /**
-     * PLayer building a city.
+     * Player building a city.
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
     void buildCity(VertexObject newCity);
@@ -142,28 +144,32 @@ public interface IServerFacade {
      * User login.
      * @param username of the user.
      * @param password of the user.
+     * @return true if login is successful.
      */
-    void login(String username, String password);
+    boolean login(String username, String password);
 
     /**
      * User registering.
      * @param username of the user.
      * @param password of the user.
+     * @return true if login is successful.
      */
-    void register(String username, String password);
+    boolean register(String username, String password);
 
 
     /**
      * List all of the games.
+     * @return an array of the GameInfo objects used to display the list.
      */
-    void list(); //GET
+    GameInfo[] list(); //GET
 
     /**
      * Join a specific game.
      * @param gameID of the game.
      * @param color the player has selected.
+     * @return true is succesful.
      */
-    void join(int gameID, CatanColor color);
+    boolean join(int gameID, CatanColor color);
 
     /**
      * Create a new game.
@@ -172,22 +178,25 @@ public interface IServerFacade {
      * @param randomNumbers true if randomized.
      * @param randomPorts true if randomized.
      */
-    void create(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts);
+    GameInfo create(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts);
 
     /**
      * Get the model.
-     * @param version number of the model.
+     * @param version of the model, compared to see if its different.
+     * @return the model.
      */
-    void model(int version); //GET
+    ClientModel model(int version); //GET
 
     /**
      * Add an AI to the current game.
+     * @return true if the AI
      */
-    void addAI();
+    boolean addAI();
 
     /**
      * List the AI
+     * @return a string array of the names of the AI
      */
-    void listAI();
+    String[] listAI();
 
 }
