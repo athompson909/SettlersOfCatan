@@ -36,17 +36,4 @@ public class UserManager {
 
 
 
-    /**
-     * GetUserByID is a function I thought might be helpful at some point.
-     * It
-     *
-     * @param userID - the global ID of the user you need
-     * @return - the User object associated with that userID
-     */
-    public User getUserByID(int userID){
-
-        return null;
-    }
-
-
 }
