@@ -64,25 +64,25 @@ public class Server {
         httpServer.createContext("/game/", new ListAICommand());
 
         // moves contexts:
-        httpServer.createContext("moves/sendChat", new SendChatCommand());
-        httpServer.createContext("moves/rollNumber", new RollDiceCommand());
-        httpServer.createContext("moves/robPlayer", new RobPlayerCommand());
-        httpServer.createContext("moves/finishTurn", new FinishTurnCommand());
-        httpServer.createContext("moves/buyDevCard", new PurchaseDevCardCommand());
-        httpServer.createContext("moves/Year_of_Plenty", new PlayYearOfPlentyCommand());
-        httpServer.createContext("moves/Road_Building", new PlayRoadBuilderCommand());
-        httpServer.createContext("moves/Soldier", new PlaySoldierCommand());
-        httpServer.createContext("moves/Monopoly", new PlayMonopolyCommand());
-        httpServer.createContext("moves/Monument", new PlayMonumentCommand());
-        httpServer.createContext("moves/buildRoad", new BuildRoadCommand());
-        httpServer.createContext("moves/buildSettlement", new BuildSettlementCommand());
-        httpServer.createContext("moves/buildCity", new BuildCityCommand());
-        httpServer.createContext("moves/offerTrade", new OfferTradeCommand());
-        httpServer.createContext("moves/acceptTrade", new AcceptTradeCommand());
-        httpServer.createContext("moves/maritimeTrade", new MaritimeTradeCommand());
-        httpServer.createContext("moves/discardCards", new DiscardCommand());
+        httpServer.createContext("/moves/sendChat", new SendChatCommand());
+        httpServer.createContext("/moves/rollNumber", new RollDiceCommand());
+        httpServer.createContext("/moves/robPlayer", new RobPlayerCommand());
+        httpServer.createContext("/moves/finishTurn", new FinishTurnCommand());
+        httpServer.createContext("/moves/buyDevCard", new PurchaseDevCardCommand());
+        httpServer.createContext("/moves/Year_of_Plenty", new PlayYearOfPlentyCommand());
+        httpServer.createContext("/moves/Road_Building", new PlayRoadBuilderCommand());
+        httpServer.createContext("/moves/Soldier", new PlaySoldierCommand());
+        httpServer.createContext("/moves/Monopoly", new PlayMonopolyCommand());
+        httpServer.createContext("/moves/Monument", new PlayMonumentCommand());
+        httpServer.createContext("/moves/buildRoad", new BuildRoadCommand());
+        httpServer.createContext("/moves/buildSettlement", new BuildSettlementCommand());
+        httpServer.createContext("/moves/buildCity", new BuildCityCommand());
+        httpServer.createContext("/moves/offerTrade", new OfferTradeCommand());
+        httpServer.createContext("/moves/acceptTrade", new AcceptTradeCommand());
+        httpServer.createContext("/moves/maritimeTrade", new MaritimeTradeCommand());
+        httpServer.createContext("/moves/discardCards", new DiscardCommand());
 
-
+        httpServer.start();
     }
 
     public String getHostNumber() {
