@@ -39,6 +39,41 @@ public class ServerTranslator {
     }
 
 
+//////////////// UTILS //////////////////
+
+    /**
+     * Helper function for contexts such as login, register, join, and addAI
+     *
+     * @return "Success" if true (I think)
+     */
+    public String booleanToString(boolean bool) {
+        return null;
+    }
+
+    /**
+     * Converts a string array to a string that follows json format
+     *
+     * @param listAIStr { "LARGEST_ARMY" }
+     * @return listAIStr as json (but a string)
+     */
+    public String listAIToString(String[] listAIStr) {
+        return null;
+    }
+
+    public String gameInfoToString(GameInfo gameInfo) {
+        return null;
+    }
+
+    public String gameListToString(GameInfo[] gameList) {
+        return null;
+    }
+
+    public String clientModelToString(ClientModel clientModel) {
+        return null;
+    }
+
+
+///////////////// TO JSON ///////////////////
     /**
      * Translates a ClientModel into a huge JSON-formatted String ready to be sent as part of a
      * HTTPExchange response body.
@@ -69,7 +104,7 @@ public class ServerTranslator {
 
 
 
-//COMMAND OBJECTS from JSON
+//COMMAND OBJECTS FROM JSON
 
 ///////////////////////// GAME //////////////////////////////
 
@@ -131,38 +166,6 @@ public class ServerTranslator {
     public GameListCommand gameListCommandFromJSON(JSONObject gameListCmdJSON){
 
 
-        return null;
-    }
-
-    /**
-     * this will be for contexts such as login, register, join, and addAI
-     *
-     * @return "Success" if true (I think)
-     */
-    public String booleanToString(boolean bool) {
-        return null;
-    }
-
-
-    /**
-     * converts a string array to a string that follows json format
-     *
-     * @param listAIStr { "LARGEST_ARMY" }
-     * @return listAIStr as json (but a string)
-     */
-    public String listAIToString(String[] listAIStr) {
-        return null;
-    }
-
-    public String gameInfoToString(GameInfo gameInfo) {
-        return null;
-    }
-
-    public String gameListToString(GameInfo[] gameList) {
-        return null;
-    }
-
-    public String clientModelToString(ClientModel clientModel) {
         return null;
     }
 

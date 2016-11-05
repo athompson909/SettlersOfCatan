@@ -34,6 +34,18 @@ public class UserManager {
 
     }
 
+
+    /**
+     * Adds a newly registered User to the list of all games
+     * and maps it to its gameID
+     *
+     * @param newUser - the new User object to the list of all users
+     */
+    public void addUser(Game newUser){
+
+    }
+
+
     /**
      * checks whether or not the user login is valid
      *
