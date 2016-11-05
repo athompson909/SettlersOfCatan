@@ -1,6 +1,7 @@
 package shared.model.commandmanager.game;
 
-import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -41,7 +42,8 @@ public class LoginCommand extends BaseCommand {
     @Override
     public String serverExec(int userId, int gameId){
 
-        return null;
+        boolean response = IServerFacade.getInstance().login(username, password);
+        return ServerTranslator.getInstance().booleanToString(response);
     }
 
     //Getters

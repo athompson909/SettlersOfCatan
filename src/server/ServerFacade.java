@@ -182,7 +182,8 @@ public class ServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     public boolean login(String username, String password){
-        return false;
+
+        return (UserManager.getInstance().isValidLogin(username, password));
     }
 
     /**
