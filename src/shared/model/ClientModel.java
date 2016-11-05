@@ -15,6 +15,7 @@ import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
 import java.util.*;
@@ -269,6 +270,12 @@ public class ClientModel extends Observable {
     }
 
     /**
+     * Called each time a road is built, and recalculates who now has the longest road.
+     * The model is adjusted accordingly.
+     */
+    private void recalculateLongestRoad(){}
+
+    /**
      * Purchase and place a settlement.
      * @param playerIndex
      * @param vertexLocation of where to place settlement.
@@ -305,6 +312,12 @@ public class ClientModel extends Observable {
     public void playSoldierCard(int playerIndex){
         players[playerIndex].playSoldierCard();
     }
+
+    /**
+     * Called each time a soldier card is played, and recalculates who now has the largest army.
+     * The model is adjusted accordingly.
+     */
+    private void recalculateLargestArmy(){}
 
     /**
      * Play a monument card.
@@ -421,6 +434,35 @@ public class ClientModel extends Observable {
 
         }
     }
+
+    /**
+     * Finishes the players turn, and changes to the next turn.
+     * @param index of the player ending their turn.
+     */
+    public void finishTurn(int index){
+
+    }
+
+    /**
+     * Send a chat message.
+     * @param index of the player sending the message.
+     * @param message the player wants to display.
+     */
+    public void sendChat(int index, String message){
+
+    }
+
+    /**
+     * Discarding cards from rolling a 7
+     * @param index of the player discarding.
+     * @param discarded cards the player has selected to discard.
+     */
+    public void discardCards(int index, ResourceList discarded){
+
+    }
+
+
+
 
     //GETTERS
     public boolean getChanged() {return changed;}
