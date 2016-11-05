@@ -2,6 +2,8 @@ package server;
 
 import org.json.JSONObject;
 import shared.model.ClientModel;
+import shared.model.commandmanager.BaseCommand;
+import shared.model.commandmanager.game.*;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class ServerTranslator {
 
     //translate functions:
     // other server responses into JSON for the HTTP response objects
-    // JSON to BaseCommand objects
+    //translate each possible command from JSON into a commandObject
 
     /**
      * Parts of the singleton pattern
@@ -64,6 +66,65 @@ public class ServerTranslator {
     }
 
 
+    /**
+     * Translates an AddAICommand JSON request coming from the Client into a real AddAICommand object
+     *
+     * @param addAICmdJSON
+     * @return a Command object (inheriting from BaseCommand) built from the data in the JSON request
+     */
+    public AddAICommand addAICommandFromJSON(JSONObject addAICmdJSON){
+
+
+        return null;
+    }
+
+    /**
+     * Translates an ExecuteGameCommandsCommand coming from the Client as a JSON server request into a real ExecuteGameCommandsCommand object
+     *
+     * @param execGameCmdsJSON
+     * @return a Command object (inheriting from BaseCommand) built from the data in the JSON request
+     */
+    public ExecuteGameCommandsCommand executeGameCmdsCommandFromJSON(JSONObject execGameCmdsJSON){
+
+
+        return null;
+    }
+
+    /**
+     * Translates an GameCreateCommand coming from the Client as a JSON server request into a real GameCreateCommand object
+     *
+     * @param gameCreateCmdJSON
+     * @return a Command object (inheriting from BaseCommand) built from the data in the JSON request
+     */
+    public GameCreateCommand gameCreateCommandFromJSON(JSONObject gameCreateCmdJSON){
+
+
+        return null;
+    }
+
+    /**
+     * Translates an GameJoinCommand coming from the Client as a JSON server request into a real GameJoinCommand object
+     *
+     * @param gameJoinCmdJSON
+     * @return a Command object (inheriting from BaseCommand) built from the data in the JSON request
+     */
+    public GameJoinCommand gameJoinCommandFromJSON(JSONObject gameJoinCmdJSON){
+
+
+        return null;
+    }
+
+    /**
+     * Translates an GameJoinCommand coming from the Client as a JSON server request into a real GameJoinCommand object
+     *
+     * @param gameListCmdJSON
+     * @return a Command object (inheriting from BaseCommand) built from the data in the JSON request
+     */
+    public GameListCommand gameListCommandFromJSON(JSONObject gameListCmdJSON){
+
+
+        return null;
+    }
 
 
 
