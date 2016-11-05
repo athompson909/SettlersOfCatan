@@ -8,7 +8,10 @@ import org.json.JSONObject;
  * Created by Mitchell on 9/15/2016.
  */
 public abstract class BaseCommand implements HttpHandler{
-
+    /**
+     * Handles commands received from the server and returns a response
+     * @param exchange
+     */
     @Override
     public void handle(HttpExchange exchange){
         //Todo

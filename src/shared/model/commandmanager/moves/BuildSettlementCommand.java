@@ -55,6 +55,11 @@ public class BuildSettlementCommand extends BaseCommand {
         // location = edgeLocation;
     }
 
+    /**
+     * Creates empty BuildSettlementCommand
+     */
+    public BuildSettlementCommand() {
+    }
 
     /**
      * Calls all necessary model update functions

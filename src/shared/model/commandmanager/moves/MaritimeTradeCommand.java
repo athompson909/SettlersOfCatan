@@ -54,6 +54,11 @@ public class MaritimeTradeCommand extends BaseCommand {
         this.toTrade = inputResource;
         this.toReceive = outputResource;
     }
+    /**
+     * Creates empty MaritimeTradeCommand
+     */
+    public MaritimeTradeCommand() {
+    }
 
     /**
      * Calls all necessary update functions

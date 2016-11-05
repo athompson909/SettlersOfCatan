@@ -13,6 +13,12 @@ public class FetchNewModelCommand extends BaseCommand {
     private int version;
 
     /**
+     * Creates empty FetchNewModelCommand
+     */
+    public FetchNewModelCommand() {
+    }
+
+    /**
      * Creates FetchNewModelCommand to send to client.ClientFacade
      * Sets data members
      * @param version = client model version number

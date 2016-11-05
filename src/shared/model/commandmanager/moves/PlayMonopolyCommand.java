@@ -24,6 +24,11 @@ public class PlayMonopolyCommand extends BaseCommand {
      */
     private final String type = "Monopoly";
 
+    /**
+     * Creates empty PlayMonopolyCommand
+     */
+    public PlayMonopolyCommand() {
+    }
 
     /**
      * Creates PlayMonopolyCommand object to be sent to client.ClientFacade

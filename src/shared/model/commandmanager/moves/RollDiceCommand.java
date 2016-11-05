@@ -24,6 +24,12 @@ public class RollDiceCommand extends BaseCommand {
     private final String type = "rollNumber";
 
     /**
+     * Creates empty RollDiceCommand
+     */
+    public RollDiceCommand() {
+    }
+
+    /**
      * Creates RollDiceCommand to send to client.ClientFacade. Sets data members
      * @param number
      */

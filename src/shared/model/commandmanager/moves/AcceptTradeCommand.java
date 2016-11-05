@@ -12,6 +12,7 @@ public class AcceptTradeCommand extends BaseCommand {
      * Index of player who is being offered a trade
      */
     int playerIndex;
+
     /**
      * true if player wants to willAccept trade
      */
@@ -22,6 +23,14 @@ public class AcceptTradeCommand extends BaseCommand {
      * translations of the commands.
      */
     private final String type = "acceptTrade";
+
+    /**
+     * Creates empty AcceptTradeCommand
+     */
+    public AcceptTradeCommand(){
+
+    }
+
     /**
      * Creates AcceptTradeCommand object to be sent to client.ClientFacade
      * for translation into JSON

@@ -33,6 +33,11 @@ public class PlayRoadBuilderCommand extends BaseCommand {
      */
     private final String type = "Road_Building";
 
+    /**
+     * Creates empty PlayRoadBuilderCommand
+     */
+    public PlayRoadBuilderCommand() {
+    }
 
     /**
      * Creates PlayRoadBuilderCommand object to be sent to client.ClientFacade

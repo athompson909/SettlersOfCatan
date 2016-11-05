@@ -46,6 +46,11 @@ public class BuildRoadCommand extends BaseCommand {
     }
 
     /**
+     * Creates empty BuildRoadCommand
+     */
+    public BuildRoadCommand() {}
+
+    /**
      * Calls all necessary model update functions
      *
      * Updates Map to reflect new road of specified color
