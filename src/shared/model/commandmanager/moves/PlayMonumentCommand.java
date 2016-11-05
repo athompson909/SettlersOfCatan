@@ -43,10 +43,11 @@ public class PlayMonumentCommand extends BaseCommand {
      * Calls TurnTracker update methods to reflect new victory points
      * Calls Player update methods to reflect changes in old and new devCard lists
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

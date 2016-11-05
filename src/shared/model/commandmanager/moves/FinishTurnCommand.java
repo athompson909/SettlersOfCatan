@@ -46,10 +46,11 @@ public class FinishTurnCommand extends BaseCommand {
      * and cjange currentPlayer
      * Calls MessageManager update methods to reflect new Log
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

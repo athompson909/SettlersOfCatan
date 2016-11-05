@@ -35,10 +35,11 @@ public class RegisterCommand extends BaseCommand {
 
     /**
      * Tells server to add new user with given name and password
-     * @param command
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }

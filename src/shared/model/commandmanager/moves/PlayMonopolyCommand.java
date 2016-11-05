@@ -50,10 +50,11 @@ public class PlayMonopolyCommand extends BaseCommand {
      * Calls Player update methods to reflect changes in new and old devCard lists
      * Calls Player update methods to reflect changes in (potentially) each player's hand
      *
-     * @param BC
+     * @param userId - the ID of the user
+     * @param gameId - the ID of the game
      */
     @Override
-    public JSONObject serverExec(BaseCommand BC) {
+    public String serverExec(int userId, int gameId) {
 
         return null;
     }

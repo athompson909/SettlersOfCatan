@@ -51,7 +51,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
      *Tells server to give player these two resources from the bank
      */
     @Override
-    public JSONObject serverExec(BaseCommand command){
+    public String serverExec(int userId, int gameId){
 
         return null;
     }
