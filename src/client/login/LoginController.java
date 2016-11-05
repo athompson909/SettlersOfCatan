@@ -135,8 +135,6 @@ public class LoginController extends Controller implements ILoginController {
 				loginAction.execute();
 			}
 			else showRejectMessage("Server Error", "Registration Failed");
-
-
 		}
 		else showRejectMessage("Registration Error", unmatchPasswordsMsg);
 	}
