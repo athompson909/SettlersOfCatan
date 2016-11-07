@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import server.ServerTranslator;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.locations.*;
@@ -22,6 +23,8 @@ import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
+
+import java.util.HashMap;
 
 /**
  * This is the JUnit test class for the ServerTranslator.
@@ -78,7 +81,6 @@ public class ServerTranslatorTest extends TestCase {
         testMap.setRobber(testRobber);
 
         //fake settlements
-        /*
                     HexLocation testStlmtHL1 = new HexLocation(1, -2);
                     VertexDirection testStlmtVD1 = VertexDirection.SouthWest;
                 VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
@@ -107,6 +109,12 @@ public class ServerTranslatorTest extends TestCase {
             VertexObject testCityVO2 = new VertexObject(testCityVL2);
             testCityVO2.setPieceType(PieceType.CITY);
             testCityVO2.setOwner(1);
+        //
+            HashMap<VertexLocation, VertexObject> testMapVLs = new HashMap<>();
+            testMapVLs.put(testStlmtVL1, testStlmtVO1);
+            testMapVLs.put(testStlmtVL2, testStlmtVO2);
+        //
+
 
         //fake roads
                     HexLocation testRoadHL1 = new HexLocation(0, -1);
@@ -120,7 +128,15 @@ public class ServerTranslatorTest extends TestCase {
                 EdgeLocation testRoadEL2 = new EdgeLocation(testRoadHL2, testRoadED2);
             EdgeValue testRoadEV2 = new EdgeValue(testRoadEL2);
             testRoadEV2.setOwner(4);
-        */
+        //
+            HashMap<EdgeLocation, EdgeValue> testMapEVs = new HashMap<>();
+            testMapEVs.put(testRoadEL1, testRoadEV1);
+            testMapEVs.put(testRoadEL2, testRoadEV2);
+        //
+
+        testMap.setVertexObjects(testMapVLs);
+        testMap.setEdgeValues(testMapEVs);
+
 
         //fake players
             Player testPlayer1 = new Player(CatanColor.BLUE, "bacon", 2, 0);
@@ -151,14 +167,14 @@ public class ServerTranslatorTest extends TestCase {
 
     }
 
-    /*
     @Test
-    public void testAddAICmdTranslation() throws Exception {
-        System.out.println(">TESTING ADDAICMD TRANSLATION!");
+    public void testModelToJSON() throws Exception {
+        System.out.println(">TESTING MODELTOJSON TRANSLATION!");
+
+        String testModelJSON = ServerTranslator.getInstance().modelToJSON(testClientModel);
 
 
-       // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+        // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
     }
-    */
 
 }

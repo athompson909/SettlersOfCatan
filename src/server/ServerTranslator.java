@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
  * Created by adamthompson on 11/4/16.
  */
 public class ServerTranslator {
+
+    Gson gsonTranslator = new Gson();
 
     //translate functions:
     // other server responses into JSON for the HTTP response objects
@@ -100,9 +103,13 @@ public class ServerTranslator {
     public String modelToJSON(ClientModel model){
         JSONObject modelJSON = new JSONObject();
 
+        // let's try doing it in pieces to avoid having to bring lots of nested data up front to higher classe
+        //StringBuilder modelJSONString = new StringBuilder();
+
+        modelJSON = new JSONObject(gsonTranslator.toJson(model));
 
 
-        return "";
+        return null;
     }
 
 

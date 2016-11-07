@@ -26,7 +26,7 @@ public class Map {
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
     /**
-     * Hashmap of all the vertex objects on the map,
+     * Hashmap of all the vertex objects on the map
      * including unoccupied vertex objects (null), settlements, and cities.
      */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>(); //These are the Settlements and Cities
