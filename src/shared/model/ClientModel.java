@@ -11,6 +11,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.map.Hex;
 import shared.model.map.Map;
+import shared.model.map.VertexObject;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
@@ -260,13 +261,15 @@ public class ClientModel extends Observable {
     //DO METHODS
 
     /**
-     * Purchase and place a road.
-     * @param playerIndex of player performing the action.
-     * @param edgeLocation of where to place the road.
+     * Player building a new road.
+     * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
-    public void purchaseAndPlaceRoad(int playerIndex, EdgeLocation edgeLocation){
-        players[playerIndex].purchaseRoad();
-        map.buildRoadManager.placeRoad(playerIndex, edgeLocation);
+    public void buildRoad(EdgeLocation edgeLocation, int ID, boolean free) {
+        map.buildRoadManager.placeRoad(ID, edgeLocation);
+        if(!free){
+            players[ID].getPlayerResourceList().decWoodCardCount(1);
+            players[ID].getPlayerResourceList().decBrickCardCount(1);
+        }
     }
 
     /**
@@ -276,23 +279,19 @@ public class ClientModel extends Observable {
     private void recalculateLongestRoad(){}
 
     /**
-     * Purchase and place a settlement.
-     * @param playerIndex
-     * @param vertexLocation of where to place settlement.
+     * Player building a settlement.
+     * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
-    public void purchaseAndPlaceSettlement(int playerIndex, VertexLocation vertexLocation){
-        players[playerIndex].purchaseSettlement();
-        map.buildSettlementManager.placeSettlement(playerIndex, vertexLocation);
+    public void buildSettlement(VertexObject newSettlement, boolean free){
+
     }
 
     /**
-     * Purchase and place a city.
-     * @param playerIndex
-     * @param vertexLocation of where to place the city.
+     * Player building a city.
+     * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    public void purchaseAndPlaceCity(int playerIndex, VertexLocation vertexLocation){
-        players[playerIndex].purchaseCity();
-        map.buildCityManager.placeCity(playerIndex, vertexLocation);
+    public void buildCity(VertexObject newCity, boolean free){
+
     }
 
     /**
