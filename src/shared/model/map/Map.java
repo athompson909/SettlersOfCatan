@@ -57,17 +57,17 @@ public class Map {
     /**
      * A building manager for all road functionality.
      */
-    public BuildRoadManager buildRoadManager = new BuildRoadManager(this);
+    public transient BuildRoadManager buildRoadManager = new BuildRoadManager(this);
 
     /**
      * A building manager for all settlement funcitonality.
      */
-    public BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
+    public transient BuildSettlementManager buildSettlementManager = new BuildSettlementManager(this);
 
     /**
      * A building manager for all city functionality.
      */
-    public BuildCityManager buildCityManager = new BuildCityManager(this);
+    public transient BuildCityManager buildCityManager = new BuildCityManager(this);
 
     /**
      * Robber object
@@ -78,12 +78,12 @@ public class Map {
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-    private static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
+    private transient static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
     /**
      * An iterator to go through all the numbers assigned to the hexes when the map is initialized.
      */
-    private static Iterator<Integer> numberIterator = numberOrder.iterator();
+    private transient static Iterator<Integer> numberIterator = numberOrder.iterator();
 
     /**
      * the radius of the map, according to the JSON

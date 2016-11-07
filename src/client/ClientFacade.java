@@ -57,7 +57,7 @@ public class ClientFacade {
     /**
      * todo: program version number checking
      * right now the model is being constantly updated
-     * *this function is not called as a result of ServerPoller->run->fetchNewModel()
+     * *this function is not called as a result of ServerPoller - run- fetchNewModel()
      *
      * sends updated model to the updateManager to delegate updates
      * @param updatedClientModel - model returned by server
