@@ -34,9 +34,6 @@ import java.util.List;
  * uses GSON to break it down into objects, then sends those new objects to the
  * ClientUpdateManager to be distributed to the existing ClientModel objects.
  *
- * There needs to be a function for every BaseCommand to be translated to JSON. JSON>BaseCommandObj isn't necessary,
- * we just need a way for the ClientFacade to change its BaseCommand objs to JSON readable by the server.
- *
  *
  * Created by Sierra on 9/22/16.
  */
@@ -881,7 +878,7 @@ public class JSONTranslator {
      * but the server returns a JSON string array of all available AIs (probably only LARGEST_ARMY)
      * that needs to be translated.
      *
-     * Sierra changed this to return a String[] instead of an ArrayList<String>
+     * Sierra changed this to return a String[] instead of an ArrayList of Strings
      *     because PlayerWaitingView
      *
      * @param listAIResponseArr
