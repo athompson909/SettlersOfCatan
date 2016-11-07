@@ -7,7 +7,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
-import shared.model.commandmanager.game.SendChatCommand;
+import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.EdgeValue;
 import shared.model.map.VertexObject;
@@ -139,7 +139,7 @@ public interface IServerFacade {
      * @param password of the user.
      * @return true if login is successful.
      */
-    boolean login(String username, String password);
+    boolean login(LoginCommand command);
 
     /**
      * User registering.
@@ -147,14 +147,14 @@ public interface IServerFacade {
      * @param password of the user.
      * @return true if login is successful.
      */
-    boolean register(String username, String password);
+    boolean register(RegisterCommand command);
 
 
     /**
      * List all of the games.
      * @return an array of the GameInfo objects used to display the list.
      */
-    GameInfo[] list(); //GET
+    GameInfo[] list(int userId); //GET
 
     /**
      * Join a specific game.
@@ -162,7 +162,7 @@ public interface IServerFacade {
      * @param color the player has selected.
      * @return true is succesful.
      */
-    boolean join(int gameID, CatanColor color);
+    boolean join(int userId, GameJoinCommand command);
 
     /**
      * Create a new game.
@@ -171,25 +171,25 @@ public interface IServerFacade {
      * @param randomNumbers true if randomized.
      * @param randomPorts true if randomized.
      */
-    GameInfo create(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts);
+    GameInfo create(int userId, int gameId, GameCreateCommand command);
 
     /**
      * Get the model.
      * @param version of the model, compared to see if its different.
      * @return the model.
      */
-    ClientModel model(int version); //GET
+    ClientModel model(int userId, int gameId, FetchNewModelCommand command); //GET
 
     /**
      * Add an AI to the current game.
      * @return true if the AI
      */
-    boolean addAI();
+    boolean addAI(int userId, int gameId);
 
     /**
      * List the AI
      * @return a string array of the names of the AI
      */
-    String[] listAI();
+    String[] listAI(int userId);
 
 }

@@ -52,7 +52,7 @@ public class GameJoinCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-        boolean success = IServerFacade.getInstance().join(userId, gameId, this);
+        boolean success = IServerFacade.getInstance().join(userId, this);
         if(success) {
             return "Success";
         }else {

@@ -6,7 +6,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
-import shared.model.commandmanager.game.SendChatCommand;
+import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.EdgeValue;
 import shared.model.map.VertexObject;
@@ -24,7 +24,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player ending their turn.
      */
     public ClientModel finishTurn(int userID, int gameID, FinishTurnCommand finishTurnObj){
-
+        return null;
     }
 
     /**
@@ -32,7 +32,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player sending the message.
      */
     public ClientModel sendChat(int userID, int gameID, SendChatCommand sendChatObj){
-
+        return null;
     }
 
     /**
@@ -41,7 +41,7 @@ public class MockServerFacade implements IServerFacade {
      * @param discardObj cards the player has selected to discard.
      */
     public ClientModel discardCards(int userID, int gameID, DiscardCommand discardObj){
-
+        return null;
     }
 
     /**
@@ -49,7 +49,7 @@ public class MockServerFacade implements IServerFacade {
      * @param rollDiceObj randomly calculated number.
      */
     public ClientModel rollNumber(int userID, int gameID, RollDiceCommand rollDiceObj){
-
+        return null;
     }
 
     /**
@@ -58,7 +58,7 @@ public class MockServerFacade implements IServerFacade {
      * @param gameID of specific game.
      */
     public ClientModel robPlayer(int userID, int gameID, RobPlayerCommand robObj){
-
+        return null;
     }
 
     /**
@@ -66,7 +66,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player buying the card.
      */
     public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
-
+        return null;
     }
 
     /**
@@ -74,7 +74,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player using the soldier card.
      */
     public ClientModel playSoldier(int userID, int gameID, PlaySoldierCommand soldierObj){
-
+        return null;
     }
 
     /**
@@ -82,7 +82,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player using the dev card.
      */
     public ClientModel playMonument(int userID, int gameID, PlayMonumentCommand monumentObj) {
-
+        return null;
     }
 
     /**
@@ -90,7 +90,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID player using the card.
      */
     public ClientModel playYearOfPlenty(int userID, int gameID, PlayYearOfPlentyCommand yearOfPlentyObj) {
-
+        return null;
     }
 
     /**
@@ -98,7 +98,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of player using the card.
      */
     public ClientModel playRoadBuilding(int userID, int gameID, PlayRoadBuilderCommand roadBldgCardObj) {
-
+        return null;
     }
 
     /**
@@ -106,7 +106,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player using the card.
      */
     public ClientModel playMonopoly(int userID, int gameID, PlayMonopolyCommand monopolyOBj) {
-
+        return null;
     }
 
     /**
@@ -114,7 +114,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player offering the trade.
      */
     public ClientModel offerTrade(int userID, int gameID, OfferTradeCommand offerTradeObj){
-
+        return null;
     }
 
     /**
@@ -122,7 +122,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player choosing.
      */
     public ClientModel acceptTrade(int userID, int gameID, AcceptTradeCommand acceptTradeObj) {
-
+        return null;
     }
 
     /**
@@ -130,7 +130,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player trading.
      */
     public ClientModel maritimeTrade(int userID, int gameID, MaritimeTradeCommand maritTradeObj){
-
+        return null;
     }
 
     /**
@@ -138,21 +138,21 @@ public class MockServerFacade implements IServerFacade {
      * @param userID EdgeValue, which contains the player ID and location of the road.
      */
     public ClientModel buildRoad(int userID, int gameID, BuildRoadCommand buildRoadObj){
-
+        return null;
     }
 
     /**
      * Player building a settlement.
      */
     public ClientModel buildSettlement(int userID, int gameID, BuildSettlementCommand buildSettObj) {
-
+        return null;
     }
 
     /**
      * Player building a city.
      */
     public ClientModel buildCity(int userID, int gameID, BuildCityCommand buildCityObj){
-
+        return null;
     }
 
 
@@ -160,21 +160,17 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * User login.
-     * @param username of the user.
-     * @param password of the user.
      * @return true if login is successful.
      */
-    public boolean login(String username, String password){
+    public boolean login(LoginCommand command){
         return false;
     }
 
     /**
      * User registering.
-     * @param username of the user.
-     * @param password of the user.
      * @return true if login is successful.
      */
-    public boolean register(String username, String password){
+    public boolean register(RegisterCommand command){
         return false;
     }
 
@@ -183,7 +179,7 @@ public class MockServerFacade implements IServerFacade {
      * List all of the games.
      * @return an array of the GameInfo objects used to display the list.
      */
-    public GameInfo[] list(){
+    public GameInfo[] list(int userId){
         return null;
     } //GET
 
@@ -193,7 +189,7 @@ public class MockServerFacade implements IServerFacade {
      * @param color the player has selected.
      * @return true is succesful.
      */
-    public boolean join(int gameID, CatanColor color){
+    public boolean join(int userId, GameJoinCommand command){
         return false;
     }
 
@@ -204,7 +200,7 @@ public class MockServerFacade implements IServerFacade {
      * @param randomNumbers true if randomized.
      * @param randomPorts true if randomized.
      */
-    public GameInfo create(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts){
+    public GameInfo create(int userId, int gameId, GameCreateCommand command){
         return null;
     }
 
@@ -213,7 +209,7 @@ public class MockServerFacade implements IServerFacade {
      * @param version of the model, compared to see if its different.
      * @return the model.
      */
-    public ClientModel model(int version){
+    public ClientModel model(int userId, int gameId, FetchNewModelCommand command){
         return null;
     } //GET
 
@@ -221,7 +217,7 @@ public class MockServerFacade implements IServerFacade {
      * Add an AI to the current game.
      * @return true if the AI
      */
-    public boolean addAI(){
+    public boolean addAI(int userId, int gameId){
         return false;
     }
 
@@ -229,7 +225,7 @@ public class MockServerFacade implements IServerFacade {
      * List the AI
      * @return a string array of the names of the AI
      */
-    public String[] listAI(){
+    public String[] listAI(int userId){
         return LIST_AI;
     }
 

@@ -41,7 +41,7 @@ public class RegisterCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-        boolean success = IServerFacade.getInstance().register(userId, gameId, this);
+        boolean success = IServerFacade.getInstance().register(this);
         if(success) {
             return "Success";
         }else {

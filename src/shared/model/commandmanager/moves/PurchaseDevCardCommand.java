@@ -42,7 +42,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-        ClientModel model = IServerFacade.getInstance().buyDevCard(userId, gameId, this);
+        ClientModel model = IServerFacade.getInstance().purchaseDevCard(userId, gameId, this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {
