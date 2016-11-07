@@ -134,8 +134,7 @@ public class JSONTranslator {
 //BUILD NEW MAP OBJECT
         Map newCMMap = new Map(newHexesMap, newPortsMap, newCitiesStlmtsMap, newRoadsMap, newRobberHexLoc);
         newCMMap.setRadius(newCMRadius);
-        //this is really weird... do we have to do this double-reverse-dependencies thing?
-        //TODO: ask team about this
+
         Robber newRobber = new Robber(newCMMap);
 
         //Map object is complete (I think)! ready to add to new clientModel obj.
