@@ -1,6 +1,9 @@
 package shared.model.commandmanager.moves;
 
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -59,7 +62,12 @@ public class AcceptTradeCommand extends BaseCommand {
 
         //OR should we just do the server-side updates here so we don't bloat our update manager and so these command
         //objects aren't completely empty? - should we return something so we know whether or not it worked?
-        return null;
+        ClientModel model = IServerFacade.getInstance().acceptTrade(userId, gameId, this);
+        if(model != null) {
+            return ServerTranslator.getInstance().clientModelToString(model);
+        }else {
+            return null;
+        }
     }
 
     //Getters

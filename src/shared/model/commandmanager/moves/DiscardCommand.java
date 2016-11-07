@@ -1,6 +1,9 @@
 package shared.model.commandmanager.moves;
 
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.resourcebank.ResourceList;
 
@@ -53,8 +56,12 @@ public class DiscardCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId) {
-
-        return null;
+        ClientModel model = IServerFacade.getInstance().discardCards(userId, gameId, this);
+        if(model != null) {
+            return ServerTranslator.getInstance().clientModelToString(model);
+        }else {
+            return null;
+        }
     }
 
 

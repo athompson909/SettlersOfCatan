@@ -1,6 +1,9 @@
 package shared.model.commandmanager.moves;
 
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -51,8 +54,12 @@ public class FinishTurnCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId) {
-
-        return null;
+        ClientModel model = IServerFacade.getInstance().finishTurn(userId, gameId, this);
+        if(model != null) {
+            return ServerTranslator.getInstance().clientModelToString(model);
+        }else {
+            return null;
+        }
     }
 
 //Getters

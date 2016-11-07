@@ -1,6 +1,9 @@
 package shared.model.commandmanager.moves;
 
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -44,8 +47,12 @@ public class RollDiceCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-
-        return null;
+        ClientModel model = IServerFacade.getInstance().rollNumber(userId, gameId, this);
+        if(model != null) {
+            return ServerTranslator.getInstance().clientModelToString(model);
+        }else {
+            return null;
+        }
     }
 
     public int getNumber() {
