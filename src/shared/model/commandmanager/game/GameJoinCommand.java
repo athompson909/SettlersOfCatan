@@ -1,6 +1,9 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 import shared.definitions.CatanColor;
 
@@ -49,8 +52,12 @@ public class GameJoinCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-
-        return null;
+        boolean success = IServerFacade.getInstance().join(userId, gameId, this);
+        if(success) {
+            return "Success";
+        }else {
+            return null;
+        }
     }
 
     //Getters
