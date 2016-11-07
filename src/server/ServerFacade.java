@@ -149,9 +149,10 @@ public class ServerFacade implements IServerFacade {
 
     /**
      * Player building a new road.
-     * @param newRoad EdgeValue, which contains the player ID and location of the road.
+     * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
-    public void buildRoad(EdgeValue newRoad){
+    @Override
+    public void buildRoad(EdgeLocation edgeLocation, int ID, boolean free) {
 
     }
 
@@ -159,7 +160,7 @@ public class ServerFacade implements IServerFacade {
      * Player building a settlement.
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
-    public void buildSettlement(VertexObject newSettlement){
+    public void buildSettlement(VertexObject newSettlement, boolean free){
 
     }
 
@@ -167,10 +168,9 @@ public class ServerFacade implements IServerFacade {
      * Player building a city.
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    public void buildCity(VertexObject newCity){
+    public void buildCity(VertexObject newCity, boolean free){
 
     }
-
 
 
     //USER AND GAME COMMANDS

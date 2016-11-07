@@ -126,21 +126,21 @@ public interface IServerFacade {
 
     /**
      * Player building a new road.
-     * @param newRoad EdgeValue, which contains the player ID and location of the road.
+     * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
-    void buildRoad(EdgeValue newRoad);
+    void buildRoad(EdgeLocation edgeLocation, int ID, boolean free);
 
     /**
      * Player building a settlement.
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
-    void buildSettlement(VertexObject newSettlement);
+    void buildSettlement(VertexObject newSettlement, boolean free);
 
     /**
      * Player building a city.
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    void buildCity(VertexObject newCity);
+    void buildCity(VertexObject newCity, boolean free);
 
 
 

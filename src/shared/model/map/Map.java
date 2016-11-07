@@ -26,8 +26,7 @@ public class Map {
     private HashMap<HexLocation, Port> ports = new HashMap<>();
 
     /**
-     * Hashmap of all the vertex objects on the map
-     * including unoccupied vertex objects (null), settlements, and cities.
+     * Hashmap of all the vertex objects on the map, including settlements and cities.
      */
     private HashMap<VertexLocation, VertexObject> vertexObjects = new HashMap<>(); //These are the Settlements and Cities
 
@@ -38,8 +37,7 @@ public class Map {
     private HashMap<VertexLocation, VertexLocation> allValidVertexLocations = new HashMap<>();
 
     /**
-     * Hashmap of all possible edgeValues
-     * including unoccupied edges (null), and roads.
+     * Hashmap of all possible edgeValues which are roads that have been built.
      */
     private HashMap<EdgeLocation, EdgeValue> edgeValues = new HashMap<>(); //These are the Roads
 
