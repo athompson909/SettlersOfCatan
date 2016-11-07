@@ -27,7 +27,6 @@ public class MessageManager {
      * model received from the server
      *
      * @param newMessageMgr The most up-to-date MessageManager from the updated ClientModel
-     * @return True if the update resolved
      */
     public void updateMessageManager(MessageManager newMessageMgr) {
         setChat(newMessageMgr.getChat());
