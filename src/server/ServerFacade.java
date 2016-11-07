@@ -6,6 +6,8 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
+import shared.model.commandmanager.game.SendChatCommand;
+import shared.model.commandmanager.moves.*;
 import shared.model.map.EdgeValue;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
@@ -20,155 +22,137 @@ public class ServerFacade implements IServerFacade {
 
     /**
      * Finishes the players turn, and changes to the next turn.
-     * @param index of the player ending their turn.
+     * @param userID of the player ending their turn.
      */
-    public void finishTurn(int index){
+    public ClientModel finishTurn(int userID, int gameID, FinishTurnCommand finishTurnObj){
 
     }
 
     /**
      * Send a chat message.
-     * @param index of the player sending the message.
-     * @param message the player wants to display.
+     * @param userID of the player sending the message.
      */
-    public void sendChat(int index, String message){
+    public ClientModel sendChat(int userID, int gameID, SendChatCommand sendChatObj){
 
     }
 
     /**
      * Discarding cards from rolling a 7
-     * @param index of the player discarding.
-     * @param discarded cards the player has selected to discard.
+     * @param userID of the player discarding.
+     * @param discardObj cards the player has selected to discard.
      */
-    public void discardCards(int index, ResourceList discarded){
+    public ClientModel discardCards(int userID, int gameID, DiscardCommand discardObj){
 
     }
 
     /**
      * Roll dice command. Players need to recieve resources according to the passed in number.
-     * @param number randomly calculated number.
+     * @param rollDiceObj randomly calculated number.
      */
-    public void rollNumber(int number){
+    public ClientModel rollNumber(int userID, int gameID, RollDiceCommand rollDiceObj){
 
     }
 
     /**
      * Rob a player.
-     * @param playerIndex who is robbing the victim.
-     * @param location that is now being robbed.
-     * @param victimIndex who is losing a card. Null if no player can be robbed.
+     * @param userID who is robbing the victim.
+     * @param gameID of specific game.
      */
-    public void robPlayer(int playerIndex, HexLocation location, int victimIndex){
+    public ClientModel robPlayer(int userID, int gameID, RobPlayerCommand robObj){
 
     }
 
     /**
      * Buying a dev card.
-     * @param index of the player buying the card.
+     * @param userID of the player buying the card.
      */
-    public void buyDevCard(int index){
+    public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
 
     }
 
     /**
      * Playing a solider dev card.
-     * @param index of the player using the soldier card.
-     * @param robberLocation new location being robbed.
-     * @param victimIndex being robbed.
+     * @param userID of the player using the soldier card.
      */
-    public void soldier(int index, HexLocation robberLocation, int victimIndex){
+    public ClientModel playSoldier(int userID, int gameID, PlaySoldierCommand soldierObj){
 
     }
 
     /**
      * Player using a monument dev card.
-     * @param index of the player using the dev card.
+     * @param userID of the player using the dev card.
      */
-    public void Monument(int index){
+    public ClientModel playMonument(int userID, int gameID, PlayMonumentCommand monumentObj) {
 
     }
 
     /**
      * Player using a Year of plenty Dev Card
-     * @param playerIndex player using the card.
-     * @param resource1 from the bank.
-     * @param resource2 from the bank.
+     * @param userID player using the card.
      */
-    public void yearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2){
+    public ClientModel playYearOfPlenty(int userID, int gameID, PlayYearOfPlentyCommand yearOfPlentyObj) {
 
     }
 
     /**
      * Player using a road building dev card.
-     * @param playerIndex of player using the card.
-     * @param edgeLocation1 of the first road.
-     * @param edgeLocation2 of the second road.
+     * @param userID of player using the card.
      */
-    public void roadBuilding(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2){
+    public ClientModel playRoadBuilding(int userID, int gameID, PlayRoadBuilderCommand roadBldgCardObj) {
 
     }
 
     /**
      * Player using a monopoly dev card.
-     * @param index of the player using the card.
-     * @param res the player is monopolizing.
+     * @param userID of the player using the card.
      */
-    public void monopoly(int index, ResourceType res){
+    public ClientModel playMonopoly(int userID, int gameID, PlayMonopolyCommand monopolyOBj) {
 
     }
 
     /**
      * Player offering a trade.
-     * @param index of the player offering the trade.
-     * @param off resource list offer.
-     * @param receiverIndex index of the player receiving the offer
+     * @param userID of the player offering the trade.
      */
-    public void offerTrade(int index, ResourceList off, int receiverIndex){
+    public ClientModel offerTrade(int userID, int gameID, OfferTradeCommand offerTradeObj){
 
     }
 
     /**
      * Player choosing whether or not to accept a trade.
-     * @param index of the player choosing.
-     * @param accept returns true if they accept.
+     * @param userID of the player choosing.
      */
-    public void acceptTrade(int index, boolean accept){
+    public ClientModel acceptTrade(int userID, int gameID, AcceptTradeCommand acceptTradeObj) {
 
     }
 
     /**
      * Maratime Trade Request
-     * @param index of the player trading.
-     * @param ratio of the trade.
-     * @param inputResource to trade.
-     * @param outputResource to recieve.
+     * @param userID of the player trading.
      */
-    public void martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+    public ClientModel maritimeTrade(int userID, int gameID, MaritimeTradeCommand maritTradeObj){
 
     }
 
     /**
      * Player building a new road.
-     * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
+     * @param userID EdgeValue, which contains the player ID and location of the road.
      */
-    @Override
-    public void buildRoad(EdgeLocation edgeLocation, int ID, boolean free) {
+    public ClientModel buildRoad(int userID, int gameID, BuildRoadCommand buildRoadObj){
 
     }
 
     /**
      * Player building a settlement.
-     * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
-    public void buildSettlement(VertexObject newSettlement, boolean free){
+    public ClientModel buildSettlement(int userID, int gameID, BuildSettlementCommand buildSettObj) {
 
     }
 
     /**
      * Player building a city.
-     * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    public void buildCity(VertexObject newCity, boolean free){
+    public ClientModel buildCity(int userID, int gameID, BuildCityCommand buildCityObj){
 
     }
 

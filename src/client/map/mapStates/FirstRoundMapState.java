@@ -50,7 +50,8 @@ public class FirstRoundMapState extends MapState {
     }
 
     public void startGame() {
-        startMove(PieceType.SETTLEMENT, true, true);
+            startMove(PieceType.SETTLEMENT, true, true);
+
     }
 
     @Override
