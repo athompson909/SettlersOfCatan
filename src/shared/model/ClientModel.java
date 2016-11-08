@@ -2,14 +2,12 @@ package shared.model;
 
 import client.ClientUser;
 import client.data.RobPlayerInfo;
-import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
-import shared.model.map.Hex;
 import shared.model.map.Map;
 import shared.model.map.VertexObject;
 import shared.model.messagemanager.MessageList;
@@ -264,26 +262,36 @@ public class ClientModel extends Observable {
      * Player building a new road.
      * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
-    public void buildRoad(EdgeLocation edgeLocation, int ID, boolean free) {
-        map.buildRoadManager.placeRoad(ID, edgeLocation);
+    public void buildRoad(EdgeLocation edgeLocation, int index, boolean free) {
+        map.buildRoadManager.placeRoad(index, edgeLocation);
         if(!free){
-            players[ID].getPlayerResourceList().decWoodCardCount(1);
-            players[ID].getPlayerResourceList().decBrickCardCount(1);
+            players[index].getPlayerResourceList().decWoodCardCount(1);
+            players[index].getPlayerResourceList().decBrickCardCount(1);
         }
+        recalculateLongestRoad(index);
     }
 
     /**
      * Called each time a road is built, and recalculates who now has the longest road.
      * The model is adjusted accordingly.
      */
-    private void recalculateLongestRoad(){}
+    private void recalculateLongestRoad(int index){
+        int playerWithLongestRoadIndex = turnTracker.getLongestRoadHolder();
+        if(playerWithLongestRoadIndex != index){
+            //If the player who built the road now has less available roads, then they have the most used road pieces.
+            if(players[index].getAvailableRoadCount() < players[playerWithLongestRoadIndex].getAvailableRoadCount()){
+                turnTracker.setLongestRoadHolder(index);
+                //TODO: Where should the victory points be adjusted?
+            }
+        }
+    }
 
     /**
      * Player building a settlement.
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
     public void buildSettlement(VertexObject newSettlement, boolean free){
-
+        //map.buildSettlementManager.placeSettlement();
     }
 
     /**
@@ -332,14 +340,17 @@ public class ClientModel extends Observable {
      */
     public void playRoadBuildingCard(int playerIndex){
         int roadsUsed = 0;
-        if(players[playerIndex].getRoadCount() > 0){
+        if(players[playerIndex].getAvailableRoadCount() > 0){
             roadsUsed++;
         }
-        if(players[playerIndex].getRoadCount() > 0){
+        if(players[playerIndex].getAvailableRoadCount() > 0){
             //TODO: Call maps road building function
             roadsUsed++;
         }
         players[playerIndex].playRoadBuildingCard(roadsUsed);
+
+
+        recalculateLongestRoad(playerIndex);
     }
 
     /**

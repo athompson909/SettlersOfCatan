@@ -71,7 +71,7 @@ public class Player { //
      * How many roads this player has left to play,
      */
     @SerializedName("roads")
-    private int roadCount = 15;
+    private int availableRoadCount = 15;
 
     /**
      * Cards in the players hand
@@ -132,7 +132,7 @@ public class Player { //
         setSoldiersPlayed(newPlayer.getSoldiersPlayed());
         setCityCount(newPlayer.getCityCount());
         setSettlementCount(newPlayer.getSettlementCount());
-        setRoadCount(newPlayer.getRoadCount());
+        setAvailableRoadCount(newPlayer.getAvailableRoadCount());
         setPlayerResourceList(newPlayer.getPlayerResourceList());
         setOldDevCardList(newPlayer.getOldDevCardList());
         setNewDevCardList(newPlayer.getNewDevCardList());
@@ -147,7 +147,7 @@ public class Player { //
     public boolean canPurchaseRoad() {
         return (playerResourceList.getBrickCardCount() >= 1
                 && playerResourceList.getWoodCardCount() >= 1
-                && roadCount > 0);
+                && availableRoadCount > 0);
     }
 
     /**
@@ -229,7 +229,7 @@ public class Player { //
     public void purchaseRoad() {
         playerResourceList.decWoodCardCount(1);
         playerResourceList.decBrickCardCount(1);
-        roadCount--;
+        availableRoadCount--;
     }
 
     /**
@@ -291,7 +291,7 @@ public class Player { //
      */
     public void playRoadBuildingCard(int roadsUsed) {
         for(int i = 0; i < roadsUsed; i++){
-            roadCount--;
+            availableRoadCount--;
         }
         oldDevCardList.removeDevCard(DevCardType.ROAD_BUILD);
         playedDevCard = true;
@@ -469,8 +469,8 @@ public class Player { //
         return settlementCount;
     }
 
-    public int getRoadCount() {
-        return roadCount;
+    public int getAvailableRoadCount() {
+        return availableRoadCount;
     }
 
     public ResourceList getPlayerResourceList() {
@@ -515,8 +515,8 @@ public class Player { //
         settlementCount = numSett;
     }
 
-    private void setRoadCount(int numRoads) {
-        roadCount = numRoads;
+    private void setAvailableRoadCount(int numRoads) {
+        availableRoadCount = numRoads;
     }
 
     private void setPlayerResourceList(ResourceList list) {
