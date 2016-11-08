@@ -50,7 +50,7 @@ public class GamesManager {
      * @return the game object
      */
     public Game getGame(int gameID) {
-        return null;
+        return allGames.get(gameID);
     }
 
 }
