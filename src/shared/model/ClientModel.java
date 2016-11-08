@@ -265,8 +265,7 @@ public class ClientModel extends Observable {
     public void buildRoad(EdgeLocation edgeLocation, int index, boolean free) {
         map.buildRoadManager.placeRoad(index, edgeLocation);
         if(!free){
-            players[index].getPlayerResourceList().decWoodCardCount(1);
-            players[index].getPlayerResourceList().decBrickCardCount(1);
+            players[index].purchaseRoad();
         }
         recalculateLongestRoad(index);
     }
@@ -277,6 +276,10 @@ public class ClientModel extends Observable {
      */
     private void recalculateLongestRoad(int index){
         int playerWithLongestRoadIndex = turnTracker.getLongestRoadHolder();
+        if(playerWithLongestRoadIndex == -1) {
+            turnTracker.setLongestRoadHolder(index);
+            return;
+        }
         if(playerWithLongestRoadIndex != index){
             //If the player who built the road now has less available roads, then they have the most used road pieces.
             if(players[index].getAvailableRoadCount() < players[playerWithLongestRoadIndex].getAvailableRoadCount()){
@@ -291,7 +294,10 @@ public class ClientModel extends Observable {
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
     public void buildSettlement(VertexObject newSettlement, boolean free){
-        //map.buildSettlementManager.placeSettlement();
+        map.buildSettlementManager.placeSettlement(newSettlement);
+        if(!free){
+            players[newSettlement.getOwner()].purchaseSettlement();
+        }
     }
 
     /**
@@ -299,7 +305,10 @@ public class ClientModel extends Observable {
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
     public void buildCity(VertexObject newCity, boolean free){
-
+        map.buildCityManager.placeCity(newCity);
+        if(!free){
+            players[newCity.getOwner()].purchaseCity();
+        }
     }
 
     /**
@@ -316,78 +325,20 @@ public class ClientModel extends Observable {
      * Soldier card functionality.
      * @param playerIndex
      */
-    public void playSoldierCard(int playerIndex){
-        players[playerIndex].playSoldierCard();
-    }
-
-    /**
-     * Called each time a soldier card is played, and recalculates who now has the largest army.
-     * The model is adjusted accordingly.
-     */
-    private void recalculateLargestArmy(){}
-
-    /**
-     * Play a monument card.
-     * @param playerIndex
-     */
-    public void playMonumentCard(int playerIndex){
-        players[playerIndex].playMonumentCard();
-    }
-
-    /**
-     * Play a road building card.
-     * @param playerIndex
-     */
-    public void playRoadBuildingCard(int playerIndex){
-        int roadsUsed = 0;
-        if(players[playerIndex].getAvailableRoadCount() > 0){
-            roadsUsed++;
-        }
-        if(players[playerIndex].getAvailableRoadCount() > 0){
-            //TODO: Call maps road building function
-            roadsUsed++;
-        }
-        players[playerIndex].playRoadBuildingCard(roadsUsed);
-
-
-        recalculateLongestRoad(playerIndex);
-    }
-
-    /**
-     * Play a year of plenty card.
-     * @param playerIndex
-     * @param resource1
-     * @param resource2
-     */
-    public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){
-        //TODO: Need a method or way that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
-        resourceBank.playYearOfPlenty(resource1, resource2);
-        players[playerIndex].playYearOfPlentyCard(resource1, resource2);
-    }
-
-    /**
-     * Play Monopoly card.
-     * @param receiverPlayerIndex
-     * @param monopolizedResource
-     */
-    public void playMonopolyCard(int receiverPlayerIndex, ResourceType monopolizedResource){
-        int totalCardsGained = 0;
-        //Take all cards of specified resource from each opposing player
-        for(int index = 0; index < players.length; index++){
-            if(index != receiverPlayerIndex){
-                totalCardsGained += players[index].loseAllCardsOfType(monopolizedResource);
-            }
-        }
-        //Give those cards to the player who used the monopoly card.
-        players[receiverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+    public void playSoldierCard(int index, HexLocation robberLocation, int victimIndex){
+        players[index].playSoldierCard();
+        placeRobber(index, robberLocation, victimIndex);
+        recalculateLargestArmy(index);
     }
 
     /**
      * Places the robber at the desired Hex Location.
      * @param desiredHexLoc to place the robber.
      */
-    public void placeRobber(HexLocation desiredHexLoc){
-        map.placeRobber(desiredHexLoc);
+    public void placeRobber(int index, HexLocation robberLocation, int victimIndex){
+        map.placeRobber(robberLocation);
+        ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
+        players[index].getPlayerResourceList().addCardByType(stolenResource);
     }
 
     /**
@@ -429,16 +380,92 @@ public class ClientModel extends Observable {
     }
 
     /**
+     * Called each time a soldier card is played, and recalculates who now has the largest army.
+     * The model is adjusted accordingly.
+     */
+    private void recalculateLargestArmy(int index){
+        int playerWithLargestArmyIndex = turnTracker.getLargestArmyHolder();
+        if(playerWithLargestArmyIndex == -1){
+            turnTracker.setLargestArmyHolder(index);
+            return;
+        }
+        if(playerWithLargestArmyIndex != index){
+            //If the player who built the road now has less available roads, then they have the most used road pieces.
+            if(players[index].getAvailableRoadCount() < players[playerWithLargestArmyIndex].getAvailableRoadCount()){
+                turnTracker.setLongestRoadHolder(index);
+                //TODO: Where should the victory points be adjusted?
+            }
+        }
+    }
+
+    /**
+     * Play a monument card.
+     * @param playerIndex
+     */
+    public void playMonumentCard(int playerIndex){
+        players[playerIndex].playMonumentCard();
+    }
+
+    /**
+     * Play a road building card.
+     * @param playerIndex
+     */
+    public void playRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2){
+        int roadsUsed = 0;
+        if(edgeLocation1 != null) {
+            buildRoad(edgeLocation1, playerIndex, true);
+            roadsUsed++;
+        }
+        if(edgeLocation2 != null) {
+            buildRoad(edgeLocation2, playerIndex, true);
+            roadsUsed++;
+        }
+        players[playerIndex].playRoadBuildingCard(roadsUsed);
+        recalculateLongestRoad(playerIndex);
+    }
+
+    /**
+     * Play a year of plenty card.
+     * @param playerIndex
+     * @param resource1
+     * @param resource2
+     */
+    public void playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2){
+        //TODO: Need a method or way that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
+        resourceBank.playYearOfPlenty(resource1, resource2);
+        players[playerIndex].playYearOfPlentyCard(resource1, resource2);
+    }
+
+    /**
+     * Play Monopoly card.
+     * @param receiverPlayerIndex
+     * @param monopolizedResource
+     */
+    public void playMonopolyCard(int receiverPlayerIndex, ResourceType monopolizedResource){
+        int totalCardsGained = 0;
+        //Take all cards of specified resource from each opposing player
+        for(int index = 0; index < players.length; index++){
+            if(index != receiverPlayerIndex){
+                totalCardsGained += players[index].loseAllCardsOfType(monopolizedResource);
+            }
+        }
+        //Give those cards to the player who used the monopoly card.
+        players[receiverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+    }
+
+    /**
     Rulebook: If there are not enough of a resource type, then no one receive any of that resource
     (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
-    public void receiveResourcesFromDiceRoll(){
+    public void receiveResourcesFromDiceRoll(int diceRoll){
         //TODO: Go to map and calculate how many cards each player gets
 
         //TODO: Calculate resource production, and consider special rulebook exception.
         //int total1;
         //int total2;
         //if(resourceBank.getResourceList().listHasAmountOfType(total1,))
+
+
 
         for(int index = 0; index < players.length; index++){
 

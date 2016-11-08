@@ -290,9 +290,7 @@ public class Player { //
      * @param roadsUsed when playing the card. Usually will be 2, unless the player has 0-1 road pieces.
      */
     public void playRoadBuildingCard(int roadsUsed) {
-        for(int i = 0; i < roadsUsed; i++){
-            availableRoadCount--;
-        }
+        availableRoadCount = availableRoadCount - roadsUsed;
         oldDevCardList.removeDevCard(DevCardType.ROAD_BUILD);
         playedDevCard = true;
     }
@@ -339,7 +337,6 @@ public class Player { //
      * @param resource2 Second resource the player desires from the bank.
      */
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-        //TODO: Figure out what to do if the Bank does not have the desired resources. In the client or player?
         oldDevCardList.removeDevCard(DevCardType.YEAR_OF_PLENTY);
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);

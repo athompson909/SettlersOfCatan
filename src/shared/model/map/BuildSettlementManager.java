@@ -270,13 +270,9 @@ public class BuildSettlementManager {
      * Executes on the server side
      * Updates model to reflect new settlement at specified location
      *
-     * @param vertexLocation Location of new settlement
-     * @param playerID       ID of player who owns settlement
+     * @param newSettlement that is being built.
      */
-    public void placeSettlement(int playerID, VertexLocation vertexLocation) {
-        VertexObject vertexObject = new VertexObject(vertexLocation);
-        vertexObject.setOwner(playerID);
-        vertexObject.setPieceType(PieceType.SETTLEMENT);
-        map.getVertexObjects().put(vertexLocation, vertexObject);
+    public void placeSettlement(VertexObject newSettlement) {
+        map.getVertexObjects().put(newSettlement.getVertexLocation(), newSettlement);
     }
 }

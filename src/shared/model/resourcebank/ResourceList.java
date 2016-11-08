@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 
+import java.util.Random;
+
 /**
  * A ResourceCardList contains a list of all different types of resource cards and how many of each one are in the list.
  */
@@ -242,6 +244,32 @@ public class ResourceList {
         oreCardCount -= amount;
     }
 
+
+    /**
+     * Remove a random card from the list. To be used when the player is getting robbed.
+     * @return the ResourceType card removed from the list.
+     */
+    public ResourceType removeRandomCard(){
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(getCardCount()); //Get a random number between 1 and the total # of dev cards.
+
+        if (woodCardCount - randomIndex > 0){
+            woodCardCount--;
+            return ResourceType.WOOD;
+        } else if (woodCardCount + brickCardCount - randomIndex > 0) {
+            brickCardCount--;
+            return ResourceType.BRICK;
+        } else if (woodCardCount + brickCardCount + sheepCardCount - randomIndex > 0){
+            sheepCardCount--;
+            return ResourceType.SHEEP;
+        } else if (woodCardCount + brickCardCount + sheepCardCount + wheatCardCount - randomIndex > 0){
+            wheatCardCount--;
+            return ResourceType.WHEAT;
+        } else {
+            oreCardCount--;
+            return ResourceType.ORE;
+        }
+    }
 
     //GETTERS
     public int getWoodCardCount() {
