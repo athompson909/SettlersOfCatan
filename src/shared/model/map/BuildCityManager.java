@@ -50,12 +50,11 @@ public class BuildCityManager {
      * Executed on the server side
      * Updates model to reflect a new city
      *
-     * @param desiredVertexLocation Vertex where city is built
+     * @param newCity Vertex where city is built
      */
-    public void placeCity(int playerID, VertexLocation desiredVertexLocation) {
-        VertexObject vertexObject = new VertexObject(desiredVertexLocation);
-        vertexObject.setOwner(playerID);
-        vertexObject.setPieceType(PieceType.CITY);
-        map.getVertexObjects().put(desiredVertexLocation, vertexObject);
+    public void placeCity(VertexObject newCity) {
+        map.getVertexObjects().put(newCity.getVertexLocation(), newCity);
     }
+
+
 }

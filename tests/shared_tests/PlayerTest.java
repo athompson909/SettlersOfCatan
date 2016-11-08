@@ -73,7 +73,7 @@ public class PlayerTest extends TestCase {
         assert (player.canPurchaseRoad());
         player.purchaseRoad();
         assert (!player.canPurchaseRoad());
-        assert (player.getRoadCount() == 13);
+        assert (player.getAvailableRoadCount() == 13);
         assert (player.getPlayerResourceList().getWoodCardCount() == 0);
         assert (player.getPlayerResourceList().getBrickCardCount() == 0);
     }
@@ -144,13 +144,13 @@ public class PlayerTest extends TestCase {
     @Test
     public void testPlayRoadBuilding() {
         System.out.println("testPlayRoadBuilding");
-        assert (player.getRoadCount() == 15);
+        assert (player.getAvailableRoadCount() == 15);
         assert (!player.canPlayRoadBuildingCard());
         player.getOldDevCardList().addDevCard(DevCardType.ROAD_BUILD);
         assert (player.canPlayRoadBuildingCard());
         player.playRoadBuildingCard(2);
         assert (!player.canPlayRoadBuildingCard());
-        assert (player.getRoadCount() == 13);
+        assert (player.getAvailableRoadCount() == 13);
         player.setPlayedDevCard(false); //Reset for next test case
     }
 

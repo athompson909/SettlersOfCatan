@@ -71,7 +71,7 @@ public class Player { //
      * How many roads this player has left to play,
      */
     @SerializedName("roads")
-    private int roadCount = 15;
+    private int availableRoadCount = 15;
 
     /**
      * Cards in the players hand
@@ -132,7 +132,7 @@ public class Player { //
         setSoldiersPlayed(newPlayer.getSoldiersPlayed());
         setCityCount(newPlayer.getCityCount());
         setSettlementCount(newPlayer.getSettlementCount());
-        setRoadCount(newPlayer.getRoadCount());
+        setAvailableRoadCount(newPlayer.getAvailableRoadCount());
         setPlayerResourceList(newPlayer.getPlayerResourceList());
         setOldDevCardList(newPlayer.getOldDevCardList());
         setNewDevCardList(newPlayer.getNewDevCardList());
@@ -147,7 +147,7 @@ public class Player { //
     public boolean canPurchaseRoad() {
         return (playerResourceList.getBrickCardCount() >= 1
                 && playerResourceList.getWoodCardCount() >= 1
-                && roadCount > 0);
+                && availableRoadCount > 0);
     }
 
     /**
@@ -229,7 +229,7 @@ public class Player { //
     public void purchaseRoad() {
         playerResourceList.decWoodCardCount(1);
         playerResourceList.decBrickCardCount(1);
-        roadCount--;
+        availableRoadCount--;
     }
 
     /**
@@ -290,9 +290,7 @@ public class Player { //
      * @param roadsUsed when playing the card. Usually will be 2, unless the player has 0-1 road pieces.
      */
     public void playRoadBuildingCard(int roadsUsed) {
-        for(int i = 0; i < roadsUsed; i++){
-            roadCount--;
-        }
+        availableRoadCount = availableRoadCount - roadsUsed;
         oldDevCardList.removeDevCard(DevCardType.ROAD_BUILD);
         playedDevCard = true;
     }
@@ -339,7 +337,6 @@ public class Player { //
      * @param resource2 Second resource the player desires from the bank.
      */
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-        //TODO: Figure out what to do if the Bank does not have the desired resources. In the client or player?
         oldDevCardList.removeDevCard(DevCardType.YEAR_OF_PLENTY);
         playerResourceList.addCardByType(resource1);
         playerResourceList.addCardByType(resource2);
@@ -469,8 +466,8 @@ public class Player { //
         return settlementCount;
     }
 
-    public int getRoadCount() {
-        return roadCount;
+    public int getAvailableRoadCount() {
+        return availableRoadCount;
     }
 
     public ResourceList getPlayerResourceList() {
@@ -515,8 +512,8 @@ public class Player { //
         settlementCount = numSett;
     }
 
-    private void setRoadCount(int numRoads) {
-        roadCount = numRoads;
+    private void setAvailableRoadCount(int numRoads) {
+        availableRoadCount = numRoads;
     }
 
     private void setPlayerResourceList(ResourceList list) {

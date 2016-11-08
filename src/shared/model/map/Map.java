@@ -90,15 +90,15 @@ public class Map {
 
     /**
      * the constructor for a Map object
-     * is called when a user starts a new game and the map needs to be created (in initialization mode)
+     * is called when a user starts a new game and the map needs to be created (in initialization model)
      */
     public Map(boolean randomlyPlaceNumbers, boolean randomlyPlaceHexes, boolean randomlyPlacePorts) {
-        createAllWaterHexes();
-        placeAllPorts(randomlyPlacePorts);
+        //createAllWaterHexes();
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
-        createAllVertexObjects();
+        createValidEdgeLocations();
+        createValidVertexLocations();
+        placeAllPorts(randomlyPlacePorts);
         populatePortVertexLocations();
-        createAllEdgeValues();
     }
 
     /**
@@ -118,8 +118,8 @@ public class Map {
         setVertexObjects(newVertexLocs);
         placeRobber(newRobberLocation);
 
-        createAllEdgeValues();
-        createAllVertexObjects();
+        createValidEdgeLocations();
+        createValidVertexLocations();
     }
 
     /**
@@ -143,7 +143,7 @@ public class Map {
     /**
      * Creates 18 Water hexes at these specified locations starting with north-west corner going counterclockwise
      */
-    private void createAllWaterHexes() {
+    /*private void createAllWaterHexes() {
         createWaterHex(-3, 0);
         createWaterHex(-3, 1);
         createWaterHex(-3, 2);
@@ -162,7 +162,7 @@ public class Map {
         createWaterHex(0, -3);
         createWaterHex(-1, -2);
         createWaterHex(-2, -1);
-    }
+    }*/
 
     /**
      * Generates a single water hex at the specified location.
@@ -298,7 +298,7 @@ public class Map {
      * Creates all the vertex objects, starting with the west most column.
      * All vertex objects are created in terms of Northeast and Northwest directions of a hex.
      */
-    private void createAllVertexObjects() {
+    private void createValidVertexLocations() {
         //First Column (West Most Column)
         createSingleVertexObject(-3, 1, VertexDirection.NorthEast);
         createSingleVertexObject(-3, 2, VertexDirection.NorthEast);
@@ -404,7 +404,7 @@ public class Map {
     /**
      * Creates all of the edge values, starting with the west most values, going through each column.
      */
-    private void createAllEdgeValues() {
+    private void createValidEdgeLocations() {
         //First Column (West Most Column)
         createSingleEdgeValue(-3, 1, EdgeDirection.NorthEast);
         createSingleEdgeValue(-3, 2, EdgeDirection.NorthEast);

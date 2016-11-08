@@ -1,8 +1,11 @@
 package shared_tests;
 
+import shared.definitions.PieceType;
 import shared.locations.*;
 import junit.framework.TestCase;
 import shared.model.map.Map;
+import shared.model.map.VertexObject;
+import shared.model.player.Player;
 
 
 /**
@@ -18,8 +21,11 @@ public class BuildCityManagerTest extends TestCase {
         //Test building City
         System.out.println("testBuildingCity");
         VertexLocation desiredCityLocation = new VertexLocation(new HexLocation(0, -2), VertexDirection.NorthWest);
+        VertexObject desiredVertexObject = new VertexObject(desiredCityLocation);
+        desiredVertexObject.setOwner(PLAYER1);
+        desiredVertexObject.setPieceType(PieceType.SETTLEMENT);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
-        map.buildSettlementManager.placeSettlement(PLAYER1, desiredCityLocation);
+        map.buildSettlementManager.placeSettlement(desiredVertexObject);
         assert (map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
         map.buildCityManager.placeCity(PLAYER1, desiredCityLocation);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
@@ -29,8 +35,11 @@ public class BuildCityManagerTest extends TestCase {
         System.out.println("testTwoPlayersBuildingCities");
         //Test Two players trying to build cities
         VertexLocation enemyCityLocation = new VertexLocation(new HexLocation(-3, 3), VertexDirection.NorthEast);
+        VertexObject enemyVertexObject = new VertexObject(enemyCityLocation);
+        enemyVertexObject.setOwner(PLAYER2);
+        enemyVertexObject.setPieceType(PieceType.SETTLEMENT);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, enemyCityLocation));
-        map.buildSettlementManager.placeSettlement(PLAYER2, enemyCityLocation);
+        map.buildSettlementManager.placeSettlement(enemyVertexObject);
         //assert (!map.buildCityManager.canPlaceCity(PLAYER1, enemyCityLocation));
        // map.buildCityManager.placeCity(PLAYER2, enemyCityLocation);
 

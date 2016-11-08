@@ -115,7 +115,7 @@ public class DevCardController extends Controller implements IDevCardController 
                 playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
                 playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
                 //must have 2 unused roads to build
-                boolean enoughRoads = (clientModel.getCurrentPlayer().getRoadCount() >= 2);
+                boolean enoughRoads = (clientModel.getCurrentPlayer().getAvailableRoadCount() >= 2);
                 playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1 && enoughRoads));
             }else{
                 playDevCardView.setCardEnabled(DevCardType.SOLDIER, false);

@@ -100,7 +100,7 @@ public class DevCardList {
      */
     public DevCardType removeRandomCard(){
         Random rand = new Random();
-        int randomIndex = rand.nextInt(getTotalCardCount()); //Get a random number between 1 and the total
+        int randomIndex = rand.nextInt(getTotalCardCount()); //Get a random number between 1 and the total # of dev cards.
 
         if (soldierCardCount - randomIndex > 0){
             soldierCardCount--;
