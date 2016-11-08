@@ -16,7 +16,7 @@ public class GamesManager {
     /**
      * Hashmap of every game that has been created so far
      */
-    private HashMap<Integer, User> allGames = new HashMap<Integer, User>();
+    private HashMap<Integer, Game> allGames = new HashMap<Integer, Game>();
 
     /**
      * Parts of the singleton pattern
@@ -38,11 +38,19 @@ public class GamesManager {
      * Adds a newly created Game to the list of all games
      * and maps it to its gameID
      *
-     * @param newGame - the new Game to dd to the list of all games
+     * @param newGame - the new Game to add to the list of all games
      */
     public void addGame(Game newGame){
 
     }
 
+    /**
+     * Returns the desired game object to the serverFacade
+     * @param gameID of desired game object
+     * @return the game object
+     */
+    public Game getGame(int gameID) {
+        return null;
+    }
 
 }
