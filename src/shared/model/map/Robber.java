@@ -17,7 +17,7 @@ public class Robber {
     /**
      * A reference to the map.
      */
-    private Map map;
+    private transient Map map;
 
     public Robber(Map map) {
         this.map = map;

@@ -1,6 +1,9 @@
 package shared.model.commandmanager.moves;
 
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -48,8 +51,12 @@ public class PlayMonumentCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId) {
-
-        return null;
+        ClientModel model = IServerFacade.getInstance().playMonument(userId, gameId, this);
+        if(model != null) {
+            return ServerTranslator.getInstance().clientModelToString(model);
+        }else {
+            return null;
+        }
     }
 
 //Getters

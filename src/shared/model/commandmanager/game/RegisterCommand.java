@@ -1,6 +1,7 @@
 package shared.model.commandmanager.game;
 
 import org.json.JSONObject;
+import server.IServerFacade;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -40,8 +41,12 @@ public class RegisterCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-
-        return null;
+        boolean success = IServerFacade.getInstance().register(this);
+        if(success) {
+            return "Success";
+        }else {
+            return null;
+        }
     }
 
     //Getters
