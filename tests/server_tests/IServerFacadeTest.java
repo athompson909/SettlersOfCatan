@@ -10,6 +10,6 @@ public class IServerFacadeTest extends TestCase {
 
     public void testListAI() {
 
-        String[] response = IServerFacade.getInstance().listAI();
+        String[] response = IServerFacade.getInstance().listAI(0);
     }
 }

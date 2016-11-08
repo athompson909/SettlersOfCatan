@@ -4,7 +4,6 @@ import client.data.GameInfo;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import shared.model.ClientModel;
-import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 
@@ -48,10 +47,11 @@ public class ServerTranslator {
     /**
      * Helper function for contexts such as login, register, join, and addAI
      *
-     * @return "Success" if true (I think)
+     * @return "Success" if true (I think), and null if false
      */
     public String booleanToString(boolean bool) {
-        return null;
+
+        return (bool ? "Success" : null);
     }
 
     /**

@@ -163,7 +163,7 @@ public class MockServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     public boolean login(LoginCommand command){
-        return false;
+        return true;
     }
 
     /**

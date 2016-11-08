@@ -1,11 +1,16 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
+import java.net.URLEncoder;
+
 /**
  * Created by Alise on 9/18/2016.
+ *
+ * the login cookie is also set here
  */
 public class LoginCommand extends BaseCommand {
     /**
@@ -36,13 +41,28 @@ public class LoginCommand extends BaseCommand {
 
     /**
      * Tells server to login this user
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
+     *
+     * todo: consider not having parameters
+     *
+     * @param userId - the ID of the user (will be 0 because user has not logged in)
+     * @param gameId - the ID of the game (will also be 0)
      */
     @Override
     public String serverExec(int userId, int gameId){
 
-        boolean response = IServerFacade.getInstance().login(username, password);
+        String requestStr = getRequestStr();
+        JSONObject requestJSON = new JSONObject(requestStr);
+        username = (String) requestJSON.get("username");
+        password = (String) requestJSON.get("password");
+
+
+        boolean response = IServerFacade.getInstance().login(this);
+        if(response) {
+            String loginCookieJSON = "{\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+getUserId()+"}";
+            String loginCookieStr = URLEncoder.encode(loginCookieJSON);
+            String fullResponseLoginCookieStr = "catan.user="+loginCookieStr+";Path=/;";
+            setLoginCookie(fullResponseLoginCookieStr);
+        }
         return ServerTranslator.getInstance().booleanToString(response);
     }
 

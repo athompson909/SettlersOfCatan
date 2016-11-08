@@ -228,7 +228,7 @@ public class ServerProxy implements IServerProxy {
      * so we can save the user's playerID to the ClientUser singleton.
      *  - Sierra
      */
-    public void saveUserIDFromLoginCookie(){
+    public void saveUserIDFromLoginCookie() {
         //GET THEIR ID OUT OF THE COOKIE
         String rawCookie = getLoginCookie();
         String decodedCookie = null;
