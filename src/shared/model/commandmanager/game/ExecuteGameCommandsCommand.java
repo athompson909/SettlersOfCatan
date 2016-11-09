@@ -17,6 +17,13 @@ public class ExecuteGameCommandsCommand extends BaseCommand {
 
     }
 
+
+
+    @Override
+    public JSONObject getCookieJSON() {
+        return null;
+    }
+
     //list of all the commands to be executed - not sure about this
     // JUST GET THIS FROM THE COMMANDMANAGER
     //public List<String> gameCommands = new ArrayList<String>();

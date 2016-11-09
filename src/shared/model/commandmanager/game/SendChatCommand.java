@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -40,6 +41,16 @@ public class SendChatCommand extends BaseCommand {
         this.playerIndex = playerIndex;
         this.content = content;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Tells server to add this message to the end of the chat

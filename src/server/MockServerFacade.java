@@ -1,16 +1,9 @@
 package server;
 
 import client.data.GameInfo;
-import shared.definitions.CatanColor;
-import shared.definitions.ResourceType;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.EdgeValue;
-import shared.model.map.VertexObject;
-import shared.model.resourcebank.ResourceList;
 
 /**
  * Created by adamthompson on 11/4/16.
@@ -209,7 +202,7 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public boolean join(int userId, GameJoinCommand command){
-        return false;
+        return true;
     }
 
     /**

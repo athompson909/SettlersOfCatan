@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -27,6 +28,16 @@ public class FetchNewModelCommand extends BaseCommand {
      */
     public FetchNewModelCommand(int version){
         this.version = version;
+    }
+
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
     }
 
     /**

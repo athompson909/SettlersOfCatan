@@ -1,6 +1,7 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.EdgeLocation;
@@ -56,6 +57,16 @@ public class PlayRoadBuilderCommand extends BaseCommand {
         locationONE = edgeLocation1;
         locationTWO = edgeLocation2;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Calls all necessary model update methods

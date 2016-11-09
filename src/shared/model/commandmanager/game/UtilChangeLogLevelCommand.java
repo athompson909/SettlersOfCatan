@@ -1,4 +1,5 @@
 package shared.model.commandmanager.game;
+import org.json.JSONObject;
 import shared.definitions.LoggingLevel;
 import shared.model.commandmanager.BaseCommand;
 
@@ -24,6 +25,16 @@ public class UtilChangeLogLevelCommand extends BaseCommand {
     public UtilChangeLogLevelCommand(LoggingLevel logLevel){
         this.logLevel = logLevel;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Sets the server's logging level

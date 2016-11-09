@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -38,6 +39,16 @@ public class RollDiceCommand extends BaseCommand {
     public RollDiceCommand(int number){
         this.number = number;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Tells server the dice were rolled and to distribute/require discarding of resources

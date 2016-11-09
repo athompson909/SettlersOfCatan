@@ -41,6 +41,11 @@ public class LoginCommand extends BaseCommand {
         this.password = password;
     }
 
+    @Override
+    public JSONObject getCookieJSON() {
+        return null;
+    }
+
     /**
      * Tells server to login this user
      */
