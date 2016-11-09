@@ -67,6 +67,7 @@ public class LoginCommand extends BaseCommand {
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
         }
+
         return ServerTranslator.getInstance().booleanToString(response);
     }
 
