@@ -304,11 +304,9 @@ public class ClientModel extends Observable {
      * Player building a city.
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    public void buildCity(VertexObject newCity, boolean free){
+    public void buildCity(VertexObject newCity){
         map.buildCityManager.placeCity(newCity);
-        if(!free){
-            players[newCity.getOwner()].purchaseCity();
-        }
+        players[newCity.getOwner()].purchaseCity();
     }
 
     /**

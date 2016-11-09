@@ -1,10 +1,9 @@
 package shared.model.map;
 
 import client.data.RobPlayerInfo;
-import shared.definitions.CatanColor;
-import shared.definitions.HexType;
-import shared.definitions.PortType;
+import shared.definitions.*;
 import shared.locations.*;
+import shared.model.resourcebank.ResourceList;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -521,11 +520,10 @@ public class Map {
     }
 
     /**
-     *
      * @param hexLoc The hex to evaluate
      * @return an arraylist of all the players that have a settlement or city on a hexes vertex
      */
-    public ArrayList getPlayersAdjacentToHex(HexLocation hexLoc){
+    public ArrayList getPlayersAdjacentToHex(HexLocation hexLoc) {
         ArrayList<Integer> adjacentPlayers = new ArrayList();
 
         VertexLocation northWestVertex = new VertexLocation(hexLoc, VertexDirection.NorthWest);
@@ -552,14 +550,15 @@ public class Map {
     /**
      * Checks if a player is at the specificed vertex Location, and adds that player's index
      * to an array list if the player is not already in that array list.
+     *
      * @param vertexLocation
      * @param adjacentPlayers
      */
-    private void addPlayeratVertex(VertexLocation vertexLocation, ArrayList adjacentPlayers){
-        if(vertexObjects.containsKey(vertexLocation)){
+    private void addPlayeratVertex(VertexLocation vertexLocation, ArrayList adjacentPlayers) {
+        if (vertexObjects.containsKey(vertexLocation)) {
             int ownerIndex = vertexObjects.get(vertexLocation).getOwner();
-            if(ownerIndex != -1){
-                if(!adjacentPlayers.contains(ownerIndex)){
+            if (ownerIndex != -1) {
+                if (!adjacentPlayers.contains(ownerIndex)) {
                     adjacentPlayers.add(ownerIndex);
                 }
             }
@@ -567,80 +566,86 @@ public class Map {
     }
 
 
-
-/*
-    //TODO: THIS IS NOT COMPLETE YET
-    public void getDiceRollResults(int diceRollNumber) {
+    /**
+     * Calculates the resources associated with a dice roll
+     * @param diceRollNumber that is rolled
+     * @return a ResourceList[] of size 4, the indexes correspond with the player indexes.
+     */
+    public ResourceList[] getDiceRollResults(int diceRollNumber) {
+        ResourceList[] results = new ResourceList[4];
         for (HexLocation key : hexes.keySet()) {
             if (hexes.get(key).getNumber() == diceRollNumber) {
-                getVertices(hexes.get(key));
+                getCardsFromVertices(hexes.get(key), results);
             }
         }
+        return results;
     }
 
-    //TODO: THIS IS NOT COMPLETE YET, to be called by getDiceRollResults
-    private void getVertices(Hex hexWithNumber){
-        ResourceList[] results = new ResourceList[4];
+    /**
+     * Gets the cards from the vertices
+     * @param hexWithNumber passes in a hex that matches the dice roll number.
+     * @param results resourcelist with the cards the player will recieve.
+     */
+    private void getCardsFromVertices(Hex hexWithNumber, ResourceList[] results) {
         HexLocation hexLocation = hexWithNumber.getLocation();
-
-
-
+        ResourceType resource = determineResource(hexWithNumber.getResource());
 
         VertexLocation northWestVertex = new VertexLocation(hexLocation, VertexDirection.NorthWest);
-        VertexObject currentVertexObject = vertexObjects.get(northWestVertex);
-        if(currentVertexObject.getOwner() != -1){
-            if(currentVertexObject.getPieceType().equals(PieceType.SETTLEMENT)){
+        addCards(resource, vertexObjects.get(northWestVertex), results);
 
-
-
-
-            } else { //It is a city
-                results[currentVertexObject.getOwner()].incWoodCardCount(2);
-            }
-        }
         VertexLocation northEastVertex = new VertexLocation(hexLocation, VertexDirection.NorthEast);
-        if(vertexObjects.get(northEastVertex).getOwner() != -1){
+        addCards(resource, vertexObjects.get(northEastVertex), results);
 
-        }
         VertexLocation eastVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest);
-        if(vertexObjects.get(eastVertex).getOwner() != -1){
-
-        }
+        addCards(resource, vertexObjects.get(eastVertex), results);
 
         VertexLocation westVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast);
-        if(vertexObjects.get(westVertex).getOwner() != -1){
+        addCards(resource, vertexObjects.get(westVertex), results);
 
-        }
         VertexLocation southEastVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast);
-        if(vertexObjects.get(southEastVertex).getOwner() != -1){
+        addCards(resource, vertexObjects.get(southEastVertex), results);
 
-        }
         VertexLocation southWestVertex = new VertexLocation(hexLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest);
-        if(vertexObjects.get(southWestVertex).getOwner() != -1){
+        addCards(resource, vertexObjects.get(southWestVertex), results);
+    }
 
+    /**
+     * Adds cards to the result array.
+     * @param resource to be added.
+     * @param vertexObject being considered
+     * @param results array to add cards too.
+     */
+    private void addCards(ResourceType resource, VertexObject vertexObject, ResourceList[] results) {
+        if (vertexObject.getOwner() != -1) {
+            results[vertexObject.getOwner()].addCardByType(resource);
+            if (vertexObject.getPieceType() == PieceType.CITY) {
+                results[vertexObject.getOwner()].addCardByType(resource);
+            }
         }
     }
 
-    private void addResources(){
-        switch(getHexes().get(hexLocation).getResource()) {
+    /**
+     * Converts a hextype resource to a ResourceType resource.
+     * @param hexType being considered.
+     * @return the associated ResourceType.
+     */
+    private ResourceType determineResource(HexType hexType) {
+        switch (hexType) {
             case WOOD:
-                results[currentVertexObject.getOwner()].incWoodCardCount(1);
-                break;
+                return ResourceType.WOOD;
             case BRICK:
-                results[currentVertexObject.getOwner()].incBrickCardCount(1);
-                break;
-            case WHEAT:
-                results[currentVertexObject.getOwner()].incWheatCardCount(1);
-                break;
+                return ResourceType.BRICK;
             case SHEEP:
-                results[currentVertexObject.getOwner()].incSheepCardCount(1);
-                break;
+                return ResourceType.SHEEP;
+            case WHEAT:
+                return ResourceType.WHEAT;
             case ORE:
-                results[currentVertexObject.getOwner()].incOreCardCount(1);
-                break;
+                return ResourceType.ORE;
+            default:
+                return null;
         }
     }
-*/
+
 
     /**
      * Checks to see if the robber can be placed on a desired hex.
