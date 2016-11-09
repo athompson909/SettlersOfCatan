@@ -10,6 +10,8 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
+import java.util.HashMap;
+
 /**
  * Created by adamthompson on 11/4/16.
  */
@@ -363,6 +365,17 @@ public class ServerFacade implements IServerFacade {
      * @return an array of the GameInfo objects used to display the list.
      */
     public GameInfo[] list(int userId){
+        User user = UserManager.getInstance().getUser(userID);
+
+        if(user != null) {
+            HashMap<Integer, Game> allGames = GamesManager.getInstance().getAllGames();
+            GameInfo[] gameInfoList = new GameInfo[allGames.size()];
+
+            for(Integer key: allGames.keySet()) {
+                gameInfoList[key] = allGames.get(key).getGameInfo();
+            }
+            return gameInfoList;
+        }
         return null;
     } //GET
 

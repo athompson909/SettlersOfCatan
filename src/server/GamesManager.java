@@ -65,4 +65,6 @@ public class GamesManager {
         }
         return false;
     }
+
+    public HashMap<Integer, Game> getAllGames() {return allGames;}
 }
