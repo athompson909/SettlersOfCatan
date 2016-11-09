@@ -29,7 +29,7 @@ public class PlayerInfo
 		setColor(null);
 	}
 
-	
+
 	public int getId()
 	{
 		return id;

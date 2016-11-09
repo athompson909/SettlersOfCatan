@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import client.data.PlayerInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -391,9 +392,23 @@ public class ServerFacade implements IServerFacade {
         if(user != null) {
             int gameID = command.getGameID();
             CatanColor color = command.getColor();
+            String username = user.getUserName();
 
+            GameInfo gameInfo = GamesManager.getInstance().getGame(gameID).getGameInfo();
+
+            PlayerInfo playerInfo = new PlayerInfo();
+            playerInfo.setColor(color);
+            playerInfo.setId(userID);
+            playerInfo.setName(username);
+            int playerIndex = gameInfo.getPlayers().size();
+            playerInfo.setPlayerIndex(playerIndex);
+
+            if(gameInfo.getPlayers().size() != 4) {
+                gameInfo.addPlayer(playerInfo);
+                return true;
+            }
+            return false;
             //NEED TO IMPLEMENT A LINK BETWEEN USERS AND PLAYERS IN GAMES
-
         }
         return false;
     }
