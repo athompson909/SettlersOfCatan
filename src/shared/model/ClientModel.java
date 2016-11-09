@@ -662,7 +662,7 @@ public class ClientModel extends Observable {
 
 
 
-    //FOR TESTING ONLY - THIS WAS AUTO-GENERATED
+    //FOR TESTING ONLY
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -670,21 +670,68 @@ public class ClientModel extends Observable {
 
         ClientModel that = (ClientModel) o;
 
+    //primitives
         if (version != that.version) return false;
         if (gameNumber != that.gameNumber) return false;
         if (winner != that.winner) return false;
         if (changed != that.changed) return false;
-        if (resourceBank != null ? !resourceBank.equals(that.resourceBank) : that.resourceBank != null) return false;
-        if (messageManager != null ? !messageManager.equals(that.messageManager) : that.messageManager != null)
+
+     //check ResourceBank
+        if (resourceBank != null)
+        {
+            //check DevCardList: first check total numCards, then check the individual counts
+            if (resourceBank.getDevCardList().getTotalCardCount() == that.resourceBank.getDevCardList().getTotalCardCount()){
+                if (resourceBank.getDevCardList().getMonopolyCardCount() != that.resourceBank.getDevCardList().getMonopolyCardCount())
+                    return false;
+                if (resourceBank.getDevCardList().getMonumentCardCount() != that.resourceBank.getDevCardList().getMonumentCardCount())
+                    return false;
+                if (resourceBank.getDevCardList().getRoadBuildingCardCount() != that.resourceBank.getDevCardList().getRoadBuildingCardCount())
+                    return false;
+                if (resourceBank.getDevCardList().getSoldierCardCount() != that.resourceBank.getDevCardList().getSoldierCardCount())
+                    return false;
+                if (resourceBank.getDevCardList().getYearOfPlentyCardCount() != that.resourceBank.getDevCardList().getYearOfPlentyCardCount())
+                    return false;
+            }
+            else {return false;}
+
+            //check ResourceList card counts
+            if (resourceBank.getResourceList().getBrickCardCount() != that.resourceBank.getResourceList().getBrickCardCount())
+                    return false;
+            if (resourceBank.getResourceList().getWoodCardCount() != that.resourceBank.getResourceList().getWoodCardCount())
+                return false;
+            if (resourceBank.getResourceList().getSheepCardCount() != that.resourceBank.getResourceList().getSheepCardCount())
+                return false;
+            if (resourceBank.getResourceList().getWheatCardCount() != that.resourceBank.getResourceList().getWheatCardCount())
+                return false;
+            if (resourceBank.getResourceList().getOreCardCount() != that.resourceBank.getResourceList().getOreCardCount())
+                return false;
+        }
+
+     //check MessageManager
+        if (!messageManager.getChat().equals(that.messageManager.getChat()))
             return false;
-        if (turnTracker != null ? !turnTracker.equals(that.turnTracker) : that.turnTracker != null) return false;
-        if (chat != null ? !chat.equals(that.chat) : that.chat != null) return false;
-        if (log != null ? !log.equals(that.log) : that.log != null) return false;
-        if (map != null ? !map.equals(that.map) : that.map != null) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!messageManager.getLog().equals(that.messageManager.getLog()))
+            return false;
+        //check chat and log too, idk why they are even in here
+        if (chat.getLines().size() != that.getChat().getLines().size())
+            return false;
+        if (log.getLines().size() != that.getLog().getLines().size())
+            return false;
+
+     //check TurnTracker
+        if (!turnTracker.equals(that.getTurnTracker()))
+            return false;
+
+    //check Map
+        if (!map.equals(that.getMap()))
+            return false;
+
+     //check players[]
         if (!Arrays.equals(players, that.players)) return false;
+
         if (tradeOffer != null ? !tradeOffer.equals(that.tradeOffer) : that.tradeOffer != null) return false;
-        return updateManager != null ? updateManager.equals(that.updateManager) : that.updateManager == null;
+
+        return true;
     }
 
 }

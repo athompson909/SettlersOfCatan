@@ -126,16 +126,15 @@ public class JSONTranslator {
         int rY = newRobberJSON.getInt("y");
         HexLocation newRobberHexLoc = new HexLocation(rX, rY);
         //try building the actual Robber object after building the Map object,
-        // so you can pass a ref of the new Map to the new Robber?
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //BUILD NEW MAP OBJECT
         Map newCMMap = new Map(newHexesMap, newPortsMap, newCitiesStlmtsMap, newRoadsMap, newRobberHexLoc);
         newCMMap.setRadius(newCMRadius);
-        newCMMap.populatePortVertexLocations();   //not sure about this.... does this need to happen every time? No documentation! :/
+        newCMMap.populatePortVertexLocations(); //these are static across the whole game
         Robber newRobber = new Robber(newCMMap);
 
-        //Map object is complete (I think)! ready to add to new clientModel obj.
+        //Map object is complete! ready to add to new clientModel obj.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //GET RESOURCE BANK

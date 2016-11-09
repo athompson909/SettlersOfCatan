@@ -165,4 +165,19 @@ public class TurnTracker {
                 ", largestArmyHolder=" + largestArmyHolder +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TurnTracker)) return false;
+
+        TurnTracker that = (TurnTracker) o;
+
+        if (currentTurn != that.currentTurn) return false;
+        if (longestRoadHolder != that.longestRoadHolder) return false;
+        if (largestArmyHolder != that.largestArmyHolder) return false;
+        return status != null ? status.equals(that.status) : that.status == null;
+
+    }
+
 }
