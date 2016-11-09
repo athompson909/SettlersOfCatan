@@ -106,4 +106,10 @@ public class BuildRoadCommand extends BaseCommand {
     public String getType() {
         return type;
     }
+
+    public EdgeLocation getRoadLocation() {return roadLocation;}
+
+    public int getPlayerIndex() {return playerIndex;}
+
+    public boolean getFree() {return free;}
 }

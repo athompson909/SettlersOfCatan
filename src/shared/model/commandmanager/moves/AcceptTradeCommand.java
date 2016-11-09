@@ -66,16 +66,13 @@ public class AcceptTradeCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
-        //do we need access to the update manager? should we pass that in as the parameter instead?
+        JSONObject offerTradeJSON = new JSONObject(getRequest());
+        playerIndex = offerTradeJSON.getInt("playerIndex");
+        willAccept = offerTradeJSON.getBoolean("willAccept");
 
-        //OR should we just do the server-side updates here so we don't bloat our update manager and so these command
-        //objects aren't completely empty? - should we return something so we know whether or not it worked?
+
         ClientModel model = IServerFacade.getInstance().acceptTrade(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
     //Getters
@@ -99,5 +96,6 @@ public class AcceptTradeCommand extends BaseCommand {
         return type;
     }
 
+    public boolean getWillAccept() {return willAccept;}
 
 }

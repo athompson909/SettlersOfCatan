@@ -22,6 +22,7 @@ import shared.model.resourcebank.DevCardList;
 import shared.model.resourcebank.ResourceBank;
 import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
+import shared.shared_utils.Converter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -206,93 +207,6 @@ public class JSONTranslator {
         return newClientModel;
     }
 
-    //HELPER FUNCTIONS FOR MODEL TRANSLATOR ----------------------------------------------------
-
-    /**
-     * helper function for the translateModel process - just a big switch stmt basically
-     */
-    public HexType exchangeStringForHexType(String hexTypeString){
-        switch (hexTypeString){
-            case "wood":
-                return HexType.WOOD;
-            case "brick":
-                return HexType.BRICK;
-            case "sheep":
-                return HexType.SHEEP;
-            case "wheat":
-                return HexType.WHEAT;
-            case "ore":
-                return HexType.ORE;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * helper function for the translateModel process - just a big switch stmt basically
-     */
-    public EdgeDirection exchangeStringForEdgeDirection(String edgeDirString){
-        switch (edgeDirString){
-            case "NW":
-                return EdgeDirection.NorthWest;
-            case "N":
-                return EdgeDirection.North;
-            case "NE":
-                return EdgeDirection.NorthEast;
-            case "SE":
-                return EdgeDirection.SouthEast;
-            case "S":
-                return EdgeDirection.South;
-            case "SW":
-                return EdgeDirection.SouthWest;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * helper function for the translateModel process - just a big switch stmt basically
-     */
-    public VertexDirection exchangeStringForVertexDirection(String vertexDirString){
-        switch (vertexDirString){
-            case "W":
-                return VertexDirection.West;
-            case "NW":
-                return VertexDirection.NorthWest;
-            case "NE":
-                return VertexDirection.NorthEast;
-            case "E":
-                return VertexDirection.East;
-            case "SE":
-                return VertexDirection.SouthEast;
-            case "SW":
-                return VertexDirection.SouthWest;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * helper function for the translateModel process - just a big switch stmt basically
-     */
-    public PortType exchangeStringForPortType(String portTypeString){
-        switch (portTypeString){
-            case "wood":
-                return PortType.WOOD;
-            case "brick":
-                return PortType.BRICK;
-            case "sheep":
-                return PortType.SHEEP;
-            case "wheat":
-                return PortType.WHEAT;
-            case "ore":
-                return PortType.ORE;
-            case "three":
-                return PortType.THREE;
-            default:
-                return null;
-        }
-    }
 
     /**
      * Iterates through the JSON array of Hexes and builds Hex objects to put in the Hashmap.
@@ -319,7 +233,8 @@ public class JSONTranslator {
             if (currHexStringJSON.has("resource")) {
                 //if it DOES have a resource, it also has a number, so it's a regular hex:
                 String currHexTypeStr = currHexStringJSON.getString("resource");
-                currHexType = exchangeStringForHexType(currHexTypeStr.toString());
+                currHexType = Converter.stringToHexType(currHexTypeStr);
+                    //currHexType = exchangeStringForHexType(currHexTypeStr.toString());
                 currHexNum = currHexStringJSON.getInt("number");
             }
             //I'm commenting this out for now. It looks like the server doesn't hold water hexes
@@ -377,7 +292,8 @@ public class JSONTranslator {
             JSONObject currPortStringJSON = portsJSON.getJSONObject(p);
             //get the port's edgeDirection:
             String newPortEdgeDirString = currPortStringJSON.getString("direction");
-            EdgeDirection newPortEdgeDir = exchangeStringForEdgeDirection(newPortEdgeDirString);
+                //EdgeDirection newPortEdgeDir = exchangeStringForEdgeDirection(newPortEdgeDirString);
+            EdgeDirection newPortEdgeDir = Converter.stringToEdgeDirection(newPortEdgeDirString);
             //get the port's location (as a HexLocation)
             JSONObject newPortHexLocJSON = currPortStringJSON.getJSONObject("location");
             int nPHLx = newPortHexLocJSON.getInt("x");
@@ -390,7 +306,7 @@ public class JSONTranslator {
             int newPortRatio = currPortStringJSON.getInt("ratio");
             if (newPortRatio == 2) {
                 String newPortTypeString = currPortStringJSON.getString("resource");
-                newPortType = exchangeStringForPortType(newPortTypeString);
+                newPortType = Converter.stringToPortType(newPortTypeString);
             }
             else {
                 //newPortRatio must be 3, so it's a generic port.
@@ -422,7 +338,7 @@ public class JSONTranslator {
             int rHLy = currRoadLocJSON.getInt("y");
             HexLocation newRoadHexLoc = new HexLocation(rHLx, rHLy);
             //get the EdgeDirection object out of the currRoadJSON:
-            EdgeDirection newRoadEdgeDir = exchangeStringForEdgeDirection(currRoadLocJSON.getString("direction"));
+            EdgeDirection newRoadEdgeDir = Converter.stringToEdgeDirection(currRoadLocJSON.getString("direction"));
             //build the newRoad's EdgeLocation obj out of HexLoc and EdgeDir:
             EdgeLocation newRoadEdgeLoc = new EdgeLocation(newRoadHexLoc, newRoadEdgeDir);
             //get the road's owner:
@@ -482,7 +398,8 @@ public class JSONTranslator {
             int sHLy = currStlmtLocJSON.getInt("y");
             HexLocation newStlmtHexLoc = new HexLocation(sHLx, sHLy);
             //get the VertexDirection out of the currStlmtLocJSON:
-            VertexDirection newStlmtVtxDir = exchangeStringForVertexDirection(currStlmtLocJSON.getString("direction"));
+                //VertexDirection newStlmtVtxDir = exchangeStringForVertexDirection(currStlmtLocJSON.getString("direction"));
+            VertexDirection newStlmtVtxDir = Converter.stringToVertexDirection(currStlmtLocJSON.getString("direction"));
             //build a VertexLocation obj out of HexLoc and VertexDir:
             VertexLocation newStlmtVtxLoc = new VertexLocation(newStlmtHexLoc, newStlmtVtxDir);
             //get the stlmt owner:
@@ -505,7 +422,7 @@ public class JSONTranslator {
             int cHLy = currCityLocJSON.getInt("y");
             HexLocation newCityHexLoc = new HexLocation(cHLx, cHLy);
             //get the VertexDirection out of the currCityLocJSON:
-            VertexDirection newCityVtxDir = exchangeStringForVertexDirection(currCityLocJSON.getString("direction"));
+            VertexDirection newCityVtxDir = Converter.stringToVertexDirection(currCityLocJSON.getString("direction"));
             //build a VertexLocation obj out of HexLoc and VertexDir:
             VertexLocation newCityVtxLoc = new VertexLocation(newCityHexLoc, newCityVtxDir);
             //get the city owner:

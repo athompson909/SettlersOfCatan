@@ -127,6 +127,8 @@ public class BuildSettlementCommand extends BaseCommand {
         this.free = free;
     }
 
+    public boolean getFree() {return free;}
+
     public String getType() {
         return type;
     }

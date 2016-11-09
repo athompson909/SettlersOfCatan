@@ -50,7 +50,21 @@ public class GamesManager {
      * @return the game object
      */
     public Game getGame(int gameID) {
-        return allGames.get(gameID);
+        if(isValidGame(gameID)) {
+            return allGames.get(gameID);
+        }
+        return null;
     }
 
+    /**
+     * Returns true if gameID is valid
+     */
+    public boolean isValidGame(int gameID) {
+        if(allGames.containsKey(gameID)) {
+            return true;
+        }
+        return false;
+    }
+
+    public HashMap<Integer, Game> getAllGames() {return allGames;}
 }

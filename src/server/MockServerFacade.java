@@ -236,9 +236,10 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * Create a new game.
+
      */
     @Override
-    public GameInfo create(int userId, int gameId, GameCreateCommand command){
+    public GameInfo create(int userId, GameCreateCommand command){
         return null;
     }
 
