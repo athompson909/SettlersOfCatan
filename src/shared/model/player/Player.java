@@ -427,6 +427,16 @@ public class Player { //
         return playerResourceList.getSheepCardCount();
     }
 
+
+    public void recieveCardsFromDiceRoll(ResourceList resourceList){
+        playerResourceList.incWoodCardCount(resourceList.getWoodCardCount());
+        playerResourceList.incBrickCardCount(resourceList.getBrickCardCount());
+        playerResourceList.incSheepCardCount(resourceList.getSheepCardCount());
+        playerResourceList.incWheatCardCount(resourceList.getWheatCardCount());
+        playerResourceList.incOreCardCount(resourceList.getOreCardCount());
+    }
+
+
     //GETTERS
     public MaritimeTradeManager getMaritimeTradeManager() {return maritimeTradeManager;}
 

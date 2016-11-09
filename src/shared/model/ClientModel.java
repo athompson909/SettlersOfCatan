@@ -459,18 +459,9 @@ public class ClientModel extends Observable {
     (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
     public void receiveResourcesFromDiceRoll(int diceRoll){
-        //TODO: Go to map and calculate how many cards each player gets
-
-
-        //TODO: Calculate resource production, and consider special rulebook exception.
-        //int total1;
-        //int total2;
-        //if(resourceBank.getResourceList().listHasAmountOfType(total1,))
-
-
-
-        for(int index = 0; index < players.length; index++){
-
+        ResourceList[] results = map.getDiceRollResults(diceRoll);
+        for(int i=0; i < players.length; i++){
+            players[i].recieveCardsFromDiceRoll(results[i]);
         }
     }
 
