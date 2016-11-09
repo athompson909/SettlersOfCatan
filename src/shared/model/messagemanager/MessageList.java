@@ -33,7 +33,7 @@ public class MessageList {
      * @param M message to be added to MessageList
      */
     public void insertMessageLine(MessageLine M) {
-
+        lines.add(M);
     }
 
     /**

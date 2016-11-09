@@ -211,8 +211,8 @@ public class Game {
      * Player building a city.
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    public ClientModel buildCity(VertexObject newCity, boolean free){
-        clientModel.buildCity(newCity, free);
+    public ClientModel buildCity(VertexObject newCity){
+        clientModel.buildCity(newCity);
         return clientModel;
     }
 
