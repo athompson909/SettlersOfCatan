@@ -2,10 +2,17 @@ package server;
 
 import client.data.GameInfo;
 import com.google.gson.Gson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.messagemanager.MessageList;
+import shared.model.messagemanager.MessageManager;
+import shared.model.resourcebank.DevCardList;
+import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
 
@@ -101,13 +108,49 @@ public class ServerTranslator {
      * @return a String (JSON) representation of the ClientModel object
      */
     public String modelToJSON(ClientModel model){
+
+        // let's try doing it in pieces to avoid having to bring lots of nested data up front to higher classes
+        //Pull out pieces of the clientModel, change them to JSON using Gson, and then add each converted piece
+        // to the JSONobject using JSONArrays and JSONObject.put() or .append()
+
+        /*
+            - .append() adds items inside a JSONArray
+            - .put() adds it just like normal
+         */
+
         JSONObject modelJSON = new JSONObject();
 
-        // let's try doing it in pieces to avoid having to bring lots of nested data up front to higher classe
-        //StringBuilder modelJSONString = new StringBuilder();
+//2 little INTs (winner, version)
+        int tempVerNum = model.getVersion();
+        int tempWinner = model.getWinner();
+            modelJSON.put("version", tempVerNum);
+            modelJSON.put("winner", tempWinner);
 
-        modelJSON = new JSONObject(gsonTranslator.toJson(model));
+//RESOURCEBANK: DEVCARDLIST AND RESOURCELIST
+        ResourceBank tempResBank = model.getResourceBank();
+            DevCardList tempDCList = tempResBank.getDevCardList();
+            ResourceList tempResList = tempResBank.getResourceList();
+        JSONObject dcListJSON = new JSONObject(gsonTranslator.toJson(tempDCList));
+        JSONObject resListJSON = new JSONObject(gsonTranslator.toJson(tempResList));
+            modelJSON.put("deck", dcListJSON);
+            modelJSON.put("bank", resListJSON);
 
+//CHAT (chat) AND LOG (log)
+        MessageManager tempMMgr = model.getMessageManager();
+        MessageList tempChat = tempMMgr.getChat();
+        MessageList tempLog = tempMMgr.getLog();
+            JSONObject chatJSON = new JSONObject(gsonTranslator.toJson(tempChat));
+            JSONObject logJSON = new JSONObject(gsonTranslator.toJson(tempLog));
+        modelJSON.put("chat", chatJSON);
+        modelJSON.put("log", logJSON);
+
+
+//TURNTRACKER (turntracker)
+        TurnTracker tempTT = model.getTurnTracker();
+            JSONObject ttJSON = new JSONObject(gsonTranslator.toJson(tempTT));
+        modelJSON.put("turnTracker", ttJSON);
+
+//TRADEOFFER (tradeOffer)
 
         return null;
     }

@@ -1,5 +1,6 @@
 package shared.model.resourcebank;
 
+import com.google.gson.annotations.SerializedName;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 
@@ -11,20 +12,24 @@ import shared.definitions.ResourceType;
  */
 public class ResourceBank {
 
+    //TESTING ONLY
+    @SerializedName("deck")
     private DevCardList devCardList;
+    @SerializedName("bank")
     private ResourceList resourceList;
+    //
 
-    private final int AVAILABLE_SOLDIER_CARDS = 15;
-    private final int AVAILABLE_MONUMENT_CARDS = 5;
-    private final int AVAILABLE_YEAROFPLENTY_CARDS = 2;
-    private final int AVAILABLE_ROADBUILDING_CARDS = 2;
-    private final int AVAILABLE_MONOPOLY_CARDS = 2;
+    private transient final int AVAILABLE_SOLDIER_CARDS = 15;
+    private transient final int AVAILABLE_MONUMENT_CARDS = 5;
+    private transient final int AVAILABLE_YEAROFPLENTY_CARDS = 2;
+    private transient final int AVAILABLE_ROADBUILDING_CARDS = 2;
+    private transient final int AVAILABLE_MONOPOLY_CARDS = 2;
 
-    private final int AVAILABLE_WOOD_CARDS = 19;
-    private final int AVAILABLE_BRICK_CARDS = 19;
-    private final int AVAILABLE_SHEEP_CARDS = 19;
-    private final int AVAILABLE_WHEAT_CARDS = 19;
-    private final int AVAILABLE_ORE_CARDS = 19;
+    private transient final int AVAILABLE_WOOD_CARDS = 19;
+    private transient final int AVAILABLE_BRICK_CARDS = 19;
+    private transient final int AVAILABLE_SHEEP_CARDS = 19;
+    private transient final int AVAILABLE_WHEAT_CARDS = 19;
+    private transient final int AVAILABLE_ORE_CARDS = 19;
 
     /**
      * Creates a new ResourceBank for the game using the available card constants for the devCardList and ResourceList
