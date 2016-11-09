@@ -180,4 +180,10 @@ public interface IServerFacade {
      */
     int getUserId();
 
+    /**
+     * similar to getUserId, is set in gameCreate (and possible in gameJoin but not at this point)
+     * @return the new game's id
+     */
+    int getGameId();
+
 }

@@ -72,7 +72,7 @@ public class ServerTranslator {
     }
 
     public String gameInfoToString(GameInfo gameInfo) {
-        return null;
+        return MockResponses.GAME_CREATE_RESPONSE;
     }
 
     public String gameListToString(GameInfo[] gameList) {
