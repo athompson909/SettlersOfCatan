@@ -33,6 +33,12 @@ public class Game {
      */
     private HashMap<Integer, User> userList;
 
+    public Game(GameInfo gameInfo) {
+        this.gameInfo = gameInfo;
+     //   this.clientModel = new ClientModel();
+        this.userList = new HashMap<Integer, User>();
+    }
+
     public GameInfo getGameInfo() {
         return gameInfo;
     }

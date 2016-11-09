@@ -739,4 +739,36 @@ public class Map {
     public void setPortVertexLocations(HashMap<VertexLocation, Port> portVertexLocations) {
         this.portVertexLocations = portVertexLocations;
     }
+
+
+    //FOR TESTING ONLY
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Map)) return false;
+
+        Map map = (Map) o;
+
+        if (radius != map.radius) return false;
+
+        //hexes map
+        if (hexes.keySet().equals(map.getHexes().keySet()))
+            return false;
+
+        //ports map
+        if (ports.keySet().equals(map.getPorts().keySet()))
+            return false;
+
+        //vertexObjects
+        if (vertexObjects.keySet().equals(map.getVertexObjects().keySet()))
+            return false;
+
+        //edgeValues
+        if (edgeValues.keySet().equals(map.getEdgeValues().keySet()))
+            return false;
+
+        return robber != null ? robber.equals(map.robber) : map.robber == null;
+
+    }
+
 }

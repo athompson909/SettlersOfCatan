@@ -53,4 +53,21 @@ public class MessageList {
                 "lines=" + lines +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MessageList)) return false;
+
+        MessageList that = (MessageList) o;
+
+        if (lines != null){
+            if (lines.size() != that.lines.size())
+                return false;
+        }
+
+        return true;
+
+    }
+
 }
