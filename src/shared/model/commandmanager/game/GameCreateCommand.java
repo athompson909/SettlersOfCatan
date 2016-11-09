@@ -1,7 +1,13 @@
 package shared.model.commandmanager.game;
 
+import client.data.GameInfo;
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -67,16 +73,20 @@ public class GameCreateCommand extends BaseCommand {
      * Tells the server to create new game
      */
     @Override
-    public String serverExec(){
-        /*
-        GameInfo gameInfo = IServerFacade.getInstance().create(userId, this);
-        if(gameInfo != null) {
-            return ServerTranslator.getInstance().gameInfoToString(gameInfo);
-        }else {
-            return null;
-        }
-        */
-        return null;  //TEMP!!!
+    public String serverExec() {
+
+        JSONObject requestJSON = new JSONObject(getRequest());
+        name = requestJSON.getString("name");
+        randomTiles = requestJSON.getBoolean("randomTiles");
+        randomNumbers = requestJSON.getBoolean("randomNumbers");
+        randomPorts = requestJSON.getBoolean("randomPorts");
+
+        GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), 0, this);
+        String fullResponseLoginCookieStr = "catan.game="+IServerFacade.getInstance().getGameId()+";Path=/;";
+        List<String> cookieList = new ArrayList<>(1);
+        cookieList.add(fullResponseLoginCookieStr);
+        getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
+        return ServerTranslator.getInstance().gameInfoToString(gameInfo);
     }
 
     //Getters

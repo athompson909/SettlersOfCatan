@@ -246,4 +246,9 @@ public class MockServerFacade implements IServerFacade {
     public int getUserId() {
         return 0;
     }
+
+    @Override
+    public int getGameId() {
+        return 3;
+    }
 }
