@@ -425,7 +425,6 @@ public class ServerFacade implements IServerFacade {
             Game game = new Game();
             GameInfo gameInfo = new GameInfo();
 
-            command.
         }
         return null;
     }
