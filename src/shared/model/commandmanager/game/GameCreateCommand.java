@@ -1,9 +1,6 @@
 package shared.model.commandmanager.game;
 
-import client.data.GameInfo;
 import org.json.JSONObject;
-import server.IServerFacade;
-import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -55,6 +52,16 @@ public class GameCreateCommand extends BaseCommand {
         this.randomNumbers = randomNumbers;
         this.randomPorts = randomPorts;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONOnlyLogin();
+    }
+
 
     /**
      * Tells the server to create new game

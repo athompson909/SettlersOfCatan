@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.definitions.ResourceType;
@@ -48,6 +49,16 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         this.resource1 = resource1;
         this.resource2 = resource2;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      *Tells server to give player these two resources from the bank

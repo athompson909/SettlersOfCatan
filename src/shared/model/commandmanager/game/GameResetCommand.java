@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -12,6 +13,16 @@ public class GameResetCommand extends BaseCommand {
     public GameResetCommand(){
 
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONOnlyLogin();
+    }
+
 
     /**
      * Tells server to reset the game

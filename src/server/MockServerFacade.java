@@ -1,16 +1,9 @@
 package server;
 
 import client.data.GameInfo;
-import shared.definitions.CatanColor;
-import shared.definitions.ResourceType;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.EdgeValue;
-import shared.model.map.VertexObject;
-import shared.model.resourcebank.ResourceList;
 
 /**
  * Created by adamthompson on 11/4/16.
@@ -205,21 +198,15 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
-     * @param color the player has selected.
      * @return true is succesful.
      */
     @Override
     public boolean join(int userId, GameJoinCommand command){
-        return false;
+        return true;
     }
 
     /**
      * Create a new game.
-     * @param name of the game.
-     * @param randomTiles true if randomized.
-     * @param randomNumbers true if randomized.
-     * @param randomPorts true if randomized.
      */
     @Override
     public GameInfo create(int userId, int gameId, GameCreateCommand command){
@@ -228,7 +215,6 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * Get the model.
-     * @param version of the model, compared to see if its different.
      * @return the model.
      */
     @Override

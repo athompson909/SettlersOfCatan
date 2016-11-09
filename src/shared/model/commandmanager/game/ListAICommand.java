@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
@@ -16,6 +17,16 @@ public class ListAICommand extends BaseCommand {
     public ListAICommand(){
 
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return null;
+    }
+
 
     /**
      * Asks the server to send a list of all AI types

@@ -1,6 +1,7 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.HexLocation;
@@ -53,6 +54,16 @@ public class PlaySoldierCommand extends BaseCommand {
         robberLoc = robberLocation;
         this.victimIndex = victimIndex;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Calls all necessary model update functions

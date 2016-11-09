@@ -40,6 +40,16 @@ public class RegisterCommand extends BaseCommand {
     }
 
     /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return null;
+    }
+
+
+    /**
      * Tells server to add new user with given name and password
      */
     @Override

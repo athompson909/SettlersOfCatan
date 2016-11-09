@@ -1,8 +1,13 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import server.IServerFacade;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.BaseCommand;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -42,12 +47,27 @@ public class GameJoinCommand extends BaseCommand {
         this.color = color;
     }
 
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONOnlyLogin();
+    }
+
     /**
      * Tells server to add user as new player of game with given gameID
      */
     @Override
     public String serverExec(){
+
         boolean success = IServerFacade.getInstance().join(getUserId(), this);
+        if(success) {
+            String loginCookieJSON = "{\"name\":\""+getUsername()+"\",\"password\":\""+getPassword()+"\",\"playerID\":"+0+"}";//todo: figure out a way to get playerID
+            String loginCookieStr = URLEncoder.encode(loginCookieJSON);
+            String fullResponseLoginCookieStr = "catan.user="+loginCookieStr+"; catan.game="+getGameId()+";";
+            List<String> cookieList = new ArrayList<>(1);
+            cookieList.add(fullResponseLoginCookieStr);
+            getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
+        }
+
         return (success ? "Success" : null);
     }
 
