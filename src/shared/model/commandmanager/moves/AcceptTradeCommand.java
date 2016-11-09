@@ -91,5 +91,6 @@ public class AcceptTradeCommand extends BaseCommand {
         return type;
     }
 
+    public boolean getWillAccept() {return willAccept;}
 
 }

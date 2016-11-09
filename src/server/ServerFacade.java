@@ -1,9 +1,14 @@
 package server;
 
 import client.data.GameInfo;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
+import shared.model.map.VertexObject;
+import shared.model.resourcebank.ResourceList;
 
 /**
  * Created by adamthompson on 11/4/16.
@@ -96,7 +101,13 @@ public class ServerFacade implements IServerFacade {
     public ClientModel robPlayer(int userID, int gameID, RobPlayerCommand robObj){
         if(validateParams(userID, gameID)) {
 
-            Game game =
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = robObj.getPlayerIndex();
+            HexLocation location = robObj.getLocation();
+            int victimIndex = robObj.getVictimIndex();
+
+            ClientModel model = game.robPlayer(playerIndex, location, victimIndex);
+            return model;
         }
         return null;
     }
@@ -105,7 +116,15 @@ public class ServerFacade implements IServerFacade {
      * Buying a dev card.
      * @param userID of the player buying the card.
      */
-    public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
+    public ClientModel buyDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = purchDevCardObj.getPlayerIndex();
+
+            ClientModel model = game.buyDevCard(playerIndex);
+            return model;
+        }
         return null;
     }
 
@@ -114,6 +133,16 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player using the soldier card.
      */
     public ClientModel playSoldier(int userID, int gameID, PlaySoldierCommand soldierObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = soldierObj.getPlayerIndex();
+            HexLocation location = soldierObj.getRobberLoc();
+            int victimIndex = soldierObj.getVictimIndex();
+
+            ClientModel model = game.soldier(playerIndex, location, victimIndex);
+            return model;
+        }
         return null;
     }
 
@@ -122,6 +151,14 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player using the dev card.
      */
     public ClientModel playMonument(int userID, int gameID, PlayMonumentCommand monumentObj) {
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = monumentObj.getPlayerIndex();
+
+            ClientModel model = game.monument(playerIndex);
+            return model;
+        }
         return null;
     }
 
@@ -130,6 +167,16 @@ public class ServerFacade implements IServerFacade {
      * @param userID player using the card.
      */
     public ClientModel playYearOfPlenty(int userID, int gameID, PlayYearOfPlentyCommand yearOfPlentyObj) {
+        if(validateParams(userID, gameID)) {
+
+            Game game =  GamesManager.getInstance().getGame(gameID);
+            int playerIndex = yearOfPlentyObj.getPlayerIndex();
+            ResourceType res1 = yearOfPlentyObj.getResource1();
+            ResourceType res2 = yearOfPlentyObj.getResource2();
+
+            ClientModel model = game.yearOfPlenty(playerIndex, res1, res2);
+            return model;
+        }
         return null;
     }
 
@@ -138,6 +185,16 @@ public class ServerFacade implements IServerFacade {
      * @param userID of player using the card.
      */
     public ClientModel playRoadBuilding(int userID, int gameID, PlayRoadBuilderCommand roadBldgCardObj) {
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = roadBldgCardObj.getPlayerIndex();
+            EdgeLocation loc1 = roadBldgCardObj.getLocationONE();
+            EdgeLocation loc2 = roadBldgCardObj.getLocationTWO();
+
+            ClientModel model = game.roadBuilding(playerIndex, loc1, loc2);
+            return model;
+        }
         return null;
     }
 
@@ -145,7 +202,16 @@ public class ServerFacade implements IServerFacade {
      * Player using a monopoly dev card.
      * @param userID of the player using the card.
      */
-    public ClientModel playMonopoly(int userID, int gameID, PlayMonopolyCommand monopolyOBj) {
+    public ClientModel playMonopoly(int userID, int gameID, PlayMonopolyCommand monopolyObj) {
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = monopolyObj.getPlayerIndex();
+            ResourceType resource = monopolyObj.getResource();
+
+            ClientModel model = game.monopoly(playerIndex, resource);
+            return model;
+        }
         return null;
     }
 
@@ -154,6 +220,16 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player offering the trade.
      */
     public ClientModel offerTrade(int userID, int gameID, OfferTradeCommand offerTradeObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = offerTradeObj.getPlayerIndex();
+            ResourceList resList = offerTradeObj.getOffer();
+            int receiverIndex = offerTradeObj.getReceiver();
+
+            ClientModel model = game.offerTrade(playerIndex, resList, receiverIndex);
+            return model;
+        }
         return null;
     }
 
@@ -162,6 +238,15 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player choosing.
      */
     public ClientModel acceptTrade(int userID, int gameID, AcceptTradeCommand acceptTradeObj) {
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = acceptTradeObj.getPlayerIndex();
+            boolean accept = acceptTradeObj.getWillAccept();
+
+            ClientModel model = game.acceptTrade(playerIndex, accept);
+            return model;
+        }
         return null;
     }
 
@@ -170,6 +255,17 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player trading.
      */
     public ClientModel maritimeTrade(int userID, int gameID, MaritimeTradeCommand maritTradeObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = maritTradeObj.getPlayerIndex();
+            int ratio = maritTradeObj.getRatio();
+            ResourceType input = maritTradeObj.getToTrade();
+            ResourceType output = maritTradeObj.getToReceive();
+
+            ClientModel model = game.martimeTrade(playerIndex, ratio, input, output);
+            return model;
+        }
         return null;
     }
 
@@ -178,6 +274,16 @@ public class ServerFacade implements IServerFacade {
      * @param userID EdgeValue, which contains the player ID and location of the road.
      */
     public ClientModel buildRoad(int userID, int gameID, BuildRoadCommand buildRoadObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            EdgeLocation location = buildRoadObj.getRoadLocation();
+            int playerIndex = buildRoadObj.getPlayerIndex();
+            boolean free = buildRoadObj.getFree();
+
+            ClientModel model = game.buildRoad(location, playerIndex, free);
+            return model;
+        }
         return null;
     }
 
@@ -185,6 +291,15 @@ public class ServerFacade implements IServerFacade {
      * Player building a settlement.
      */
     public ClientModel buildSettlement(int userID, int gameID, BuildSettlementCommand buildSettObj) {
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            VertexObject settlementLoc = buildSettObj.getVertex();
+            boolean free = buildSettObj.getFree();
+
+            ClientModel model = game.buildSettlement(settlementLoc, free);
+            return model;
+        }
         return null;
     }
 
@@ -192,6 +307,14 @@ public class ServerFacade implements IServerFacade {
      * Player building a city.
      */
     public ClientModel buildCity(int userID, int gameID, BuildCityCommand buildCityObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            VertexObject cityLoc = buildCityObj.getVertex();
+
+            ClientModel model = game.buildCity(cityLoc);
+            return model;
+        }
         return null;
     }
 

@@ -71,7 +71,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player buying the card.
      */
     @Override
-    public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
+    public ClientModel buyDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
         return null;
     }
 
@@ -205,8 +205,6 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
-     * @param color the player has selected.
      * @return true is succesful.
      */
     @Override
@@ -216,19 +214,15 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * Create a new game.
-     * @param name of the game.
-     * @param randomTiles true if randomized.
-     * @param randomNumbers true if randomized.
-     * @param randomPorts true if randomized.
+
      */
     @Override
-    public GameInfo create(int userId, int gameId, GameCreateCommand command){
+    public GameInfo create(int userId, GameCreateCommand command){
         return null;
     }
 
     /**
      * Get the model.
-     * @param version of the model, compared to see if its different.
      * @return the model.
      */
     @Override

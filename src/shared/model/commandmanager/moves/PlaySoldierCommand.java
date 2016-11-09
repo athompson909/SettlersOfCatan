@@ -87,6 +87,8 @@ public class PlaySoldierCommand extends BaseCommand {
         return victimIndex;
     }
 
+    public int getPlayerIndex() {return playerIndex;}
+
     public void setVictimIndex(int victimIndex) {
         this.victimIndex = victimIndex;
     }

@@ -119,7 +119,7 @@ public class Game {
      * Player using a monument dev card.
      * @param index of the player using the dev card.
      */
-    public ClientModel Monument(int index){
+    public ClientModel monument(int index){
         clientModel.playMonumentCard(index);
         return clientModel;
     }

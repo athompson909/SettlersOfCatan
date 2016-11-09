@@ -100,4 +100,6 @@ public class PlayRoadBuilderCommand extends BaseCommand {
     public String getType() {
         return type;
     }
+
+    public int getPlayerIndex() {return playerIndex;}
 }

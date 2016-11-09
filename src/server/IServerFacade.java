@@ -63,7 +63,7 @@ public interface IServerFacade {
      * Buying a dev card.
      * @param userID of the player buying the card.
      */
-    ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj);
+    ClientModel buyDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj);
 
     /**
      * Playing a solider dev card.
@@ -135,16 +135,13 @@ public interface IServerFacade {
 
     /**
      * User login.
-     * @param username of the user.
-     * @param password of the user.
+
      * @return true if login is successful.
      */
     boolean login(LoginCommand command);
 
     /**
      * User registering.
-     * @param username of the user.
-     * @param password of the user.
      * @return true if login is successful.
      */
     boolean register(RegisterCommand command);
@@ -158,24 +155,19 @@ public interface IServerFacade {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
-     * @param color the player has selected.
+
      * @return true is succesful.
      */
     boolean join(int userId, GameJoinCommand command);
 
     /**
      * Create a new game.
-     * @param name of the game.
-     * @param randomTiles true if randomized.
-     * @param randomNumbers true if randomized.
-     * @param randomPorts true if randomized.
+
      */
     GameInfo create(int userId, GameCreateCommand command);
 
     /**
      * Get the model.
-     * @param version of the model, compared to see if its different.
      * @return the model.
      */
     ClientModel model(int userId, int gameId, FetchNewModelCommand command); //GET
