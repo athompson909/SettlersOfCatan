@@ -163,7 +163,7 @@ public class Game {
      * @param receiverIndex index of the player receiving the offer
      */
     public ClientModel offerTrade(int index, ResourceList off, int receiverIndex){
-        //clientModel.of
+        clientModel.offerTrade(index, off, receiverIndex);
         return clientModel;
     }
 
@@ -173,6 +173,7 @@ public class Game {
      * @param accept returns true if they accept.
      */
     public ClientModel acceptTrade(int index, boolean accept){
+        clientModel.acceptTrade(index, accept);
         return clientModel;
     }
 
@@ -184,6 +185,7 @@ public class Game {
      * @param outputResource to recieve.
      */
     public ClientModel martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+        clientModel.martimeTrade(index, ratio, inputResource, outputResource);
         return clientModel;
     }
 
