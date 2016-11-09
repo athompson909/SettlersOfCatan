@@ -1,10 +1,13 @@
 package shared.model.commandmanager.moves;
 
+import client.utils.Converter;
 import com.google.gson.annotations.SerializedName;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
@@ -79,12 +82,16 @@ public class PlayRoadBuilderCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject roadBuildingJSON = new JSONObject(getRequest());
+        playerIndex = roadBuildingJSON.getInt("playerIndex");
+        JSONObject spot1 = roadBuildingJSON.getJSONObject("spot1");
+        HexLocation hexLocation1 = new HexLocation(spot1.getInt("x"), spot1.getInt("y"));
+        EdgeDirection edgeDirection1 = Converter.stringToEdgeDirection(spot1.getString("direction"));
+        locationONE = new EdgeLocation(hexLocation1, edgeDirection1);
+        JSONObject spot2 = roadBuildingJSON.getJSONObject("spot2");
+
         ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 

@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import client.utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -69,6 +70,8 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         playerIndex = playYearOfPlentyJSON.getInt("playerIndex");
         String resource1Str = playYearOfPlentyJSON.getString("resource1");
         String resource2Str = playYearOfPlentyJSON.getString("resource2");
+        resource1 = Converter.stringToResourceType(resource1Str);
+        resource2 = Converter.stringToResourceType(resource2Str);
 
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), this);
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;

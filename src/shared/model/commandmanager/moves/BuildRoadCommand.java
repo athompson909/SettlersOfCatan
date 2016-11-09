@@ -73,12 +73,12 @@ public class BuildRoadCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject buildRoadJSON = new JSONObject(getRequest());
+        playerIndex = buildRoadJSON.getInt("playerIndex");
+        //todo: add other fields
+
         ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 //Getters and Setters
