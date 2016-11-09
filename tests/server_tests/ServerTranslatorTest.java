@@ -150,14 +150,14 @@ public class ServerTranslatorTest extends TestCase {
         testPlayersArr[3] = testPlayer4;
 
         //fake trade offer
-        /*
+
         ResourceList testTORL = new ResourceList(0,0,0,-2,1);
         TradeOffer testTO = new TradeOffer();
             testTO.setSenderIndex(8);
             testTO.setReceiverIndex(4);
             testTO.setTradeOfferList(testTORL);
             testClientModel.setTradeOffer(testTO);
-            */
+
 
 
         //combine it all into a ClientModel object

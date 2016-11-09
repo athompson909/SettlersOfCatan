@@ -1,5 +1,6 @@
 package shared.model.map;
 
+import com.google.gson.annotations.SerializedName;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.locations.EdgeDirection;
@@ -31,7 +32,8 @@ public class Port {
      * then we set the portType to enum THREE.
      *
      */
-    private transient PortType portType;
+    @SerializedName("resource")
+    private PortType portType;
 
     /**
      * XY location of this port hex
@@ -41,6 +43,7 @@ public class Port {
     /**
      * Direction of hex that port occupies
      */
+    @SerializedName("direction")
     private EdgeDirection edgeDirection;
 
     /**
