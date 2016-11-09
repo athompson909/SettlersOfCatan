@@ -1,5 +1,7 @@
 package shared.shared_utils;
 
+import shared.definitions.HexType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.VertexDirection;
@@ -8,6 +10,44 @@ import shared.locations.VertexDirection;
  * Created by adamthompson on 11/9/16.
  */
 public class Converter {
+
+    public static HexType stringToHexType(String hexType){
+        switch (hexType){
+            case "wood":
+                return HexType.WOOD;
+            case "brick":
+                return HexType.BRICK;
+            case "sheep":
+                return HexType.SHEEP;
+            case "wheat":
+                return HexType.WHEAT;
+            case "ore":
+                return HexType.ORE;
+            default:
+                return null;
+        }
+    }
+
+
+    public static PortType stringToPortType(String portType){
+        switch (portType){
+            case "wood":
+                return PortType.WOOD;
+            case "brick":
+                return PortType.BRICK;
+            case "sheep":
+                return PortType.SHEEP;
+            case "wheat":
+                return PortType.WHEAT;
+            case "ore":
+                return PortType.ORE;
+            case "three":
+                return PortType.THREE;
+            default:
+                return null;
+        }
+    }
+
 
     public static ResourceType stringToResourceType(String resource) {
         switch (resource) {
