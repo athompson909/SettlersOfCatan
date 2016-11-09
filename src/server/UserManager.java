@@ -42,13 +42,17 @@ public class UserManager {
      * @param newUser - the new User object to the list of all users
      */
     public void addUser(Game newUser){
-
+        //Needs to check if username is UNIQUE
     }
 
     public User getUser(int userID) {
         if(allUsers.containsKey(userID)) {
             return allUsers.get(userID);
         }
+        return null;
+    }
+
+    public User getUserWNameAndPass(String username, String password) {
         return null;
     }
     /**

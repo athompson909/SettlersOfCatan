@@ -330,6 +330,10 @@ public class ServerFacade implements IServerFacade {
         //todo - we decided this would ask for the user and then check if the user is logged in
         //SAVE THE USERID FROM THE MODEL HERE TO SEND BACK FOR ADAM
         //return (UserManager.getInstance().isValidLogin(username, password));
+        String username = command.getUsername();
+        String password = command.getPassword();
+
+
         return false;
     }
 
