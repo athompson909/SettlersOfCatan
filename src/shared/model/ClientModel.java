@@ -300,8 +300,9 @@ public class ClientModel extends Observable {
         if(playerWithLongestRoadIndex != index){
             //If the player who built the road now has less available roads, then they have the most used road pieces.
             if(players[index].getAvailableRoadCount() < players[playerWithLongestRoadIndex].getAvailableRoadCount()){
+                players[turnTracker.getLongestRoadHolder()].loseTwoVictoryPoints();
                 turnTracker.setLongestRoadHolder(index);
-                //TODO: Where should the victory points be adjusted?
+                players[index].gainTwoVictoryPoints();
             }
         }
     }
@@ -407,8 +408,9 @@ public class ClientModel extends Observable {
         if(playerWithLargestArmyIndex != index){
             //If the player who built the road now has less available roads, then they have the most used road pieces.
             if(players[index].getAvailableRoadCount() < players[playerWithLargestArmyIndex].getAvailableRoadCount()){
+                players[turnTracker.getLargestArmyHolder()].loseTwoVictoryPoints();
                 turnTracker.setLongestRoadHolder(index);
-                //TODO: Where should the victory points be adjusted?
+                players[index].gainTwoVictoryPoints();
             }
         }
     }
@@ -475,6 +477,7 @@ public class ClientModel extends Observable {
     public void receiveResourcesFromDiceRoll(int diceRoll){
         ResourceList[] results = map.getDiceRollResults(diceRoll);
         for(int i=0; i < players.length; i++){
+
             players[i].recieveCardsFromDiceRoll(results[i]);
         }
     }
@@ -548,9 +551,6 @@ public class ClientModel extends Observable {
 
     }
 
-
-
-
     //GETTERS
     public boolean getChanged() {return changed;}
     public int getVersion() {return version;}
@@ -561,7 +561,6 @@ public class ClientModel extends Observable {
     public MessageList getChat() {return chat;}
     public MessageList getLog() {return log;}
     public Map getMap() {return map;}
-    public Player[] getPlayer() {return players;}
     public TradeOffer getTradeOffer() {return tradeOffer;}
     public ClientUpdateManager getUpdateManager() {return updateManager;}
     public Player getCurrentPlayer() {return players[ClientUser.getInstance().getIndex()];}

@@ -616,10 +616,12 @@ public class Map {
      * @param results array to add cards too.
      */
     private void addCards(ResourceType resource, VertexObject vertexObject, ResourceList[] results) {
-        if (vertexObject.getOwner() != -1) {
-            results[vertexObject.getOwner()].addCardByType(resource);
-            if (vertexObject.getPieceType() == PieceType.CITY) {
+        if(vertexObject != null) {
+            if (vertexObject.getOwner() != -1) {
                 results[vertexObject.getOwner()].addCardByType(resource);
+                if (vertexObject.getPieceType() == PieceType.CITY) {
+                    results[vertexObject.getOwner()].addCardByType(resource);
+                }
             }
         }
     }
