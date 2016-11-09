@@ -74,7 +74,7 @@ public class ClientModel extends Observable {
     /**
      * The current Trade offer, if there is one.
      */
-    private TradeOffer tradeOffer;
+    public TradeOffer tradeOffer = null;
 
 
     /**

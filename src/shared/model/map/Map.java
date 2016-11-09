@@ -696,7 +696,7 @@ public class Map {
         return vertexObjects;
     }
 
-    public HashMap<EdgeLocation, EdgeValue> getEdgeObjects() {
+    public HashMap<EdgeLocation, EdgeValue> getEdgeValues() {
         return edgeValues;
     }
 

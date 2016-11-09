@@ -1,8 +1,6 @@
 package shared_tests;
 
 import junit.framework.TestCase;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.map.Map;
 
@@ -91,7 +89,7 @@ public class MapTest extends TestCase {
 
     public void testMapEdges(){
         System.out.println("testMapEdges");
-        assert (map.getEdgeObjects().size() == 0);
+        assert (map.getEdgeValues().size() == 0);
     }
 
 

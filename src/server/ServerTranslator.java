@@ -2,18 +2,19 @@ package server;
 
 import client.data.GameInfo;
 import com.google.gson.Gson;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
 import shared.model.ClientModel;
+import shared.model.TradeOffer;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.messagemanager.MessageList;
-import shared.model.messagemanager.MessageManager;
-import shared.model.resourcebank.DevCardList;
-import shared.model.resourcebank.ResourceBank;
-import shared.model.resourcebank.ResourceList;
-import shared.model.turntracker.TurnTracker;
+import shared.model.map.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -120,6 +121,7 @@ public class ServerTranslator {
         JSONObject modelJSON = new JSONObject();
 
 //2 little INTs (winner, version)
+        /*
         int tempVerNum = model.getVersion();
         int tempWinner = model.getWinner();
             modelJSON.put("version", tempVerNum);
@@ -143,13 +145,31 @@ public class ServerTranslator {
         modelJSON.put("chat", chatJSON);
         modelJSON.put("log", logJSON);
 
-
 //TURNTRACKER (turntracker)
         TurnTracker tempTT = model.getTurnTracker();
             JSONObject ttJSON = new JSONObject(gsonTranslator.toJson(tempTT));
         modelJSON.put("turnTracker", ttJSON);
+        */
 
 //TRADEOFFER (tradeOffer)
+        //TEST IF THIS CAUSES NULL POINTER EXCEPTION
+        if (model.getTradeOffer() != null){
+            TradeOffer tempTO = model.getTradeOffer();
+            JSONObject tOJSON = new JSONObject(gsonTranslator.toJson(tempTO));
+            modelJSON.put("tradeOffer", tOJSON);
+        }
+//MAP
+        Map tempMap = model.getMap();
+        HashMap<HexLocation, Hex> tempHexesMap = tempMap.getHexes();
+        HashMap<HexLocation, Port> tempPortsMap = tempMap.getPorts();
+        Robber tempRobber = tempMap.getRobber();
+        //ask each vertexObject what PieceType it is to know which JSONArray to put it in
+        HashMap<VertexLocation, VertexObject> tempCitiesStlmts = tempMap.getVertexObjects();
+        HashMap<EdgeLocation, EdgeValue> tempRoads = tempMap.getEdgeValues();
+
+     //SERIALIZE HEXES
+        JSONArray tempHexes = new JSONArray(gsonTranslator.toJson(tempHexesMap));
+
 
         return null;
     }
