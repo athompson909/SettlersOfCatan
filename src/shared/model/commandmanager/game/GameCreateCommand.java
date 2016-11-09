@@ -1,6 +1,9 @@
 package shared.model.commandmanager.game;
 
+import client.data.GameInfo;
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -60,8 +63,12 @@ public class GameCreateCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-
-        return null;
+        GameInfo gameInfo = IServerFacade.getInstance().create(userId, this);
+        if(gameInfo != null) {
+            return ServerTranslator.getInstance().gameInfoToString(gameInfo);
+        }else {
+            return null;
+        }
     }
 
     //Getters
