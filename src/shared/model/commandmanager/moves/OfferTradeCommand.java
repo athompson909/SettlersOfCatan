@@ -80,12 +80,14 @@ public class OfferTradeCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject offerTradeJSON = new JSONObject(getRequest());
+        playerIndex = offerTradeJSON.getInt("playerIndex");
+        receiver = offerTradeJSON.getInt("receiver");
+        // creating the vertex object:
+        JSONObject offerJSON = offerTradeJSON.getJSONObject("vertexLocation");
+
         ClientModel model = IServerFacade.getInstance().offerTrade(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
     //Getters

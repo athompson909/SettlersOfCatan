@@ -85,6 +85,10 @@ public class Server {
         httpServer.start();
     }
 
+    public void stop() {
+        httpServer.stop(0);
+    }
+
     public String getHostNumber() {
         return hostNumber;
     }

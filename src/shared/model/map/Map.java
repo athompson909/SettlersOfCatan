@@ -116,6 +116,7 @@ public class Map {
         setEdgeValues(newEdgeValues);
         setVertexObjects(newVertexLocs);
         placeRobber(newRobberLocation);
+                //populatePortVertexLocations();     //????
 
         createValidEdgeLocations();
         createValidVertexLocations();

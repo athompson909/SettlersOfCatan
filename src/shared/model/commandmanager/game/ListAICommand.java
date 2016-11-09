@@ -34,7 +34,7 @@ public class ListAICommand extends BaseCommand {
     @Override
     public String serverExec() {
 
-        String[] listAI = IServerFacade.getInstance().listAI(getUserId());
+        String[] listAI = IServerFacade.getInstance().listAI();
         return ServerTranslator.getInstance().listAIToString(listAI);
     }
 }

@@ -1,8 +1,11 @@
 package shared.model.commandmanager.moves;
 
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
@@ -50,12 +53,16 @@ public class BuildSettlementCommand extends BaseCommand {
      * @param vertexObject  - this has the id of the player owner for this settlement inside it!
      */
     public BuildSettlementCommand(VertexObject vertexObject, boolean free){
+        setValues(vertexObject, free);
+        // location = edgeLocation;
+    }
+
+    private void setValues(VertexObject vertexObject, boolean free) {
         vertex = vertexObject;
 
         playerIndex = vertex.getOwner();
         vertexLocation = vertexObject.getVertexLocation();
         this.free = free;
-        // location = edgeLocation;
     }
 
     /**
@@ -83,12 +90,22 @@ public class BuildSettlementCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject buildSettlementJSON = new JSONObject(getRequest());
+        playerIndex = buildSettlementJSON.getInt("playerIndex");
+
+        JSONObject vertexLocJSON = buildSettlementJSON.getJSONObject("vertexLocation");
+        int x = vertexLocJSON.getInt("x"), y = vertexLocJSON.getInt("y");
+        VertexDirection dir = Converter.stringToVertexDirection(vertexLocJSON.getString("direction"));
+        VertexLocation vertexLocation = new VertexLocation(new HexLocation(x, y), dir);
+
+        VertexObject vertexObject = new VertexObject(vertexLocation);
+        vertexObject.setOwner(playerIndex);
+
+        setValues(vertexObject, buildSettlementJSON.getBoolean("free"));
+
+
         ClientModel model = IServerFacade.getInstance().buildSettlement(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 

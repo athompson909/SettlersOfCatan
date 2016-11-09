@@ -39,7 +39,8 @@ public abstract class BaseCommand implements HttpHandler {
             in.close();
         }
 
-        System.out.println("Query: "+query);
+        if(query.length() > 0) System.out.println("query, post: "+query);
+        else System.out.println("query, get.");
         setRequest(query);
 
         String response = serverExec();
@@ -69,9 +70,8 @@ public abstract class BaseCommand implements HttpHandler {
         return getCookieJSON().getString("password");
     }
 
-    //todo: figure out what the query should be
     public int getGameId() {
-        return getCookieJSON().getInt("gameID");
+        return gameId;
     }
 
     public abstract JSONObject getCookieJSON();
@@ -88,7 +88,9 @@ public abstract class BaseCommand implements HttpHandler {
         Headers headers = httpExchange.getRequestHeaders();
         String undecodedCookie = headers.get("Cookie").get(0);
         String rawCookie = URLDecoder.decode(undecodedCookie);
-        String cookie = rawCookie.substring(11, rawCookie.length());
+        String gameIdStr = rawCookie.substring(rawCookie.length()-12, rawCookie.length());
+        gameId = Integer.parseInt(gameIdStr.substring(11, gameIdStr.length()));
+        String cookie = rawCookie.substring(11, rawCookie.length()-14);
         return new JSONObject(cookie);
     }
 
@@ -105,6 +107,8 @@ public abstract class BaseCommand implements HttpHandler {
 
     private HttpExchange httpExchange;
 
+    private int gameId;
+
     public String getRequest() {
         return request;
     }
@@ -119,5 +123,9 @@ public abstract class BaseCommand implements HttpHandler {
 
     public void setHttpExchange(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 }

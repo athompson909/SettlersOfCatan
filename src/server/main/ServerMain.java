@@ -43,6 +43,7 @@ public class ServerMain {
 
 
         Server server = new Server(hostNumber, Integer.parseInt(portNumber));
+        System.out.println("starting server.run()");
         server.run();
     }
 }

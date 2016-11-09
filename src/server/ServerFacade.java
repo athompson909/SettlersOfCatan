@@ -217,12 +217,17 @@ public class ServerFacade implements IServerFacade {
      * List the AI
      * @return a string array of the names of the AI
      */
-    public String[] listAI(int userId){
+    public String[] listAI(){
         return null;
     }
 
     @Override
     public int getUserId() {
+        return 0;
+    }
+
+    @Override
+    public int getGameId() {
         return 0;
     }
 }

@@ -104,7 +104,7 @@ public class Player { //
     /**
      * Maritime Trade manager so the player can trade with the bank using ports.
      */
-    private MaritimeTradeManager maritimeTradeManager = new MaritimeTradeManager();
+    private transient MaritimeTradeManager maritimeTradeManager = new MaritimeTradeManager();
 
 
     /**

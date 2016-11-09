@@ -34,7 +34,7 @@ public class GameListCommand extends BaseCommand {
     public String serverExec() {
         int userId = getUserId();
 
-        GameInfo[] response = IServerFacade.getInstance().list(userId);
-        return ServerTranslator.getInstance().gameListToString(response);
+        GameInfo[] response = IServerFacade.getInstance().list(userId); // todo: implement (not implemented in mock server facade)
+        return ServerTranslator.getInstance().gameListToString(response); // this return statement may need to be different
     }
 }

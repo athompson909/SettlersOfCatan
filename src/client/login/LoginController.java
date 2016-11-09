@@ -6,7 +6,7 @@ import client.base.Controller;
 import client.base.IAction;
 import client.misc.IMessageView;
 import client.misc.MessageView;
-import client.utils.MessageUtils;
+import shared.shared_utils.MessageUtils;
 import shared.model.commandmanager.game.LoginCommand;
 import shared.model.commandmanager.game.RegisterCommand;
 

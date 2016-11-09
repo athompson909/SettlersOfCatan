@@ -1,9 +1,13 @@
 package server;
 
 import client.data.GameInfo;
+import shared.shared_utils.MockResponses;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import shared.definitions.PieceType;
+import shared.definitions.PortType;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -12,6 +16,10 @@ import shared.model.TradeOffer;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
+import shared.model.messagemanager.*;
+import shared.model.player.Player;
+import shared.model.resourcebank.*;
+import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +80,7 @@ public class ServerTranslator {
     }
 
     public String gameInfoToString(GameInfo gameInfo) {
-        return null;
+        return MockResponses.GAME_CREATE_RESPONSE;
     }
 
     public String gameListToString(GameInfo[] gameList) {
@@ -80,7 +88,7 @@ public class ServerTranslator {
     }
 
     public String clientModelToString(ClientModel clientModel) {
-        return null;
+        return MockResponses.GAME_MODEL;//todo: change
     }
 
 
@@ -109,10 +117,6 @@ public class ServerTranslator {
      */
     public String modelToJSON(ClientModel model){
 
-        // let's try doing it in pieces to avoid having to bring lots of nested data up front to higher classes
-        //Pull out pieces of the clientModel, change them to JSON using Gson, and then add each converted piece
-        // to the JSONobject using JSONArrays and JSONObject.put() or .append()
-
         /*
             - .append() adds items inside a JSONArray
             - .put() adds it just like normal
@@ -121,7 +125,7 @@ public class ServerTranslator {
         JSONObject modelJSON = new JSONObject();
 
 //2 little INTs (winner, version)
-        /*
+
         int tempVerNum = model.getVersion();
         int tempWinner = model.getWinner();
             modelJSON.put("version", tempVerNum);
@@ -149,32 +153,155 @@ public class ServerTranslator {
         TurnTracker tempTT = model.getTurnTracker();
             JSONObject ttJSON = new JSONObject(gsonTranslator.toJson(tempTT));
         modelJSON.put("turnTracker", ttJSON);
-        */
+
 
 //TRADEOFFER (tradeOffer)
-        //TEST IF THIS CAUSES NULL POINTER EXCEPTION
         if (model.getTradeOffer() != null){
             TradeOffer tempTO = model.getTradeOffer();
             JSONObject tOJSON = new JSONObject(gsonTranslator.toJson(tempTO));
             modelJSON.put("tradeOffer", tOJSON);
         }
-//MAP
+
+//MAP start --------------------------------------------------
         Map tempMap = model.getMap();
         HashMap<HexLocation, Hex> tempHexesMap = tempMap.getHexes();
         HashMap<HexLocation, Port> tempPortsMap = tempMap.getPorts();
         Robber tempRobber = tempMap.getRobber();
-        //ask each vertexObject what PieceType it is to know which JSONArray to put it in
-        HashMap<VertexLocation, VertexObject> tempCitiesStlmts = tempMap.getVertexObjects();
-        HashMap<EdgeLocation, EdgeValue> tempRoads = tempMap.getEdgeValues();
+        HashMap<VertexLocation, VertexObject> tempCitiesStlmtsMap = tempMap.getVertexObjects();
+        HashMap<EdgeLocation, EdgeValue> tempRoadsMap = tempMap.getEdgeValues();
+            JSONObject mapJSON = new JSONObject();
+        int tempRadius = tempMap.getRadius();
+            mapJSON.put("radius", tempRadius);
 
-     //SERIALIZE HEXES
-        JSONArray tempHexes = new JSONArray(gsonTranslator.toJson(tempHexesMap));
+     //SERIALIZE HEXES (hexes)
+        JSONArray tempHexesArr = new JSONArray();
+        for (HexLocation key1 : tempHexesMap.keySet()){
+            Hex currHex = tempHexesMap.get(key1);
+            //if it has a resource AND number, it's a regular land hex.
+            //if it has a number but no resource, it's a desert hex.
+            //if it has no number OR resource, it's a water hex.
+            JSONObject currHexJSON = new JSONObject(gsonTranslator.toJson(currHex));
+                tempHexesArr.put(currHexJSON);
+        }
+        mapJSON.put("hexes", tempHexesArr);
+
+     //SERIALIZE PORTS (ports)
+        JSONArray tempPortsArr = new JSONArray();
+        for (HexLocation key2 : tempPortsMap.keySet()){
+            Port currPort = tempPortsMap.get(key2);
+                //if portType != THREE, is ratio is 2
+                //if portType == THREE, it will not have a resource AND its ratio is 3
+            JSONObject currPortJSON = new JSONObject();
+            int currPortRatio = 0; //temp
+            PortType currPortType = currPort.getResource();
+            if (currPortType == PortType.THREE){
+                currPortRatio = 3;
+                //don't add in the resource type because it's generic
+            }
+            else {
+                currPortRatio = 2;
+                //so it has a real resource type  - formatted into lowercase
+                currPortJSON.put("resource", currPortType.toString().toLowerCase());
+            }
+                currPortJSON.put("ratio", currPortRatio);
+            HexLocation currPortHL = currPort.getLocation();
+            JSONObject currPortLocJSON = new JSONObject();
+                    currPortLocJSON.put("x", currPortHL.getX());
+                    currPortLocJSON.put("y", currPortHL.getY());
+                currPortJSON.put("location", currPortLocJSON);
+            EdgeDirection currPortED = currPort.getEdgeDirection();
+                currPortJSON.put("direction", edgeDirToLetter(currPortED));
+
+            //JSONObject currPortJSON = new JSONObject(gsonTranslator.toJson(currPort));
+            tempPortsArr.put(currPortJSON);
+        }
+        mapJSON.put("ports", tempPortsArr);
 
 
-        return null;
+     //SERIALIZE ROADS (roads)
+        JSONArray tempRoadsArr = new JSONArray();
+        for (EdgeLocation key3 : tempRoadsMap.keySet()){
+            EdgeValue currRoadEV = tempRoadsMap.get(key3);
+            JSONObject currRoadJSON = new JSONObject(gsonTranslator.toJson(currRoadEV));
+
+                tempRoadsArr.put(currRoadJSON);
+        }
+        mapJSON.put("roads", tempRoadsArr);
+
+     //SERIALIZE CITIES AND SETTLEMENTS (cities, settlements)
+        JSONArray tempStlmtsArr = new JSONArray();
+        JSONArray tempCitiesArr = new JSONArray();
+        for (VertexLocation key4 : tempCitiesStlmtsMap.keySet()){
+            //doing this all manually - I set some things to be transient to deserialize ok on the clientside so it's all jacked up
+            VertexObject currCSVO = tempCitiesStlmtsMap.get(key4);
+            JSONObject currCSJSON = new JSONObject();
+                currCSJSON.put("owner", currCSVO.getOwner());
+            VertexLocation currCSVL = currCSVO.getVertexLocation();
+            JSONObject currCSVLJSON = new JSONObject(gsonTranslator.toJson(currCSVL));
+                currCSJSON.put("location", currCSVLJSON);
+
+            if (currCSVO.getPieceType() == PieceType.CITY){
+                tempCitiesArr.put(currCSJSON);
+            }
+            else if (currCSVO.getPieceType() == PieceType.SETTLEMENT){
+                tempStlmtsArr.put(currCSJSON);
+            }
+        }
+        mapJSON.put("settlements", tempStlmtsArr);
+        mapJSON.put("cities", tempCitiesArr);
+
+
+     //SERIALIZE ROBBER (robber)
+        //he only has a coordinate location (hexlocation)
+        HexLocation tempRobberHL = tempRobber.getCurrentHexlocation();
+        JSONObject tempRobberJSON = new JSONObject();
+            tempRobberJSON.put("x", tempRobberHL.getX());
+            tempRobberJSON.put("y", tempRobberHL.getY());
+        mapJSON.put("robber", tempRobberJSON);
+//MAP done-----------------------------------------------------------
+        modelJSON.put("map", mapJSON);
+
+//SERIALIZE PLAYERS[] (players)
+        Player[] tempPlayers = model.getPlayers();
+        JSONArray tempPlayersArr = new JSONArray();
+
+        for (int p = 0; p < tempPlayers.length; p++){
+            Player currPlayer = tempPlayers[p];
+            JSONObject currPlayerJSON = new JSONObject(gsonTranslator.toJson(currPlayer));
+            tempPlayersArr.put(currPlayerJSON);
+        }
+        modelJSON.put("players", tempPlayersArr);
+
+
+
+        //---------------------------------------------------
+        return modelJSON.toString();
     }
 
 
+    /**
+     * Helper function for modelToJSON:
+     * converts an EdgeDirection enum value to its abbreviation of 1 or 2 capital letters
+     *
+     */
+    public String edgeDirToLetter(EdgeDirection edgeDir){
+        switch (edgeDir){
+            case NorthWest:
+                return "NW";
+            case North:
+                return "N";
+            case NorthEast:
+                return "NE";
+            case SouthEast:
+                return "SE";
+            case South:
+                return "S";
+            case SouthWest:
+                return "SW";
+            default:
+                return null;
+        }
+    }
 
 
 

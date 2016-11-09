@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -65,12 +66,15 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
      */
     @Override
     public String serverExec(){
+        JSONObject playYearOfPlentyJSON = new JSONObject(getRequest());
+        playerIndex = playYearOfPlentyJSON.getInt("playerIndex");
+        String resource1Str = playYearOfPlentyJSON.getString("resource1");
+        String resource2Str = playYearOfPlentyJSON.getString("resource2");
+        resource1 = Converter.stringToResourceType(resource1Str);
+        resource2 = Converter.stringToResourceType(resource2Str);
+
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 //Getters

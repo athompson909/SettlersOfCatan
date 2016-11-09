@@ -5,7 +5,7 @@ import exceptions.ClientException;
 import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import server.MockResponses;
+import shared.shared_utils.MockResponses;
 import server.Server;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.LoginCommand;
@@ -21,19 +21,29 @@ public class BaseCommandTest extends TestCase {
 
     private ServerProxy serverProxy = new ServerProxy();
 
+    private Server server = new Server("localhost", 8081);
+
     public void setUp() throws Exception {
         super.setUp();
 
-        Server server = new Server("localhost", 8081);
         server.run();
         serverProxy.setHost("localhost");
         serverProxy.setPort("8081");
+
+        LoginCommand loginCommand = new LoginCommand("Sam", "sam");
+
+        String response = serverProxy.userLogin(jsonTranslator.loginCmdToJSON(loginCommand));
+        System.out.println(response);
+
+        String gameJoinResponse = serverProxy.gameJoin(new JSONObject(MockResponses.JOIN_REQUEST));
+        System.out.println(gameJoinResponse);
+        assertEquals("Success", gameJoinResponse);
 
     }
 
     public void tearDown() throws Exception {
         super.tearDown();
-        // stop server?
+        server.stop();
     }
 
     public void testLogin() throws ClientException {
@@ -62,17 +72,47 @@ public class BaseCommandTest extends TestCase {
 
     public void testAll() throws ClientException {
 
-        LoginCommand loginCommand = new LoginCommand("Sam", "sam");
-
-        String response = serverProxy.userLogin(jsonTranslator.loginCmdToJSON(loginCommand));
-        System.out.println(response);
+//        Server server = new Server("localhost", 8081);
+//        server.run();
+//
+//        LoginCommand loginCommand = new LoginCommand("Sam", "sam");
+//
+//        String response = serverProxy.userLogin(jsonTranslator.loginCmdToJSON(loginCommand));
+//        System.out.println(response);
 
         JSONArray gamesListJSON = serverProxy.gamesList();
         System.out.println(gamesListJSON.toString());
 
-        String gameJoinResponse = serverProxy.gameJoin(new JSONObject(MockResponses.JOIN_REQUEST));
-        System.out.print(gameJoinResponse);
-        assertEquals("Success", gameJoinResponse);
+//        String gameJoinResponse = serverProxy.gameJoin(new JSONObject(MockResponses.JOIN_REQUEST));
+//        System.out.println(gameJoinResponse);
+//        assertEquals("Success", gameJoinResponse);
+
+        JSONObject gameCreateResponse = serverProxy.gameCreate(new JSONObject(MockResponses.GAME_CREATE_REQUEST));
+        System.out.println(gameCreateResponse.toString());
+
+        String gameModelVersionResponse = serverProxy.gameModelVersion();
+        System.out.println(gameModelVersionResponse);
+
+        String addAIResponse = serverProxy.addAI(new JSONObject(MockResponses.ADD_AI));
+        System.out.println(addAIResponse);
+        assertEquals("Success", addAIResponse);
+    }
+
+
+    public void testMoves() throws ClientException {
+
+        JSONObject sendChatResponseJSON = serverProxy.sendChat(new JSONObject(MockResponses.SEND_CHAT_REQUEST_JSON));
+        assertNotSame("HTTP 400 Error : Bad Request", sendChatResponseJSON.toString());
+        System.out.println("send chat passed");
+
+        JSONObject rollDiceResponseJSON = serverProxy.rollNumber(new JSONObject(MockResponses.ROLL_NUMBER_REQUEST_JSON));
+        assertNotSame("HTTP 400 Error : Bad Request", rollDiceResponseJSON.toString());
+        System.out.println("roll dice passed");
+
+        JSONObject robPlayerResponseJSON = serverProxy.robPlayer(new JSONObject(MockResponses.ROB_PLAYER_REQUEST_JSON));
+        assertNotSame("HTTP 400 Error : Bad Request", robPlayerResponseJSON.toString());
+        System.out.println("rob player passed");
+
     }
 
 
