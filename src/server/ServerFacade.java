@@ -15,6 +15,8 @@ import shared.model.resourcebank.ResourceList;
  */
 public class ServerFacade implements IServerFacade {
 
+    int userID;
+
     public boolean validateParams(int userID, int gameID) {
         Game game = GamesManager.getInstance().getGame(gameID);
         User user = UserManager.getInstance().getUser(userID);
@@ -327,14 +329,16 @@ public class ServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     public boolean login(LoginCommand command){
-        //todo - we decided this would ask for the user and then check if the user is logged in
-        //SAVE THE USERID FROM THE MODEL HERE TO SEND BACK FOR ADAM
-        //return (UserManager.getInstance().isValidLogin(username, password));
         String username = command.getUsername();
         String password = command.getPassword();
 
+        User user = UserManager.getInstance().getUserByUsername(username, password);
 
-        return false;
+        if(user != null) {
+            userID = user.getUserID();
+            return true;
+        }
+        else {return false;}
     }
 
     /**
@@ -343,7 +347,14 @@ public class ServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     public boolean register(RegisterCommand command){
-        return false;
+        String username = command.getUsername();
+        String password = command.getPassword();
+
+        boolean valid = UserManager.getInstance().addUser(username, password);
+        User user = UserManager.getInstance().getUserByUsername(username, password);
+
+        if(valid) {userID = user.getUserID();}
+        return valid;
     }
 
 
@@ -397,6 +408,6 @@ public class ServerFacade implements IServerFacade {
 
     @Override
     public int getUserId() {
-        return 0;
+        return userID;
     }
 }

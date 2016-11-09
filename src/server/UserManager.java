@@ -19,6 +19,12 @@ public class UserManager {
     private HashMap<Integer, User> allUsers = new HashMap<Integer, User>();
 
     /**
+     * Hashmap of every active user mapped by username
+     */
+    private HashMap<String, User> usersByUsername = new HashMap<String, User>();
+
+    private static int userID;
+    /**
      * Parts of the singleton pattern
      */
     private static UserManager instance = new UserManager();
@@ -31,7 +37,7 @@ public class UserManager {
      * Private constructor
      */
     private UserManager() {
-
+        userID = 0;
     }
 
 
@@ -39,10 +45,18 @@ public class UserManager {
      * Adds a newly registered User to the list of all games
      * and maps it to its gameID
      *
-     * @param newUser - the new User object to the list of all users
      */
-    public void addUser(Game newUser){
+    public boolean addUser(String username, String password){
         //Needs to check if username is UNIQUE
+        //Add user to BOTH hashmaps
+        if(!usersByUsername.containsKey(username)) {
+            User user = new User(username, password, userID);
+            allUsers.put(userID, user);
+            usersByUsername.put(user.getUserName(), user);
+            userID++;
+            return true;
+        }
+        else {return false;} //Means that their username is already in our system
     }
 
     public User getUser(int userID) {
@@ -52,7 +66,11 @@ public class UserManager {
         return null;
     }
 
-    public User getUserWNameAndPass(String username, String password) {
+    public User getUserByUsername(String username, String password) {
+        if(isValidLogin(username, password)) {
+            User user = usersByUsername.get(username);
+            return user;
+        }
         return null;
     }
     /**
@@ -63,7 +81,7 @@ public class UserManager {
      * @return true if valid
      */
     public boolean isValidLogin(String username, String password) {
-        User user = allUsers.get(username);
+        User user = usersByUsername.get(username);
         return (user != null && password.equals(user.getUserPassword()));
     }
 
