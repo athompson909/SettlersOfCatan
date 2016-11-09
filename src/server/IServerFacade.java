@@ -171,7 +171,7 @@ public interface IServerFacade {
      * @param randomNumbers true if randomized.
      * @param randomPorts true if randomized.
      */
-    GameInfo create(int userId, int gameId, GameCreateCommand command);
+    GameInfo create(int userId, GameCreateCommand command);
 
     /**
      * Get the model.

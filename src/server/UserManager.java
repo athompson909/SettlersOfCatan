@@ -45,7 +45,12 @@ public class UserManager {
 
     }
 
-
+    public User getUser(int userID) {
+        if(allUsers.containsKey(userID)) {
+            return allUsers.get(userID);
+        }
+        return null;
+    }
     /**
      * checks whether or not the user login is valid
      *

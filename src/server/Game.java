@@ -50,7 +50,7 @@ public class Game {
      * @param index of the player ending their turn.
      */
     public void finishTurn(int index){
-
+        return null;
     }
 
     /**

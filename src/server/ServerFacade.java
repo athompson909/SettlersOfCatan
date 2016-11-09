@@ -17,6 +17,14 @@ import shared.model.resourcebank.ResourceList;
  */
 public class ServerFacade implements IServerFacade {
 
+    public boolean validateParams(int userID, int gameID) {
+        Game game = GamesManager.getInstance().getGame(gameID);
+        User user = UserManager.getInstance().getUser(userID);
+        if(game != null && user != null) {
+            return true;
+        }
+        return false;
+    }
 
     //MOVES COMMANDS
 
@@ -25,6 +33,14 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player ending their turn.
      */
     public ClientModel finishTurn(int userID, int gameID, FinishTurnCommand finishTurnObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = finishTurnObj.getPlayerIndex();
+
+            ClientModel model = game.finishTurn(playerIndex);
+            return model;
+        }
         return null;
     }
 
@@ -33,6 +49,15 @@ public class ServerFacade implements IServerFacade {
      * @param userID of the player sending the message.
      */
     public ClientModel sendChat(int userID, int gameID, SendChatCommand sendChatObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = sendChatObj.getPlayerIndex();
+            String message = sendChatObj.getContent();
+
+            ClientModel model = game.sendChat(playerIndex, message);
+            return model;
+        }
         return null;
     }
 
@@ -42,6 +67,15 @@ public class ServerFacade implements IServerFacade {
      * @param discardObj cards the player has selected to discard.
      */
     public ClientModel discardCards(int userID, int gameID, DiscardCommand discardObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int playerIndex = discardObj.getPlayerIndex();
+            ResourceList resList = discardObj.getDiscardedCards();
+
+            ClientModel model = game.discardCards(playerIndex, resList);
+            return model;
+        }
         return null;
     }
 
@@ -50,6 +84,14 @@ public class ServerFacade implements IServerFacade {
      * @param rollDiceObj randomly calculated number.
      */
     public ClientModel rollNumber(int userID, int gameID, RollDiceCommand rollDiceObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game = GamesManager.getInstance().getGame(gameID);
+            int diceRoll = rollDiceObj.getNumber();
+
+            ClientModel model = game.rollNumber(diceRoll);
+            return model;
+        }
         return null;
     }
 
@@ -59,6 +101,10 @@ public class ServerFacade implements IServerFacade {
      * @param gameID of specific game.
      */
     public ClientModel robPlayer(int userID, int gameID, RobPlayerCommand robObj){
+        if(validateParams(userID, gameID)) {
+
+            Game game =
+        }
         return null;
     }
 
@@ -165,7 +211,8 @@ public class ServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     public boolean login(LoginCommand command){
-//todo - we decided this would ask for the user and then check if the user is logged in
+        //todo - we decided this would ask for the user and then check if the user is logged in
+        //SAVE THE USERID FROM THE MODEL HERE TO SEND BACK FOR ADAM
         //return (UserManager.getInstance().isValidLogin(username, password));
         return false;
     }
@@ -200,7 +247,7 @@ public class ServerFacade implements IServerFacade {
     /**
      * Create a new game.
      */
-    public GameInfo create(int userId, int gameId, GameCreateCommand command){
+    public GameInfo create(int userId, GameCreateCommand command){
         return null;
     }
 
