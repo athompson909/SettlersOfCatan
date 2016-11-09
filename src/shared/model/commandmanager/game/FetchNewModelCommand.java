@@ -1,6 +1,5 @@
 package shared.model.commandmanager.game;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -32,12 +31,10 @@ public class FetchNewModelCommand extends BaseCommand {
 
     /**
      * Asks server if there is an updated model
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
-       ClientModel model = IServerFacade.getInstance().model(userId, gameId, this);
+    public String serverExec(){
+       ClientModel model = IServerFacade.getInstance().model(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

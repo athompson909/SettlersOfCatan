@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.VertexLocation;
@@ -70,13 +69,10 @@ public class BuildSettlementCommand extends BaseCommand {
      * Updates Map to reflect new settlement of specified color
      * Updates specified player to reflect decremented settlements
      * Updates TurnTracker to reflect victory points
-     *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().buildSettlement(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().buildSettlement(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

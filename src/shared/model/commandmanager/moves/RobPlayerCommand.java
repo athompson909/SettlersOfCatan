@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.HexLocation;
@@ -52,12 +51,10 @@ public class RobPlayerCommand extends BaseCommand {
 
     /**
      * Tells server to move resource from victim to robbing players hand
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
-        ClientModel model = IServerFacade.getInstance().robPlayer(userId, gameId, this);
+    public String serverExec(){
+        ClientModel model = IServerFacade.getInstance().robPlayer(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

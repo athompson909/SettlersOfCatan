@@ -1,11 +1,10 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import shared.definitions.ResourceType;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
-import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -54,8 +53,8 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
      *Tells server to give player these two resources from the bank
      */
     @Override
-    public String serverExec(int userId, int gameId){
-        ClientModel model = IServerFacade.getInstance().playYearOfPlenty(userId, gameId, this);
+    public String serverExec(){
+        ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

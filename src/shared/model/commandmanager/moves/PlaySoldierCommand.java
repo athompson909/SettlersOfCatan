@@ -1,7 +1,6 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.HexLocation;
@@ -61,12 +60,10 @@ public class PlaySoldierCommand extends BaseCommand {
      * Calls Map robber update functions to reset roadLocation of the robber
      * Calls Player update functions to reflect changes in hands
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().playSoldier(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().playSoldier(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

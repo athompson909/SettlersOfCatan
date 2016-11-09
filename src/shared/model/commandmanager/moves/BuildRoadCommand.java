@@ -1,11 +1,10 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import shared.locations.EdgeLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
-import shared.locations.EdgeLocation;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -60,12 +59,10 @@ public class BuildRoadCommand extends BaseCommand {
      * Updates Player to reflect decremented road count
      * Updates TurnTracker to reflect updated victory points and to recount longestRoad
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().buildRoad(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

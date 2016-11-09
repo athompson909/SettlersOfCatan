@@ -1,11 +1,8 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
-import org.json.JSONObject;
 import server.IServerFacade;
-import server.ServerTranslator;
-import shared.model.ClientModel;
-import shared.model.commandmanager.BaseCommand;
 import shared.definitions.CatanColor;
+import shared.model.commandmanager.BaseCommand;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -47,17 +44,11 @@ public class GameJoinCommand extends BaseCommand {
 
     /**
      * Tells server to add user as new player of game with given gameID
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
-        boolean success = IServerFacade.getInstance().join(userId, this);
-        if(success) {
-            return "Success";
-        }else {
-            return null;
-        }
+    public String serverExec(){
+        boolean success = IServerFacade.getInstance().join(getUserId(), this);
+        return (success ? "Success" : null);
     }
 
     //Getters

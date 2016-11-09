@@ -24,6 +24,8 @@ public class ServerProxy implements IServerProxy {
 
     private boolean isLogin = false;
 
+    private boolean hasLoggedIn = false;
+
     private boolean isRegister = false;
 
     private boolean isJoin = false;
@@ -200,6 +202,7 @@ public class ServerProxy implements IServerProxy {
             setLoginCookie(undecodedLoginCookie);
 
             saveUserIDFromLoginCookie();
+            hasLoggedIn = true;
             isLogin = false;
         }
         if (isRegister) {
@@ -210,6 +213,7 @@ public class ServerProxy implements IServerProxy {
 
             saveUserIDFromLoginCookie();  //TEST
 
+            hasLoggedIn = true;
             isRegister = false;
         }
         if (isJoin) {
@@ -252,13 +256,18 @@ public class ServerProxy implements IServerProxy {
      * @param connection the connection that was just initialized with request method set
      */
     private void setCookies(HttpURLConnection connection) throws ClientException {
-        if (isJoin) {
+        if(hasLoggedIn) {
             connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
+        }
+
+        if (isJoin) {
+//            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
             hasJoined = true;
         }
         else if (hasJoined) {
             connection.setRequestProperty("Cookie", "catan.user=" + loginCookie + "; catan.game=" + joinCookie);
         }
+
     }
 
     /**

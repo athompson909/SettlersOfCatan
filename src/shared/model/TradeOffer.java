@@ -22,6 +22,8 @@ public class TradeOffer {
     @SerializedName("offer")
     private ResourceList tradeOfferList = new ResourceList();
 
+    public TradeOffer(){}
+
     /**
      * Constructor for TradeOffer: receives individual int counts for each resource:
      *  Positive numbers are resources being offered. Negative are resources being asked for.
@@ -34,7 +36,7 @@ public class TradeOffer {
      * @param receiverIndex - the index of the player being offered a trade by the user
      * @param tradeOffer - the amount of resources requested/offered by the user; negative means requested; positive is offered
      */
-    public void TradeOffer(int senderIndex, int receiverIndex, ResourceList tradeOffer){
+    public TradeOffer(int senderIndex, int receiverIndex, ResourceList tradeOffer){
         this.senderIndex = senderIndex;
         this.receiverIndex = receiverIndex;
         tradeOfferList = tradeOffer;

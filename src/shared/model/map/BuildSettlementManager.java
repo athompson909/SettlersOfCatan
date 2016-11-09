@@ -1,6 +1,5 @@
 package shared.model.map;
 
-import shared.definitions.PieceType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexDirection;
@@ -193,8 +192,8 @@ public class BuildSettlementManager {
      */
     private boolean doesNorthWestVertexHaveAdjacentRoads(int playerID, VertexLocation desiredVertexLocation) {
         //Iterate through all edgeValues...
-        for (EdgeLocation key : map.getEdgeObjects().keySet()) {
-            EdgeValue tempEdgeValue = map.getEdgeObjects().get(key);
+        for (EdgeLocation key : map.getEdgeValues().keySet()) {
+            EdgeValue tempEdgeValue = map.getEdgeValues().get(key);
             EdgeLocation tempEdgeLocation = tempEdgeValue.getEdgeLocation();
 
             //If the player owns the Northwest or Northeast edgeValues on the same hex, then the road is connected.
@@ -225,8 +224,8 @@ public class BuildSettlementManager {
      */
     private boolean doesNorthEastVertexHaveAdjacentRoads(int playerID, VertexLocation desiredVertexLocation) {
         //Iterate through all edgeValues...
-        for (EdgeLocation key : map.getEdgeObjects().keySet()) {
-            EdgeValue tempEdgeValue = map.getEdgeObjects().get(key);
+        for (EdgeLocation key : map.getEdgeValues().keySet()) {
+            EdgeValue tempEdgeValue = map.getEdgeValues().get(key);
             EdgeLocation tempEdgeLocation = tempEdgeValue.getEdgeLocation();
 
             //If the player owns the Northwest or Northeast edgeValues on the same hex, then the road is connected.

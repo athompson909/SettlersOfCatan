@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -53,16 +52,14 @@ public class AcceptTradeCommand extends BaseCommand {
      *
      * Calls Player update methods to reflect a change of cards in hand
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
+    public String serverExec() {
         //do we need access to the update manager? should we pass that in as the parameter instead?
 
         //OR should we just do the server-side updates here so we don't bloat our update manager and so these command
         //objects aren't completely empty? - should we return something so we know whether or not it worked?
-        ClientModel model = IServerFacade.getInstance().acceptTrade(userId, gameId, this);
+        ClientModel model = IServerFacade.getInstance().acceptTrade(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

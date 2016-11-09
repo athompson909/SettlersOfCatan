@@ -1,6 +1,8 @@
 package shared.model.commandmanager.game;
 
-import org.json.JSONObject;
+import client.data.GameInfo;
+import server.IServerFacade;
+import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -10,18 +12,18 @@ public class GameListCommand extends BaseCommand {
     /**
      * Creates GameListCommand to send to client.ClientFacade
      */
-    public GameListCommand(){
+    public GameListCommand() {
 
     }
 
     /**
      * Tells the server to send a list of all games
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec() {
+        int userId = getUserId();
 
-        return null;
+        GameInfo[] response = IServerFacade.getInstance().list(userId);
+        return ServerTranslator.getInstance().gameListToString(response);
     }
 }

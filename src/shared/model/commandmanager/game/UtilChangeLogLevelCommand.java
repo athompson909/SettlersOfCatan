@@ -1,5 +1,4 @@
 package shared.model.commandmanager.game;
-import org.json.JSONObject;
 import shared.definitions.LoggingLevel;
 import shared.model.commandmanager.BaseCommand;
 
@@ -28,11 +27,9 @@ public class UtilChangeLogLevelCommand extends BaseCommand {
 
     /**
      * Sets the server's logging level
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec() {
 
         return null;
     }

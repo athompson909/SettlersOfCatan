@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.VertexLocation;
@@ -59,12 +58,10 @@ public class BuildCityCommand extends BaseCommand {
      * Calls Player update methods to reflect decremented city count
      * and incremented settlement count
      * Calls TurnTracker update methods to reflect incremented victory points
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().buildCity(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().buildCity(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

@@ -1,17 +1,9 @@
 package server;
 
 import client.data.GameInfo;
-import client.devcards.BuyDevCardView;
-import shared.definitions.CatanColor;
-import shared.definitions.ResourceType;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.EdgeValue;
-import shared.model.map.VertexObject;
-import shared.model.resourcebank.ResourceList;
 
 /**
  * Interface Facade for the Server. Contains both game com
@@ -24,7 +16,7 @@ public interface IServerFacade {
 
     static IServerFacade getInstance() {
         return instance;
-    };
+    }
 
     /**
      * Finishes the players turn, and changes to the next turn.

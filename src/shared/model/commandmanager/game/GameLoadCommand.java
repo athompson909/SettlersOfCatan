@@ -1,6 +1,5 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
-import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -30,11 +29,9 @@ public class GameLoadCommand extends BaseCommand {
 
     /**
      * Tells server to load given file
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec(){
 
         return null;
     }

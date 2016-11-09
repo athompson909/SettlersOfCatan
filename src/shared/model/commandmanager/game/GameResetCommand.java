@@ -1,6 +1,5 @@
 package shared.model.commandmanager.game;
 
-import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -16,11 +15,9 @@ public class GameResetCommand extends BaseCommand {
 
     /**
      * Tells server to reset the game
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec(){
 
         return null;
     }
