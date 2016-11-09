@@ -2,6 +2,8 @@ package shared.model;
 
 import client.ClientUser;
 import client.data.RobPlayerInfo;
+import server.User;
+import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -557,6 +559,23 @@ public class ClientModel extends Observable {
     public void finishTurn(int index){
 
     }
+
+    /**
+     * Sets a player in the game.
+     * @param color of the player.
+     * @param user player, needed to determine the players name and ID.
+     * @return true if the player succesfully joined, otherwise false.
+     */
+    public boolean joinGame(CatanColor color, User user){
+        for(int i = 0; i < players.length; i++){
+            if(players[i] == null) {
+                players[i] = new Player(color, user.getUserName(), user.getUserID(), i);
+                return true;
+            }
+        }
+        return false; //If 4 players have already joined.
+    }
+
 
     //GETTERS
     public boolean getChanged() {return changed;}

@@ -33,6 +33,12 @@ public class Game {
      */
     private HashMap<Integer, User> userList;
 
+    public Game(GameInfo gameInfo) {
+        this.gameInfo = gameInfo;
+     //   this.clientModel = new ClientModel();
+        this.userList = new HashMap<Integer, User>();
+    }
+
     public GameInfo getGameInfo() {
         return gameInfo;
     }
@@ -257,12 +263,11 @@ public class Game {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
      * @param color the player has selected.
      * @return true is succesful.
      */
-    public boolean join(int gameID, CatanColor color){
-        return false;
+    public boolean join(CatanColor color, User user){
+        return (clientModel.joinGame(color, user));
     }
 
     /**
