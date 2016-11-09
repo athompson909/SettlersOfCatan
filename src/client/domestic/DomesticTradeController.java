@@ -335,7 +335,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	}
 
 	public void updateOptions(){
-
+//todo - fix the problem of the inc arrow being made available when next resource send/receive is pressed
 		//update arrows
 			//allow increase on send only if you have enough of the resource
 			//allow decrease only if above zero

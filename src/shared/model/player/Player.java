@@ -563,7 +563,7 @@ public class Player { //
         playedDevCard = playedDev;
     }
 
-    private void setDiscarded(boolean disc) {
+    public void setDiscarded(boolean disc) {
         discarded = disc;
     }
 
