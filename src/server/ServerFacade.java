@@ -408,7 +408,7 @@ public class ServerFacade implements IServerFacade {
                 //Adds new playerInfo object to the gameInfo list
                 gameInfo.addPlayer(playerInfo);
                 //Adds new player to the clientModel list
-                return game.join(gameID, color, user);
+                return game.join(color, user);
             }
             return false;
         }
@@ -422,7 +422,10 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUser(userID);
 
         if(user != null) {
+            Game game = new Game();
+            GameInfo gameInfo = new GameInfo();
 
+            command.
         }
         return null;
     }
