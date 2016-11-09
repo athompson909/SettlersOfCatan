@@ -5,7 +5,7 @@ import exceptions.ClientException;
 import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import client.utils.MockResponses;
+import shared.shared_utils.MockResponses;
 import server.Server;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.LoginCommand;

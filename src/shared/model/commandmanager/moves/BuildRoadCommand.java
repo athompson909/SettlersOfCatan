@@ -1,6 +1,6 @@
 package shared.model.commandmanager.moves;
 
-import client.utils.Converter;
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -106,4 +106,10 @@ public class BuildRoadCommand extends BaseCommand {
     public String getType() {
         return type;
     }
+
+    public EdgeLocation getRoadLocation() {return roadLocation;}
+
+    public int getPlayerIndex() {return playerIndex;}
+
+    public boolean getFree() {return free;}
 }

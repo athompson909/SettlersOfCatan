@@ -1,6 +1,6 @@
 package shared.model.commandmanager.moves;
 
-import client.utils.Converter;
+import shared.shared_utils.Converter;
 import com.google.gson.annotations.SerializedName;
 import org.json.JSONObject;
 import server.IServerFacade;
@@ -115,4 +115,6 @@ public class PlayRoadBuilderCommand extends BaseCommand {
     public String getType() {
         return type;
     }
+
+    public int getPlayerIndex() {return playerIndex;}
 }

@@ -11,6 +11,8 @@ import shared.model.map.EdgeValue;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
+import java.util.HashMap;
+
 /**
  * Created by adamthompson on 11/4/16.
  */
@@ -26,7 +28,10 @@ public class Game {
      */
     private ClientModel clientModel;
 
-
+    /**
+     * PlayerIndex mapped to User
+     */
+    private HashMap<Integer, User> userList;
 
     public GameInfo getGameInfo() {
         return gameInfo;
@@ -119,7 +124,7 @@ public class Game {
      * Player using a monument dev card.
      * @param index of the player using the dev card.
      */
-    public ClientModel Monument(int index){
+    public ClientModel monument(int index){
         clientModel.playMonumentCard(index);
         return clientModel;
     }
@@ -252,12 +257,11 @@ public class Game {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
      * @param color the player has selected.
      * @return true is succesful.
      */
-    public boolean join(int gameID, CatanColor color){
-        return false;
+    public boolean join(CatanColor color, User user){
+        return (clientModel.joinGame(color, user));
     }
 
     /**

@@ -1,7 +1,7 @@
 package server;
 
 import client.data.GameInfo;
-import client.utils.MockResponses;
+import shared.shared_utils.MockResponses;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.JSONTranslator;
@@ -72,7 +72,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player buying the card.
      */
     @Override
-    public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
+    public ClientModel buyDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
         ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
         return clientModel;
     }
@@ -236,9 +236,10 @@ public class MockServerFacade implements IServerFacade {
 
     /**
      * Create a new game.
+
      */
     @Override
-    public GameInfo create(int userId, int gameId, GameCreateCommand command){
+    public GameInfo create(int userId, GameCreateCommand command){
         return null;
     }
 

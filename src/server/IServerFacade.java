@@ -12,7 +12,7 @@ public interface IServerFacade {
 
     //MOVES COMMANDS
 
-    IServerFacade instance = new MockServerFacade() {};
+    IServerFacade instance = new ServerFacade() {};
 
     static IServerFacade getInstance() {
         return instance;
@@ -55,7 +55,7 @@ public interface IServerFacade {
      * Buying a dev card.
      * @param userID of the player buying the card.
      */
-    ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj);
+    ClientModel buyDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj);
 
     /**
      * Playing a solider dev card.
@@ -127,6 +127,7 @@ public interface IServerFacade {
 
     /**
      * User login.
+
      * @return true if login is successful.
      */
     boolean login(LoginCommand command);
@@ -146,14 +147,16 @@ public interface IServerFacade {
 
     /**
      * Join a specific game.
+
      * @return true is succesful.
      */
     boolean join(int userId, GameJoinCommand command);
 
     /**
      * Create a new game.
+
      */
-    GameInfo create(int userId, int gameId, GameCreateCommand command);
+    GameInfo create(int userId, GameCreateCommand command);
 
     /**
      * Get the model.

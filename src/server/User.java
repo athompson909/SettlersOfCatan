@@ -31,6 +31,11 @@ public class User {
      */
     private HashMap<Integer, Integer> addedGames = new HashMap<>();
 
+    public User(String username, String password, int userid) {
+        this.userName = username;
+        this.userPassword = password;
+        this.userID = userid;
+    }
 
     //GETTERS
     public String getUserName() {

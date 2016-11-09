@@ -81,7 +81,7 @@ public class GameCreateCommand extends BaseCommand {
         randomNumbers = requestJSON.getBoolean("randomNumbers");
         randomPorts = requestJSON.getBoolean("randomPorts");
 
-        GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), 0, this);
+        GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), this);
         String fullResponseLoginCookieStr = "catan.game="+IServerFacade.getInstance().getGameId()+";Path=/;";
         List<String> cookieList = new ArrayList<>(1);
         cookieList.add(fullResponseLoginCookieStr);

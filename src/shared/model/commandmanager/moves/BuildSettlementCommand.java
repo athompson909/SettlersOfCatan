@@ -1,6 +1,6 @@
 package shared.model.commandmanager.moves;
 
-import client.utils.Converter;
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -126,6 +126,8 @@ public class BuildSettlementCommand extends BaseCommand {
     public void setFree(boolean free) {
         this.free = free;
     }
+
+    public boolean getFree() {return free;}
 
     public String getType() {
         return type;

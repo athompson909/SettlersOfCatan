@@ -1,7 +1,7 @@
 package server;
 
 import client.data.GameInfo;
-import client.utils.MockResponses;
+import shared.shared_utils.MockResponses;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
