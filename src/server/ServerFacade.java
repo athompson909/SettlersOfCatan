@@ -394,6 +394,7 @@ public class ServerFacade implements IServerFacade {
             CatanColor color = command.getColor();
             String username = user.getUserName();
 
+            Game game = GamesManager.getInstance().getGame(gameID);
             GameInfo gameInfo = GamesManager.getInstance().getGame(gameID).getGameInfo();
 
             PlayerInfo playerInfo = new PlayerInfo();
@@ -404,11 +405,12 @@ public class ServerFacade implements IServerFacade {
             playerInfo.setPlayerIndex(playerIndex);
 
             if(gameInfo.getPlayers().size() != 4) {
+                //Adds new playerInfo object to the gameInfo list
                 gameInfo.addPlayer(playerInfo);
-                return true;
+                //Adds new player to the clientModel list
+                return game.join(gameID, color, user);
             }
             return false;
-            //NEED TO IMPLEMENT A LINK BETWEEN USERS AND PLAYERS IN GAMES
         }
         return false;
     }
@@ -417,6 +419,11 @@ public class ServerFacade implements IServerFacade {
      * Create a new game.
      */
     public GameInfo create(int userId, GameCreateCommand command){
+        User user = UserManager.getInstance().getUser(userID);
+
+        if(user != null) {
+
+        }
         return null;
     }
 
