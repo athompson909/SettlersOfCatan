@@ -64,12 +64,21 @@ public class DiscardCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject discardJSON = new JSONObject(getRequest());
+        playerIndex = discardJSON.getInt("playerIndex");
+
+        JSONObject offerJSON = discardJSON.getJSONObject("discardedCards");
+        ResourceList resourceList = new ResourceList();
+        resourceList.setBrickCardCount(offerJSON.getInt("brick"));
+        resourceList.setOreCardCount(offerJSON.getInt("ore"));
+        resourceList.setSheepCardCount(offerJSON.getInt("sheep"));
+        resourceList.setWheatCardCount(offerJSON.getInt("wheat"));
+        resourceList.setWoodCardCount(offerJSON.getInt("wood"));
+        discardedCards = resourceList;
+
+
         ClientModel model = IServerFacade.getInstance().discardCards(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 
