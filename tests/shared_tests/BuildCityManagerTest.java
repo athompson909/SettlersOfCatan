@@ -1,11 +1,12 @@
 package shared_tests;
 
-import shared.definitions.PieceType;
-import shared.locations.*;
 import junit.framework.TestCase;
+import shared.definitions.PieceType;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 import shared.model.map.Map;
 import shared.model.map.VertexObject;
-import shared.model.player.Player;
 
 
 /**
@@ -27,7 +28,7 @@ public class BuildCityManagerTest extends TestCase {
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
         map.buildSettlementManager.placeSettlement(desiredVertexObject);
         assert (map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
-        map.buildCityManager.placeCity(PLAYER1, desiredCityLocation);
+//        map.buildCityManager.placeCity(PLAYER1, desiredCityLocation);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
     }
 

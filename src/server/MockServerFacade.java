@@ -23,6 +23,7 @@ public class MockServerFacade implements IServerFacade {
      * Finishes the players turn, and changes to the next turn.
      * @param userID of the player ending their turn.
      */
+    @Override
     public ClientModel finishTurn(int userID, int gameID, FinishTurnCommand finishTurnObj){
         return null;
     }
@@ -31,6 +32,7 @@ public class MockServerFacade implements IServerFacade {
      * Send a chat message.
      * @param userID of the player sending the message.
      */
+    @Override
     public ClientModel sendChat(int userID, int gameID, SendChatCommand sendChatObj){
         return null;
     }
@@ -40,6 +42,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player discarding.
      * @param discardObj cards the player has selected to discard.
      */
+    @Override
     public ClientModel discardCards(int userID, int gameID, DiscardCommand discardObj){
         return null;
     }
@@ -48,6 +51,7 @@ public class MockServerFacade implements IServerFacade {
      * Roll dice command. Players need to recieve resources according to the passed in number.
      * @param rollDiceObj randomly calculated number.
      */
+    @Override
     public ClientModel rollNumber(int userID, int gameID, RollDiceCommand rollDiceObj){
         return null;
     }
@@ -57,6 +61,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID who is robbing the victim.
      * @param gameID of specific game.
      */
+    @Override
     public ClientModel robPlayer(int userID, int gameID, RobPlayerCommand robObj){
         return null;
     }
@@ -65,6 +70,7 @@ public class MockServerFacade implements IServerFacade {
      * Buying a dev card.
      * @param userID of the player buying the card.
      */
+    @Override
     public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
         return null;
     }
@@ -73,6 +79,7 @@ public class MockServerFacade implements IServerFacade {
      * Playing a solider dev card.
      * @param userID of the player using the soldier card.
      */
+    @Override
     public ClientModel playSoldier(int userID, int gameID, PlaySoldierCommand soldierObj){
         return null;
     }
@@ -81,6 +88,7 @@ public class MockServerFacade implements IServerFacade {
      * Player using a monument dev card.
      * @param userID of the player using the dev card.
      */
+    @Override
     public ClientModel playMonument(int userID, int gameID, PlayMonumentCommand monumentObj) {
         return null;
     }
@@ -89,6 +97,7 @@ public class MockServerFacade implements IServerFacade {
      * Player using a Year of plenty Dev Card
      * @param userID player using the card.
      */
+    @Override
     public ClientModel playYearOfPlenty(int userID, int gameID, PlayYearOfPlentyCommand yearOfPlentyObj) {
         return null;
     }
@@ -97,6 +106,7 @@ public class MockServerFacade implements IServerFacade {
      * Player using a road building dev card.
      * @param userID of player using the card.
      */
+    @Override
     public ClientModel playRoadBuilding(int userID, int gameID, PlayRoadBuilderCommand roadBldgCardObj) {
         return null;
     }
@@ -105,6 +115,7 @@ public class MockServerFacade implements IServerFacade {
      * Player using a monopoly dev card.
      * @param userID of the player using the card.
      */
+    @Override
     public ClientModel playMonopoly(int userID, int gameID, PlayMonopolyCommand monopolyOBj) {
         return null;
     }
@@ -113,6 +124,7 @@ public class MockServerFacade implements IServerFacade {
      * Player offering a trade.
      * @param userID of the player offering the trade.
      */
+    @Override
     public ClientModel offerTrade(int userID, int gameID, OfferTradeCommand offerTradeObj){
         return null;
     }
@@ -121,6 +133,7 @@ public class MockServerFacade implements IServerFacade {
      * Player choosing whether or not to accept a trade.
      * @param userID of the player choosing.
      */
+    @Override
     public ClientModel acceptTrade(int userID, int gameID, AcceptTradeCommand acceptTradeObj) {
         return null;
     }
@@ -129,6 +142,7 @@ public class MockServerFacade implements IServerFacade {
      * Maratime Trade Request
      * @param userID of the player trading.
      */
+    @Override
     public ClientModel maritimeTrade(int userID, int gameID, MaritimeTradeCommand maritTradeObj){
         return null;
     }
@@ -137,6 +151,7 @@ public class MockServerFacade implements IServerFacade {
      * Player building a new road.
      * @param userID EdgeValue, which contains the player ID and location of the road.
      */
+    @Override
     public ClientModel buildRoad(int userID, int gameID, BuildRoadCommand buildRoadObj){
         return null;
     }
@@ -144,6 +159,7 @@ public class MockServerFacade implements IServerFacade {
     /**
      * Player building a settlement.
      */
+    @Override
     public ClientModel buildSettlement(int userID, int gameID, BuildSettlementCommand buildSettObj) {
         return null;
     }
@@ -151,6 +167,7 @@ public class MockServerFacade implements IServerFacade {
     /**
      * Player building a city.
      */
+    @Override
     public ClientModel buildCity(int userID, int gameID, BuildCityCommand buildCityObj){
         return null;
     }
@@ -162,6 +179,7 @@ public class MockServerFacade implements IServerFacade {
      * User login.
      * @return true if login is successful.
      */
+    @Override
     public boolean login(LoginCommand command){
         return true;
     }
@@ -170,8 +188,9 @@ public class MockServerFacade implements IServerFacade {
      * User registering.
      * @return true if login is successful.
      */
+    @Override
     public boolean register(RegisterCommand command){
-        return false;
+        return true;
     }
 
 
@@ -179,6 +198,7 @@ public class MockServerFacade implements IServerFacade {
      * List all of the games.
      * @return an array of the GameInfo objects used to display the list.
      */
+    @Override
     public GameInfo[] list(int userId){
         return null;
     } //GET
@@ -189,6 +209,7 @@ public class MockServerFacade implements IServerFacade {
      * @param color the player has selected.
      * @return true is succesful.
      */
+    @Override
     public boolean join(int userId, GameJoinCommand command){
         return false;
     }
@@ -200,6 +221,7 @@ public class MockServerFacade implements IServerFacade {
      * @param randomNumbers true if randomized.
      * @param randomPorts true if randomized.
      */
+    @Override
     public GameInfo create(int userId, int gameId, GameCreateCommand command){
         return null;
     }
@@ -209,6 +231,7 @@ public class MockServerFacade implements IServerFacade {
      * @param version of the model, compared to see if its different.
      * @return the model.
      */
+    @Override
     public ClientModel model(int userId, int gameId, FetchNewModelCommand command){
         return null;
     } //GET
@@ -217,6 +240,7 @@ public class MockServerFacade implements IServerFacade {
      * Add an AI to the current game.
      * @return true if the AI
      */
+    @Override
     public boolean addAI(int userId, int gameId){
         return false;
     }
@@ -225,9 +249,15 @@ public class MockServerFacade implements IServerFacade {
      * List the AI
      * @return a string array of the names of the AI
      */
+    @Override
     public String[] listAI(int userId){
         return LIST_AI;
     }
 
     private final String[] LIST_AI = { "LARGEST_ARMY" };
+
+    @Override
+    public int getUserId() {
+        return 0;
+    }
 }

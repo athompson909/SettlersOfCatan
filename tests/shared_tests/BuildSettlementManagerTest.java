@@ -26,7 +26,7 @@ public class BuildSettlementManagerTest extends TestCase {
         assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
         map.buildRoadManager.placeRoad(PLAYER1, adjacentRoad1);
         assert (map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
-        map.buildSettlementManager.placeSettlement(PLAYER1, desiredLocation1);
+//        map.buildSettlementManager.placeSettlement(PLAYER1, desiredLocation1);
 
         //Space is already occupied
        assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
@@ -44,7 +44,7 @@ public class BuildSettlementManagerTest extends TestCase {
         assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
         map.buildRoadManager.placeRoad(PLAYER1, adjacentRoad1);
         assert (map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
-        map.buildSettlementManager.placeSettlement(PLAYER1, desiredLocation1 );
+//        map.buildSettlementManager.placeSettlement(PLAYER1, desiredLocation1 );
 
         //Space is already occupied
         assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
