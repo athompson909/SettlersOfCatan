@@ -282,7 +282,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		TradeOffer offer = model.getTradeOffer();
 
 		//there is a trade and this user is the receiver
-		if(offer.tradeToAccept()){
+		if(offer != null && offer.tradeToAccept()){
 			if (offer.getReceiverIndex()==ClientUser.getInstance().getIndex()) {//need to accept/reject
 
 				getAcceptOverlay().reset();

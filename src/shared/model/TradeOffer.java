@@ -22,6 +22,8 @@ public class TradeOffer {
     @SerializedName("offer")
     private ResourceList tradeOfferList = new ResourceList();
 
+    public TradeOffer(){}
+
     /**
      * Constructor for TradeOffer: receives individual int counts for each resource:
      *  Positive numbers are resources being offered. Negative are resources being asked for.
