@@ -19,13 +19,11 @@ public class ListAICommand extends BaseCommand {
 
     /**
      * Asks the server to send a list of all AI types
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
+    public String serverExec() {
 
-        String[] listAI = IServerFacade.getInstance().listAI(userId);
+        String[] listAI = IServerFacade.getInstance().listAI(getUserId());
         return ServerTranslator.getInstance().listAIToString(listAI);
     }
 }

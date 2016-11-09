@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -51,12 +50,10 @@ public class DiscardCommand extends BaseCommand {
      *
      * Calls player updates methods to reflect new hand
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().discardCards(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().discardCards(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

@@ -1,36 +1,19 @@
 package shared.model.commandmanager;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 
 /**
  * Created by Mitchell on 9/15/2016.
  */
 public abstract class BaseCommand implements HttpHandler {
-
-    private String request;
-
-    private HttpExchange httpExchange;
-
-    public String getRequest() {
-        return request;
-    }
-
-    public void setRequest(String request) {
-        this.request = request;
-    }
-
-    public HttpExchange getHttpExchange() {
-        return httpExchange;
-    }
-
-    public void setHttpExchange(HttpExchange httpExchange) {
-        this.httpExchange = httpExchange;
-    }
 
     /**
      * Handles commands received from the server and returns a response
@@ -59,19 +42,55 @@ public abstract class BaseCommand implements HttpHandler {
         System.out.println("Query: "+query);
         setRequest(query);
 
-        String response = serverExec(0, 0);
+        String response = serverExec();
         exchange.sendResponseHeaders(200, response.length());
         exchange.getResponseBody().write(response.getBytes());
 
         exchange.close();
     }
 
+
+    public int getUserId() {
+
+
+        Headers headers = httpExchange.getRequestHeaders();
+        String undecodedCookie = headers.get("Cookie").get(0);
+        String rawCookie = URLDecoder.decode(undecodedCookie);
+        String cookie = rawCookie.substring(11, rawCookie.length());
+        JSONObject cookieJSON = new JSONObject(cookie);
+        return cookieJSON.getInt("playerID");
+    }
+
+    public int getGameId() {
+        return 0;
+    }
+
     /**
      * Kicks off server Execution
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
-    public abstract String serverExec(int userId, int gameId);
+    public abstract String serverExec();
+
+
+
     // getters and setters:
 
+    private String request;
+
+    private HttpExchange httpExchange;
+
+    public String getRequest() {
+        return request;
+    }
+
+    public void setRequest(String request) {
+        this.request = request;
+    }
+
+    public HttpExchange getHttpExchange() {
+        return httpExchange;
+    }
+
+    public void setHttpExchange(HttpExchange httpExchange) {
+        this.httpExchange = httpExchange;
+    }
 }
