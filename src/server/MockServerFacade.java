@@ -73,7 +73,8 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
-        return null;
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -82,7 +83,8 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel playSoldier(int userID, int gameID, PlaySoldierCommand soldierObj){
-        return null;
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -91,7 +93,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel playMonument(int userID, int gameID, PlayMonumentCommand monumentObj) {
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -100,7 +104,8 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel playYearOfPlenty(int userID, int gameID, PlayYearOfPlentyCommand yearOfPlentyObj) {
-        return null;
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -109,7 +114,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel playRoadBuilding(int userID, int gameID, PlayRoadBuilderCommand roadBldgCardObj) {
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -118,7 +125,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel playMonopoly(int userID, int gameID, PlayMonopolyCommand monopolyOBj) {
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -127,7 +136,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel offerTrade(int userID, int gameID, OfferTradeCommand offerTradeObj){
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -136,7 +147,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel acceptTrade(int userID, int gameID, AcceptTradeCommand acceptTradeObj) {
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -145,7 +158,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel maritimeTrade(int userID, int gameID, MaritimeTradeCommand maritTradeObj){
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -154,7 +169,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel buildRoad(int userID, int gameID, BuildRoadCommand buildRoadObj){
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -162,7 +179,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel buildSettlement(int userID, int gameID, BuildSettlementCommand buildSettObj) {
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -170,7 +189,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel buildCity(int userID, int gameID, BuildCityCommand buildCityObj){
-        return null;
+
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
 

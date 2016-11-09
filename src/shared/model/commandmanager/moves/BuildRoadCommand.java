@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import client.utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -75,7 +76,11 @@ public class BuildRoadCommand extends BaseCommand {
     public String serverExec() {
         JSONObject buildRoadJSON = new JSONObject(getRequest());
         playerIndex = buildRoadJSON.getInt("playerIndex");
-        //todo: add other fields
+        JSONObject roadLocJSON = buildRoadJSON.getJSONObject("roadLocation");
+        roadLocation.setX(roadLocJSON.getInt("x"));
+        roadLocation.setY(roadLocJSON.getInt("y"));
+        roadLocation.setDirection(Converter.stringToEdgeDirection(roadLocJSON.getString("direction")));
+        free = roadLocJSON.getBoolean("free");
 
         ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), this);
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;

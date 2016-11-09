@@ -1,8 +1,6 @@
 package shared.model.map;
 
-import com.google.gson.annotations.SerializedName;
 import shared.definitions.PieceType;
-import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 
 /**
@@ -60,6 +58,9 @@ public class VertexObject {
         this.pieceType = pieceType;
     }
 
+    public void setVertexLocation(VertexLocation vertexLocation) {
+        this.vertexLocation = vertexLocation;
+    }
 
     @Override
     public String toString() {
