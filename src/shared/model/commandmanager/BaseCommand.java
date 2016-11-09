@@ -39,30 +39,58 @@ public abstract class BaseCommand implements HttpHandler {
             in.close();
         }
 
-        System.out.println("Query: "+query);
+        if(query.length() > 0) System.out.println("query, post: "+query);
+        else System.out.println("query, get.");
         setRequest(query);
 
         String response = serverExec();
-        exchange.sendResponseHeaders(200, response.length());
-        exchange.getResponseBody().write(response.getBytes());
+        if(response != null) {
+            exchange.sendResponseHeaders(200, response.length());
+            exchange.getResponseBody().write(response.getBytes());
+        }
+        else {
+            String error = "Error: failure";
+            exchange.sendResponseHeaders(400, error.length());
+            exchange.getResponseBody().write(error.getBytes());
+        }
 
         exchange.close();
     }
 
 
     public int getUserId() {
+        return getCookieJSON().getInt("playerID");
+    }
 
+    public String getUsername() {
+        return getCookieJSON().getString("name");
+    }
 
+    public String getPassword() {
+        return getCookieJSON().getString("password");
+    }
+
+    //todo: figure out what the query should be
+    public int getGameId() {
+        return getCookieJSON().getInt("gameID");
+    }
+
+    public abstract JSONObject getCookieJSON();
+
+    public JSONObject getCookieJSONOnlyLogin() {
         Headers headers = httpExchange.getRequestHeaders();
         String undecodedCookie = headers.get("Cookie").get(0);
         String rawCookie = URLDecoder.decode(undecodedCookie);
         String cookie = rawCookie.substring(11, rawCookie.length());
-        JSONObject cookieJSON = new JSONObject(cookie);
-        return cookieJSON.getInt("playerID");
+        return new JSONObject(cookie);
     }
 
-    public int getGameId() {
-        return 0;
+    public JSONObject getCookieJSONBoth() {
+        Headers headers = httpExchange.getRequestHeaders();
+        String undecodedCookie = headers.get("Cookie").get(0);
+        String rawCookie = URLDecoder.decode(undecodedCookie);
+        String cookie = rawCookie.substring(11, rawCookie.length());
+        return new JSONObject(cookie);
     }
 
     /**

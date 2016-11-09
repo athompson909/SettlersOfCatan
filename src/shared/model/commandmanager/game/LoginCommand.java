@@ -41,6 +41,11 @@ public class LoginCommand extends BaseCommand {
         this.password = password;
     }
 
+    @Override
+    public JSONObject getCookieJSON() {
+        return null;
+    }
+
     /**
      * Tells server to login this user
      */
@@ -62,6 +67,7 @@ public class LoginCommand extends BaseCommand {
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
         }
+
         return ServerTranslator.getInstance().booleanToString(response);
     }
 

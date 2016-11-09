@@ -421,6 +421,16 @@ public class Player { //
         else {return false;}
     }
 
+    public void trade(ResourceList trade, boolean sender){
+        int addOrSub = 1;
+        if(sender){addOrSub = -1;}
+        playerResourceList.incWoodCardCount(trade.getWoodCardCount()*addOrSub);
+        playerResourceList.incBrickCardCount(trade.getBrickCardCount()*addOrSub);
+        playerResourceList.incWheatCardCount(trade.getWheatCardCount()*addOrSub);
+        playerResourceList.incOreCardCount(trade.getOreCardCount()*addOrSub);
+        playerResourceList.incSheepCardCount(trade.getSheepCardCount()*addOrSub);
+    }
+
     private boolean canTradeWood(int toTrade) {
         return (playerResourceList.getWoodCardCount() >= toTrade);
     }
@@ -436,6 +446,16 @@ public class Player { //
     private boolean canTradeSheep(int toTrade) {
         return (playerResourceList.getSheepCardCount()>= toTrade);
     }
+
+
+    public void receiveCardsFromDiceRoll(ResourceList resourceList){
+        playerResourceList.incWoodCardCount(resourceList.getWoodCardCount());
+        playerResourceList.incBrickCardCount(resourceList.getBrickCardCount());
+        playerResourceList.incSheepCardCount(resourceList.getSheepCardCount());
+        playerResourceList.incWheatCardCount(resourceList.getWheatCardCount());
+        playerResourceList.incOreCardCount(resourceList.getOreCardCount());
+    }
+
 
     //GETTERS
     public MaritimeTradeManager getMaritimeTradeManager() {return maritimeTradeManager;}

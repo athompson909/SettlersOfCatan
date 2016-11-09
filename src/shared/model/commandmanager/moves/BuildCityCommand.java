@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.VertexLocation;
@@ -50,6 +51,16 @@ public class BuildCityCommand extends BaseCommand {
      * Creates empty BuildCityCommand
      */
     public BuildCityCommand(){}
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Calls all necessary model update functions

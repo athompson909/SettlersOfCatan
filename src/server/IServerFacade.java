@@ -171,7 +171,7 @@ public interface IServerFacade {
      * List the AI
      * @return a string array of the names of the AI
      */
-    String[] listAI(int userId);
+    String[] listAI();
 
 
     /**

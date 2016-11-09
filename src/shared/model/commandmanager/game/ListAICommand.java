@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.commandmanager.BaseCommand;
@@ -18,12 +19,22 @@ public class ListAICommand extends BaseCommand {
     }
 
     /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return null;
+    }
+
+
+    /**
      * Asks the server to send a list of all AI types
      */
     @Override
     public String serverExec() {
 
-        String[] listAI = IServerFacade.getInstance().listAI(getUserId());
+        String[] listAI = IServerFacade.getInstance().listAI();
         return ServerTranslator.getInstance().listAIToString(listAI);
     }
 }

@@ -1,5 +1,6 @@
 package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -33,6 +34,16 @@ public class GameSaveCommand extends BaseCommand {
         this.gameID = gameID;
         this.fileName = fileName;
     }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
+    }
+
 
     /**
      * Tells server to save given game with to a file with the given name

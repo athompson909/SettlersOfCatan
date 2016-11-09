@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.HexLocation;
@@ -47,6 +48,15 @@ public class RobPlayerCommand extends BaseCommand {
         this.playerIndex = playerIndex;
         this.location = location;
         this.victimIndex = victimIndex;
+    }
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONBoth();
     }
 
     /**
