@@ -422,8 +422,17 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUser(userID);
 
         if(user != null) {
-            Game game = new Game();
+            int gameID = GamesManager.getInstance().getAllGames().size();
+            String title = command.getName();
+
             GameInfo gameInfo = new GameInfo();
+
+            gameInfo.setId(gameID);
+            gameInfo.setTitle(title);
+
+            Game game = new Game(gameInfo);
+
+            GamesManager.getInstance().addGame(game);
 
         }
         return null;
