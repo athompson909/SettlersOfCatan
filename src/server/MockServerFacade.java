@@ -236,7 +236,7 @@ public class MockServerFacade implements IServerFacade {
      * @return a string array of the names of the AI
      */
     @Override
-    public String[] listAI(int userId){
+    public String[] listAI(){
         return LIST_AI;
     }
 

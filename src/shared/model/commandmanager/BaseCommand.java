@@ -39,7 +39,8 @@ public abstract class BaseCommand implements HttpHandler {
             in.close();
         }
 
-        System.out.println("Query: "+query);
+        if(query.length() > 0) System.out.println("query, post: "+query);
+        else System.out.println("query, get.");
         setRequest(query);
 
         String response = serverExec();

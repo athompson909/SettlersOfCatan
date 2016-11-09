@@ -217,7 +217,7 @@ public class ServerFacade implements IServerFacade {
      * List the AI
      * @return a string array of the names of the AI
      */
-    public String[] listAI(int userId){
+    public String[] listAI(){
         return null;
     }
 
