@@ -192,4 +192,11 @@ public interface IServerFacade {
      */
     String[] listAI(int userId);
 
+
+    /**
+     * this is only for when a user logs in or registers, makes it possible to set the value in the cookie
+     * @return the user's id
+     */
+    int getUserId();
+
 }
