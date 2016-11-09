@@ -63,12 +63,15 @@ public class GameCreateCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
+        /*
         GameInfo gameInfo = IServerFacade.getInstance().create(userId, this);
         if(gameInfo != null) {
             return ServerTranslator.getInstance().gameInfoToString(gameInfo);
         }else {
             return null;
         }
+        */
+        return null;  //TEMP!!!
     }
 
     //Getters

@@ -47,10 +47,12 @@ public class ClientModel extends Observable {
      * The index of the player who won the game. -1 if no one has won yet.
      */
     public int winner = -1;
-    public boolean changed = false;
+    public transient boolean changed = false;
     public ResourceBank resourceBank;
     public MessageManager messageManager;
     public TurnTracker turnTracker;
+
+    //DON'T TRY AND SERIALIZE THESE, THEY ARE BLANK AT RUNTIME
     /**
      * The messageList object holding all the Chat messages
      */
@@ -60,6 +62,7 @@ public class ClientModel extends Observable {
      * The messageList object holding all the GameLog messages
      */
     public MessageList log = new MessageList();
+    //
 
     /**
      * the Map object holding all the aspects of the map for this game

@@ -171,7 +171,7 @@ public class ServerTranslatorTest extends TestCase {
     public void testModelToJSON() throws Exception {
         System.out.println(">TESTING MODELTOJSON TRANSLATION!");
 
-        String testModelJSON = ServerTranslator.getInstance().modelToJSON(testClientModel);
+            String testModelJSON = ServerTranslator.getInstance().modelToJSON(testClientModel);
 
 
         // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
