@@ -27,7 +27,8 @@ public class BuildCityManagerTest extends TestCase {
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
         map.buildSettlementManager.placeSettlement(desiredVertexObject);
         assert (map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
-        map.buildCityManager.placeCity(PLAYER1, desiredCityLocation);
+        desiredVertexObject.setPieceType(PieceType.CITY);
+        map.buildCityManager.placeCity(desiredVertexObject);
         assert (!map.buildCityManager.canPlaceCity(PLAYER1, desiredCityLocation));
     }
 

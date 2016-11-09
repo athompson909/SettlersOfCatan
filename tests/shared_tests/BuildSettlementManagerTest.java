@@ -1,8 +1,10 @@
 package shared_tests;
 
+import shared.definitions.PieceType;
 import shared.locations.*;
 import junit.framework.TestCase;
 import shared.model.map.Map;
+import shared.model.map.VertexObject;
 
 
 /**
@@ -18,6 +20,9 @@ public class BuildSettlementManagerTest extends TestCase {
         System.out.println("testBuildingOnNorthWestEdgeVertex");
         //Test building vertex at northwest vertex of (-1,1)
         VertexLocation desiredLocation1 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.NorthWest);
+        VertexObject desiredSettlement = new VertexObject(desiredLocation1);
+        desiredSettlement.setOwner(PLAYER1);
+        desiredSettlement.setPieceType(PieceType.SETTLEMENT);
         EdgeLocation adjacentRoad1 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.North);
         EdgeLocation adjacentRoad2 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthWest);
 
@@ -26,7 +31,7 @@ public class BuildSettlementManagerTest extends TestCase {
         assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
         map.buildRoadManager.placeRoad(PLAYER1, adjacentRoad1);
         assert (map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
-        map.buildSettlementManager.placeSettlement(PLAYER1, desiredLocation1);
+        map.buildSettlementManager.placeSettlement(desiredSettlement);
 
         //Space is already occupied
        assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
@@ -36,6 +41,11 @@ public class BuildSettlementManagerTest extends TestCase {
         System.out.println("testBuildingOnNorthWestEdgeVertex");
         //Test building vertex at northe vertex of (1,2)
         VertexLocation desiredLocation1 = new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthEast);
+        VertexObject desiredSettlement = new VertexObject(desiredLocation1);
+        desiredSettlement.setOwner(PLAYER1);
+        desiredSettlement.setPieceType(PieceType.SETTLEMENT);
+
+
         EdgeLocation adjacentRoad1 = new EdgeLocation(new HexLocation(1, 2), EdgeDirection.North);
         EdgeLocation adjacentRoad2 = new EdgeLocation(new HexLocation(2, 1), EdgeDirection.NorthWest);
 
@@ -44,7 +54,7 @@ public class BuildSettlementManagerTest extends TestCase {
         assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
         map.buildRoadManager.placeRoad(PLAYER1, adjacentRoad1);
         assert (map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));
-        map.buildSettlementManager.placeSettlement(PLAYER1, desiredLocation1 );
+        map.buildSettlementManager.placeSettlement(desiredSettlement);
 
         //Space is already occupied
         assert (!map.buildSettlementManager.canPlace(PLAYER1, desiredLocation1));

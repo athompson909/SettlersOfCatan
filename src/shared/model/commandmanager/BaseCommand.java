@@ -6,25 +6,31 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Mitchell on 9/15/2016.
  */
 public abstract class BaseCommand implements HttpHandler {
 
-    private int userId = 0;
+    private String request;
 
-    private int gameId = 0;
+    private HttpExchange httpExchange;
 
-    private String loginCookie = "/";
+    public String getRequest() {
+        return request;
+    }
 
-    private String gameCookie = "/";
+    public void setRequest(String request) {
+        this.request = request;
+    }
 
-    private String requestStr;
+    public HttpExchange getHttpExchange() {
+        return httpExchange;
+    }
 
-
+    public void setHttpExchange(HttpExchange httpExchange) {
+        this.httpExchange = httpExchange;
+    }
 
     /**
      * Handles commands received from the server and returns a response
@@ -34,8 +40,10 @@ public abstract class BaseCommand implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
+        setHttpExchange(exchange);
+
         String query;
-        InputStream in = exchange.getRequestBody();
+        InputStream in = httpExchange.getRequestBody();
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte buf[] = new byte[4096];
@@ -49,26 +57,13 @@ public abstract class BaseCommand implements HttpHandler {
         }
 
         System.out.println("Query: "+query);
-        requestStr = query;
+        setRequest(query);
 
-        String responseStr = serverExec(userId, gameId);
-        responseStr = "Success";//for testing
-
-
-
-        List<String> cookieList = new ArrayList<>(1);
-        cookieList.add(loginCookie);
-        exchange.getResponseHeaders().put("Set-cookie", cookieList);
-        exchange.sendResponseHeaders(200, responseStr.length());
-
-        exchange.getResponseBody().write(responseStr.getBytes());
+        String response = serverExec(0, 0);
+        exchange.sendResponseHeaders(200, response.length());
+        exchange.getResponseBody().write(response.getBytes());
 
         exchange.close();
-
-        //Todo
-        //translate and set parameters
-        //get cookie
-        //call serverExec and return JSON to the client
     }
 
     /**
@@ -77,48 +72,6 @@ public abstract class BaseCommand implements HttpHandler {
      * @param gameId - the ID of the game
      */
     public abstract String serverExec(int userId, int gameId);
-
-
     // getters and setters:
 
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
-
-    public String getLoginCookie() {
-        return loginCookie;
-    }
-
-    public void setLoginCookie(String loginCookie) {
-        this.loginCookie = loginCookie;
-    }
-
-    public String getGameCookie() {
-        return gameCookie;
-    }
-
-    public void setGameCookie(String gameCookie) {
-        this.gameCookie = gameCookie;
-    }
-
-    public String getRequestStr() {
-        return requestStr;
-    }
-
-    public void setRequestStr(String requestStr) {
-        this.requestStr = requestStr;
-    }
 }

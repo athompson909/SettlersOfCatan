@@ -1,5 +1,6 @@
 package server;
 
+import client.Client;
 import client.data.GameInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
@@ -49,8 +50,9 @@ public class Game {
      * Finishes the players turn, and changes to the next turn.
      * @param index of the player ending their turn.
      */
-    public void finishTurn(int index){
-        return null;
+    public ClientModel finishTurn(int index){
+        clientModel.finishTurn(index);
+        return clientModel;
     }
 
     /**
@@ -58,8 +60,9 @@ public class Game {
      * @param index of the player sending the message.
      * @param message the player wants to display.
      */
-    public void sendChat(int index, String message){
-
+    public ClientModel sendChat(int index, String message){
+        clientModel.sendChat(index, message);
+        return clientModel;
     }
 
     /**
@@ -67,16 +70,18 @@ public class Game {
      * @param index of the player discarding.
      * @param discarded cards the player has selected to discard.
      */
-    public void discardCards(int index, ResourceList discarded){
-
+    public ClientModel discardCards(int index, ResourceList discarded){
+        clientModel.discardCards(index, discarded);
+        return clientModel;
     }
 
     /**
      * Roll dice command. Players need to recieve resources according to the passed in number.
      * @param number randomly calculated number.
      */
-    public void rollNumber(int number){
-
+    public ClientModel rollNumber(int number){
+        clientModel.receiveResourcesFromDiceRoll(number);
+        return clientModel;
     }
 
     /**
@@ -85,16 +90,18 @@ public class Game {
      * @param location that is now being robbed.
      * @param victimIndex who is losing a card. Null if no player can be robbed.
      */
-    public void robPlayer(int playerIndex, HexLocation location, int victimIndex){
-
+    public ClientModel robPlayer(int playerIndex, HexLocation location, int victimIndex){
+        clientModel.placeRobber(playerIndex, location, victimIndex);
+        return clientModel;
     }
 
     /**
      * Buying a dev card.
      * @param index of the player buying the card.
      */
-    public void buyDevCard(int index){
-
+    public ClientModel buyDevCard(int index){
+        clientModel.purchaseDevCard(index);
+        return clientModel;
     }
 
     /**
@@ -103,16 +110,18 @@ public class Game {
      * @param robberLocation new location being robbed.
      * @param victimIndex being robbed.
      */
-    public void soldier(int index, HexLocation robberLocation, int victimIndex){
-
+    public ClientModel soldier(int index, HexLocation robberLocation, int victimIndex){
+        clientModel.playSoldierCard(index, robberLocation, victimIndex);
+        return clientModel;
     }
 
     /**
      * Player using a monument dev card.
      * @param index of the player using the dev card.
      */
-    public void Monument(int index){
-
+    public ClientModel Monument(int index){
+        clientModel.playMonumentCard(index);
+        return clientModel;
     }
 
     /**
@@ -121,8 +130,9 @@ public class Game {
      * @param resource1 from the bank.
      * @param resource2 from the bank.
      */
-    public void yearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2){
-
+    public ClientModel yearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2){
+        clientModel.playYearOfPlentyCard(playerIndex, resource1, resource2);
+        return clientModel;
     }
 
     /**
@@ -131,8 +141,9 @@ public class Game {
      * @param edgeLocation1 of the first road.
      * @param edgeLocation2 of the second road.
      */
-    public void roadBuilding(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2){
-
+    public ClientModel roadBuilding(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2){
+        clientModel.playRoadBuildingCard(playerIndex, edgeLocation1, edgeLocation2);
+        return clientModel;
     }
 
     /**
@@ -140,8 +151,9 @@ public class Game {
      * @param index of the player using the card.
      * @param res the player is monopolizing.
      */
-    public void monopoly(int index, ResourceType res){
-
+    public ClientModel monopoly(int index, ResourceType res){
+        clientModel.playMonopolyCard(index, res);
+        return clientModel;
     }
 
     /**
@@ -150,8 +162,9 @@ public class Game {
      * @param off resource list offer.
      * @param receiverIndex index of the player receiving the offer
      */
-    public void offerTrade(int index, ResourceList off, int receiverIndex){
-
+    public ClientModel offerTrade(int index, ResourceList off, int receiverIndex){
+        //clientModel.of
+        return clientModel;
     }
 
     /**
@@ -159,8 +172,8 @@ public class Game {
      * @param index of the player choosing.
      * @param accept returns true if they accept.
      */
-    public void acceptTrade(int index, boolean accept){
-
+    public ClientModel acceptTrade(int index, boolean accept){
+        return clientModel;
     }
 
     /**
@@ -170,32 +183,35 @@ public class Game {
      * @param inputResource to trade.
      * @param outputResource to recieve.
      */
-    public void martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
-
+    public ClientModel martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+        return clientModel;
     }
 
     /**
      * Player building a new road.
-     * @param newRoad EdgeValue, which contains the player ID and location of the road.
+     * @param edgeLocation edgeLocation, which contains the player ID and location of the road.
      */
-    public void buildRoad(EdgeValue newRoad){
-
+    public ClientModel buildRoad(EdgeLocation edgeLocation, int index, boolean free){
+        clientModel.buildRoad(edgeLocation, index, free);
+        return clientModel;
     }
 
     /**
      * Player building a settlement.
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
-    public void buildSettlement(VertexObject newSettlement){
-
+    public ClientModel buildSettlement(VertexObject newSettlement, boolean free){
+        clientModel.buildSettlement(newSettlement, free);
+        return clientModel;
     }
 
     /**
      * Player building a city.
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
-    public void buildCity(VertexObject newCity){
-
+    public ClientModel buildCity(VertexObject newCity, boolean free){
+        clientModel.buildCity(newCity, free);
+        return clientModel;
     }
 
 
