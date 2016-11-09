@@ -55,12 +55,12 @@ public class RollDiceCommand extends BaseCommand {
      */
     @Override
     public String serverExec(){
-        ClientModel model = IServerFacade.getInstance().rollNumber(getGameId(), getUserId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        JSONObject sendChatJSON = new JSONObject(getRequest());
+        playerIndex = sendChatJSON.getInt("playerIndex");
+        number = sendChatJSON.getInt("number");
+
+        ClientModel model = IServerFacade.getInstance().rollNumber(getUserId(), getGameId(), this);
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
     public int getNumber() {

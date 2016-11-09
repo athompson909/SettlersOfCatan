@@ -1,6 +1,7 @@
 package shared.model.commandmanager.game;
 
 import org.json.JSONObject;
+import server.IServerFacade;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -45,7 +46,11 @@ public class AddAICommand extends BaseCommand {
     @Override
     public String serverExec() {
 
-        return null;
+        JSONObject AICommandJSON = new JSONObject(getRequest());
+        AIType = AICommandJSON.getString("AIType");
+
+        boolean response = IServerFacade.getInstance().addAI(getUserId(), getGameId());
+        return response ? "Success" : "Could not add AI type -- ["+AIType+"]";
     }
 
 

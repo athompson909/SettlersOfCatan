@@ -1,7 +1,10 @@
 package server;
 
 import client.data.GameInfo;
+import client.utils.MockResponses;
+import org.json.JSONObject;
 import shared.model.ClientModel;
+import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 
@@ -27,7 +30,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel sendChat(int userID, int gameID, SendChatCommand sendChatObj){
-        return null;
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        clientModel.sendChat(sendChatObj.getPlayerIndex(), sendChatObj.getContent());
+        return clientModel;
     }
 
     /**
@@ -46,7 +51,9 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel rollNumber(int userID, int gameID, RollDiceCommand rollDiceObj){
-        return null;
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+//        clientModel.receiveResourcesFromDiceRoll(rollDiceObj.getNumber());
+        return clientModel;
     }
 
     /**
@@ -56,7 +63,8 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel robPlayer(int userID, int gameID, RobPlayerCommand robObj){
-        return null;
+        ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
+        return clientModel;
     }
 
     /**
@@ -219,7 +227,7 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public ClientModel model(int userId, int gameId, FetchNewModelCommand command){
-        return null;
+        return new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
     } //GET
 
     /**
@@ -228,7 +236,7 @@ public class MockServerFacade implements IServerFacade {
      */
     @Override
     public boolean addAI(int userId, int gameId){
-        return false;
+        return true;
     }
 
     /**

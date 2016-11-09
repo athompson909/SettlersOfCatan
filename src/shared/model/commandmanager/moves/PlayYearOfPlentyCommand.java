@@ -65,12 +65,13 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
      */
     @Override
     public String serverExec(){
+        JSONObject playYearOfPlentyJSON = new JSONObject(getRequest());
+        playerIndex = playYearOfPlentyJSON.getInt("playerIndex");
+        String resource1Str = playYearOfPlentyJSON.getString("resource1");
+        String resource2Str = playYearOfPlentyJSON.getString("resource2");
+
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 //Getters
