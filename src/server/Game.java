@@ -257,12 +257,11 @@ public class Game {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
      * @param color the player has selected.
      * @return true is succesful.
      */
-    public boolean join(int gameID, CatanColor color){
-        return false;
+    public boolean join(CatanColor color, User user){
+        return (clientModel.joinGame(color, user));
     }
 
     /**
