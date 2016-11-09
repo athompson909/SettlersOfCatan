@@ -1,6 +1,9 @@
 package shared.model.commandmanager.game;
 
 import org.json.JSONObject;
+import server.IServerFacade;
+import server.ServerTranslator;
+import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
 /**
@@ -34,8 +37,12 @@ public class FetchNewModelCommand extends BaseCommand {
      */
     @Override
     public String serverExec(int userId, int gameId){
-
-        return null;
+       ClientModel model = IServerFacade.getInstance().model(userId, gameId, this);
+        if(model != null) {
+            return ServerTranslator.getInstance().clientModelToString(model);
+        }else {
+            return null;
+        }
     }
 
     //Getters
