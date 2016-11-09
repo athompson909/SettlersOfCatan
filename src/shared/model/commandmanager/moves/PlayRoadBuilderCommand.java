@@ -1,7 +1,6 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.locations.EdgeLocation;
@@ -66,12 +65,10 @@ public class PlayRoadBuilderCommand extends BaseCommand {
      * Calls Player update methods to reflect decremented road count
      * Calls TurnTracker to recount and reassign longestRoad
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().playRoadBuilding(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

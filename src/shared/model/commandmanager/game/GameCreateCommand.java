@@ -58,11 +58,9 @@ public class GameCreateCommand extends BaseCommand {
 
     /**
      * Tells the server to create new game
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec(){
         /*
         GameInfo gameInfo = IServerFacade.getInstance().create(userId, this);
         if(gameInfo != null) {

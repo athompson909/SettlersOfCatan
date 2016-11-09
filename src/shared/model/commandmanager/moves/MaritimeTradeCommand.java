@@ -1,12 +1,11 @@
 package shared.model.commandmanager.moves;
 
 import com.google.gson.annotations.SerializedName;
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import shared.definitions.ResourceType;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
-import shared.definitions.ResourceType;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -69,13 +68,10 @@ public class MaritimeTradeCommand extends BaseCommand {
      * Calls Player update methods to reflect change in hand
      * Calls ResourceTypeBan update methods to reflect change in
      * recources in bank
-     *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().maritimeTrade(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().maritimeTrade(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

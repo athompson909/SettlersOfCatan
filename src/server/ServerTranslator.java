@@ -2,7 +2,6 @@ package server;
 
 import client.data.GameInfo;
 import com.google.gson.Gson;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
@@ -68,7 +67,7 @@ public class ServerTranslator {
      * @return listAIStr as json (but a string)
      */
     public String listAIToString(String[] listAIStr) {
-        return null;
+        return "[\"LARGEST_ARMY\"]";
     }
 
     public String gameInfoToString(GameInfo gameInfo) {
@@ -76,7 +75,7 @@ public class ServerTranslator {
     }
 
     public String gameListToString(GameInfo[] gameList) {
-        return null;
+        return MockResponses.GAMES_LIST;//for testing
     }
 
     public String clientModelToString(ClientModel clientModel) {

@@ -23,11 +23,9 @@ public class ExecuteGameCommandsCommand extends BaseCommand {
 
     /**
      * Tells server to execute the list of game commands
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec(){
 
         return null;
     }

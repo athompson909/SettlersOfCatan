@@ -60,8 +60,8 @@ public class Server {
         httpServer.createContext("/game/model", new FetchNewModelCommand());
         httpServer.createContext("/game/reset", new GameResetCommand());
         httpServer.createContext("/game/commands", new GetGameCommandsCommand());
-        httpServer.createContext("/game/", new AddAICommand());
-        httpServer.createContext("/game/", new ListAICommand());
+        httpServer.createContext("/game/addAI", new AddAICommand());
+        httpServer.createContext("/game/listAI", new ListAICommand());
 
         // moves contexts:
         httpServer.createContext("/moves/sendChat", new SendChatCommand());

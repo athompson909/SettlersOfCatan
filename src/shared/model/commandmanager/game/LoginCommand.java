@@ -43,14 +43,9 @@ public class LoginCommand extends BaseCommand {
 
     /**
      * Tells server to login this user
-     *
-     * todo: consider not having parameters
-     *
-     * @param userId - the ID of the user (will be 0 because user has not logged in)
-     * @param gameId - the ID of the game (will also be 0)
      */
     @Override
-    public String serverExec(int userId, int gameId){
+    public String serverExec() {
 
         String request = getRequest();
         JSONObject requestJSON = new JSONObject(request);
