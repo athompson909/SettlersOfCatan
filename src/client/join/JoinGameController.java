@@ -9,7 +9,7 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
-import client.utils.MessageUtils;
+import shared.shared_utils.MessageUtils;
 import exceptions.ClientException;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.GameCreateCommand;

@@ -1,4 +1,4 @@
-package client.utils;
+package shared.shared_utils;
 
 /**
  * Created by adamthompson on 11/8/16.

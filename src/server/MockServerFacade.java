@@ -1,7 +1,7 @@
 package server;
 
 import client.data.GameInfo;
-import client.utils.MockResponses;
+import shared.shared_utils.MockResponses;
 import org.json.JSONObject;
 import shared.model.ClientModel;
 import shared.model.JSONTranslator;

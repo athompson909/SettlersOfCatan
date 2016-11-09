@@ -1,4 +1,4 @@
-package client.utils;
+package shared.shared_utils;
 
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;

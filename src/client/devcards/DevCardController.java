@@ -5,7 +5,7 @@ import client.ClientUser;
 import client.base.Controller;
 import client.base.IAction;
 import client.misc.MessageView;
-import client.utils.MessageUtils;
+import shared.shared_utils.MessageUtils;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.model.ClientModel;

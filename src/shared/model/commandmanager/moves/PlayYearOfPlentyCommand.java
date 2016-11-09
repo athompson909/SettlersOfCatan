@@ -1,6 +1,6 @@
 package shared.model.commandmanager.moves;
 
-import client.utils.Converter;
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
