@@ -574,6 +574,9 @@ public class Map {
      */
     public ResourceList[] getDiceRollResults(int diceRollNumber) {
         ResourceList[] results = new ResourceList[4];
+        for(int i = 0; i < results.length; i ++) {
+            results[i] = new ResourceList();
+        }
         for (HexLocation key : hexes.keySet()) {
             if (hexes.get(key).getNumber() == diceRollNumber) {
                 getCardsFromVertices(hexes.get(key), results);
@@ -617,10 +620,12 @@ public class Map {
      * @param results array to add cards too.
      */
     private void addCards(ResourceType resource, VertexObject vertexObject, ResourceList[] results) {
-        if (vertexObject.getOwner() != -1) {
-            results[vertexObject.getOwner()].addCardByType(resource);
-            if (vertexObject.getPieceType() == PieceType.CITY) {
+        if(vertexObject != null) {
+            if (vertexObject.getOwner() != -1) {
                 results[vertexObject.getOwner()].addCardByType(resource);
+                if (vertexObject.getPieceType() == PieceType.CITY) {
+                    results[vertexObject.getOwner()].addCardByType(resource);
+                }
             }
         }
     }

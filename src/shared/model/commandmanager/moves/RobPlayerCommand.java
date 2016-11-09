@@ -64,12 +64,14 @@ public class RobPlayerCommand extends BaseCommand {
      */
     @Override
     public String serverExec(){
+        JSONObject robPlayerJSON = new JSONObject(getRequest());
+        playerIndex = robPlayerJSON.getInt("playerIndex");
+        victimIndex = robPlayerJSON.getInt("victimIndex");
+        JSONObject locationJSON = robPlayerJSON.getJSONObject("location");
+        location = new HexLocation(locationJSON.getInt("x"), locationJSON.getInt("y"));
+
         ClientModel model = IServerFacade.getInstance().robPlayer(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
     //Getters

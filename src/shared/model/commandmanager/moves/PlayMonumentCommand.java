@@ -59,12 +59,11 @@ public class PlayMonumentCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject monumentJSON = new JSONObject(getRequest());
+        playerIndex = monumentJSON.getInt("playerIndex");
+
         ClientModel model = IServerFacade.getInstance().playMonument(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 //Getters

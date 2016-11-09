@@ -58,12 +58,12 @@ public class SendChatCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject sendChatJSON = new JSONObject(getRequest());
+        playerIndex = sendChatJSON.getInt("playerIndex");
+        content = sendChatJSON.getString("content");
+
         ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 

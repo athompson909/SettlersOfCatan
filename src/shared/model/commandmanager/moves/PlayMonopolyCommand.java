@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -66,12 +67,12 @@ public class PlayMonopolyCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject monopolyJSON = new JSONObject(getRequest());
+        playerIndex = monopolyJSON.getInt("playerIndex");
+        resource = Converter.stringToResourceType(monopolyJSON.getString("resource"));
+
         ClientModel model = IServerFacade.getInstance().playMonopoly(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 //Getters

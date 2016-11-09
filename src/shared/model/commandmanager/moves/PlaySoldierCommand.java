@@ -74,12 +74,14 @@ public class PlaySoldierCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject soldierJSON = new JSONObject(getRequest());
+        playerIndex = soldierJSON.getInt("playerIndex");
+        victimIndex = soldierJSON.getInt("victimIndex");
+        JSONObject locationJSON = soldierJSON.getJSONObject("location");
+        robberLoc = new HexLocation(locationJSON.getInt("x"), locationJSON.getInt("y"));
+
         ClientModel model = IServerFacade.getInstance().playSoldier(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 //Getters and Setters

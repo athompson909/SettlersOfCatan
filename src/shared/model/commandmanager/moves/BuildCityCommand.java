@@ -1,8 +1,11 @@
 package shared.model.commandmanager.moves;
 
+import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
@@ -41,6 +44,10 @@ public class BuildCityCommand extends BaseCommand {
      * @param vertexObject
      */
     public BuildCityCommand(VertexObject vertexObject){
+        setValues(vertexObject);
+    }
+
+    private void setValues(VertexObject vertexObject) {
         vertex = vertexObject;
 
         playerIndex = vertexObject.getOwner();
@@ -72,12 +79,20 @@ public class BuildCityCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject buildCityJSON = new JSONObject(getRequest());
+        playerIndex = buildCityJSON.getInt("playerIndex");
+        // creating the vertex object:
+        JSONObject vertexLocJSON = buildCityJSON.getJSONObject("vertexLocation");
+        int x = vertexLocJSON.getInt("x"), y = vertexLocJSON.getInt("y");
+        VertexDirection dir = Converter.stringToVertexDirection(vertexLocJSON.getString("direction"));
+        VertexLocation vertexLocation = new VertexLocation(new HexLocation(x, y), dir);
+
+        VertexObject vertexObject = new VertexObject(vertexLocation);
+        setValues(vertexObject);
+
+
         ClientModel model = IServerFacade.getInstance().buildCity(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
     //Getters and Setters

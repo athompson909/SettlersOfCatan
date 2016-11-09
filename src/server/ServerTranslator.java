@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import shared.shared_utils.MockResponses;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -87,7 +88,7 @@ public class ServerTranslator {
     }
 
     public String clientModelToString(ClientModel clientModel) {
-        return null;
+        return MockResponses.GAME_MODEL;//todo: change
     }
 
 

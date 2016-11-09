@@ -44,13 +44,9 @@ public class FetchNewModelCommand extends BaseCommand {
      * Asks server if there is an updated model
      */
     @Override
-    public String serverExec(){
-       ClientModel model = IServerFacade.getInstance().model(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().model(getUserId(), getGameId(), this);
+        return ServerTranslator.getInstance().modelToJSON(model);
     }
 
     //Getters
