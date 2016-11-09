@@ -7,6 +7,7 @@ import server.ServerTranslator;
 import shared.definitions.ResourceType;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
+import shared.shared_utils.Converter;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -82,12 +83,14 @@ public class MaritimeTradeCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        JSONObject maritimeTradeJSON = new JSONObject(getRequest());
+        playerIndex = maritimeTradeJSON.getInt("playerIndex");
+        ratio = maritimeTradeJSON.getInt("ratio");
+        toTrade = Converter.stringToResourceType(maritimeTradeJSON.getString("inputResource"));
+        toReceive = Converter.stringToResourceType(maritimeTradeJSON.getString("outputResource"));
+
         ClientModel model = IServerFacade.getInstance().maritimeTrade(getUserId(), getGameId(), this);
-        if(model != null) {
-            return ServerTranslator.getInstance().clientModelToString(model);
-        }else {
-            return null;
-        }
+        return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
 

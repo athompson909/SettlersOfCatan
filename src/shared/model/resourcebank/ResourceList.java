@@ -1,7 +1,6 @@
 package shared.model.resourcebank;
 
 import com.google.gson.annotations.SerializedName;
-import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 
 import java.util.Random;
@@ -294,6 +293,25 @@ public class ResourceList {
 
     public int getCardCount() { return (woodCardCount+ brickCardCount + sheepCardCount + wheatCardCount + oreCardCount);}
 
+    public void setWoodCardCount(int woodCardCount) {
+        this.woodCardCount = woodCardCount;
+    }
+
+    public void setBrickCardCount(int brickCardCount) {
+        this.brickCardCount = brickCardCount;
+    }
+
+    public void setSheepCardCount(int sheepCardCount) {
+        this.sheepCardCount = sheepCardCount;
+    }
+
+    public void setWheatCardCount(int wheatCardCount) {
+        this.wheatCardCount = wheatCardCount;
+    }
+
+    public void setOreCardCount(int oreCardCount) {
+        this.oreCardCount = oreCardCount;
+    }
 
     @Override
     public String toString() {

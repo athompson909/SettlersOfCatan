@@ -456,6 +456,15 @@ public class Player { //
         playerResourceList.incOreCardCount(resourceList.getOreCardCount());
     }
 
+    public void gainTwoVictoryPoints(){
+        victoryPoints = (victoryPoints + 2);
+    }
+
+    public void loseTwoVictoryPoints(){
+        victoryPoints = (victoryPoints - 2);
+    }
+
+
 
     //GETTERS
     public MaritimeTradeManager getMaritimeTradeManager() {return maritimeTradeManager;}
