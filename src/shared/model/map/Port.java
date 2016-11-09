@@ -31,7 +31,7 @@ public class Port {
      * then we set the portType to enum THREE.
      *
      */
-    private PortType portType;
+    private transient PortType portType;
 
     /**
      * XY location of this port hex

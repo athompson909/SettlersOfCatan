@@ -45,16 +45,16 @@ public class ClientUpdateManager {
     public void delegateUpdates(ClientModel newModel) {
         System.out.println(">delegateUpdates called!");
 
-        ResourceBank currResourceBank = currentModel.resourceBank;
-        ResourceBank newResourceBank = newModel.resourceBank;
+        ResourceBank currResourceBank = currentModel.getResourceBank();
+        ResourceBank newResourceBank = newModel.getResourceBank();
         updateResourceBank(currResourceBank, newResourceBank);
 
-        MessageManager currMessageMgr = currentModel.messageManager;
-        MessageManager newMessageMgr = newModel.messageManager;
+        MessageManager currMessageMgr = currentModel.getMessageManager();
+        MessageManager newMessageMgr = newModel.getMessageManager();
         updateMessageManager(currMessageMgr, newMessageMgr);
 
-        Map currMap = currentModel.map;
-        Map newMap = newModel.map;
+        Map currMap = currentModel.getMap();
+        Map newMap = newModel.getMap();
         updateMap(currMap, newMap);
 
         Player[] currPlayers = currentModel.getPlayers();
@@ -67,16 +67,16 @@ public class ClientUpdateManager {
         currentModel.setLog(newModel.getLog());
 
 
-        TradeOffer currTradeOffer = currentModel.tradeOffer;
-        TradeOffer newTradeOffer = newModel.tradeOffer;
+        TradeOffer currTradeOffer = currentModel.getTradeOffer();
+        TradeOffer newTradeOffer = newModel.getTradeOffer();
         updateTradeOffer(currTradeOffer, newTradeOffer);//shows as (null, null)
 
-        TurnTracker currTurnTracker = currentModel.turnTracker;
-        TurnTracker newTurnTracker = newModel.turnTracker;
+        TurnTracker currTurnTracker = currentModel.getTurnTracker();
+        TurnTracker newTurnTracker = newModel.getTurnTracker();
         updateTurnTracker(currTurnTracker, newTurnTracker);
 
-        int currVersionNum = currentModel.version;
-        int newVersionNum = newModel.version;
+        int currVersionNum = currentModel.getVersion();
+        int newVersionNum = newModel.getVersion();
         updateModelVersion(newVersionNum);
 
         currentModel.setWinner(newModel.getWinner());
@@ -148,7 +148,11 @@ public class ClientUpdateManager {
 
 
     private void updateTradeOffer(TradeOffer currTradeOffer, TradeOffer newTradeOffer) {
-        currTradeOffer.updateTradeOffer(newTradeOffer);
+        if(currTradeOffer != null) {
+            currTradeOffer.updateTradeOffer(newTradeOffer);
+        }else {
+            currTradeOffer = newTradeOffer;
+        }
     }
 //-----------------
 

@@ -1,17 +1,9 @@
 package server;
 
 import client.data.GameInfo;
-import client.devcards.BuyDevCardView;
-import shared.definitions.CatanColor;
-import shared.definitions.ResourceType;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
-import shared.model.map.EdgeValue;
-import shared.model.map.VertexObject;
-import shared.model.resourcebank.ResourceList;
 
 /**
  * Interface Facade for the Server. Contains both game com
@@ -24,7 +16,7 @@ public interface IServerFacade {
 
     static IServerFacade getInstance() {
         return instance;
-    };
+    }
 
     /**
      * Finishes the players turn, and changes to the next turn.
@@ -135,16 +127,12 @@ public interface IServerFacade {
 
     /**
      * User login.
-     * @param username of the user.
-     * @param password of the user.
      * @return true if login is successful.
      */
     boolean login(LoginCommand command);
 
     /**
      * User registering.
-     * @param username of the user.
-     * @param password of the user.
      * @return true if login is successful.
      */
     boolean register(RegisterCommand command);
@@ -158,24 +146,17 @@ public interface IServerFacade {
 
     /**
      * Join a specific game.
-     * @param gameID of the game.
-     * @param color the player has selected.
      * @return true is succesful.
      */
     boolean join(int userId, GameJoinCommand command);
 
     /**
      * Create a new game.
-     * @param name of the game.
-     * @param randomTiles true if randomized.
-     * @param randomNumbers true if randomized.
-     * @param randomPorts true if randomized.
      */
     GameInfo create(int userId, int gameId, GameCreateCommand command);
 
     /**
      * Get the model.
-     * @param version of the model, compared to see if its different.
      * @return the model.
      */
     ClientModel model(int userId, int gameId, FetchNewModelCommand command); //GET

@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -49,12 +48,10 @@ public class FinishTurnCommand extends BaseCommand {
      * and cjange currentPlayer
      * Calls MessageManager update methods to reflect new Log
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().finishTurn(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().finishTurn(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

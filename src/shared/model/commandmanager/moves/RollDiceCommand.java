@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -42,12 +41,10 @@ public class RollDiceCommand extends BaseCommand {
 
     /**
      * Tells server the dice were rolled and to distribute/require discarding of resources
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId){
-        ClientModel model = IServerFacade.getInstance().rollNumber(userId, gameId, this);
+    public String serverExec(){
+        ClientModel model = IServerFacade.getInstance().rollNumber(getGameId(), getUserId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {

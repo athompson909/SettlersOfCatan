@@ -3,22 +3,16 @@ package client.map.mapStates;
 import client.Client;
 import client.ClientFacade;
 import client.data.RobPlayerInfo;
-import client.map.IMapController;
 import client.map.MapController;
-import client.map.RobView;
-import client.resources.ResourceBarElement;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.*;
-import shared.model.ClientModel;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.Hex;
 import shared.model.map.Map;
 import shared.model.map.Port;
 import shared.model.map.VertexObject;
-
-import java.util.Observable;
 
 /**
  * Created by Alise on 10/8/2016.
@@ -56,8 +50,8 @@ public abstract class MapState  {
         }
 
         //Place the Roads
-        for (EdgeLocation edgeLocation : updatedMap.getEdgeObjects().keySet()) {
-            int owner = updatedMap.getEdgeObjects().get(edgeLocation).getOwner();
+        for (EdgeLocation edgeLocation : updatedMap.getEdgeValues().keySet()) {
+            int owner = updatedMap.getEdgeValues().get(edgeLocation).getOwner();
             mapController.getView().placeRoad(edgeLocation,  mapController.clientModel.getPlayers()[owner].getColor());
         }
 

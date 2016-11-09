@@ -613,7 +613,7 @@ public class JSONTranslatorTest extends TestCase {
                 "      \"x\": 1,\n" +
                 "      \"y\": -2\n" +
                 "    }\n" +
-                "  },\n" +
+                "  },\n" +    /// ====================================================END MAP
                 "  \"players\": [\n" +
                 "    {\n" +
                 "      \"resources\": {\n" +

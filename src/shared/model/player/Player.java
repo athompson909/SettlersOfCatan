@@ -399,32 +399,42 @@ public class Player { //
         return enoughCards;
     }
 
-    public boolean canDomesticTrade() {
-        int[] cardsToTrade = new int[5];
-        cardsToTrade[0] = canTradeWood();
-        cardsToTrade[1] = canTradeWheat();
-        cardsToTrade[2] = canTradeBrick();
-        cardsToTrade[3] = canTradeOre();
-        cardsToTrade[4] = canTradeSheep();
-       // return cardsToTrade;
-        if(cardsToTrade.length != 0) {return true;}
+    public boolean canOfferTrade(ResourceList offer) {
+        if(canTradeWood(offer.getWoodCardCount()) &&
+                canTradeWheat(offer.getWoodCardCount()) &&
+                canTradeBrick(offer.getBrickCardCount()) &&
+                canTradeOre(offer.getOreCardCount()) &&
+                canTradeSheep(offer.getSheepCardCount())){
+            return true;
+        }
         else {return false;}
     }
 
-    private int canTradeWood() {
-        return playerResourceList.getWoodCardCount();
+    public boolean canAcceptTrade(ResourceList offer) {
+        if(canTradeWood(-offer.getWoodCardCount()) &&
+                canTradeWheat(-offer.getWoodCardCount()) &&
+                canTradeBrick(-offer.getBrickCardCount()) &&
+                canTradeOre(-offer.getOreCardCount()) &&
+                canTradeSheep(-offer.getSheepCardCount())){
+            return true;
+        }
+        else {return false;}
     }
-    private int canTradeWheat() {
-        return playerResourceList.getWheatCardCount();
+
+    private boolean canTradeWood(int toTrade) {
+        return (playerResourceList.getWoodCardCount() >= toTrade);
     }
-    private int canTradeBrick() {
-        return playerResourceList.getBrickCardCount();
+    private boolean canTradeWheat(int toTrade) {
+        return (playerResourceList.getWheatCardCount()>= toTrade);
     }
-    private int canTradeOre() {
-        return playerResourceList.getOreCardCount();
+    private boolean canTradeBrick(int toTrade) {
+        return (playerResourceList.getBrickCardCount()>= toTrade);
     }
-    private int canTradeSheep() {
-        return playerResourceList.getSheepCardCount();
+    private boolean canTradeOre(int toTrade) {
+        return (playerResourceList.getOreCardCount()>= toTrade);
+    }
+    private boolean canTradeSheep(int toTrade) {
+        return (playerResourceList.getSheepCardCount()>= toTrade);
     }
 
 

@@ -1,6 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
@@ -46,12 +45,10 @@ public class PlayMonumentCommand extends BaseCommand {
      * Calls TurnTracker update methods to reflect new victory points
      * Calls Player update methods to reflect changes in old and new devCard lists
      *
-     * @param userId - the ID of the user
-     * @param gameId - the ID of the game
      */
     @Override
-    public String serverExec(int userId, int gameId) {
-        ClientModel model = IServerFacade.getInstance().playMonument(userId, gameId, this);
+    public String serverExec() {
+        ClientModel model = IServerFacade.getInstance().playMonument(getUserId(), getGameId(), this);
         if(model != null) {
             return ServerTranslator.getInstance().clientModelToString(model);
         }else {
