@@ -189,7 +189,7 @@ public class ServerTranslatorTest extends TestCase {
             ClientModel resultClientModel = jsonTranslator.modelFromJSON(testModelJSON);
 
 
-        //compare testClientModel to resultClientModel:
+        //compare testClientModel to resultClientModel:]
 
         // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
         //I should probably come up with a better way to see if it worked than auto-generated .equals() fns.
