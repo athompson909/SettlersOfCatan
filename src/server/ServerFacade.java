@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -382,9 +383,18 @@ public class ServerFacade implements IServerFacade {
     /**
      * Join a specific game.
      * @param command
-     * @return true is succesful.
+     * @return true is successful.
      */
     public boolean join(int userId, GameJoinCommand command){
+        User user = UserManager.getInstance().getUser(userID);
+
+        if(user != null) {
+            int gameID = command.getGameID();
+            CatanColor color = command.getColor();
+
+            //NEED TO IMPLEMENT A LINK BETWEEN USERS AND PLAYERS IN GAMES
+
+        }
         return false;
     }
 
