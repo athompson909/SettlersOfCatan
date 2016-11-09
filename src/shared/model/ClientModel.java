@@ -36,45 +36,45 @@ public class ClientModel extends Observable {
      * .
      * Updated every time the Poller or user requests a new copy of the ClientModel from the server.
      */
-    public int version = 0;
+    private int version = 0;
 
     /**
      * The current games specific number
      */
-    public int gameNumber;
+    private int gameNumber;
 
     /**
      * The index of the player who won the game. -1 if no one has won yet.
      */
-    public int winner = -1;
-    public boolean changed = false;
-    public ResourceBank resourceBank;
-    public MessageManager messageManager;
-    public TurnTracker turnTracker;
+    private int winner = -1;
+    private boolean changed = false;
+    private ResourceBank resourceBank;
+    private MessageManager messageManager;
+    private TurnTracker turnTracker;
     /**
      * The messageList object holding all the Chat messages
      */
-    public MessageList chat = new MessageList();
+    private MessageList chat = new MessageList();
 
     /**
      * The messageList object holding all the GameLog messages
      */
-    public MessageList log = new MessageList();
+    private MessageList log = new MessageList();
 
     /**
      * the Map object holding all the aspects of the map for this game
      */
-    public Map map;
+    private Map map;
 
     /**
      * An array of all the players included in this current game.
      */
-    public Player[] players;
+    private Player[] players;
 
     /**
      * The current Trade offer, if there is one.
      */
-    public TradeOffer tradeOffer;
+    private TradeOffer tradeOffer;
 
 
     /**
@@ -82,7 +82,7 @@ public class ClientModel extends Observable {
      * after the server has sent a newly updated model, and appropriately distribute the
      * updated data throughout the ClientModel.
      */
-    public ClientUpdateManager updateManager;
+    private ClientUpdateManager updateManager;
 
     //Constructor
     public ClientModel (int gameNumber){
@@ -91,7 +91,7 @@ public class ClientModel extends Observable {
         messageManager = new MessageManager();
         //Temporary making 4 default players so we can test stuff - Mitch
         players = new Player[4];
-        tradeOffer = new TradeOffer();
+        tradeOffer = null;
         turnTracker = new TurnTracker();
         resourceBank = new ResourceBank();
 
@@ -190,9 +190,26 @@ public class ClientModel extends Observable {
      * IN THE FUTURE: This should return an array of integers that lists
      * the number of cards of each resource type available
      */
-    public boolean canDomesticTrade(int playerIndex) {
+    public boolean canOfferTrade(int playerIndex, ResourceList offer, int receiverIndex) {
         // 0:WOOD, 1:WHEAT, 2:BRICK, 3:ORE, 4:SHEEP
-        return players[playerIndex].canDomesticTrade();
+
+        //must be their turn
+        //receiverIndex is not them and is a valid index
+        //need to check they have the values offering- positive ones
+        if(playerIndex != receiverIndex && receiverIndex >=0 && receiverIndex < 4) {
+            if(turnTracker.getCurrentTurn() == playerIndex) {
+                return players[playerIndex].canOfferTrade(offer);
+            }
+        }
+        return false;
+    }
+
+    public boolean canAcceptTrade(int index){
+        //valid index
+        if(index >=0 && index < 4){
+            return players[index].canAcceptTrade(tradeOffer.getTradeOfferList());
+        }
+        return false;
     }
 
     /**
@@ -497,8 +514,13 @@ public class ClientModel extends Observable {
      * @param off resource list offer.
      * @param receiverIndex index of the player receiving the offer
      */
-    public void offerTrade(int index, ResourceList off, int receiverIndex){
-
+    public boolean offerTrade(int index, ResourceList off, int receiverIndex){
+        if(canOfferTrade(index, off, receiverIndex)){
+            tradeOffer = new TradeOffer(index, receiverIndex, off);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -506,8 +528,16 @@ public class ClientModel extends Observable {
      * @param index of the player choosing.
      * @param accept returns true if they accept.
      */
-    public void acceptTrade(int index, boolean accept){
+    public boolean acceptTrade(int index, boolean accept){
+        if(!accept){
+            tradeOffer = null;
+            return true;
+        }else if(canAcceptTrade(index)){
+            //switch resources
 
+            return true;
+        }
+        return false;
     }
 
     /**
