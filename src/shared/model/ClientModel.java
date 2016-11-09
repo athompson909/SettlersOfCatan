@@ -477,8 +477,9 @@ public class ClientModel extends Observable {
     public void receiveResourcesFromDiceRoll(int diceRoll){
         ResourceList[] results = map.getDiceRollResults(diceRoll);
         for(int i=0; i < players.length; i++){
+            players[i].receiveCardsFromDiceRoll(results[i]);
 
-            players[i].recieveCardsFromDiceRoll(results[i]);
+            //players[i].recieveCardsFromDiceRoll(results[i]);
         }
     }
 

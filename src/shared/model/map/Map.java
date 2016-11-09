@@ -573,6 +573,9 @@ public class Map {
      */
     public ResourceList[] getDiceRollResults(int diceRollNumber) {
         ResourceList[] results = new ResourceList[4];
+        for(int i = 0; i < results.length; i ++) {
+            results[i] = new ResourceList();
+        }
         for (HexLocation key : hexes.keySet()) {
             if (hexes.get(key).getNumber() == diceRollNumber) {
                 getCardsFromVertices(hexes.get(key), results);
