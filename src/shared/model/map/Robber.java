@@ -29,6 +29,7 @@ public class Robber {
      * @return true if the location is not water, and not currently where the robber is at.
      */
     public boolean canPlaceRobber(HexLocation desiredHexLocation) {
+
         if (map.getHexes().get(desiredHexLocation).getResource().equals(HexType.WATER)) {
             return false;
         } else if (desiredHexLocation.equals(currentHexlocation)) {

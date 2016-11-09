@@ -18,7 +18,7 @@ public class MapTest extends TestCase {
     public void testMapHexes() {
         System.out.println("testMapHexes");
         //System.out.println(map.getHexes().size());
-        assert (map.getHexes().size() == 37); //There should be 37 hexes.
+        assert (map.getHexes().size() == 19); //There should be 19 hexes.
 
         //I have personally verified this test case is accurate.
         String defaultHexesString = "Hex{location=HexLocation [x=2, y=1], number=0, resource=WATER}\n" +

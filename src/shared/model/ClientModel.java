@@ -460,6 +460,7 @@ public class ClientModel extends Observable {
     public void receiveResourcesFromDiceRoll(int diceRoll){
         //TODO: Go to map and calculate how many cards each player gets
 
+
         //TODO: Calculate resource production, and consider special rulebook exception.
         //int total1;
         //int total2;
