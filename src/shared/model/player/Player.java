@@ -104,7 +104,7 @@ public class Player { //
     /**
      * Maritime Trade manager so the player can trade with the bank using ports.
      */
-    private MaritimeTradeManager maritimeTradeManager = new MaritimeTradeManager();
+    private transient MaritimeTradeManager maritimeTradeManager = new MaritimeTradeManager();
 
 
     /**
@@ -421,6 +421,16 @@ public class Player { //
         else {return false;}
     }
 
+    public void trade(ResourceList trade, boolean sender){
+        int addOrSub = 1;
+        if(sender){addOrSub = -1;}
+        playerResourceList.incWoodCardCount(trade.getWoodCardCount()*addOrSub);
+        playerResourceList.incBrickCardCount(trade.getBrickCardCount()*addOrSub);
+        playerResourceList.incWheatCardCount(trade.getWheatCardCount()*addOrSub);
+        playerResourceList.incOreCardCount(trade.getOreCardCount()*addOrSub);
+        playerResourceList.incSheepCardCount(trade.getSheepCardCount()*addOrSub);
+    }
+
     private boolean canTradeWood(int toTrade) {
         return (playerResourceList.getWoodCardCount() >= toTrade);
     }
@@ -438,7 +448,7 @@ public class Player { //
     }
 
 
-    public void recieveCardsFromDiceRoll(ResourceList resourceList){
+    public void receiveCardsFromDiceRoll(ResourceList resourceList){
         playerResourceList.incWoodCardCount(resourceList.getWoodCardCount());
         playerResourceList.incBrickCardCount(resourceList.getBrickCardCount());
         playerResourceList.incSheepCardCount(resourceList.getSheepCardCount());

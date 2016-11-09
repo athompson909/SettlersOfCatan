@@ -174,7 +174,7 @@ public interface IServerFacade {
      * List the AI
      * @return a string array of the names of the AI
      */
-    String[] listAI(int userId);
+    String[] listAI();
 
 
     /**
@@ -182,5 +182,11 @@ public interface IServerFacade {
      * @return the user's id
      */
     int getUserId();
+
+    /**
+     * similar to getUserId, is set in gameCreate (and possible in gameJoin but not at this point)
+     * @return the new game's id
+     */
+    int getGameId();
 
 }

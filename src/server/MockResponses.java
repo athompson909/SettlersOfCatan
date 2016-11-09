@@ -90,4 +90,22 @@ public class MockResponses {
             "  \"id\": 0,\n" +
             "  \"color\": \"puce\"\n" +
             "}";
+
+    public final static String GAME_CREATE_REQUEST = "{\n" +
+            "  \"randomTiles\": \"false\",\n" +
+            "  \"randomNumbers\": \"false\",\n" +
+            "  \"randomPorts\": \"false\",\n" +
+            "  \"name\": \"adam is cool\"\n" +
+            "}";
+
+    public final static String GAME_CREATE_RESPONSE = "{\n" +
+            "  \"title\": \"adam is cool\",\n" +
+            "  \"id\": 3,\n" +
+            "  \"players\": [\n" +
+            "    {},\n" +
+            "    {},\n" +
+            "    {},\n" +
+            "    {}\n" +
+            "  ]\n" +
+            "}";
 }

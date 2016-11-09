@@ -24,8 +24,8 @@ public class BaseCommandTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        Server server = new Server("localhost", 8081);
-        server.run();
+//        Server server = new Server("localhost", 8081);
+//        server.run();
         serverProxy.setHost("localhost");
         serverProxy.setPort("8081");
 
@@ -62,6 +62,9 @@ public class BaseCommandTest extends TestCase {
 
     public void testAll() throws ClientException {
 
+        Server server = new Server("localhost", 8081);
+        server.run();
+
         LoginCommand loginCommand = new LoginCommand("Sam", "sam");
 
         String response = serverProxy.userLogin(jsonTranslator.loginCmdToJSON(loginCommand));
@@ -71,8 +74,11 @@ public class BaseCommandTest extends TestCase {
         System.out.println(gamesListJSON.toString());
 
         String gameJoinResponse = serverProxy.gameJoin(new JSONObject(MockResponses.JOIN_REQUEST));
-        System.out.print(gameJoinResponse);
+        System.out.println(gameJoinResponse);
         assertEquals("Success", gameJoinResponse);
+
+        JSONObject gameCreateResponse = serverProxy.gameCreate(new JSONObject(MockResponses.GAME_CREATE_REQUEST));
+        System.out.println(gameCreateResponse.toString());
     }
 
 

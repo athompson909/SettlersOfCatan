@@ -131,7 +131,7 @@ public class JSONTranslator {
 //BUILD NEW MAP OBJECT
         Map newCMMap = new Map(newHexesMap, newPortsMap, newCitiesStlmtsMap, newRoadsMap, newRobberHexLoc);
         newCMMap.setRadius(newCMRadius);
-
+        newCMMap.populatePortVertexLocations();   //not sure about this.... does this need to happen every time? No documentation! :/
         Robber newRobber = new Robber(newCMMap);
 
         //Map object is complete (I think)! ready to add to new clientModel obj.

@@ -1,5 +1,6 @@
 package shared.model.map;
 
+import com.google.gson.annotations.SerializedName;
 import shared.locations.EdgeLocation;
 
 /**
@@ -18,6 +19,7 @@ public class EdgeValue {
     /**
      * X and Y coordinates and direction of hex this edge is associated with
      */
+    @SerializedName("location")
     private EdgeLocation edgelocation;
 
     //constructor

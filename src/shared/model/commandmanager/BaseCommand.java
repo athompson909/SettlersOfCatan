@@ -39,7 +39,8 @@ public abstract class BaseCommand implements HttpHandler {
             in.close();
         }
 
-        System.out.println("Query: "+query);
+        if(query.length() > 0) System.out.println("query, post: "+query);
+        else System.out.println("query, get.");
         setRequest(query);
 
         String response = serverExec();
@@ -62,15 +63,16 @@ public abstract class BaseCommand implements HttpHandler {
     }
 
     public String getUsername() {
-        return getCookieJSON().getString("username");
+        return getCookieJSON().getString("name");
     }
 
     public String getPassword() {
         return getCookieJSON().getString("password");
     }
 
+    //todo: figure out what the query should be
     public int getGameId() {
-        return getCookieJSON().getInt("gameId");
+        return getCookieJSON().getInt("gameID");
     }
 
     public abstract JSONObject getCookieJSON();

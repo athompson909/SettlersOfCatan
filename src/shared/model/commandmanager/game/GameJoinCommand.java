@@ -5,7 +5,6 @@ import server.IServerFacade;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.BaseCommand;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,11 +57,12 @@ public class GameJoinCommand extends BaseCommand {
     @Override
     public String serverExec(){
 
+        JSONObject requestJSON = new JSONObject(getRequest());
+        int gameId = requestJSON.getInt("id");
+
         boolean success = IServerFacade.getInstance().join(getUserId(), this);
         if(success) {
-            String loginCookieJSON = "{\"name\":\""+getUsername()+"\",\"password\":\""+getPassword()+"\",\"playerID\":"+0+"}";//todo: figure out a way to get playerID
-            String loginCookieStr = URLEncoder.encode(loginCookieJSON);
-            String fullResponseLoginCookieStr = "catan.user="+loginCookieStr+"; catan.game="+getGameId()+";";
+            String fullResponseLoginCookieStr = "catan.game="+gameId+";Path=/;";
             List<String> cookieList = new ArrayList<>(1);
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);

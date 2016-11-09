@@ -475,7 +475,7 @@ public class ClientModel extends Observable {
     public void receiveResourcesFromDiceRoll(int diceRoll){
         ResourceList[] results = map.getDiceRollResults(diceRoll);
         for(int i=0; i < players.length; i++){
-            players[i].recieveCardsFromDiceRoll(results[i]);
+            players[i].receiveCardsFromDiceRoll(results[i]);
         }
     }
 
@@ -518,13 +518,19 @@ public class ClientModel extends Observable {
      * @param accept returns true if they accept.
      */
     public boolean acceptTrade(int index, boolean accept){
-        if(!accept){
-            tradeOffer = null;
-            return true;
-        }else if(canAcceptTrade(index)){
-            //switch resources
-
-            return true;
+        //must be the receiver to accept or reject
+        if(index == tradeOffer.getReceiverIndex()) {
+            if (!accept) {
+                tradeOffer = null;
+                return true;
+            } else if (canAcceptTrade(index)) {
+                //switch resources
+                //sender
+                players[tradeOffer.getSenderIndex()].trade(tradeOffer.getTradeOfferList(), true);
+                //receiver
+                players[index].trade(tradeOffer.getTradeOfferList(), false);
+                return true;
+            }
         }
         return false;
     }
@@ -604,6 +610,10 @@ public class ClientModel extends Observable {
     public void setChat(MessageList newChat) {chat = newChat;}
     public void setLog(MessageList newLog) {log = newLog;}
 
+    public void incrementVersion(){
+        version++;
+    }
+
     // Observable override methods
     @Override
     public synchronized void addObserver(Observer o) {
@@ -649,6 +659,34 @@ public class ClientModel extends Observable {
     public synchronized int countObservers() {
         return super.countObservers();
     }
+
+
+
+    //FOR TESTING ONLY - THIS WAS AUTO-GENERATED
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClientModel)) return false;
+
+        ClientModel that = (ClientModel) o;
+
+        if (version != that.version) return false;
+        if (gameNumber != that.gameNumber) return false;
+        if (winner != that.winner) return false;
+        if (changed != that.changed) return false;
+        if (resourceBank != null ? !resourceBank.equals(that.resourceBank) : that.resourceBank != null) return false;
+        if (messageManager != null ? !messageManager.equals(that.messageManager) : that.messageManager != null)
+            return false;
+        if (turnTracker != null ? !turnTracker.equals(that.turnTracker) : that.turnTracker != null) return false;
+        if (chat != null ? !chat.equals(that.chat) : that.chat != null) return false;
+        if (log != null ? !log.equals(that.log) : that.log != null) return false;
+        if (map != null ? !map.equals(that.map) : that.map != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(players, that.players)) return false;
+        if (tradeOffer != null ? !tradeOffer.equals(that.tradeOffer) : that.tradeOffer != null) return false;
+        return updateManager != null ? updateManager.equals(that.updateManager) : that.updateManager == null;
+    }
+
 }
 
 
