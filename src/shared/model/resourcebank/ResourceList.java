@@ -109,8 +109,8 @@ public class ResourceList {
                 decWheatCardCount(total);
                 break;
             case ORE:
-                total = getWoodCardCount();
-                decWheatCardCount(total);
+                total = getOreCardCount();
+                decOreCardCount(total);
                 break;
         }
         return total;
