@@ -3,20 +3,18 @@ package shared_tests;
 import junit.framework.TestCase;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
-import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.ClientModel;
-import shared.model.map.Map;
 import shared.model.map.VertexObject;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceList;
 
 /**
- * Created by Mitchell on 11/8/2016.
+ * Created by Mitchell on 11/9/2016.
  */
-public class DiceCardResultsTest extends TestCase{
+public class PlaySoliderTest extends TestCase {
 
     ClientModel clientModel = new ClientModel(1);
 
@@ -25,7 +23,7 @@ public class DiceCardResultsTest extends TestCase{
     private final int PLAYERORANGE = 2;
     private final int PLAYERBLUE = 3;
 
-    public void testRollSix() {
+    public void testPlayingSoldiers() {
         //Fake players
         clientModel.getPlayers()[PLAYERWHITE] = new Player(CatanColor.BLUE, "bacon", 2, 0);
         clientModel.getPlayers()[PLAYERRED] = new Player(CatanColor.PURPLE, "petey", 5, 0);
@@ -41,27 +39,17 @@ public class DiceCardResultsTest extends TestCase{
         whiteSettlement2.setOwner(PLAYERWHITE);
         whiteSettlement2.setPieceType(PieceType.SETTLEMENT);
         clientModel.buildSettlement(whiteSettlement2, true);
-/*
-        clientModel.canPlaceSettlement(PLAYERRED, new VertexLocation(new HexLocation(0,1), VertexDirection.NorthWest));
-        clientModel.canPlaceSettlement(PLAYERRED, new VertexLocation(new HexLocation(1,0), VertexDirection.NorthWest));
 
-        clientModel.canPlaceSettlement(PLAYERORANGE, new VertexLocation(new HexLocation(0,2), VertexDirection.NorthEast));
-        clientModel.canPlaceSettlement(PLAYERORANGE, new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest));
+        ResourceList playerWhiteResourceList = clientModel.getPlayers()[PLAYERWHITE].getPlayerResourceList();
+        ResourceList playerBlueResourceList = clientModel.getPlayers()[PLAYERBLUE].getPlayerResourceList();
+        playerWhiteResourceList.incWoodCardCount(1);
 
-        clientModel.canPlaceSettlement(PLAYERBLUE, new VertexLocation(new HexLocation(-2,2), VertexDirection.NorthWest));
-        clientModel.canPlaceSettlement(PLAYERBLUE, new VertexLocation(new HexLocation(-1,0), VertexDirection.NorthWest));
-*/
+        clientModel.playSoldierCard(PLAYERBLUE, whiteSettlement1.getVertexLocation().getHexLoc(), PLAYERWHITE);
 
-        ResourceList playerWhiteResources = clientModel.getPlayers()[PLAYERWHITE].getPlayerResourceList();
+        assert (playerBlueResourceList.getWoodCardCount() == 1);
+        assert (playerWhiteResourceList.getCardCount() == 0);
 
-        clientModel.receiveResourcesFromDiceRoll(6);
-        assert (playerWhiteResources.getOreCardCount() == 1);
-        assert (playerWhiteResources.getWoodCardCount() == 1);
 
-        clientModel.receiveResourcesFromDiceRoll(4);
-        assert (playerWhiteResources.getBrickCardCount() == 1);
 
-        clientModel.receiveResourcesFromDiceRoll(3);
-        assert (playerWhiteResources.getOreCardCount() == 2);
     }
 }

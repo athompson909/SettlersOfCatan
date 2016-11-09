@@ -12,7 +12,7 @@ public interface IServerFacade {
 
     //MOVES COMMANDS
 
-    IServerFacade instance = new MockServerFacade() {};
+    IServerFacade instance = new ServerFacade() {};
 
     static IServerFacade getInstance() {
         return instance;

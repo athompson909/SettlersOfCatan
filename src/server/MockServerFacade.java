@@ -72,7 +72,7 @@ public class MockServerFacade implements IServerFacade {
      * @param userID of the player buying the card.
      */
     @Override
-    public ClientModel purchaseDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
+    public ClientModel buyDevCard(int userID, int gameID, PurchaseDevCardCommand purchDevCardObj){
         ClientModel clientModel = new JSONTranslator().modelFromJSON(new JSONObject(MockResponses.GAME_MODEL));
         return clientModel;
     }
