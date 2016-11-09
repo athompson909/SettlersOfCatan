@@ -1,6 +1,5 @@
 package shared.model.map;
 
-import shared.definitions.PieceType;
 import shared.locations.*;
 
 /**
@@ -86,8 +85,8 @@ public class BuildRoadManager {
      */
     private boolean areNorthEdgeNeighborsConnected(int playerID, EdgeLocation desiredEdgeLocation) {
         //Iterate through all edgeValues...
-        for (EdgeLocation key : map.getEdgeObjects().keySet()) {
-            EdgeValue tempEdgeValue = map.getEdgeObjects().get(key);
+        for (EdgeLocation key : map.getEdgeValues().keySet()) {
+            EdgeValue tempEdgeValue = map.getEdgeValues().get(key);
             EdgeLocation tempEdgeLocation = tempEdgeValue.getEdgeLocation();
 
             //If the player owns the Northwest or Northeast edgeValues on the same hex, then the road is connected.
@@ -132,8 +131,8 @@ public class BuildRoadManager {
      */
     private boolean areNorthWestEdgeNeighborsConnected(int playerID, EdgeLocation desiredEdgeLocation) {
         //Iterate through all edgeValues...
-        for (EdgeLocation key : map.getEdgeObjects().keySet()) {
-            EdgeValue tempEdgeValue = map.getEdgeObjects().get(key);
+        for (EdgeLocation key : map.getEdgeValues().keySet()) {
+            EdgeValue tempEdgeValue = map.getEdgeValues().get(key);
             EdgeLocation tempEdgeLocation = tempEdgeValue.getEdgeLocation();
 
             //If the player owns the North edgeValue on the same hex, then the road is connected.
@@ -178,8 +177,8 @@ public class BuildRoadManager {
      */
     private boolean areNorthEastEdgeNeighborsConnected(int playerID, EdgeLocation desiredEdgeLocation) {
         //Iterate through all edgeValues...
-        for (EdgeLocation key : map.getEdgeObjects().keySet()) {
-            EdgeValue tempEdgeValue = map.getEdgeObjects().get(key);
+        for (EdgeLocation key : map.getEdgeValues().keySet()) {
+            EdgeValue tempEdgeValue = map.getEdgeValues().get(key);
             EdgeLocation tempEdgeLocation = tempEdgeValue.getEdgeLocation();
 
             //If the player owns the North edgeValue on the same hex, then the road is connected.
@@ -240,8 +239,8 @@ public class BuildRoadManager {
      */
     private boolean isEdgeLocationAvailable(EdgeLocation edgeLocation) {
         if (map.getAllValidEdgeLocations().containsKey(edgeLocation)) {
-            if (!map.getEdgeObjects().containsKey(edgeLocation)) {
-                //if(map.getEdgeObjects().get(edgeLocation).getOwner() == -1){
+            if (!map.getEdgeValues().containsKey(edgeLocation)) {
+                //if(map.getEdgeValues().get(edgeLocation).getOwner() == -1){
                 return true;
             }
         }
@@ -323,15 +322,15 @@ public class BuildRoadManager {
     public void placeRoad(int playerID, EdgeLocation edgeLocation) {
         EdgeValue edgeValue = new EdgeValue(edgeLocation);
         edgeValue.setOwner(playerID);
-        map.getEdgeObjects().put(edgeLocation, edgeValue);
+        map.getEdgeValues().put(edgeLocation, edgeValue);
     }
 
     public void addTempRoad(EdgeValue edgeValue){
-        map.getEdgeObjects().put(edgeValue.getEdgeLocation(), edgeValue);
+        map.getEdgeValues().put(edgeValue.getEdgeLocation(), edgeValue);
     }
 
     public void removeTempRoad(EdgeLocation edgeLocation){
-        map.getEdgeObjects().remove(edgeLocation);
+        map.getEdgeValues().remove(edgeLocation);
     }
 
 }

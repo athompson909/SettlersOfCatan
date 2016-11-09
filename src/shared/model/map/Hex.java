@@ -29,6 +29,10 @@ public class Hex {
      */
     private HexType resource = null;
 
+
+
+
+
     public Hex(HexLocation location, HexType hexType){
         this.location = location;
         this.resource = hexType;
