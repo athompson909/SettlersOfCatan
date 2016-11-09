@@ -256,16 +256,17 @@ public class ServerProxy implements IServerProxy {
      * @param connection the connection that was just initialized with request method set
      */
     private void setCookies(HttpURLConnection connection) throws ClientException {
-        if(hasLoggedIn) {
+        if (hasJoined) {
+            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie + "; catan.game=" + joinCookie);
+            return;
+        }
+        else if(hasLoggedIn) {
             connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
         }
 
         if (isJoin) {
 //            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie);
             hasJoined = true;
-        }
-        else if (hasJoined) {
-            connection.setRequestProperty("Cookie", "catan.user=" + loginCookie + "; catan.game=" + joinCookie);
         }
 
     }

@@ -521,13 +521,19 @@ public class ClientModel extends Observable {
      * @param accept returns true if they accept.
      */
     public boolean acceptTrade(int index, boolean accept){
-        if(!accept){
-            tradeOffer = null;
-            return true;
-        }else if(canAcceptTrade(index)){
-            //switch resources
-
-            return true;
+        //must be the receiver to accept or reject
+        if(index == tradeOffer.getReceiverIndex()) {
+            if (!accept) {
+                tradeOffer = null;
+                return true;
+            } else if (canAcceptTrade(index)) {
+                //switch resources
+                //sender
+                players[tradeOffer.getSenderIndex()].trade(tradeOffer.getTradeOfferList(), true);
+                //receiver
+                players[index].trade(tradeOffer.getTradeOfferList(), false);
+                return true;
+            }
         }
         return false;
     }
@@ -602,6 +608,10 @@ public class ClientModel extends Observable {
     public void setTurnTracker(TurnTracker newTurnTracker) {turnTracker = newTurnTracker;}
     public void setChat(MessageList newChat) {chat = newChat;}
     public void setLog(MessageList newLog) {log = newLog;}
+
+    public void incrementVersion(){
+        version++;
+    }
 
     // Observable override methods
     @Override

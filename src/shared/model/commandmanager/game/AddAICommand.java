@@ -29,6 +29,16 @@ public class AddAICommand extends BaseCommand {
 
 
     private String AIType;
+
+    /**
+     * makes it possible that the superclass can follow the correct cookie format
+     * @return
+     */
+    @Override
+    public JSONObject getCookieJSON() {
+        return getCookieJSONOnlyLogin();
+    }
+
     /**
      * Tells server to add AI to game
      */

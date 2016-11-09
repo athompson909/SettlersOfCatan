@@ -39,7 +39,7 @@ public class TurnTracker {
      * Constructor
      */
     public TurnTracker(){
-
+        currentTurn = 0;
     }
 
 

@@ -4,6 +4,8 @@ import client.ServerProxy;
 import exceptions.ClientException;
 import junit.framework.TestCase;
 import org.json.JSONArray;
+import org.json.JSONObject;
+import server.MockResponses;
 import server.Server;
 import shared.model.JSONTranslator;
 import shared.model.commandmanager.game.LoginCommand;
@@ -67,6 +69,10 @@ public class BaseCommandTest extends TestCase {
 
         JSONArray gamesListJSON = serverProxy.gamesList();
         System.out.println(gamesListJSON.toString());
+
+        String gameJoinResponse = serverProxy.gameJoin(new JSONObject(MockResponses.JOIN_REQUEST));
+        System.out.print(gameJoinResponse);
+        assertEquals("Success", gameJoinResponse);
     }
 
 

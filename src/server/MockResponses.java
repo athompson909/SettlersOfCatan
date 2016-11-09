@@ -85,4 +85,9 @@ public class MockResponses {
             "    ]\n"+
             "  }\n"+
             "]";
+
+    public final static String JOIN_REQUEST = "{\n" +
+            "  \"id\": 0,\n" +
+            "  \"color\": \"puce\"\n" +
+            "}";
 }
