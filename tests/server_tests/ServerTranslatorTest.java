@@ -10,6 +10,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.locations.*;
 import shared.model.ClientModel;
+import shared.model.JSONTranslator;
 import shared.model.TradeOffer;
 import shared.model.map.EdgeValue;
 import shared.model.map.Map;
@@ -34,6 +35,7 @@ import java.util.HashMap;
 public class ServerTranslatorTest extends TestCase {
 
     private ClientModel testClientModel;
+    private JSONTranslator jsonTranslator = new JSONTranslator(); //JUST FOR TESTING MODEL TRANSLATION
 
     @Test
     public void setUp() throws Exception {
@@ -68,6 +70,9 @@ public class ServerTranslatorTest extends TestCase {
                 testGameLogMList.insertMessageLine(testLogMsg2);
         testMessageMgr.setChat(testChatMList);
         testMessageMgr.setLog(testGameLogMList);
+        //why do we need to do this? idk but they are all used in the program sometime
+        testClientModel.setChat(testChatMList);
+        testClientModel.setLog(testGameLogMList);
 
         TurnTracker testTT = new TurnTracker();
             testTT.setStatus("FirstRound");
@@ -78,6 +83,8 @@ public class ServerTranslatorTest extends TestCase {
 
         Map testMap = new Map(false, true, false);
             Robber testRobber = new Robber(testMap);
+            HexLocation testRobberHL = new HexLocation(2,2);
+            testRobber.setCurrentHexlocation(testRobberHL);
         testMap.setRobber(testRobber);
 
         //fake settlements
@@ -113,6 +120,8 @@ public class ServerTranslatorTest extends TestCase {
             HashMap<VertexLocation, VertexObject> testMapVLs = new HashMap<>();
             testMapVLs.put(testStlmtVL1, testStlmtVO1);
             testMapVLs.put(testStlmtVL2, testStlmtVO2);
+            testMapVLs.put(testCityVL1, testCityVO1);
+            testMapVLs.put(testCityVL2, testCityVO2);
         //
 
 
@@ -173,10 +182,18 @@ public class ServerTranslatorTest extends TestCase {
     public void testModelToJSON() throws Exception {
         System.out.println(">TESTING MODELTOJSON TRANSLATION!");
 
-            String testModelJSON = ServerTranslator.getInstance().modelToJSON(testClientModel);
+            String testModelString = ServerTranslator.getInstance().modelToJSON(testClientModel);
+            JSONObject testModelJSON = new JSONObject(testModelString);
 
+        //maybe put it through the JSONTranslator's modelFromJSON function to see if it comes out the same?
+            ClientModel resultClientModel = jsonTranslator.modelFromJSON(testModelJSON);
+
+
+        //compare testClientModel to resultClientModel:
 
         // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
+        //I should probably come up with a better way to see if it worked than auto-generated .equals() fns.
+        assertTrue(testClientModel.equals(resultClientModel));
     }
 
 }

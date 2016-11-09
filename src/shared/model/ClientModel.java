@@ -659,6 +659,34 @@ public class ClientModel extends Observable {
     public synchronized int countObservers() {
         return super.countObservers();
     }
+
+
+
+    //FOR TESTING ONLY - THIS WAS AUTO-GENERATED
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ClientModel)) return false;
+
+        ClientModel that = (ClientModel) o;
+
+        if (version != that.version) return false;
+        if (gameNumber != that.gameNumber) return false;
+        if (winner != that.winner) return false;
+        if (changed != that.changed) return false;
+        if (resourceBank != null ? !resourceBank.equals(that.resourceBank) : that.resourceBank != null) return false;
+        if (messageManager != null ? !messageManager.equals(that.messageManager) : that.messageManager != null)
+            return false;
+        if (turnTracker != null ? !turnTracker.equals(that.turnTracker) : that.turnTracker != null) return false;
+        if (chat != null ? !chat.equals(that.chat) : that.chat != null) return false;
+        if (log != null ? !log.equals(that.log) : that.log != null) return false;
+        if (map != null ? !map.equals(that.map) : that.map != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(players, that.players)) return false;
+        if (tradeOffer != null ? !tradeOffer.equals(that.tradeOffer) : that.tradeOffer != null) return false;
+        return updateManager != null ? updateManager.equals(that.updateManager) : that.updateManager == null;
+    }
+
 }
 
 
