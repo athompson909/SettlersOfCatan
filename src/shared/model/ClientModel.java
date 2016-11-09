@@ -323,7 +323,7 @@ public class ClientModel extends Observable {
 
     /**
      * Soldier card functionality.
-     * @param playerIndex
+     * @param index
      */
     public void playSoldierCard(int index, HexLocation robberLocation, int victimIndex){
         players[index].playSoldierCard();
@@ -333,7 +333,7 @@ public class ClientModel extends Observable {
 
     /**
      * Places the robber at the desired Hex Location.
-     * @param desiredHexLoc to place the robber.
+     * @param robberLocation to place the robber.
      */
     public void placeRobber(int index, HexLocation robberLocation, int victimIndex){
         map.placeRobber(robberLocation);
@@ -474,14 +474,6 @@ public class ClientModel extends Observable {
     }
 
     /**
-     * Finishes the players turn, and changes to the next turn.
-     * @param index of the player ending their turn.
-     */
-    public void finishTurn(int index){
-
-    }
-
-    /**
      * Send a chat message.
      * @param index of the player sending the message.
      * @param message the player wants to display.
@@ -496,6 +488,44 @@ public class ClientModel extends Observable {
      * @param discarded cards the player has selected to discard.
      */
     public void discardCards(int index, ResourceList discarded){
+
+    }
+
+    /**
+     * Player offering a trade.
+     * @param index of the player offering the trade.
+     * @param off resource list offer.
+     * @param receiverIndex index of the player receiving the offer
+     */
+    public void offerTrade(int index, ResourceList off, int receiverIndex){
+
+    }
+
+    /**
+     * Player choosing whether or not to accept a trade.
+     * @param index of the player choosing.
+     * @param accept returns true if they accept.
+     */
+    public void acceptTrade(int index, boolean accept){
+
+    }
+
+    /**
+     * Maratime Trade Request
+     * @param index of the player trading.
+     * @param ratio of the trade.
+     * @param inputResource to trade.
+     * @param outputResource to recieve.
+     */
+    public void martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+
+    }
+
+    /**
+     * Finishes the players turn, and changes to the next turn.
+     * @param index of the player ending their turn.
+     */
+    public void finishTurn(int index){
 
     }
 
