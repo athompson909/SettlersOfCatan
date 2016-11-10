@@ -723,6 +723,7 @@ public class JSONTranslator {
                 if(!currPlayerInfoStr.equals("{}")){
                     //it's ok to make PlayerInfo object, since it's not blank
                     PlayerInfo newPlayerInfo = gsonConverter.fromJson(currPlayerInfoStr, PlayerInfo.class);
+                    newPlayerInfo.setPlayerIndex(p); //their index is whatever number they are in the array
                     tempPIArrayList.add(newPlayerInfo);
 
                //     System.out.println("\t Player was good, added player: " + newPlayerInfo);

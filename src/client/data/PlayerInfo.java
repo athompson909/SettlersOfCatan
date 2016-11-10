@@ -25,7 +25,7 @@ public class PlayerInfo
 	{
 		setId(-1);
 		setPlayerIndex(-1);
-		setName(null);  //changed from ""
+		setName(null);
 		setColor(null);
 	}
 
@@ -88,8 +88,17 @@ public class PlayerInfo
 			return false;
 		}
 		final PlayerInfo other = (PlayerInfo) obj;
-		
-		return this.id == other.id;
+
+		if (!name.equals(other.getName()))
+			return false;
+		if (id != other.getId())
+			return false;
+		if (playerIndex != other.getPlayerIndex())
+			return false;
+		if (color != other.getColor())
+			return false;
+
+		return true;
 	}
 
     @Override
