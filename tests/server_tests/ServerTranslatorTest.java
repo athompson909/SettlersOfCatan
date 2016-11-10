@@ -1,10 +1,14 @@
 package server_tests;
 
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import server.Game;
 import server.ServerTranslator;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
@@ -25,7 +29,9 @@ import shared.model.resourcebank.ResourceBank;
 import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This is the JUnit test class for the ServerTranslator.
@@ -35,6 +41,7 @@ import java.util.HashMap;
 public class ServerTranslatorTest extends TestCase {
 
     private ClientModel testClientModel;
+    private GameInfo[] testGamesArr;
     private JSONTranslator jsonTranslator = new JSONTranslator(); //JUST FOR TESTING MODEL TRANSLATION
 
     @Test
@@ -42,6 +49,7 @@ public class ServerTranslatorTest extends TestCase {
         super.setUp();
 
         setUpTestClientModel();
+        setUpTestGameList();
     }
 
     // Creates all the pieces of a fake client model object, following the JSONTranslator's test
@@ -91,14 +99,14 @@ public class ServerTranslatorTest extends TestCase {
                     HexLocation testStlmtHL1 = new HexLocation(1, -2);
                     VertexDirection testStlmtVD1 = VertexDirection.SouthWest;
                 VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
-            VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1);
+            VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1.getNormalizedLocation());  ///TESTING THIS **********
             testStlmtVO1.setPieceType(PieceType.SETTLEMENT);
             testStlmtVO1.setOwner(1);
 
                     HexLocation testStlmtHL2 = new HexLocation(-1, 0);
                     VertexDirection testStlmtVD2 = VertexDirection.SouthEast;
                 VertexLocation testStlmtVL2 = new VertexLocation(testStlmtHL2, testStlmtVD2);
-            VertexObject testStlmtVO2 = new VertexObject(testStlmtVL2);
+            VertexObject testStlmtVO2 = new VertexObject(testStlmtVL2.getNormalizedLocation());  ///TESTING THIS **********
             testStlmtVO2.setPieceType(PieceType.SETTLEMENT);
             testStlmtVO2.setOwner(3);
 
@@ -106,22 +114,22 @@ public class ServerTranslatorTest extends TestCase {
                     HexLocation testCityHL1 = new HexLocation(2, -2);
                     VertexDirection testCityVD1 = VertexDirection.NorthWest;
                 VertexLocation testCityVL1 = new VertexLocation(testCityHL1, testCityVD1);
-            VertexObject testCityVO1 = new VertexObject(testCityVL1);
+            VertexObject testCityVO1 = new VertexObject(testCityVL1.getNormalizedLocation());  ///TESTING THIS **********
             testCityVO1.setPieceType(PieceType.CITY);
             testCityVO1.setOwner(4);
 
                     HexLocation testCityHL2 = new HexLocation(-1, -1);
                     VertexDirection testCityVD2 = VertexDirection.NorthEast;
                 VertexLocation testCityVL2 = new VertexLocation(testCityHL2, testCityVD2);
-            VertexObject testCityVO2 = new VertexObject(testCityVL2);
+            VertexObject testCityVO2 = new VertexObject(testCityVL2.getNormalizedLocation());  ///TESTING THIS **********
             testCityVO2.setPieceType(PieceType.CITY);
             testCityVO2.setOwner(1);
         //
             HashMap<VertexLocation, VertexObject> testMapVLs = new HashMap<>();
-            testMapVLs.put(testStlmtVL1, testStlmtVO1);
-            testMapVLs.put(testStlmtVL2, testStlmtVO2);
-            testMapVLs.put(testCityVL1, testCityVO1);
-            testMapVLs.put(testCityVL2, testCityVO2);
+            testMapVLs.put(testStlmtVL1.getNormalizedLocation(), testStlmtVO1);    ///TESTING THESE **********
+            testMapVLs.put(testStlmtVL2.getNormalizedLocation(), testStlmtVO2);
+            testMapVLs.put(testCityVL1.getNormalizedLocation(), testCityVO1);
+            testMapVLs.put(testCityVL2.getNormalizedLocation(), testCityVO2);
         //
 
 
@@ -129,18 +137,18 @@ public class ServerTranslatorTest extends TestCase {
                     HexLocation testRoadHL1 = new HexLocation(0, -1);
                     EdgeDirection testRoadED1 = EdgeDirection.SouthEast;
                 EdgeLocation testRoadEL1 = new EdgeLocation(testRoadHL1, testRoadED1);
-            EdgeValue testRoadEV1 = new EdgeValue(testRoadEL1);
+            EdgeValue testRoadEV1 = new EdgeValue(testRoadEL1.getNormalizedLocation());  ///TESTING THIS **********
             testRoadEV1.setOwner(1);
 
                     HexLocation testRoadHL2 = new HexLocation(2, -2);
                     EdgeDirection testRoadED2 = EdgeDirection.NorthWest;
                 EdgeLocation testRoadEL2 = new EdgeLocation(testRoadHL2, testRoadED2);
-            EdgeValue testRoadEV2 = new EdgeValue(testRoadEL2);
+            EdgeValue testRoadEV2 = new EdgeValue(testRoadEL2.getNormalizedLocation());  ///TESTING THIS **********
             testRoadEV2.setOwner(4);
         //
             HashMap<EdgeLocation, EdgeValue> testMapEVs = new HashMap<>();
-            testMapEVs.put(testRoadEL1, testRoadEV1);
-            testMapEVs.put(testRoadEL2, testRoadEV2);
+            testMapEVs.put(testRoadEL1.getNormalizedLocation(), testRoadEV1);  ///TESTING THESE **********
+            testMapEVs.put(testRoadEL2.getNormalizedLocation(), testRoadEV2);
         //
 
         testMap.setVertexObjects(testMapVLs);
@@ -159,7 +167,6 @@ public class ServerTranslatorTest extends TestCase {
         testPlayersArr[3] = testPlayer4;
 
         //fake trade offer
-
         ResourceList testTORL = new ResourceList(0,0,0,-2,1);
         TradeOffer testTO = new TradeOffer();
             testTO.setSenderIndex(8);
@@ -178,6 +185,98 @@ public class ServerTranslatorTest extends TestCase {
 
     }
 
+    public void setUpTestGameList(){
+
+        GameInfo gI1 = new GameInfo();
+        gI1.setTitle("BEST GAME");
+        gI1.setId(0);
+            PlayerInfo pI1G1 = new PlayerInfo();
+                pI1G1.setName("You");
+                pI1G1.setId(6);
+                pI1G1.setPlayerIndex(0);
+                pI1G1.setColor(CatanColor.GREEN);
+            PlayerInfo pI2G1 = new PlayerInfo();
+                pI2G1.setName("Are");
+                pI2G1.setId(8);
+                pI2G1.setPlayerIndex(1);
+                pI2G1.setColor(CatanColor.PURPLE);
+            PlayerInfo pI3G1 = new PlayerInfo();
+                pI3G1.setName("My");
+                pI3G1.setId(3);
+                pI3G1.setPlayerIndex(2);
+                pI3G1.setColor(CatanColor.RED);
+            PlayerInfo pI4G1 = new PlayerInfo();
+                pI4G1.setName("Mom");
+                pI4G1.setId(10);
+                pI4G1.setPlayerIndex(3);
+                pI4G1.setColor(CatanColor.YELLOW);
+
+        List<PlayerInfo> pListGI1 = new ArrayList<>();
+            pListGI1.add(pI1G1);
+            pListGI1.add(pI2G1);
+            pListGI1.add(pI3G1);
+            pListGI1.add(pI4G1);
+
+        gI1.setPlayers(pListGI1);
+
+//
+        GameInfo gI2 = new GameInfo();
+        gI2.setTitle("WEIRD GAME");
+        gI2.setId(1);
+            PlayerInfo pI1G2 = new PlayerInfo();
+                pI1G2.setName("WHY");
+                pI1G2.setId(2);
+                pI1G2.setPlayerIndex(0);
+                pI1G2.setColor(CatanColor.BLUE);
+            PlayerInfo pI2G2 = new PlayerInfo();
+                pI2G2.setName("EAT");
+                pI2G2.setId(9);
+                pI2G2.setPlayerIndex(1);
+                pI2G2.setColor(CatanColor.PUCE);
+            PlayerInfo pI3G2 = new PlayerInfo();
+                pI3G2.setName("TOAST");
+                pI3G2.setId(11);
+                pI3G2.setPlayerIndex(2);
+                pI3G2.setColor(CatanColor.WHITE);
+
+        List<PlayerInfo> pListGI2 = new ArrayList<>();
+            pListGI2.add(pI1G2);
+            pListGI2.add(pI2G2);
+            pListGI2.add(pI3G2);
+
+        gI2.setPlayers(pListGI2);
+
+//
+
+        GameInfo gI3 = new GameInfo();
+        gI3.setId(2);
+        gI3.setTitle("WHAT GAME");
+            PlayerInfo pI1G3 = new PlayerInfo();
+                pI1G3.setName("HEYY");
+                pI1G3.setId(7);
+                pI1G3.setPlayerIndex(0);
+                pI1G3.setColor(CatanColor.BROWN);
+        List<PlayerInfo> pListGI3 = new ArrayList<>();
+            pListGI3.add(pI1G3);
+
+        gI3.setPlayers(pListGI3);
+
+//
+        GameInfo gI4 = new GameInfo();
+        gI4.setTitle("NO GAME");
+        gI4.setId(3);
+            //empty
+
+        /////////////////
+
+     testGamesArr = new GameInfo[4];
+        testGamesArr[0] = gI1;
+        testGamesArr[1] = gI2;
+        testGamesArr[2] = gI3;
+        testGamesArr[3] = gI4;
+    }
+
+
     @Test
     public void testModelToJSON() throws Exception {
         System.out.println(">TESTING MODELTOJSON TRANSLATION!");
@@ -185,15 +284,37 @@ public class ServerTranslatorTest extends TestCase {
             String testModelString = ServerTranslator.getInstance().modelToJSON(testClientModel);
             JSONObject testModelJSON = new JSONObject(testModelString);
 
-        //maybe put it through the JSONTranslator's modelFromJSON function to see if it comes out the same?
+        //put it through the JSONTranslator's modelFromJSON function to see if it comes out the same
             ClientModel resultClientModel = jsonTranslator.modelFromJSON(testModelJSON);
 
-
-        //compare testClientModel to resultClientModel:]
-
-        // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-        //I should probably come up with a better way to see if it worked than auto-generated .equals() fns.
+        //compare testClientModel to resultClientModel:
         assertTrue(testClientModel.equals(resultClientModel));
+    }
+
+
+    @Test
+    public void testGameListToJSON() throws Exception {
+        System.out.println(">TESTING GAMELISTTOJSON TRANSLATION!");
+
+        String gameListResult = ServerTranslator.getInstance().gameListToJSON(testGamesArr);
+
+
+
+        //TEST - pretend this is coming from the server
+        JSONArray gLJSONArray = new JSONArray(gameListResult);
+
+        //put it back through the JSONTranslator to see if it comes out the same:
+        GameInfo[] resultGamesArr = jsonTranslator.gamesListResponseFromJSON(gLJSONArray);
+
+        //assertions
+        assertTrue(testGamesArr.length == resultGamesArr.length);
+
+        for (int g = 0; g < testGamesArr.length; g++){
+            GameInfo testGameInfo = testGamesArr[g];
+            GameInfo resultGameInfo = resultGamesArr[g];
+
+            assertTrue(testGameInfo.equals(resultGameInfo));
+        }
     }
 
 }

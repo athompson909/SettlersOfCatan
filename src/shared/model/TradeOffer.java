@@ -106,6 +106,7 @@ public class TradeOffer {
         }
     }
 
+
     /**
      * Determines if a player can accept a trade.
      * @param playerResources the player must have.
@@ -124,5 +125,20 @@ public class TradeOffer {
         }else{
             return false;
         }
+
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TradeOffer)) return false;
+
+        TradeOffer that = (TradeOffer) o;
+
+        if (senderIndex != that.senderIndex) return false;
+        if (receiverIndex != that.receiverIndex) return false;
+        return tradeOfferList != null ? tradeOfferList.equals(that.tradeOfferList) : that.tradeOfferList == null;
+
     }
 }

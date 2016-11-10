@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import shared.shared_utils.Converter;
 import shared.shared_utils.MockResponses;
 import com.google.gson.Gson;
 import org.json.JSONArray;
@@ -23,6 +24,7 @@ import shared.model.turntracker.TurnTracker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -103,8 +105,10 @@ public class ServerTranslator {
      */
     public String gamesListToJSON(ArrayList<Game> gamesList) {
 
+        //try
+        JSONArray gamesListJSONArr = new JSONArray(gsonTranslator.toJson(gamesList));
 
-        return "";
+        return gamesListJSONArr.toString();
     }
 
 
@@ -210,7 +214,7 @@ public class ServerTranslator {
                     currPortLocJSON.put("y", currPortHL.getY());
                 currPortJSON.put("location", currPortLocJSON);
             EdgeDirection currPortED = currPort.getEdgeDirection();
-                currPortJSON.put("direction", edgeDirToLetter(currPortED));
+                currPortJSON.put("direction", Converter.edgeDirToLetter(currPortED));
 
             //JSONObject currPortJSON = new JSONObject(gsonTranslator.toJson(currPort));
             tempPortsArr.put(currPortJSON);
@@ -273,34 +277,39 @@ public class ServerTranslator {
         modelJSON.put("players", tempPlayersArr);
 
 
-
         //---------------------------------------------------
         return modelJSON.toString();
     }
 
 
     /**
-     * Helper function for modelToJSON:
-     * converts an EdgeDirection enum value to its abbreviation of 1 or 2 capital letters
+     * Converts the current list of games on the server into JSON.
+     * This is used in the GameListView/GameHub minipoller process.
      *
+     * @param gameInfos the list of all Games created on the server - this might need to be a GameInfo[]
+     * @return
      */
-    public String edgeDirToLetter(EdgeDirection edgeDir){
-        switch (edgeDir){
-            case NorthWest:
-                return "NW";
-            case North:
-                return "N";
-            case NorthEast:
-                return "NE";
-            case SouthEast:
-                return "SE";
-            case South:
-                return "S";
-            case SouthWest:
-                return "SW";
-            default:
-                return null;
+    public String gameListToJSON(GameInfo[] gameInfos){
+
+        /*
+        GameManager (singleton) has a list of all Games.
+        Each Game has a GameInfo object.
+        Each GameInfo object has a list of <= 4 PlayerInfo objects.
+         */
+
+        JSONArray gameListJSONArr = new JSONArray();
+
+        //maybe I should make this function go grab the list of gameInfos automatically...
+        //during the test though GamesManager is empty.
+         //   HashMap<Integer, Game> gamesMap = GamesManager.getInstance().getAllGames();
+
+        for (int g = 0; g < gameInfos.length; g++){
+            GameInfo currGameInfo = gameInfos[g];
+            JSONObject currGIJSON = new JSONObject(gsonTranslator.toJson(currGameInfo));
+            gameListJSONArr.put(currGIJSON);
         }
+
+        return gameListJSONArr.toString();
     }
 
 

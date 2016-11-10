@@ -68,5 +68,30 @@ public class GameInfo
 				", players=" + players +
 				'}';
 	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof GameInfo)) return false;
+
+		GameInfo gameInfo = (GameInfo) o;
+
+		if (id != gameInfo.id) return false;
+		if (title != null ? !title.equals(gameInfo.title) : gameInfo.title != null) return false;
+
+		//check players list
+		if (players.size() != gameInfo.getPlayers().size())
+			return false;
+		for (int p = 0; p < players.size(); p++){
+			if (!players.get(p).equals(gameInfo.getPlayers().get(p)))
+				return false;
+		}
+
+		//passed all tests!
+		return true;
+
+	}
+
 }
 

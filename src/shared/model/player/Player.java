@@ -577,4 +577,35 @@ public class Player { //
     }
 
 
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+
+        Player player = (Player) o;
+
+        //primitives
+        if (!name.equals(player.getName())) return false;
+        if (playerID != player.playerID) return false;
+        if (playerIndex != player.playerIndex) return false;
+        if (victoryPoints != player.victoryPoints) return false;
+        if (monuments != player.monuments) return false;
+        if (soldiersPlayed != player.soldiersPlayed) return false;
+        if (cityCount != player.cityCount) return false;
+        if (settlementCount != player.settlementCount) return false;
+        if (availableRoadCount != player.availableRoadCount) return false;
+        if (playedDevCard != player.playedDevCard) return false;
+        if (discarded != player.discarded) return false;
+        if (color != player.color) return false;
+
+        if (playerResourceList != null ? !playerResourceList.equals(player.playerResourceList) : player.playerResourceList != null)
+            return false;
+        if (newDevCardList != null ? !newDevCardList.equals(player.newDevCardList) : player.newDevCardList != null)
+            return false;
+        return oldDevCardList != null ? oldDevCardList.equals(player.oldDevCardList) : player.oldDevCardList == null;
+
+    }
+
 }

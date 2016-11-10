@@ -178,4 +178,22 @@ public class DevCardList {
                 ", monopolyCt=" + monopolyCardCount +
                 '}';
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DevCardList)) return false;
+
+        DevCardList that = (DevCardList) o;
+
+        if (soldierCardCount != that.soldierCardCount) return false;
+        if (monumentCardCount != that.monumentCardCount) return false;
+        if (yearOfPlentyCardCount != that.yearOfPlentyCardCount) return false;
+        if (roadBuildingCardCount != that.roadBuildingCardCount) return false;
+        if (monopolyCardCount != that.monopolyCardCount) return false;
+        return mostRecentAddedCard == that.mostRecentAddedCard;
+
+    }
+
 }

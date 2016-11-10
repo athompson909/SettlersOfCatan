@@ -323,4 +323,21 @@ public class ResourceList {
                 ", oreCt=" + oreCardCount +
                 '}';
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResourceList)) return false;
+
+        ResourceList that = (ResourceList) o;
+
+        if (woodCardCount != that.woodCardCount) return false;
+        if (brickCardCount != that.brickCardCount) return false;
+        if (sheepCardCount != that.sheepCardCount) return false;
+        if (wheatCardCount != that.wheatCardCount) return false;
+        return oreCardCount == that.oreCardCount;
+
+    }
+
 }

@@ -67,6 +67,7 @@ public class Converter {
         return null;//should never reach here
     }
 
+
     public static EdgeDirection stringToEdgeDirection(String dir) {
         switch (dir) {
             case "NW":
@@ -86,6 +87,31 @@ public class Converter {
         }
         return null;//should never reach here
     }
+
+
+    /**
+     * converts an EdgeDirection enum value to its abbreviation of 1 or 2 capital letters
+     * i swear it would be so much easier if we just used the whole word since we convert it back and forth every time
+     */
+    public static String edgeDirToLetter(EdgeDirection edgeDir){
+        switch (edgeDir){
+            case NorthWest:
+                return "NW";
+            case North:
+                return "N";
+            case NorthEast:
+                return "NE";
+            case SouthEast:
+                return "SE";
+            case South:
+                return "S";
+            case SouthWest:
+                return "SW";
+            default:
+                return null;
+        }
+    }
+
 
 
     public static VertexDirection stringToVertexDirection(String dir) {

@@ -752,23 +752,34 @@ public class Map {
         if (radius != map.radius) return false;
 
         //hexes map
-        if (hexes.keySet().equals(map.getHexes().keySet()))
+        if (!hexes.keySet().equals(map.getHexes().keySet()))
             return false;
 
         //ports map
-        if (ports.keySet().equals(map.getPorts().keySet()))
+        if (!ports.keySet().equals(map.getPorts().keySet()))
             return false;
 
         //vertexObjects
-        if (vertexObjects.keySet().equals(map.getVertexObjects().keySet()))
+          //  Set<VertexLocation> tempVMe = vertexObjects.keySet();
+          //  Set<VertexLocation> tempVYou = map.getVertexObjects().keySet();
+
+        if (!vertexObjects.keySet().equals(map.getVertexObjects().keySet()))
             return false;
 
         //edgeValues
-        if (edgeValues.keySet().equals(map.getEdgeValues().keySet()))
+         //   Set<EdgeLocation> tempEMe = edgeValues.keySet();
+         //   Set<EdgeLocation> tempEYou = map.getEdgeValues().keySet();
+
+        if (!edgeValues.keySet().equals(map.getEdgeValues().keySet()))
             return false;
 
-        return robber != null ? robber.equals(map.robber) : map.robber == null;
+        //robber
+        if (!(robber.getCurrentHexlocation().getX() == map.getRobber().getCurrentHexlocation().getX() &&
+                robber.getCurrentHexlocation().getY() == map.getRobber().getCurrentHexlocation().getY()))
+            return false;
 
+        //passed all tests!
+        return true;
     }
 
 }

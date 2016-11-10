@@ -45,6 +45,11 @@ public class Server {
 
         httpServer.setExecutor(null);
 
+        //FROM SWAGGER PDF:
+        httpServer.createContext("/docs/api/data", new Handlers.JSONAppender(""));
+        httpServer.createContext("/docs/api/view", new Handlers.BasicFile(""));
+        ///////
+
         // user contexts:
         httpServer.createContext("/user/login", new LoginCommand());
         httpServer.createContext("/user/register", new RegisterCommand());
