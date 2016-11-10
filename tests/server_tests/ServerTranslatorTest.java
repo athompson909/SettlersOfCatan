@@ -298,6 +298,8 @@ public class ServerTranslatorTest extends TestCase {
 
         String gameListResult = ServerTranslator.getInstance().gameListToJSON(testGamesArr);
 
+
+
         //TEST - pretend this is coming from the server
         JSONArray gLJSONArray = new JSONArray(gameListResult);
 
