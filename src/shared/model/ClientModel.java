@@ -613,14 +613,6 @@ public class ClientModel extends Observable {
     }
     public void setPlayers(Player[] players) {
         this.players = players;
-
-        System.out.print("\t\t>CLIENTMODEL: just set PlayersArr with new content: ");
-        for (int i = 0; i < players.length; i++) {
-            if (players[i] != null) {
-                System.out.print(players[i].getName() + ", ");
-            }
-        }
-        System.out.println();
     }
     public void setTradeOffer(TradeOffer tradeOffer) {
         this.tradeOffer = tradeOffer;
@@ -746,8 +738,15 @@ public class ClientModel extends Observable {
             return false;
 
      //check players[]
-        if (!Arrays.equals(players, that.players)) return false;
+        if (players.length != that.getPlayers().length)
+            return false;
 
+        for (int p = 0; p < players.length; p++){
+            if (!players[p].equals(that.getPlayers()[p]))
+                return false;
+        }
+
+    //check tradeOffer
         if (tradeOffer != null ? !tradeOffer.equals(that.tradeOffer) : that.tradeOffer != null) return false;
 
         return true;

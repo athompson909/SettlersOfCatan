@@ -91,14 +91,14 @@ public class ServerTranslatorTest extends TestCase {
                     HexLocation testStlmtHL1 = new HexLocation(1, -2);
                     VertexDirection testStlmtVD1 = VertexDirection.SouthWest;
                 VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
-            VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1);
+            VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1.getNormalizedLocation());  ///TESTING THIS **********
             testStlmtVO1.setPieceType(PieceType.SETTLEMENT);
             testStlmtVO1.setOwner(1);
 
                     HexLocation testStlmtHL2 = new HexLocation(-1, 0);
                     VertexDirection testStlmtVD2 = VertexDirection.SouthEast;
                 VertexLocation testStlmtVL2 = new VertexLocation(testStlmtHL2, testStlmtVD2);
-            VertexObject testStlmtVO2 = new VertexObject(testStlmtVL2);
+            VertexObject testStlmtVO2 = new VertexObject(testStlmtVL2.getNormalizedLocation());  ///TESTING THIS **********
             testStlmtVO2.setPieceType(PieceType.SETTLEMENT);
             testStlmtVO2.setOwner(3);
 
@@ -106,22 +106,22 @@ public class ServerTranslatorTest extends TestCase {
                     HexLocation testCityHL1 = new HexLocation(2, -2);
                     VertexDirection testCityVD1 = VertexDirection.NorthWest;
                 VertexLocation testCityVL1 = new VertexLocation(testCityHL1, testCityVD1);
-            VertexObject testCityVO1 = new VertexObject(testCityVL1);
+            VertexObject testCityVO1 = new VertexObject(testCityVL1.getNormalizedLocation());  ///TESTING THIS **********
             testCityVO1.setPieceType(PieceType.CITY);
             testCityVO1.setOwner(4);
 
                     HexLocation testCityHL2 = new HexLocation(-1, -1);
                     VertexDirection testCityVD2 = VertexDirection.NorthEast;
                 VertexLocation testCityVL2 = new VertexLocation(testCityHL2, testCityVD2);
-            VertexObject testCityVO2 = new VertexObject(testCityVL2);
+            VertexObject testCityVO2 = new VertexObject(testCityVL2.getNormalizedLocation());  ///TESTING THIS **********
             testCityVO2.setPieceType(PieceType.CITY);
             testCityVO2.setOwner(1);
         //
             HashMap<VertexLocation, VertexObject> testMapVLs = new HashMap<>();
-            testMapVLs.put(testStlmtVL1, testStlmtVO1);
-            testMapVLs.put(testStlmtVL2, testStlmtVO2);
-            testMapVLs.put(testCityVL1, testCityVO1);
-            testMapVLs.put(testCityVL2, testCityVO2);
+            testMapVLs.put(testStlmtVL1.getNormalizedLocation(), testStlmtVO1);    ///TESTING THESE **********
+            testMapVLs.put(testStlmtVL2.getNormalizedLocation(), testStlmtVO2);
+            testMapVLs.put(testCityVL1.getNormalizedLocation(), testCityVO1);
+            testMapVLs.put(testCityVL2.getNormalizedLocation(), testCityVO2);
         //
 
 
@@ -129,18 +129,18 @@ public class ServerTranslatorTest extends TestCase {
                     HexLocation testRoadHL1 = new HexLocation(0, -1);
                     EdgeDirection testRoadED1 = EdgeDirection.SouthEast;
                 EdgeLocation testRoadEL1 = new EdgeLocation(testRoadHL1, testRoadED1);
-            EdgeValue testRoadEV1 = new EdgeValue(testRoadEL1);
+            EdgeValue testRoadEV1 = new EdgeValue(testRoadEL1.getNormalizedLocation());  ///TESTING THIS **********
             testRoadEV1.setOwner(1);
 
                     HexLocation testRoadHL2 = new HexLocation(2, -2);
                     EdgeDirection testRoadED2 = EdgeDirection.NorthWest;
                 EdgeLocation testRoadEL2 = new EdgeLocation(testRoadHL2, testRoadED2);
-            EdgeValue testRoadEV2 = new EdgeValue(testRoadEL2);
+            EdgeValue testRoadEV2 = new EdgeValue(testRoadEL2.getNormalizedLocation());  ///TESTING THIS **********
             testRoadEV2.setOwner(4);
         //
             HashMap<EdgeLocation, EdgeValue> testMapEVs = new HashMap<>();
-            testMapEVs.put(testRoadEL1, testRoadEV1);
-            testMapEVs.put(testRoadEL2, testRoadEV2);
+            testMapEVs.put(testRoadEL1.getNormalizedLocation(), testRoadEV1);  ///TESTING THESE **********
+            testMapEVs.put(testRoadEL2.getNormalizedLocation(), testRoadEV2);
         //
 
         testMap.setVertexObjects(testMapVLs);
@@ -189,10 +189,7 @@ public class ServerTranslatorTest extends TestCase {
             ClientModel resultClientModel = jsonTranslator.modelFromJSON(testModelJSON);
 
 
-        //compare testClientModel to resultClientModel:]
-
-        // JSONAssert.assertEquals(expectedResult, addAICmdJSONResult, JSONCompareMode.NON_EXTENSIBLE);
-        //I should probably come up with a better way to see if it worked than auto-generated .equals() fns.
+        //compare testClientModel to resultClientModel:
         assertTrue(testClientModel.equals(resultClientModel));
     }
 
