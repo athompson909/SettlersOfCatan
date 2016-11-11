@@ -455,7 +455,6 @@ public class ServerFacade implements IServerFacade {
             GamesManager.getInstance().addGame(game);
 
             return gameInfo;
-
         }
         return null;
     }

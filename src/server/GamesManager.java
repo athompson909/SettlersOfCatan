@@ -27,6 +27,7 @@ public class GamesManager {
         return instance;
     }
 
+    public static int gameID = 0;
     /**
      * Private constructor
      */
@@ -41,7 +42,8 @@ public class GamesManager {
      * @param newGame - the new Game to add to the list of all games
      */
     public void addGame(Game newGame){
-
+        allGames.put(gameID, newGame);
+        gameID++;
     }
 
     /**
