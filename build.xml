@@ -132,7 +132,7 @@
             <fileset dir="${java.images}">
                 <include name="**"/>
             </fileset>
-        </copy>         <!-- SIERRA JUST ADDED THIS - use this to copy DOCS into JAVA/DIST ********** -->
+        </copy>         <!-- use this to copy DOCS into JAVA/DIST ********** -->
         <mkdir dir="${java.dist}/docs"/>
         <copy todir="${java.dist}/docs">
             <fileset dir="${java.demo}/docs">  <!-- copy DOCS and everything in it  -->
