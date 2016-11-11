@@ -1,13 +1,11 @@
 package server;
 
-import client.Client;
 import client.data.GameInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
-import shared.model.map.EdgeValue;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
@@ -91,6 +89,9 @@ public class Game {
      * @param number randomly calculated number.
      */
     public ClientModel rollNumber(int number){
+        if(number == 7){
+            clientModel.roll7();
+        }
         clientModel.receiveResourcesFromDiceRoll(number);
         return clientModel;
     }
@@ -196,7 +197,7 @@ public class Game {
      * @param outputResource to recieve.
      */
     public ClientModel martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
-        clientModel.martimeTrade(index, ratio, inputResource, outputResource);
+        clientModel.maritimeTrade(index, ratio, inputResource, outputResource);
         return clientModel;
     }
 

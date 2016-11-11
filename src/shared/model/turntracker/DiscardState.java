@@ -1,11 +1,10 @@
-package client.turntracker;
+package shared.model.turntracker;
 
 import client.Client;
-import client.ClientUser;
+import client.turntracker.ITurnTrackerView;
 import shared.definitions.State;
 import shared.model.player.Player;
 import shared.model.resourcebank.ResourceList;
-import shared.model.turntracker.TurnTracker;
 
 /**
  * Created by Alise on 10/17/2016.

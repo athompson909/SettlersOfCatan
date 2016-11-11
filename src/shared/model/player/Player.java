@@ -99,7 +99,7 @@ public class Player { //
     /**
      * Whether this player has discarded or not already this discard phase.
      */
-    private boolean discarded = false;
+    private boolean discarded = true;
 
     /**
      * Maritime Trade manager so the player can trade with the bank using ports.
@@ -572,7 +572,7 @@ public class Player { //
         playedDevCard = playedDev;
     }
 
-    private void setDiscarded(boolean disc) {
+    public void setDiscarded(boolean disc) {
         discarded = disc;
     }
 

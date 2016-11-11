@@ -485,6 +485,20 @@ public class ClientModel extends Observable {
         }
     }
 
+    public void roll7(){
+
+        //determine if anyone needs to discard
+        boolean needToDiscard = false;
+        for(int i = 0; i < players.length; i++){
+            if(players[i].getPlayerResourceList().getCardCount() > 7){
+                //mark player as having not discarded
+                players[i].setDiscarded(false);
+                needToDiscard = true;
+            }
+        }
+        turnTracker.roll7(needToDiscard);
+    }
+
     /**
      * Send a chat message.
      * @param index of the player sending the message.
@@ -499,8 +513,55 @@ public class ClientModel extends Observable {
      * @param index of the player discarding.
      * @param discarded cards the player has selected to discard.
      */
-    public void discardCards(int index, ResourceList discarded){
+    public boolean discardCards(int index, ResourceList discarded){
+        //index must be valid
+        if(index >= 0 && index < 4) {
+            //discarded values must be positive
+            if(discarded.getWoodCardCount() >= 0 && discarded.getBrickCardCount() >= 0
+                    && discarded.getWheatCardCount() >= 0 && discarded.getOreCardCount() >= 0
+                    && discarded.getSheepCardCount()>= 0){
 
+                Player player = players[index];
+                //if they haven't discarded/need to discard still
+                if(!player.hasDiscarded()) {
+                    //if right number discarded
+                    ResourceList resources = player.getPlayerResourceList();
+                    int numToDiscard = resources.getCardCount() / 2;
+                    if (discarded.getCardCount() == numToDiscard) {
+                        //if you have enough resources
+                        if(resources.getWoodCardCount() >= discarded.getWoodCardCount()
+                                && resources.getBrickCardCount() >= discarded.getBrickCardCount()
+                                && resources.getWheatCardCount() >= discarded.getWheatCardCount()
+                                && resources.getOreCardCount() >= discarded.getOreCardCount()
+                                && resources.getSheepCardCount() >= discarded.getSheepCardCount()
+                                ) {
+                            //decrement player resources and set discarded to true
+                            resources.decWoodCardCount(discarded.getWoodCardCount());
+                            resources.decBrickCardCount(discarded.getBrickCardCount());
+                            resources.decWheatCardCount(discarded.getWheatCardCount());
+                            resources.decOreCardCount(discarded.getOreCardCount());
+                            resources.decSheepCardCount(discarded.getSheepCardCount());
+                            player.setDiscarded(true);
+
+                            //if no one else needs to discard fix turn tracker
+                            boolean discardDone = true;
+                            for(int i = 0; i < players.length; i++){
+                                if(!players[i].hasDiscarded()){
+                                    discardDone = false;
+                                    break;
+                                }
+                            }
+                            if(discardDone){
+                                turnTracker.setStatus("Robbing");
+                            }
+
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -548,16 +609,31 @@ public class ClientModel extends Observable {
      * @param inputResource to trade.
      * @param outputResource to recieve.
      */
-    public void martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
-
+    public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+        //index is valid, ratio correct based on their port, they have enough input, bank has output
+        return false;
     }
 
     /**
      * Finishes the players turn, and changes to the next turn.
      * @param index of the player ending their turn.
      */
-    public void finishTurn(int index){
+    public boolean finishTurn(int index){
+        //index must be valid
+        if(index >= 0 && index < 4) {
+            //must be their turn
+            if(turnTracker.getCurrentTurn() == index) {
+                //must be in playing state/or setup
+                if(turnTracker.getStatus().equals("Playing") ||
+                        turnTracker.getStatus().equals("FirstRound") ||
+                        turnTracker.getStatus().equals("SecondRound")) {
 
+                    turnTracker.finishTurn();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

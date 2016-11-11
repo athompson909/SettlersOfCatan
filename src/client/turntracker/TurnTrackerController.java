@@ -9,6 +9,7 @@ import shared.model.ClientModel;
 import shared.model.commandmanager.moves.FinishTurnCommand;
 import shared.model.player.Player;
 import shared.model.turntracker.TurnTracker;
+import shared.model.turntracker.TurnTrackerState;
 
 import java.util.Observable;
 
