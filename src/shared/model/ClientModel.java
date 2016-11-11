@@ -485,6 +485,20 @@ public class ClientModel extends Observable {
         }
     }
 
+    public void roll7(){
+
+        //determine if anyone needs to discard
+        boolean needToDiscard = false;
+        for(int i = 0; i < players.length; i++){
+            if(players[i].getPlayerResourceList().getCardCount() > 7){
+                //mark player as having not discarded
+                players[i].setDiscarded(false);
+                needToDiscard = true;
+            }
+        }
+        turnTracker.roll7(needToDiscard);
+    }
+
     /**
      * Send a chat message.
      * @param index of the player sending the message.

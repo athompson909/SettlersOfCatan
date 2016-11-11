@@ -89,6 +89,9 @@ public class Game {
      * @param number randomly calculated number.
      */
     public ClientModel rollNumber(int number){
+        if(number == 7){
+            clientModel.roll7();
+        }
         clientModel.receiveResourcesFromDiceRoll(number);
         return clientModel;
     }

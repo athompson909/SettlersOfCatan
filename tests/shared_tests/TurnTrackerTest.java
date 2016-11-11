@@ -156,6 +156,7 @@ public class TurnTrackerTest extends TestCase {
         model.setPlayers(testPlayersArr);
 
     }
+
     public void testFinishTurn(){
         System.out.println("Testing finishTurn");
         setUpTestClientModel();
@@ -201,5 +202,27 @@ public class TurnTrackerTest extends TestCase {
         //can't finish turn on Rolling status
         assert(!model.finishTurn(0));
 
+    }
+
+    public void testRoll7(){
+        System.out.println("Testing Roll 7");
+        setUpTestClientModel();
+
+        //straight to Robbing state
+        model.roll7();
+        TurnTracker tracker= model.getTurnTracker();
+        assert(tracker.getStatus().equals("Robbing"));
+
+        //to Discarding State
+        model.getPlayers()[3].getPlayerResourceList().incBrickCardCount(8);
+        model.roll7();
+        assert(tracker.getStatus().equals("Discarding"));
+
+        //player hasDiscarded properly set
+        Player[] players = model.getPlayers();
+        assert(players[0].hasDiscarded());
+        assert(players[1].hasDiscarded());
+        assert(players[2].hasDiscarded());
+        assert(!players[3].hasDiscarded());
     }
 }

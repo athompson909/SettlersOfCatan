@@ -161,6 +161,14 @@ public class TurnTracker {
 
     }
 
+    public void roll7(boolean needToDiscard){
+        if(needToDiscard){
+            status = "Discarding";
+        }else {
+            status = "Robbing";
+        }
+    }
+
 
 
     //GETTERS
