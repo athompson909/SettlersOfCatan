@@ -152,7 +152,6 @@ public class TurnTracker {
             if(currentTurn != 0) {
                 currentTurn--;
             }else{
-                //todo - give player resources based on their second settlement locations
                 status = "Rolling";
             }
         }else{
