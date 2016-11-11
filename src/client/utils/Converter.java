@@ -1,5 +1,6 @@
 package client.utils;
 
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.VertexDirection;
@@ -21,6 +22,25 @@ public class Converter {
                 return ResourceType.WHEAT;
             case "ore":
                 return ResourceType.ORE;
+            default:
+                assert false;
+        }
+        return null;//should never reach here
+    }
+
+    public static PortType resourceTypeToPortType(ResourceType resourceType) {
+        String resource = resourceType.toString();
+        switch (resource) {
+            case "wood":
+                return PortType.WOOD;
+            case "brick":
+                return PortType.BRICK;
+            case "sheep":
+                return PortType.SHEEP;
+            case "wheat":
+                return PortType.WHEAT;
+            case "ore":
+                return PortType.ORE;
             default:
                 assert false;
         }

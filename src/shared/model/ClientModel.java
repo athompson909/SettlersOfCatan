@@ -2,6 +2,7 @@ package shared.model;
 
 import client.ClientUser;
 import client.data.RobPlayerInfo;
+import client.utils.Converter;
 import server.User;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
@@ -219,11 +220,13 @@ public class ClientModel extends Observable {
      * @return true if player owns ports to trade from and enough cards to trade
      * IN THE FUTURE: This should return a set of PortTypes that player is able to trade
      */
-    public HashMap<PortType, boolean[]> canMaritimeTrade(int playerIndex) {
+    public boolean canMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource) {
         Set<PortType> ports = map.getPlayersPorts(playerIndex);
         players[playerIndex].getMaritimeTradeManager().setPorts(ports);
         HashMap<PortType, boolean[]> enoughCards = players[playerIndex].canMaritimeTrade(ports);
-        return enoughCards;
+
+        boolean[] values = enoughCards.get(Converter.resourceTypeToPortType(inputResource));
+        return values[ratio - 2];
     }
 
     /**
@@ -611,6 +614,22 @@ public class ClientModel extends Observable {
      */
     public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
         //index is valid, ratio correct based on their port, they have enough input, bank has output
+        if(index >= 0 && index < 4){
+            if(players[index].getPlayerResourceList().hasResource(inputResource, ratio)
+                    && resourceBank.getResourceList().hasResource(outputResource, ratio)) {
+                if(ratio >= 2 && ratio <= 4) {//valid ratio
+                    if (canMaritimeTrade(index, ratio, inputResource)) {
+                        //trade with bank
+                        for(int i = 0; i < ratio; i++){
+                            players[index].getPlayerResourceList().removeCardByType(inputResource);
+                            resourceBank.getResourceList().addCardByType(inputResource);
+                        }
+                        players[index].getPlayerResourceList().addCardByType(outputResource);
+                        resourceBank.getResourceList().removeCardByType(outputResource);
+                    }
+                }
+            }
+        }
         return false;
     }
 

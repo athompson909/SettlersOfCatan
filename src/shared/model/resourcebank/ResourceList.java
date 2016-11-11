@@ -270,6 +270,21 @@ public class ResourceList {
         }
     }
 
+    public boolean hasResource(ResourceType type, int amount){
+        if(type == ResourceType.BRICK){
+            return (amount <= brickCardCount);
+        }else if(type == ResourceType.WOOD){
+            return (amount <= woodCardCount);
+        }else if(type == ResourceType.WHEAT){
+            return (amount <= wheatCardCount);
+        }else if(type == ResourceType.ORE){
+            return (amount <= oreCardCount);
+        }else if(type == ResourceType.SHEEP){
+            return (amount <= sheepCardCount);
+        }
+        return false;
+    }
+
     //GETTERS
     public int getWoodCardCount() {
         return woodCardCount;
