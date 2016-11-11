@@ -12,7 +12,9 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by adamthompson on 11/4/16.
@@ -404,11 +406,18 @@ public class ServerFacade implements IServerFacade {
             int playerIndex = gameInfo.getPlayers().size();
             playerInfo.setPlayerIndex(playerIndex);
 
+            List<PlayerInfo> players = gameInfo.getPlayers();
+
             if(gameInfo.getPlayers().size() != 4) {
                 //Adds new playerInfo object to the gameInfo list
                 gameInfo.addPlayer(playerInfo);
                 //Adds new player to the clientModel list
                 return game.join(color, user);
+            }
+            else {
+                for(PlayerInfo p: players) {
+                    if(p.getId() == userId) {return true;}
+                }
             }
             return false;
         }
