@@ -595,16 +595,31 @@ public class ClientModel extends Observable {
      * @param inputResource to trade.
      * @param outputResource to recieve.
      */
-    public void martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
-
+    public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+        //index is valid, ratio correct based on their port, they have enough input, bank has output
+        return false;
     }
 
     /**
      * Finishes the players turn, and changes to the next turn.
      * @param index of the player ending their turn.
      */
-    public void finishTurn(int index){
+    public boolean finishTurn(int index){
+        //index must be valid
+        if(index >= 0 && index < 4) {
+            //must be their turn
+            if(turnTracker.getCurrentTurn() == index) {
+                //must be in playing state/or setup
+                if(turnTracker.getStatus().equals("Playing") ||
+                        turnTracker.getStatus().equals("FirstRound") ||
+                        turnTracker.getStatus().equals("SecondRound")) {
 
+                    turnTracker.finishTurn();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

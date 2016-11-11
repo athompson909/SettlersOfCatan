@@ -97,7 +97,7 @@ public class TurnTracker {
         Client.getInstance().setGameState(state);
     }
 
-     public State updateState(TurnTracker tracker){
+    public State updateState(TurnTracker tracker){
         String status = tracker.getStatus();
         boolean myTurn = (tracker.getCurrentTurn() == ClientUser.getInstance().getIndex());
         if(status.equals("Rolling")){
@@ -140,6 +140,27 @@ public class TurnTracker {
         return null;
     }
 
+    public void finishTurn(){
+        //should move to next player(based on playing vs setup)
+        if(status.equals("FirstRound")){
+            if(currentTurn == 3) {
+                status = "SecondRound";
+            }else {
+                currentTurn ++;
+            }
+        }else if(status.equals("SecondRound")){
+            if(currentTurn != 0) {
+                currentTurn--;
+            }else{
+                //todo - give player resources based on their second settlement locations
+                status = "Rolling";
+            }
+        }else{
+            currentTurn++;
+            status = "Rolling";
+        }
+
+    }
 
 
 

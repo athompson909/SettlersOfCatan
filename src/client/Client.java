@@ -1,7 +1,7 @@
 package client;
 
-import client.turntracker.TurnTrackerState;
-import client.turntracker.WaitingState;
+import shared.model.turntracker.TurnTrackerState;
+import shared.model.turntracker.WaitingState;
 import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.CommandManager;

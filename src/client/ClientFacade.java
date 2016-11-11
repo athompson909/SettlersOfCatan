@@ -1,11 +1,9 @@
 package client;
 
 import client.data.GameInfo;
-import client.turntracker.FirstRoundState;
 import exceptions.ClientException;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.ClientUpdateManager;
 import shared.model.JSONTranslator;

@@ -1,5 +1,6 @@
-package client.turntracker;
+package shared.model.turntracker;
 
+import client.turntracker.ITurnTrackerView;
 import shared.definitions.State;
 
 /**
