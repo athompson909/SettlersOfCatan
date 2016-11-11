@@ -25,6 +25,7 @@ import shared.model.turntracker.TurnTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -64,7 +65,7 @@ public class ServerTranslator {
     /**
      * Helper function for contexts such as login, register, join, and addAI
      *
-     * @return "Success" if true (I think), and null if false
+     * @return "Success" if true, and null if false
      */
     public String booleanToString(boolean bool) {
 
@@ -122,8 +123,8 @@ public class ServerTranslator {
     public String modelToJSON(ClientModel model){
 
         /*
-            - .append() adds items inside a JSONArray
-            - .put() adds it just like normal
+            - .append() adds items to the JSONObject inside an encapsulating JSONArray
+            - .put() adds it to the JSONObject just like normal
          */
 
         JSONObject modelJSON = new JSONObject();
@@ -190,35 +191,37 @@ public class ServerTranslator {
         mapJSON.put("hexes", tempHexesArr);
 
      //SERIALIZE PORTS (ports)
-        JSONArray tempPortsArr = new JSONArray();
-        for (HexLocation key2 : tempPortsMap.keySet()){
-            Port currPort = tempPortsMap.get(key2);
-                //if portType != THREE, is ratio is 2
-                //if portType == THREE, it will not have a resource AND its ratio is 3
-            JSONObject currPortJSON = new JSONObject();
-            int currPortRatio = 0; //temp
-            PortType currPortType = currPort.getResource();
-            if (currPortType == PortType.THREE){
-                currPortRatio = 3;
-                //don't add in the resource type because it's generic
-            }
-            else {
-                currPortRatio = 2;
-                //so it has a real resource type  - formatted into lowercase
-                currPortJSON.put("resource", currPortType.toString().toLowerCase());
-            }
-                currPortJSON.put("ratio", currPortRatio);
-            HexLocation currPortHL = currPort.getLocation();
-            JSONObject currPortLocJSON = new JSONObject();
-                    currPortLocJSON.put("x", currPortHL.getX());
-                    currPortLocJSON.put("y", currPortHL.getY());
-                currPortJSON.put("location", currPortLocJSON);
-            EdgeDirection currPortED = currPort.getEdgeDirection();
-                currPortJSON.put("direction", Converter.edgeDirToLetter(currPortED));
-
-            //JSONObject currPortJSON = new JSONObject(gsonTranslator.toJson(currPort));
-            tempPortsArr.put(currPortJSON);
-        }
+        JSONArray tempPortsArr = serializePorts(tempPortsMap);
+        //TEST THIS!!!! **********************************************
+        //JSONArray tempPortsArr = new JSONArray();
+//        for (HexLocation key2 : tempPortsMap.keySet()){
+//            Port currPort = tempPortsMap.get(key2);
+//                //if portType != THREE, is ratio is 2
+//                //if portType == THREE, it will not have a resource AND its ratio is 3
+//            JSONObject currPortJSON = new JSONObject();
+//            int currPortRatio = 0; //temp
+//            PortType currPortType = currPort.getResource();
+//            if (currPortType == PortType.THREE){
+//                currPortRatio = 3;
+//                //don't add in the resource type because it's generic
+//            }
+//            else {
+//                currPortRatio = 2;
+//                //so it has a real resource type  - formatted into lowercase
+//                currPortJSON.put("resource", currPortType.toString().toLowerCase());
+//            }
+//                currPortJSON.put("ratio", currPortRatio);
+//            HexLocation currPortHL = currPort.getLocation();
+//            JSONObject currPortLocJSON = new JSONObject();
+//                    currPortLocJSON.put("x", currPortHL.getX());
+//                    currPortLocJSON.put("y", currPortHL.getY());
+//                currPortJSON.put("location", currPortLocJSON);
+//            EdgeDirection currPortED = currPort.getEdgeDirection();
+//                currPortJSON.put("direction", Converter.edgeDirToLetter(currPortED));
+//
+//            //JSONObject currPortJSON = new JSONObject(gsonTranslator.toJson(currPort));
+//            tempPortsArr.put(currPortJSON);
+//        }
         mapJSON.put("ports", tempPortsArr);
 
 
@@ -281,6 +284,50 @@ public class ServerTranslator {
         return modelJSON.toString();
     }
 
+    //HELPER FUNCTIONS
+
+    /**
+     * Serializes the list of Ports into a JSONArray.
+     * @param portsMap - pulled from the ClientModel's Map
+     * @return
+     */
+    private JSONArray serializePorts(HashMap<HexLocation, Port> portsMap){
+        JSONArray portsJSONArr = new JSONArray();
+        for (HexLocation key2 : portsMap.keySet()){
+            Port currPort = portsMap.get(key2);
+            //if portType != THREE, is ratio is 2
+            //if portType == THREE, it will not have a resource AND its ratio is 3
+            JSONObject currPortJSON = new JSONObject();
+            int currPortRatio = 0; //temp
+            PortType currPortType = currPort.getResource();
+            if (currPortType == PortType.THREE){
+                currPortRatio = 3;
+                //don't add in the resource type because it's generic
+            }
+            else {
+                currPortRatio = 2;
+                //so it has a real resource type  - formatted into lowercase
+                currPortJSON.put("resource", currPortType.toString().toLowerCase());
+            }
+            currPortJSON.put("ratio", currPortRatio);
+            HexLocation currPortHL = currPort.getLocation();
+            JSONObject currPortLocJSON = new JSONObject();
+            currPortLocJSON.put("x", currPortHL.getX());
+            currPortLocJSON.put("y", currPortHL.getY());
+            currPortJSON.put("location", currPortLocJSON);
+            EdgeDirection currPortED = currPort.getEdgeDirection();
+            currPortJSON.put("direction", Converter.edgeDirToLetter(currPortED));
+
+            //JSONObject currPortJSON = new JSONObject(gsonTranslator.toJson(currPort));
+            portsJSONArr.put(currPortJSON);
+        }
+
+        return portsJSONArr;
+    }
+
+
+
+
 
     /**
      * Converts the current list of games on the server into JSON.
@@ -300,7 +347,7 @@ public class ServerTranslator {
         JSONArray gameListJSONArr = new JSONArray();
 
         //maybe I should make this function go grab the list of gameInfos automatically...
-        //during the test though GamesManager is empty.
+        //during the test though GamesManager is empty, so I can't do that
          //   HashMap<Integer, Game> gamesMap = GamesManager.getInstance().getAllGames();
 
         for (int g = 0; g < gameInfos.length; g++){
