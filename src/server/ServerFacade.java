@@ -433,26 +433,31 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUser(userID);
 
         if(user != null) {
-            int gameID = GamesManager.getInstance().getAllGames().size();
+            PlayerInfo playerInfo = new PlayerInfo();
+            GameInfo gameInfo = new GameInfo();
+            Game game = new Game(gameInfo);
+
+            int gameID = GamesManager.getInstance().addGame(game);
             String title = command.getName();
+            HashMap<Integer, Game> map = GamesManager.getInstance().getAllGames();
             String username = UserManager.getInstance().getUser(userId).getUserName();
 
-            PlayerInfo playerInfo = new PlayerInfo();
+            for(Integer i: map.keySet()) {
+                Game myGame = map.get(i);
+                if(myGame.getGameInfo().getTitle() == title) {
+                    return null; //Title is already in use
+                }
+            }
 
-            playerInfo.setId(userId);
-            playerInfo.setName(username);
-            playerInfo.setColor(WHITE);
-            playerInfo.setPlayerIndex(0);
-
-            GameInfo gameInfo = new GameInfo();
+        //    playerInfo.setId(userId);
+        //    playerInfo.setName(username);
+        //    playerInfo.setColor(WHITE);
+        //    playerInfo.setPlayerIndex(0);
 
             gameInfo.setId(gameID);
             gameInfo.setTitle(title);
-            gameInfo.addPlayer(playerInfo);
-
-            Game game = new Game(gameInfo);
-
-            GamesManager.getInstance().addGame(game);
+        //    gameInfo.addPlayer(playerInfo);
+            game.setGameInfo(gameInfo);
 
             return gameInfo;
         }
