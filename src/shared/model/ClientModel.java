@@ -317,6 +317,9 @@ public class ClientModel extends Observable {
         map.buildSettlementManager.placeSettlement(newSettlement);
         if(!free){
             players[newSettlement.getOwner()].purchaseSettlement();
+        } else if (turnTracker.getStatus().equals("SecondRoundState")){
+            ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
+            players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
         }
     }
 
