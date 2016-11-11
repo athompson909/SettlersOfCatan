@@ -56,7 +56,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	//MiniPoller should probably call this function
 	public void initialize()
 	{
-		System.out.println("===JOINGAMEVIEW - INITIALIZE called");
+	//	System.out.println("===JOINGAMEVIEW - INITIALIZE called");
 
 		//Go get list of games from the server, populate games[]:
        // fetchInitialGamesList();
@@ -109,7 +109,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(join);
 
 
-		System.out.println("\tJOINGAMEVIEW: setting games/players list");
+		//System.out.println("\tJOINGAMEVIEW: setting games/players list");
 
 		// This is the looped layout
 		if (games != null && games.length > 0)
@@ -137,17 +137,23 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				JButton joinButton;
 
                 // ***************************************************localPlayer used here
-				if (game.getPlayers().contains(localPlayer))
+				//TESTING
+				//System.out.println(">JGV: testing if game " + game.getTitle() + " has player " + localPlayer.getName());
+
+				if (isInGame(game, localPlayer)) //(game.getPlayers().contains(localPlayer))
 				{
+						//System.out.println("\t>JGV: game " + game.getTitle() + " has you!");
 					joinButton = new JButton("Re-Join");
 				}
 				else if (game.getPlayers().size() >= 4)
 				{
+						//System.out.println("\t>JGV: game " + game.getTitle() + " does NOT have you.");
 					joinButton = new JButton("Full");
 					joinButton.setEnabled(false);
 				}
 				else
 				{
+						//System.out.println("\t>JGV: game " + game.getTitle() + " does NOT have you, but there is still room.");
 					joinButton = new JButton("Join");
 				}
 				joinButton.setActionCommand("" + game.getId());
@@ -180,6 +186,35 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * IsInGame checks whether a given PlayerInfo is contained in the Players list of the given GameInfo object.
+	 * This is used to determine whether to show the button "Join", "Re-join", or "Full".
+	 * This may really be only used to check for localPlayer, but I'm making it generic just in case.
+	 *
+	 * 	NOTE: this fix depends on our server NOT allowing duplicate player names OR playerIDs.
+	 * 	I'm pretty sure we had this in mind already, but just in case!
+	 *
+	 * @param thisGame - the game to check if Player exists in it
+	 * @param player - the PlayerInfo to check for inside thisGame. Right now it's only ever localPlayer
+	 * @return - true if Player IS inside thisGame's list of Players, false otherwise
+	 */
+	private boolean isInGame(GameInfo thisGame, PlayerInfo player){
+
+		//check each PlayerInfo within the selected GameInfo item
+		for (PlayerInfo currPlayer : thisGame.getPlayers()){
+			//if it matches the player's name/playerID, return true (stop looping)
+			if (currPlayer.getName().equals(player.getName()) && currPlayer.getId() == player.getId())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+
+
 	@Override
 	public IJoinGameController getController()
 	{
@@ -197,9 +232,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
-		System.out.println(">JOINGAMEVIEW: SETGAMES called");
+		//	System.out.println(">JOINGAMEVIEW: SETGAMES called:");
 		this.games = games;
 		this.localPlayer = localPlayer;
+
 		this.removeAll();
         this.initializeView();
 	}
@@ -217,8 +253,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 			{
 				try
 				{
-					System.out.println("They pushed JOIN game " + e.getActionCommand());
-
 					int gameId = Integer.parseInt(e.getActionCommand());
 					GameInfo game = null;
 					for (GameInfo g : games)
@@ -226,6 +260,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 						if (g.getId() == gameId)
 						{
 							game = g;
+								System.out.println("They pushed JOIN game " + g.getTitle());
 							Client.getInstance().setCurrentJoinGameCandidate(g.getId());
 
 							break;
