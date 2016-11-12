@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 import server.ServerTranslator;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
@@ -39,14 +40,18 @@ public class ServerTranslatorTest extends TestCase {
 
     private ClientModel testClientModel;
     private GameInfo[] testGamesArr;
+    private GameInfo testGameInfo;
+    private String testGameCreateResponse;
     private JSONTranslator jsonTranslator = new JSONTranslator(); //JUST FOR TESTING MODEL TRANSLATION
 
     @Test
     public void setUp() throws Exception {
         super.setUp();
 
+        setUpTestGameList();
         setUpTestClientModel();
         setUpTestGameList();
+        setUpTestGameInfo();
     }
 
     // Creates all the pieces of a fake client model object, following the JSONTranslator's test
@@ -273,6 +278,25 @@ public class ServerTranslatorTest extends TestCase {
         testGamesArr[3] = gI4;
     }
 
+    public void setUpTestGameInfo(){
+
+        testGameInfo = new GameInfo();
+
+        testGameCreateResponse =  "{" +
+                "\"title\":" + "\"yoo\"," +
+                "\"id\":" + 3 + "," +
+                "\"players\":" +  " [" +
+                "{}," +
+                "{}," +
+                "{}," +
+                "{}" +
+                "]" +
+                " }";
+
+        testGameInfo.setId(3);
+        testGameInfo.setTitle("yoo");
+        testGameInfo.setPlayers(new ArrayList<PlayerInfo>(4));
+    }
 
     @Test
     public void testModelToJSON() throws Exception {
@@ -288,10 +312,10 @@ public class ServerTranslatorTest extends TestCase {
         assertTrue(testClientModel.equals(resultClientModel));
     }
 
-
+    //FOR THE LIST OF ALL GAMES
     @Test
-    public void testGameListToJSON() throws Exception {
-        System.out.println(">TESTING GAMELISTTOJSON TRANSLATION!");
+    public void testGamesListToJSON() throws Exception {
+        System.out.println(">TESTING GAMESLISTTOJSON TRANSLATION!");
 
         String gameListResult = ServerTranslator.getInstance().gamesListToJSON(testGamesArr);
 
@@ -312,6 +336,18 @@ public class ServerTranslatorTest extends TestCase {
 
             assertTrue(testGameInfo.equals(resultGameInfo));
         }
+    }
+
+    //FOR THE GAME CREATE RESPONSE
+    @Test
+    public void testGameListToJSON() throws Exception {
+        System.out.println(">TESTING GAMELISTTOJSON TRANSLATION!");
+
+        //see if the size of testGameInfo's players list is 4 empty spots!
+        String resultGL= ServerTranslator.getInstance().gameInfoToJSON(testGameInfo);
+        //JSONObject resultJSON = new JSONObject(resultGL);
+
+        JSONAssert.assertEquals(testGameCreateResponse, resultGL, false);
     }
 
 }
