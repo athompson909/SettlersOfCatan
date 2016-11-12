@@ -94,22 +94,6 @@ public class ServerTranslator {
 
 
 ///////////////// TO JSON ///////////////////
-    /**
-     * Translates an arraylist of all Games objects into a JSON-formatted String ready to be sent
-     * as part of an HTTPExchange response body. This is used when the Client (specifically during the
-     * JoinGameView miniPoller process) calls games/list.
-     *
-     * @param gamesList
-     * @return a String (JSON) representation of the list of all games
-     */
-    public String gamesListToJSON(ArrayList<Game> gamesList) {
-
-        //try
-        JSONArray gamesListJSONArr = new JSONArray(gsonTranslator.toJson(gamesList));
-
-        return gamesListJSONArr.toString();
-    }
-
 
     /**
      * Translates a ClientModel into a huge JSON-formatted String ready to be sent as part of a
@@ -324,17 +308,14 @@ public class ServerTranslator {
     }
 
 
-
-
-
     /**
      * Converts the current list of games on the server into JSON.
      * This is used in the GameListView/GameHub minipoller process.
      *
      * @param gameInfos the list of all Games created on the server - this might need to be a GameInfo[]
-     * @return
+     * @return a String (JSON) representation of the list of all games
      */
-    public String gameListToJSON(GameInfo[] gameInfos){
+    public String gamesListToJSON(GameInfo[] gameInfos){
 
         /*
         GameManager (singleton) has a list of all Games.
@@ -356,8 +337,6 @@ public class ServerTranslator {
 
         return gameListJSONArr.toString();
     }
-
-
 
 //COMMAND OBJECTS FROM JSON
 
