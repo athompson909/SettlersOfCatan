@@ -398,7 +398,7 @@ System.out.print("INSIDE JOIN");
             String username = user.getUserName();
 
             Game game = GamesManager.getInstance().getGame(gameID);
-            GameInfo gameInfo = GamesManager.getInstance().getGame(gameID).getGameInfo();
+            GameInfo gameInfo = game.getGameInfo();
             List<PlayerInfo> playerInfos = gameInfo.getPlayers();
 
             PlayerInfo p = gameInfo.getPlayerInfo(userId);
