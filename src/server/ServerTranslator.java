@@ -83,7 +83,7 @@ public class ServerTranslator {
     }
 
     /**
-     * used in the games/list command
+     * used in the games/list command - converts one GameInfo object to a JSON string
      * @param gameInfo
      * @return
      */
@@ -111,7 +111,6 @@ public class ServerTranslator {
         gameInfoJSON.put("players", playersJSONArr);
 
         return gameInfoJSON.toString();
-        //return MockResponses.GAME_CREATE_RESPONSE;
     }
 
     public String gameListToString(GameInfo[] gameList) {
@@ -323,7 +322,7 @@ public class ServerTranslator {
      * Converts the current list of games on the server into JSON.
      * This is used in the GameListView/GameHub minipoller process.
      *
-     * @param gameInfos the list of all Games created on the server - this might need to be a GameInfo[]
+     * @param gameInfos the list of all Games created on the server
      * @return a String (JSON) representation of the list of all games
      */
     public String gamesListToJSON(GameInfo[] gameInfos){
@@ -342,7 +341,8 @@ public class ServerTranslator {
 
         for (int g = 0; g < gameInfos.length; g++){
             GameInfo currGameInfo = gameInfos[g];
-            JSONObject currGIJSON = new JSONObject(gsonTranslator.toJson(currGameInfo));
+            JSONObject currGIJSON = new JSONObject(gameInfoToJSON(currGameInfo));  //use the new bracket style
+            //JSONObject currGIJSON = new JSONObject(gsonTranslator.toJson(currGameInfo));
             gameListJSONArr.put(currGIJSON);
         }
 
