@@ -91,11 +91,23 @@ public class MockJSONs {
             "  \"color\": \"puce\"\n" +
             "}";
 
+    public final static String JOIN_REQUEST2 = "{\n" +
+            "  \"id\": 1,\n" +
+            "  \"color\": \"puce\"\n" +
+            "}";
+
     public final static String GAME_CREATE_REQUEST = "{\n" +
             "  \"randomTiles\": \"false\",\n" +
             "  \"randomNumbers\": \"false\",\n" +
             "  \"randomPorts\": \"false\",\n" +
-            "  \"name\": \"adam is cool\"\n" +
+            "  \"name\": \"game1\"\n" +
+            "}";
+
+    public final static String GAME_CREATE_REQUEST2 = "{\n" +
+            "  \"randomTiles\": \"false\",\n" +
+            "  \"randomNumbers\": \"false\",\n" +
+            "  \"randomPorts\": \"false\",\n" +
+            "  \"name\": \"game2\"\n" +
             "}";
 
     public final static String GAME_CREATE_RESPONSE = "{\n" +

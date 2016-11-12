@@ -53,15 +53,31 @@ public class BaseCommandTest extends TestCase {
         String response = serverProxy.userRegister(jsonTranslator.registerCmdToJSON(registerCommand));
         System.out.println(response);
 
+        JSONArray gamesListJSON = serverProxy.gamesList();
+        System.out.println(gamesListJSON.toString());
+
         JSONObject gameCreateResponse = serverProxy.gameCreate(new JSONObject(MockJSONs.GAME_CREATE_REQUEST));
         System.out.println(gameCreateResponse.toString());
 
-        JSONArray gamesListJSON = serverProxy.gamesList();
-        System.out.println(gamesListJSON.toString());
+
+        JSONObject gameCreateResponse2 = serverProxy.gameCreate(new JSONObject(MockJSONs.GAME_CREATE_REQUEST2));
+        System.out.println(gameCreateResponse2.toString());
+
+        JSONArray gamesListJSON2 = serverProxy.gamesList();
+        System.out.println(gamesListJSON2.toString());
 
         String gameJoinResponse = serverProxy.gameJoin(new JSONObject(MockJSONs.JOIN_REQUEST));
         System.out.println(gameJoinResponse);
         assertEquals("Success", gameJoinResponse);
+
+
+
+        String gameJoinResponse2 = serverProxy.gameJoin(new JSONObject(MockJSONs.JOIN_REQUEST2));
+        System.out.println(gameJoinResponse2);
+        assertEquals("Success", gameJoinResponse2);
+
+        JSONArray gamesListJSON3 = serverProxy.gamesList();
+        System.out.println(gamesListJSON3.toString());
 
     }
 

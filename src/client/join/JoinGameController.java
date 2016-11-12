@@ -412,8 +412,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		public void run() {
 			try {
 				System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^JGC miniPoller^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-				System.out.println("JGminiPoller: fetching gamesList: " + new Date().toString());
-				fetchGamesList();
+				System.out.println("JGminiPoller: fetching gamesList: **NOT**" + new Date().toString());
+//				fetchGamesList();
 			}
 			catch (Exception e) {
 				System.out.println("JGminiPoller Exception!");
