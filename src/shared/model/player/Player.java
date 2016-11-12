@@ -282,7 +282,6 @@ public class Player { //
         oldDevCardList.removeDevCard(DevCardType.MONUMENT);
         monuments++;
         adjustVictoryPoints(1);
-        //playedDevCard = true; //Monument
     }
 
     /**
