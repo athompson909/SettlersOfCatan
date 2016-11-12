@@ -58,11 +58,11 @@ public class GameJoinCommand extends BaseCommand {
     public String serverExec(){
 
         JSONObject requestJSON = new JSONObject(getRequest());
-        int gameId = requestJSON.getInt("id");
+        gameID = requestJSON.getInt("id");
 
         boolean success = IServerFacade.getInstance().join(getUserId(), this);
         if(success) {
-            String fullResponseLoginCookieStr = "catan.game="+gameId+";Path=/;";
+            String fullResponseLoginCookieStr = "catan.game="+gameID+";Path=/;";
             List<String> cookieList = new ArrayList<>(1);
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
