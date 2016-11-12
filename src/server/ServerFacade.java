@@ -432,7 +432,7 @@ public class ServerFacade implements IServerFacade {
                 if(p != null) {
                     Player[] allPlayers = game.getClientModel().getPlayers();
                     for(Player one: allPlayers) {
-                        if(one.getPlayerID() == userID) {
+                        if(one.getPlayerID() == userId) {
                             one.setColor(color);
                         }
                     }
