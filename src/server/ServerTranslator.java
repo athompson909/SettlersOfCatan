@@ -1,6 +1,9 @@
 package server;
 
 import client.data.GameInfo;
+import client.data.PlayerInfo;
+import shared.shared_utils.Converter;
+import shared.shared_utils.MockResponses;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,17 +18,17 @@ import shared.model.TradeOffer;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
-import shared.model.messagemanager.MessageList;
-import shared.model.messagemanager.MessageManager;
+import shared.model.messagemanager.*;
 import shared.model.player.Player;
-import shared.model.resourcebank.DevCardList;
-import shared.model.resourcebank.ResourceBank;
-import shared.model.resourcebank.ResourceList;
+import shared.model.resourcebank.*;
 import shared.model.turntracker.TurnTracker;
 import shared.shared_utils.Converter;
 import shared.shared_utils.MockJSONs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -80,8 +83,36 @@ public class ServerTranslator {
         return "[\"LARGEST_ARMY\"]";
     }
 
-    public String gameInfoToString(GameInfo gameInfo) {
-        return MockJSONs.GAME_CREATE_RESPONSE;
+    /**
+     * used in the games/list command
+     * @param gameInfo
+     * @return
+     */
+    public String gameInfoToJSON(GameInfo gameInfo) {
+
+        JSONObject gameInfoJSON = new JSONObject();
+        JSONObject emptyElement = new JSONObject();
+
+        gameInfoJSON.put("title", gameInfo.getTitle());
+        gameInfoJSON.put("id", gameInfo.getId());
+
+        JSONArray playersJSONArr = new JSONArray(); //needs to have 4 spots, even if some are empty ("{}")
+        for (PlayerInfo player : gameInfo.getPlayers()){
+            playersJSONArr.put(gsonTranslator.toJson(player));
+        }
+
+        while (playersJSONArr.length() < 4){
+            //add empty brackets until you get to 4
+//            if (playersJSONArr.length() <= 3){
+//                playersJSONArr.put("{},"); //comma
+//            }
+                playersJSONArr.put(emptyElement);
+        }
+
+        gameInfoJSON.put("players", playersJSONArr);
+
+        return gameInfoJSON.toString();
+        //return MockResponses.GAME_CREATE_RESPONSE;
     }
 
     public String gameListToString(GameInfo[] gameList) {
@@ -161,49 +192,11 @@ public class ServerTranslator {
             mapJSON.put("radius", tempRadius);
 
      //SERIALIZE HEXES (hexes)
-        JSONArray tempHexesArr = new JSONArray();
-        for (HexLocation key1 : tempHexesMap.keySet()){
-            Hex currHex = tempHexesMap.get(key1);
-            //if it has a resource AND number, it's a regular land hex.
-            //if it has a number but no resource, it's a desert hex.
-            //if it has no number OR resource, it's a water hex.
-            JSONObject currHexJSON = new JSONObject(gsonTranslator.toJson(currHex));
-                tempHexesArr.put(currHexJSON);
-        }
+        JSONArray tempHexesArr = serializeHexes(tempHexesMap);
         mapJSON.put("hexes", tempHexesArr);
 
      //SERIALIZE PORTS (ports)
         JSONArray tempPortsArr = serializePorts(tempPortsMap);
-        //TEST THIS!!!! **********************************************
-        //JSONArray tempPortsArr = new JSONArray();
-//        for (HexLocation key2 : tempPortsMap.keySet()){
-//            Port currPort = tempPortsMap.get(key2);
-//                //if portType != THREE, is ratio is 2
-//                //if portType == THREE, it will not have a resource AND its ratio is 3
-//            JSONObject currPortJSON = new JSONObject();
-//            int currPortRatio = 0; //temp
-//            PortType currPortType = currPort.getResource();
-//            if (currPortType == PortType.THREE){
-//                currPortRatio = 3;
-//                //don't add in the resource type because it's generic
-//            }
-//            else {
-//                currPortRatio = 2;
-//                //so it has a real resource type  - formatted into lowercase
-//                currPortJSON.put("resource", currPortType.toString().toLowerCase());
-//            }
-//                currPortJSON.put("ratio", currPortRatio);
-//            HexLocation currPortHL = currPort.getLocation();
-//            JSONObject currPortLocJSON = new JSONObject();
-//                    currPortLocJSON.put("x", currPortHL.getX());
-//                    currPortLocJSON.put("y", currPortHL.getY());
-//                currPortJSON.put("location", currPortLocJSON);
-//            EdgeDirection currPortED = currPort.getEdgeDirection();
-//                currPortJSON.put("direction", Converter.edgeDirToLetter(currPortED));
-//
-//            //JSONObject currPortJSON = new JSONObject(gsonTranslator.toJson(currPort));
-//            tempPortsArr.put(currPortJSON);
-//        }
         mapJSON.put("ports", tempPortsArr);
 
 
@@ -307,6 +300,25 @@ public class ServerTranslator {
         return portsJSONArr;
     }
 
+    /**
+     * Serializes the list of Hexes into a JSONArray.
+     * @param hexesMap  - pulled from the ClientModel's Map
+     * @return
+     */
+    private JSONArray serializeHexes(HashMap<HexLocation, Hex> hexesMap){
+        JSONArray hexesJSONArr = new JSONArray();
+
+        for (HexLocation key1 : hexesMap.keySet()){
+            Hex currHex = hexesMap.get(key1);
+            //if it has a resource AND number, it's a regular land hex.
+            //if it has a number but no resource, it's a desert hex.
+            //if it has no number OR resource, it's a water hex.
+            JSONObject currHexJSON = new JSONObject(gsonTranslator.toJson(currHex));
+            hexesJSONArr.put(currHexJSON);
+        }
+
+        return hexesJSONArr;
+    }
 
     /**
      * Converts the current list of games on the server into JSON.
