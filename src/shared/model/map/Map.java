@@ -652,6 +652,48 @@ public class Map {
         }
     }
 
+    /**
+     * Calculates what resources the player should recieve from placing their second settlement.
+     * @param secondSettlementLocation of where the settlement is being placed.
+     * @return a resource list with their new cards.
+     */
+    public ResourceList calculateSecondSettlementResources(VertexLocation secondSettlementLocation){
+        ResourceList secondSettlementResources = new ResourceList();
+
+        //South Hex of the vertex (the one it belongs too).
+        HexLocation southHexLocation = secondSettlementLocation.getHexLoc();
+        addResourceByHexType(secondSettlementResources, southHexLocation);
+
+        //North hex of the vertex.
+        HexLocation northHexLocation = secondSettlementLocation.getHexLoc().getNeighborLoc(EdgeDirection.North);
+        addResourceByHexType(secondSettlementResources, northHexLocation);
+
+        //The northEast or northWest hex of the vertex.
+        if(secondSettlementLocation.getDir() == VertexDirection.NorthEast){
+            HexLocation northEastHexLocation = secondSettlementLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+            addResourceByHexType(secondSettlementResources, northEastHexLocation);
+        } else{
+            HexLocation northWestHexLocation = secondSettlementLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+            addResourceByHexType(secondSettlementResources, northWestHexLocation);
+        }
+        return secondSettlementResources;
+    }
+
+    /**
+     * Takens in a hexLocation, and adds the resource type of that hexLocation to the specified resourceList.
+     * @param secondSettlementResources
+     * @param hexLocation
+     */
+    private void addResourceByHexType(ResourceList secondSettlementResources, HexLocation hexLocation){
+        if(this.getHexes().containsKey(hexLocation)) {
+            HexType hexType = this.getHexes().get(hexLocation).getResource();
+            if (!hexType.equals(HexType.DESERT) && !hexType.equals(HexType.WATER)) {
+                ResourceType resourceCard = determineResource(hexType);
+                secondSettlementResources.addCardByType(resourceCard);
+            }
+        }
+    }
+
 
     /**
      * Checks to see if the robber can be placed on a desired hex.

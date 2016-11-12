@@ -24,6 +24,7 @@ public class GameInfo
 		setId(-1);
 		setTitle("");
 		players = new ArrayList<PlayerInfo>();
+
 	}
 	
 	public int getId()

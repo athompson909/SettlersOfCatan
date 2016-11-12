@@ -12,11 +12,8 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static shared.definitions.CatanColor.WHITE;
 
 /**
  * Created by adamthompson on 11/4/16.
@@ -433,26 +430,32 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUser(userID);
 
         if(user != null) {
-            int gameID = GamesManager.getInstance().getAllGames().size();
+            System.out.print("INSIDE CREATE: Inside IF STATEMENT");
+            PlayerInfo playerInfo = new PlayerInfo();
+            GameInfo gameInfo = new GameInfo();
+            Game game = new Game(gameInfo);
+
+            int gameID = GamesManager.getInstance().addGame(game);
             String title = command.getName();
+            HashMap<Integer, Game> map = GamesManager.getInstance().getAllGames();
             String username = UserManager.getInstance().getUser(userId).getUserName();
 
-            PlayerInfo playerInfo = new PlayerInfo();
+            for(Integer i: map.keySet()) {
+                Game myGame = map.get(i);
+                if(myGame.getGameInfo().getTitle() == title) {
+                    return null; //Title is already in use
+                }
+            }
 
-            playerInfo.setId(userId);
-            playerInfo.setName(username);
-            playerInfo.setColor(WHITE);
-            playerInfo.setPlayerIndex(0);
-
-            GameInfo gameInfo = new GameInfo();
+        //    playerInfo.setId(userId);
+        //    playerInfo.setName(username);
+        //    playerInfo.setColor(WHITE);
+        //    playerInfo.setPlayerIndex(0);
 
             gameInfo.setId(gameID);
             gameInfo.setTitle(title);
-            gameInfo.addPlayer(playerInfo);
-
-            Game game = new Game(gameInfo);
-
-            GamesManager.getInstance().addGame(game);
+        //    gameInfo.addPlayer(playerInfo);
+            game.setGameInfo(gameInfo);
 
             return gameInfo;
         }
@@ -464,8 +467,8 @@ public class ServerFacade implements IServerFacade {
      * @return the model.
      */
     //IS THIS THE METHOD WE CALL EACH TIME THE POLLER ASKS FOR A NEW MODEL??
-    //DO I NEED TO BE UPDATING THE VERSION NUMBER OF THE CLIENTMODEL??
-    // I actually think that we need to update the version in the Game object functions...right?
+    //DO I NEED TO BE UPDATING THE VERSION NUMBER OF THE CLIENTMODEL?? no.
+    // I actually think that we need to update the version in the CommandObjects right before they return the model.
     public ClientModel model(int userId, int gameID, FetchNewModelCommand command){
         Game game = GamesManager.getInstance().getGame(gameID);
         ClientModel model = game.getClientModel();
