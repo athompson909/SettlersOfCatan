@@ -75,6 +75,7 @@ public class GameCreateCommand extends BaseCommand {
     @Override
     public String serverExec() {
 
+        System.out.print("GameCreateCommand -> ServerExecute()");
         JSONObject requestJSON = new JSONObject(getRequest());
         name = requestJSON.getString("name");
         randomTiles = requestJSON.getBoolean("randomTiles");

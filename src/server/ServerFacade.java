@@ -433,6 +433,7 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUser(userID);
 
         if(user != null) {
+            System.out.print("INSIDE CREATE: Inside IF STATEMENT");
             PlayerInfo playerInfo = new PlayerInfo();
             GameInfo gameInfo = new GameInfo();
             Game game = new Game(gameInfo);
