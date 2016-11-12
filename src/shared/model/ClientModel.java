@@ -13,6 +13,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.map.Map;
 import shared.model.map.VertexObject;
+import shared.model.messagemanager.MessageLine;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
@@ -564,11 +565,18 @@ public class ClientModel extends Observable {
      * @param index   of the player sending the message.
      * @param message the player wants to display.
      */
-    public void sendChat(int index, String message) {
+    public boolean sendChat(int index, String message) {
         //todo
         //no longer than 100 char
-        //no sql statements
+        if(message.length() < 100) {
+            //no sql statements
             //regex check?
+
+            //add chat to list
+            messageManager.getChat().insertMessageLine(new MessageLine(message, players[index].getName()));
+            return true;
+        }
+        return false;
     }
 
     /**
