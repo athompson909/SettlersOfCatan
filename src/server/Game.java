@@ -31,9 +31,9 @@ public class Game {
      */
     private HashMap<Integer, User> userList;
 
-    public Game(GameInfo gameInfo) {
+    public Game(GameInfo gameInfo, boolean randTiles, boolean randNumbers, boolean randPorts) {
         this.gameInfo = gameInfo;
-     //   this.clientModel = new ClientModel();
+        this.clientModel = new ClientModel(gameInfo.getId(),randTiles, randNumbers, randPorts);
         this.userList = new HashMap<Integer, User>();
     }
 

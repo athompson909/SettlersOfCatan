@@ -93,13 +93,20 @@ public class ClientModel extends Observable {
         this.gameNumber = gameNumber;
         map = new Map(false, false, false);
         messageManager = new MessageManager();
-        //Temporary making 4 default players so we can test stuff - Mitch
         players = new Player[4];
         tradeOffer = null;
         turnTracker = new TurnTracker();
         resourceBank = new ResourceBank();
+    }
 
-        //this.addObserver(Controller); //How do we get a reference to the controller?
+    public ClientModel(int gameNumber, boolean randTiles, boolean randNumbers, boolean randPorts) {
+        this.gameNumber = gameNumber;
+        map = new Map(randTiles, randNumbers, randPorts);
+        messageManager = new MessageManager();
+        players = new Player[4];
+        tradeOffer = null;
+        turnTracker = new TurnTracker();
+        resourceBank = new ResourceBank();
     }
 
     /**
