@@ -6,9 +6,6 @@ import junit.framework.TestCase;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import server.Game;
 import server.ServerTranslator;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
@@ -296,7 +293,7 @@ public class ServerTranslatorTest extends TestCase {
     public void testGameListToJSON() throws Exception {
         System.out.println(">TESTING GAMELISTTOJSON TRANSLATION!");
 
-        String gameListResult = ServerTranslator.getInstance().gameListToJSON(testGamesArr);
+        String gameListResult = ServerTranslator.getInstance().gamesListToJSON(testGamesArr);
 
 
 
