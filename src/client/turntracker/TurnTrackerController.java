@@ -60,10 +60,13 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			if(!initialized) {
 				initialized = true;
 				for (int i = 0; i < players.length; i++) {
-					Player player = players[i];
-					getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
-					if(i == ClientUser.getInstance().getIndex()) {
-						getView().setLocalPlayerColor(players[i].getColor());
+					if(players[i].getName() != null) {
+						Player player = players[i];
+						getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
+						// todo: revise... I'm setting this to only work if players[i] != null
+						if (i == ClientUser.getInstance().getIndex()) {
+							getView().setLocalPlayerColor(players[i].getColor());
+						}
 					}
 				}
 			}else {

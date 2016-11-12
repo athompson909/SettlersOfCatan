@@ -420,7 +420,8 @@ public class ServerFacade implements IServerFacade {
                 else {
                     Player[] allPlayers = game.getClientModel().getPlayers();
                     for(Player one: allPlayers) {
-                        if(one.getPlayerID() == userId) {
+                        if(one == null) break; // fixes null pointer exception... todo: revise
+                        else if(one.getPlayerID() == userId) {
                             one.setColor(color);
                         }
                     }
