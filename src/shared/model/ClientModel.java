@@ -294,20 +294,27 @@ public class ClientModel extends Observable {
      * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
     public boolean buildRoad(EdgeLocation edgeLocation, int index, boolean free) {
-        //if(turnTracker.getStatus().equals("FirstRound") || turnTracker.getStatus().equals("SecondRound")){
-        //}
-        //if (canPlaceRoad(index, edgeLocation)) {
-            map.buildRoadManager.placeRoad(index, edgeLocation);
-            if (!free) {
-                players[index].purchaseRoad();
-                resourceBank.receiveRoadResources();
+        if (turnTracker.getStatus().equals("FirstRound") || turnTracker.getStatus().equals("SecondRound")) {
+            if (map.getAllValidEdgeLocations().containsKey(edgeLocation) && checkIfValidIndex(index)) {
+                buildRoadFunctionality(edgeLocation, index, free);
+                return true;
             }
-            recalculateLongestRoad(index);
+        } else if (canPlaceRoad(index, edgeLocation)) {
+            buildRoadFunctionality(edgeLocation, index, free);
             return true;
-        //}
-           // return false;
-
+        }
+        return false;
     }
+
+    private void buildRoadFunctionality(EdgeLocation edgeLocation, int index, boolean free) {
+        map.buildRoadManager.placeRoad(index, edgeLocation);
+        if (!free) {
+            players[index].purchaseRoad();
+            resourceBank.receiveRoadResources();
+        }
+        recalculateLongestRoad(index);
+    }
+
 
     /*public boolean buildSetUpRoad(EdgeLocation desiredEdgeLocation, VertexLocation adjacentSettlementLocation){
         if(canPlaceSetUpRoad(desiredEdgeLocation, adjacentSettlementLocation)){
@@ -322,7 +329,7 @@ public class ClientModel extends Observable {
      * The model is adjusted accordingly.
      */
     private void recalculateLongestRoad(int index) {
-        if(players[index].getAvailableRoadCount() <= 10) {
+        if (players[index].getAvailableRoadCount() <= 10) {
             int playerWithLongestRoadIndex = turnTracker.getLongestRoadHolder();
             if (playerWithLongestRoadIndex == -1) {
                 turnTracker.setLongestRoadHolder(index);
@@ -346,19 +353,19 @@ public class ClientModel extends Observable {
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
     public boolean buildSettlement(VertexObject newSettlement, boolean free) {
-       // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
-            map.buildSettlementManager.placeSettlement(newSettlement);
-            if (!free) {
-                players[newSettlement.getOwner()].purchaseSettlement();
-            } else if (turnTracker.getStatus().equals("SecondRoundState")) {
-                ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
-                players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
-                resourceBank.receiveSettlementResources();
-            }
-            calculateIfWinner(newSettlement.getOwner());
-            return true;
-       // }
-           // return false;
+        // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
+        map.buildSettlementManager.placeSettlement(newSettlement);
+        if (!free) {
+            players[newSettlement.getOwner()].purchaseSettlement();
+        } else if (turnTracker.getStatus().equals("SecondRoundState")) {
+            ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
+            players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
+            resourceBank.receiveSettlementResources();
+        }
+        calculateIfWinner(newSettlement.getOwner());
+        return true;
+        // }
+        // return false;
 
     }
 
@@ -368,7 +375,7 @@ public class ClientModel extends Observable {
      * @param newCity VertexObject, which contains the player ID and location of the City.
      */
     public boolean buildCity(VertexObject newCity) {
-        if(canPlaceCity(newCity.getOwner(), newCity.getVertexLocation())) {
+        if (canPlaceCity(newCity.getOwner(), newCity.getVertexLocation())) {
             map.buildCityManager.placeCity(newCity);
             players[newCity.getOwner()].purchaseCity();
             resourceBank.receiveCityResources();
@@ -384,7 +391,7 @@ public class ClientModel extends Observable {
      * @param playerIndex of player purchasing the card.
      */
     public boolean purchaseDevCard(int playerIndex) {
-        if(canPurchaseDevCard(playerIndex)) {
+        if (canPurchaseDevCard(playerIndex)) {
             DevCardType purcahsedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
             players[playerIndex].purchaseDevelopmentCard(purcahsedDevCard); //Send to player
             resourceBank.receiveDevCardResources();
@@ -399,7 +406,7 @@ public class ClientModel extends Observable {
      * @param index
      */
     public boolean playSoldierCard(int index, HexLocation robberLocation, int victimIndex) {
-        if(canPlaySolider(index)) {
+        if (canPlaySolider(index)) {
             players[index].playSoldierCard();
             placeRobber(index, robberLocation, victimIndex);
             recalculateLargestArmy(index);
@@ -414,7 +421,7 @@ public class ClientModel extends Observable {
      * @param robberLocation to place the robber.
      */
     public boolean placeRobber(int index, HexLocation robberLocation, int victimIndex) {
-        if(canPlaceRobber(robberLocation)) {
+        if (canPlaceRobber(robberLocation)) {
             map.placeRobber(robberLocation);
             ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
             players[index].getPlayerResourceList().addCardByType(stolenResource);
@@ -468,7 +475,7 @@ public class ClientModel extends Observable {
      * The model is adjusted accordingly.
      */
     private void recalculateLargestArmy(int index) {
-        if(players[index].getSoldiersPlayed() >= 3) {
+        if (players[index].getSoldiersPlayed() >= 3) {
             int playerWithLargestArmyIndex = turnTracker.getLargestArmyHolder();
             if (playerWithLargestArmyIndex == -1) {
                 turnTracker.setLargestArmyHolder(index);
@@ -492,7 +499,7 @@ public class ClientModel extends Observable {
      * @param playerIndex
      */
     public boolean playMonumentCard(int playerIndex) {
-        if(canPlayMonument(playerIndex)) {
+        if (canPlayMonument(playerIndex)) {
             players[playerIndex].playMonumentCard();
             calculateIfWinner(playerIndex);
             return true;
@@ -506,7 +513,7 @@ public class ClientModel extends Observable {
      * @param playerIndex
      */
     public boolean playRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2) {
-        if(canPlayRoadBuilding(playerIndex)) {
+        if (canPlayRoadBuilding(playerIndex)) {
             int roadsUsed = 0;
             if (edgeLocation1 != null) {
                 buildRoad(edgeLocation1, playerIndex, true);
@@ -532,7 +539,7 @@ public class ClientModel extends Observable {
      */
     public boolean playYearOfPlentyCard(int playerIndex, ResourceType resource1, ResourceType resource2) {
         //TODO: Need a method or way that can make sure the bank has those resource cards. Need a case if bank only has 0-1 cards.
-        if(canPlayYearOfPlenty(playerIndex)) {
+        if (canPlayYearOfPlenty(playerIndex)) {
             resourceBank.playYearOfPlenty(resource1, resource2);
             players[playerIndex].playYearOfPlentyCard(resource1, resource2);
             return true;
@@ -547,7 +554,7 @@ public class ClientModel extends Observable {
      * @param monopolizedResource
      */
     public boolean playMonopolyCard(int receiverPlayerIndex, ResourceType monopolizedResource) {
-        if(canPlayMonopoly(receiverPlayerIndex)) {
+        if (canPlayMonopoly(receiverPlayerIndex)) {
             int totalCardsGained = 0;
             //Take all cards of specified resource from each opposing player
             for (int index = 0; index < players.length; index++) {
@@ -567,7 +574,7 @@ public class ClientModel extends Observable {
      * (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
     public boolean receiveResourcesFromDiceRoll(int diceRoll) {
-        if(diceRoll >= 2 && diceRoll <= 12) {
+        if (diceRoll >= 2 && diceRoll <= 12) {
             ResourceList[] results = map.getDiceRollResults(diceRoll);
             for (int i = 0; i < players.length; i++) {
                 players[i].receiveCardsFromDiceRoll(results[i]);
@@ -601,7 +608,7 @@ public class ClientModel extends Observable {
     public boolean sendChat(int index, String message) {
         //todo
         //no longer than 100 char
-        if(message.length() < 100) {
+        if (message.length() < 100) {
             //no sql statements
             //regex check?
 
@@ -711,15 +718,16 @@ public class ClientModel extends Observable {
 
     /**
      * Maratime Trade Request
-     * @param index of the player trading.
-     * @param ratio of the trade.
-     * @param inputResource to trade.
+     *
+     * @param index          of the player trading.
+     * @param ratio          of the trade.
+     * @param inputResource  to trade.
      * @param outputResource to receive.
      */
-    public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+    public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource) {
         //it is their turn, index is valid, ratio correct based on their port, they have enough input, bank has output
-        if(turnTracker.getCurrentTurn() == index && index >= 0 && index < 4){
-            if(inputResource != outputResource) {//can't trade brick for brick etc.
+        if (turnTracker.getCurrentTurn() == index && index >= 0 && index < 4) {
+            if (inputResource != outputResource) {//can't trade brick for brick etc.
                 if (players[index].getPlayerResourceList().hasResource(inputResource, ratio)
                         && resourceBank.getResourceList().hasResource(outputResource, 1)) {
                     if (ratio >= 2 && ratio <= 4) {//valid ratio
@@ -763,10 +771,17 @@ public class ClientModel extends Observable {
         return false;
     }
 
-    private void calculateIfWinner(int playerIndex){
-        if(players[playerIndex].getVictoryPoints() >= 10){
+    private void calculateIfWinner(int playerIndex) {
+        if (players[playerIndex].getVictoryPoints() >= 10) {
             setWinner(players[playerIndex].getPlayerID());
         }
+    }
+
+    private boolean checkIfValidIndex(int index) {
+        if (index >= 0 && index < 4) {
+            return true;
+        }
+        return false;
     }
 
     /**
