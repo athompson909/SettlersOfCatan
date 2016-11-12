@@ -76,6 +76,30 @@ public class ResourceBank {
         resourceList.removeCardByType(resource2);
     }
 
+    public void receiveRoadResources(){
+        resourceList.incWoodCardCount(1);
+        resourceList.incBrickCardCount(1);
+    }
+
+    public void receiveSettlementResources(){
+        resourceList.incWoodCardCount(1);
+        resourceList.incBrickCardCount(1);
+        resourceList.incSheepCardCount(1);
+        resourceList.incOreCardCount(1);
+    }
+
+    public void receiveDevCardResources(){
+        resourceList.incSheepCardCount(1);
+        resourceList.incWheatCardCount(1);
+        resourceList.incOreCardCount(1);
+    }
+
+    public void receiveCityResources(){
+        resourceList.incWheatCardCount(2);
+        resourceList.incOreCardCount(3);
+    }
+
+
     //GETTERS
     public DevCardList getDevCardList() {
         return devCardList;
