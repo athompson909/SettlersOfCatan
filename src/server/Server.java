@@ -45,7 +45,7 @@ public class Server {
 
         httpServer.setExecutor(null);
 
-        //FROM SWAGGER PDF:
+        // for swagger page:
         httpServer.createContext("/docs/api/data", new Handlers.JSONAppender(""));
         httpServer.createContext("/docs/api/view", new Handlers.BasicFile(""));
         ///////

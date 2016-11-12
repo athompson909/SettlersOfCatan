@@ -35,6 +35,7 @@ public class Handlers {
         protected void sendFile(HttpExchange exchange, String filepath) throws IOException {
             try {
                 LOGGER.log(Level.FINE, "Requesting " + filepath);
+                    System.out.println(">SENDFILE: requesting " + filepath);
                 byte[] response = FileUtils.readFile(filepath);
                 ArrayList<String> mimetypes = new ArrayList<String>();
                 mimetypes.add(FileUtils.getMimeType(filepath));
@@ -64,6 +65,8 @@ public class Handlers {
 
         public void handle(HttpExchange exchange) throws IOException {
             String filepath = this.rootPath + this.getRequestPath(exchange);
+                System.out.println(">BASICFILE: handle(): filepath = " + filepath);
+
             this.sendFile(exchange, filepath);
         }
     }
@@ -81,7 +84,7 @@ public class Handlers {
                     ".json");
         }
 
-        }
+    }
 
 }
 

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static shared.definitions.CatanColor.WHITE;
+
 /**
  * Created by adamthompson on 11/4/16.
  */
@@ -433,16 +435,26 @@ public class ServerFacade implements IServerFacade {
         if(user != null) {
             int gameID = GamesManager.getInstance().getAllGames().size();
             String title = command.getName();
+            String username = UserManager.getInstance().getUser(userId).getUserName();
+
+            PlayerInfo playerInfo = new PlayerInfo();
+
+            playerInfo.setId(userId);
+            playerInfo.setName(username);
+            playerInfo.setColor(WHITE);
+            playerInfo.setPlayerIndex(0);
 
             GameInfo gameInfo = new GameInfo();
 
             gameInfo.setId(gameID);
             gameInfo.setTitle(title);
+            gameInfo.addPlayer(playerInfo);
 
             Game game = new Game(gameInfo);
 
             GamesManager.getInstance().addGame(game);
 
+            return gameInfo;
         }
         return null;
     }
