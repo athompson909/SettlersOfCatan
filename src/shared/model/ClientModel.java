@@ -2,6 +2,7 @@ package shared.model;
 
 import client.ClientUser;
 import client.data.RobPlayerInfo;
+import client.utils.Converter;
 import server.User;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
@@ -218,11 +219,14 @@ public class ClientModel extends Observable {
      * @return true if player owns ports to trade from and enough cards to trade
      * IN THE FUTURE: This should return a set of PortTypes that player is able to trade
      */
-    public HashMap<PortType, boolean[]> canMaritimeTrade(int playerIndex) {
+    public boolean canMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource) {
         Set<PortType> ports = map.getPlayersPorts(playerIndex);
         players[playerIndex].getMaritimeTradeManager().setPorts(ports);
         HashMap<PortType, boolean[]> enoughCards = players[playerIndex].canMaritimeTrade(ports);
-        return enoughCards;
+
+        boolean[] values = enoughCards.get(Converter.resourceTypeToPortType(inputResource));
+        //todo - check that they don't trade more than needed?
+        return values[ratio - 2];
     }
 
     /**
@@ -571,7 +575,10 @@ public class ClientModel extends Observable {
      * @param message the player wants to display.
      */
     public void sendChat(int index, String message) {
-
+        //todo
+        //no longer than 100 char
+        //no sql statements
+            //regex check?
     }
 
     /**
@@ -673,14 +680,32 @@ public class ClientModel extends Observable {
 
     /**
      * Maratime Trade Request
-     *
-     * @param index          of the player trading.
-     * @param ratio          of the trade.
-     * @param inputResource  to trade.
-     * @param outputResource to recieve.
+     * @param index of the player trading.
+     * @param ratio of the trade.
+     * @param inputResource to trade.
+     * @param outputResource to receive.
      */
-    public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource) {
-        //index is valid, ratio correct based on their port, they have enough input, bank has output
+    public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+        //it is their turn, index is valid, ratio correct based on their port, they have enough input, bank has output
+        if(turnTracker.getCurrentTurn() == index && index >= 0 && index < 4){
+            if(inputResource != outputResource) {//can't trade brick for brick etc.
+                if (players[index].getPlayerResourceList().hasResource(inputResource, ratio)
+                        && resourceBank.getResourceList().hasResource(outputResource, 1)) {
+                    if (ratio >= 2 && ratio <= 4) {//valid ratio
+                        if (canMaritimeTrade(index, ratio, inputResource)) {
+                            //trade with bank
+                            for (int i = 0; i < ratio; i++) {
+                                players[index].getPlayerResourceList().removeCardByType(inputResource);
+                                resourceBank.getResourceList().addCardByType(inputResource);
+                            }
+                            players[index].getPlayerResourceList().addCardByType(outputResource);
+                            resourceBank.getResourceList().removeCardByType(outputResource);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 

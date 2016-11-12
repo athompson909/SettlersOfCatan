@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.model.map.EdgeValue;
 import shared.model.map.Map;
@@ -74,12 +75,12 @@ public class TradeTest extends TestCase {
         testMap.setRobber(testRobber);
 
         //fake settlements
-        HexLocation testStlmtHL1 = new HexLocation(1, -2);
-        VertexDirection testStlmtVD1 = VertexDirection.SouthWest;
+        HexLocation testStlmtHL1 = new HexLocation(0, 3);
+        VertexDirection testStlmtVD1 = VertexDirection.NorthEast;
         VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
         VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1);
         testStlmtVO1.setPieceType(PieceType.SETTLEMENT);
-        testStlmtVO1.setOwner(1);
+        testStlmtVO1.setOwner(2);
 
         HexLocation testStlmtHL2 = new HexLocation(-1, 0);
         VertexDirection testStlmtVD2 = VertexDirection.SouthEast;
@@ -165,16 +166,76 @@ public class TradeTest extends TestCase {
     @Test
     public void testMaritime() {
         System.out.println("Testing Maritime Trade");
-     //   map.getVertexObjects().get(vertLoc).setOwner(player.getPlayerIndex());
-     //   Set<PortType> ports = new HashSet<>();
-     //   ports.add(map.getPortVertexLocations().get(vertLoc).getResource());
-     //   player.getPlayerResourceList().incBrickCardCount(3);
-     //   player.getPlayerResourceList().incSheepCardCount(2);
-     //   player.getPlayerResourceList().incWheatCardCount(2);
-     //   player.getPlayerResourceList().incWoodCardCount(2);
-     //   player.getPlayerResourceList().incOreCardCount(2);
-      //  assert (player.canMaritimeTrade(ports));
-        assert true;
+        setUpTestClientModel();
+        Player player = model.getPlayers()[2];
+
+        player.getPlayerResourceList().incBrickCardCount(3);
+        player.getPlayerResourceList().incSheepCardCount(2);
+        player.getPlayerResourceList().incWheatCardCount(4);
+        player.getPlayerResourceList().incWoodCardCount(2);
+        player.getPlayerResourceList().incOreCardCount(0);
+
+        //not their turn
+        assert(!model.maritimeTrade(2, 2, ResourceType.WOOD, ResourceType.WHEAT));
+        model.getTurnTracker().setCurrentTurn(2);
+        
+        //bad index
+        assert (!model.maritimeTrade(-1, 2, ResourceType.ORE, ResourceType.WHEAT));
+        assert (!model.maritimeTrade(4, 2, ResourceType.ORE, ResourceType.WHEAT));
+
+        //don't have the resource
+        assert (!model.maritimeTrade(2, 4, ResourceType.SHEEP, ResourceType.BRICK));
+
+        //bad ratio
+        assert (!model.maritimeTrade(2, 1, ResourceType.WOOD, ResourceType.WHEAT));
+
+        //dont have the port
+        assert (!model.maritimeTrade(2, 2, ResourceType.SHEEP, ResourceType.ORE));
+        assert (!model.maritimeTrade(2, 3, ResourceType.BRICK, ResourceType.ORE));
+
+        //can't trade same resource
+        assert (!model.maritimeTrade(2, 3, ResourceType.BRICK, ResourceType.BRICK));
+
+        //save bank values
+        int wood = model.getResourceBank().getResourceList().getWoodCardCount();
+
+        //valid trade
+        ResourceList bank = model.getResourceBank().getResourceList();
+        int bankWheat = bank.getWheatCardCount();
+        int bankOre = bank.getOreCardCount();
+        assert (model.maritimeTrade(2, 4, ResourceType.WHEAT, ResourceType.ORE));
+        assert (player.getPlayerResourceList().getWheatCardCount() == 0);
+        assert (player.getPlayerResourceList().getOreCardCount() == 1);
+        assert (bank.getWheatCardCount() == bankWheat + 4);
+        assert (bank.getOreCardCount() == bankOre -1);
+
+        int bankWood = bank.getWoodCardCount();
+        bankWheat = bank.getWheatCardCount();
+        assert (model.maritimeTrade(2, 2, ResourceType.WOOD, ResourceType.WHEAT));
+        assert (player.getPlayerResourceList().getWoodCardCount() == 0);
+        assert (player.getPlayerResourceList().getWheatCardCount() == 1);
+        assert (bank.getWoodCardCount() == bankWood + 2);
+        assert (bank.getWheatCardCount() == bankWheat -1);
+
+        //add 3:1 port
+        HexLocation testStlmtHL1 = new HexLocation(-2, 3);
+        VertexDirection testStlmtVD1 = VertexDirection.NorthEast;
+        VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
+        VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1);
+        testStlmtVO1.setPieceType(PieceType.SETTLEMENT);
+        testStlmtVO1.setOwner(2);
+
+        HashMap<VertexLocation, VertexObject> testMapVLs = new HashMap<>();
+        testMapVLs.put(testStlmtVL1, testStlmtVO1);
+        model.getMap().setVertexObjects(testMapVLs);
+        int bankBrick = bank.getBrickCardCount();
+        bankWheat = bank.getWheatCardCount();
+        assert (model.maritimeTrade(2, 3, ResourceType.BRICK, ResourceType.WHEAT));
+        assert (player.getPlayerResourceList().getBrickCardCount() == 0);
+        assert (player.getPlayerResourceList().getWheatCardCount() == 2);
+        assert (bank.getBrickCardCount() == bankBrick + 3);
+        assert (bank.getWheatCardCount() == bankWheat - 1);
+
     }
 
     @Test

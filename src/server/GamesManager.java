@@ -41,9 +41,10 @@ public class GamesManager {
      *
      * @param newGame - the new Game to add to the list of all games
      */
-    public void addGame(Game newGame){
+    public int addGame(Game newGame){
         allGames.put(gameID, newGame);
         gameID++;
+        return gameID-1;
     }
 
     /**

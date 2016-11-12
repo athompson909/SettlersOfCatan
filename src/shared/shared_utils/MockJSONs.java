@@ -3,7 +3,7 @@ package shared.shared_utils;
 /**
  * Created by adamthompson on 11/8/16.
  */
-public class MockResponses {
+public class MockJSONs {
 
     public static final String GAMES_LIST = "[\n"+
             "  {\n"+
