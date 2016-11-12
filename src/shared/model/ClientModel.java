@@ -282,17 +282,27 @@ public class ClientModel extends Observable {
      * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
     public boolean buildRoad(EdgeLocation edgeLocation, int index, boolean free) {
-        if (canPlaceRoad(index, edgeLocation)) {
+        //if(turnTracker.getStatus().equals("FirstRoundState") || turnTracker.getStatus().equals("SecondRoundState")){
+        //}
+        //if (canPlaceRoad(index, edgeLocation)) {
             map.buildRoadManager.placeRoad(index, edgeLocation);
             if (!free) {
                 players[index].purchaseRoad();
             }
             recalculateLongestRoad(index);
             return true;
-        }
-            return false;
+        //}
+           // return false;
 
     }
+
+    /*public boolean buildSetUpRoad(EdgeLocation desiredEdgeLocation, VertexLocation adjacentSettlementLocation){
+        if(canPlaceSetUpRoad(desiredEdgeLocation, adjacentSettlementLocation)){
+            map.buildRoadManager.placeRoad(in
+            return true;
+        }
+        return false;
+    }*/
 
     /**
      * Called each time a road is built, and recalculates who now has the longest road.
@@ -320,7 +330,7 @@ public class ClientModel extends Observable {
      * @param newSettlement VertexObject, which contains the player ID and location of the settlement.
      */
     public boolean buildSettlement(VertexObject newSettlement, boolean free) {
-        if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
+       // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
             map.buildSettlementManager.placeSettlement(newSettlement);
             if (!free) {
                 players[newSettlement.getOwner()].purchaseSettlement();
@@ -329,8 +339,8 @@ public class ClientModel extends Observable {
                 players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
             }
             return true;
-        }
-            return false;
+       // }
+           // return false;
 
     }
 

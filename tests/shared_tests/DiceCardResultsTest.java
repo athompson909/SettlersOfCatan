@@ -4,10 +4,7 @@ import junit.framework.TestCase;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
+import shared.locations.*;
 import shared.model.ClientModel;
 import shared.model.map.Map;
 import shared.model.map.VertexObject;
@@ -33,13 +30,18 @@ public class DiceCardResultsTest extends TestCase{
         clientModel.getPlayers()[PLAYERORANGE] = new Player(CatanColor.RED, "WHOA", 4, 0);
         clientModel.getPlayers()[PLAYERBLUE] = new Player(CatanColor.GREEN, "HEY", 15, 0);
 
+        clientModel.getTurnTracker().setStatus("FirstRoundState");
+
+        EdgeLocation connectedRoad1 = new EdgeLocation(new HexLocation(1,-1), EdgeDirection.NorthEast);
+        clientModel.buildRoad(connectedRoad1, PLAYERWHITE, true);
+
         VertexObject whiteSettlement1 = new VertexObject(new VertexLocation(new HexLocation(1,-1), VertexDirection.NorthEast));
         whiteSettlement1.setOwner(PLAYERWHITE);
         whiteSettlement1.setPieceType(PieceType.SETTLEMENT);
         clientModel.buildSettlement(whiteSettlement1, true);
 
-       // EdgeLocation connectedRoad = new EdgeLocation(new Hex)
-       // clientModel.canPlaceRoad(PLAYERWHITE, new EdgeLocation(new HexLocation(1,-1)))
+        EdgeLocation connectedRoad2 = new EdgeLocation(new HexLocation(-2,2), EdgeDirection.NorthEast);
+        clientModel.buildRoad(connectedRoad2, PLAYERWHITE, true);
 
         VertexObject whiteSettlement2 = new VertexObject(new VertexLocation(new HexLocation(-1,2), VertexDirection.NorthWest));
         whiteSettlement2.setOwner(PLAYERWHITE);
