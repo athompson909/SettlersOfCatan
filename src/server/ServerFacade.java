@@ -391,7 +391,7 @@ public class ServerFacade implements IServerFacade {
      */
     public boolean join(int userId, GameJoinCommand command){
         User user = UserManager.getInstance().getUser(userId);
-System.out.print("INSIDE JOIN");
+
         if(user != null) {
             int gameID = command.getGameID();
             CatanColor color = command.getColor();
@@ -402,9 +402,8 @@ System.out.print("INSIDE JOIN");
             List<PlayerInfo> playerInfos = gameInfo.getPlayers();
 
             PlayerInfo p = gameInfo.getPlayerInfo(userId);
-System.out.print("INSIDE if user != null");
+
             if(gameInfo.getPlayers().size() != 4) {
-                System.out.print("INSIDE if size != 4");
                 //Player is NOT already in the game
                 if(p == null) {
                     PlayerInfo playerInfo = new PlayerInfo();
@@ -419,7 +418,6 @@ System.out.print("INSIDE if user != null");
                 }
                 //Player IS already in the game
                 else {
-                    System.out.print("INSIDE if user is already in game");
                     Player[] allPlayers = game.getClientModel().getPlayers();
                     for(Player one: allPlayers) {
                         if(one.getPlayerID() == userId) {
