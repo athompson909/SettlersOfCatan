@@ -27,18 +27,19 @@ public class TurnTracker {
      * Represents the PlayerID of player with the current longest road
      */
     @SerializedName("longestRoad")
-    private int longestRoadHolder;
+    private int longestRoadHolder = -1;
 
     /**
      * Represents the PlayerID of player with the current largest army
      */
     @SerializedName("largestArmy")
-    private int largestArmyHolder;
+    private int largestArmyHolder = -1;
 
     /**
      * Constructor
      */
     public TurnTracker(){
+        status = "FirstRound";
         currentTurn = 0;
     }
 
