@@ -617,19 +617,22 @@ public class ClientModel extends Observable {
      * @param outputResource to receive.
      */
     public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
-        //index is valid, ratio correct based on their port, they have enough input, bank has output
-        if(index >= 0 && index < 4){
-            if(players[index].getPlayerResourceList().hasResource(inputResource, ratio)
-                    && resourceBank.getResourceList().hasResource(outputResource, ratio)) {
-                if(ratio >= 2 && ratio <= 4) {//valid ratio
-                    if (canMaritimeTrade(index, ratio, inputResource)) {
-                        //trade with bank
-                        for(int i = 0; i < ratio; i++){
-                            players[index].getPlayerResourceList().removeCardByType(inputResource);
-                            resourceBank.getResourceList().addCardByType(inputResource);
+        //it is their turn, index is valid, ratio correct based on their port, they have enough input, bank has output
+        if(turnTracker.getCurrentTurn() == index && index >= 0 && index < 4){
+            if(inputResource != outputResource) {//can't trade brick for brick etc.
+                if (players[index].getPlayerResourceList().hasResource(inputResource, ratio)
+                        && resourceBank.getResourceList().hasResource(outputResource, 1)) {
+                    if (ratio >= 2 && ratio <= 4) {//valid ratio
+                        if (canMaritimeTrade(index, ratio, inputResource)) {
+                            //trade with bank
+                            for (int i = 0; i < ratio; i++) {
+                                players[index].getPlayerResourceList().removeCardByType(inputResource);
+                                resourceBank.getResourceList().addCardByType(inputResource);
+                            }
+                            players[index].getPlayerResourceList().addCardByType(outputResource);
+                            resourceBank.getResourceList().removeCardByType(outputResource);
+                            return true;
                         }
-                        players[index].getPlayerResourceList().addCardByType(outputResource);
-                        resourceBank.getResourceList().removeCardByType(outputResource);
                     }
                 }
             }

@@ -31,15 +31,15 @@ public class Converter {
     public static PortType resourceTypeToPortType(ResourceType resourceType) {
         String resource = resourceType.toString();
         switch (resource) {
-            case "wood":
+            case "WOOD":
                 return PortType.WOOD;
-            case "brick":
+            case "BRICK":
                 return PortType.BRICK;
-            case "sheep":
+            case "SHEEP":
                 return PortType.SHEEP;
-            case "wheat":
+            case "WHEAT":
                 return PortType.WHEAT;
-            case "ore":
+            case "ORE":
                 return PortType.ORE;
             default:
                 assert false;
