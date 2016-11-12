@@ -399,7 +399,7 @@ public class ClientModel extends Observable {
      * @param hexLoc that is getting robbed.
      * @return An array of RobPLayerInfo.
      */
-    private RobPlayerInfo[] calculateRobPlayerInfo(HexLocation hexLoc) {
+    public RobPlayerInfo[] calculateRobPlayerInfo(HexLocation hexLoc) {
         ArrayList<Integer> adjacentPlayers = map.getPlayersAdjacentToHex(hexLoc);
 
         //Remove the current player from the robbing list.

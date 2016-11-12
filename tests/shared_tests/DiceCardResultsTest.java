@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -36,6 +37,9 @@ public class DiceCardResultsTest extends TestCase{
         whiteSettlement1.setOwner(PLAYERWHITE);
         whiteSettlement1.setPieceType(PieceType.SETTLEMENT);
         clientModel.buildSettlement(whiteSettlement1, true);
+
+       // EdgeLocation connectedRoad = new EdgeLocation(new Hex)
+       // clientModel.canPlaceRoad(PLAYERWHITE, new EdgeLocation(new HexLocation(1,-1)))
 
         VertexObject whiteSettlement2 = new VertexObject(new VertexLocation(new HexLocation(-1,2), VertexDirection.NorthWest));
         whiteSettlement2.setOwner(PLAYERWHITE);
