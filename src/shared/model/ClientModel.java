@@ -555,7 +555,7 @@ public class ClientModel extends Observable {
         return false;
     }
 
-    public void roll7() {
+    public boolean roll7() {
         //determine if anyone needs to discard
         boolean needToDiscard = false;
         for (int i = 0; i < players.length; i++) {
@@ -566,6 +566,7 @@ public class ClientModel extends Observable {
             }
         }
         turnTracker.roll7(needToDiscard);
+        return true;
     }
 
     /**
@@ -574,11 +575,12 @@ public class ClientModel extends Observable {
      * @param index   of the player sending the message.
      * @param message the player wants to display.
      */
-    public void sendChat(int index, String message) {
+    public boolean sendChat(int index, String message) {
         //todo
         //no longer than 100 char
         //no sql statements
             //regex check?
+        return true;
     }
 
     /**
