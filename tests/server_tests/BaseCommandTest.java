@@ -72,12 +72,12 @@ public class BaseCommandTest extends TestCase {
 
 
 
-        String gameJoinResponse2 = serverProxy.gameJoin(new JSONObject(MockJSONs.JOIN_REQUEST2));
-        System.out.println(gameJoinResponse2);
-        assertEquals("Success", gameJoinResponse2);
-
         JSONArray gamesListJSON3 = serverProxy.gamesList();
         System.out.println(gamesListJSON3.toString());
+
+        String gameModelResponse = serverProxy.gameModelVersion();
+        System.out.println(gameModelResponse);
+
 
     }
 

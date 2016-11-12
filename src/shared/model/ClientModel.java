@@ -461,17 +461,19 @@ public class ClientModel extends Observable {
      * The model is adjusted accordingly.
      */
     private void recalculateLargestArmy(int index) {
-        int playerWithLargestArmyIndex = turnTracker.getLargestArmyHolder();
-        if (playerWithLargestArmyIndex == -1) {
-            turnTracker.setLargestArmyHolder(index);
-            return;
-        }
-        if (playerWithLargestArmyIndex != index) {
-            //If the player who built the road now has less available roads, then they have the most used road pieces.
-            if (players[index].getAvailableRoadCount() < players[playerWithLargestArmyIndex].getAvailableRoadCount()) {
-                players[turnTracker.getLargestArmyHolder()].loseTwoVictoryPoints();
-                turnTracker.setLongestRoadHolder(index);
-                players[index].gainTwoVictoryPoints();
+        if(players[index].getSoldiersPlayed() >= 3) {
+            int playerWithLargestArmyIndex = turnTracker.getLargestArmyHolder();
+            if (playerWithLargestArmyIndex == -1) {
+                turnTracker.setLargestArmyHolder(index);
+                return;
+            }
+            if (playerWithLargestArmyIndex != index) {
+                //If the player who built the road now has less available roads, then they have the most used road pieces.
+                if (players[index].getAvailableRoadCount() < players[playerWithLargestArmyIndex].getAvailableRoadCount()) {
+                    players[turnTracker.getLargestArmyHolder()].loseTwoVictoryPoints();
+                    turnTracker.setLongestRoadHolder(index);
+                    players[index].gainTwoVictoryPoints();
+                }
             }
         }
     }

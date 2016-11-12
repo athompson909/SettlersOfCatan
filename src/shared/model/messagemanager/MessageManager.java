@@ -8,12 +8,12 @@ public class MessageManager {
     /**
      * The object containing all chats sent throughout the game
      */
-    private MessageList chat;
+    private MessageList chat = new MessageList();
 
     /**
      * The object containing all logs which have occurred thus far
      */
-    private MessageList log;
+    private MessageList log = new MessageList();
 
     //constructor
     public MessageManager() {}
