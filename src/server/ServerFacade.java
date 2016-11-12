@@ -409,15 +409,13 @@ public class ServerFacade implements IServerFacade {
             List<PlayerInfo> players = gameInfo.getPlayers();
 
             if(gameInfo.getPlayers().size() != 4) {
+                for(PlayerInfo p: players) {
+                    if(p.getId() == userId) {return true;}
+                }
                 //Adds new playerInfo object to the gameInfo list
                 gameInfo.addPlayer(playerInfo);
                 //Adds new player to the clientModel list
                 return game.join(color, user);
-            }
-            else {
-                for(PlayerInfo p: players) {
-                    if(p.getId() == userId) {return true;}
-                }
             }
             return false;
         }
