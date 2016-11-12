@@ -530,17 +530,18 @@ public class ClientModel extends Observable {
      * Rulebook: If there are not enough of a resource type, then no one receive any of that resource
      * (unless it only affects one player, then that player gets the remaining resources from the bank)
      */
-    public void receiveResourcesFromDiceRoll(int diceRoll) {
-        ResourceList[] results = map.getDiceRollResults(diceRoll);
-        for (int i = 0; i < players.length; i++) {
-            players[i].receiveCardsFromDiceRoll(results[i]);
-
-            //players[i].recieveCardsFromDiceRoll(results[i]);
+    public boolean receiveResourcesFromDiceRoll(int diceRoll) {
+        if(diceRoll >= 2 && diceRoll <= 12) {
+            ResourceList[] results = map.getDiceRollResults(diceRoll);
+            for (int i = 0; i < players.length; i++) {
+                players[i].receiveCardsFromDiceRoll(results[i]);
+            }
+            return true;
         }
+        return false;
     }
 
     public void roll7() {
-
         //determine if anyone needs to discard
         boolean needToDiscard = false;
         for (int i = 0; i < players.length; i++) {
