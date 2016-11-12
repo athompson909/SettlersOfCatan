@@ -90,6 +90,7 @@ public class MaritimeTradeCommand extends BaseCommand {
         toReceive = Converter.stringToResourceType(maritimeTradeJSON.getString("outputResource"));
 
         ClientModel model = IServerFacade.getInstance().maritimeTrade(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

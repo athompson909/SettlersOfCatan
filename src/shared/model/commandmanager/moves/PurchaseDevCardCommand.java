@@ -54,6 +54,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
         playerIndex = purchasDevCardJSON.getInt("playerIndex");
 
         ClientModel model = IServerFacade.getInstance().buyDevCard(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

@@ -105,6 +105,7 @@ public class BuildSettlementCommand extends BaseCommand {
 
 
         ClientModel model = IServerFacade.getInstance().buildSettlement(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

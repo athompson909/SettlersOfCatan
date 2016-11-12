@@ -78,6 +78,7 @@ public class DiscardCommand extends BaseCommand {
 
 
         ClientModel model = IServerFacade.getInstance().discardCards(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

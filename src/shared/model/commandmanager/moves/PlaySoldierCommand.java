@@ -81,6 +81,7 @@ public class PlaySoldierCommand extends BaseCommand {
         robberLoc = new HexLocation(locationJSON.getInt("x"), locationJSON.getInt("y"));
 
         ClientModel model = IServerFacade.getInstance().playSoldier(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

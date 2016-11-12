@@ -91,6 +91,7 @@ public class PlayRoadBuilderCommand extends BaseCommand {
         JSONObject spot2 = roadBuildingJSON.getJSONObject("spot2");
 
         ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

@@ -60,6 +60,7 @@ public class RollDiceCommand extends BaseCommand {
         number = sendChatJSON.getInt("number");
 
         ClientModel model = IServerFacade.getInstance().rollNumber(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

@@ -71,6 +71,7 @@ public class RobPlayerCommand extends BaseCommand {
         location = new HexLocation(locationJSON.getInt("x"), locationJSON.getInt("y"));
 
         ClientModel model = IServerFacade.getInstance().robPlayer(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

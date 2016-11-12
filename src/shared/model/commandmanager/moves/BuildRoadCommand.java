@@ -83,6 +83,7 @@ public class BuildRoadCommand extends BaseCommand {
         free = roadLocJSON.getBoolean("free");
 
         ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), this);
+        if(model != null) {model.incrementVersion();}
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
