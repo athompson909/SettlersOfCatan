@@ -271,7 +271,7 @@ public class ServerFacade implements IServerFacade {
             ResourceType input = maritTradeObj.getToTrade();
             ResourceType output = maritTradeObj.getToReceive();
 
-            ClientModel model = game.maritimeTrade(playerIndex, ratio, input, output);
+            ClientModel model = game.martimeTrade(playerIndex, ratio, input, output);
             return model;
         }
         return null;
