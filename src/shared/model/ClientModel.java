@@ -287,7 +287,7 @@ public class ClientModel extends Observable {
      * @param edgeLocation EdgeValue, which contains the player ID and location of the road.
      */
     public boolean buildRoad(EdgeLocation edgeLocation, int index, boolean free) {
-        //if(turnTracker.getStatus().equals("FirstRoundState") || turnTracker.getStatus().equals("SecondRoundState")){
+        //if(turnTracker.getStatus().equals("FirstRound") || turnTracker.getStatus().equals("SecondRound")){
         //}
         //if (canPlaceRoad(index, edgeLocation)) {
             map.buildRoadManager.placeRoad(index, edgeLocation);
@@ -314,17 +314,19 @@ public class ClientModel extends Observable {
      * The model is adjusted accordingly.
      */
     private void recalculateLongestRoad(int index) {
-        int playerWithLongestRoadIndex = turnTracker.getLongestRoadHolder();
-        if (playerWithLongestRoadIndex == -1) {
-            turnTracker.setLongestRoadHolder(index);
-            return;
-        }
-        if (playerWithLongestRoadIndex != index) {
-            //If the player who built the road now has less available roads, then they have the most used road pieces.
-            if (players[index].getAvailableRoadCount() < players[playerWithLongestRoadIndex].getAvailableRoadCount()) {
-                players[turnTracker.getLongestRoadHolder()].loseTwoVictoryPoints();
+        if(players[index].getAvailableRoadCount() <= 10) {
+            int playerWithLongestRoadIndex = turnTracker.getLongestRoadHolder();
+            if (playerWithLongestRoadIndex == -1) {
                 turnTracker.setLongestRoadHolder(index);
-                players[index].gainTwoVictoryPoints();
+                return;
+            }
+            if (playerWithLongestRoadIndex != index) {
+                //If the player who built the road now has less available roads, then they have the most used road pieces.
+                if (players[index].getAvailableRoadCount() < players[playerWithLongestRoadIndex].getAvailableRoadCount()) {
+                    players[turnTracker.getLongestRoadHolder()].loseTwoVictoryPoints();
+                    turnTracker.setLongestRoadHolder(index);
+                    players[index].gainTwoVictoryPoints();
+                }
             }
         }
     }
