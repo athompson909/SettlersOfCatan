@@ -55,9 +55,7 @@ public class ServerTranslator {
     /**
      * Private constructor
      */
-    private ServerTranslator() {
-
-    }
+    private ServerTranslator() {}
 
 
 //////////////// UTILS //////////////////
