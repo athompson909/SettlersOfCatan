@@ -232,7 +232,7 @@ public class Game {
      * @param inputResource to trade.
      * @param outputResource to recieve.
      */
-    public ClientModel martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+    public ClientModel maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
         if(clientModel.maritimeTrade(index, ratio, inputResource, outputResource)) {
             return clientModel;
         }
