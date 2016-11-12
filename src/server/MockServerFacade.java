@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import shared.model.commandmanager.BaseCommand;
 import shared.shared_utils.MockJSONs;
 import org.json.JSONObject;
 import shared.model.ClientModel;
@@ -281,4 +282,7 @@ public class MockServerFacade implements IServerFacade {
     public int getGameId() {
         return 3;
     }
+
+    @Override
+    public void logCommand(int gameId, BaseCommand command){}
 }

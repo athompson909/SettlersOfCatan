@@ -80,7 +80,12 @@ public class PlaySoldierCommand extends BaseCommand {
         JSONObject locationJSON = soldierJSON.getJSONObject("location");
         robberLoc = new HexLocation(locationJSON.getInt("x"), locationJSON.getInt("y"));
 
-        ClientModel model = IServerFacade.getInstance().playSoldier(getUserId(), getGameId(), this);
+        PlaySoldierCommand command = new PlaySoldierCommand(playerIndex, robberLoc, victimIndex);
+        ClientModel model = IServerFacade.getInstance().playSoldier(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

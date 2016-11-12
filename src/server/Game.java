@@ -6,6 +6,8 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
+import shared.model.commandmanager.BaseCommand;
+import shared.model.commandmanager.CommandManager;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
@@ -31,9 +33,14 @@ public class Game {
      */
     private HashMap<Integer, User> userList;
 
-    public Game(GameInfo gameInfo) {
+    /**
+     * Stores the commands for this game.
+     */
+    private CommandManager commandManager = new CommandManager();
+
+    public Game(GameInfo gameInfo, boolean randTiles, boolean randNumbers, boolean randPorts) {
         this.gameInfo = gameInfo;
-     //   this.clientModel = new ClientModel();
+        this.clientModel = new ClientModel(gameInfo.getId(),randTiles, randNumbers, randPorts);
         this.userList = new HashMap<Integer, User>();
     }
 
@@ -196,7 +203,7 @@ public class Game {
      * @param inputResource to trade.
      * @param outputResource to recieve.
      */
-    public ClientModel martimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
+    public ClientModel maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
         clientModel.maritimeTrade(index, ratio, inputResource, outputResource);
         return clientModel;
     }
@@ -232,35 +239,36 @@ public class Game {
 
     //USER AND GAME COMMANDS
 
-    /**
-     * User login.
-     * @param username of the user.
-     * @param password of the user.
-     * @return true if login is successful.
-     */
-    public boolean login(String username, String password){
 
-        return (UserManager.getInstance().isValidLogin(username, password));
-    }
-
-    /**
-     * User registering.
-     * @param username of the user.
-     * @param password of the user.
-     * @return true if login is successful.
-     */
-    public boolean register(String username, String password){
-        return false;
-    }
-
-
-    /**
-     * List all of the games.
-     * @return an array of the GameInfo objects used to display the list.
-     */
-    public GameInfo[] list(){
-        return null;
-    } //GET
+//    /**
+//     * User login.
+//     * @param username of the user.
+//     * @param password of the user.
+//     * @return true if login is successful.
+//     */
+//    public boolean login(String username, String password){
+//
+//        return (UserManager.getInstance().isValidLogin(username, password));
+//    }
+//
+//    /**
+//     * User registering.
+//     * @param username of the user.
+//     * @param password of the user.
+//     * @return true if login is successful.
+//     */
+//    public boolean register(String username, String password){
+//        return false;
+//    }
+//
+//
+//    /**
+//     * List all of the games.
+//     * @return an array of the GameInfo objects used to display the list.
+//     */
+//    public GameInfo[] list(){
+//        return null;
+//    } //GET
 
     /**
      * Join a specific game.
@@ -271,39 +279,43 @@ public class Game {
         return (clientModel.joinGame(color, user));
     }
 
-    /**
-     * Create a new game.
-     * @param name of the game.
-     * @param randomTiles true if randomized.
-     * @param randomNumbers true if randomized.
-     * @param randomPorts true if randomized.
-     */
-    public GameInfo create(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts){
-        return null;
-    }
+//    /**
+//     * Create a new game.
+//     * @param name of the game.
+//     * @param randomTiles true if randomized.
+//     * @param randomNumbers true if randomized.
+//     * @param randomPorts true if randomized.
+//     */
+//    public GameInfo create(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts){
+//        return null;
+//    }
+//
+//    /**
+//     * Get the model.
+//     * @param version of the model, compared to see if its different.
+//     * @return the model.
+//     */
+//    public ClientModel model(int version){
+//        return null;
+//    } //GET
+//
+//    /**
+//     * Add an AI to the current game.
+//     * @return true if the AI
+//     */
+//    public boolean addAI(){
+//        return false;
+//    }
+//
+//    /**
+//     * List the AI
+//     * @return a string array of the names of the AI
+//     */
+//    public String[] listAI(){
+//        return null;
+//    }
 
-    /**
-     * Get the model.
-     * @param version of the model, compared to see if its different.
-     * @return the model.
-     */
-    public ClientModel model(int version){
-        return null;
-    } //GET
-
-    /**
-     * Add an AI to the current game.
-     * @return true if the AI
-     */
-    public boolean addAI(){
-        return false;
-    }
-
-    /**
-     * List the AI
-     * @return a string array of the names of the AI
-     */
-    public String[] listAI(){
-        return null;
+    public void logCommand(BaseCommand command){
+        commandManager.addCommandtoList(command);
     }
 }

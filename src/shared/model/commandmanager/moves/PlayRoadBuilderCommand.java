@@ -89,8 +89,16 @@ public class PlayRoadBuilderCommand extends BaseCommand {
         EdgeDirection edgeDirection1 = Converter.stringToEdgeDirection(spot1.getString("direction"));
         locationONE = new EdgeLocation(hexLocation1, edgeDirection1);
         JSONObject spot2 = roadBuildingJSON.getJSONObject("spot2");
+        HexLocation hexLocation2 = new HexLocation(spot2.getInt("x"), spot2.getInt("y"));
+        EdgeDirection edgeDirection2 = Converter.stringToEdgeDirection(spot2.getString("direction"));
+        locationTWO = new EdgeLocation(hexLocation2, edgeDirection2);
 
-        ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), this);
+        PlayRoadBuilderCommand command = new PlayRoadBuilderCommand(playerIndex, locationONE, locationTWO);
+        ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
