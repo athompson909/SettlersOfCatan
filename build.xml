@@ -82,6 +82,7 @@
 
     <property name="java.dir" location="java"/>
     <property name="java.src" location="src"/>
+    <property name="java.demo" location="demo"/>
     <property name="java.images" location="${java.dir}/images"/>
     <property name="java.build" location="${java.dir}/build"/>
     <property name="java.dist" location="${java.dir}/dist"/>
@@ -131,7 +132,13 @@
             <fileset dir="${java.images}">
                 <include name="**"/>
             </fileset>
-        </copy>
+        </copy>         <!-- use this to copy DOCS into JAVA/DIST ********** -->
+        <mkdir dir="${java.dist}/docs"/>
+        <copy todir="${java.dist}/docs">
+            <fileset dir="${java.demo}/docs">  <!-- copy DOCS and everything in it  -->
+               <!-- <include name="${java.demo}/docs"/> -->
+            </fileset>
+        </copy>         <!--  **************************************** -->
         <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
             <manifest>
                 <attribute name="Main-Class" value="client.main.Catan"/>

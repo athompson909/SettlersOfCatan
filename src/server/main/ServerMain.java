@@ -10,9 +10,6 @@ import server.Server;
  */
 public class ServerMain {
 
-
-
-
     /**
      * the main method for the server
      *
