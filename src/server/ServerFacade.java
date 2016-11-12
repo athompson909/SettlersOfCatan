@@ -11,6 +11,7 @@ import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
+import shared.model.player.Player;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.HashMap;
@@ -389,8 +390,8 @@ public class ServerFacade implements IServerFacade {
      * @return true is successful.
      */
     public boolean join(int userId, GameJoinCommand command){
-        User user = UserManager.getInstance().getUser(userID);
-
+        User user = UserManager.getInstance().getUser(userId);
+System.out.print("INSIDE JOIN");
         if(user != null) {
             int gameID = command.getGameID();
             CatanColor color = command.getColor();
@@ -398,24 +399,48 @@ public class ServerFacade implements IServerFacade {
 
             Game game = GamesManager.getInstance().getGame(gameID);
             GameInfo gameInfo = GamesManager.getInstance().getGame(gameID).getGameInfo();
+            List<PlayerInfo> playerInfos = gameInfo.getPlayers();
 
-            PlayerInfo playerInfo = new PlayerInfo();
-            playerInfo.setColor(color);
-            playerInfo.setId(userID);
-            playerInfo.setName(username);
-            int playerIndex = gameInfo.getPlayers().size();
-            playerInfo.setPlayerIndex(playerIndex);
-
-            List<PlayerInfo> players = gameInfo.getPlayers();
-
+            PlayerInfo p = gameInfo.getPlayerInfo(userId);
+System.out.print("INSIDE if user != null");
             if(gameInfo.getPlayers().size() != 4) {
-                for(PlayerInfo p: players) {
-                    if(p.getId() == userId) {return true;}
+                System.out.print("INSIDE if size != 4");
+                //Player is NOT already in the game
+                if(p == null) {
+                    PlayerInfo playerInfo = new PlayerInfo();
+                    playerInfo.setColor(color);
+                    playerInfo.setId(userId);
+                    playerInfo.setName(username);
+                    int playerIndex = gameInfo.getPlayers().size();
+                    playerInfo.setPlayerIndex(playerIndex);
+
+                    gameInfo.addPlayer(playerInfo);
+                    return game.join(color, user);
                 }
-                //Adds new playerInfo object to the gameInfo list
-                gameInfo.addPlayer(playerInfo);
-                //Adds new player to the clientModel list
-                return game.join(color, user);
+                //Player IS already in the game
+                else {
+                    System.out.print("INSIDE if user is already in game");
+                    Player[] allPlayers = game.getClientModel().getPlayers();
+                    for(Player one: allPlayers) {
+                        if(one.getPlayerID() == userId) {
+                            one.setColor(color);
+                        }
+                    }
+                    p.setColor(color);
+                    return true;
+                }
+            }
+            else {
+                if(p != null) {
+                    Player[] allPlayers = game.getClientModel().getPlayers();
+                    for(Player one: allPlayers) {
+                        if(one.getPlayerID() == userID) {
+                            one.setColor(color);
+                        }
+                    }
+                    p.setColor(color);
+                    return true;
+                }
             }
             return false;
         }

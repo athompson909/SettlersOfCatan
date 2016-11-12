@@ -576,6 +576,10 @@ public class Player { //
         discarded = disc;
     }
 
+    public void setColor(CatanColor color) {
+        this.color = color;
+    }
+
 
 
 
