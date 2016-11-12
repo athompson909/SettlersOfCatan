@@ -24,10 +24,6 @@ public class GameInfo
 		setId(-1);
 		setTitle("");
 		players = new ArrayList<PlayerInfo>();
-        players.add(null);
-        players.add(null);
-        players.add(null);
-        players.add(null);
 
 	}
 	
