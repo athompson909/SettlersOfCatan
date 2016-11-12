@@ -6,6 +6,8 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
+import shared.model.commandmanager.BaseCommand;
+import shared.model.commandmanager.CommandManager;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
@@ -30,6 +32,11 @@ public class Game {
      * PlayerIndex mapped to User
      */
     private HashMap<Integer, User> userList;
+
+    /**
+     * Stores the commands for this game.
+     */
+    private CommandManager commandManager = new CommandManager();
 
     public Game(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
@@ -305,5 +312,9 @@ public class Game {
      */
     public String[] listAI(){
         return null;
+    }
+
+    public void logCommand(BaseCommand command){
+        commandManager.addCommandtoList(command);
     }
 }

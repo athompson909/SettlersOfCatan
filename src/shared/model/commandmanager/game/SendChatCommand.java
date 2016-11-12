@@ -2,6 +2,7 @@ package shared.model.commandmanager.game;
 
 import org.json.JSONObject;
 import server.IServerFacade;
+import server.ServerFacade;
 import server.ServerTranslator;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
@@ -62,8 +63,12 @@ public class SendChatCommand extends BaseCommand {
         playerIndex = sendChatJSON.getInt("playerIndex");
         content = sendChatJSON.getString("content");
 
-        ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), this);
-        if(model != null) {model.incrementVersion();}
+        SendChatCommand command = new SendChatCommand(playerIndex, content);
+        ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

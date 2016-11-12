@@ -82,8 +82,12 @@ public class BuildRoadCommand extends BaseCommand {
         roadLocation.setDirection(Converter.stringToEdgeDirection(roadLocJSON.getString("direction")));
         free = roadLocJSON.getBoolean("free");
 
-        ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), this);
-        if(model != null) {model.incrementVersion();}
+        BuildRoadCommand command = new BuildRoadCommand(roadLocation, playerIndex, free);
+        ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

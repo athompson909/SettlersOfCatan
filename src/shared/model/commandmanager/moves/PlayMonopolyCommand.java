@@ -71,8 +71,12 @@ public class PlayMonopolyCommand extends BaseCommand {
         playerIndex = monopolyJSON.getInt("playerIndex");
         resource = Converter.stringToResourceType(monopolyJSON.getString("resource"));
 
-        ClientModel model = IServerFacade.getInstance().playMonopoly(getUserId(), getGameId(), this);
-        if(model != null) {model.incrementVersion();}
+        PlayMonopolyCommand command = new PlayMonopolyCommand(playerIndex, resource);
+        ClientModel model = IServerFacade.getInstance().playMonopoly(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

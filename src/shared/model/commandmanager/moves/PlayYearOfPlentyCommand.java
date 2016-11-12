@@ -73,8 +73,12 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         resource1 = Converter.stringToResourceType(resource1Str);
         resource2 = Converter.stringToResourceType(resource2Str);
 
-        ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), this);
-        if(model != null) {model.incrementVersion();}
+        PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(playerIndex, resource1, resource2);
+        ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

@@ -103,9 +103,12 @@ public class BuildSettlementCommand extends BaseCommand {
 
         setValues(vertexObject, buildSettlementJSON.getBoolean("free"));
 
-
-        ClientModel model = IServerFacade.getInstance().buildSettlement(getUserId(), getGameId(), this);
-        if(model != null) {model.incrementVersion();}
+        BuildSettlementCommand command = new BuildSettlementCommand(vertexObject, free);
+        ClientModel model = IServerFacade.getInstance().buildSettlement(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

@@ -7,6 +7,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
@@ -500,5 +501,10 @@ public class ServerFacade implements IServerFacade {
     @Override
     public int getGameId() {
         return 0;
+    }
+
+    @Override
+    public void logCommand(int gameId, BaseCommand command){
+        GamesManager.getInstance().getGame(gameId).logCommand(command);
     }
 }

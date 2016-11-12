@@ -94,9 +94,12 @@ public class OfferTradeCommand extends BaseCommand {
         resourceList.setWoodCardCount(offerJSON.getInt("wood"));
         offer = resourceList;
 
-
-        ClientModel model = IServerFacade.getInstance().offerTrade(getUserId(), getGameId(), this);
-        if(model != null) {model.incrementVersion();}
+        OfferTradeCommand command = new OfferTradeCommand(playerIndex, offer, receiver);
+        ClientModel model = IServerFacade.getInstance().offerTrade(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
