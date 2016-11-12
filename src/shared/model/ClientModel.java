@@ -226,6 +226,7 @@ public class ClientModel extends Observable {
         HashMap<PortType, boolean[]> enoughCards = players[playerIndex].canMaritimeTrade(ports);
 
         boolean[] values = enoughCards.get(Converter.resourceTypeToPortType(inputResource));
+        //todo - check that they don't trade more than needed?
         return values[ratio - 2];
     }
 
@@ -508,7 +509,10 @@ public class ClientModel extends Observable {
      * @param message the player wants to display.
      */
     public void sendChat(int index, String message){
-
+        //todo
+        //no longer than 100 char
+        //no sql statements
+            //regex check?
     }
 
     /**
@@ -610,7 +614,7 @@ public class ClientModel extends Observable {
      * @param index of the player trading.
      * @param ratio of the trade.
      * @param inputResource to trade.
-     * @param outputResource to recieve.
+     * @param outputResource to receive.
      */
     public boolean maritimeTrade(int index, int ratio, ResourceType inputResource, ResourceType outputResource){
         //index is valid, ratio correct based on their port, they have enough input, bank has output

@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.model.map.EdgeValue;
 import shared.model.map.Map;
@@ -74,12 +75,12 @@ public class TradeTest extends TestCase {
         testMap.setRobber(testRobber);
 
         //fake settlements
-        HexLocation testStlmtHL1 = new HexLocation(1, -2);
-        VertexDirection testStlmtVD1 = VertexDirection.SouthWest;
+        HexLocation testStlmtHL1 = new HexLocation(0, 3);
+        VertexDirection testStlmtVD1 = VertexDirection.NorthEast;
         VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
         VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1);
         testStlmtVO1.setPieceType(PieceType.SETTLEMENT);
-        testStlmtVO1.setOwner(1);
+        testStlmtVO1.setOwner(2);
 
         HexLocation testStlmtHL2 = new HexLocation(-1, 0);
         VertexDirection testStlmtVD2 = VertexDirection.SouthEast;
@@ -165,15 +166,30 @@ public class TradeTest extends TestCase {
     @Test
     public void testMaritime() {
         System.out.println("Testing Maritime Trade");
-     //   map.getVertexObjects().get(vertLoc).setOwner(player.getPlayerIndex());
-     //   Set<PortType> ports = new HashSet<>();
-     //   ports.add(map.getPortVertexLocations().get(vertLoc).getResource());
-     //   player.getPlayerResourceList().incBrickCardCount(3);
-     //   player.getPlayerResourceList().incSheepCardCount(2);
-     //   player.getPlayerResourceList().incWheatCardCount(2);
-     //   player.getPlayerResourceList().incWoodCardCount(2);
-     //   player.getPlayerResourceList().incOreCardCount(2);
-      //  assert (player.canMaritimeTrade(ports));
+        setUpTestClientModel();
+        Map map = model.getMap();
+        Player player = model.getPlayers()[2];
+        //map getPlayersPorts returns a set of port types
+//        map.getVertexObjects().get(vertLoc).setOwner(player.getPlayerIndex());
+//        Set<PortType> ports = new HashSet<>();
+//        ports.add(map.getPortVertexLocations().get(vertLoc).getResource());
+        player.getPlayerResourceList().incBrickCardCount(3);
+        player.getPlayerResourceList().incSheepCardCount(2);
+        player.getPlayerResourceList().incWheatCardCount(4);
+        player.getPlayerResourceList().incWoodCardCount(2);
+        player.getPlayerResourceList().incOreCardCount(0);
+        //bad index
+        assert (!model.maritimeTrade(-1, 2, ResourceType.ORE, ResourceType.WHEAT));
+        assert (!model.maritimeTrade(4, 2, ResourceType.ORE, ResourceType.WHEAT));
+
+
+        //add 3:1 port
+        HexLocation testStlmtHL1 = new HexLocation(-2, 3);
+        VertexDirection testStlmtVD1 = VertexDirection.NorthEast;
+        VertexLocation testStlmtVL1 = new VertexLocation(testStlmtHL1, testStlmtVD1);
+        VertexObject testStlmtVO1 = new VertexObject(testStlmtVL1);
+        testStlmtVO1.setPieceType(PieceType.SETTLEMENT);
+        testStlmtVO1.setOwner(2);
         assert true;
     }
 
