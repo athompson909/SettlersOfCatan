@@ -411,6 +411,7 @@ public class ClientModel extends Observable {
             map.placeRobber(robberLocation);
             ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
             players[index].getPlayerResourceList().addCardByType(stolenResource);
+            turnTracker.setStatus("Playing");
             return true;
         }
         return false;
@@ -560,6 +561,7 @@ public class ClientModel extends Observable {
             for (int i = 0; i < players.length; i++) {
                 players[i].receiveCardsFromDiceRoll(results[i]);
             }
+            turnTracker.setStatus("Playing");
             return true;
         }
         return false;
