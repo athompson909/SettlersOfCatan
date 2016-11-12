@@ -2,6 +2,7 @@ package shared_tests;
 
 import junit.framework.TestCase;
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
@@ -30,10 +31,14 @@ public class PlaySoliderTest extends TestCase {
         clientModel.getPlayers()[PLAYERORANGE] = new Player(CatanColor.RED, "WHOA", 4, 0);
         clientModel.getPlayers()[PLAYERBLUE] = new Player(CatanColor.GREEN, "HEY", 15, 0);
 
+        clientModel.getTurnTracker().setStatus("FirstRoundState");
+
         VertexObject whiteSettlement1 = new VertexObject(new VertexLocation(new HexLocation(1,-1), VertexDirection.NorthEast));
         whiteSettlement1.setOwner(PLAYERWHITE);
         whiteSettlement1.setPieceType(PieceType.SETTLEMENT);
         clientModel.buildSettlement(whiteSettlement1, true);
+
+        clientModel.getTurnTracker().setStatus("FirstRoundState");
 
         VertexObject whiteSettlement2 = new VertexObject(new VertexLocation(new HexLocation(-1,2), VertexDirection.NorthWest));
         whiteSettlement2.setOwner(PLAYERWHITE);
@@ -44,8 +49,11 @@ public class PlaySoliderTest extends TestCase {
         ResourceList playerBlueResourceList = clientModel.getPlayers()[PLAYERBLUE].getPlayerResourceList();
         playerWhiteResourceList.incWoodCardCount(1);
 
+        clientModel.getPlayers()[PLAYERBLUE].getOldDevCardList().addDevCard(DevCardType.SOLDIER);
         clientModel.playSoldierCard(PLAYERBLUE, whiteSettlement1.getVertexLocation().getHexLoc(), PLAYERWHITE);
 
+        System.out.println(playerBlueResourceList.getWoodCardCount());
+        System.out.println(playerWhiteResourceList.getWoodCardCount());
         assert (playerBlueResourceList.getWoodCardCount() == 1);
         assert (playerWhiteResourceList.getCardCount() == 0);
 

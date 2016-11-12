@@ -87,7 +87,7 @@ public class GameCreateCommand extends BaseCommand {
         List<String> cookieList = new ArrayList<>(1);
         cookieList.add(fullResponseLoginCookieStr);
         getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
-        return ServerTranslator.getInstance().gameInfoToString(gameInfo);
+        return ServerTranslator.getInstance().gameInfoToJSON(gameInfo);
     }
 
     //Getters
