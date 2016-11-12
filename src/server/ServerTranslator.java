@@ -2,7 +2,6 @@ package server;
 
 import client.data.GameInfo;
 import client.data.PlayerInfo;
-import shared.shared_utils.Converter;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,17 +16,17 @@ import shared.model.TradeOffer;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
-import shared.model.messagemanager.*;
+import shared.model.messagemanager.MessageList;
+import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
-import shared.model.resourcebank.*;
+import shared.model.resourcebank.DevCardList;
+import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 import shared.shared_utils.Converter;
 import shared.shared_utils.MockJSONs;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -247,7 +246,7 @@ public class ServerTranslator {
 
         for (int p = 0; p < tempPlayers.length; p++){
             Player currPlayer = tempPlayers[p];
-            JSONObject currPlayerJSON = new JSONObject(gsonTranslator.toJson(currPlayer));
+            JSONObject currPlayerJSON = (currPlayer != null) ? new JSONObject(gsonTranslator.toJson(currPlayer)) : new JSONObject();
             tempPlayersArr.put(currPlayerJSON);
         }
         modelJSON.put("players", tempPlayersArr);
