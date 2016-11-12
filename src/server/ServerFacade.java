@@ -469,8 +469,8 @@ public class ServerFacade implements IServerFacade {
      * @return the model.
      */
     //IS THIS THE METHOD WE CALL EACH TIME THE POLLER ASKS FOR A NEW MODEL??
-    //DO I NEED TO BE UPDATING THE VERSION NUMBER OF THE CLIENTMODEL??
-    // I actually think that we need to update the version in the Game object functions...right?
+    //DO I NEED TO BE UPDATING THE VERSION NUMBER OF THE CLIENTMODEL?? no.
+    // I actually think that we need to update the version in the CommandObjects right before they return the model.
     public ClientModel model(int userId, int gameID, FetchNewModelCommand command){
         Game game = GamesManager.getInstance().getGame(gameID);
         ClientModel model = game.getClientModel();
