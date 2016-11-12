@@ -90,8 +90,12 @@ public class BuildCityCommand extends BaseCommand {
         VertexObject vertexObject = new VertexObject(vertexLocation);
         setValues(vertexObject);
 
-
-        ClientModel model = IServerFacade.getInstance().buildCity(getUserId(), getGameId(), this);
+        BuildCityCommand command = new BuildCityCommand(vertexObject);
+        ClientModel model = IServerFacade.getInstance().buildCity(getUserId(), getGameId(), command);
+        if(model != null) {
+            model.incrementVersion();
+            IServerFacade.getInstance().logCommand(getGameId(), command);
+        }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 

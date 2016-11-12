@@ -281,21 +281,31 @@ public class ServerTranslatorTest extends TestCase {
     public void setUpTestGameInfo(){
 
         testGameInfo = new GameInfo();
+        testGameInfo.setId(3);
+        testGameInfo.setTitle("yoo");
+//        PlayerInfo tempPI = new PlayerInfo();
+//            tempPI.setColor(CatanColor.ORANGE);
+//            tempPI.setId(0);
+//            tempPI.setName("Sam");
+        ArrayList<PlayerInfo> tempPIList = new ArrayList<>();
+//        tempPIList.add(tempPI);
+        testGameInfo.setPlayers(tempPIList);
 
         testGameCreateResponse =  "{" +
                 "\"title\":" + "\"yoo\"," +
                 "\"id\":" + 3 + "," +
-                "\"players\":" +  " [" +
-                "{}," +
+                "\"players\":" +  "[" +
+                "{" +
+//                    "\"color\": \"orange\"," +
+//                    "\"name\": \"Sam\"," +
+//                    "\"id\": 0\"" +
+                "}," +
                 "{}," +
                 "{}," +
                 "{}" +
                 "]" +
-                " }";
+                "}";
 
-        testGameInfo.setId(3);
-        testGameInfo.setTitle("yoo");
-        testGameInfo.setPlayers(new ArrayList<PlayerInfo>(4));
     }
 
     @Test
@@ -340,7 +350,7 @@ public class ServerTranslatorTest extends TestCase {
 
     //FOR THE GAME CREATE RESPONSE
     @Test
-    public void testGameListToJSON() throws Exception {
+    public void testGameCreateRespToJSON() throws Exception {
         System.out.println(">TESTING GAMELISTTOJSON TRANSLATION!");
 
         //see if the size of testGameInfo's players list is 4 empty spots!

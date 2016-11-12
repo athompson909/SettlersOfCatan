@@ -178,7 +178,7 @@ public class TradeTest extends TestCase {
         //not their turn
         assert(!model.maritimeTrade(2, 2, ResourceType.WOOD, ResourceType.WHEAT));
         model.getTurnTracker().setCurrentTurn(2);
-        
+
         //bad index
         assert (!model.maritimeTrade(-1, 2, ResourceType.ORE, ResourceType.WHEAT));
         assert (!model.maritimeTrade(4, 2, ResourceType.ORE, ResourceType.WHEAT));

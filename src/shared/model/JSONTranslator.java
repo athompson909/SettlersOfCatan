@@ -693,53 +693,56 @@ public class JSONTranslator {
 
         for (int g = 0; g < gameCreateResponseJSON.length(); g++)
         {
-            JSONObject currGameListItem = gameCreateResponseJSON.getJSONObject(g);
-            String currGameListItemString = currGameListItem.toString();
-            //GameInfo newGameInfo = gsonConverter.fromJson(currGameListItemString, GameInfo.class);
+            if (gameCreateResponseJSON.getJSONObject(g) != null) {
+                    //currGameListItem represents a whole GameInfo object, not just a Player
+                JSONObject currGameListItem = gameCreateResponseJSON.getJSONObject(g);
+                String currGameListItemString = currGameListItem.toString();
+                //GameInfo newGameInfo = gsonConverter.fromJson(currGameListItemString, GameInfo.class);
 
-         //   System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: game " + g + "= " + currGameListItemString);
+                //   System.out.println(">>>JSONTRANSLATOR: gamesListRespFromJSON: game " + g + "= " + currGameListItemString);
 
-            //we need to do this manually to remove all null/empty players:
-            GameInfo newGameInfo = new GameInfo();
+                //we need to do this manually to remove all null/empty players:
+                GameInfo newGameInfo = new GameInfo();
 
-            newGameInfo.setTitle(currGameListItem.getString("title"));
-            newGameInfo.setId(currGameListItem.getInt("id"));
+                newGameInfo.setTitle(currGameListItem.getString("title"));
+                newGameInfo.setId(currGameListItem.getInt("id"));
 
-            ArrayList<PlayerInfo> tempPIArrayList = new ArrayList<>();
-            //we're checking on login that they don't have any blank names, null strings, etc.
-            //so we can use the player Name to check if they're a real player or not.
-            //only add players to the ArrayList if their name is NOT a null/empty string.
-            //this should ensure that each GameInfo object's list of playerInfos only contains real players and not the default null PIs.
-            JSONArray currGamePlayerInfosJSONArr = currGameListItem.getJSONArray("players");
+                //we're checking on login that they don't have any blank names, null strings, etc.
+                //so we can use the player Name to check if they're a real player or not.
+                //only add players to the ArrayList if their name is NOT a null/empty string.
+                //this should ensure that each GameInfo object's list of playerInfos only contains real players and not the default null PIs.
+                JSONArray currGamePlayerInfosJSONArr = currGameListItem.getJSONArray("players");
 
-           // System.out.println("\t ******* picking out real playerInfos:");
-            //go through array result from JSON, and add each REAL player to the ArrayList
-            for (int p = 0; p < currGamePlayerInfosJSONArr.length(); p++) {
-                JSONObject currPlayerInfoJSON = currGamePlayerInfosJSONArr.getJSONObject(p);
-                String currPlayerInfoStr = currPlayerInfoJSON.toString();
-             //   System.out.println("\t\tCurrPlayerInfo= " + currPlayerInfoStr);
+                ArrayList<PlayerInfo> tempPIArrayList = parsePlayerInfoList(currGamePlayerInfosJSONArr);
 
-                //check if it's a real player or just blank
-                if(!currPlayerInfoStr.equals("{}")){
-                    //it's ok to make PlayerInfo object, since it's not blank
-                    PlayerInfo newPlayerInfo = gsonConverter.fromJson(currPlayerInfoStr, PlayerInfo.class);
-                    newPlayerInfo.setPlayerIndex(p); //their index is whatever number they are in the array
-                    tempPIArrayList.add(newPlayerInfo);
+                // System.out.println("\t ******* picking out real playerInfos:");
+                //go through array result from JSON, and add each REAL player to the ArrayList
+//                for (int p = 0; p < currGamePlayerInfosJSONArr.length(); p++) {
+//                    JSONObject currPlayerInfoJSON = currGamePlayerInfosJSONArr.getJSONObject(p);
+//                    String currPlayerInfoStr = currPlayerInfoJSON.toString();
+//                    //   System.out.println("\t\tCurrPlayerInfo= " + currPlayerInfoStr);
+//
+//                    //check if it's a real player or just blank
+//                    if (!currPlayerInfoStr.equals("{}")) {
+//                        //it's ok to make PlayerInfo object, since it's not blank
+//                        PlayerInfo newPlayerInfo = gsonConverter.fromJson(currPlayerInfoStr, PlayerInfo.class);
+//                        newPlayerInfo.setPlayerIndex(p); //their index is whatever number they are in the array
+//                        tempPIArrayList.add(newPlayerInfo);
+//
+//                        //     System.out.println("\t Player was good, added player: " + newPlayerInfo);
+//                    } else {
+//                        //it was blank, so don't add it to the arraylist
+//                        //     System.out.println("\t Player was null, skipping add");
+//                    }
+//                }
 
-               //     System.out.println("\t Player was good, added player: " + newPlayerInfo);
-                }
-                else{
-                    //it was blank, so don't add it to the arraylist
-               //     System.out.println("\t Player was null, skipping add");
-                }
+                newGameInfo.setPlayers(tempPIArrayList);
+
+                //  System.out.println("\t *******>FINAL GAMEINFO: " + newGameInfo + ", playersArr size= " + newGameInfo.getPlayers().size());
+
+
+                allActiveGames.add(newGameInfo);
             }
-
-            newGameInfo.setPlayers(tempPIArrayList);
-
-          //  System.out.println("\t *******>FINAL GAMEINFO: " + newGameInfo + ", playersArr size= " + newGameInfo.getPlayers().size());
-
-
-            allActiveGames.add(newGameInfo);
         }
 
         //makes an array of GameInfos for the JoinGameView, based on the size of allActiveGames:
@@ -747,6 +750,39 @@ public class JSONTranslator {
 
         return allGameInfos;
     }
+
+    /**
+     * this is working on the gameCreateResponse part, but we need it to do the same thing on the gameListResponse
+     * @param playerInfoJSONArr
+     * @return
+     */
+    private ArrayList<PlayerInfo> parsePlayerInfoList(JSONArray playerInfoJSONArr){
+        ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
+
+        for (int p = 0; p < playerInfoJSONArr.length(); p++) {
+          //  JSONObject currPlayerInfoJSON = playerInfoJSONArr.getJSONObject(p);
+            String currPlayerInfoStr = playerInfoJSONArr.get(p).toString();
+            //   System.out.println("\t\tCurrPlayerInfo= " + currPlayerInfoStr);
+
+            //check if it's a real player or just blank
+            if (!currPlayerInfoStr.equals("{}")) {
+                //it's ok to make PlayerInfo object, since it's not blank
+                PlayerInfo newPlayerInfo = gsonConverter.fromJson(currPlayerInfoStr, PlayerInfo.class);
+                newPlayerInfo.setPlayerIndex(p); //their index is whatever number they are in the array
+                playerInfos.add(newPlayerInfo);
+
+                //     System.out.println("\t Player was good, added player: " + newPlayerInfo);
+            } else {
+                //it was blank, so don't add it to the arraylist
+                //     System.out.println("\t Player was null, skipping add");
+            }
+        }
+
+        return playerInfos;
+    }
+
+
+
 
     /**
      *

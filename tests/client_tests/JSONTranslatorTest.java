@@ -912,31 +912,19 @@ public class JSONTranslatorTest extends TestCase {
                                         "\"id\":" + -3 +
                                     "}, " +
                                     "{" +
-                                        "\"color\":" + "\"green\"," +
-                                        "\"name\":" + "\"Miguel\"," +
-                                        "\"id\":" + -4 +
                                     "} " +
                                 "]" +
                         "}," +
 
                         "{" +
-                        "\"title\":" + "\"Best Game\"," +
+                        "\"title\":" + "\"EMPTY Game\"," +
                         "\"id\":" + 2 + "," +
                         "\"players\":" + "[" +
                                     "{" +
-                                        "\"color\":" + "\"blue\"," +
-                                        "\"name\":" + "\"yo\"," +
-                                        "\"id\":" + 12 +
                                     "}, " +
                                     "{" +
-                                        "\"color\":" + "\"orange\"," +
-                                        "\"name\":" + "\"Squall\"," +
-                                        "\"id\":" + -2 +
                                     "}, " +
                                     "{" +
-                                        "\"color\":" + "\"green\"," +
-                                        "\"name\":" + "\"Quinn\"," +
-                                        "\"id\":" + -3 +
                                     "}, " +
                                     "{" +
                                     "} " +
@@ -1031,7 +1019,7 @@ public class JSONTranslatorTest extends TestCase {
         //asserts
         assertEquals(3, gLIArrayResult.length);
         assertEquals(4, gLIArrayResult[0].getPlayers().size());
-        assertEquals(4, gLIArrayResult[1].getPlayers().size());
+        assertEquals(3, gLIArrayResult[1].getPlayers().size());
         assertEquals(3, gLIArrayResult[2].getPlayers().size()); //the 4th one is null
     }
     //GOOD

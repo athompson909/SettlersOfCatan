@@ -2,6 +2,7 @@ package server;
 
 import client.data.GameInfo;
 import shared.model.ClientModel;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 
@@ -188,5 +189,7 @@ public interface IServerFacade {
      * @return the new game's id
      */
     int getGameId();
+
+    void logCommand(int gameId, BaseCommand command);
 
 }

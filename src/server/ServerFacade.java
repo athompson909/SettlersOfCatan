@@ -7,6 +7,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
@@ -270,7 +271,7 @@ public class ServerFacade implements IServerFacade {
             ResourceType input = maritTradeObj.getToTrade();
             ResourceType output = maritTradeObj.getToReceive();
 
-            ClientModel model = game.martimeTrade(playerIndex, ratio, input, output);
+            ClientModel model = game.maritimeTrade(playerIndex, ratio, input, output);
             return model;
         }
         return null;
@@ -430,10 +431,13 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUser(userID);
 
         if(user != null) {
-            System.out.print("INSIDE CREATE: Inside IF STATEMENT");
+            boolean randTiles = command.isRandomTiles();
+            boolean randNumbers = command.isRandomNumbers();
+            boolean randPorts = command.isRandomPorts();
+
             PlayerInfo playerInfo = new PlayerInfo();
             GameInfo gameInfo = new GameInfo();
-            Game game = new Game(gameInfo);
+            Game game = new Game(gameInfo, randTiles, randNumbers, randPorts);
 
             int gameID = GamesManager.getInstance().addGame(game);
             String title = command.getName();
@@ -500,5 +504,10 @@ public class ServerFacade implements IServerFacade {
     @Override
     public int getGameId() {
         return 0;
+    }
+
+    @Override
+    public void logCommand(int gameId, BaseCommand command){
+        GamesManager.getInstance().getGame(gameId).logCommand(command);
     }
 }
