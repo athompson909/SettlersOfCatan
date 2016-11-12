@@ -30,7 +30,7 @@ public class Client {
 
     //According to the TAs tooltips: username must be 3-7 chars long, and can include letters, numbers, underscore, or dash
     private Pattern usernameDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{3,7}");
-    //According to the TAs tooltips: username must be 5-16 chars long, and can include letters, numbers, underscore, or dash
+    //According to the TAs tooltips: password must be 5-16 chars long, and can include letters, numbers, underscore, or dash
     private Pattern passwordDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{5,16}");
     //I just picked this length
     private Pattern gameTitleDelimiter = Pattern.compile("[a-zA-Z0-9-_\\s]{3,24}");
