@@ -1,8 +1,6 @@
 package server;
 
 import client.data.GameInfo;
-import shared.shared_utils.Converter;
-import shared.shared_utils.MockResponses;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,15 +15,17 @@ import shared.model.TradeOffer;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
-import shared.model.messagemanager.*;
+import shared.model.messagemanager.MessageList;
+import shared.model.messagemanager.MessageManager;
 import shared.model.player.Player;
-import shared.model.resourcebank.*;
+import shared.model.resourcebank.DevCardList;
+import shared.model.resourcebank.ResourceBank;
+import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
+import shared.shared_utils.Converter;
+import shared.shared_utils.MockJSONs;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -81,15 +81,15 @@ public class ServerTranslator {
     }
 
     public String gameInfoToString(GameInfo gameInfo) {
-        return MockResponses.GAME_CREATE_RESPONSE;
+        return MockJSONs.GAME_CREATE_RESPONSE;
     }
 
     public String gameListToString(GameInfo[] gameList) {
-        return MockResponses.GAMES_LIST;//for testing
+        return MockJSONs.GAMES_LIST;//for testing
     }
 
     public String clientModelToString(ClientModel clientModel) {
-        return MockResponses.GAME_MODEL;//todo: change
+        return MockJSONs.GAME_MODEL;//todo: change
     }
 
 

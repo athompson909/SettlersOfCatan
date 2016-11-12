@@ -12,11 +12,8 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static shared.definitions.CatanColor.WHITE;
 
 /**
  * Created by adamthompson on 11/4/16.
