@@ -241,7 +241,7 @@ public class Player { //
         playerResourceList.decSheepCardCount(1);
         playerResourceList.decWheatCardCount(1);
         settlementCount--;
-        victoryPoints++;
+        adjustVictoryPoints(1);
     }
 
     /**
@@ -252,7 +252,7 @@ public class Player { //
         playerResourceList.decWheatCardCount(2);
         cityCount--;
         settlementCount++; //Get your settlement piece back.
-        victoryPoints++;
+        adjustVictoryPoints(1);
 
     }
 
@@ -281,7 +281,7 @@ public class Player { //
     public void playMonumentCard() {
         oldDevCardList.removeDevCard(DevCardType.MONUMENT);
         monuments++;
-        victoryPoints++;
+        adjustVictoryPoints(1);
         //playedDevCard = true; //Monument
     }
 
@@ -456,15 +456,11 @@ public class Player { //
         playerResourceList.incOreCardCount(resourceList.getOreCardCount());
     }
 
-    public void gainTwoVictoryPoints(){
-        victoryPoints = (victoryPoints + 2);
+
+
+    public void adjustVictoryPoints(int pointChange) {
+        victoryPoints = victoryPoints + pointChange;
     }
-
-    public void loseTwoVictoryPoints(){
-        victoryPoints = (victoryPoints - 2);
-    }
-
-
 
     //GETTERS
     public MaritimeTradeManager getMaritimeTradeManager() {return maritimeTradeManager;}

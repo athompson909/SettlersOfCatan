@@ -300,6 +300,7 @@ public class ClientModel extends Observable {
             map.buildRoadManager.placeRoad(index, edgeLocation);
             if (!free) {
                 players[index].purchaseRoad();
+                resourceBank.receiveRoadResources();
             }
             recalculateLongestRoad(index);
             return true;
@@ -330,9 +331,10 @@ public class ClientModel extends Observable {
             if (playerWithLongestRoadIndex != index) {
                 //If the player who built the road now has less available roads, then they have the most used road pieces.
                 if (players[index].getAvailableRoadCount() < players[playerWithLongestRoadIndex].getAvailableRoadCount()) {
-                    players[turnTracker.getLongestRoadHolder()].loseTwoVictoryPoints();
+                    players[turnTracker.getLongestRoadHolder()].adjustVictoryPoints(-2);
                     turnTracker.setLongestRoadHolder(index);
-                    players[index].gainTwoVictoryPoints();
+                    players[index].adjustVictoryPoints(2);
+                    calculateIfWinner(index);
                 }
             }
         }
@@ -351,7 +353,9 @@ public class ClientModel extends Observable {
             } else if (turnTracker.getStatus().equals("SecondRoundState")) {
                 ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
                 players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
+                resourceBank.receiveSettlementResources();
             }
+            calculateIfWinner(newSettlement.getOwner());
             return true;
        // }
            // return false;
@@ -367,6 +371,8 @@ public class ClientModel extends Observable {
         if(canPlaceCity(newCity.getOwner(), newCity.getVertexLocation())) {
             map.buildCityManager.placeCity(newCity);
             players[newCity.getOwner()].purchaseCity();
+            resourceBank.receiveCityResources();
+            calculateIfWinner(newCity.getOwner());
             return true;
         }
         return false;
@@ -381,6 +387,7 @@ public class ClientModel extends Observable {
         if(canPurchaseDevCard(playerIndex)) {
             DevCardType purcahsedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
             players[playerIndex].purchaseDevelopmentCard(purcahsedDevCard); //Send to player
+            resourceBank.receiveDevCardResources();
             return true;
         }
         return false;
@@ -469,9 +476,10 @@ public class ClientModel extends Observable {
             if (playerWithLargestArmyIndex != index) {
                 //If the player who built the road now has less available roads, then they have the most used road pieces.
                 if (players[index].getAvailableRoadCount() < players[playerWithLargestArmyIndex].getAvailableRoadCount()) {
-                    players[turnTracker.getLargestArmyHolder()].loseTwoVictoryPoints();
+                    players[turnTracker.getLargestArmyHolder()].adjustVictoryPoints(-2);
                     turnTracker.setLongestRoadHolder(index);
-                    players[index].gainTwoVictoryPoints();
+                    players[index].adjustVictoryPoints(2);
+                    calculateIfWinner(index);
                 }
             }
         }
@@ -485,6 +493,7 @@ public class ClientModel extends Observable {
     public boolean playMonumentCard(int playerIndex) {
         if(canPlayMonument(playerIndex)) {
             players[playerIndex].playMonumentCard();
+            calculateIfWinner(playerIndex);
             return true;
         }
         return false;
@@ -750,6 +759,12 @@ public class ClientModel extends Observable {
             }
         }
         return false;
+    }
+
+    private void calculateIfWinner(int playerIndex){
+        if(players[playerIndex].getVictoryPoints() >= 10){
+            setWinner(players[playerIndex].getPlayerID());
+        }
     }
 
     /**
