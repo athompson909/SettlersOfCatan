@@ -39,6 +39,9 @@ public abstract class MapState  {
                         mapController.getView().addNumber(currentHex.getLocation(), currentHex.getNumber());
                     }
                 }
+            } else
+            {
+                mapController.getView().addHex(currentHex.getLocation(), HexType.DESERT);
             }
         }
 
