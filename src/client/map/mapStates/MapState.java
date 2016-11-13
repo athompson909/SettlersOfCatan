@@ -33,9 +33,11 @@ public abstract class MapState  {
 
             Hex currentHex = updatedMap.getHexes().get(key);
             mapController.getView().addHex(currentHex.getLocation(), currentHex.getResource());
-            if (currentHex.getResource() != HexType.WATER) {
-                if (currentHex.getResource() != HexType.DESERT) {
-                    mapController.getView().addNumber(currentHex.getLocation(), currentHex.getNumber());
+            if(currentHex.getResource() != null) {
+                if (currentHex.getResource() != HexType.WATER) {
+                    if (currentHex.getResource() != HexType.DESERT) {
+                        mapController.getView().addNumber(currentHex.getLocation(), currentHex.getNumber());
+                    }
                 }
             }
         }

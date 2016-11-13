@@ -27,7 +27,7 @@ public class Hex {
      * Resource type provided by this hex
      * also can be ocean/water
      */
-    private HexType resource = null;
+    private HexType resource = HexType.DESERT;
 
 
 
@@ -82,7 +82,7 @@ public class Hex {
     public void setResource(HexType resource) {
         this.resource = resource;
     }
-
+/*
     @Override
     public String toString() {
         return "Hex{" +
@@ -91,7 +91,7 @@ public class Hex {
                 ", resource=" + resource.toString() +
                 '}';
     }
-
+*/
 
 
 
