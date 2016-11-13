@@ -61,6 +61,16 @@ public class GameInfo
 		this.players = players;
 	}
 
+	public PlayerInfo getPlayerInfo(int userID) {
+		for(PlayerInfo p: players) {
+			if(p.getId() == userID) {
+				return p;
+			}
+			else {return null;}
+		}
+		return null;
+	}
+
 	@Override
 	public String toString() {
 		return "GameInfo{" +

@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import server.IServerFacade;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.BaseCommand;
+import shared.shared_utils.Converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class GameJoinCommand extends BaseCommand {
 
         JSONObject requestJSON = new JSONObject(getRequest());
         gameID = requestJSON.getInt("id");
+        color = Converter.stringToCatanColor(requestJSON.getString("color"));
 
         boolean success = IServerFacade.getInstance().join(getUserId(), this);
         if(success) {

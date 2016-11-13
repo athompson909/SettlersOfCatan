@@ -1,5 +1,6 @@
 package shared.shared_utils;
 
+import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -132,6 +133,21 @@ public class Converter {
                 assert false;
         }
         return null;//should never reach here
+    }
+
+    public static CatanColor stringToCatanColor(String color) {
+        switch (color) {
+            case "red": return CatanColor.RED;
+            case "orange": return CatanColor.ORANGE;
+            case "yellow": return CatanColor.YELLOW;
+            case "blue": return CatanColor.BLUE;
+            case "green": return CatanColor.GREEN;
+            case "purple": return CatanColor.PURPLE;
+            case "puce": return CatanColor.PUCE;
+            case "white": return CatanColor.WHITE;
+            default: assert false;
+        }
+        return null;
     }
 
 }
