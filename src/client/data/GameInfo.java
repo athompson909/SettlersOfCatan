@@ -66,7 +66,6 @@ public class GameInfo
 			if(p.getId() == userID) {
 				return p;
 			}
-			else {return null;}
 		}
 		return null;
 	}
