@@ -117,7 +117,7 @@ public class ServerTranslator {
 //    }
 
     public String clientModelToString(ClientModel clientModel) {
-        return modelToJSON(clientModel);//todo: change
+        return modelToJSON(clientModel);//todo: replace the calls to this method to modelToJSON()
     }
 
 

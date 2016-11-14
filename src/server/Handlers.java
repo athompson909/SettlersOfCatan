@@ -80,7 +80,7 @@ public class Handlers {
 
         @Override
         public void handle(HttpExchange exchange) throws IOException{
-            System.out.println( this.rootPath + " ___ " + this.getRequestPath(exchange));
+                System.out.println( this.rootPath + " ___ " + this.getRequestPath(exchange));
             this.sendFile(exchange, this.rootPath + this.getRequestPath(exchange) +
                     ".json");
         }

@@ -35,6 +35,15 @@ public class GamesManager {
 
     }
 
+
+    /**
+     * Adding a couple default games so the gameHub looks better
+     */
+    private void buildMockGames(){
+
+    }
+
+
     /**
      * Adds a newly created Game to the list of all games
      * and maps it to its gameID

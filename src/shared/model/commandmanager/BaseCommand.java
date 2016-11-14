@@ -108,7 +108,7 @@ public abstract class BaseCommand implements HttpHandler {
 
     private HttpExchange httpExchange;
 
-    private int gameId;
+    private transient int gameId;
 
     public String getRequest() {
         return request;
