@@ -112,12 +112,12 @@ public class ServerTranslator {
         return gameInfoJSON.toString();
     }
 
-    public String gameListToString(GameInfo[] gameList) {
-        return MockJSONs.GAMES_LIST;//for testing
-    }
+//    public String gameListToString(GameInfo[] gameList) {
+//        return MockJSONs.GAMES_LIST;//for testing
+//    }
 
     public String clientModelToString(ClientModel clientModel) {
-        return MockJSONs.GAME_MODEL;//todo: change
+        return modelToJSON(clientModel);//todo: change
     }
 
 

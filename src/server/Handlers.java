@@ -41,7 +41,8 @@ public class Handlers {
                 mimetypes.add(FileUtils.getMimeType(filepath));
                 exchange.getResponseHeaders().put("Content­type", mimetypes);
                 exchange.sendResponseHeaders(200, response.length);
-
+                    // System.out.println(">SENDFILE: responseHeader CONTYPE= " + exchange.getResponseHeaders().get("Content-type"));
+                    //System.out.println(">SENDFILE: responseBody= " + exchange.getResponseBody().);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response);
                 os.close();
