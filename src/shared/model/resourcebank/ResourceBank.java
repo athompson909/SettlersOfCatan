@@ -99,6 +99,14 @@ public class ResourceBank {
         resourceList.incOreCardCount(3);
     }
 
+    public void removeResources(ResourceList list){
+        resourceList.decWoodCardCount(list.getWoodCardCount());
+        resourceList.decBrickCardCount(list.getBrickCardCount());
+        resourceList.decWheatCardCount(list.getWheatCardCount());
+        resourceList.decOreCardCount(list.getOreCardCount());
+        resourceList.decSheepCardCount(list.getSheepCardCount());
+    }
+
 
     //GETTERS
     public DevCardList getDevCardList() {

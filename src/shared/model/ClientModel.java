@@ -308,8 +308,8 @@ public class ClientModel extends Observable {
 
     private void buildRoadFunctionality(EdgeLocation edgeLocation, int index, boolean free) {
         map.buildRoadManager.placeRoad(index, edgeLocation);
+        players[index].purchaseRoad(free);
         if (!free) {
-            players[index].purchaseRoad();
             resourceBank.receiveRoadResources();
         }
         recalculateLongestRoad(index);
@@ -355,13 +355,16 @@ public class ClientModel extends Observable {
     public boolean buildSettlement(VertexObject newSettlement, boolean free) {
         // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
         map.buildSettlementManager.placeSettlement(newSettlement);
-        if (!free) {
-            players[newSettlement.getOwner()].purchaseSettlement();
-        } else if (turnTracker.getStatus().equals("SecondRoundState")) {
+        players[newSettlement.getOwner()].purchaseSettlement(free);
+        if (turnTracker.getStatus().equals("SecondRoundState")) {
             ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
             players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
+            //decrement resourceBank
+            resourceBank.removeResources(secondSettlementResources);
+        }else if(!free){
             resourceBank.receiveSettlementResources();
         }
+
         calculateIfWinner(newSettlement.getOwner());
         return true;
         // }
