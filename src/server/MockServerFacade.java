@@ -203,8 +203,8 @@ public class MockServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     @Override
-    public boolean login(LoginCommand command){
-        return true;
+    public int login(LoginCommand command){
+        return 0;
     }
 
     /**
@@ -212,8 +212,8 @@ public class MockServerFacade implements IServerFacade {
      * @return true if login is successful.
      */
     @Override
-    public boolean register(RegisterCommand command){
-        return true;
+    public int register(RegisterCommand command){
+        return 0;
     }
 
 
