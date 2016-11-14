@@ -54,6 +54,7 @@ public abstract class BaseCommand implements HttpHandler {
             exchange.getResponseBody().write(error.getBytes());
         }
 
+        System.out.println("Server Response: " + ((response == null) ? "null" : response));
         exchange.close();
     }
 
