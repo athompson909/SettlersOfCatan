@@ -129,15 +129,15 @@ public interface IServerFacade {
     /**
      * User login.
 
-     * @return true if login is successful.
+     * @return userID if login is successful, else return -1.
      */
-    boolean login(LoginCommand command);
+    int login(LoginCommand command);
 
     /**
      * User registering.
-     * @return true if login is successful.
+     * @return userID if login is successful, else return -1.
      */
-    boolean register(RegisterCommand command);
+    int register(RegisterCommand command);
 
 
     /**

@@ -335,7 +335,7 @@ public class ServerFacade implements IServerFacade {
      * @param command - LoginCommand containing needed login info
      * @return true if login is successful.
      */
-    public boolean login(LoginCommand command){
+    public int login(LoginCommand command){
         String username = command.getUsername();
         String password = command.getPassword();
 
@@ -343,9 +343,9 @@ public class ServerFacade implements IServerFacade {
 
         if(user != null) {
             userID = user.getUserID();
-            return true;
+            return userID;
         }
-        else {return false;}
+        else {return -1;}
     }
 
     /**
@@ -353,15 +353,19 @@ public class ServerFacade implements IServerFacade {
      * @param command - RegisterCommand containing needed register info
      * @return true if login is successful.
      */
-    public boolean register(RegisterCommand command){
+    public int register(RegisterCommand command){
         String username = command.getUsername();
         String password = command.getPassword();
 
         boolean valid = UserManager.getInstance().addUser(username, password);
         User user = UserManager.getInstance().getUserByUsername(username, password);
 
-        if(valid) {userID = user.getUserID();}
-        return valid;
+        if(valid) {
+            userID = user.getUserID();
+            return userID;
+        }else {
+            return -1;
+        }
     }
 
 
