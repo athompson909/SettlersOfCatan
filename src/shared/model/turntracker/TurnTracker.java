@@ -147,7 +147,7 @@ public class TurnTracker {
             if(currentTurn == 3) {
                 status = "SecondRound";
             }else {
-                currentTurn ++;
+                currentTurn++;
             }
         }else if(status.equals("SecondRound")){
             if(currentTurn != 0) {

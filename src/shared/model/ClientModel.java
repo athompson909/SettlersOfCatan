@@ -795,6 +795,7 @@ public class ClientModel extends Observable {
         for (int i = 0; i < players.length; i++) {
             if (players[i] == null) {
                 players[i] = new Player(color, user.getUserName(), user.getUserID(), i);
+                version++;
                 return true;
             }
         }

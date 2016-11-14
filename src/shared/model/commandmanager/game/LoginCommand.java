@@ -66,10 +66,10 @@ public class LoginCommand extends BaseCommand {
             List<String> cookieList = new ArrayList<>(1);
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
+            return ServerTranslator.getInstance().booleanToString(true);
         }
 
-        return "" + response;
-        //return ServerTranslator.getInstance().booleanToString(response);
+        return ServerTranslator.getInstance().booleanToString(false);
     }
 
     //Getters
