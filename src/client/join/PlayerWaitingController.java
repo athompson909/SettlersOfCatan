@@ -28,7 +28,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 * The list of playerInfos that gets updated every time a new player is added (either AI or real)
 	 */
 	private PlayerInfo[] currPlayerInfosList;
-	private IMessageView messageView;
+	private IMessageView messageView = new MessageView();
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 
