@@ -1,16 +1,16 @@
 package server;
 
 
+import client.utils.FileUtils;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import client.utils.FileUtils;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 /**
  * THIS IS ALL FROM THE SWAGGER PDF!
@@ -41,7 +41,8 @@ public class Handlers {
                 mimetypes.add(FileUtils.getMimeType(filepath));
                 exchange.getResponseHeaders().put("Content­type", mimetypes);
                 exchange.sendResponseHeaders(200, response.length);
-
+                    // System.out.println(">SENDFILE: responseHeader CONTYPE= " + exchange.getResponseHeaders().get("Content-type"));
+                    //System.out.println(">SENDFILE: responseBody= " + exchange.getResponseBody().);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response);
                 os.close();
