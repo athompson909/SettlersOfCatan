@@ -471,7 +471,7 @@ public class ServerFacade implements IServerFacade {
             boolean randNumbers = command.isRandomNumbers();
             boolean randPorts = command.isRandomPorts();
 
-            PlayerInfo playerInfo = new PlayerInfo();
+            //PlayerInfo playerInfo = new PlayerInfo();
             GameInfo gameInfo = new GameInfo();
             Game game = new Game(gameInfo, randTiles, randNumbers, randPorts);
 
@@ -482,7 +482,7 @@ public class ServerFacade implements IServerFacade {
 
             for(Integer i: map.keySet()) {
                 Game myGame = map.get(i);
-                if(myGame.getGameInfo().getTitle() == title) {
+                if(myGame.getGameInfo().getTitle().equals(title)) {
                     return null; //Title is already in use
                 }
             }
