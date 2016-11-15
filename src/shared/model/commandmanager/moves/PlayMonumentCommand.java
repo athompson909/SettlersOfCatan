@@ -67,7 +67,7 @@ public class PlayMonumentCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            model.addLog("played a monument", getUserId());
+            model.addLog(" played a monument", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

@@ -85,7 +85,7 @@ public class PlaySoldierCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            model.addLog("played a soldier", getUserId());
+            model.addLog(" played a soldier", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

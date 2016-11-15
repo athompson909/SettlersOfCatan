@@ -96,7 +96,7 @@ public class BuildCityCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            model.addLog("built a city", getUserId());
+            model.addLog(" built a city", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

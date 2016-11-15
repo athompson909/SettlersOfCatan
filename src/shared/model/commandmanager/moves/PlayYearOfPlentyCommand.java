@@ -78,7 +78,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            model.addLog("played year of plenty", getUserId());
+            model.addLog(" played year of plenty", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

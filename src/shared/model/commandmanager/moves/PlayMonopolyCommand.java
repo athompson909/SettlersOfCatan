@@ -76,7 +76,7 @@ public class PlayMonopolyCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            model.addLog("played a monopoly card", getUserId());
+            model.addLog(" played a monopoly card", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

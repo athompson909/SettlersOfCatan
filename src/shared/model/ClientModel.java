@@ -915,7 +915,7 @@ public class ClientModel extends Observable {
     public void addLog(String msg, int userID) {
         User source = UserManager.getInstance().getUser(userID);
         String name = source.getUserName();
-        messageManager.getLog().insertMessageLine(new MessageLine(name + " "+ msg, name));
+        messageManager.getLog().insertMessageLine(new MessageLine(name + msg, name));
     }
 
     public void incrementVersion() {
