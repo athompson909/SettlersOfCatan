@@ -4,6 +4,7 @@ import client.ClientUser;
 import client.data.RobPlayerInfo;
 import client.utils.Converter;
 import server.User;
+import server.UserManager;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
@@ -909,6 +910,12 @@ public class ClientModel extends Observable {
 
     public void setLog(MessageList newLog) {
         log = newLog;
+    }
+
+    public void addLog(String msg, int userID) {
+        User source = UserManager.getInstance().getUser(userID);
+        String name = source.getUserName();
+        messageManager.getLog().insertMessageLine(new MessageLine(name + msg, name));
     }
 
     public void incrementVersion() {

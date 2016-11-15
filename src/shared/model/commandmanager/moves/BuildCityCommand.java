@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import shared.model.messagemanager.MessageLine;
 import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
@@ -95,6 +96,7 @@ public class BuildCityCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
+            model.addLog(" built a city", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

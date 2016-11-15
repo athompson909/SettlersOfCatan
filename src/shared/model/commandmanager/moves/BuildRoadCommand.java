@@ -90,6 +90,7 @@ public class BuildRoadCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
+            model.addLog(" built a road", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

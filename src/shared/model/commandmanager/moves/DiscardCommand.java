@@ -81,6 +81,7 @@ public class DiscardCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
+            model.addLog(" discarded", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
