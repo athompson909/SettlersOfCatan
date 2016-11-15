@@ -108,6 +108,7 @@ public class BuildSettlementCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
+            model.addLog("built a settlement", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
