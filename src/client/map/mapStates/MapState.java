@@ -101,17 +101,17 @@ public abstract class MapState  {
 
 
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceRoad(currentPlayerIndex, edgeLoc);
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceSettlement(currentPlayerIndex, vertLoc);
     }
 
     public boolean canPlaceCity(VertexLocation vertLoc) {
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceCity(currentPlayerIndex, vertLoc);
     }
 
@@ -120,7 +120,7 @@ public abstract class MapState  {
     }
 
     public void placeRoad(EdgeLocation edgeLoc) {
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, false);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
     }
@@ -159,14 +159,14 @@ public abstract class MapState  {
             mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
         } else {
             //Don't rob anyone, so send a command with -1.
-            int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+            int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
             PlaySoldierCommand playSoldierCommand = new PlaySoldierCommand(currentPlayerId, robberHex, -1);
             ClientFacade.getInstance().playSoldier(playSoldierCommand);
         }
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        CatanColor color = mapController.clientModel.getClientPlayer().getColor();
         mapController.getView().startDrop(pieceType, color, true);
     }
 
@@ -177,14 +177,14 @@ public abstract class MapState  {
 
     public void playSoldierCard() {
         System.out.println("MAP: PLAYER SOLDIER CARD!");
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        CatanColor color = mapController.clientModel.getClientPlayer().getColor();
         mapController.getView().startDrop(PieceType.ROBBER, color, true); //3rd variable is boolean, cancel allowed
     }
 
     public void playRoadBuildingCard() {
         System.out.println("MAP: PLAY ROAD BUILDING CARD.");
         mapController.setMapStateToRoadBuilding();
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        CatanColor color = mapController.clientModel.getClientPlayer().getColor();
         mapController.getView().startDrop(PieceType.ROAD, color, true);
     }
 
@@ -192,7 +192,7 @@ public abstract class MapState  {
         System.out.println("MAP: ROB PLAYER!");
 
         //Why does the ROb PLayer command need a hex and victim? Where do I get the hex from?
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
         PlaySoldierCommand playSoldierCommand = new PlaySoldierCommand(currentPlayerId, robberHex, victim.getPlayerIndex());
         ClientFacade.getInstance().playSoldier(playSoldierCommand);
 

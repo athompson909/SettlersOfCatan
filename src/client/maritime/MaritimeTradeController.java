@@ -62,7 +62,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 		int currentPlayer = ClientUser.getInstance().getIndex();
 		Set ports = clientModel.getMap().getPlayersPorts(currentPlayer);
-		HashMap<PortType, boolean[]> isTradable = clientModel.getCurrentPlayer().canMaritimeTrade(ports);
+		HashMap<PortType, boolean[]> isTradable = clientModel.getClientPlayer().canMaritimeTrade(ports);
 
 		for(PortType p: isTradable.keySet()) {
 			switch(p) {

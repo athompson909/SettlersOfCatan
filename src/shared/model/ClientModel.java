@@ -445,8 +445,8 @@ public class ClientModel extends Observable {
         ArrayList<Integer> adjacentPlayers = map.getPlayersAdjacentToHex(hexLoc);
 
         //Remove the current player from the robbing list.
-        if (adjacentPlayers.contains(getCurrentPlayer().getPlayerIndex())) {
-            Integer currentPlayerIndex = getCurrentPlayer().getPlayerIndex();
+        if (adjacentPlayers.contains(getClientPlayer().getPlayerIndex())) {
+            Integer currentPlayerIndex = getClientPlayer().getPlayerIndex();
             adjacentPlayers.remove(currentPlayerIndex);
 
         }
@@ -851,7 +851,7 @@ public class ClientModel extends Observable {
         return updateManager;
     }
 
-    public Player getCurrentPlayer() {
+    public Player getClientPlayer() {
         return players[ClientUser.getInstance().getIndex()];
     }
 

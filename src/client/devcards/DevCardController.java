@@ -82,7 +82,7 @@ public class DevCardController extends Controller implements IDevCardController 
         /*if(true) {*/if (clientModel.canPurchaseDevCard(ClientUser.getInstance().getIndex())) {
             PurchaseDevCardCommand command = new PurchaseDevCardCommand(ClientUser.getInstance().getIndex());
             ClientFacade.getInstance().purchaseDevCard(command);
-            Player thisPlayer = clientModel.getCurrentPlayer();
+            Player thisPlayer = clientModel.getClientPlayer();
             setCardAmounts(thisPlayer.getOldDevCardList());
         }
         else {
@@ -98,7 +98,7 @@ public class DevCardController extends Controller implements IDevCardController 
     private void setCardAmounts(DevCardList devCardList) {
         
         //Show sum of old and new cards
-        DevCardList newCardList = clientModel.getCurrentPlayer().getNewDevCardList();
+        DevCardList newCardList = clientModel.getClientPlayer().getNewDevCardList();
         playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount()+ newCardList.getSoldierCardCount());
         playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount() + newCardList.getMonumentCardCount());
         playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount() + newCardList.getYearOfPlentyCardCount());
@@ -109,13 +109,13 @@ public class DevCardController extends Controller implements IDevCardController 
         TurnTracker turnTracker = clientModel.getTurnTracker();
         if(turnTracker.getStatus().equals("Playing") && turnTracker.getCurrentTurn() == ClientUser.getInstance().getIndex()) {
            //can only play one card per turn except monuments
-            if(!clientModel.getCurrentPlayer().hasPlayedDevCard()) {
+            if(!clientModel.getClientPlayer().hasPlayedDevCard()) {
                 //can only play old cards except for monuments
                 playDevCardView.setCardEnabled(DevCardType.SOLDIER, (devCardList.getSoldierCardCount() >= 1));
                 playDevCardView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, (devCardList.getYearOfPlentyCardCount() >= 1));
                 playDevCardView.setCardEnabled(DevCardType.MONOPOLY, (devCardList.getMonopolyCardCount() >= 1));
                 //must have 2 unused roads to build
-                boolean enoughRoads = (clientModel.getCurrentPlayer().getAvailableRoadCount() >= 2);
+                boolean enoughRoads = (clientModel.getClientPlayer().getAvailableRoadCount() >= 2);
                 playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, (devCardList.getRoadBuildingCardCount() >= 1 && enoughRoads));
             }else{
                 playDevCardView.setCardEnabled(DevCardType.SOLDIER, false);
@@ -133,7 +133,7 @@ public class DevCardController extends Controller implements IDevCardController 
             playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, false);
         }
 
-        addNewCard(clientModel.getCurrentPlayer().getNewDevCardList());
+        addNewCard(clientModel.getClientPlayer().getNewDevCardList());
     }
 
     /**
@@ -164,7 +164,7 @@ public class DevCardController extends Controller implements IDevCardController 
 
     @Override
     public void startPlayCard() {
-        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
         playDevCardView.showModal();
     }
 
@@ -178,7 +178,7 @@ public class DevCardController extends Controller implements IDevCardController 
         if (clientModel.canPlayMonopoly(ClientUser.getInstance().getIndex())) {
             PlayMonopolyCommand command = new PlayMonopolyCommand(ClientUser.getInstance().getIndex(), resource);
             ClientFacade.getInstance().playMonopoly(command);
-            setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+            setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
         }
         //Todo: should I close the modal after I call the facade?
     }
@@ -188,7 +188,7 @@ public class DevCardController extends Controller implements IDevCardController 
         if (clientModel.canPlayMonument(ClientUser.getInstance().getIndex())) {
             PlayMonumentCommand command = new PlayMonumentCommand(ClientUser.getInstance().getIndex());
             ClientFacade.getInstance().playMonument(command);
-            setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+            setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
         }
     }
 
@@ -197,27 +197,27 @@ public class DevCardController extends Controller implements IDevCardController 
 //todo - why is this not sending (probably issue like play soldier card was
         //if needed can create function in client or model to update map state here
         roadAction.execute();
-        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
     }
 
     @Override
     public void playSoldierCard() {
 
         soldierAction.execute();
-        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
     }
 
     @Override
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
         PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(ClientUser.getInstance().getIndex(), resource1, resource2);
         ClientFacade.getInstance().playYearOfPlenty(command);
-        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());//will this help?
+        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());//will this help?
     }
 
     @Override
     public void update(Observable o, Object arg) {
         clientModel = (ClientModel) o;
-//        setCardAmounts(clientModel.getCurrentPlayer().getOldDevCardList());
+//        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
     }
 
 }

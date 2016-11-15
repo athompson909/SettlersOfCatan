@@ -51,7 +51,7 @@ public class FirstRoundMapState extends MapState {
 
     @Override
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        CatanColor color = mapController.clientModel.getClientPlayer().getColor();
         mapController.getView().startDrop(pieceType, color, false);
     }
 
@@ -62,14 +62,14 @@ public class FirstRoundMapState extends MapState {
 
     @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceSetUpSettlement(currentPlayerId, vertLoc);
     }
 
     @Override
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, true);
 
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
