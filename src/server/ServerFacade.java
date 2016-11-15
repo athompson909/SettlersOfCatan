@@ -22,9 +22,15 @@ import java.util.List;
  */
 public class ServerFacade implements IServerFacade {
 
-    int userID;
-
+    /**
+     *
+     * @param userID
+     * @param gameID
+     * @return
+     */
     public boolean validateParams(int userID, int gameID) {
+            System.out.println(">SERVERFACADE: validateParams called, userID= " + userID + ", gameID=" + gameID);
+
         Game game = GamesManager.getInstance().getGame(gameID);
         User user = UserManager.getInstance().getUser(userID);
         if(game != null && user != null) {
@@ -315,8 +321,8 @@ public class ServerFacade implements IServerFacade {
     /**
      * Player building a city.
      */
-    public ClientModel buildCity(int userID, int gameID, BuildCityCommand buildCityObj){
-        if(validateParams(userID, gameID)) {
+    public ClientModel buildCity(int userId, int gameID, BuildCityCommand buildCityObj){
+        if(validateParams(userId, gameID)) {
 
             Game game = GamesManager.getInstance().getGame(gameID);
             VertexObject cityLoc = buildCityObj.getVertex();
@@ -339,13 +345,18 @@ public class ServerFacade implements IServerFacade {
         String username = command.getUsername();
         String password = command.getPassword();
 
+            System.out.println(">SERVERFACADE: login(): usrnm= " + username + ", pass= " + password);
+
         User user = UserManager.getInstance().getUserByUsername(username, password);
 
         if(user != null) {
-            userID = user.getUserID();
-            return userID;
+                System.out.println("\t >> User was found, login successful");
+            return user.getUserID();
         }
-        else {return -1;}
+        else {
+                System.out.println("\t >> User NOT found, login failed!");
+            return -1;
+        }
     }
 
     /**
@@ -361,8 +372,7 @@ public class ServerFacade implements IServerFacade {
         User user = UserManager.getInstance().getUserByUsername(username, password);
 
         if(valid) {
-            userID = user.getUserID();
-            return userID;
+            return user.getUserID();
         }else {
             return -1;
         }
@@ -374,7 +384,7 @@ public class ServerFacade implements IServerFacade {
      * @return an array of the GameInfo objects used to display the list.
      */
     public GameInfo[] list(int userId){
-        User user = UserManager.getInstance().getUser(userID);
+        User user = UserManager.getInstance().getUser(userId);
 
         if(user != null) {
             HashMap<Integer, Game> allGames = GamesManager.getInstance().getAllGames();
@@ -454,7 +464,7 @@ public class ServerFacade implements IServerFacade {
      * Create a new game.
      */
     public GameInfo create(int userId, GameCreateCommand command){
-        User user = UserManager.getInstance().getUser(userID);
+        User user = UserManager.getInstance().getUser(userId);
 
         if(user != null) {
             boolean randTiles = command.isRandomTiles();
@@ -520,11 +530,6 @@ public class ServerFacade implements IServerFacade {
      */
     public String[] listAI(){
         return null;
-    }
-
-    @Override
-    public int getUserId() {
-        return userID;
     }
 
     @Override

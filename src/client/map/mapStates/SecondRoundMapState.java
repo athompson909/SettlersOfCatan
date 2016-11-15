@@ -3,13 +3,11 @@ package client.map.mapStates;
 import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
-import client.data.RobPlayerInfo;
 import client.map.MapController;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.definitions.State;
 import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.commandmanager.moves.BuildSettlementCommand;
@@ -34,7 +32,7 @@ public class SecondRoundMapState extends MapState {
                 && Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()
                 && getSecondVertexLocation() == null) {
            // mapController.startMove(PieceType.SETTLEMENT, true, false);
-            CatanColor color = mapController.getClientModel().getCurrentPlayer().getColor();
+            CatanColor color = mapController.getClientModel().getClientPlayer().getColor();
             mapController.getView().startDrop(PieceType.SETTLEMENT, color, false);
         }
     }
@@ -46,14 +44,14 @@ public class SecondRoundMapState extends MapState {
 
     @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceSetUpSettlement(currentPlayerId, vertLoc);
     }
 
     @Override
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
-        int currentPlayerIndex = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
 
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, true);
         ClientFacade.getInstance().buildRoad(buildRoadCommand);
@@ -72,7 +70,7 @@ public class SecondRoundMapState extends MapState {
 
         BuildSettlementCommand buildSettlementCommand = new BuildSettlementCommand(vertObj, true);
         ClientFacade.getInstance().buildSettlement(buildSettlementCommand);
-        CatanColor color = mapController.getClientModel().getCurrentPlayer().getColor();
+        CatanColor color = mapController.getClientModel().getClientPlayer().getColor();
         mapController.getView().startDrop(PieceType.ROAD, color, false);
     }
 }

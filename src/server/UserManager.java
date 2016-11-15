@@ -23,6 +23,9 @@ public class UserManager {
      */
     private HashMap<String, User> usersByUsername = new HashMap<String, User>();
 
+    /**
+     * this is the counter that increments each time a user is added, so everyone has a unique userID
+     */
     private static int userID;
     /**
      * Parts of the singleton pattern
@@ -38,7 +41,22 @@ public class UserManager {
      */
     private UserManager() {
         userID = 0;
+        buildMockUsers();
     }
+
+    /**
+     * Adding a couple mock users for the gamehub's default games
+     */
+    private void buildMockUsers(){
+        addUser("Adam", "adam");
+        addUser("Steph", "steph");
+        addUser("Mitch", "mitch");
+        addUser("Sierra", "sierra");
+        addUser("Alise", "alise");
+
+        System.out.println(">USERMANAGER: mockUsers created, there are " + allUsers.size());
+    }
+
 
 
     /**

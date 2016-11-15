@@ -1,5 +1,6 @@
 package shared.model.map;
 
+import shared.definitions.PieceType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexDirection;
@@ -272,6 +273,7 @@ public class BuildSettlementManager {
      * @param newSettlement that is being built.
      */
     public void placeSettlement(VertexObject newSettlement) {
+        newSettlement.setPieceType(PieceType.SETTLEMENT);
         map.getVertexObjects().put(newSettlement.getVertexLocation(), newSettlement);
     }
 }

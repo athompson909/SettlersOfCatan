@@ -53,6 +53,7 @@ public class BuildCityManager {
      * @param newCity Vertex where city is built
      */
     public void placeCity(VertexObject newCity) {
+        newCity.setPieceType(PieceType.CITY);
         map.getVertexObjects().put(newCity.getVertexLocation(), newCity);
     }
 

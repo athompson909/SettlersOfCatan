@@ -109,7 +109,7 @@ public class DiscardController extends Controller implements IDiscardController 
         ClientModel model = (ClientModel)o;
 
         //save current players resource list
-        Player player = model.getCurrentPlayer();
+        Player player = model.getClientPlayer();
         resources = player.getPlayerResourceList();
         total = resources.getCardCount()/2;//purposely using integer division
 
@@ -120,7 +120,7 @@ public class DiscardController extends Controller implements IDiscardController 
             if(tracker.getStatus().equals("Discarding")){
 
                 //I need to discard
-                if(resources.getCardCount() > 7 && !model.getCurrentPlayer().hasDiscarded()){
+                if(resources.getCardCount() > 7 && !model.getClientPlayer().hasDiscarded()){
                     if(!getDiscardView().isModalShowing()) {
                         System.out.println("open Discard Modal");
                         setDiscardModalValues();

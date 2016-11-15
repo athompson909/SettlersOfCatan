@@ -24,7 +24,6 @@ import shared.model.resourcebank.ResourceBank;
 import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 import shared.shared_utils.Converter;
-import shared.shared_utils.MockJSONs;
 
 import java.util.HashMap;
 
@@ -112,12 +111,8 @@ public class ServerTranslator {
         return gameInfoJSON.toString();
     }
 
-//    public String gameListToString(GameInfo[] gameList) {
-//        return MockJSONs.GAMES_LIST;//for testing
-//    }
-
     public String clientModelToString(ClientModel clientModel) {
-        return modelToJSON(clientModel);//todo: change
+        return modelToJSON(clientModel);//todo: replace the calls to this method to modelToJSON()
     }
 
 

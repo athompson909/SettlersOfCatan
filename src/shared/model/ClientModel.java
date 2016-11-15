@@ -308,8 +308,8 @@ public class ClientModel extends Observable {
 
     private void buildRoadFunctionality(EdgeLocation edgeLocation, int index, boolean free) {
         map.buildRoadManager.placeRoad(index, edgeLocation);
+        players[index].purchaseRoad(free);
         if (!free) {
-            players[index].purchaseRoad();
             resourceBank.receiveRoadResources();
         }
         recalculateLongestRoad(index);
@@ -355,13 +355,16 @@ public class ClientModel extends Observable {
     public boolean buildSettlement(VertexObject newSettlement, boolean free) {
         // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
         map.buildSettlementManager.placeSettlement(newSettlement);
-        if (!free) {
-            players[newSettlement.getOwner()].purchaseSettlement();
-        } else if (turnTracker.getStatus().equals("SecondRoundState")) {
+        players[newSettlement.getOwner()].purchaseSettlement(free);
+        if (turnTracker.getStatus().equals("SecondRoundState")) {
             ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
             players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
+            //decrement resourceBank
+            resourceBank.removeResources(secondSettlementResources);
+        }else if(!free){
             resourceBank.receiveSettlementResources();
         }
+
         calculateIfWinner(newSettlement.getOwner());
         return true;
         // }
@@ -442,8 +445,8 @@ public class ClientModel extends Observable {
         ArrayList<Integer> adjacentPlayers = map.getPlayersAdjacentToHex(hexLoc);
 
         //Remove the current player from the robbing list.
-        if (adjacentPlayers.contains(getCurrentPlayer().getPlayerIndex())) {
-            Integer currentPlayerIndex = getCurrentPlayer().getPlayerIndex();
+        if (adjacentPlayers.contains(getClientPlayer().getPlayerIndex())) {
+            Integer currentPlayerIndex = getClientPlayer().getPlayerIndex();
             adjacentPlayers.remove(currentPlayerIndex);
 
         }
@@ -795,6 +798,7 @@ public class ClientModel extends Observable {
         for (int i = 0; i < players.length; i++) {
             if (players[i] == null) {
                 players[i] = new Player(color, user.getUserName(), user.getUserID(), i);
+                version++;
                 return true;
             }
         }
@@ -847,7 +851,7 @@ public class ClientModel extends Observable {
         return updateManager;
     }
 
-    public Player getCurrentPlayer() {
+    public Player getClientPlayer() {
         return players[ClientUser.getInstance().getIndex()];
     }
 

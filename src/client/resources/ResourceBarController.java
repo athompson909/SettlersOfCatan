@@ -131,7 +131,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			//Note: we leave PLAY_CARD enabled and then it will disable within the modal itself
 		}
 		//update player values
-		Player player = model.getCurrentPlayer();
+		Player player = model.getClientPlayer();
 		ResourceList resources = player.getPlayerResourceList();
 		getView().setElementAmount(ResourceBarElement.WOOD, resources.getWoodCardCount());
 		getView().setElementAmount(ResourceBarElement.BRICK, resources.getBrickCardCount());

@@ -1,13 +1,10 @@
 package client.map;
 
 import client.Client;
-import client.ClientFacade;
 import client.base.Controller;
 import client.data.RobPlayerInfo;
-import client.main.Catan;
 
 import shared.definitions.CatanColor;
-import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.State;
 import shared.locations.*;
@@ -89,7 +86,7 @@ public class MapController extends Controller implements IMapController {
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
-        CatanColor color = clientModel.getCurrentPlayer().getColor();
+        CatanColor color = clientModel.getClientPlayer().getColor();
         getView().startDrop(pieceType, color, true);
     }
 
