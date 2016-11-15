@@ -70,7 +70,7 @@ public class FinishTurnCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            model.addLog("finished their turn", getUserId());
+            model.addLog("'s turn finished", getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
