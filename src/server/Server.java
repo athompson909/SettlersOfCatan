@@ -87,6 +87,12 @@ public class Server {
         httpServer.createContext("/moves/maritimeTrade", new MaritimeTradeCommand());
         httpServer.createContext("/moves/discardCards", new DiscardCommand());
 
+        System.out.println("*SERVER: contexts created");
+
+        //try
+        UserManager.getInstance();  //make it build the mock users by calling its constructor
+        GamesManager.getInstance(); //make it build the mock games by callings its constructor
+
         httpServer.start();
     }
 
