@@ -49,7 +49,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		ClientModel model = (ClientModel)o;
 
 		if(localPlayerColor == null){
-			localPlayerColor = model.getCurrentPlayer().getColor();
+			localPlayerColor = model.getClientPlayer().getColor();
 			getView().setLocalPlayerColor(localPlayerColor);
 		}
 

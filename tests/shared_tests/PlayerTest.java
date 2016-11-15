@@ -51,9 +51,9 @@ public class PlayerTest extends TestCase {
         player.getPlayerResourceList().incWheatCardCount(2);
         player.getPlayerResourceList().incSheepCardCount(2);
         assert (player.canPurchaseSettlement());
-        player.purchaseSettlement();
+        player.purchaseSettlement(false);
         assert (player.canPurchaseSettlement());
-        player.purchaseSettlement();
+        player.purchaseSettlement(false);
         assert (!player.canPurchaseRoad());
         assert (player.getSettlementCount() == 3);
         assert (player.getPlayerResourceList().getWoodCardCount() == 0);
@@ -69,9 +69,9 @@ public class PlayerTest extends TestCase {
         player.getPlayerResourceList().incBrickCardCount(2);
         player.getPlayerResourceList().incWoodCardCount(2);
         assert (player.canPurchaseRoad());
-        player.purchaseRoad();
+        player.purchaseRoad(false);
         assert (player.canPurchaseRoad());
-        player.purchaseRoad();
+        player.purchaseRoad(false);
         assert (!player.canPurchaseRoad());
         assert (player.getAvailableRoadCount() == 13);
         assert (player.getPlayerResourceList().getWoodCardCount() == 0);

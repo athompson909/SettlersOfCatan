@@ -274,11 +274,6 @@ public class MockServerFacade implements IServerFacade {
     private final String[] LIST_AI = { "LARGEST_ARMY" };
 
     @Override
-    public int getUserId() {
-        return 0;
-    }
-
-    @Override
     public int getGameId() {
         return 3;
     }

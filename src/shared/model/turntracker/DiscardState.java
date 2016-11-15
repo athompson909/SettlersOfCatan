@@ -13,7 +13,7 @@ public class DiscardState extends TurnTrackerState {
     @Override
     public void updateStateButton(ITurnTrackerView view) {
         //todo - waiting state possible here
-        Player currentPlayer = Client.getInstance().getClientModel().getCurrentPlayer();
+        Player currentPlayer = Client.getInstance().getClientModel().getClientPlayer();
         ResourceList resources = currentPlayer.getPlayerResourceList();
         if(currentPlayer.hasDiscarded() || resources.getCardCount() <=7) {
             view.updateGameState("Waiting for Other Players", false);

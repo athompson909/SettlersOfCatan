@@ -226,20 +226,24 @@ public class Player { //
     /**
      * Purchases a new road, which uses 1 Brick and 1 Wood
      */
-    public void purchaseRoad() {
-        playerResourceList.decWoodCardCount(1);
-        playerResourceList.decBrickCardCount(1);
+    public void purchaseRoad(boolean free) {
+        if(!free) {
+            playerResourceList.decWoodCardCount(1);
+            playerResourceList.decBrickCardCount(1);
+        }
         availableRoadCount--;
     }
 
     /**
      * Purchases a new settlement, which uses 1 Wood, 1 Brick, 1 Sheep, and 1 Wheat
      */
-    public void purchaseSettlement() {
-        playerResourceList.decBrickCardCount(1);
-        playerResourceList.decWoodCardCount(1);
-        playerResourceList.decSheepCardCount(1);
-        playerResourceList.decWheatCardCount(1);
+    public void purchaseSettlement(boolean free) {
+        if(!free) {
+            playerResourceList.decBrickCardCount(1);
+            playerResourceList.decWoodCardCount(1);
+            playerResourceList.decSheepCardCount(1);
+            playerResourceList.decWheatCardCount(1);
+        }
         settlementCount--;
         adjustVictoryPoints(1);
     }

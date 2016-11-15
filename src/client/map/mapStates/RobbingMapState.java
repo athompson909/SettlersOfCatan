@@ -1,15 +1,11 @@
 package client.map.mapStates;
 
-import client.Client;
 import client.ClientFacade;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
-import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
-import shared.locations.VertexLocation;
-import shared.model.commandmanager.moves.PlaySoldierCommand;
 import shared.model.commandmanager.moves.RobPlayerCommand;
 import shared.model.map.Map;
 
@@ -29,7 +25,7 @@ public class RobbingMapState extends MapState {
         super.initFromModel(updatedMap);
 
         //TODO: Only do this if it is your turn?
-        CatanColor color = mapController.clientModel.getCurrentPlayer().getColor();
+        CatanColor color = mapController.clientModel.getClientPlayer().getColor();
         mapController.getView().startDrop(PieceType.ROBBER, color, false);
     }
 @Override
@@ -44,7 +40,7 @@ public class RobbingMapState extends MapState {
             mapController.getRobView().showModal(); //This shows the counters for how many cards possible players have.
         } else {
             //Don't rob anyone, so send a command with -1.
-            int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+            int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
             RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, -1);
             ClientFacade.getInstance().robPlayer(robPlayerCommand);
         }
@@ -55,7 +51,7 @@ public class RobbingMapState extends MapState {
         System.out.println("MAP: ROB PLAYER!");
 
         //Why does the ROb PLayer command need a hex and victim? Where do I get the hex from?
-        int currentPlayerId = mapController.clientModel.getCurrentPlayer().getPlayerIndex();
+        int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
         RobPlayerCommand robPlayerCommand = new RobPlayerCommand(currentPlayerId, robberHex, victim.getPlayerIndex());
         ClientFacade.getInstance().robPlayer(robPlayerCommand);
 

@@ -12,7 +12,6 @@ import shared.model.ClientModel;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.moves.AcceptTradeCommand;
 import shared.model.commandmanager.moves.OfferTradeCommand;
-import shared.model.player.Player;
 import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
@@ -117,7 +116,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getTradeOverlay().setResourceSelectionEnabled(myTurn);
 		if(myTurn) {
 			getTradeOverlay().setStateMessage("Set the trade you want to make");
-			playerResources = Client.getInstance().getClientModel().getCurrentPlayer().getPlayerResourceList();
+			playerResources = Client.getInstance().getClientModel().getClientPlayer().getPlayerResourceList();
 		}else{
 			getTradeOverlay().setStateMessage("Not Your Turn");
 			getTradeOverlay().setTradeEnabled(false);
@@ -319,7 +318,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 
 				//enable accept button if this player has enough resources
-				ResourceList resources = model.getCurrentPlayer().getPlayerResourceList();
+				ResourceList resources = model.getClientPlayer().getPlayerResourceList();
 				getAcceptOverlay().setAcceptEnabled(offer.canPlayerAccept(resources));
 
 				getAcceptOverlay().showModal();

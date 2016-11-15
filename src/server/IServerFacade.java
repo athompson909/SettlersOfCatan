@@ -179,12 +179,6 @@ public interface IServerFacade {
 
 
     /**
-     * this is only for when a user logs in or registers, makes it possible to set the value in the cookie
-     * @return the user's id
-     */
-    int getUserId();
-
-    /**
      * similar to getUserId, is set in gameCreate (and possible in gameJoin but not at this point)
      * @return the new game's id
      */
