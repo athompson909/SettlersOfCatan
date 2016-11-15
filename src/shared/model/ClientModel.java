@@ -369,7 +369,6 @@ public class ClientModel extends Observable {
         return true;
         // }
         // return false;
-
     }
 
     /**
