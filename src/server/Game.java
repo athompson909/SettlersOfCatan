@@ -38,6 +38,8 @@ public class Game {
      */
     private CommandManager commandManager = new CommandManager();
 
+
+
     public Game(GameInfo gameInfo, boolean randTiles, boolean randNumbers, boolean randPorts) {
         this.gameInfo = gameInfo;
         this.clientModel = new ClientModel(gameInfo.getId(),randTiles, randNumbers, randPorts);
