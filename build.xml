@@ -136,7 +136,7 @@
         <mkdir dir="${java.dist}/docs"/>
         <copy todir="${java.dist}/docs">
             <fileset dir="${java.demo}/docs">  <!-- copy DOCS and everything in it  -->
-               <!-- <include name="${java.demo}/docs"/> -->
+                <include name="${java.demo}/docs"/>
             </fileset>
         </copy>         <!--  **************************************** -->
         <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">

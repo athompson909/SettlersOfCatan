@@ -20,6 +20,7 @@ public class FileUtils {
         mimeTypes.put(".js", "application/javascript");
         mimeTypes.put(".css", "text/css");
         mimeTypes.put(".html", "text/html");
+        mimeTypes.put(".json", "application/json");
         return mimeTypes;
     }
 
