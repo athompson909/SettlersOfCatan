@@ -63,7 +63,7 @@ public class ClientFacade {
     public void sendUpdatedModel(ClientModel updatedClientModel) {
 
         System.out.println("SendUpdatedModel: newModelVer= " + updatedClientModel.getVersion() + "\n");
-        System.out.println("==================== CURRENT STATUS: " + updatedClientModel.getTurnTracker().getStatus() + "====================");
+        System.out.println("==================== NEW STATUS: " + updatedClientModel.getTurnTracker().getStatus() + "====================");
         if(version != updatedClientModel.getVersion()) {
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
