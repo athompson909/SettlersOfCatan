@@ -22,8 +22,15 @@ import java.util.List;
  */
 public class ServerFacade implements IServerFacade {
 
-
+    /**
+     *
+     * @param userID
+     * @param gameID
+     * @return
+     */
     public boolean validateParams(int userID, int gameID) {
+            System.out.println(">SERVERFACADE: validateParams called, userID= " + userID + ", gameID=" + gameID);
+
         Game game = GamesManager.getInstance().getGame(gameID);
         User user = UserManager.getInstance().getUser(userID);
         if(game != null && user != null) {
@@ -338,12 +345,18 @@ public class ServerFacade implements IServerFacade {
         String username = command.getUsername();
         String password = command.getPassword();
 
+            System.out.println(">SERVERFACADE: login(): usrnm= " + username + ", pass= " + password);
+
         User user = UserManager.getInstance().getUserByUsername(username, password);
 
         if(user != null) {
+                System.out.println("\t >> User was found, login successful");
             return user.getUserID();
         }
-        else {return -1;}
+        else {
+                System.out.println("\t >> User NOT found, login failed!");
+            return -1;
+        }
     }
 
     /**

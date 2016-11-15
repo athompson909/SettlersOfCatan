@@ -61,6 +61,8 @@ public class LoginCommand extends BaseCommand {
         int response = IServerFacade.getInstance().login(this);
         if(response >= 0) {
             String loginCookieJSON = "{\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+response+"}";//todo: figure out a way to get playerID
+                System.out.println(">>LOGINCMD: serverExec(): loginCookieJSON= " + loginCookieJSON);
+
             String loginCookieStr = URLEncoder.encode(loginCookieJSON);
             String fullResponseLoginCookieStr = "catan.user="+loginCookieStr+";Path=/;";
             List<String> cookieList = new ArrayList<>(1);

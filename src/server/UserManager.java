@@ -41,13 +41,20 @@ public class UserManager {
      */
     private UserManager() {
         userID = 0;
+        buildMockUsers();
     }
 
     /**
      * Adding a couple mock users for the gamehub's default games
      */
     private void buildMockUsers(){
+        addUser("Adam", "adam");
+        addUser("Steph", "steph");
+        addUser("Mitch", "mitch");
+        addUser("Sierra", "sierra");
+        addUser("Alise", "alise");
 
+        System.out.println(">USERMANAGER: mockUsers created, there are " + allUsers.size());
     }
 
 
