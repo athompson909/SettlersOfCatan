@@ -1,5 +1,6 @@
 package shared.model.commandmanager.moves;
 
+import shared.locations.HexLocation;
 import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
@@ -77,10 +78,12 @@ public class BuildRoadCommand extends BaseCommand {
         JSONObject buildRoadJSON = new JSONObject(getRequest());
         playerIndex = buildRoadJSON.getInt("playerIndex");
         JSONObject roadLocJSON = buildRoadJSON.getJSONObject("roadLocation");
-        roadLocation.setX(roadLocJSON.getInt("x"));
-        roadLocation.setY(roadLocJSON.getInt("y"));
-        roadLocation.setDirection(Converter.stringToEdgeDirection(roadLocJSON.getString("direction")));
-        free = roadLocJSON.getBoolean("free");
+        int x = roadLocJSON.getInt("x");
+        int y = roadLocJSON.getInt("y");
+        //roadLocation.setX(roadLocJSON.getInt("x"));
+        //roadLocation.setY(roadLocJSON.getInt("y"));
+        roadLocation = new EdgeLocation(new HexLocation(x,y), Converter.stringToEdgeDirection(roadLocJSON.getString("direction")));
+        free = buildRoadJSON.getBoolean("free");
 
         BuildRoadCommand command = new BuildRoadCommand(roadLocation, playerIndex, free);
         ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), command);

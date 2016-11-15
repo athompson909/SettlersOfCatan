@@ -155,6 +155,9 @@ public class TurnTracker {
             }else{
                 status = "Rolling";
             }
+        }else if(currentTurn == 3) {
+            currentTurn = 0;
+            status = "Rolling";
         }else{
             currentTurn++;
             status = "Rolling";
