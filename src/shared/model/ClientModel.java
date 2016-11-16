@@ -422,6 +422,7 @@ public class ClientModel extends Observable {
             players[index].playSoldierCard();
             placeRobber(index, robberLocation, victimIndex);
             recalculateLargestArmy(index);
+            players[index].setPlayedDevCard(true);
             return true;
         }
         return false;
@@ -516,6 +517,7 @@ public class ClientModel extends Observable {
         if (canPlayMonument(playerIndex)) {
             players[playerIndex].playMonumentCard();
             calculateIfWinner(playerIndex);
+            players[playerIndex].setPlayedDevCard(true);
             return true;
         }
         return false;
@@ -539,6 +541,7 @@ public class ClientModel extends Observable {
             }
             players[playerIndex].playRoadBuildingCard(roadsUsed);
             recalculateLongestRoad(playerIndex);
+            players[playerIndex].setPlayedDevCard(true);
             return true;
         }
         return false;
@@ -556,6 +559,7 @@ public class ClientModel extends Observable {
         if (canPlayYearOfPlenty(playerIndex)) {
             resourceBank.playYearOfPlenty(resource1, resource2);
             players[playerIndex].playYearOfPlentyCard(resource1, resource2);
+            players[playerIndex].setPlayedDevCard(true);
             return true;
         }
         return false;
@@ -578,6 +582,7 @@ public class ClientModel extends Observable {
             }
             //Give those cards to the player who used the monopoly card.
             players[receiverPlayerIndex].playMonopolyCard(monopolizedResource, totalCardsGained);
+            players[receiverPlayerIndex].setPlayedDevCard(true);
             return true;
         }
         return false;
@@ -778,6 +783,7 @@ public class ClientModel extends Observable {
                         turnTracker.getStatus().equals("FirstRound") ||
                         turnTracker.getStatus().equals("SecondRound")) {
 
+                    players[index].setPlayedDevCard(false);
                     System.out.println("BACON++++++++++");
                     for(int i = 0; i < players.length; i++){
                         players[i].newToOldDevCardList();
