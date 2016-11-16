@@ -124,7 +124,7 @@ public class ClientUpdateManager {
         if(currTradeOffer != null) {
             currTradeOffer.updateTradeOffer(newTradeOffer);
         }else {
-            currTradeOffer = newTradeOffer;
+            currentModel.setTradeOffer(newTradeOffer);
         }
     }
 //-----------------
