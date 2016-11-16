@@ -14,6 +14,9 @@ import shared.model.commandmanager.moves.BuildSettlementCommand;
 import shared.model.commandmanager.moves.FinishTurnCommand;
 import shared.model.map.Map;
 import shared.model.map.VertexObject;
+import sun.security.provider.certpath.Vertex;
+
+import java.util.HashMap;
 
 /**
  * Used for placing road and settlement during the first second of the game
@@ -34,13 +37,28 @@ public class SecondRoundMapState extends MapState {
         //    Client.getInstance().stopServerPoller();
             // mapController.startMove(PieceType.SETTLEMENT, true, false);
             CatanColor color = mapController.getClientModel().getClientPlayer().getColor();
-            mapController.getView().startDrop(PieceType.SETTLEMENT, color, false);
+            if(Client.getInstance().getClientModel().getClientPlayer().getSettlementCount() == 4) {
+                mapController.getView().startDrop(PieceType.SETTLEMENT, color, false);
+            } else {
+                mapController.getView().startDrop(PieceType.ROAD, color, false);
+            }
         }
     //    Client.getInstance().startServerPoller();
     }
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) {
+        if(super.getSecondVertexLocation() == null){
+            int playerIndex = Client.getInstance().getClientModel().getClientPlayer().getPlayerIndex();
+            HashMap<VertexLocation, VertexObject> settlements = Client.getInstance().getClientModel().getMap().getVertexObjects();
+            for(VertexLocation loc: settlements.keySet()) {
+                if (settlements.get(loc).getOwner() == playerIndex) {
+                    if(!Client.getInstance().getClientModel().doesSettlementHaveConnectedRoad(loc)){
+                        super.setSecondVertexLocation(loc);
+                    }
+                }
+            }
+        }
         return mapController.clientModel.canPlaceSetUpRoad(edgeLoc, super.getSecondVertexLocation());
     }
 

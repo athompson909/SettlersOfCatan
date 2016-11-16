@@ -45,6 +45,11 @@ public class BuildRoadManager {
     }
 
 
+    public boolean doesSettlementHaveRoad(VertexLocation firstVertexLocation) {
+        return (isSettlementConnectedToRoad(firstVertexLocation));
+    }
+
+
     /**
      * Checks that there is a road of the correct color adjacent to
      * the vertex where player is trying to build
@@ -265,6 +270,17 @@ public class BuildRoadManager {
         }
     }
 
+    private boolean isSettlementConnectedToRoad(VertexLocation firstVertexLocation) {
+        HexLocation currentHexLocation = firstVertexLocation.getHexLoc();
+
+        //If VertexObject is a Northwest vertex object
+        if (firstVertexLocation.getDir().equals(VertexDirection.NorthWest)) {
+            return doesNorthWestVertexObjectHasAdjacentRoad(currentHexLocation);
+        } else {//If our vertex object is a north east vertex object
+            return doesNorthEastVertexObjectHasAdjacentRoad(currentHexLocation);
+        }
+    }
+
     /**
      * Checks to see if a North West vertex object has an adjacent edge location
      *
@@ -289,6 +305,22 @@ public class BuildRoadManager {
         }
     }
 
+    private boolean doesNorthWestVertexObjectHasAdjacentRoad(HexLocation currentHexLocation) {
+        EdgeLocation eastEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.North);
+        EdgeLocation northWestEdgeLocation = new EdgeLocation(currentHexLocation.getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast);
+        EdgeLocation southWestEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.NorthWest);
+
+        if (map.getEdgeValues().containsKey(eastEdgeLocation)) {
+            return true;
+        } else if (map.getEdgeValues().containsKey(northWestEdgeLocation)) {
+            return true;
+        } else if (map.getEdgeValues().containsKey(southWestEdgeLocation)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Checks to see if a North East vertex object has an adjacent edge location
      *
@@ -306,6 +338,23 @@ public class BuildRoadManager {
         } else if (northEastEdgeLocation.equals(desiredEdgeLocation)) {
             return true;
         } else if (southEastEdgeLocation.equals(desiredEdgeLocation)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    private boolean doesNorthEastVertexObjectHasAdjacentRoad(HexLocation currentHexLocation) {
+        EdgeLocation westEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.North);
+        EdgeLocation northEastEdgeLocation = new EdgeLocation(currentHexLocation.getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest);
+        EdgeLocation southEastEdgeLocation = new EdgeLocation(currentHexLocation, EdgeDirection.NorthEast);
+
+        if (map.getEdgeValues().containsKey(westEdgeLocation)) {
+            return true;
+        } else if (map.getEdgeValues().containsKey(northEastEdgeLocation)) {
+            return true;
+        } else if (map.getEdgeValues().containsKey(southEastEdgeLocation)) {
             return true;
         } else {
             return false;
