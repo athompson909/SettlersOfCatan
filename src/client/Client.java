@@ -108,7 +108,7 @@ public class Client {
 
     /**
      * creates a new instance of server poller which then starts the server poller task
-     */;
+     */
     public void startServerPoller() {
         serverPoller = new ServerPoller();
     }
