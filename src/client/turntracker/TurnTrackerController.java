@@ -63,7 +63,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 					if(players[i].getName() != null) {
 						Player player = players[i];
 						getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getColor());
-						// todo: revise... I'm setting this to only work if players[i] != null
 						if (i == ClientUser.getInstance().getIndex()) {
 							getView().setLocalPlayerColor(players[i].getColor());
 						}
@@ -71,7 +70,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 				}
 			}else {
 				TurnTrackerView view = (TurnTrackerView)getView();
-				//TODO: This line below was somehow preventing the other controllers from getting called (as if it was crashing the program)
 				view.updateColors(players);
 			}
 
@@ -91,7 +89,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 					boolean highlight = (i == turn);
 					boolean road = (i == longestRoad);
 					boolean army = (i == largestArmy);
-					//TODO: This line below was somehow preventing the other controllers from getting called (as if it was crashing the program)
 					getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
 				}
 			}
