@@ -85,7 +85,7 @@ public class OfferTradeCommand extends BaseCommand {
         receiver = offerTradeJSON.getInt("receiver");
 
         // creating the vertex object:
-        JSONObject offerJSON = offerTradeJSON.getJSONObject("vertexLocation");
+        JSONObject offerJSON = offerTradeJSON.getJSONObject("offer");
         ResourceList resourceList = new ResourceList();
         resourceList.setBrickCardCount(offerJSON.getInt("brick"));
         resourceList.setOreCardCount(offerJSON.getInt("ore"));

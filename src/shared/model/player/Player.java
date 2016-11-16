@@ -404,7 +404,7 @@ public class Player { //
 
     public boolean canOfferTrade(ResourceList offer) {
         if(canTradeWood(offer.getWoodCardCount()) &&
-                canTradeWheat(offer.getWoodCardCount()) &&
+                canTradeWheat(offer.getWheatCardCount()) &&
                 canTradeBrick(offer.getBrickCardCount()) &&
                 canTradeOre(offer.getOreCardCount()) &&
                 canTradeSheep(offer.getSheepCardCount())){
@@ -415,7 +415,7 @@ public class Player { //
 
     public boolean canAcceptTrade(ResourceList offer) {
         if(canTradeWood(-offer.getWoodCardCount()) &&
-                canTradeWheat(-offer.getWoodCardCount()) &&
+                canTradeWheat(-offer.getWheatCardCount()) &&
                 canTradeBrick(-offer.getBrickCardCount()) &&
                 canTradeOre(-offer.getOreCardCount()) &&
                 canTradeSheep(-offer.getSheepCardCount())){
