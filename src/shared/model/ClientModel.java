@@ -831,6 +831,10 @@ public class ClientModel extends Observable {
         return false; //If 4 players have already joined.
     }
 
+    public boolean doesSettlementHaveConnectedRoad(VertexLocation vertexLocation){
+       return  map.buildRoadManager.doesSettlementHaveRoad(vertexLocation);
+    }
+
 
     //GETTERS
     public boolean getChanged() {
