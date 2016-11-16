@@ -534,16 +534,16 @@ public class ClientModel extends Observable {
      */
     public boolean playRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation1, EdgeLocation edgeLocation2) {
         if (canPlayRoadBuilding(playerIndex)) {
-            int roadsUsed = 0;
+            //int roadsUsed = 0;
             if (edgeLocation1 != null) {
                 buildRoad(edgeLocation1, playerIndex, true);
-                roadsUsed++;
+                //roadsUsed++;
             }
             if (edgeLocation2 != null) {
                 buildRoad(edgeLocation2, playerIndex, true);
-                roadsUsed++;
+                //roadsUsed++;
             }
-            players[playerIndex].playRoadBuildingCard(roadsUsed);
+            players[playerIndex].playRoadBuildingCard();
             recalculateLongestRoad(playerIndex);
             players[playerIndex].setPlayedDevCard(true);
             return true;
