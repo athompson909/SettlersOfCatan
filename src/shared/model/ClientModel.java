@@ -426,8 +426,10 @@ public class ClientModel extends Observable {
     public boolean placeRobber(int index, HexLocation robberLocation, int victimIndex) {
         if (canPlaceRobber(robberLocation)) {
             map.placeRobber(robberLocation);
-            ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
-            players[index].getPlayerResourceList().addCardByType(stolenResource);
+            if(victimIndex >= 0 && victimIndex < 4) {
+                ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
+                players[index].getPlayerResourceList().addCardByType(stolenResource);
+            }
             turnTracker.setStatus("Playing");
             return true;
         }
@@ -713,6 +715,7 @@ public class ClientModel extends Observable {
                 players[tradeOffer.getSenderIndex()].trade(tradeOffer.getTradeOfferList(), true);
                 //receiver
                 players[index].trade(tradeOffer.getTradeOfferList(), false);
+                tradeOffer = null;
                 return true;
             }
         }
