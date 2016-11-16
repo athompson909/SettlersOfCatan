@@ -1,7 +1,5 @@
 package shared.model.commandmanager.moves;
 
-import shared.model.messagemanager.MessageLine;
-import shared.shared_utils.Converter;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
@@ -11,6 +9,7 @@ import shared.locations.VertexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.map.VertexObject;
+import shared.shared_utils.Converter;
 
 /**
  * Created by Alise on 9/18/2016.
@@ -83,7 +82,6 @@ public class BuildCityCommand extends BaseCommand {
     @Override
     public String serverExec() {
         JSONObject buildCityJSON = new JSONObject(getRequest());
-        playerIndex = buildCityJSON.getInt("playerIndex");
         // creating the vertex object:
         JSONObject vertexLocJSON = buildCityJSON.getJSONObject("vertexLocation");
         int x = vertexLocJSON.getInt("x"), y = vertexLocJSON.getInt("y");
