@@ -172,7 +172,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             stopTimer();
             //////
             GameCreateCommand newGameCreateCmd = new GameCreateCommand(newGameTitle, newGameRandHexes, newGameRandNums, newGameRandPorts);
-            GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
+            	System.out.println(">JOINGAMECONTROLLER: final gameCreateCmd:" + newGameCreateCmd);
+
+			GameInfo newGameCreatedInfo = ClientFacade.getInstance().gameCreate(newGameCreateCmd);
 
             joinThisGameInfo = newGameCreatedInfo;
 			//join them to the game they just created using WHITE as the temporary/default color
@@ -362,7 +364,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			}
 			joinAction.execute();
 
-				//one more time just to make sure?
+				//one more time just to make sure?t
 				if (getSelectColorView().isModalShowing()){
 					getSelectColorView().closeModal();
 				}

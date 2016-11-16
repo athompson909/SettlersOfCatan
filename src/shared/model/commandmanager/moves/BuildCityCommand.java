@@ -82,6 +82,7 @@ public class BuildCityCommand extends BaseCommand {
     @Override
     public String serverExec() {
         JSONObject buildCityJSON = new JSONObject(getRequest());
+        playerIndex = buildCityJSON.getInt("playerIndex");
         // creating the vertex object:
         JSONObject vertexLocJSON = buildCityJSON.getJSONObject("vertexLocation");
         int x = vertexLocJSON.getInt("x"), y = vertexLocJSON.getInt("y");

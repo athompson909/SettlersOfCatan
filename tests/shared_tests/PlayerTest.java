@@ -148,7 +148,7 @@ public class PlayerTest extends TestCase {
         assert (!player.canPlayRoadBuildingCard());
         player.getOldDevCardList().addDevCard(DevCardType.ROAD_BUILD);
         assert (player.canPlayRoadBuildingCard());
-        player.playRoadBuildingCard(2);
+        player.playRoadBuildingCard();
         assert (!player.canPlayRoadBuildingCard());
         assert (player.getAvailableRoadCount() == 13);
         player.setPlayedDevCard(false); //Reset for next test case
