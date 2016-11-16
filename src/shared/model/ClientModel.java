@@ -404,7 +404,7 @@ public class ClientModel extends Observable {
             DevCardType purchasedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
             System.out.println(purchasedDevCard.toString());
             players[playerIndex].purchaseDevelopmentCard(purchasedDevCard); //Send to player
-            System.out.println(players[playerIndex].getPlayerResourceList().toString());
+            System.out.println(players[playerIndex].getNewDevCardList().toString());
             resourceBank.receiveDevCardResources();
             //System.out.println("++++++purchase Dev card");
             return true;
