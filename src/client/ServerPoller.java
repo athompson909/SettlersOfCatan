@@ -49,8 +49,6 @@ public class ServerPoller {
                 System.out.println("ServerPoller: fetching new model: " + new Date().toString());
                 fetchNewModel();
 
-
-
             }
             catch (ClientException e) {
                 e.printStackTrace();
