@@ -292,8 +292,8 @@ public class Player { //
      * Play a road building card from the player's hand, and lose the amount of roads.
      * @param roadsUsed when playing the card. Usually will be 2, unless the player has 0-1 road pieces.
      */
-    public void playRoadBuildingCard(int roadsUsed) {
-        availableRoadCount = availableRoadCount - roadsUsed;
+    public void playRoadBuildingCard() {
+        //availableRoadCount = availableRoadCount - roadsUsed;
         oldDevCardList.removeDevCard(DevCardType.ROAD_BUILD);
         playedDevCard = true;
     }
