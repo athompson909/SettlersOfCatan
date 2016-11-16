@@ -94,6 +94,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void startGamePlay(){
 		System.out.println(">PWC: STARTING GAME PLAY **************");
 		miniPollTimer.cancel();
+		System.out.println("~~~~~~~~~~~~ ENDING PWC MINIPOLLER ~~~~~~~~~~~~~");
 		Client.getInstance().startServerPoller();
 		ClientUser.getInstance().setPlayerColors();
 
@@ -105,7 +106,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		//repopulates the port vertex locations to the correct values each time the player rejoins
 		Client.getInstance().getClientModel().getMap().populatePortVertexLocations();
 
-		if (getView().isModalShowing()){
+		if (getView().isModalShowing()){  //close PlayerWaitingView
 			getView().closeModal();
 		}
 

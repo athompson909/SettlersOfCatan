@@ -143,6 +143,27 @@ public class DevCardList {
         }
     }
 
+    public void addSoldierCards(int cardsToAdd){
+        soldierCardCount += cardsToAdd;
+    }
+
+    public void addMonumentCards(int cardsToAdd){
+        monumentCardCount += cardsToAdd;
+    }
+
+    public void addRoadBuildingCards(int cardsToAdd){
+        roadBuildingCardCount += cardsToAdd;
+    }
+
+    public void addYearOfplentyCards(int cardsToAdd){
+        yearOfPlentyCardCount += cardsToAdd;
+    }
+
+    public void addMonopolyCardCout(int cardsToAdd){
+        monopolyCardCount += cardsToAdd;
+    }
+
+
     //GETTERS
     public int getTotalCardCount(){
          return (soldierCardCount + monumentCardCount + yearOfPlentyCardCount + roadBuildingCardCount + monopolyCardCount);
@@ -166,6 +187,11 @@ public class DevCardList {
 
     public int getMonopolyCardCount() {
         return monopolyCardCount;
+    }
+
+
+    public void setMostRecentAddedCard(DevCardType mostRecentAddedCard) {
+        this.mostRecentAddedCard = mostRecentAddedCard;
     }
 
     @Override
