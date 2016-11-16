@@ -68,6 +68,9 @@ public class ClientFacade {
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
             clientUpdateManager.delegateUpdates(updatedClientModel);
             version = updatedClientModel.getVersion();
+
+            Player[] players = Client.getInstance().getClientModel().getPlayers();
+            if(players[3] != null) {Client.getInstance().setStartGame(false);}
         }
         else if(Client.getInstance().getStartGame()) {
             clientUpdateManager.setCurrentModel(Client.getInstance().getClientModel());
