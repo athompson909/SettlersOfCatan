@@ -334,6 +334,8 @@ public class ClientModel extends Observable {
             int playerWithLongestRoadIndex = turnTracker.getLongestRoadHolder();
             if (playerWithLongestRoadIndex == -1) {
                 turnTracker.setLongestRoadHolder(index);
+                players[index].adjustVictoryPoints(2);
+                calculateIfWinner(index);
                 return;
             }
             if (playerWithLongestRoadIndex != index) {
@@ -494,6 +496,8 @@ public class ClientModel extends Observable {
             int playerWithLargestArmyIndex = turnTracker.getLargestArmyHolder();
             if (playerWithLargestArmyIndex == -1) {
                 turnTracker.setLargestArmyHolder(index);
+                players[index].adjustVictoryPoints(2);
+                calculateIfWinner(index);
                 return;
             }
             if (playerWithLargestArmyIndex != index) {
