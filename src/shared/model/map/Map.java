@@ -92,7 +92,7 @@ public class Map {
      * is called when a user starts a new game and the map needs to be created (in initialization model)
      */
     public Map(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers, boolean randomlyPlacePorts) {
-        System.out.println("MAP RANDOM BACON: " + randomlyPlaceHexes + " " + randomlyPlaceNumbers + " " + randomlyPlacePorts);
+        //System.out.println("MAP RANDOM BACON: " + randomlyPlaceHexes + " " + randomlyPlaceNumbers + " " + randomlyPlacePorts);
         //createAllWaterHexes();
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createValidEdgeLocations();

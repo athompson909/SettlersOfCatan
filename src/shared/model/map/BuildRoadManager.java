@@ -66,7 +66,7 @@ public class BuildRoadManager {
             case NorthEast:
                 return areNorthEastEdgeNeighborsConnected(playerID, currentEdgeLocation);
             default:
-                System.out.println("ERROR in isRoadConnected!");
+                //System.out.println("ERROR in isRoadConnected!");
                 return false;
         }
     }
