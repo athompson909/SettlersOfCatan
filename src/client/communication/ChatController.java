@@ -36,7 +36,6 @@ public class ChatController extends Controller implements IChatController {
 	 */
 	@Override
 	public void sendMessage(String message) {
-
 		SendChatCommand command = new SendChatCommand(ClientUser.getInstance().getIndex(), message);
 		//Client.getInstance().setUpdateOverride(true);
 		ClientFacade.getInstance().sendChat(command);
