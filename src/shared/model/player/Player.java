@@ -468,6 +468,7 @@ public class Player { //
         oldDevCardList.addYearOfplentyCards(newDevCardList.getYearOfPlentyCardCount());
         oldDevCardList.addRoadBuildingCards(newDevCardList.getRoadBuildingCardCount());
         setNewDevCardList(new DevCardList());
+        setPlayedDevCard(false);
 
     }
 
