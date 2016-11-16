@@ -110,4 +110,15 @@ public class GameCreateCommand extends BaseCommand {
     public String getType() {
         return type;
     }
+
+
+    @Override
+    public String toString() {
+        return "GameCreateCommand{" +
+                "name='" + name + '\'' +
+                ", randTiles=" + randomTiles +
+                ", randNumbers=" + randomNumbers +
+                ", randPorts=" + randomPorts +
+                '}';
+    }
 }
