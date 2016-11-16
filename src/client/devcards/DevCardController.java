@@ -217,7 +217,7 @@ public class DevCardController extends Controller implements IDevCardController 
     @Override
     public void update(Observable o, Object arg) {
         clientModel = (ClientModel) o;
-//        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
+        setCardAmounts(clientModel.getClientPlayer().getOldDevCardList());
     }
 
 }

@@ -5,9 +5,12 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONObject;
 
-import java.io.*;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 
 /**
  * Created by Mitchell on 9/15/2016.
@@ -45,38 +48,42 @@ public abstract class BaseCommand implements HttpHandler {
             String response = serverExec();
 
             // setting the json for swagger
-            ArrayList<String> mimetypes = new ArrayList<>();
-            mimetypes.add("application/json");
-            exchange.getResponseHeaders().put("Content­type", mimetypes);
+//            ArrayList<String> mimetypes = new ArrayList<>();
+//            mimetypes.add("application/text");
+            exchange.getResponseHeaders().set("Content­Type", "application/text");
 
             /*
             todo: ask the TAs why I can't put anything in the response body
              */
             if(response == null)
-                setErrorResponse(exchange, "http error: bad request");
+                setErrorResponse(exchange, "http error: bad request".getBytes());
             else
-                setSuccessfulResponse(exchange, response);
+                setSuccessfulResponse(exchange, response.getBytes());
 
             System.out.println("Server Response: " + ((response == null) ? "null" : response));
 
-            exchange.close();
+//            exchange.close();
         }
         catch (IOException e) {
             e.printStackTrace();
             System.out.println("ERROR IN BaseCommand.handle... IOException thrown");
+            exchange.close();
         }
     }
 
-    private void setSuccessfulResponse(HttpExchange exchange, String str) throws IOException {
-        exchange.sendResponseHeaders(200, str.length());
-        exchange.getResponseBody().write(str.getBytes());
-        exchange.getResponseBody().close();
+    private void setSuccessfulResponse(HttpExchange exchange, byte[] response) throws IOException {
+        exchange.sendResponseHeaders(HttpsURLConnection.HTTP_OK, 0);
+        OutputStream os = exchange.getResponseBody();
+        os.write(response);
+        os.flush();
+        os.close();
     }
 
-    private void setErrorResponse(HttpExchange exchange, String str) throws IOException {
-        exchange.sendResponseHeaders(400, str.length());
-        exchange.getResponseBody().write(str.getBytes());
-        exchange.getResponseBody().close();
+    private void setErrorResponse(HttpExchange exchange, byte[] response) throws IOException {
+        exchange.sendResponseHeaders(404, response.length);
+        OutputStream os = exchange.getResponseBody();
+        os.write(response);
+        os.close();
     }
 
 
