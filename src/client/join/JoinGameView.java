@@ -39,7 +39,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 	private GameInfo[] games;
 	private GameInfo[] initialGamesList;  //give this to setGames();
-	private PlayerInfo localPlayerInfoSoFar;  //give this to setGames();
 	private PlayerInfo localPlayer;
 
 	public JoinGameView()
@@ -56,12 +55,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	//MiniPoller should probably call this function
 	public void initialize()
 	{
-	//	System.out.println("===JOINGAMEVIEW - INITIALIZE called");
-
-		//Go get list of games from the server, populate games[]:
-       // fetchInitialGamesList();
-      //  setGames(initialGamesList, localPlayerInfoSoFar);
-
+		System.out.println("===JOINGAMEVIEW - INITIALIZE called");
 		this.initializeView();
 	}
 
@@ -109,7 +103,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(join);
 
 
-		//System.out.println("\tJOINGAMEVIEW: setting games/players list");
+		System.out.println("\tJOINGAMEVIEW: setting games/players list");
 
 		// This is the looped layout
 		if (games != null && games.length > 0)
@@ -142,18 +136,18 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 				if (isInGame(game, localPlayer)) //(game.getPlayers().contains(localPlayer))
 				{
-						//System.out.println("\t>JGV: game " + game.getTitle() + " has you!");
+						System.out.println("\t>JGV: game " + game.getTitle() + " has you!");
 					joinButton = new JButton("Re-Join");
 				}
 				else if (game.getPlayers().size() >= 4)
 				{
-						//System.out.println("\t>JGV: game " + game.getTitle() + " does NOT have you.");
+						System.out.println("\t>JGV: game " + game.getTitle() + " does NOT have you.");
 					joinButton = new JButton("Full");
 					joinButton.setEnabled(false);
 				}
 				else
 				{
-						//System.out.println("\t>JGV: game " + game.getTitle() + " does NOT have you, but there is still room.");
+						System.out.println("\t>JGV: game " + game.getTitle() + " does NOT have you, but there is still room.");
 					joinButton = new JButton("Join");
 				}
 				joinButton.setActionCommand("" + game.getId());
@@ -221,10 +215,12 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		return (IJoinGameController) super.getController();
 	}
 
+	//DEPRECATED
 	public GameInfo[] getInitialGamesList() {
 		return initialGamesList;
 	}
 
+	//DEPRECATED
 	public void setInitialGamesList(GameInfo[] initialGamesList) {
 		this.initialGamesList = initialGamesList;
 	}
@@ -232,7 +228,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
-		//	System.out.println(">JOINGAMEVIEW: SETGAMES called:");
+			System.out.println(">JOINGAMEVIEW: SETGAMES called:");
 		this.games = games;
 		this.localPlayer = localPlayer;
 

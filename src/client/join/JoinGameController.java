@@ -259,16 +259,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	//called every time the miniPoller says to do the update
 	private void setSelectColorViewBtnColors(List<PlayerInfo> players){
-		System.out.println(">>>>> setting available color buttons <<<<<<");
-		System.out.println(">>>>> playersList = " + players);
+	//	System.out.println(">>>>> setting available color buttons <<<<<<");
+	//	System.out.println(">>>>> playersList = " + players);
 
 		for (int i = 0; i < players.size(); i++){
 			if (players.get(i).getColor() != null){	//someone else has taken this color already
 				if (players.get(i).getColor() == CatanColor.WHITE){
 					// for WHITE: if the user joined with default color, this will be taken already.
 					// Enable it again IF they joined with default color (they created their own game):
-					System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
-					System.out.println(">comparing " + players.get(i).getId() + " and " + ClientUser.getInstance().getId());
+					//System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
+					//System.out.println(">comparing " + players.get(i).getId() + " and " + ClientUser.getInstance().getId());
 
 					//only enable WHITE if you created the game AND if it's you picking your own color again
 					if (ClientUser.getInstance().joinedWithDefaultColor() && players.get(i).getId() == ClientUser.getInstance().getId()) {
@@ -287,7 +287,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				}
 			}
 		}
-		System.out.println(">>>>> <<<<<<<<");
+//		System.out.println(">>>>> <<<<<<<<");
 	}
 
 
@@ -440,8 +440,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 				System.out.println(">JCGminiPoller: DOING VIEW UPDATE");
 
-				//System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
-				//System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
+					System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
+					System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
 				getJoinGameView().setGames(newGameList, currPlayerInfo);
 				setCurrGamesList(newGameList);
 
