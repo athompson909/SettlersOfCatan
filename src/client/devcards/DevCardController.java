@@ -124,6 +124,7 @@ public class DevCardController extends Controller implements IDevCardController 
                 playDevCardView.setCardEnabled(DevCardType.ROAD_BUILD, false);
             }
             playDevCardView.setCardEnabled(DevCardType.MONUMENT, (devCardList.getMonumentCardCount() >= 1 || newCardList.getMonumentCardCount() >= 1));
+            //clientModel.getClientPlayer().setPlayedDevCard(false);
         }
         else {
             playDevCardView.setCardEnabled(DevCardType.SOLDIER, false);
