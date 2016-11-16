@@ -45,7 +45,9 @@ public class BuildCityCommand extends BaseCommand {
      * @param vertexObject
      */
     public BuildCityCommand(VertexObject vertexObject){
-        setValues(vertexObject);
+        vertex = vertexObject;
+        playerIndex = vertexObject.getOwner();
+        vertexLocation = vertexObject.getVertexLocation();
     }
 
     private void setValues(VertexObject vertexObject) {
