@@ -29,6 +29,8 @@ public class ServerPoller {
     //TESTING - for a way to end the ServerPoller loop from the GameFinishedView
     private Timer pollTimer;
 
+    private boolean fetch = true;
+
     /**
      * Constructor for ServerPoller - Takes either a ServerProxy or MockProxy object,
      * and saves a reference to that object so it can send it update requests.
@@ -47,7 +49,9 @@ public class ServerPoller {
 
             try {
                 System.out.println("ServerPoller: fetching new model: " + new Date().toString());
-                fetchNewModel();
+                if(fetch) {
+                    fetchNewModel();
+                }
 
 
 
@@ -78,5 +82,9 @@ public class ServerPoller {
      */
     private void fetchNewModel() throws ClientException {
         ClientFacade.getInstance().gameModelVersion();
+    }
+
+    private void doFetchModel(boolean bool) {
+        fetch = bool;
     }
 }
