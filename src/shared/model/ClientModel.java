@@ -355,14 +355,18 @@ public class ClientModel extends Observable {
      */
     public boolean buildSettlement(VertexObject newSettlement, boolean free) {
         // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
+        System.out.println("============BUILD SETTLEMENT=============");
         map.buildSettlementManager.placeSettlement(newSettlement);
         players[newSettlement.getOwner()].purchaseSettlement(free);
-        if (turnTracker.getStatus().equals("SecondRoundState")) {
+        if (turnTracker.getStatus().equals("SecondRound")) {
+            System.out.println("+++++++++++++++If SECOND ROUND++++++++++++++++");
             ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
             players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
             //decrement resourceBank
             resourceBank.removeResources(secondSettlementResources);
+            System.out.println(secondSettlementResources.toString());
         }else if(!free){
+            System.out.println("+++++++++++++If !free+++++++++++++");
             resourceBank.receiveSettlementResources();
         }
 
@@ -431,8 +435,10 @@ public class ClientModel extends Observable {
     public boolean placeRobber(int index, HexLocation robberLocation, int victimIndex) {
         if (canPlaceRobber(robberLocation)) {
             map.placeRobber(robberLocation);
-            ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
-            players[index].getPlayerResourceList().addCardByType(stolenResource);
+            if(victimIndex >= 0 && victimIndex < 4) {
+                ResourceType stolenResource = players[victimIndex].getPlayerResourceList().removeRandomCard();
+                players[index].getPlayerResourceList().addCardByType(stolenResource);
+            }
             turnTracker.setStatus("Playing");
             return true;
         }
@@ -718,6 +724,7 @@ public class ClientModel extends Observable {
                 players[tradeOffer.getSenderIndex()].trade(tradeOffer.getTradeOfferList(), true);
                 //receiver
                 players[index].trade(tradeOffer.getTradeOfferList(), false);
+                tradeOffer = null;
                 return true;
             }
         }
