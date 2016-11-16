@@ -778,6 +778,10 @@ public class ClientModel extends Observable {
                         turnTracker.getStatus().equals("FirstRound") ||
                         turnTracker.getStatus().equals("SecondRound")) {
 
+                    System.out.println("BACON++++++++++");
+                    for(int i = 0; i < players.length; i++){
+                        players[i].newToOldDevCardList();
+                    }
                     turnTracker.finishTurn();
                     return true;
                 }

@@ -145,18 +145,23 @@ public class DevCardController extends Controller implements IDevCardController 
             switch(devCardList.getMostRecentAddedCard()) {
                 case SOLDIER:
                     playDevCardView.setCardAmount(DevCardType.SOLDIER, devCardList.getSoldierCardCount() + 1);
+                    devCardList.setMostRecentAddedCard(null);
                     break;
                 case MONUMENT:
                     playDevCardView.setCardAmount(DevCardType.MONUMENT, devCardList.getMonumentCardCount() + 1);
+                    devCardList.setMostRecentAddedCard(null);
                     break;
                 case YEAR_OF_PLENTY:
                     playDevCardView.setCardAmount(DevCardType.YEAR_OF_PLENTY, devCardList.getYearOfPlentyCardCount() + 1);
+                    devCardList.setMostRecentAddedCard(null);
                     break;
                 case MONOPOLY:
                     playDevCardView.setCardAmount(DevCardType.MONOPOLY, devCardList.getMonopolyCardCount() + 1);
+                    devCardList.setMostRecentAddedCard(null);
                     break;
                 case ROAD_BUILD:
                     playDevCardView.setCardAmount(DevCardType.ROAD_BUILD, devCardList.getRoadBuildingCardCount() + 1);
+                    devCardList.setMostRecentAddedCard(null);
                     break;
             }
         }
