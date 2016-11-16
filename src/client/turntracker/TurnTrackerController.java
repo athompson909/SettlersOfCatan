@@ -54,7 +54,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		}
 
 		Player[] players = model.getPlayers();
-		if(players[3] != null) {//all players are ready
+		if(players[3].getName() != null) {//all players are ready
 
 			//initialize players
 			if(!initialized) {
@@ -72,7 +72,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			}else {
 				TurnTrackerView view = (TurnTrackerView)getView();
 				//TODO: This line below was somehow preventing the other controllers from getting called (as if it was crashing the program)
-				//view.updateColors(players);
+				view.updateColors(players);
 			}
 
 			TurnTracker turnTracker = model.getTurnTracker();
@@ -92,7 +92,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 					boolean road = (i == longestRoad);
 					boolean army = (i == largestArmy);
 					//TODO: This line below was somehow preventing the other controllers from getting called (as if it was crashing the program)
-					//getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
+					getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, army, road);
 				}
 			}
 		}
