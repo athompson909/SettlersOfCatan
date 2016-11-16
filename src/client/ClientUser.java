@@ -183,7 +183,7 @@ public class ClientUser {
 
     public void resetPlayerColors(Player[] players){
         for(int i = 0; i < players.length; i++){
-            if(players[i] != null) {
+            if(players[i].getName() != null) {
                 playerColors.put(players[i].getName(), players[i].getColor());
             }
         }
