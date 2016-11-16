@@ -60,7 +60,7 @@ public class BuildSettlementCommand extends BaseCommand {
     private void setValues(VertexObject vertexObject, boolean free) {
         vertex = vertexObject;
 
-        playerIndex = vertex.getOwner();
+        vertexObject.setOwner(playerIndex);
         vertexLocation = vertexObject.getVertexLocation();
         this.free = free;
     }
@@ -99,7 +99,6 @@ public class BuildSettlementCommand extends BaseCommand {
         VertexLocation vertexLocation = new VertexLocation(new HexLocation(x, y), dir);
 
         VertexObject vertexObject = new VertexObject(vertexLocation);
-        vertexObject.setOwner(playerIndex);
 
         setValues(vertexObject, buildSettlementJSON.getBoolean("free"));
 
