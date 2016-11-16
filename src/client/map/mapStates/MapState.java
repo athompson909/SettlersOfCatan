@@ -106,7 +106,7 @@ public abstract class MapState  {
     }
 
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
+       int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceSettlement(currentPlayerIndex, vertLoc);
     }
 

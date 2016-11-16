@@ -62,7 +62,8 @@ public class FirstRoundMapState extends MapState {
 
     @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc) {
-        int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
+        //return true;
+       int currentPlayerId = mapController.clientModel.getClientPlayer().getPlayerIndex();
         return mapController.clientModel.canPlaceSetUpSettlement(currentPlayerId, vertLoc);
     }
 
