@@ -459,6 +459,18 @@ public class Player { //
         playerResourceList.incOreCardCount(resourceList.getOreCardCount());
     }
 
+    public void newToOldDevCardList(){
+        //setOldDevCardList(getNewDevCardList());
+        System.out.println("OLD DEV CARD ++++++" + oldDevCardList.toString() + " and " + oldDevCardList.getTotalCardCount());
+        oldDevCardList.addSoldierCards(newDevCardList.getSoldierCardCount());
+        oldDevCardList.addMonumentCards(newDevCardList.getMonumentCardCount());
+        oldDevCardList.addMonopolyCardCout(newDevCardList.getMonopolyCardCount());
+        oldDevCardList.addYearOfplentyCards(newDevCardList.getYearOfPlentyCardCount());
+        oldDevCardList.addRoadBuildingCards(newDevCardList.getRoadBuildingCardCount());
+        setNewDevCardList(new DevCardList());
+
+    }
+
 
 
     public void adjustVictoryPoints(int pointChange) {
