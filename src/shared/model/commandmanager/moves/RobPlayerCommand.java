@@ -1,8 +1,8 @@
 package shared.model.commandmanager.moves;
 
+import client.data.PlayerInfo;
 import org.json.JSONObject;
-import server.IServerFacade;
-import server.ServerTranslator;
+import server.*;
 import shared.locations.HexLocation;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
@@ -75,6 +75,14 @@ public class RobPlayerCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
+            String message = "";
+            if(command.getVictimIndex() >= 0 && command.getVictimIndex() < 4){
+                String victim = GamesManager.getInstance().getGame(getGameId()).getVictimName(victimIndex);
+                message = " robbed " + victim;
+            }else {
+                message = " moved the robber";
+            }
+            model.addLog(message, getUserId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

@@ -1,5 +1,6 @@
 package client;
 import exceptions.ClientException;
+import shared.definitions.State;
 
 import java.util.Date;
 import java.util.Timer;
@@ -48,8 +49,6 @@ public class ServerPoller {
             try {
                 System.out.println("ServerPoller: fetching new model: " + new Date().toString());
                 fetchNewModel();
-
-
 
             }
             catch (ClientException e) {

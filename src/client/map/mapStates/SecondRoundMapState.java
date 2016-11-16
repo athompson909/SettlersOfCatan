@@ -31,10 +31,12 @@ public class SecondRoundMapState extends MapState {
         if(Client.getInstance().getGameState().equals(State.SECONDROUND)
                 && Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()
                 && getSecondVertexLocation() == null) {
-           // mapController.startMove(PieceType.SETTLEMENT, true, false);
+        //    Client.getInstance().stopServerPoller();
+            // mapController.startMove(PieceType.SETTLEMENT, true, false);
             CatanColor color = mapController.getClientModel().getClientPlayer().getColor();
             mapController.getView().startDrop(PieceType.SETTLEMENT, color, false);
         }
+    //    Client.getInstance().startServerPoller();
     }
 
     @Override

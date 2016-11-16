@@ -75,6 +75,10 @@ public class AcceptTradeCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
+            //TEST
+            if (!willAccept) {
+                model.addLog(" rejected trade offer", getUserId());
+            }
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }

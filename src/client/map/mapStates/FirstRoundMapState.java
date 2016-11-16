@@ -34,14 +34,17 @@ public class FirstRoundMapState extends MapState {
                     Client.getInstance().getGameState().equals(State.FIRSTROUND)
                     && Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()
                     && getFirstVertexLocation() == null) {
+            //    Client.getInstance().stopServerPoller();
                 startGame();
             }
         }
         else if(Client.getInstance().getGameState().equals(State.FIRSTROUND)
                 && Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()
                 && getFirstVertexLocation() == null) {
+        //    Client.getInstance().stopServerPoller();
             startGame();
         }
+    //    Client.getInstance().startServerPoller();
     }
 
     public void startGame() {
