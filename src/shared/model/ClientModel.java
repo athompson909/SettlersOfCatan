@@ -394,10 +394,15 @@ public class ClientModel extends Observable {
      * @param playerIndex of player purchasing the card.
      */
     public boolean purchaseDevCard(int playerIndex) {
+        System.out.println("++++++purchase Dev card");
         if (canPurchaseDevCard(playerIndex)) {
-            DevCardType purcahsedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
-            players[playerIndex].purchaseDevelopmentCard(purcahsedDevCard); //Send to player
+            System.out.println("++++++can purchase Dev card");
+            DevCardType purchasedDevCard = resourceBank.removeRandomDevCard(); //Remove from bank
+            System.out.println(purchasedDevCard.toString());
+            players[playerIndex].purchaseDevelopmentCard(purchasedDevCard); //Send to player
+            System.out.println(players[playerIndex].getPlayerResourceList().toString());
             resourceBank.receiveDevCardResources();
+            //System.out.println("++++++purchase Dev card");
             return true;
         }
         return false;
