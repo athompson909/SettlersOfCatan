@@ -92,6 +92,7 @@ public class Map {
      * is called when a user starts a new game and the map needs to be created (in initialization model)
      */
     public Map(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers, boolean randomlyPlacePorts) {
+        System.out.println("MAP RANDOM BACON: " + randomlyPlaceHexes + " " + randomlyPlaceNumbers + " " + randomlyPlacePorts);
         //createAllWaterHexes();
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createValidEdgeLocations();
@@ -246,12 +247,14 @@ public class Map {
 
         if (randomlyPlaceHexes) { //Shuffle the hex order
             long seed = System.nanoTime();
-            Collections.shuffle(landHexTypeOrder, new Random(seed));
+            List<HexType> randomHexTypeOrder = landHexTypeOrder;
+            Collections.shuffle(randomHexTypeOrder, new Random(seed));
         }
 
         if (randomlyPlaceNumbers) { //shuffle the number order
             long seed = System.nanoTime();
-            Collections.shuffle(numberOrder, new Random(seed));
+            List<Integer> randomNumberOrder = numberOrder;
+            Collections.shuffle(randomNumberOrder, new Random(seed));
         }
         numberIterator = numberOrder.iterator();
 
