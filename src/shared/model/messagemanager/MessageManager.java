@@ -16,7 +16,10 @@ public class MessageManager {
     private MessageList log = new MessageList();
 
     //constructor
-    public MessageManager() {}
+    public MessageManager() {
+    //    MessageLine disabledChat = new MessageLine("To ensure secrecy, chatting is disabled during setup rounds.", "");
+    //    chat.insertMessageLine(disabledChat);
+    }
 
 
     /**

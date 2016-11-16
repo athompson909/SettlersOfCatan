@@ -76,12 +76,6 @@ public class ServerPoller {
      * ***comment off method body to stop the modals from closing (WARNING: also stops poller from updating model)
      */
     private void fetchNewModel() throws ClientException {
-        if(Client.getInstance().getGameState() == State.FIRSTROUND || Client.getInstance().getGameState() == State.SECONDROUND) {
-            if (Client.getInstance().getClientModel().getTurnTracker().getCurrentTurn() == ClientUser.getInstance().getIndex()) {
-                return;
-            }
-            ClientFacade.getInstance().gameModelVersion();
-        }
         ClientFacade.getInstance().gameModelVersion();
     }
 }
