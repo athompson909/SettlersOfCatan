@@ -1,6 +1,7 @@
 package server;
 
 import client.data.GameInfo;
+import client.data.PlayerInfo;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -12,6 +13,7 @@ import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by adamthompson on 11/4/16.
@@ -274,6 +276,15 @@ public class Game {
         return null;
     }
 
+    public String getVictimName(int victimIndex){
+        List<PlayerInfo> playerInfoList = gameInfo.getPlayers();
+        for(int i = 0; i < playerInfoList.size(); i++){
+            if(playerInfoList.get(i).getId()== victimIndex){
+                return playerInfoList.get(i).getName();
+            }
+        }
+        return null;
+    }
 
 
     //USER AND GAME COMMANDS
