@@ -53,14 +53,17 @@ public class BuildSettlementCommand extends BaseCommand {
      * @param vertexObject  - this has the id of the player owner for this settlement inside it!
      */
     public BuildSettlementCommand(VertexObject vertexObject, boolean free){
-        setValues(vertexObject, free);
+        vertex = vertexObject;
+        playerIndex = vertexObject.getOwner();
+        vertexLocation = vertexObject.getVertexLocation();
+        this.free = free;
         // location = edgeLocation;
     }
 
     private void setValues(VertexObject vertexObject, boolean free) {
         vertex = vertexObject;
 
-        playerIndex = vertex.getOwner();
+        vertexObject.setOwner(playerIndex);
         vertexLocation = vertexObject.getVertexLocation();
         this.free = free;
     }
@@ -99,7 +102,6 @@ public class BuildSettlementCommand extends BaseCommand {
         VertexLocation vertexLocation = new VertexLocation(new HexLocation(x, y), dir);
 
         VertexObject vertexObject = new VertexObject(vertexLocation);
-        vertexObject.setOwner(playerIndex);
 
         setValues(vertexObject, buildSettlementJSON.getBoolean("free"));
 

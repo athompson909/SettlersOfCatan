@@ -361,6 +361,15 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				getJoinGameView().closeModal();
 			}
 			joinAction.execute();
+
+				//one more time just to make sure?
+				if (getSelectColorView().isModalShowing()){
+					getSelectColorView().closeModal();
+				}
+				if (getJoinGameView().isModalShowing()) {
+					getJoinGameView().closeModal();
+				}
+
 		}
 		else{
 			System.out.println(">JOINGAMECONTROLLER: ClientFacade.gameJoin didn't work! :( ");
