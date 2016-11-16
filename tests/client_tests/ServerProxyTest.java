@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import server.Server;
 
 /**
  * Created by adamthompson on 9/22/16.
@@ -19,6 +20,8 @@ import org.junit.Test;
 public class ServerProxyTest extends TestCase {
 
     private ServerProxy serverProxy = new ServerProxy();
+
+    private Server server;
 
     public void testAddAIFunc() throws ClientException {
 
@@ -37,21 +40,23 @@ public class ServerProxyTest extends TestCase {
 
         serverProxy.setHost("localhost");
         serverProxy.setPort("8081");
-        JSONObject loginJson = new JSONObject(LOGIN_STR);
-        serverProxy.userLogin(loginJson);
-        String joinStr = "{\n" +
-                "  \"id\": 3,\n" +
-                "  \"color\": \"puce\"\n" +
-                "}";
-        JSONObject jsonObject = new JSONObject(joinStr);
-        String jsonStr = serverProxy.gameJoin(jsonObject);
 
+        server = new Server(serverProxy.getHost(), Integer.parseInt(serverProxy.getPort()));
+        server.run();
+
+        System.out.println("Testing ServerProxy: userLogin()");
+
+
+        JSONObject loginJson = new JSONObject(LOGIN_STR);
+        serverProxy.userRegister(loginJson);
+        assertEquals("Success", serverProxy.userLogin(loginJson));
     }
 
     @Override
     @After
     protected void tearDown() throws Exception {
         super.tearDown();
+        server.stop();
     }
 
     //todo: separate this all out
@@ -61,27 +66,16 @@ public class ServerProxyTest extends TestCase {
      * don't use NEW_LOGIN_STR in this method
      */
     @Test
-    public void testUserLogin() throws ClientException {
+    public void testUserLoginAndRegister() throws ClientException {
         System.out.println("Testing ServerProxy: userLogin()");
 
-        JSONObject loginJson = new JSONObject(LOGIN_STR);
-        assertEquals("Success", serverProxy.userLogin(loginJson));
-//        testGameJoin(); // this has to be run from here otherwise login cookie will be null
+
+//        JSONObject loginJson = new JSONObject(LOGIN_STR);
+//        serverProxy.userRegister(loginJson);
+//        assertEquals("Success", serverProxy.userLogin(loginJson));
 
         JSONObject badLoginJson = new JSONObject(BAD_LOGIN_STR);
-        assertEquals("{\"http error 400\":\"Bad Request\"}", serverProxy.userLogin(badLoginJson));
-    }
-
-    @Test
-    public void testUserRegister() throws ClientException {
-        System.out.println("Testing ServerProxy: userRegister()");
-
-        JSONObject loginJson = new JSONObject(LOGIN_STR);
-        assertEquals("{\"http error 400\":\"Bad Request\"}", serverProxy.userRegister(loginJson));
-
-        // these have already been tested, obviously they will not pass if executed more than once for the same string
-//        JSONObject newLoginJson = new JSONObject(NEW_LOGIN_STR); // todo: uncomment before official submit
-//        assertEquals("Success", serverProxy.userRegister(newLoginJson));
+        assertEquals("{\"http error 404\":\"Not Found\"}", serverProxy.userLogin(badLoginJson));
     }
 
     /**
@@ -95,7 +89,7 @@ public class ServerProxyTest extends TestCase {
         JSONArray jsonArray = serverProxy.gamesList();
         String jsonArrayStr = jsonArray.toString();
         // verifies that the item returned is indeed a json array with a list of games
-        assertEquals("[{\"players\":[{\"color\":\"", jsonArrayStr.substring(0, 23));
+        assertEquals("[{\"players\":[", jsonArrayStr.substring(0, 13));
         assertEquals(']', jsonArrayStr.charAt(jsonArrayStr.length()-1));
     }
 
@@ -116,27 +110,14 @@ public class ServerProxyTest extends TestCase {
     public void testGameJoin() throws ClientException {
         System.out.println("Testing ServerProxy: gameJoin()");
 
-        JSONObject jsonObject = new JSONObject(JOIN_STR);
-        String jsonStr = serverProxy.gameJoin(jsonObject);
+
+//        JSONObject jsonObject = new JSONObject(GAME_CREATE_STR);
+//        String responseStr = serverProxy.gameCreate(jsonObject).toString();
+//        assertEquals("{\"players\":[{},{},{},{}],\"id\":", responseStr.substring(0, 30));
+
+        JSONObject jsonObject2 = new JSONObject(JOIN_STR2);
+        String jsonStr = serverProxy.gameJoin(jsonObject2);
         assertEquals("Success", jsonStr);
-    }
-
-    @Test
-    public void testGameSave() throws ClientException {
-        System.out.println("Testing ServerProxy: gameSave()");
-
-        JSONObject jsonObject = new JSONObject(GAME_SAVE_STR);
-        String str = serverProxy.gameSave(jsonObject);
-        assertEquals("Success", str);
-    }
-
-    @Test
-    public void testGameLoad() throws ClientException {
-        System.out.println("Testing ServerProxy: gameLoad()");
-
-        JSONObject jsonObject = new JSONObject("{\"name\":\"testgame1002-Adam\"}");
-        String str = serverProxy.gameLoad(jsonObject);
-        assertEquals("Success", str);
     }
 
     /**
@@ -150,32 +131,10 @@ public class ServerProxyTest extends TestCase {
     public void testGameModelVersion() throws ClientException {
         System.out.println("Testing ServerProxy: gameModelVersion()");
 
+        testGameJoin();
+
         String model = serverProxy.gameModelVersion();
-//        assertEquals("\"true\"", model);
-        model = serverProxy.gameModelVersion();
-        assertEquals("{\"deck\":{\"yearOfPlenty\":", model.substring(0, 24));
-    }
-
-    /**
-     * make sure this returns the model in the state it had on the first roubd
-     * todo: test
-     * @throws ClientException
-     */
-    @Test
-    public void testGameReset() throws ClientException {
-        System.out.println("Testing ServerProxy: gameReset()");
-
-        JSONObject jsonObject = serverProxy.gameReset();
-        String jsonStr = jsonObject.toString();
-        assertEquals("{\"bank\":{\"", jsonStr.substring(0, 10));
-    }
-
-    @Test
-    public void testGetGameCommands() throws ClientException {
-        System.out.println("Testing ServerProxy: getGameCommands()");
-
-        JSONArray jsonArray = serverProxy.getGameCommands();
-//        assertEquals("[]", jsonArray.toString());
+        assertEquals("{\"bank\":{\"ore\":19,\"wood\"", model.substring(0, 24));
     }
 
     @Test
@@ -185,35 +144,6 @@ public class ServerProxyTest extends TestCase {
         assertEquals("[\"LARGEST_ARMY\"]", serverProxy.listAI().toString());
     }
 
-    /**
-     * HTTP request succeeds
-     * @throws ClientException
-     */
-    @Test
-    public void testSendChat() throws ClientException {
-        System.out.println("Testing ServerProxy: sendChat()");
-
-        JSONObject response = serverProxy.sendChat(new JSONObject(SEND_CHAT));
-        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    @Test
-    public void testRollNumber() throws ClientException {
-        System.out.println("Testing ServerProxy: rollNumber()");
-
-        JSONObject response = serverProxy.rollNumber(new JSONObject(ROLL_NUMBER));
-        //assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    @Test
-    public void testRobPlayer() throws ClientException {
-        System.out.println("Testing ServerProxy: robPlayer()");
-
-        JSONObject request = new JSONObject(ROB_PLAYER);
-        JSONObject response = serverProxy.robPlayer(request);
-       // assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
     @Test
     public void testFinishTurn() throws ClientException {
         System.out.println("Testing ServerProxy: finishTurn()");
@@ -221,28 +151,6 @@ public class ServerProxyTest extends TestCase {
         JSONObject request = new JSONObject(FINISH_TURN);
         JSONObject response = serverProxy.finishTurn(request);
         //assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    /**
-     * HTTP request succeeds
-     * @throws ClientException
-     */
-    @Test
-    public void testYearOfPlenty() throws ClientException {
-        System.out.println("Testing ServerProxy: playYearOfPlenty()");
-
-        JSONObject request = new JSONObject(YEAR_OF_PLENTY);
-        JSONObject response = serverProxy.playYearOfPlenty(request);
-        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    @Test
-    public void testPurchaseDevCard() throws ClientException {
-        System.out.println("Testing ServerProxy: purchaseDevCard()");
-
-        JSONObject request = new JSONObject(BUY_DEV_CARD);
-        JSONObject response = serverProxy.purchaseDevCard(request);
-        assertEquals("{\"http error 400\":\"Bad Request\"}", response.toString());
     }
 
     @Test
@@ -264,48 +172,12 @@ public class ServerProxyTest extends TestCase {
     }
 
     @Test
-    public void testPlayMonument() throws ClientException {
-        System.out.println("Testing ServerProxy: playMonument()");
-
-        JSONObject request = new JSONObject(MONUMENT);
-        JSONObject response = serverProxy.playMonument(request);
-        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    @Test
     public void testBuildRoad() throws ClientException {
         System.out.println("Testing ServerProxy: buildRoad()");
 
         JSONObject request = new JSONObject(BUILD_ROAD);
         JSONObject response = serverProxy.buildRoad(request);
         assertEquals("{\"http error 400\":\"Bad Request\"}", response.toString());
-    }
-
-    @Test
-    public void testOfferTrade() throws ClientException {
-        System.out.println("Testing ServerProxy: offerTrade()");
-
-        JSONObject request = new JSONObject(OFFER_TRADE);
-        JSONObject response = serverProxy.offerTrade(request);
-        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    @Test
-    public void testMaritimeTrade() throws ClientException {
-        System.out.println("Testing ServerProxy: maritimeTrade()");
-
-        JSONObject request = new JSONObject(MARITIME_TRADE);
-        JSONObject response = serverProxy.maritimeTrade(request);
-        assertEquals("{\"bank\":{", response.toString().substring(0, 9));
-    }
-
-    @Test
-    public void testDiscardCards() throws ClientException {
-        System.out.println("Testing ServerProxy: discardCards()");
-
-        JSONObject request = new JSONObject(DISCARD_CARDS);
-        JSONObject response = serverProxy.discardCards(request);
-       // assertEquals("{\"bank\":{", response.toString().substring(0, 9));
     }
 
     private final String LOGIN_STR = "{\n" +
@@ -333,6 +205,11 @@ public class ServerProxyTest extends TestCase {
     private final String JOIN_STR = "{\n" +
             "  \"id\": 0,\n" +
             "  \"color\": \"puce\"\n" +
+            "}";
+
+    private final String JOIN_STR2 = "{\n" +
+            "  \"id\": 1,\n" +
+            "  \"color\": \"blue\"\n" +
             "}";
 
     private final String GAME_SAVE_STR = "{\n" +
