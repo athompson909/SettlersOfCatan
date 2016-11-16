@@ -502,7 +502,7 @@ public class ClientModel extends Observable {
             }
             if (playerWithLargestArmyIndex != index) {
                 //If the player who built the road now has less available roads, then they have the most used road pieces.
-                if (players[index].getAvailableRoadCount() < players[playerWithLargestArmyIndex].getAvailableRoadCount()) {
+                if (players[index].getSoldiersPlayed() > players[playerWithLargestArmyIndex].getSoldiersPlayed()) {
                     players[turnTracker.getLargestArmyHolder()].adjustVictoryPoints(-2);
                     turnTracker.setLongestRoadHolder(index);
                     players[index].adjustVictoryPoints(2);

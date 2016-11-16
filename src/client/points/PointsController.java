@@ -51,7 +51,9 @@ public class PointsController extends Controller implements IPointsController {
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModel = (ClientModel)o;
-		getPointsView().setPoints(clientModel.getClientPlayer().getVictoryPoints());
+		int victoryPoints = clientModel.getClientPlayer().getVictoryPoints();
+		if(victoryPoints > 10) { victoryPoints = 10;}
+		getPointsView().setPoints(victoryPoints);
 
 		//check for winner
 		int winnerID = clientModel.getWinner();

@@ -120,6 +120,18 @@ public class Player { //
         this.name = name;
         this.playerID = playerID;
         this.playerIndex = playerIndex;
+        /*if(name.equals("Mitch")){
+            oldDevCardList.addDevCard(DevCardType.ROAD_BUILD);
+            oldDevCardList.addDevCard(DevCardType.ROAD_BUILD);
+            getPlayerResourceList().incOreCardCount(20);
+            getPlayerResourceList().incWheatCardCount(20);
+            getPlayerResourceList().incWoodCardCount(20);
+            getPlayerResourceList().incBrickCardCount(20);
+            getPlayerResourceList().incSheepCardCount(20);
+            oldDevCardList.addDevCard(DevCardType.MONUMENT);
+            oldDevCardList.addDevCard(DevCardType.MONUMENT);
+            oldDevCardList.addDevCard(DevCardType.MONUMENT);
+        }*/
     }
 
     /**
@@ -138,6 +150,7 @@ public class Player { //
         setNewDevCardList(newPlayer.getNewDevCardList());
         setPlayedDevCard(newPlayer.hasPlayedDevCard());
         setDiscarded(newPlayer.hasDiscarded());
+
     }
 
     //CAN FUNCTIONS
@@ -290,7 +303,6 @@ public class Player { //
 
     /**
      * Play a road building card from the player's hand, and lose the amount of roads.
-     * @param roadsUsed when playing the card. Usually will be 2, unless the player has 0-1 road pieces.
      */
     public void playRoadBuildingCard() {
         //availableRoadCount = availableRoadCount - roadsUsed;
