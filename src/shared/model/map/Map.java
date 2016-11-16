@@ -91,7 +91,7 @@ public class Map {
      * the constructor for a Map object
      * is called when a user starts a new game and the map needs to be created (in initialization model)
      */
-    public Map(boolean randomlyPlaceNumbers, boolean randomlyPlaceHexes, boolean randomlyPlacePorts) {
+    public Map(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers, boolean randomlyPlacePorts) {
         //createAllWaterHexes();
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createValidEdgeLocations();
