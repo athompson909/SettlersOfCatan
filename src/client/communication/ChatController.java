@@ -1,9 +1,11 @@
 package client.communication;
 
+import client.Client;
 import client.ClientFacade;
 import client.ClientUser;
 import client.base.Controller;
 import shared.definitions.CatanColor;
+import shared.definitions.State;
 import shared.model.ClientModel;
 import shared.model.commandmanager.game.SendChatCommand;
 import shared.model.messagemanager.MessageLine;
@@ -18,10 +20,13 @@ import java.util.*;
  */
 public class ChatController extends Controller implements IChatController {
 
+	private boolean disabled = true;
+
 	public ChatController(IChatView view) {
 		
 		super(view);
-
+		ChatView chatView = (ChatView)getView();
+		chatView.sendEnabled(false);
 		System.out.println("CHATCONTROLLER constructor called");
 	}
 
@@ -49,6 +54,11 @@ public class ChatController extends Controller implements IChatController {
 	@Override
 	public void update(Observable o, Object arg) {
 
+		if(disabled && !(Client.getInstance().getGameState() == State.FIRSTROUND) &&
+				!(Client.getInstance().getGameState() == State.SECONDROUND)) {
+			ChatView chatView = (ChatView)getView();
+			chatView.sendEnabled(true);
+		}
 		System.out.println("CHATCONTROLLER UPDATE called");
 
 		ClientModel model = (ClientModel) o;

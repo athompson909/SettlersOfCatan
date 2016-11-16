@@ -114,7 +114,15 @@ public class ChatView extends PanelView implements IChatView {
             }
         }
     }
-	
+
+    public void sendEnabled(boolean enable){
+        sendChatBtn.setEnabled(enable);
+        if(enable){
+            sendChatBtn.setText("Send");
+        }else {
+            sendChatBtn.setText("Disabled during setup");
+        }
+    }
 }
 
 
