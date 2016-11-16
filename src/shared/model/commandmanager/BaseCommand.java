@@ -55,12 +55,15 @@ public abstract class BaseCommand implements HttpHandler {
             /*
             todo: ask the TAs why I can't put anything in the response body
              */
-            if(response == null)
+            if (response == null)
                 setErrorResponse(exchange, "http error: bad request".getBytes());
             else
                 setSuccessfulResponse(exchange, response.getBytes());
 
-            System.out.println("Server Response: " + ((response == null) ? "null" : response));
+            if (response.length() < 1500) //if it's longer than that, it's probably the model response and that just gets in the way
+            {
+                System.out.println("Server Response: " + ((response == null) ? "null" : response));
+            }
 
 //            exchange.close();
         }
