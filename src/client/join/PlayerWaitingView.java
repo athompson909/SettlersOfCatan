@@ -135,13 +135,14 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		//set header label indicating how many players are still needed
 		String labelText = "";
 		if(value.length == NUMBER_OF_PLAYERS){
-			labelText = "This game is ready to go!";   //this never happens in the demo - it just closes the modal and starts the game
+			labelText = "This game is ready to go!";
 			addAiButton.setEnabled(false);
-            startGame();
+			//startGame();  //this causes the assertionerror
+			//((PlayerWaitingController) getController()).startGamePlay();
 		}
 		else{
 			labelText = ("Waiting for Players: Need " + (NUMBER_OF_PLAYERS-value.length) + " more");
-			addAiButton.setEnabled(true);
+			addAiButton.setEnabled(false);  //TODO: Uncomment if we ever add AIs
 		}
 		
 		label.setText(labelText);
