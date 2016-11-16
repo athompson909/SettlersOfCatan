@@ -75,12 +75,12 @@ public class Map {
      * Manages the checking and building of roads, settlements,
      * and cities (after being checked within Player class)
      */
-    private transient static List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
+    private List<Integer> numberOrder = Arrays.asList(5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11);
 
     /**
      * An iterator to go through all the numbers assigned to the hexes when the map is initialized.
      */
-    private transient static Iterator<Integer> numberIterator = numberOrder.iterator();
+    private Iterator<Integer> numberIterator = numberOrder.iterator();
 
     /**
      * the radius of the map, according to the JSON
@@ -92,6 +92,7 @@ public class Map {
      * is called when a user starts a new game and the map needs to be created (in initialization model)
      */
     public Map(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers, boolean randomlyPlacePorts) {
+        System.out.println("MAP RANDOM BACON: " + randomlyPlaceHexes + " " + randomlyPlaceNumbers + " " + randomlyPlacePorts);
         //createAllWaterHexes();
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createValidEdgeLocations();
