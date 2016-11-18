@@ -357,18 +357,15 @@ public class ClientModel extends Observable {
      */
     public boolean buildSettlement(VertexObject newSettlement, boolean free) {
         // if (canPlaceSettlement(newSettlement.getOwner(), newSettlement.getVertexLocation())) {
-        System.out.println("============BUILD SETTLEMENT=============");
         map.buildSettlementManager.placeSettlement(newSettlement);
         players[newSettlement.getOwner()].purchaseSettlement(free);
         if (turnTracker.getStatus().equals("SecondRound")) {
-            System.out.println("+++++++++++++++If SECOND ROUND++++++++++++++++");
             ResourceList secondSettlementResources = map.calculateSecondSettlementResources(newSettlement.getVertexLocation());
             players[newSettlement.getOwner()].receiveCardsFromDiceRoll(secondSettlementResources);
             //decrement resourceBank
             resourceBank.removeResources(secondSettlementResources);
             System.out.println(secondSettlementResources.toString());
         }else if(!free){
-            System.out.println("+++++++++++++If !free+++++++++++++");
             resourceBank.receiveSettlementResources();
         }
 
@@ -788,7 +785,6 @@ public class ClientModel extends Observable {
                         turnTracker.getStatus().equals("SecondRound")) {
 
                     players[index].setPlayedDevCard(false);
-                    System.out.println("BACON++++++++++");
                     for(int i = 0; i < players.length; i++){
                         players[i].newToOldDevCardList();
                     }

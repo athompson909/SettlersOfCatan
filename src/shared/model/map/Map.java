@@ -579,7 +579,8 @@ public class Map {
             results[i] = new ResourceList();
         }
         for (HexLocation key : hexes.keySet()) {
-            if (hexes.get(key).getNumber() == diceRollNumber) {
+            if (hexes.get(key).getNumber() == diceRollNumber &&
+                    !robber.getCurrentHexlocation().equals(hexes.get(key).getLocation())) {
                 getCardsFromVertices(hexes.get(key), results);
             }
         }
