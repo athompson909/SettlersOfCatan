@@ -53,12 +53,14 @@ public class ChatController extends Controller implements IChatController {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-
-		if(disabled && !(Client.getInstance().getGameState() == State.FIRSTROUND) &&
-				!(Client.getInstance().getGameState() == State.SECONDROUND)) {
+		if(!(Client.getInstance().getClientModel().getTurnTracker().getStatus().equals("FirstRound"))
+				&& !(Client.getInstance().getClientModel().getTurnTracker().getStatus().equals("SecondRound"))) {
+	//	if(disabled && !(Client.getInstance().getGameState() == State.WAITING)) {
+				//&& !(Client.getInstance().getGameState() == State.SECONDROUND)) {
 			ChatView chatView = (ChatView)getView();
 			chatView.sendEnabled(true);
 		}
+
 		System.out.println("CHATCONTROLLER UPDATE called");
 
 		ClientModel model = (ClientModel) o;

@@ -33,9 +33,9 @@ public class BuildSettlementManager {
      * Checks that there is a conneting road of the correct color
      */
     public boolean canPlace(int playerID, VertexLocation vertexLocation) {
-        System.out.println(isVertexLocationAvailable(vertexLocation));
-        System.out.println(isVertexObjectTwoAway(vertexLocation));
-        System.out.println(isRoadConnected(playerID, vertexLocation));
+        //System.out.println(isVertexLocationAvailable(vertexLocation));
+        //System.out.println(isVertexObjectTwoAway(vertexLocation));
+        //System.out.println(isRoadConnected(playerID, vertexLocation));
         return (isVertexLocationAvailable(vertexLocation)
                 && isVertexObjectTwoAway(vertexLocation)
                 && isRoadConnected(playerID, vertexLocation)

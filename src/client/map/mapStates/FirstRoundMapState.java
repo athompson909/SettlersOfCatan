@@ -15,6 +15,8 @@ import shared.model.commandmanager.moves.FinishTurnCommand;
 import shared.model.map.Map;
 import shared.model.map.VertexObject;
 
+import java.util.HashMap;
+
 /**
  * Used for placing road and settlement during the first round of the game
  * Created by Alise on 10/8/2016.
@@ -48,8 +50,20 @@ public class FirstRoundMapState extends MapState {
     }
 
     public void startGame() {
+        if(Client.getInstance().getClientModel().getClientPlayer().getSettlementCount() == 5) {
             startMove(PieceType.SETTLEMENT, true, true);
-
+        }
+        else {
+            int playerIndex = Client.getInstance().getClientModel().getClientPlayer().getPlayerIndex();
+            HashMap<VertexLocation, VertexObject> settlements = Client.getInstance().getClientModel().getMap().getVertexObjects();
+            for(VertexLocation loc: settlements.keySet()) {
+                if(settlements.get(loc).getOwner() == playerIndex) {
+                    setFirstVertexLocation(loc);
+                    startMove(PieceType.ROAD, true, true);
+                    return;
+                }
+            }
+        }
     }
 
     @Override

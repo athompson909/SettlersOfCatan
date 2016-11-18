@@ -92,7 +92,7 @@ public class Map {
      * is called when a user starts a new game and the map needs to be created (in initialization model)
      */
     public Map(boolean randomlyPlaceHexes, boolean randomlyPlaceNumbers, boolean randomlyPlacePorts) {
-        System.out.println("MAP RANDOM BACON: " + randomlyPlaceHexes + " " + randomlyPlaceNumbers + " " + randomlyPlacePorts);
+        //System.out.println("MAP RANDOM BACON: " + randomlyPlaceHexes + " " + randomlyPlaceNumbers + " " + randomlyPlacePorts);
         //createAllWaterHexes();
         createAllLandHexes(randomlyPlaceHexes, randomlyPlaceNumbers);
         createValidEdgeLocations();
@@ -579,7 +579,8 @@ public class Map {
             results[i] = new ResourceList();
         }
         for (HexLocation key : hexes.keySet()) {
-            if (hexes.get(key).getNumber() == diceRollNumber) {
+            if (hexes.get(key).getNumber() == diceRollNumber &&
+                    !robber.getCurrentHexlocation().equals(hexes.get(key).getLocation())) {
                 getCardsFromVertices(hexes.get(key), results);
             }
         }
