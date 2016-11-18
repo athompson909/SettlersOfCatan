@@ -2,7 +2,7 @@ package shared.model;
 
 import client.ClientUser;
 import client.data.RobPlayerInfo;
-import client.utils.Converter;
+import shared.shared_utils.Converter;
 import server.User;
 import server.UserManager;
 import shared.definitions.CatanColor;
