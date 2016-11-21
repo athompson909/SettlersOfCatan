@@ -136,6 +136,30 @@ public class ServerTranslator {
             modelJSON.put("deck", dcListJSON);
             modelJSON.put("bank", resListJSON);
 
+
+//CHAT (chat) AND LOG (log)
+        MessageManager tempMMgr = model.getMessageManager();
+        MessageList tempChat = tempMMgr.getChat();
+        MessageList tempLog = tempMMgr.getLog();
+        JSONObject chatJSON = new JSONObject(gsonTranslator.toJson(tempChat));
+        JSONObject logJSON = new JSONObject(gsonTranslator.toJson(tempLog));
+            modelJSON.put("chat", chatJSON);
+            modelJSON.put("log", logJSON);
+
+//TURNTRACKER (turntracker)
+        TurnTracker tempTT = model.getTurnTracker();
+        JSONObject ttJSON = new JSONObject(gsonTranslator.toJson(tempTT));
+            modelJSON.put("turnTracker", ttJSON);
+
+
+//TRADEOFFER (tradeOffer)
+        if (model.getTradeOffer() != null) {
+            TradeOffer tempTO = model.getTradeOffer();
+            JSONObject tOJSON = new JSONObject(gsonTranslator.toJson(tempTO));
+                modelJSON.put("tradeOffer", tOJSON);
+        }
+
+
 //SERIALIZE MAP
         JSONObject mapJSON = serializeMap(model.getMap());
         modelJSON.put("map", mapJSON);
