@@ -9,6 +9,7 @@ import shared.locations.VertexDirection;
 
 /**
  * Created by adamthompson on 11/9/16.
+ * useful class for converting between strings and enums and converting between enums and enums
  */
 public class Converter {
 
@@ -47,6 +48,26 @@ public class Converter {
             default:
                 return null;
         }
+    }
+
+
+    public static PortType resourceTypeToPortType(ResourceType resourceType) {
+        String resource = resourceType.toString();
+        switch (resource) {
+            case "WOOD":
+                return PortType.WOOD;
+            case "BRICK":
+                return PortType.BRICK;
+            case "SHEEP":
+                return PortType.SHEEP;
+            case "WHEAT":
+                return PortType.WHEAT;
+            case "ORE":
+                return PortType.ORE;
+            default:
+                assert false;
+        }
+        return null;//should never reach here
     }
 
 
