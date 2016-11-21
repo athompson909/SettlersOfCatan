@@ -310,7 +310,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		int desiredGameID = joinThisGameInfo.getId();
 
 		//create joinGameCommand
-		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, CatanColor.WHITE);
+		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, CatanColor.WHITE);  //TODO: maybe we should use NULL instead
 
 		//send it to ClientFacade's OTHER join function:
 		if (ClientFacade.getInstance().gameJoinWithDefaultColor(gameJoinCommand)) {

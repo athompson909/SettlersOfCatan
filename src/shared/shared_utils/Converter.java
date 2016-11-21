@@ -132,7 +132,7 @@ public class Converter {
             default:
                 assert false;
         }
-        return null;//should never reach here
+        return null;
     }
 
     public static CatanColor stringToCatanColor(String color) {
@@ -145,6 +145,7 @@ public class Converter {
             case "purple": return CatanColor.PURPLE;
             case "puce": return CatanColor.PUCE;
             case "white": return CatanColor.WHITE;
+            case "brown": return CatanColor.BROWN;
             default: assert false;
         }
         return null;
