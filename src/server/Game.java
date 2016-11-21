@@ -277,12 +277,15 @@ public class Game {
     }
 
     public String getVictimName(int victimIndex){
-        List<PlayerInfo> playerInfoList = gameInfo.getPlayers();
-        for(int i = 0; i < playerInfoList.size(); i++){
-            if(playerInfoList.get(i).getId()== victimIndex){
-                return playerInfoList.get(i).getName();
-            }
+        if(victimIndex < 4 && victimIndex >= 0){
+            return clientModel.getPlayers()[victimIndex].getName();
         }
+//        List<PlayerInfo> playerInfoList = gameInfo.getPlayers();
+//        for(int i = 0; i < playerInfoList.size(); i++){
+//            if(playerInfoList.get(i).getId()== victimIndex){
+//                return playerInfoList.get(i).getName();
+//            }
+//        }
         return null;
     }
 
