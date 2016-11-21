@@ -123,14 +123,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 	@Override
 	public void setPlayers(PlayerInfo[] value) {
 
-		System.out.print(">PLAYERWAITINGVIEW: setPlayers called, PlayerInfo[]= ");
-		for (int i = 0; i < value.length; i++) {
-			if (value[i] != null) {
-				System.out.print(value[i]);
-			}
-		}
-		System.out.println();
-
+		System.out.print(">PLAYERWAITINGVIEW: setPlayers called");
 
 		//set header label indicating how many players are still needed
 		String labelText = "";

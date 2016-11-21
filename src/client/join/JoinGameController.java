@@ -440,19 +440,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 			//don't get the model, just the gamesList!
 			GameInfo[] newGameList = ClientFacade.getInstance().gamesList();
-			//update the View with the new GameList info
 			PlayerInfo currPlayerInfo = ClientUser.getInstance().getLocalPlayerInfo();
-
-			System.out.println("\t\tJCGminiPoller: just got new gamesList, size= " + newGameList.length);
 
 			//Check if this view needs to update and redraw
 			if (isViewUpdateNeeded(newGameList)){
-				//DO VIEW UPDATE
-
 				System.out.println(">JCGminiPoller: DOING VIEW UPDATE");
 
 					System.out.println("\t\tJCGminiPoller: currGamesList size= " + currGamesList.length);
-					System.out.println("\t\tJCGminiPoller: new games found in gameList, size= " + newGameList);
+					System.out.println("\t\tJCGminiPoller: new games found in gameList, new size= " + newGameList.length);
 				getJoinGameView().setGames(newGameList, currPlayerInfo);
 				setCurrGamesList(newGameList);
 
@@ -466,7 +461,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					getJoinGameView().showModal();
 				}
 
-				//update the available colors to choose
+				//update the available colors to choose if the SelectColorView is showing right now
 				else if (getSelectColorView().isModalShowing()){
 					//they are trying to pick a color, so update which ones they can choose from
 					setSelectColorViewBtnColors(newGameList[Client.getInstance().getCurrentJoinGameCandidate()].getPlayers());
@@ -502,12 +497,25 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				List<PlayerInfo> newPlayersList= newGameList[g].getPlayers();
 				List<PlayerInfo> existingPlayerList = currGamesList[g].getPlayers();
 
-				System.out.println(">isVUN: comparing newPL size " + newPlayersList.size() + "\t to oldPL size " + existingPlayerList.size());
+				System.out.println("\t>isVUN: comparing newPL size " + newPlayersList.size() + "\t to oldPL size " + existingPlayerList.size());
 
 
+				//this needs to also check if any playerInfo's colors have changed
 				if (newPlayersList.size() != existingPlayerList.size()){
 					return true;
 				}
+
+				//check if any attributes of the PlayerInfos are different: mainly colors
+				for (int p = 0; p < existingPlayerList.size(); p++) {
+					PlayerInfo existingPI = existingPlayerList.get(p);
+					PlayerInfo newPI = newPlayersList.get(p);
+
+					if (!existingPI.equals(newPI)) {
+						System.out.println("\t>iVUN: PlayerInfo " + newPI.getName() + " was different!");
+						return true;
+					}
+				}
+
 			}
 
 			return false;

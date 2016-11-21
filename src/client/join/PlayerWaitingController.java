@@ -233,8 +233,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PWC miniPoller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 				System.out.println("PWVminiPoller: fetching gamesList: " + new Date().toString());
 				fetchGamesList();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				System.out.println("PWVminiPoller Exception!");
 				e.printStackTrace();
 			}
@@ -253,16 +252,44 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			System.out.println("\t\tPWVminiPoller: currPlayerInfosList size= " + currPlayerInfosList.length);
 
 			//check if we actually need to update the view
-			if (currPlayerInfosList.length < newPlayerInfos.length){
+			//if (currPlayerInfosList.length < newPlayerInfos.length) {
+			if (isViewUpdateNeeded(newPlayerInfos)){
 				updateView(newPlayerInfos);
-			}
-			else{  //don't update the view
+			} else {  //don't update the view
 				System.out.println("\t\tPWVminiPoller: no change in PlayerInfoList");
 			}
 
 			System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
 		}
-	}
 
+		/**
+		 * Checks each of the PlayerInfos in the array coming from the server,
+		 * and returns True if the list size is different from before (more players were added),
+		 * or if any of them are different from the existing list of PlayerInfos, including color/name changes.
+		 *
+		 * @return true if the PlayerInfo list itself or any item in that list has been updated
+		 */
+		public boolean isViewUpdateNeeded(PlayerInfo[] newPlayerInfosArr) {
+			if (currPlayerInfosList.length != newPlayerInfosArr.length) {
+				System.out.println("\tPWVminiPoller: iVUN: PlayerInfo arrsize was different");
+				return true;
+			}
+
+			//check if any of them have been updated
+			for (int p = 0; p < currPlayerInfosList.length; p++) {
+				PlayerInfo existingPI = currPlayerInfosList[p];
+				PlayerInfo newPI = newPlayerInfosArr[p];
+
+				if (!existingPI.equals(newPI)) {
+					System.out.println("\tPWVminiPoller: iVUN: PlayerInfo " + newPI.getName() + " was different");
+					return true;
+				}
+			}
+
+			//no differences found
+			return false;
+		}
+
+	}//end inner class
 
 }
