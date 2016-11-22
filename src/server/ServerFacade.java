@@ -513,8 +513,64 @@ public class ServerFacade implements IServerFacade {
         Game game = GamesManager.getInstance().getGame(gameID);
         ClientModel model = game.getClientModel();
 
+        //check here that no player has NULL color, because the Views need it after this
+        //OLD IMPLEMENTATION
+/*
+        Game currGame = GamesManager.getInstance().getAllGames().get(gameID);
+        GameInfo currGameInfo = currGame.getGameInfo();
+
+        // i think this is way inefficient but i just want to see it work for right now
+        // we should only need to check if a player is null right when the game is starting, not every time the model is requested
+        //>> seems to be working. however, I only want it to do this part when the game is actually starting.
+        //maybe check what the STATE of the Map is in? if FirstRound, then do this part?
+        for (int p = 0; p < currGameInfo.getPlayers().size(); p++){
+            PlayerInfo currPI = currGameInfo.getPlayers().get(p);
+            //if any of the players in currGame has a NULL color right now, we need to default them to a color
+            //that hasn't been taken by another user yet.
+            if (currPI.getColor() == CatanColor.NULL || currPI.getColor() == null)
+            {
+                //default them to whatever color is available
+                for (CatanColor currColor : CatanColor.values()) {
+                    //check if any of the players in currGame are using currColor
+                    if (isColorAvailable(currColor, currGameInfo.getPlayers())){
+                        //no one has this color yet, so let the NULL slacker have that one as a default
+                        currPI.setColor(currColor);
+                        model.getPlayers()[p].setColor(currColor);
+                            System.out.println(">SERVERFACADE: model(): user " + currPI.getName() + " defaulted to color " + currColor);
+                        break; //I really don't think there's any way more than one player could have NULL as a color
+                    }
+                }
+            }
+
+        }
+*/
+
         return model;
+
     } //GET
+
+
+
+    /**
+     * helper function for checking whether a NULL color user can have the given color as a default
+     * @param colorToCheck
+     * @param playerInfosList
+     * @return
+     */
+    private boolean isColorAvailable(CatanColor colorToCheck, List<PlayerInfo> playerInfosList){
+
+        for (int p = 0; p < playerInfosList.size(); p++){
+            if (playerInfosList.get(p).getColor() == colorToCheck){
+                //it's taken already, not available for defaulting
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
 
     /**
      * Add an AI to the current game.

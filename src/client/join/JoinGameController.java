@@ -151,6 +151,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     /**
      * This is where we get the text fields/bools off the View
      * and send the new game info to the server to actually create the new game.
+	 *
+	 * Joins the user to the game they just created afterwards
      */
     @Override
     public void createNewGame() {
@@ -178,13 +180,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
             joinThisGameInfo = newGameCreatedInfo;
 			//join them to the game they just created using WHITE as the temporary/default color
+				//TRY USING NULL, not white
             joinGameWithDefaultColor();
 
             //restart timer after commands are done going through
             startTimer();
             /////
 
-            if (getNewGameView().isModalShowing()){			//TESTING FOR CMDLINE
+            if (getNewGameView().isModalShowing()){
 				getNewGameView().closeModal();
 			}
 
@@ -246,7 +249,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		//first set them all enabled to account for previous uses of this window:
 		for (CatanColor color : CatanColor.values()){
-			getSelectColorView().setColorEnabled(color, true);
+			if (color != CatanColor.NULL){
+				getSelectColorView().setColorEnabled(color, true);
+			}
 		}
 
 		//check if WHITE was used as a default color or not. If so, we should enable it to be selectable
@@ -261,32 +266,47 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	//called every time the miniPoller says to do the update
 	private void setSelectColorViewBtnColors(List<PlayerInfo> players){
-	//	System.out.println(">>>>> setting available color buttons <<<<<<");
-	//	System.out.println(">>>>> playersList = " + players);
+		System.out.println(">>>>> setting available color buttons <<<<<<");
+		System.out.println(">>>>> playersList = " + players);
 
 		for (int i = 0; i < players.size(); i++){
 			if (players.get(i).getColor() != null){	//someone else has taken this color already
-				if (players.get(i).getColor() == CatanColor.WHITE){
-					// for WHITE: if the user joined with default color, this will be taken already.
-					// Enable it again IF they joined with default color (they created their own game):
-					//System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
-					//System.out.println(">comparing " + players.get(i).getId() + " and " + ClientUser.getInstance().getId());
-
-					//only enable WHITE if you created the game AND if it's you picking your own color again
-					if (ClientUser.getInstance().joinedWithDefaultColor() && players.get(i).getId() == ClientUser.getInstance().getId()) {
-						getSelectColorView().setColorEnabled(CatanColor.WHITE, true); //enable WHITE
-					}
-					else { //they did not create their own game, so WHITE should be disabled since someone is actually using it.
-						getSelectColorView().setColorEnabled(CatanColor.WHITE, false); //disable WHITE
-					}
-				}
-				else{ //someone in this game already chose that color -
+					//if it's not NULL, but a real color
+					//so someone in this game already chose that color -
 					// set it disabled UNLESS you're the one who chose that color last time
-
-					if (players.get(i).getId() != ClientUser.getInstance().getId()) {
-						getSelectColorView().setColorEnabled(players.get(i).getColor(), false);
-					}
+				if (players.get(i).getId() != ClientUser.getInstance().getId()) {
+					System.out.println("\t>>>>> disabling color " + players.get(i).getColor() + " for player " + players.get(i).getName());
+					getSelectColorView().setColorEnabled(players.get(i).getColor(), false);
 				}
+
+//				if (players.get(i).getColor() == CatanColor.WHITE){
+//
+//						// for WHITE: if the user joined with default color, this will be taken already.
+//						// Enable it again IF they joined with default color (they created their own game):
+//						//System.out.println(">JoinedWithDefaultColor = " + ClientUser.getInstance().joinedWithDefaultColor());
+//						//System.out.println(">comparing " + players.get(i).getId() + " and " + ClientUser.getInstance().getId());
+//
+	//					//only enable WHITE if you created the game AND if it's you picking your own color again
+	//					if (ClientUser.getInstance().joinedWithDefaultColor() && players.get(i).getId() == ClientUser.getInstance().getId()) {
+	//						getSelectColorView().setColorEnabled(CatanColor.WHITE, true); //enable WHITE
+	//					}
+	//					else { //they did not create their own game, so WHITE should be disabled since someone is actually using it.
+	//						getSelectColorView().setColorEnabled(CatanColor.WHITE, false); //disable WHITE
+	//					}
+//				}
+//				else{ //if it's not NULL, but a real color
+//					//so someone in this game already chose that color -
+//					// set it disabled UNLESS you're the one who chose that color last time
+//					if (players.get(i).getId() != ClientUser.getInstance().getId()) {
+//							System.out.println("\t>>>>> disabling color " + players.get(i).getColor() + " for player " + players.get(i).getName());
+//						getSelectColorView().setColorEnabled(players.get(i).getColor(), false);
+//					}
+//				}
+			}
+			else{
+				//if their color is NULL, they created the game. So they can pick any color they want.
+				//So don't disable any of the buttons!
+				System.out.println("\t>>>>> skipping NULL color for player " + players.get(i).getName());
 			}
 		}
 //		System.out.println(">>>>> <<<<<<<<");
@@ -310,14 +330,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		int desiredGameID = joinThisGameInfo.getId();
 
 		//create joinGameCommand
-		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, CatanColor.WHITE);  //TODO: maybe we should use NULL instead
+		GameJoinCommand gameJoinCommand = new GameJoinCommand(desiredGameID, CatanColor.NULL); //TEST from CatanColor.WHITE
 
 		//send it to ClientFacade's OTHER join function:
 		if (ClientFacade.getInstance().gameJoinWithDefaultColor(gameJoinCommand)) {
 			//save the id of the game they just joined to ClientUser singleton for later use
 			ClientUser.getInstance().setCurrentGameID(desiredGameID);
 			//MARK THAT THEY WENT THROUGH THIS METHOD
-			ClientUser.getInstance().setJoinedWithDefaultColor(true);
+				ClientUser.getInstance().setJoinedWithDefaultColor(true); //we won't need this if the NULL thing works
 		}
 		else {
 			//print - it didn't work

@@ -93,7 +93,14 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		playerPanel[playerIndex].add(name, BorderLayout.WEST);
 		
 		indicatorPanel[playerIndex] = new JPanel();
-		indicatorPanel[playerIndex].setBackground(playerColor.getJavaColor());
+			//could put a null check here
+		if (playerColor == CatanColor.NULL || playerColor == null) {
+			//default to white?
+			indicatorPanel[playerIndex].setBackground(CatanColor.WHITE.getJavaColor());
+		}
+		else {  //it's not null, ok to use real color
+			indicatorPanel[playerIndex].setBackground(playerColor.getJavaColor());
+		}
 		playerPanel[playerIndex].add(indicatorPanel[playerIndex], BorderLayout.CENTER);
 		
 		playerArmy[playerIndex] = new JLabel();
@@ -110,9 +117,17 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		playerPoints[playerIndex].setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
 		playerPoints[playerIndex].setFont(labelFont);
 		playerPanel[playerIndex].add(playerPoints[playerIndex], BorderLayout.EAST);
-		
-		playerPanel[playerIndex].setBackground(playerColor.getJavaColor());
-		playerPanel[playerIndex].setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+		if (playerColor == CatanColor.NULL || playerColor == null) {
+			//default to white?
+			playerPanel[playerIndex].setBackground(CatanColor.WHITE.getJavaColor());
+		}
+		else {  //it's not null, ok to use real color
+			playerPanel[playerIndex].setBackground(playerColor.getJavaColor());
+
+		}
+
+			playerPanel[playerIndex].setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		
 	}
 
@@ -139,8 +154,18 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 
 	public void updateColors(Player[] players){
 		for(int i = 0; i < players.length; i++){
-			playerPanel[i].setBackground(players[i].getColor().getJavaColor());
-			indicatorPanel[i].setBackground(players[i].getColor().getJavaColor());
+
+			if (players[i].getColor() == CatanColor.NULL || players[i].getColor() == null) {
+				//default to white
+				playerPanel[i].setBackground(CatanColor.WHITE.getJavaColor());
+				indicatorPanel[i].setBackground(CatanColor.WHITE.getJavaColor());
+			}
+			else {  //it's not null, ok to use real color
+				playerPanel[i].setBackground(players[i].getColor().getJavaColor());
+				indicatorPanel[i].setBackground(players[i].getColor().getJavaColor());
+
+			}
+
 		}
 	}
 	
