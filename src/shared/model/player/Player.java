@@ -213,7 +213,7 @@ public class Player { //
      * @return true if the player can play a monument card.
      */
     public boolean canPlayMonumentCard() {
-        return (oldDevCardList.getMonumentCardCount() > 0);
+        return (oldDevCardList.getMonumentCardCount() > 0 || newDevCardList.getMonumentCardCount() > 0);
     }
 
     /**

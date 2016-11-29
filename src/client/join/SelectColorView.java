@@ -367,6 +367,7 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 			return btnWhite;
 		case YELLOW:
 			return btnYellow;
+			//there is no button for null
 		default:
 			assert false;
 			return null;

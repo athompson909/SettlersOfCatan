@@ -237,10 +237,60 @@ public class GamesManager {
      */
     public Game getGame(int gameID) {
         if(isValidGame(gameID)) {
+
+            //check here that no player has NULL color, because the Views need it after this
+
+//            Game currGame = allGames.get(gameID);
+//            GameInfo currGameInfo = currGame.getGameInfo();
+//
+//            for (PlayerInfo currPI : currGameInfo.getPlayers()){
+//
+//                //if any of the players in currGame has a NULL color right now, we need to default them to a color
+//                //that hasn't been taken by another user yet.
+//                if (currPI.getColor() == CatanColor.NULL || currPI.getColor() == null)
+//                {
+//                    //default them to whatever color is available
+//                    for (CatanColor currColor : CatanColor.values()) {
+//
+//                        //check if any of the players in currGame are using currColor
+//                        if (isColorAvailable(currColor, currGameInfo.getPlayers())){
+//                            //no one has this color yet, so let the NULL slacker have that one as a default
+//                            currPI.setColor(currColor);
+//                                System.out.println(">GAMESMGR: user " + currPI.getName() + " defaulted to color " + currColor);
+//                            break; //I really don't think there's any way more than one player could have NULL as a color
+//                        }
+//                    }
+//                }
+//
+//            }
+
+
+
             return allGames.get(gameID);
         }
         return null;
     }
+//
+//    /**
+//     * helper function for checking whether a NULL color user can have the given color as a default
+//     * @param colorToCheck
+//     * @param playerInfosList
+//     * @return
+//     */
+//    private boolean isColorAvailable(CatanColor colorToCheck, List<PlayerInfo> playerInfosList){
+//
+//        for (int p = 0; p < playerInfosList.size(); p++){
+//            if (playerInfosList.get(p).getColor() == colorToCheck){
+//                //it's taken already, not available for defaulting
+//                return false;
+//            }
+//        }
+//
+//        return true;
+//    }
+
+
+
 
     /**
      * Returns true if gameID is valid

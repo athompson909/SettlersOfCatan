@@ -9,7 +9,9 @@ import client.data.PlayerInfo;
 import client.misc.IMessageView;
 import client.misc.MessageView;
 import exceptions.ClientException;
+import shared.definitions.CatanColor;
 import shared.model.commandmanager.game.AddAICommand;
+import shared.model.commandmanager.game.GameJoinCommand;
 
 import java.util.*;
 
@@ -96,6 +98,33 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		miniPollTimer.cancel();
 		System.out.println("~~~~~~~~~~~~ ENDING PWC MINIPOLLER ~~~~~~~~~~~~~");
 		Client.getInstance().startServerPoller();
+
+		// do player color null checking here:
+		//make each client/player check their own color only
+		//send a new joinGameCommand for localPlayer if they still have a NULL color at this point
+			//this will eliminate the need to check for NULL colors every 2 sec in ServerFacade
+
+			if (ClientUser.getInstance().getColor() == CatanColor.NULL || ClientUser.getInstance().getColor() == null){
+
+				System.out.println("\t\t startGamePlay() ClientUser " + ClientUser.getInstance().getName() + " still has color NULL");
+				//pick a default color that hasn't been used yet
+				CatanColor defaultedColor = pickDefaultColor();
+
+				//send a JoinGame command with that default color to override the NULL
+				int gameIDtoJoin = ClientUser.getInstance().getCurrentAddedGameInfo().getId();
+				GameJoinCommand gameJoinCmdWithDefaultedColor = new GameJoinCommand(gameIDtoJoin, defaultedColor);
+				//this should override the user's default color (NULL probably) with the new defaulted color.
+				if (ClientFacade.getInstance().gameJoin(gameJoinCmdWithDefaultedColor)){
+					System.out.println(">PWC: STARTGAMEPLAY: user " + ClientUser.getInstance().getName() + " defaulted to color " + defaultedColor);
+						//should be ok to start the game now
+				}
+				else {
+					System.out.println(">PWC: STARTGAMEPLAY: unable to reset user " + ClientUser.getInstance().getName() + "'s NULL color!");
+				}
+
+			}
+
+		//all colors need to be set before this point. no nulls
 		ClientUser.getInstance().setPlayerColors();
 
 		//Save the final GameInfo item to the ClientUser singleton
@@ -111,6 +140,34 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		}
 
 		Client.getInstance().setStartGame(true);
+	}
+
+	/**
+	 * Helper function for StartGamePlay() - called if the localPlayer hasn't selected a color yet (it's still NULL)
+	 * but they need to be assigned a default color that hasn't been used yet so the game can start
+	 */
+	private CatanColor pickDefaultColor(){
+
+		GameInfo currGameInfo = ClientUser.getInstance().getCurrentAddedGameInfo();
+
+		//check each color in CatanColor
+		for (CatanColor currColor : CatanColor.values()) {
+
+			//check if any of the players in this game are already claimed currColor
+			for (int p = 0; p < currGameInfo.getPlayers().size(); p++){
+				PlayerInfo currPI = currGameInfo.getPlayers().get(p);
+
+				if (currPI.getColor() == currColor){
+					System.out.println(">pickDefaultColor: player " + currPI.getName() + " already has color " + currColor);
+					break; //no other player will have this color, so go to next color (hopefully)
+				}
+			}
+
+			//no player had this color yet, so it's ok to use it as a default
+			return currColor;
+		}
+
+		return null;  //should never get here
 	}
 
 

@@ -167,6 +167,7 @@ public class Converter {
             case "puce": return CatanColor.PUCE;
             case "white": return CatanColor.WHITE;
             case "brown": return CatanColor.BROWN;
+            case "null": return null;           //TEST
             default: assert false;
         }
         return null;
