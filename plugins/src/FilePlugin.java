@@ -40,7 +40,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void writeGame(String gameJSON) {
-
+        gameDAO.writeGame(gameJSON);
     }
 
     /**
@@ -49,7 +49,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void writeNewGame(String gameJSON) {
-
+        gameDAO.writeNewGame(gameJSON);
     }
 
     /**
@@ -58,7 +58,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void writeCommand(String commandJSON) {
-
+        gameDAO.writeCommand(commandJSON);
     }
 
     /**
@@ -67,7 +67,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void writeUser(String userJSON) {
-
+        userDAO.writeUser(userJSON);
     }
 
     /**
@@ -76,7 +76,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public String readAllUsers() {
-        return null;
+        return userDAO.readAllUsers();
     }
 
     /**
@@ -85,7 +85,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public String readAllGames() {
-        return null;
+        return gameDAO.readAllGames();
     }
 
     /**
