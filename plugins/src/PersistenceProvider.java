@@ -1,27 +1,20 @@
 /**
  * Created by adamthompson on 11/29/16.
  */
-public class PersistenceProvider {
+public interface PersistenceProvider {
 
-    public void writeGame(String gameJSON) {
-    }
+    void writeGame(String gameJSON);
 
-    public void writeNewGame(String gameJSON) {
-    }
+    void writeNewGame(String gameJSON);
 
-    public void writeCommand(String commandJSON) {
-    }
+    void writeCommand(String commandJSON);
 
-    public void writeUser(String userJSON) {
-    }
+    void writeUser(String userJSON);
 
-    public void readAllUsers() {
-    }
+    void readAllUsers();
 
-    public void readAllGames() {
-    }
+    void readAllGames();
 
-    public void clearAllData() {
-    }
+    void clearAllData();
 
 }
