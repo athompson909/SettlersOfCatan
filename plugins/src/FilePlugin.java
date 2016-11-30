@@ -20,12 +20,12 @@ public class FilePlugin implements IPersistenceProvider {
     /**
      * Singleton
      */
-    private FilePlugin instance = new FilePlugin() {};
+    private static FilePlugin instance = new FilePlugin() {};
 
     /**
      * @return singleton filePlugin
      */
-    public IPersistenceProvider getInstance() {
+    public static IPersistenceProvider getInstance() {
         return instance;
     }
 

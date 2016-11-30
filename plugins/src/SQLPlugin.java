@@ -20,12 +20,12 @@ public class SQLPlugin implements IPersistenceProvider {
     /**
      * Singleton
      */
-    private SQLPlugin instance = new SQLPlugin() {};
+    private static SQLPlugin instance = new SQLPlugin() {};
 
     /**
      * @return singleton sqlPlugin
      */
-    public IPersistenceProvider getInstance() {
+    public static IPersistenceProvider getInstance() {
         return instance;
     }
 

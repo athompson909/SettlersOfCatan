@@ -6,7 +6,9 @@ public interface IPersistenceProvider {
     /**
      * returns singleton
      */
-    IPersistenceProvider getInstance();
+    static IPersistenceProvider getInstance(){
+        return null;
+    }
 
     /**
      * Modifies an already existing game.
