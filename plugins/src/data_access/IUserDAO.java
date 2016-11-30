@@ -5,8 +5,15 @@ package data_access;
  */
 public interface IUserDAO {
 
+    /**
+     * Adds a new user.
+     */
     void writeUser();
 
+    /**
+     * Reads all the users.
+     * @return the list of users.
+     */
     String readAllUsers();
 
 }
