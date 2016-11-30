@@ -1,8 +1,39 @@
+import data_access.FileGameDAO;
+import data_access.FileUserDAO;
+import data_access.IGameDAO;
+import data_access.IUserDAO;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
-public class FilePlugin implements PersistenceProvider {
+public class FilePlugin implements IPersistenceProvider {
+    /**
+     * IUserDAO to access users
+     */
+    private IUserDAO userDAO = new FileUserDAO();
 
+    /**
+     * IGameDAO to access games
+     */
+    private IGameDAO gameDAO = new FileGameDAO();
+
+    /**
+     * Singleton
+     */
+    private FilePlugin instance = new FilePlugin() {};
+
+    /**
+     * @return singleton filePlugin
+     */
+    public IPersistenceProvider getInstance() {
+        return instance;
+    }
+
+    /**
+     * private constructor to make singleton
+     */
+    private FilePlugin(){
+    }
     /**
      * Modifies an already existing game.
      * @param gameJSON JSON with the game info.
@@ -62,6 +93,21 @@ public class FilePlugin implements PersistenceProvider {
      */
     @Override
     public void clearAllData() {
+
+    }
+
+    /**
+     * Starts transaction with database
+     */
+    public void startTransaction(){
+
+    }
+
+    /**
+     * ends transaction with database
+     * @param commit - whether or not to commit the transaction
+     */
+    public void endTransaction(boolean commit){
 
     }
 }

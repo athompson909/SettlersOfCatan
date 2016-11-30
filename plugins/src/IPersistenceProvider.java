@@ -1,7 +1,12 @@
 /**
  * Created by adamthompson on 11/29/16.
  */
-public interface PersistenceProvider {
+public interface IPersistenceProvider {
+
+    /**
+     * returns singleton
+     */
+    IPersistenceProvider getInstance();
 
     /**
      * Modifies an already existing game.
@@ -43,5 +48,16 @@ public interface PersistenceProvider {
      * Clears all the data.
      */
     void clearAllData();
+
+    /**
+     * Starts transaction with database
+     */
+    void startTransaction();
+
+    /**
+     * ends transaction with database
+     * @param commit - whether or not to commit the transaction
+     */
+    void endTransaction(boolean commit);
 
 }

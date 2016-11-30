@@ -1,7 +1,39 @@
+import data_access.IGameDAO;
+import data_access.IUserDAO;
+import data_access.SQLGameDAO;
+import data_access.SQLUserDAO;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
-public class SQLPlugin implements PersistenceProvider {
+public class SQLPlugin implements IPersistenceProvider {
+    /**
+     * IUserDAO to access users
+     */
+    private IUserDAO userDAO = new SQLUserDAO();
+
+    /**
+     * IGameDAO to access games
+     */
+    private IGameDAO gameDAO = new SQLGameDAO();
+
+    /**
+     * Singleton
+     */
+    private SQLPlugin instance = new SQLPlugin() {};
+
+    /**
+     * @return singleton sqlPlugin
+     */
+    public IPersistenceProvider getInstance() {
+        return instance;
+    }
+
+    /**
+     * private constructor to make singleton
+     */
+    private SQLPlugin(){
+    }
 
     /**
      * Modifies an already existing game.
@@ -62,6 +94,21 @@ public class SQLPlugin implements PersistenceProvider {
      */
     @Override
     public void clearAllData() {
+
+    }
+
+    /**
+     * Starts transaction with database
+     */
+    public void startTransaction(){
+
+    }
+
+    /**
+     * ends transaction with database
+     * @param commit - whether or not to commit the transaction
+     */
+    public void endTransaction(boolean commit){
 
     }
 }
