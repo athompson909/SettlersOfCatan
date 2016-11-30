@@ -27,6 +27,10 @@ public class ServerMain {
         String hostNumber = "localhost";
         String portNumber = "8081";
 
+        //persistenceType = thing
+        int commandLimit = 5;
+        //bool wipeData;
+
         //if they specified a host/port number
         if (args.length == 1) {
             //error
@@ -50,11 +54,15 @@ public class ServerMain {
             hostNumber = args[0];
             portNumber = args[1];
 
+            commandLimit = Integer.parseInt(args[3]);
 
         }
         // <HostName> <Port> <PersistenceType> <CommandList> <WipeData>
         else if(args.length == 5) {
+            hostNumber = args[0];
+            portNumber = args[1];
 
+            commandLimit = Integer.parseInt(args[3]);
         }
 
         Server server = new Server(hostNumber, Integer.parseInt(portNumber));
