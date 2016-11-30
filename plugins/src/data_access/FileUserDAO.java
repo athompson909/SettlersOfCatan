@@ -9,6 +9,10 @@ public class FileUserDAO implements IUserDAO {
 
     }
 
+    /**
+     * Reads all of the users registered.
+     * @return a String with all the registered users.
+     */
     @Override
     public String readAllUsers() {
         return null;

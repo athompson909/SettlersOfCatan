@@ -28,7 +28,6 @@ public interface PersistenceProvider {
     void writeUser(String userJSON);
 
     /**
-     *
      * Reads all of the users registered.
      * @return a String with all the registered users.
      */

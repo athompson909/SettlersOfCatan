@@ -13,6 +13,10 @@ public class SQLUserDAO implements IUserDAO {
 
     }
 
+    /**
+     * Reads all of the users registered.
+     * @return a String with all the registered users.
+     */
     @Override
     public String readAllUsers() {
         return null;
