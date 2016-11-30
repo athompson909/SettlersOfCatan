@@ -8,7 +8,7 @@ public interface IUserDAO {
     /**
      * Adds a new user.
      */
-    void writeUser();
+    void writeUser(String userJSON);
 
     /**
      * Reads all the users.
