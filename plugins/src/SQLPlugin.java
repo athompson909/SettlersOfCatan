@@ -2,6 +2,7 @@ import data_access.IGameDAO;
 import data_access.IUserDAO;
 import data_access.SQLGameDAO;
 import data_access.SQLUserDAO;
+import database_related.DBCreateHelper;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -110,5 +111,16 @@ public class SQLPlugin implements IPersistenceProvider {
      */
     public void endTransaction(boolean commit){
 
+    }
+
+
+    /**
+     * creates a database if none exist or if the user asks it to be deleted and recreated
+     */
+    public void createDatabase() {
+        // if db does not exist: {
+        DBCreateHelper.createNewDatabase("catan");
+        // then create the tables
+        // }
     }
 }

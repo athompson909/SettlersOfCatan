@@ -1,7 +1,7 @@
 {
   "types": {
     "text": {
-      "name":"TextFilePlugin",
+      "name":"FilePlugin",
       "path":""
     },
     "sql": {

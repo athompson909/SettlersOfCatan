@@ -9,7 +9,7 @@ public class SQLUserDAO implements IUserDAO {
      * Adds a new user.
      */
     @Override
-    public void writeUser() {
+    public void writeUser(String jsonStr) {
 
     }
 
