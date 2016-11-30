@@ -95,6 +95,7 @@ public class PlayerInfo
 			return false;
 		if (playerIndex != other.getPlayerIndex())
 			return false;
+		//this could be used to tell whether the PlayerWaitingView/SelectColorView need to update
 		if (color != other.getColor())
 			return false;
 

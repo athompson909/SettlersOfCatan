@@ -26,7 +26,7 @@ public class ChatController extends Controller implements IChatController {
 		
 		super(view);
 		ChatView chatView = (ChatView)getView();
-		chatView.sendEnabled(false);
+		chatView.sendEnabled(false); //start out disabled
 		System.out.println("CHATCONTROLLER constructor called");
 	}
 
@@ -62,6 +62,11 @@ public class ChatController extends Controller implements IChatController {
 		}
 
 		System.out.println("CHATCONTROLLER UPDATE called");
+
+		if (Client.getInstance().getGameState() == State.FIRSTROUND ||
+				Client.getInstance().getGameState() == State.SECONDROUND) {
+			System.out.println("CHATCTLR: update(): gameState is FIRSTROUND or SECONDROUND");
+		}
 
 		ClientModel model = (ClientModel) o;
 

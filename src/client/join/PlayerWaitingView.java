@@ -6,6 +6,7 @@ import client.base.OverlayView;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.utils.FontUtils;
+import shared.definitions.CatanColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,14 +124,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 	@Override
 	public void setPlayers(PlayerInfo[] value) {
 
-		System.out.print(">PLAYERWAITINGVIEW: setPlayers called, PlayerInfo[]= ");
-		for (int i = 0; i < value.length; i++) {
-			if (value[i] != null) {
-				System.out.print(value[i]);
-			}
-		}
-		System.out.println();
-
+		System.out.print(">PLAYERWAITINGVIEW: setPlayers called");
 
 		//set header label indicating how many players are still needed
 		String labelText = "";
@@ -152,12 +146,21 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		
 		//build an individual player panel and add it to the center panel
 		for(int i = 0; i < value.length; i++){
-			//maybe just check if it's null right nere
 			String builtString = (i+1) + " " + value[i].getName();
 			JPanel playerPanel = new JPanel();
 			playerPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); //left justify the text in the panel
 			playerPanel.setPreferredSize(new Dimension(200,50));
-			playerPanel.setBackground(value[i].getColor().getJavaColor()); //set the background color of the player
+			if (value[i].getColor() == CatanColor.NULL || value[i].getColor() == null) {
+				//if the person who created the game originally hasn't officially joined/selected a color yet,
+				// we're going to set their background panel as WHITE.
+				//BUT when they join the game for real their color will be reset!
+				playerPanel.setBackground(CatanColor.WHITE.getJavaColor());
+			}
+			else {
+				//it's not null, so we can use their real color
+				playerPanel.setBackground(value[i].getColor().getJavaColor()); //set the background color of the player
+			}
+
 			JLabel playerLabel = new JLabel(builtString, SwingConstants.LEFT); //justify the text left
 			FontUtils.setFont(playerLabel, LABEL_TEXT_SIZE);
 			playerPanel.add(playerLabel);

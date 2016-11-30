@@ -122,7 +122,7 @@ public class Player { //
         this.playerIndex = playerIndex;
 
 
-        /*if(name.equals("Mitch")){
+        if(name.equals("Mitch")){
             getPlayerResourceList().incOreCardCount(20);
             getPlayerResourceList().incWheatCardCount(20);
             getPlayerResourceList().incWoodCardCount(20);
@@ -133,7 +133,7 @@ public class Player { //
             oldDevCardList.addDevCard(DevCardType.MONUMENT);
             oldDevCardList.addDevCard(DevCardType.ROAD_BUILD);
             oldDevCardList.addDevCard(DevCardType.ROAD_BUILD);
-        }*/
+        }
     }
 
     /**
@@ -213,7 +213,7 @@ public class Player { //
      * @return true if the player can play a monument card.
      */
     public boolean canPlayMonumentCard() {
-        return (oldDevCardList.getMonumentCardCount() > 0);
+        return (oldDevCardList.getMonumentCardCount() > 0 || newDevCardList.getMonumentCardCount() > 0);
     }
 
     /**

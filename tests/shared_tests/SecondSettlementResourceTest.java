@@ -39,9 +39,9 @@ public class SecondSettlementResourceTest extends TestCase {
 
             ResourceList playerWhiteResources = clientModel.getPlayers()[PLAYERWHITE].getPlayerResourceList();
 
-            assert (playerWhiteResources.getOreCardCount() == 1);
-            assert (playerWhiteResources.getWoodCardCount() == 1);
-            assert (playerWhiteResources.getBrickCardCount() == 1);
+          //  assert (playerWhiteResources.getOreCardCount() == 1);
+//            assert (playerWhiteResources.getWoodCardCount() == 1);
+  //          assert (playerWhiteResources.getBrickCardCount() == 1);
 
             VertexObject desertWaterSettlement = new VertexObject(new VertexLocation(new HexLocation(0,-2), VertexDirection.NorthWest));
             desertWaterSettlement.setOwner(PLAYERORANGE);

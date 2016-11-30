@@ -3,6 +3,7 @@ package shared.model.commandmanager.moves;
 import org.json.JSONObject;
 import server.IServerFacade;
 import server.ServerTranslator;
+import server.UserManager;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
@@ -75,9 +76,12 @@ public class AcceptTradeCommand extends BaseCommand {
         if(model != null) {
             model.incrementVersion();
             IServerFacade.getInstance().logCommand(getGameId(), command);
-            //TEST
             if (!willAccept) {
                 model.addLog(" rejected trade offer", getUserId());
+            }
+            else {
+                //TESTING
+                model.addLog(" accepted trade offer", getUserId());
             }
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;

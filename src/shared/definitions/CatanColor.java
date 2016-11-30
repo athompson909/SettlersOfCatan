@@ -31,7 +31,10 @@ public enum CatanColor
 	WHITE,
 
 	@SerializedName("brown")
-	BROWN;
+	BROWN,
+
+	@SerializedName("null")
+	NULL; 			///TEST
 
 	private Color color;
 

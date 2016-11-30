@@ -2,6 +2,7 @@ package client;
 
 import client.data.GameInfo;
 import client.data.PlayerInfo;
+import client.main.Catan;
 import shared.definitions.CatanColor;
 import shared.model.player.Player;
 
@@ -163,11 +164,14 @@ public class ClientUser {
         this.playerColors = playerColors;
     }
 
+    //this is relative to each client, not the server.
+    //called during startGamePlay() after any NULL color should have been taken care of
     public void setPlayerColors() {
 
         GameInfo[] gamesList = ClientFacade.getInstance().gamesList();
         List<PlayerInfo> players = gamesList[ClientUser.getInstance().getCurrentGameID()].getPlayers();
         for(PlayerInfo player : players) {
+
             playerColors.put(player.getName(), player.getColor());
         }
     }
