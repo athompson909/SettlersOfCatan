@@ -6,6 +6,8 @@ import shared.model.commandmanager.BaseCommand;
  * Created by adamthompson on 11/29/16.
  */
 public class PersistenceManager {
+    String persistenceType;
+
     private static PersistenceManager instance = new PersistenceManager();
     public static PersistenceManager getInstance(){
         return instance;
@@ -24,5 +26,9 @@ public class PersistenceManager {
 
     public void writeCommand(int gameID, BaseCommand command){
 
+    }
+
+    public void setPersistenceType(String type) {
+        persistenceType = type;
     }
 }

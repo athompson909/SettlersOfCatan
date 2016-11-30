@@ -1,6 +1,8 @@
 package server.main;
 
+import server.PersistenceManager;
 import server.Server;
+import shared.model.commandmanager.CommandManager;
 
 /**
  * the main class for the server
@@ -27,8 +29,6 @@ public class ServerMain {
         String hostNumber = "localhost";
         String portNumber = "8081";
 
-        //persistenceType = thing
-        int commandLimit = 5;
         //bool wipeData;
 
         //if they specified a host/port number
@@ -54,15 +54,17 @@ public class ServerMain {
             hostNumber = args[0];
             portNumber = args[1];
 
-            commandLimit = Integer.parseInt(args[3]);
-
+            PersistenceManager.getInstance().setPersistenceType(args[2]);
+            CommandManager.setCommandLimit(Integer.parseInt(args[3]));
         }
         // <HostName> <Port> <PersistenceType> <CommandList> <WipeData>
         else if(args.length == 5) {
             hostNumber = args[0];
             portNumber = args[1];
 
-            commandLimit = Integer.parseInt(args[3]);
+            PersistenceManager.getInstance().setPersistenceType(args[2]);
+            CommandManager.setCommandLimit(Integer.parseInt(args[3]));
+            //THE FIFTH ARGUMENT, args[4], TELLS US TO WIPE THE DATA...haven't done anything with it yet -Steph
         }
 
         Server server = new Server(hostNumber, Integer.parseInt(portNumber));
