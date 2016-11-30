@@ -18,6 +18,9 @@ public class ServerMain {
      * @param args - command line arguments
      *             args[0] = host number
      *             args[1] = port number
+     *             args[2] = persistence type
+     *             args[3] = number of commands before saving
+     *             args[4] = wipe the data from file and database
      */
     public static void main(String[] args) {
 
@@ -37,7 +40,22 @@ public class ServerMain {
 
             System.out.println("\t\t args[0] =" + args[0] + ", args[1] =" + args[1]);
         }
+        else if(args.length == 3) {
+            //error
+            System.out.println("ERROR: invalid PersistenceType/CommandLimit args");
+            System.exit(0);
+        }
+        // <HostName> <Port> <PersistenceType> <CommandLimit>
+        else if (args.length == 4) {
+            hostNumber = args[0];
+            portNumber = args[1];
 
+
+        }
+        // <HostName> <Port> <PersistenceType> <CommandList> <WipeData>
+        else if(args.length == 5) {
+
+        }
 
         Server server = new Server(hostNumber, Integer.parseInt(portNumber));
         System.out.println("starting server.run()");
