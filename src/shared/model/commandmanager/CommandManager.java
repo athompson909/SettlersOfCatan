@@ -1,5 +1,7 @@
 package shared.model.commandmanager;
 
+import server.PersistenceManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class CommandManager {
      */
     List <BaseCommand> executedCommands = new ArrayList<BaseCommand>();
 
+    private static int commandLimit = 10;
 
     public CommandManager() {
 
@@ -58,5 +61,21 @@ public class CommandManager {
     public void addCommandtoList(BaseCommand command){
         executedCommands.add(command);
         System.out.println("CommandManager: new cmdlist size= " + executedCommands.size());
+        //see if we reached the limit
+        int gameID = executedCommands.get(0).getGameId();
+        if (executedCommands.size() >= commandLimit){
+            //rewrite model
+            PersistenceManager.getInstance().writeGame(gameID);
+            //clear commands
+            PersistenceManager.getInstance().clearCommands(gameID);
+            executedCommands.clear();
+        }else {
+            //save command for persistence
+            PersistenceManager.getInstance().writeCommand(gameID, command);
+        }
+    }
+
+    public static void setCommandLimit(int limit){
+        commandLimit = limit;
     }
 }
