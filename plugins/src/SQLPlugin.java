@@ -57,6 +57,9 @@ public class SQLPlugin implements PersistenceProvider {
         return null;
     }
 
+    /**
+     * Clears all the data.
+     */
     @Override
     public void clearAllData() {
 
