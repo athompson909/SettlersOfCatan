@@ -1,6 +1,12 @@
 {
   "types": {
-    "text":"TextFilePlugin",
-    "sql":"SQLPlugin"
+    "text": {
+      "name":"TextFilePlugin",
+      "path":""
+    },
+    "sql": {
+      "name":"SQLPlugin",
+      "path":""
+    }
   }
 }
