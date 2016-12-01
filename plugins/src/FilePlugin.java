@@ -78,7 +78,7 @@ public class FilePlugin implements IPersistenceProvider {
      * @return a String with all the registered users.
      */
     @Override
-    public String readAllUsers() {
+    public JSONArray readAllUsers() {
         return userDAO.readAllUsers();
     }
 
@@ -87,8 +87,8 @@ public class FilePlugin implements IPersistenceProvider {
      * @return a String with all the created games.
      */
     @Override
-    public String readAllGames() {
-        return gameDAO.readAllGames().toString();  //TODO: it might be better/easier to just keep this a JSONArray
+    public JSONArray readAllGames() {
+        return gameDAO.readAllGames();
     }
 
     /**

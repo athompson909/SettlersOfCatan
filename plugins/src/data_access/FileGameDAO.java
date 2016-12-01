@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.Scanner;
 
 /**
+ *
+ *
  * Created by adamthompson on 11/29/16.
  */
 public class FileGameDAO implements IGameDAO {
@@ -17,6 +19,7 @@ public class FileGameDAO implements IGameDAO {
 
     /**
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
+     * Called when the server needs to save the ClientModel checkpoint!
      * @param gameJSON JSON with the game info.
      */
     @Override
@@ -36,8 +39,14 @@ public class FileGameDAO implements IGameDAO {
     public void writeNewGame(JSONArray gameJSON) {
 
         //use the gameID to build a filename like: game#.json
-        //open a writeStream and add the contents of the file with gameJSON
+        //make a new file with that filename
+        //open a fileOutputStream and add the contents of the file with gameJSON
         //gameJSON should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
+
+
+
+
+        //also make a commands#.json file for this game to use!
 
 
     }
@@ -48,6 +57,10 @@ public class FileGameDAO implements IGameDAO {
      */
     @Override
     public void writeCommand(JSONObject commandJSON) {
+
+
+        //to append to an existing file,  use
+        // BufferedWriter bw = new BufferedWriter(new FileWriter("file.json", true));  //true mean APPEND
 
     }
 
@@ -77,20 +90,22 @@ public class FileGameDAO implements IGameDAO {
         // the result of that first file read is saved to the collector JSONArr in the first loop iteration IF IT WORKED:
         while (readGameResultJSONArr != null){
 
-            //if readGame returns a JSONArray, add it as an entry to allGamesJSONArr.
+            //if readGame returns a JSONArray, it's good, so add it as an entry to allGamesJSONArr.
+            allGamesJSONArray.put(readGameResultJSONArr);
 
-
-
-            //try the next file:
+            //now try the next file:
             currGameID++;
             currGameFileName = "game" + currGameID + ".json";
+            currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new stuff
+            //let readGame() try reading this new filename:
+
+            readGameResultJSONArr = readGame(currGameFilePath);
         }
 
         //if the collector JSONArr is size 0 here, no files were read, not even the first one.
         if (allGamesJSONArray.length() == 0){
             System.out.println(">FILEGAMEDAO; readAllGames: looks like no game files were read... ");
         }
-
 
         return allGamesJSONArray;
     }
@@ -126,7 +141,9 @@ public class FileGameDAO implements IGameDAO {
 
                 System.out.println(">>FILEGAMEDAO: readGame(): file read good! got allJSON= " + allJSON);
 
-            gameJSONArr = new JSONArray(allJSON);
+            scanner.close();
+
+            gameJSONArr = new JSONArray(allJSON); //this should have 2 entries, one of the clientModel and one of the gameInfo
 
         }
         catch(FileNotFoundException fnf) {
