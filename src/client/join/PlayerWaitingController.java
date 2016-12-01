@@ -116,7 +116,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 				//this should override the user's default color (NULL probably) with the new defaulted color.
 				if (ClientFacade.getInstance().gameJoin(gameJoinCmdWithDefaultedColor)){
 					System.out.println(">PWC: STARTGAMEPLAY: user " + ClientUser.getInstance().getName() + " defaulted to color " + defaultedColor);
-						//should be ok to start the game now
+						//should be ok to start the game  now
 				}
 				else {
 					System.out.println(">PWC: STARTGAMEPLAY: unable to reset user " + ClientUser.getInstance().getName() + "'s NULL color!");

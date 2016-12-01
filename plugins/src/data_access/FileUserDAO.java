@@ -1,5 +1,7 @@
 package data_access;
 
+import org.json.JSONObject;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
@@ -9,7 +11,7 @@ public class FileUserDAO implements IUserDAO {
      * Adds a new user.
      */
     @Override
-    public void writeUser(String jsonStr) {
+    public void writeUser(JSONObject userJSON) {
 
     }
 
