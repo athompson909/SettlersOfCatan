@@ -42,11 +42,31 @@ public class FileGameDAO implements IGameDAO {
         //open a fileOutputStream and add the contents of the file with gameJSON
         //gameJSON should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
 
+        //get gameID and make a filename with that
+        int newGameID = gameJSON.getJSONObject(1).getInt("id"); //hopefully that works - get ID out of the gameInfo part
+        String newGameFileName = "game" + newGameID + ".json";
+        String newGameFilePath = baseGamesFilePath + newGameFileName;
 
+        try {
+            FileWriter fw = new FileWriter(newGameFilePath);    //use new FileWriter(path, true) if you want it to append
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(gameJSON.toString()); //really big
+        }
+        catch(FileNotFoundException fnf)
+        {
+            System.out.println(">FILEGAMEDAO: writeNewGame(): File not found/couldn't create file " + fnf);
+            return; //??
+        }
+        catch(IOException ioe)
+        {
+            System.out.println(">FILEGAMEDAO: writeNewGame(): Error while writing to file: " + ioe);
+            return; //??
+        }
 
 
         //also make a commands#.json file for this game to use!
-
+        String newCmdsFileName = "cmds" + newGameID + ".json";
+        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;
 
     }
 
