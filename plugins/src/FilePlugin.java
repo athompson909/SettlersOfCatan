@@ -2,6 +2,8 @@ import data_access.FileGameDAO;
 import data_access.FileUserDAO;
 import data_access.IGameDAO;
 import data_access.IUserDAO;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -40,7 +42,7 @@ public class FilePlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the game info.
      */
     @Override
-    public void writeGame(String gameJSON) {
+    public void writeGame(JSONArray gameJSON) {
         gameDAO.writeGame(gameJSON);
     }
 
@@ -49,7 +51,7 @@ public class FilePlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the new game info.
      */
     @Override
-    public void writeNewGame(String gameJSON) {
+    public void writeNewGame(JSONArray gameJSON) {
         gameDAO.writeNewGame(gameJSON);
     }
 
@@ -58,7 +60,7 @@ public class FilePlugin implements IPersistenceProvider {
      * @param commandJSON The type of command.
      */
     @Override
-    public void writeCommand(String commandJSON) {
+    public void writeCommand(JSONObject commandJSON) {
         gameDAO.writeCommand(commandJSON);
     }
 
@@ -67,7 +69,7 @@ public class FilePlugin implements IPersistenceProvider {
      * @param userJSON JSON with the new user info.
      */
     @Override
-    public void writeUser(String userJSON) {
+    public void writeUser(JSONObject userJSON) {
         userDAO.writeUser(userJSON);
     }
 
@@ -86,7 +88,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public String readAllGames() {
-        return gameDAO.readAllGames();
+        return gameDAO.readAllGames().toString();  //TODO: it might be better/easier to just keep this a JSONArray
     }
 
     /**
