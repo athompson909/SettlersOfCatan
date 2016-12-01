@@ -11,6 +11,13 @@ public class DBCreateHelper {
 
     private static String dbName;
 
+    public static String getDbName() {
+        return dbName;
+    }
+
+    public static void setDbName(String dbName) {
+        DBCreateHelper.dbName = dbName;
+    }
 
     /**
      * Connect to a sample database

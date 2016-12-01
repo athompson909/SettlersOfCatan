@@ -1,5 +1,6 @@
 package server.plugins.data_access;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -20,7 +21,7 @@ public class FileUserDAO implements IUserDAO {
      * @return a String with all the registered users.
      */
     @Override
-    public String readAllUsers() {
+    public JSONArray readAllUsers() {
         return null;
     }
 }

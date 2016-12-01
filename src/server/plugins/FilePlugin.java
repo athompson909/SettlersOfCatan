@@ -1,9 +1,7 @@
-package server.plugins;
-
-import server.plugins.data_access.FileGameDAO;
-import server.plugins.data_access.FileUserDAO;
-import server.plugins.data_access.IGameDAO;
-import server.plugins.data_access.IUserDAO;
+import data_access.FileGameDAO;
+import data_access.FileUserDAO;
+import data_access.IGameDAO;
+import data_access.IUserDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -80,7 +78,7 @@ public class FilePlugin implements IPersistenceProvider {
      * @return a String with all the registered users.
      */
     @Override
-    public String readAllUsers() {
+    public JSONArray readAllUsers() {
         return userDAO.readAllUsers();
     }
 
@@ -90,7 +88,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public JSONArray readAllGames() {
-        return gameDAO.readAllGames();  //TODO: it might be better/easier to just keep this a JSONArray
+        return gameDAO.readAllGames();
     }
 
     /**

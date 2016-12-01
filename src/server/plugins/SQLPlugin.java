@@ -123,7 +123,7 @@ public class SQLPlugin implements IPersistenceProvider {
      */
     public void createDatabase() {
         // if db does not exist: {
-        DBCreateHelper.createNewDatabase("catan");
+        DBCreateHelper.createNewDatabase("catan.db");
         // then create the tables
         // }
     }

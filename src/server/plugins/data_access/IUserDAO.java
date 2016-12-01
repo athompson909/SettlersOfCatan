@@ -1,5 +1,6 @@
 package server.plugins.data_access;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -16,6 +17,6 @@ public interface IUserDAO {
      * Reads all the users.
      * @return the list of users.
      */
-    String readAllUsers();
+    JSONArray readAllUsers();
 
 }

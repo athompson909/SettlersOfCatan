@@ -43,7 +43,7 @@ public interface IPersistenceProvider {
      * Reads all of the users registered.
      * @return a String with all the registered users.
      */
-    String readAllUsers();
+    JSONArray readAllUsers();
 
     /**
      * Reads all the games created.
