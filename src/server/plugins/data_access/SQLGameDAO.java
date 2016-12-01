@@ -10,19 +10,19 @@ public class SQLGameDAO implements IGameDAO {
 
     /**
      * Modifies an already existing game.
-     * @param gameJSON JSON with the game info.
+     * @param
      */
     @Override
-    public void writeGame(JSONArray gameJSON) {
+    public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
 
     }
 
     /**
      * Adds a new game.
-     * @param gameJSON JSON with the new game info.
+     * @param
      */
     @Override
-    public void writeNewGame(JSONArray gameJSON) {
+    public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
 
     }
 
