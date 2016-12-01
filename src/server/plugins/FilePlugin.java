@@ -1,7 +1,9 @@
-import data_access.FileGameDAO;
-import data_access.FileUserDAO;
-import data_access.IGameDAO;
-import data_access.IUserDAO;
+package server.plugins;
+
+import server.plugins.data_access.FileGameDAO;
+import server.plugins.data_access.FileUserDAO;
+import server.plugins.data_access.IGameDAO;
+import server.plugins.data_access.IUserDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
