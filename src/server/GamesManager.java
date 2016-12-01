@@ -303,4 +303,8 @@ public class GamesManager {
     }
 
     public HashMap<Integer, Game> getAllGames() {return allGames;}
+
+    public void setAllGames(HashMap<Integer, Game> games){
+        allGames = games;
+    }
 }
