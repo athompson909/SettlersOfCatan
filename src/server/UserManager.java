@@ -71,6 +71,8 @@ public class UserManager {
             User user = new User(username, password, userID);
             allUsers.put(userID, user);
             usersByUsername.put(user.getUserName(), user);
+            //save new user to database
+            PersistenceManager.getInstance().writeUser(userID, username, password);
             userID++;
             return true;
         }
