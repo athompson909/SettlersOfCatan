@@ -105,4 +105,13 @@ public class UserManager {
         return (user != null && password.equals(user.getUserPassword()));
     }
 
+    public void setAllUsers(HashMap allUsers){
+        this.allUsers = allUsers;
+
+        //create usersByUsername map
+        for(Object o: allUsers.values()){
+            User user = (User)o;
+            usersByUsername.put(user.getUserName(), user);
+        }
+    }
 }

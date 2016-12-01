@@ -1,4 +1,4 @@
-package data_access;
+package server.plugins.data_access;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

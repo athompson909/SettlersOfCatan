@@ -4,6 +4,8 @@ import client.data.GameInfo;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
+import java.util.HashMap;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
@@ -35,6 +37,12 @@ public class PersistenceManager {
        // persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
+    public void writeNewGame(String name, int gameID){
+        String gameInfoJSON = getGameInfoJSON(gameID);
+        String modelJSON = getModelJSON(gameID);
+ //       persistenceProvider.writeNewGame(gameID, name, modelJSON, gameInfoJSON);
+    }
+
     public void clearCommands(int gameID){
        // persistenceProvider.clearCommands(gameID);
     }
@@ -59,6 +67,29 @@ public class PersistenceManager {
         ClientModel model = game.getClientModel();
         return ServerTranslator.getInstance().modelToJSON(model);
     }
+    /**
+     * Reads all of the users registered.
+     * @return a String with all the registered users.
+     */
+    public void loadAllUsers(){
+//        String userJSON = persistenceProvider.readAllUsers();
+//        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
+//        UserManager.getInstance().setAllUsers(allUsers);
+    }
+
+    /**
+     *
+     */
+    public void loadAllGames(){
+//        String allGames = persistenceProvider.readAllGames();
+//        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
+//        GamesManager.getInstance().setAllGames(games);
+    }
+
+    /**
+     * Clears all the data.
+     */
+    void clearAllData(){}
 
     public void setPersistenceType(String type) {
           persistenceType = type;

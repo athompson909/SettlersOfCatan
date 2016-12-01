@@ -1,6 +1,7 @@
 package db_tests;
 
 import junit.framework.TestCase;
+import server.plugins.database_related.DBCreateHelper;
 
 
 /**
