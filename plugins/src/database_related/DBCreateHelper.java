@@ -1,4 +1,4 @@
-package db_tests;
+package database_related;
 
 import java.sql.*;
 
