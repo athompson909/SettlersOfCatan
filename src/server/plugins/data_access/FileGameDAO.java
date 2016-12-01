@@ -19,34 +19,69 @@ public class FileGameDAO implements IGameDAO {
     /**
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
      * Called when the server needs to save the ClientModel checkpoint!
-     * @param gameJSON JSON with the game info.
+     * @param
      */
     @Override
-    public void writeGame(JSONArray gameJSON) {
+    public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
 
-        //open a writeStream and overwrite the contents of the file with gameJSON
-        //gameJSON should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
+        //make a JSONArray using modelJSON and gameInfoJSON
+        JSONArray newGameJSONArr = new JSONArray();
+        JSONObject tempModelJSON = new JSONObject(modelJSON);
+        JSONObject tempGIJSON = new JSONObject(gameInfoJSON);
+        newGameJSONArr.put(tempModelJSON);
+        newGameJSONArr.put(tempGIJSON);
+        //now newGameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
+
+        //open a writeStream and overwrite the contents of the file with newGameJSONArr
+        //newGameJSONArr should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
 
 
     }
 
     /**
      * Adds a new game.
-     * @param gameJSON JSON with the new game info.
+     * @param
      */
     @Override
-    public void writeNewGame(JSONArray gameJSON) {
+    public void writeNewGame(int newGameID, String modelJSON, String gameInfoJSON) {
+
+        //make a JSONArray using modelJSON and gameInfoJSON
+        JSONArray newGameJSONArr = new JSONArray();
+            JSONObject tempModelJSON = new JSONObject(modelJSON);
+            JSONObject tempGIJSON = new JSONObject(gameInfoJSON);
+        newGameJSONArr.put(tempModelJSON);
+        newGameJSONArr.put(tempGIJSON);
+        //now newGameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
 
         //use the gameID to build a filename like: game#.json
         //make a new file with that filename
         //open a fileOutputStream and add the contents of the file with gameJSON
-        //gameJSON should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
+        //newGameJSONArr should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
 
+        //get gameID and make a filename with that
+        String newGameFileName = "game" + newGameID + ".json";
+        String newGameFilePath = baseGamesFilePath + newGameFileName;
 
+        try {
+            FileWriter fw = new FileWriter(newGameFilePath);    //use new FileWriter(path, true) if you want it to append
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(newGameJSONArr.toString()); //really big
+        }
+        catch(FileNotFoundException fnf)
+        {
+            System.out.println(">FILEGAMEDAO: writeNewGame(): File not found/couldn't create file " + fnf);
+            return; //??
+        }
+        catch(IOException ioe)
+        {
+            System.out.println(">FILEGAMEDAO: writeNewGame(): Error while writing to file: " + ioe);
+            return; //??
+        }
 
 
         //also make a commands#.json file for this game to use!
-
+        String newCmdsFileName = "cmds" + newGameID + ".json";
+        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;
 
     }
 

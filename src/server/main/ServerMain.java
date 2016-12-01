@@ -64,7 +64,7 @@ public class ServerMain {
 
             PersistenceManager.getInstance().setPersistenceType(args[2]);
             CommandManager.setCommandLimit(Integer.parseInt(args[3]));
-            //THE FIFTH ARGUMENT, args[4], TELLS US TO WIPE THE DATA...haven't done anything with it yet -Steph
+            PersistenceManager.getInstance().clearAllData();
         }
 
         Server server = new Server(hostNumber, Integer.parseInt(portNumber));

@@ -13,6 +13,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.ClientModel;
 import shared.model.TradeOffer;
+import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
 import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
@@ -207,6 +208,29 @@ public class ServerTranslator {
         return gameListJSONArr.toString();
     }
 
+    /**
+     *
+     * @param command
+     * @return
+     */
+    public String commandObjectToJSON(BaseCommand command) {
+        String commandJSONString = gsonTranslator.toJson(command);
+
+        return commandJSONString;
+    }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public JSONObject userToJSON(User user){
+        String userJSONString = gsonTranslator.toJson(user);
+
+        JSONObject userJSON = new JSONObject(userJSONString);
+
+        return userJSON;
+    }
     //HELPER FUNCTIONS
 
 

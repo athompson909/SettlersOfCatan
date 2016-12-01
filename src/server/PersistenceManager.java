@@ -87,7 +87,7 @@ public class PersistenceManager {
     /**
      * Clears all the data.
      */
-    void clearAllData(){}
+    public void clearAllData(){}
 
     public void setPersistenceType(String type) {
           persistenceType = type;
