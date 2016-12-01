@@ -1,5 +1,6 @@
 package server;
 
+import com.google.gson.annotations.SerializedName;
 import shared.locations.HexLocation;
 import shared.model.map.Port;
 
@@ -13,11 +14,13 @@ public class User {
     /**
      * Name of the user used to login.
      */
+    @SerializedName("username")
     private String userName;
 
     /**
      * Password user used to login.
      */
+    @SerializedName("password")
     private String userPassword;
 
     /**
