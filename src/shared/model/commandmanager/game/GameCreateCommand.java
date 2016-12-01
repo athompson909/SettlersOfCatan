@@ -74,7 +74,8 @@ public class GameCreateCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
-
+//todo - somewhere here tell persistence provider to create new game
+        //I don't think we need to log the command, just save the game (model and info)
         System.out.print("GameCreateCommand -> ServerExecute()");
         JSONObject requestJSON = new JSONObject(getRequest());
         name = requestJSON.getString("name");
@@ -82,7 +83,9 @@ public class GameCreateCommand extends BaseCommand {
         randomNumbers = requestJSON.getBoolean("randomNumbers");
         randomPorts = requestJSON.getBoolean("randomPorts");
 
-        GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), this);
+        GameCreateCommand command = new GameCreateCommand(name, randomTiles, randomNumbers, randomPorts);
+        GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), command);
+        //todo - do we need to check if the operation was successful?
         String fullResponseLoginCookieStr = "catan.game="+IServerFacade.getInstance().getGameId()+";Path=/;";
         List<String> cookieList = new ArrayList<>(1);
         cookieList.add(fullResponseLoginCookieStr);

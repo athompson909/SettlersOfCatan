@@ -62,12 +62,14 @@ public class GameJoinCommand extends BaseCommand {
         gameID = requestJSON.getInt("id");
         color = Converter.stringToCatanColor(requestJSON.getString("color"));
 
-        boolean success = IServerFacade.getInstance().join(getUserId(), this);
+        GameJoinCommand command = new GameJoinCommand(gameID, color);
+        boolean success = IServerFacade.getInstance().join(getUserId(), command);
         if(success) {
             String fullResponseLoginCookieStr = "catan.game="+gameID+";Path=/;";
             List<String> cookieList = new ArrayList<>(1);
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
+            IServerFacade.getInstance().logCommand(getGameId(), command);
         }
 
         return (success ? "Success" : null);
