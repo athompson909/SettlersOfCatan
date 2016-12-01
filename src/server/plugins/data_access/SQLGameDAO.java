@@ -1,4 +1,7 @@
-package data_access;
+package server.plugins.data_access;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -10,7 +13,7 @@ public class SQLGameDAO implements IGameDAO {
      * @param gameJSON JSON with the game info.
      */
     @Override
-    public void writeGame(String gameJSON) {
+    public void writeGame(JSONArray gameJSON) {
 
     }
 
@@ -19,7 +22,7 @@ public class SQLGameDAO implements IGameDAO {
      * @param gameJSON JSON with the new game info.
      */
     @Override
-    public void writeNewGame(String gameJSON) {
+    public void writeNewGame(JSONArray gameJSON) {
 
     }
 
@@ -28,7 +31,7 @@ public class SQLGameDAO implements IGameDAO {
      * @param commandJSON The type of command.
      */
     @Override
-    public void writeCommand(String commandJSON) {
+    public void writeCommand(JSONObject commandJSON) {
 
     }
 
@@ -37,7 +40,7 @@ public class SQLGameDAO implements IGameDAO {
      * @return a String with all the created games.
      */
     @Override
-    public String readAllGames() {
+    public JSONArray readAllGames() {
         return null;
     }
 }

@@ -1,8 +1,12 @@
-import data_access.IGameDAO;
-import data_access.IUserDAO;
-import data_access.SQLGameDAO;
-import data_access.SQLUserDAO;
-import database_related.DBCreateHelper;
+package server.plugins;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import server.plugins.data_access.IGameDAO;
+import server.plugins.data_access.IUserDAO;
+import server.plugins.data_access.SQLGameDAO;
+import server.plugins.data_access.SQLUserDAO;
+import server.plugins.database_related.DBCreateHelper;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -41,7 +45,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the game info.
      */
     @Override
-    public void writeGame(String gameJSON) {
+    public void writeGame(JSONArray gameJSON) {
         gameDAO.writeGame(gameJSON);
     }
 
@@ -50,7 +54,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the new game info.
      */
     @Override
-    public void writeNewGame(String gameJSON) {
+    public void writeNewGame(JSONArray gameJSON) {
         gameDAO.writeNewGame(gameJSON);
     }
 
@@ -59,7 +63,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * @param commandJSON The type of command.
      */
     @Override
-    public void writeCommand(String commandJSON) {
+    public void writeCommand(JSONObject commandJSON) {
         gameDAO.writeCommand(commandJSON);
     }
 
@@ -68,7 +72,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * @param userJSON JSON with the new user info.
      */
     @Override
-    public void writeUser(String userJSON) {
+    public void writeUser(JSONObject userJSON) {
         userDAO.writeUser(userJSON);
     }
 
@@ -86,7 +90,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * @return a String with all the created games.
      */
     @Override
-    public String readAllGames() {
+    public JSONArray readAllGames() {
         return gameDAO.readAllGames();
     }
 

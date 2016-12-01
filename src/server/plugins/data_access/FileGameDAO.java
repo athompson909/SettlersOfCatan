@@ -1,6 +1,5 @@
-package data_access;
+package server.plugins.data_access;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

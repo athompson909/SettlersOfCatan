@@ -1,3 +1,5 @@
+package server.plugins;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,7 +49,7 @@ public interface IPersistenceProvider {
      * Reads all the games created.
      * @return a String with all the created games.
      */
-    String readAllGames();
+    JSONArray readAllGames();
 
     /**
      * Clears all the data.
