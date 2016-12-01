@@ -64,7 +64,7 @@ public class ServerMain {
 
             PersistenceManager.getInstance().setPersistenceType(args[2]);
             CommandManager.setCommandLimit(Integer.parseInt(args[3]));
-            //PersistenceManager.getInstance().clearAllData();
+            PersistenceManager.getInstance().clearAllData();
         }
 
         Server server = new Server(hostNumber, Integer.parseInt(portNumber));
