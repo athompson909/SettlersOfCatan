@@ -34,6 +34,7 @@ public class FilePlugin implements IPersistenceProvider {
      */
     private FilePlugin(){
     }
+
     /**
      * Modifies an already existing game.
      * @param gameJSON JSON with the game info.
