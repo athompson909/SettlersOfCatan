@@ -45,8 +45,8 @@ public class SQLPlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the game info.
      */
     @Override
-    public void writeGame(JSONArray gameJSON) {
-        gameDAO.writeGame(gameJSON);
+    public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
+        gameDAO.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
     /**
@@ -54,8 +54,8 @@ public class SQLPlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the new game info.
      */
     @Override
-    public void writeNewGame(JSONArray gameJSON) {
-        gameDAO.writeNewGame(gameJSON);
+    public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
+        gameDAO.writeNewGame(gameID, modelJSON, gameInfoJSON);
     }
 
     /**
@@ -81,7 +81,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * @return a String with all the registered users.
      */
     @Override
-    public String readAllUsers() {
+    public JSONArray readAllUsers() {
         return userDAO.readAllUsers();
     }
 
@@ -99,6 +99,11 @@ public class SQLPlugin implements IPersistenceProvider {
      */
     @Override
     public void clearAllData() {
+
+    }
+
+    @Override
+    public void clearCommands(int gameID) {
 
     }
 

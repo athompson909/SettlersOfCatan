@@ -1,7 +1,9 @@
-import data_access.FileGameDAO;
-import data_access.FileUserDAO;
-import data_access.IGameDAO;
-import data_access.IUserDAO;
+package server.plugins;
+
+import server.plugins.data_access.IUserDAO;
+import server.plugins.data_access.IGameDAO;
+import server.plugins.data_access.FileUserDAO;
+import server.plugins.data_access.FileGameDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,11 +41,10 @@ public class FilePlugin implements IPersistenceProvider {
 
     /**
      * Modifies an already existing game.
-     * @param gameJSON JSON with the game info.
      */
     @Override
-    public void writeGame(JSONArray gameJSON) {
-        gameDAO.writeGame(gameJSON);
+    public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
+        gameDAO.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
     /**
@@ -51,8 +52,8 @@ public class FilePlugin implements IPersistenceProvider {
      * @param gameJSON JSON with the new game info.
      */
     @Override
-    public void writeNewGame(JSONArray gameJSON) {
-        gameDAO.writeNewGame(gameJSON);
+    public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
+        gameDAO.writeNewGame(gameID, modelJSON, gameInfoJSON);
     }
 
     /**
@@ -96,6 +97,11 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void clearAllData() {
+
+    }
+
+    @Override
+    public void clearCommands(int gameID) {
 
     }
 

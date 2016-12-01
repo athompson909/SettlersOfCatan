@@ -1,6 +1,7 @@
 package db_tests;
 
 import org.json.JSONObject;
+import server.plugins.database_related.DBCreateHelper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

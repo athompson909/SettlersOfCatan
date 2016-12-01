@@ -1,6 +1,9 @@
 package server;
 
 import client.data.GameInfo;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import server.plugins.IPersistenceProvider;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
 
@@ -20,40 +23,34 @@ public class PersistenceManager {
 
     }
 //Persistence provider
-//    private static IPersistenceProvider persistenceProvider;
-//
-////    public static void setPersistenceProvider(IPersistenceProvider provider){
-////        persistenceProvider = provider;
-////    }
-////
-////    public static IPersistenceProvider getPersistenceProvider(){
-////        return persistenceProvider;
-////    }
+    private IPersistenceProvider persistenceProvider;
+
 
     public void writeGame(int gameID){
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
         //todo - see if I can do this
-       // persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
+        persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
     public void writeNewGame(String name, int gameID){
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
- //       persistenceProvider.writeNewGame(gameID, name, modelJSON, gameInfoJSON);
+        persistenceProvider.writeNewGame(gameID, modelJSON, gameInfoJSON);
     }
 
     public void clearCommands(int gameID){
-       // persistenceProvider.clearCommands(gameID);
+        persistenceProvider.clearCommands(gameID);
     }
 
     public void writeCommand(int gameID, BaseCommand command){
-//        String commandJSON = ServerTranslator.getInstance().commandToJSON(command);
-//        persistenceProvider.writeCommand(gameID, commandJSON);
+        String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
+        persistenceProvider.writeCommand(gameID, commandJSON);
     }
 
-    public void writeUser(int userID, String username, String password){
-        //persistenceProvider.writeUser(userID, username, password);
+    public void writeUser(User user){
+        JSONObject userJSON = ServerTranslator.getInstance().userToJSON(user);
+        persistenceProvider.writeUser(userJSON);
     }
 
     private String getGameInfoJSON(int gameID){
@@ -67,23 +64,24 @@ public class PersistenceManager {
         ClientModel model = game.getClientModel();
         return ServerTranslator.getInstance().modelToJSON(model);
     }
+
     /**
      * Reads all of the users registered.
      * @return a String with all the registered users.
      */
     public void loadAllUsers(){
-//        String userJSON = persistenceProvider.readAllUsers();
-//        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
-//        UserManager.getInstance().setAllUsers(allUsers);
+        JSONArray userJSON = persistenceProvider.readAllUsers();
+        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
+        UserManager.getInstance().setAllUsers(allUsers);
     }
 
     /**
      *
      */
     public void loadAllGames(){
-//        String allGames = persistenceProvider.readAllGames();
-//        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
-//        GamesManager.getInstance().setAllGames(games);
+        JSONArray allGames = persistenceProvider.readAllGames();
+        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
+        GamesManager.getInstance().setAllGames(games);
     }
 
     /**
@@ -93,10 +91,18 @@ public class PersistenceManager {
 
     public void setPersistenceType(String type) {
           persistenceType = type;
-//        try {
-//            persistenceProvider = Class.forName(type);
-//        }catch (ClassNotFoundException e) {
-//            System.out.println("Persistence Provider class name incorrect");
-//        }
+        Class c = null;
+        try {
+            c = Class.forName(type);
+            persistenceProvider = (IPersistenceProvider)c.newInstance();
+        }catch (ClassNotFoundException e) {
+            System.out.println("Persistence Provider class name incorrect");
+        }catch (InstantiationException e) {
+            System.out.println("Instantiation Exception");
+            e.printStackTrace();
+        }catch (IllegalAccessException e) {
+            System.out.println("Illegal Access Exception");
+            e.printStackTrace();
+        }
     }
 }
