@@ -305,6 +305,8 @@ public class GamesManager {
     public HashMap<Integer, Game> getAllGames() {return allGames;}
 
     public void setAllGames(HashMap<Integer, Game> games){
+
+        //games could be size 0 if no game files are found
         allGames = games;
     }
 }

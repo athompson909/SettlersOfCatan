@@ -32,6 +32,7 @@ public class PersistenceManager {
         persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
+    //We probably don't really need this function -Sierra
     public void writeNewGame(String name, int gameID){
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
