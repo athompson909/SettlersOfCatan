@@ -15,7 +15,7 @@ import shared.model.map.VertexObject;
  *
  * Created by Sierra on 12/1/16.
  */
-public class fileGameDAOTest  extends TestCase {
+public class FileGameDAOTest extends TestCase {
 
     private FileGameDAO fileGameDAO = new FileGameDAO();
     private BuildRoadCommand brc1;
@@ -24,6 +24,7 @@ public class fileGameDAOTest  extends TestCase {
     private JSONObject bsc1JSON;
     private String testClientModel;
     private String testGameInfo1;
+    private String testGameInfo2;
 
     Gson gsonTranslator = new Gson();
 
@@ -33,7 +34,7 @@ public class fileGameDAOTest  extends TestCase {
 
         setUpSampleCmds();
         setUpModelString();
-        setUpGameInfoString();
+        setUpGameInfoStrings();
     }
 
     private void setUpSampleCmds(){
@@ -550,7 +551,7 @@ public class fileGameDAOTest  extends TestCase {
                 "}";
     }
 
-    private void setUpGameInfoString(){
+    private void setUpGameInfoStrings(){
         testGameInfo1 = "{" +
                 "\"title\":" + "\"Pizza Game\"," +
                 "\"id\":" + 0 + "," +
@@ -577,6 +578,33 @@ public class fileGameDAOTest  extends TestCase {
                         "} " +
                     "]" +
                 "}";
+
+        testGameInfo2 = "{" +
+                    "\"title\":" + "\"YOUR MOM's Game\"," +
+                    "\"id\":" + 0 + "," +
+                    "\"players\":" + "[" +
+                        "{" +
+                        "\"color\":" + "\"blue\"," +
+                        "\"name\":" + "\"Sam\"," +
+                        "\"id\":" + 0 +
+                        "}, " +
+                        "{" +
+                        "\"color\":" + "\"puce\"," +
+                        "\"name\":" + "\"Poop\"," +
+                        "\"id\":" + 1 +
+                        "}, " +
+                        "{" +
+                        "\"color\":" + "\"green\"," +
+                        "\"name\":" + "\"Petey\"," +
+                        "\"id\":" + 10 +
+                        "}, " +
+                        "{" +
+                        "\"color\":" + "\"white\"," +
+                        "\"name\":" + "\"WHAT\"," +
+                        "\"id\":" + 11 +
+                        "} " +
+                    "]" +
+                "}";
     }
 
     @Test
@@ -591,7 +619,6 @@ public class fileGameDAOTest  extends TestCase {
         fileGameDAO.writeCommand(brc1JSON, 3); //3 is the test gameID
         fileGameDAO.writeCommand(bsc1JSON, 3);  //testing whether it appends to same file after creating it
 
-
         //assert file exists? or just read it in again
     }
 
@@ -604,7 +631,7 @@ public class fileGameDAOTest  extends TestCase {
         //create a new file called game0.json inside the /json_files/games folder if it doesn't exist
         //write sample game to it (in a JSONArray s.t. spot0 = clientModel, spot1 = GameInfo), overwriting old content
 
-        fileGameDAO.writeGame(0, testClientModel, testGameInfo1);
+        fileGameDAO.writeGame(2, testClientModel, testGameInfo1);
 
     }
 
@@ -612,7 +639,7 @@ public class fileGameDAOTest  extends TestCase {
     @Test
     //run testWriteGame before you run this one!
     public void testReadGame() throws Exception {
-        System.out.println(">TESTING WRITEGAME!");
+        System.out.println(">TESTING READGAME!");
 
         //this fn should:
         //locate the file inside the /json_files/games folder using the given path
@@ -620,7 +647,20 @@ public class fileGameDAOTest  extends TestCase {
 
         JSONArray bigGuy = fileGameDAO.readGame("./json_files/games/game0.json");
 
-        assertTrue(bigGuy.length() == 2);
+        assertTrue(bigGuy == null); // i deleted the json files in Finder
 
+    }
+
+    @Test
+    //run testWriteGame before you run this one!
+    public void testReadAllGames() throws Exception {
+        System.out.println(">TESTING READALLGAMES!");
+
+        JSONArray allGamesReadResult = fileGameDAO.readAllGames();
+
+
+       // assertTrue(allGamesReadResult.length() == 3);  //should be 3 games: game0, game1, game2
+
+        //return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
     }
 }

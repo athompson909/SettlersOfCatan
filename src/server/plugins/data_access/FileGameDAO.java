@@ -136,9 +136,9 @@ public class FileGameDAO implements IGameDAO {
 
 
     /**
-     * Reads all the games created.
+     * Reads all the games created by scanning the default file location for game files: /json_files/games
      *
-     * @return a JSONArray with all the created games. Each entry in the JSONArray is another JSONArray with 2 entries:
+     * @return a JSONArray with all the created games. Each entry in that JSONArray is another JSONArray with 2 entries:
      *              one for the game's clientModel, and one for the game's gameInfo.
      */
     @Override
@@ -158,13 +158,14 @@ public class FileGameDAO implements IGameDAO {
         //try reading the first file:
         JSONArray readGameResultJSONArr = readGame(currGameFilePath);
         // the result of that first file read is saved to the collector JSONArr in the first loop iteration IF IT WORKED:
-        while (readGameResultJSONArr != null){
+        while (readGameResultJSONArr != null){  //if the first read isn't 0, there is at least 1 game file in there.
 
             //if readGame returns a JSONArray, it's good, so add it as an entry to allGamesJSONArr.
             allGamesJSONArray.put(readGameResultJSONArr);
 
-            //now try the next file:
-            currGameID++;  //there's no way the user can ever delete a game from the Client side. Or the server side. so this should work...
+            //now try the next file - there's no way the user can ever delete a game from the Client side, or the server side.
+            //so the games should never be out of order.
+            currGameID++;
             currGameFileName = "game" + currGameID + ".json";
             currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new filename
             //let readGame() try reading this new filename:
@@ -176,7 +177,7 @@ public class FileGameDAO implements IGameDAO {
             System.out.println(">FILEGAMEDAO; readAllGames: looks like no game files were read... ");
         }
 
-        return allGamesJSONArray;
+        return allGamesJSONArray; //whoever gets this result should plan for it to be size 0
     }
 
     /**
@@ -204,11 +205,10 @@ public class FileGameDAO implements IGameDAO {
             Scanner scanner = new Scanner(isr);
 
             while (scanner.hasNextLine()){
-                //add currline just read to the collector string. we'll convert it into a JSONObject after it's all read.
-                allJSON += scanner.nextLine();
+                allJSON += scanner.nextLine(); //this just gets is in one line
             }
 
-                System.out.println(">>FILEGAMEDAO: readGame(): file read good! got allJSON= " + allJSON);
+                System.out.println(">>FILEGAMEDAO: readGame(): file read ok!");
 
             scanner.close();
 
