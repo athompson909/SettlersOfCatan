@@ -7,6 +7,8 @@ import server.plugins.SQLPlugin;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -21,14 +23,14 @@ public class SQLGameDAO implements IGameDAO {
     public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
 
         try {
-            Connection conn = SQLPlugin.getInstance().startTransaction();
+            Connection conn = SQLPlugin.startTransaction();
 
             Statement statement = conn.createStatement();
             String sql = "UPDATE games SET model = " + modelJSON + ", gameInfo = " + gameInfoJSON + " WHERE gameID = " + gameID;
             statement.execute(sql);
 
             statement.close();
-            SQLPlugin.getInstance().endTransaction(conn, true);
+            SQLPlugin.endTransaction(conn, true);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -45,15 +47,18 @@ public class SQLGameDAO implements IGameDAO {
     public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
 
         try {
-            Connection conn = SQLPlugin.getInstance().startTransaction();
+            Connection conn = SQLPlugin.startTransaction();
+
+            modelJSON = formatForSQL(modelJSON);
+            gameInfoJSON = formatForSQL(gameInfoJSON);
 
             Statement statement = conn.createStatement();
-            String sql = "INSERT INTO games (gameID, title, model, gameInfo) " +
-                    "VALUES (" + gameID + ", null," + modelJSON + "," + gameInfoJSON + ")";
+            String sql = "INSERT INTO games (gameID, model, gameInfo) " +
+                    "VALUES (" + gameID + ", \'" + modelJSON + "\',\'" + gameInfoJSON + "\')";
             statement.execute(sql);
 
             statement.close();
-            SQLPlugin.getInstance().endTransaction(conn, true);
+            SQLPlugin.endTransaction(conn, true);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -70,15 +75,17 @@ public class SQLGameDAO implements IGameDAO {
     @Override
     public void writeCommand(JSONObject commandJSON, int gameID) {
         try {
-            Connection conn = SQLPlugin.getInstance().startTransaction();
+            Connection conn = SQLPlugin.startTransaction();
+
+            String commandJSONStr = formatForSQL(commandJSON.toString());
 
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO commands (gameID, command) " +
-                    "VALUES (" + gameID + "," + commandJSON + ")";
+                    "VALUES (" + gameID + "," + commandJSONStr + ")";
             statement.execute(sql);
 
             statement.close();
-            SQLPlugin.getInstance().endTransaction(conn, true);
+            SQLPlugin.endTransaction(conn, true);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +101,7 @@ public class SQLGameDAO implements IGameDAO {
     public JSONArray readAllGames() {
 
         try {
-            Connection conn = SQLPlugin.getInstance().startTransaction();
+            Connection conn = SQLPlugin.startTransaction();
 
             Statement statement = conn.createStatement();
             String sql = "SELECT * FROM games";
@@ -111,7 +118,7 @@ public class SQLGameDAO implements IGameDAO {
             jsonResult += "]";
 
             statement.close();
-            SQLPlugin.getInstance().endTransaction(conn, true);
+            SQLPlugin.endTransaction(conn, true);
 
             return new JSONArray(jsonResult);
         }
@@ -120,5 +127,22 @@ public class SQLGameDAO implements IGameDAO {
         }
 
         return null;
+    }
+
+
+    private String formatForSQL(String str) {
+        List<Integer> indexes = new ArrayList<>();
+        int index = str.indexOf('\'');
+        while (index >= 0) {
+            indexes.add(index);
+            index = str.indexOf('\'', index + 1);
+        }
+
+        int offset = 0;
+        for (int i : indexes) {
+            str = str.substring(0, i+offset) + "'" + str.substring(i+offset, str.length());
+            offset++;
+        }
+        return str;
     }
 }

@@ -24,7 +24,7 @@ public class SQLUserDAO implements IUserDAO {
         String password = newGameJSON.getString("password");
 
         try {
-            Connection conn = SQLPlugin.getInstance().startTransaction();
+            Connection conn = SQLPlugin.startTransaction();
 
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO users (userId, username, password) " +
@@ -32,7 +32,7 @@ public class SQLUserDAO implements IUserDAO {
             statement.execute(sql);
 
             statement.close();
-            SQLPlugin.getInstance().endTransaction(conn, true);
+            SQLPlugin.endTransaction(conn, true);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class SQLUserDAO implements IUserDAO {
     public JSONArray readAllUsers() {
 
         try {
-            Connection conn = SQLPlugin.getInstance().startTransaction();
+            Connection conn = SQLPlugin.startTransaction();
 
             Statement statement = conn.createStatement();
             String sql = "SELECT * FROM users";
@@ -63,7 +63,7 @@ public class SQLUserDAO implements IUserDAO {
             jsonResult += "]";
 
             statement.close();
-            SQLPlugin.getInstance().endTransaction(conn, true);
+            SQLPlugin.endTransaction(conn, true);
 
             return new JSONArray(jsonResult);
         }
