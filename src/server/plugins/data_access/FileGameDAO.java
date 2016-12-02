@@ -13,7 +13,14 @@ import java.util.Scanner;
  */
 public class FileGameDAO implements IGameDAO {
 
-    private static String baseGamesFilePath = "./json_files/games/";  //wow I can't believe that worked
+    private static String baseGamesFilePath = "./json_files/games/";
+
+
+    /**
+     * Constructor
+     *
+     */
+    public FileGameDAO(){}
 
     /**
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
@@ -63,6 +70,7 @@ public class FileGameDAO implements IGameDAO {
      * Adds a new game. we may be able to combine this function with WriteGame
      * @param
      */
+    //THIS IS NOT NECESSARY
     @Override
     public void writeNewGame(int newGameID, String modelJSON, String gameInfoJSON) {
 
