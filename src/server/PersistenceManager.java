@@ -39,7 +39,6 @@ public class PersistenceManager {
     public void writeGame(int gameID){
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
-        //todo - see if I can do this
         persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
@@ -55,9 +54,8 @@ public class PersistenceManager {
 
     public void writeCommand(int gameID, BaseCommand command){
         String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
-
-        JSONObject commandJSONObj = new JSONObject(commandJSON);  //we are converting back and forth way too much
-        persistenceProvider.writeCommand(commandJSONObj, gameID);
+        JSONObject commandJSONobject = new JSONObject(commandJSON);
+        persistenceProvider.writeCommand(commandJSONobject, gameID);
     }
 
     public void writeUser(User user){
