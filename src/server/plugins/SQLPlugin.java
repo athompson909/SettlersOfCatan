@@ -26,22 +26,8 @@ public class SQLPlugin implements IPersistenceProvider {
      */
     private IGameDAO gameDAO = new SQLGameDAO();
 
-    /**
-     * Singleton
-     */
-    private static SQLPlugin instance = new SQLPlugin() {};
+    public SQLPlugin() {
 
-    /**
-     * @return singleton sqlPlugin
-     */
-    public static IPersistenceProvider getInstance() {
-        return instance;
-    }
-
-    /**
-     * private constructor to make singleton
-     */
-    private SQLPlugin(){
     }
 
     /**

@@ -26,23 +26,6 @@ public class FilePlugin implements IPersistenceProvider {
     public FilePlugin() {
 
     }
-    /**
-     * Singleton
-     */
-//    private static FilePlugin instance = new FilePlugin() {};
-
-    /**
-     * @return singleton filePlugin
-     */
- /*   public static IPersistenceProvider getInstance() {
-        return instance;
-    }
-
-    /**
-     * private constructor to make singleton
-     */
-/*    private FilePlugin(){
-    }
 
     /**
      * Modifies an already existing game.
