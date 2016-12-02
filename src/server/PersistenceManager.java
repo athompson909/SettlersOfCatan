@@ -29,7 +29,6 @@ public class PersistenceManager {
         return instance;
     }
     private PersistenceManager() {
-        //todo:this path is hardcoded from Steph's computer. Need to figure out the correct path to work for all of us.
         parseConfig("./config.json");
     }
 //Persistence provider
@@ -128,15 +127,14 @@ public class PersistenceManager {
         JSONObject plugin = pluginListObj.getJSONObject(type);
         Class c = null;
         try {
-            URL url = new URL("file", "localhost:", plugin.getString("path"));
-            URL[] myURLArray = {url};
-            ClassLoader loader = new URLClassLoader(myURLArray);
-            loader.loadClass(plugin.getString("name"));
+        //    URL url = new URL("file", "localhost:", plugin.getString("path"));
+        //    URL[] myURLArray = {url};
+        //    ClassLoader loader = new URLClassLoader(myURLArray);//   loader.loadClass(plugin.getString("name"));
 
-            c = Class.forName(type);
+            c = Class.forName(plugin.getString("path"));
             persistenceProvider = (IPersistenceProvider) c.newInstance();
-        }catch (MalformedURLException e) {
-            System.out.println("Malformed URL");
+      //  }catch (MalformedURLException e) {
+      //      System.out.println("Malformed URL");
         }catch (ClassNotFoundException e) {
             System.out.println("Persistence Provider class name incorrect");
         }catch (InstantiationException e) {

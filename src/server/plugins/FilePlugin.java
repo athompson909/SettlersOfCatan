@@ -23,22 +23,25 @@ public class FilePlugin implements IPersistenceProvider {
      */
     private IGameDAO gameDAO = new FileGameDAO();
 
+    public FilePlugin() {
+
+    }
     /**
      * Singleton
      */
-    private static FilePlugin instance = new FilePlugin() {};
+//    private static FilePlugin instance = new FilePlugin() {};
 
     /**
      * @return singleton filePlugin
      */
-    public static IPersistenceProvider getInstance() {
+ /*   public static IPersistenceProvider getInstance() {
         return instance;
     }
 
     /**
      * private constructor to make singleton
      */
-    private FilePlugin(){
+/*    private FilePlugin(){
     }
 
     /**
