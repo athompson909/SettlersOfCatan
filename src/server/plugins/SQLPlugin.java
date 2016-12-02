@@ -118,12 +118,10 @@ public class SQLPlugin implements IPersistenceProvider {
             e.printStackTrace();
         }
 
-    }
-
-    /**
+    }    /**
      * Starts transaction with database
      */
-    public Connection startTransaction() throws Exception {
+    public static Connection startTransaction() throws Exception {
 
         Connection conn = null;
 
@@ -139,7 +137,7 @@ public class SQLPlugin implements IPersistenceProvider {
      * ends transaction with database
      * @param commit - whether or not to commit the transaction
      */
-    public void endTransaction(Connection conn, boolean commit) throws Exception {
+    public static void endTransaction(Connection conn, boolean commit) throws Exception {
 
         if(commit) conn.commit();
 
@@ -151,6 +149,6 @@ public class SQLPlugin implements IPersistenceProvider {
      */
     public void createDatabase() {
 
-        DBCreateHelper.createNewDatabase("catan.db");
+        DBCreateHelper.createNewDatabase();
     }
 }
