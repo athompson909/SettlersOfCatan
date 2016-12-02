@@ -9,7 +9,7 @@ import java.sql.*;
 public class DBCreateHelper {
 
 
-    private static String dbName;
+    private static String dbName = "catan.db";
 
     public static String getDbName() {
         return dbName;
@@ -24,11 +24,9 @@ public class DBCreateHelper {
      *
      * This doesn't work... talk to the TAs
      *
-     * @param fileName the database file name
      */
-    public static void createNewDatabase(String fileName) {
+    public static void createNewDatabase() {
 
-        dbName = fileName;
         try {
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:" + dbName;
@@ -65,14 +63,10 @@ public class DBCreateHelper {
         statement.execute("drop table if exists commands");
         statement.execute(CREATE_TABLE_COMMANDS_STATEMENT);
 
-        statement.execute("drop table if exists gamesToUsers");
-        statement.execute(CREATE_TABLE_GAMES_TO_USERS_STATEMENT);
-
     }
 
     private static final String CREATE_TABLE_GAMES_STATEMENT = "CREATE TABLE games\n" +
             "(gameID INTEGER DEFAULT 0 NOT NULL,\n" +
-            "title VARCHAR(25) NOT NULL,\n" +
             "model TEXT NOT NULL,\n" +
             "gameInfo TEXT NOT NULL,\n" +
             "PRIMARY KEY (gameID)) ";
@@ -86,14 +80,6 @@ public class DBCreateHelper {
     public static final String CREATE_TABLE_COMMANDS_STATEMENT = "CREATE TABLE commands\n" +
             "(gameID INTEGER NOT NULL,\n" +
             "command TEXT NOT NULL,\n" +
-            "PRIMARY KEY (gameID))";
-
-    private static final String CREATE_TABLE_GAMES_TO_USERS_STATEMENT = "CREATE TABLE gamesToUsers\n" +
-            "(gameID INTEGER NOT NULL,\n" +
-            "userID0 INTEGER,\n" +
-            "userID1 INTEGER,\n" +
-            "userID2 INTEGER,\n" +
-            "userID3 INTEGER,\n" +
             "PRIMARY KEY (gameID))";
 
 }

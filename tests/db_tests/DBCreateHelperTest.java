@@ -10,6 +10,6 @@ import server.plugins.database_related.DBCreateHelper;
 public class DBCreateHelperTest extends TestCase {
 
     public void testCreateDatabase() {
-        DBCreateHelper.createNewDatabase("catan.db");
+        DBCreateHelper.createNewDatabase();
     }
 }
