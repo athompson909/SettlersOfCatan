@@ -7,12 +7,18 @@ import server.plugins.data_access.FileGameDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.sql.Connection;
 
 /**
  * Created by adamthompson on 11/29/16.
  */
 public class FilePlugin implements IPersistenceProvider {
+
+    private static File baseDirectory = new File("./json_files");
+    private static File gamesDirectory = new File("./json_files/games");
+    private static File usersDirectory = new File("./json_files/users");
+
     /**
      * IUserDAO to access users
      */
@@ -23,7 +29,25 @@ public class FilePlugin implements IPersistenceProvider {
      */
     private IGameDAO gameDAO = new FileGameDAO();
 
+    /**
+     * Constructor
+     * creates the required directories if they don't exist already in the file structure
+     */
     public FilePlugin() {
+
+        if (!baseDirectory.exists()){
+            //create the required file structure
+            baseDirectory.mkdir();
+
+            if (!gamesDirectory.exists()){
+                gamesDirectory.mkdir();
+            }
+            if (!usersDirectory.exists()){
+                usersDirectory.mkdir();
+            }
+
+            System.out.println(">FILEGAMEDAO: directories created");
+        }
 
     }
     /**
