@@ -58,7 +58,9 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
-        gameDAO.writeNewGame(gameID, modelJSON, gameInfoJSON);
+        //gameDAO.writeNewGame(gameID, modelJSON, gameInfoJSON);
+        gameDAO.writeGame(gameID, modelJSON, gameInfoJSON);  //writeNewGame works the same as writeGame on the FileDAO
+
     }
 
     /**
