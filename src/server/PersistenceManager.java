@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import server.plugins.IPersistenceProvider;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
+import server.plugins.*;
 
 import java.util.HashMap;
 
@@ -92,10 +93,10 @@ public class PersistenceManager {
     public void clearAllData(){}
 
     public void setPersistenceType(String type) {
-          persistenceType = type;
+        persistenceType = type;
         Class c = null;
         try {
-            c = Class.forName(type);
+            c = Class.forName("server.plugins.FilePlugin");
             persistenceProvider = (IPersistenceProvider)c.newInstance();
         }catch (ClassNotFoundException e) {
             System.out.println("Persistence Provider class name incorrect");
