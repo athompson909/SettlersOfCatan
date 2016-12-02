@@ -13,12 +13,12 @@ import java.sql.Statement;
  *
  * THIS IS FOR TESTING PURPOSES ONLY (MUCH OF WHAT'S IN HERE HAS BEEN COPIED OVER TO THE ACTUAL PLUGINS)
  */
-public class SQLPlugin {
+public class SQLPluginDemo {
     /**
      * private constructor to make singleton
      * (this isn't a singleton in db_tests package) ***
      */
-    public SQLPlugin(){
+    public SQLPluginDemo(){
     }
 
     /**
@@ -258,9 +258,6 @@ public class SQLPlugin {
      * creates a database if none exist or if the user asks it to be deleted and recreated
      */
     public void createDatabase() {
-        // if db does not exist: {
-        DBCreateHelper.createNewDatabase("catan.db");
-        // then create the tables
-        // }
+        DBCreateHelper.createNewDatabase();
     }
 }

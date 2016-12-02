@@ -3,8 +3,6 @@ package server.plugins;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-
 /**
  * Created by adamthompson on 11/29/16.
  */
@@ -58,17 +56,5 @@ public interface IPersistenceProvider {
     void clearAllData();
 
     void clearCommands(int gameID);
-
-    /**
-     * Starts transaction with database
-     */
-    Connection startTransaction() throws Exception;
-
-    /**
-     * ends transaction with database
-     * @param conn the connection already initiated to the database
-     * @param commit - whether or not to commit the transaction
-     */
-    void endTransaction(Connection conn, boolean commit) throws Exception;
 
 }

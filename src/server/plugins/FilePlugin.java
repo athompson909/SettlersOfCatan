@@ -1,13 +1,11 @@
 package server.plugins;
 
-import server.plugins.data_access.IUserDAO;
-import server.plugins.data_access.IGameDAO;
-import server.plugins.data_access.FileUserDAO;
-import server.plugins.data_access.FileGameDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.sql.Connection;
+import server.plugins.data_access.FileGameDAO;
+import server.plugins.data_access.FileUserDAO;
+import server.plugins.data_access.IGameDAO;
+import server.plugins.data_access.IUserDAO;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -25,23 +23,6 @@ public class FilePlugin implements IPersistenceProvider {
 
     public FilePlugin() {
 
-    }
-    /**
-     * Singleton
-     */
-//    private static FilePlugin instance = new FilePlugin() {};
-
-    /**
-     * @return singleton filePlugin
-     */
- /*   public static IPersistenceProvider getInstance() {
-        return instance;
-    }
-
-    /**
-     * private constructor to make singleton
-     */
-/*    private FilePlugin(){
     }
 
     /**
@@ -110,22 +91,6 @@ public class FilePlugin implements IPersistenceProvider {
 
     @Override
     public void clearCommands(int gameID) {
-
-    }
-
-    /**
-     * Starts transaction with database
-     */
-    public Connection startTransaction(){
-
-        return null;
-    }
-
-    /**
-     * ends transaction with database
-     * @param commit - whether or not to commit the transaction
-     */
-    public void endTransaction(Connection temp, boolean commit){
 
     }
 }
