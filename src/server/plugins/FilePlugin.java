@@ -49,7 +49,7 @@ public class FilePlugin implements IPersistenceProvider {
 
     /**
      * Adds a new game.
-     * @param gameJSON JSON with the new game info.
+     * @param
      */
     @Override
     public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
@@ -59,10 +59,11 @@ public class FilePlugin implements IPersistenceProvider {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     * @param gameID the ID of the game where this command was executed
      */
     @Override
-    public void writeCommand(JSONObject commandJSON) {
-        gameDAO.writeCommand(commandJSON);
+    public void writeCommand(JSONObject commandJSON, int gameID) {
+        gameDAO.writeCommand(commandJSON, gameID);
     }
 
     /**

@@ -42,7 +42,7 @@ public class SQLPlugin implements IPersistenceProvider {
 
     /**
      * Modifies an already existing game.
-     * @param gameJSON JSON with the game info.
+     * @param
      */
     @Override
     public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
@@ -51,7 +51,7 @@ public class SQLPlugin implements IPersistenceProvider {
 
     /**
      * Adds a new game.
-     * @param gameJSON JSON with the new game info.
+     * @param
      */
     @Override
     public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
@@ -61,10 +61,11 @@ public class SQLPlugin implements IPersistenceProvider {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     *
      */
     @Override
-    public void writeCommand(JSONObject commandJSON) {
-        gameDAO.writeCommand(commandJSON);
+    public void writeCommand(JSONObject commandJSON, int gameID) {
+        gameDAO.writeCommand(commandJSON, gameID);
     }
 
     /**

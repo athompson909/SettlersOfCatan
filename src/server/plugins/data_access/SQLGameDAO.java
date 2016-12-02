@@ -29,9 +29,10 @@ public class SQLGameDAO implements IGameDAO {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     * @param gameID the ID of the game where this command was executed
      */
     @Override
-    public void writeCommand(JSONObject commandJSON) {
+    public void writeCommand(JSONObject commandJSON, int gameID) {
 
     }
 

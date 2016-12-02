@@ -45,7 +45,9 @@ public class PersistenceManager {
 
     public void writeCommand(int gameID, BaseCommand command){
         String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
-        persistenceProvider.writeCommand(gameID, commandJSON);
+
+        JSONObject commandJSONObj = new JSONObject(commandJSON);  //we are converting back and forth way too much
+        persistenceProvider.writeCommand(commandJSONObj, gameID);
     }
 
     public void writeUser(User user){
@@ -80,7 +82,7 @@ public class PersistenceManager {
      */
     public void loadAllGames(){
         JSONArray allGames = persistenceProvider.readAllGames();
-        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
+        HashMap<Integer, Game> games = ServerTranslator.getInstance().gamesFromJSON(allGames);
         GamesManager.getInstance().setAllGames(games);
     }
 

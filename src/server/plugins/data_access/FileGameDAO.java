@@ -14,27 +14,44 @@ import java.util.Scanner;
 public class FileGameDAO implements IGameDAO {
 
     private static String baseGamesFilePath = "./json_files/games/";  //i have no idea if the ./ will get it to the right folder
-    private static String baseUsersFilePath = "./json_files/users/";
 
     /**
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
      * Called when the server needs to save the ClientModel checkpoint!
+     * THIS OVERWRITES THE EXISTING FILE CONTENT
      * @param
      */
     @Override
     public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
 
         //make a JSONArray using modelJSON and gameInfoJSON
-        JSONArray newGameJSONArr = new JSONArray();
+        JSONArray gameJSONArr = new JSONArray();
         JSONObject tempModelJSON = new JSONObject(modelJSON);
         JSONObject tempGIJSON = new JSONObject(gameInfoJSON);
-        newGameJSONArr.put(tempModelJSON);
-        newGameJSONArr.put(tempGIJSON);
-        //now newGameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
+        gameJSONArr.put(tempModelJSON);
+        gameJSONArr.put(tempGIJSON);
+        //now gameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
 
-        //open a writeStream and overwrite the contents of the file with newGameJSONArr
-        //newGameJSONArr should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
+        //open a writeStream and overwrite the contents of the file with gameJSONArr
+        //gameJSONArr should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
+        String fileName = "game" + gameID + ".json";
+        String filePath = baseGamesFilePath + fileName;
 
+        try {
+            FileWriter fw = new FileWriter(filePath);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(gameJSONArr.toString()); //really big
+        }
+        catch(FileNotFoundException fnf)
+        {
+            System.out.println(">FILEGAMEDAO: writeGame(): File not found " + fnf);
+            return; //??
+        }
+        catch(IOException ioe)
+        {
+            System.out.println(">FILEGAMEDAO: writeGame(): Error while writing to GAME file: " + ioe);
+            return; //??
+        }
 
     }
 
@@ -63,38 +80,53 @@ public class FileGameDAO implements IGameDAO {
         String newGameFilePath = baseGamesFilePath + newGameFileName;
 
         try {
-            FileWriter fw = new FileWriter(newGameFilePath);    //use new FileWriter(path, true) if you want it to append
+            FileWriter fw = new FileWriter(newGameFilePath);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(newGameJSONArr.toString()); //really big
         }
         catch(FileNotFoundException fnf)
         {
-            System.out.println(">FILEGAMEDAO: writeNewGame(): File not found/couldn't create file " + fnf);
+            System.out.println(">FILEGAMEDAO: writeNewGame(): File not found/couldn't create GAME file " + fnf);
             return; //??
         }
         catch(IOException ioe)
         {
-            System.out.println(">FILEGAMEDAO: writeNewGame(): Error while writing to file: " + ioe);
+            System.out.println(">FILEGAMEDAO: writeNewGame(): Error while writing to GAME file: " + ioe);
             return; //??
         }
-
-
-        //also make a commands#.json file for this game to use!
-        String newCmdsFileName = "cmds" + newGameID + ".json";
-        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;
 
     }
 
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     * @param gameID the ID of the game where this command was executed. because we're not sure when/if the cmdobj will have its gameID set normally
      */
     @Override
-    public void writeCommand(JSONObject commandJSON) {
-
+    public void writeCommand(JSONObject commandJSON, int gameID) {
 
         //to append to an existing file,  use
         // BufferedWriter bw = new BufferedWriter(new FileWriter("file.json", true));  //true mean APPEND
+
+
+        //int gameID = commandJSON.getInt("gameId");  //TODO: we're not 100% sure that the command obj will have the gameID.
+        //make a commands#.json file for this game to use if it's not there already
+        String cmdJSONString = commandJSON.toString();
+        String newCmdsFileName = "cmds" + gameID + ".json";  //TEST
+        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;  //wow this actually went to the right place!!
+
+        try {
+            FileWriter fw = new FileWriter(newCmdsFilePath, true);  //append if it exists. see if this causes an error
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(cmdJSONString);
+            bw.close();
+            System.out.println(">FILEGAMEDAO: writeCmd(): done writing command to file " + newCmdsFilePath);
+        }
+        catch(IOException ioe)
+        {
+            System.out.println(">FILEGAMEDAO: writeCmd(): Error while writing to CMD file: " + ioe);
+            return; //??
+        }
 
     }
 
