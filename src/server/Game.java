@@ -33,14 +33,17 @@ public class Game {
     /**
      * PlayerIndex mapped to User
      */
-    private HashMap<Integer, User> userList;
+    private HashMap<Integer, User> userList; //i don't think we ever use this
 
     /**
      * Stores the commands for this game.
      */
     private CommandManager commandManager = new CommandManager();
 
-
+    /**
+     * Use this constructor to create games where you don't want to create a new map, i.e. when reading game models from persistence
+     */
+    public Game(){}
 
     public Game(GameInfo gameInfo, boolean randTiles, boolean randNumbers, boolean randPorts) {
         this.gameInfo = gameInfo;

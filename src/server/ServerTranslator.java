@@ -12,6 +12,7 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.ClientModel;
+import shared.model.JSONTranslator;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.BaseCommand;
 import shared.model.commandmanager.game.*;
@@ -38,7 +39,9 @@ import java.util.HashMap;
  */
 public class ServerTranslator {
 
-    Gson gsonTranslator = new Gson();
+    private Gson gsonTranslator = new Gson();
+    private JSONTranslator jsonTranslator = new JSONTranslator(); //used just for loading games/stuff from files
+
 
     /**
      * Parts of the singleton pattern
@@ -53,6 +56,7 @@ public class ServerTranslator {
      * Private constructor
      */
     private ServerTranslator() {}
+
 
 
 //////////////// UTILS //////////////////
@@ -258,12 +262,34 @@ public class ServerTranslator {
      * @param allGamesJSON
      * @return
      */
-    public HashMap<Integer, Game> gamesFromJSON(JSONArray allGamesJSON){
+    public HashMap<Integer, Game> gamesFromJSON(JSONArray allGamesJSON) {
 
-        //TODO: SIERRA FILL THIS OUT YO
+        HashMap<Integer, Game> gamesMap = new HashMap<>();
 
-        return null;
+        //first grab each entry in the JSONArray so we can pull out its ClientModel and GameInfo objects
+        for (int g = 0; g < allGamesJSON.length(); g++) {
+            JSONArray currGameEntry = allGamesJSON.getJSONArray(g); //this should contain the 2 big data chunks
+            JSONObject currGameCMJSON = currGameEntry.getJSONObject(0); //should be JSON of a ClientModel
+            JSONObject currGameGIJSON = currGameEntry.getJSONObject(1); //should be JSON of a GameInfo
+            //send these both through the JSONTranslator to get real objects
+            ClientModel currGameClientModel = jsonTranslator.modelFromJSON(currGameCMJSON);
+            GameInfo currGameInfo = jsonTranslator.gameCreateResponseFromJSON(currGameGIJSON); //pretty sure this is the right translator for GIs
+            //after we read in the cmds#.json file corresponding to this game, we may need to call Game.logCommand()
+            //on each of the commands we are executing. But I think that just adds it to the gameLog so that might not be needed
+            Game currGame = new Game();
+            currGame.setClientModel(currGameClientModel);
+            currGame.setGameInfo(currGameInfo);
 
+            int currGameID = currGameInfo.getId();
+            gamesMap.put(currGameID, currGame);
+
+        }
+
+        if (gamesMap.size() == 0){
+            System.out.println(">SERVERTRANSLATOR: gamesFromJSON: there were no games to translate");
+        }
+
+        return gamesMap;
     }
 
 

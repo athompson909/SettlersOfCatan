@@ -21,22 +21,25 @@ public class FilePlugin implements IPersistenceProvider {
      */
     private IGameDAO gameDAO = new FileGameDAO();
 
+    public FilePlugin() {
+
+    }
     /**
      * Singleton
      */
-    private static FilePlugin instance = new FilePlugin() {};
+//    private static FilePlugin instance = new FilePlugin() {};
 
     /**
      * @return singleton filePlugin
      */
-    public static IPersistenceProvider getInstance() {
+ /*   public static IPersistenceProvider getInstance() {
         return instance;
     }
 
     /**
      * private constructor to make singleton
      */
-    private FilePlugin(){
+/*    private FilePlugin(){
     }
 
     /**
@@ -53,7 +56,9 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
-        gameDAO.writeNewGame(gameID, modelJSON, gameInfoJSON);
+        //gameDAO.writeNewGame(gameID, modelJSON, gameInfoJSON);
+        gameDAO.writeGame(gameID, modelJSON, gameInfoJSON);  //writeNewGame works the same as writeGame on the FileDAO
+
     }
 
     /**
