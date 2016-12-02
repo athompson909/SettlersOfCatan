@@ -29,7 +29,6 @@ public class PersistenceManager {
     public void writeGame(int gameID){
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
-        //todo - see if I can do this
         persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
@@ -46,7 +45,7 @@ public class PersistenceManager {
     public void writeCommand(int gameID, BaseCommand command){
         String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
         JSONObject commandJSONobject = new JSONObject(commandJSON);
-        persistenceProvider.writeCommand(commandJSONobject);
+        persistenceProvider.writeCommand(commandJSONobject, gameID);
     }
 
     public void writeUser(User user){
@@ -72,8 +71,8 @@ public class PersistenceManager {
      */
     public void loadAllUsers(){
         JSONArray userJSON = persistenceProvider.readAllUsers();
-//        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
-//        UserManager.getInstance().setAllUsers(allUsers);
+        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
+        UserManager.getInstance().setAllUsers(allUsers);
     }
 
     /**
