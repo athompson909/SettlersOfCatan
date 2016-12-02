@@ -2,11 +2,11 @@
   "types": {
     "text": {
       "name":"FilePlugin",
-      "path":""
+      "path":"server.plugins.FilePlugin"
     },
     "sql": {
       "name":"SQLPlugin",
-      "path":""
+      "path":"server.plugins.SQLPlugin"
     }
   }
 }
