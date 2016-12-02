@@ -45,7 +45,8 @@ public class PersistenceManager {
 
     public void writeCommand(int gameID, BaseCommand command){
         String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
-        persistenceProvider.writeCommand(gameID, commandJSON);
+        JSONObject commandJSONobject = new JSONObject(commandJSON);
+        persistenceProvider.writeCommand(commandJSONobject);
     }
 
     public void writeUser(User user){
@@ -71,8 +72,8 @@ public class PersistenceManager {
      */
     public void loadAllUsers(){
         JSONArray userJSON = persistenceProvider.readAllUsers();
-        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
-        UserManager.getInstance().setAllUsers(allUsers);
+//        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
+//        UserManager.getInstance().setAllUsers(allUsers);
     }
 
     /**
@@ -80,8 +81,8 @@ public class PersistenceManager {
      */
     public void loadAllGames(){
         JSONArray allGames = persistenceProvider.readAllGames();
-        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
-        GamesManager.getInstance().setAllGames(games);
+//        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
+//        GamesManager.getInstance().setAllGames(games);
     }
 
     /**
