@@ -2,6 +2,7 @@ package DAO_tests;
 
 import com.google.gson.Gson;
 import junit.framework.TestCase;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import server.plugins.data_access.FileGameDAO;
@@ -603,10 +604,23 @@ public class fileGameDAOTest  extends TestCase {
         //create a new file called game0.json inside the /json_files/games folder if it doesn't exist
         //write sample game to it (in a JSONArray s.t. spot0 = clientModel, spot1 = GameInfo), overwriting old content
 
-        fileGameDAO.writeGame(1, testClientModel, testGameInfo1);
-
+        fileGameDAO.writeGame(0, testClientModel, testGameInfo1);
 
     }
 
 
+    @Test
+    //run testWriteGame before you run this one!
+    public void testReadGame() throws Exception {
+        System.out.println(">TESTING WRITEGAME!");
+
+        //this fn should:
+        //locate the file inside the /json_files/games folder using the given path
+        //read in the huge JSONArray, and just return it as a big JSONArray for now.
+
+        JSONArray bigGuy = fileGameDAO.readGame("./json_files/games/game0.json");
+
+        assertTrue(bigGuy.length() == 2);
+
+    }
 }

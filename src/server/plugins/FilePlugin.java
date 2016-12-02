@@ -7,6 +7,8 @@ import server.plugins.data_access.FileGameDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Connection;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
@@ -109,15 +111,16 @@ public class FilePlugin implements IPersistenceProvider {
     /**
      * Starts transaction with database
      */
-    public void startTransaction(){
+    public Connection startTransaction(){
 
+        return null;
     }
 
     /**
      * ends transaction with database
      * @param commit - whether or not to commit the transaction
      */
-    public void endTransaction(boolean commit){
+    public void endTransaction(Connection temp, boolean commit){
 
     }
 }

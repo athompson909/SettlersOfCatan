@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class FileGameDAO implements IGameDAO {
 
-    private static String baseGamesFilePath = "./json_files/games/";  //i have no idea if the ./ will get it to the right folder
+    private static String baseGamesFilePath = "./json_files/games/";  //wow I can't believe that worked
 
     /**
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
@@ -164,11 +164,10 @@ public class FileGameDAO implements IGameDAO {
             allGamesJSONArray.put(readGameResultJSONArr);
 
             //now try the next file:
-            currGameID++;
+            currGameID++;  //there's no way the user can ever delete a game from the Client side. Or the server side. so this should work...
             currGameFileName = "game" + currGameID + ".json";
-            currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new stuff
+            currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new filename
             //let readGame() try reading this new filename:
-
             readGameResultJSONArr = readGame(currGameFilePath);
         }
 
