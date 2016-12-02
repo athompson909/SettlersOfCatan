@@ -6,21 +6,30 @@ import org.json.JSONObject;
 import server.plugins.IPersistenceProvider;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
+import server.plugins.*;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * Created by adamthompson on 11/29/16.
  */
 public class PersistenceManager {
-    String persistenceType;
+    JSONObject pluginListObj = null;
 //Singleton
     private static PersistenceManager instance = new PersistenceManager();
     public static PersistenceManager getInstance(){
         return instance;
     }
     private PersistenceManager() {
-
+        parseConfig("./config.json");
     }
 //Persistence provider
     private IPersistenceProvider persistenceProvider;
@@ -90,12 +99,43 @@ public class PersistenceManager {
      */
     public void clearAllData(){}
 
+    public void parseConfig(String filePath) {
+        String allJSON = "";
+        JSONObject jsonObj = null;
+
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            InputStreamReader isr = new InputStreamReader(bis);
+            Scanner scanner = new Scanner(isr);
+
+            while(scanner.hasNextLine()) {
+                allJSON += scanner.nextLine();
+            }
+            scanner.close();
+
+
+            jsonObj = new JSONObject(allJSON);
+            pluginListObj = jsonObj.getJSONObject("types");
+        }
+        catch(FileNotFoundException fnf) {
+            System.out.println("PARSE CONFIG method Unable to find file");
+        }
+
+    }
+
     public void setPersistenceType(String type) {
-          persistenceType = type;
+        JSONObject plugin = pluginListObj.getJSONObject(type);
         Class c = null;
         try {
-            c = Class.forName(type);
-            persistenceProvider = (IPersistenceProvider)c.newInstance();
+        //    URL url = new URL("file", "localhost:", plugin.getString("path"));
+        //    URL[] myURLArray = {url};
+        //    ClassLoader loader = new URLClassLoader(myURLArray);//   loader.loadClass(plugin.getString("name"));
+
+            c = Class.forName(plugin.getString("path"));
+            persistenceProvider = (IPersistenceProvider) c.newInstance();
+      //  }catch (MalformedURLException e) {
+      //      System.out.println("Malformed URL");
         }catch (ClassNotFoundException e) {
             System.out.println("Persistence Provider class name incorrect");
         }catch (InstantiationException e) {
