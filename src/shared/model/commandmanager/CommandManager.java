@@ -46,11 +46,13 @@ public class CommandManager {
 
     /**
      * Executes all the commands again
-     * @pre Used after Reset
-     * @post
+     * @pre Used after Reload
+     * @post model is up to date
      */
-    private void serverExec(BaseCommand command) {
-
+    private void executeCommands() {
+        for(int i = 0; i < executedCommands.size(); i++){
+            executedCommands.get(i).serverExec();
+        }
     }
 
     /**
