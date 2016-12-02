@@ -51,7 +51,7 @@ public class DBCreateHelper {
         }
     }
 
-    private static void createTables(Connection conn) throws SQLException {
+    public static void createTables(Connection conn) throws SQLException {
 
         Statement statement = conn.createStatement();
         statement.setQueryTimeout(30);//30 second query timeout
@@ -83,7 +83,7 @@ public class DBCreateHelper {
             "password VARCHAR(25) NOT NULL,\n"+
             "PRIMARY KEY (userID))";
 
-    private static final String CREATE_TABLE_COMMANDS_STATEMENT = "CREATE TABLE commands\n" +
+    public static final String CREATE_TABLE_COMMANDS_STATEMENT = "CREATE TABLE commands\n" +
             "(gameID INTEGER NOT NULL,\n" +
             "command TEXT NOT NULL,\n" +
             "PRIMARY KEY (gameID))";

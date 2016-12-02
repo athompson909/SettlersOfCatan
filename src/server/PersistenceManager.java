@@ -81,8 +81,8 @@ public class PersistenceManager {
      */
     public void loadAllGames(){
         JSONArray allGames = persistenceProvider.readAllGames();
-//        HashMap<Integer, Game> games = ServerTranslator.getInstance().JSONtoGames(allGames);
-//        GamesManager.getInstance().setAllGames(games);
+        HashMap<Integer, Game> games = ServerTranslator.getInstance().gamesFromJSON(allGames);
+        GamesManager.getInstance().setAllGames(games);
     }
 
     /**

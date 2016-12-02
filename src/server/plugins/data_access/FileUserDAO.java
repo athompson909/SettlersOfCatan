@@ -8,6 +8,9 @@ import org.json.JSONObject;
  */
 public class FileUserDAO implements IUserDAO {
 
+    private static String baseUsersFilePath = "./json_files/users/";  //this may not be right
+
+
     /**
      * Adds a new user.
      */

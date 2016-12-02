@@ -7,6 +7,8 @@ import server.plugins.data_access.FileGameDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Connection;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
@@ -49,7 +51,7 @@ public class FilePlugin implements IPersistenceProvider {
 
     /**
      * Adds a new game.
-     * @param gameJSON JSON with the new game info.
+     * @param
      */
     @Override
     public void writeNewGame(int gameID, String modelJSON, String gameInfoJSON) {
@@ -59,10 +61,11 @@ public class FilePlugin implements IPersistenceProvider {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     * @param gameID the ID of the game where this command was executed
      */
     @Override
-    public void writeCommand(JSONObject commandJSON) {
-        gameDAO.writeCommand(commandJSON);
+    public void writeCommand(JSONObject commandJSON, int gameID) {
+        gameDAO.writeCommand(commandJSON, gameID);
     }
 
     /**
@@ -108,15 +111,16 @@ public class FilePlugin implements IPersistenceProvider {
     /**
      * Starts transaction with database
      */
-    public void startTransaction(){
+    public Connection startTransaction(){
 
+        return null;
     }
 
     /**
      * ends transaction with database
      * @param commit - whether or not to commit the transaction
      */
-    public void endTransaction(boolean commit){
+    public void endTransaction(Connection temp, boolean commit){
 
     }
 }

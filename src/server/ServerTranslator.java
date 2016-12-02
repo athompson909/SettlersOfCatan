@@ -233,6 +233,41 @@ public class ServerTranslator {
     }
     //HELPER FUNCTIONS
 
+    /**
+     * helps with persistenceManager
+     * takes a JSONArray of Users data and converts it to a Hashmap that the UsersManager can use to set its users registery
+     * @param userJSON
+     * @return
+     */
+    public HashMap<Integer, User> userJSONtoHashMap(JSONArray userJSON){
+
+        //TODO: SIERRA FILL THIS OUT YO
+
+        return null;
+    }
+
+    /**
+     * helps with PersistenceManager
+     * allGamesJSON is the huge JSONArr that has 1 entry representing each game.
+     * each entry is a JSONArray in itself that has a clientModel (JSON) at spot 0 and a gameInfo (JSON) at spot 1.
+     * We need to use these JSON items to build actual Game objects that the GamesManager can use to populate its game registry.
+     *
+     * NOTE: both ClientModel and GameInfo already have translating functions. But I think they're in the client-side translator.
+     * so might need to copy those over or move them to a Utils class for ease of access.
+     *
+     * @param allGamesJSON
+     * @return
+     */
+    public HashMap<Integer, Game> gamesFromJSON(JSONArray allGamesJSON){
+
+        //TODO: SIERRA FILL THIS OUT YO
+
+        return null;
+
+    }
+
+
+
 
     /**
      * Serializes the Map into a big JSONObject.

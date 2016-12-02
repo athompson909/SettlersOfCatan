@@ -3,6 +3,8 @@ package server.plugins;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.Connection;
+
 /**
  * Created by adamthompson on 11/29/16.
  */
@@ -28,8 +30,9 @@ public interface IPersistenceProvider {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     * @param gameID the ID of the game where this command was executed
      */
-    void writeCommand(JSONObject commandJSON);
+    void writeCommand(JSONObject commandJSON, int gameID);
 
     /**
      * Adds a new user.
@@ -59,12 +62,13 @@ public interface IPersistenceProvider {
     /**
      * Starts transaction with database
      */
-    void startTransaction();
+    Connection startTransaction() throws Exception;
 
     /**
      * ends transaction with database
+     * @param conn the connection already initiated to the database
      * @param commit - whether or not to commit the transaction
      */
-    void endTransaction(boolean commit);
+    void endTransaction(Connection conn, boolean commit) throws Exception;
 
 }

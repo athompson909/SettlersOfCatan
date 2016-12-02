@@ -13,33 +13,54 @@ import java.util.Scanner;
  */
 public class FileGameDAO implements IGameDAO {
 
-    private static String baseGamesFilePath = "./json_files/games/";  //i have no idea if the ./ will get it to the right folder
-    private static String baseUsersFilePath = "./json_files/users/";
+    private static String baseGamesFilePath = "./json_files/games/";  //wow I can't believe that worked
 
     /**
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
      * Called when the server needs to save the ClientModel checkpoint!
+     * THIS OVERWRITES THE EXISTING FILE CONTENT
+     *
+     *  I'm also testing whether this creates a new file if requested one doesn't exist. If so, we probably don't need writeNewGame()
+     *  It worked. So we probably don't need writeNewGame() at all
+     *
      * @param
      */
     @Override
     public void writeGame(int gameID, String modelJSON, String gameInfoJSON) {
 
         //make a JSONArray using modelJSON and gameInfoJSON
-        JSONArray newGameJSONArr = new JSONArray();
+        JSONArray gameJSONArr = new JSONArray();
         JSONObject tempModelJSON = new JSONObject(modelJSON);
         JSONObject tempGIJSON = new JSONObject(gameInfoJSON);
-        newGameJSONArr.put(tempModelJSON);
-        newGameJSONArr.put(tempGIJSON);
-        //now newGameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
+        gameJSONArr.put(tempModelJSON);
+        gameJSONArr.put(tempGIJSON);
+        //now gameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
 
-        //open a writeStream and overwrite the contents of the file with newGameJSONArr
-        //newGameJSONArr should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
+        //open a writeStream and overwrite the contents of the file with gameJSONArr
+        String fileName = "game" + gameID + ".json";
+        String filePath = baseGamesFilePath + fileName;
 
+        try {
+            FileWriter fw = new FileWriter(filePath);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(gameJSONArr.toString()); //really big
+            bw.close();
+        }
+        catch(FileNotFoundException fnf)
+        {
+            System.out.println(">FILEGAMEDAO: writeGame(): File not found " + fnf);
+            return; //??
+        }
+        catch(IOException ioe)
+        {
+            System.out.println(">FILEGAMEDAO: writeGame(): Error while writing to GAME file: " + ioe);
+            return; //??
+        }
 
     }
 
     /**
-     * Adds a new game.
+     * Adds a new game. we may be able to combine this function with WriteGame
      * @param
      */
     @Override
@@ -63,38 +84,53 @@ public class FileGameDAO implements IGameDAO {
         String newGameFilePath = baseGamesFilePath + newGameFileName;
 
         try {
-            FileWriter fw = new FileWriter(newGameFilePath);    //use new FileWriter(path, true) if you want it to append
+            FileWriter fw = new FileWriter(newGameFilePath);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(newGameJSONArr.toString()); //really big
         }
         catch(FileNotFoundException fnf)
         {
-            System.out.println(">FILEGAMEDAO: writeNewGame(): File not found/couldn't create file " + fnf);
+            System.out.println(">FILEGAMEDAO: writeNewGame(): File not found/couldn't create GAME file " + fnf);
             return; //??
         }
         catch(IOException ioe)
         {
-            System.out.println(">FILEGAMEDAO: writeNewGame(): Error while writing to file: " + ioe);
+            System.out.println(">FILEGAMEDAO: writeNewGame(): Error while writing to GAME file: " + ioe);
             return; //??
         }
-
-
-        //also make a commands#.json file for this game to use!
-        String newCmdsFileName = "cmds" + newGameID + ".json";
-        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;
 
     }
 
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
+     * @param gameID the ID of the game where this command was executed. because we're not sure when/if the cmdobj will have its gameID set normally
      */
     @Override
-    public void writeCommand(JSONObject commandJSON) {
-
+    public void writeCommand(JSONObject commandJSON, int gameID) {
 
         //to append to an existing file,  use
         // BufferedWriter bw = new BufferedWriter(new FileWriter("file.json", true));  //true mean APPEND
+
+
+        //int gameID = commandJSON.getInt("gameId");  //TODO: we're not 100% sure that the command obj will have the gameID.
+        //make a commands#.json file for this game to use if it's not there already
+        String cmdJSONString = commandJSON.toString();
+        String newCmdsFileName = "cmds" + gameID + ".json";  //TEST
+        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;  //wow this actually went to the right place!!
+
+        try {
+            FileWriter fw = new FileWriter(newCmdsFilePath, true);  //append if it exists. see if this causes an error
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(cmdJSONString);
+            bw.close();
+            System.out.println(">FILEGAMEDAO: writeCmd(): done writing command to file " + newCmdsFilePath);
+        }
+        catch(IOException ioe)
+        {
+            System.out.println(">FILEGAMEDAO: writeCmd(): Error while writing to CMD file: " + ioe);
+            return; //??
+        }
 
     }
 
@@ -128,11 +164,10 @@ public class FileGameDAO implements IGameDAO {
             allGamesJSONArray.put(readGameResultJSONArr);
 
             //now try the next file:
-            currGameID++;
+            currGameID++;  //there's no way the user can ever delete a game from the Client side. Or the server side. so this should work...
             currGameFileName = "game" + currGameID + ".json";
-            currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new stuff
+            currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new filename
             //let readGame() try reading this new filename:
-
             readGameResultJSONArr = readGame(currGameFilePath);
         }
 
@@ -200,5 +235,30 @@ public class FileGameDAO implements IGameDAO {
 
     }
 
+
+    /**
+     * When the server is restarting from the file plugin and importing all the games,
+     * it needs to be able to read in and execute all the commands saved in the game files' corresponding cmds files
+     * to bring the game models back up to speed.
+     *
+     * So, this function might be called by the PersistenceManager after the Games have been saved to the GamesManager
+     * and are ok to be modified by calling commands on them.
+     *
+     * I don't think we should execute the commands until the Game is safely put away inside the GamesManager.
+     *
+     * Currently the commands are being appended to the file without being enclosed in a JSONArray.
+     * So when we read them in, we need to somehow break them into individual commands and put() them in a JSONArray so
+     * they can be executed more easily.
+     * either that or every time we add a new command to the file, read the whole thing back in as a JSONarray,
+     * add the new command to it, and rewrite the whole thing. That's pretty dumb but it could definitely work.
+     *
+     *
+     * @return
+     */
+    public JSONArray readGameCommands(){
+
+
+        return null;
+    }
 
 }
