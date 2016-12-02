@@ -11,6 +11,8 @@ import server.plugins.database_related.DBCreateHelper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -164,5 +166,24 @@ public class SQLPlugin implements IPersistenceProvider {
     public void createDatabase() {
 
         DBCreateHelper.createNewDatabase();
+    }
+
+
+
+
+    public static String formatForSQL(String str) {
+        List<Integer> indexes = new ArrayList<>();
+        int index = str.indexOf('\'');
+        while (index >= 0) {
+            indexes.add(index);
+            index = str.indexOf('\'', index + 1);
+        }
+
+        int offset = 0;
+        for (int i : indexes) {
+            str = str.substring(0, i+offset) + "'" + str.substring(i+offset, str.length());
+            offset++;
+        }
+        return str;
     }
 }
