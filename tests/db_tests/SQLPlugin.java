@@ -5,23 +5,48 @@ import server.plugins.database_related.DBCreateHelper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
  * Created by adamthompson on 11/29/16.
+ *
+ * THIS IS FOR TESTING PURPOSES ONLY (MUCH OF WHAT'S IN HERE HAS BEEN COPIED OVER TO THE ACTUAL PLUGINS)
  */
 public class SQLPlugin {
     /**
      * private constructor to make singleton
+     * (this isn't a singleton in db_tests package) ***
      */
-    private SQLPlugin(){
+    public SQLPlugin(){
     }
 
     /**
      * Modifies an already existing game.
+     *
+     * the game title doesn't get used in this one I don't think
      * @param gameJSON JSON with the game info.
      */
     public void writeGame(String gameJSON) {
+        JSONObject newGameJSON = new JSONObject(gameJSON);
+        int gameId = newGameJSON.getInt("gameId");
+
+        String model = newGameJSON.getString("model");
+        String gameInfo = newGameJSON.getString("gameInfo");
+
+        try {
+            Connection conn = startTransaction();
+
+            Statement statement = conn.createStatement();
+            String sql = "UPDATE games SET model = " + model + ", gameInfo = " + gameInfo + " WHERE gameID = " + gameId;
+            statement.execute(sql);
+
+            statement.close();
+            endTransaction(conn, true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // does a SQL update
     }
@@ -122,6 +147,32 @@ public class SQLPlugin {
      * @return a String with all the registered users.
      */
     public String readAllUsers() {
+
+        try {
+            Connection conn = startTransaction();
+
+            Statement statement = conn.createStatement();
+            String sql = "SELECT * FROM users";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            String jsonResult = "[";
+            while(resultSet.next()) {
+                jsonResult += "{" +
+                        "\"userID\":" + resultSet.getInt("userID") +
+                        ",\"username\":\"" + resultSet.getString("username") +
+                        "\",\"password\":\"" + resultSet.getString("password") + "\"}";
+            }
+            jsonResult += "]";
+
+            statement.close();
+            endTransaction(conn, true);
+
+            return jsonResult;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -130,13 +181,49 @@ public class SQLPlugin {
      * @return a String with all the created games.
      */
     public String readAllGames() {
+
+        try {
+            Connection conn = startTransaction();
+
+            Statement statement = conn.createStatement();
+            String sql = "SELECT * FROM games";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            String jsonResult = "[";
+            while(resultSet.next()) {
+                jsonResult += "{" +
+                        "\"gameID\":" + resultSet.getInt("userID") +
+                        ",\"title\":\"" + resultSet.getString("title") +
+                        "\",\"model\":\"" + resultSet.getString("model") +
+                        "\",\"gameInfo\":\"" + resultSet.getString("gameInfo") + "\"}";
+            }
+            jsonResult += "]";
+
+            statement.close();
+            endTransaction(conn, true);
+
+            return jsonResult;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     /**
      * Clears all the data.
+     * it drops all the tables and recreates them (does not delete the database just clears all data from it)
      */
     public void clearAllData() {
+        try {
+            Connection conn = startTransaction();
+            DBCreateHelper.createTables(conn);
+            endTransaction(conn, true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -161,8 +248,7 @@ public class SQLPlugin {
      */
     public void endTransaction(Connection conn, boolean commit) throws Exception {
 
-        if(commit)
-            conn.commit();
+        if(commit) conn.commit();
 
         conn.close();
     }
