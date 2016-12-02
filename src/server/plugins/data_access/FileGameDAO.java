@@ -19,6 +19,10 @@ public class FileGameDAO implements IGameDAO {
      * Overwrites the clientModel inside the file corresponding to gameJSON's gameID.
      * Called when the server needs to save the ClientModel checkpoint!
      * THIS OVERWRITES THE EXISTING FILE CONTENT
+     *
+     *  I'm also testing whether this creates a new file if requested one doesn't exist. If so, we probably don't need writeNewGame()
+     *  It worked. So we probably don't need writeNewGame() at all
+     *
      * @param
      */
     @Override
@@ -33,7 +37,6 @@ public class FileGameDAO implements IGameDAO {
         //now gameJSONArr should have the modelJSON in spot 0, and the gameInfo in spot 1
 
         //open a writeStream and overwrite the contents of the file with gameJSONArr
-        //gameJSONArr should be an array with 1 items: #0 is the clientModel as JSON, #1 is the gameInfo
         String fileName = "game" + gameID + ".json";
         String filePath = baseGamesFilePath + fileName;
 
@@ -41,6 +44,7 @@ public class FileGameDAO implements IGameDAO {
             FileWriter fw = new FileWriter(filePath);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(gameJSONArr.toString()); //really big
+            bw.close();
         }
         catch(FileNotFoundException fnf)
         {
@@ -56,7 +60,7 @@ public class FileGameDAO implements IGameDAO {
     }
 
     /**
-     * Adds a new game.
+     * Adds a new game. we may be able to combine this function with WriteGame
      * @param
      */
     @Override
@@ -232,5 +236,30 @@ public class FileGameDAO implements IGameDAO {
 
     }
 
+
+    /**
+     * When the server is restarting from the file plugin and importing all the games,
+     * it needs to be able to read in and execute all the commands saved in the game files' corresponding cmds files
+     * to bring the game models back up to speed.
+     *
+     * So, this function might be called by the PersistenceManager after the Games have been saved to the GamesManager
+     * and are ok to be modified by calling commands on them.
+     *
+     * I don't think we should execute the commands until the Game is safely put away inside the GamesManager.
+     *
+     * Currently the commands are being appended to the file without being enclosed in a JSONArray.
+     * So when we read them in, we need to somehow break them into individual commands and put() them in a JSONArray so
+     * they can be executed more easily.
+     * either that or every time we add a new command to the file, read the whole thing back in as a JSONarray,
+     * add the new command to it, and rewrite the whole thing. That's pretty dumb but it could definitely work.
+     *
+     *
+     * @return
+     */
+    public JSONArray readGameCommands(){
+
+
+        return null;
+    }
 
 }
