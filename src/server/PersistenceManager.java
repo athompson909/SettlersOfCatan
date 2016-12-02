@@ -30,7 +30,7 @@ public class PersistenceManager {
     }
     private PersistenceManager() {
         //todo:this path is hardcoded from Steph's computer. Need to figure out the correct path to work for all of us.
-        parseConfig("/Users/kyle/Documents/Stephanie's Things/Fall 2016/CS 340/340_SettlersOfCatan/src/server/config.json");
+        parseConfig("./config.json");
     }
 //Persistence provider
     private IPersistenceProvider persistenceProvider;
@@ -128,10 +128,10 @@ public class PersistenceManager {
         JSONObject plugin = pluginListObj.getJSONObject(type);
         Class c = null;
         try {
-            URL url = new URL(plugin.getString("name"));
+            URL url = new URL("file", "localhost:", plugin.getString("path"));
             URL[] myURLArray = {url};
             ClassLoader loader = new URLClassLoader(myURLArray);
-            loader.loadClass(plugin.getString("path"));
+            loader.loadClass(plugin.getString("name"));
 
             c = Class.forName(type);
             persistenceProvider = (IPersistenceProvider) c.newInstance();

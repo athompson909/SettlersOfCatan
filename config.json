@@ -1,10 +1,12 @@
 {
   "types": {
     "text": {
+      "jar":"",
       "name":"FilePlugin",
       "path":"server.plugins.FilePlugin"
     },
     "sql": {
+      "jar":"",
       "name":"SQLPlugin",
       "path":"server.plugins.SQLPlugin"
     }
