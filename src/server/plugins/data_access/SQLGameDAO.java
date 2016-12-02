@@ -7,8 +7,6 @@ import server.plugins.SQLPlugin;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -24,6 +22,9 @@ public class SQLGameDAO implements IGameDAO {
 
         try {
             Connection conn = SQLPlugin.startTransaction();
+
+            modelJSON = SQLPlugin.formatForSQL(modelJSON);
+            gameInfoJSON = SQLPlugin.formatForSQL(gameInfoJSON);
 
             Statement statement = conn.createStatement();
             String sql = "UPDATE games SET model = " + modelJSON + ", gameInfo = " + gameInfoJSON + " WHERE gameID = " + gameID;
@@ -49,8 +50,8 @@ public class SQLGameDAO implements IGameDAO {
         try {
             Connection conn = SQLPlugin.startTransaction();
 
-            modelJSON = formatForSQL(modelJSON);
-            gameInfoJSON = formatForSQL(gameInfoJSON);
+            modelJSON = SQLPlugin.formatForSQL(modelJSON);
+            gameInfoJSON = SQLPlugin.formatForSQL(gameInfoJSON);
 
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO games (gameID, model, gameInfo) " +
@@ -77,7 +78,7 @@ public class SQLGameDAO implements IGameDAO {
         try {
             Connection conn = SQLPlugin.startTransaction();
 
-            String commandJSONStr = formatForSQL(commandJSON.toString());
+            String commandJSONStr = SQLPlugin.formatForSQL(commandJSON.toString());
 
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO commands (gameID, command) " +
@@ -127,22 +128,5 @@ public class SQLGameDAO implements IGameDAO {
         }
 
         return null;
-    }
-
-
-    private String formatForSQL(String str) {
-        List<Integer> indexes = new ArrayList<>();
-        int index = str.indexOf('\'');
-        while (index >= 0) {
-            indexes.add(index);
-            index = str.indexOf('\'', index + 1);
-        }
-
-        int offset = 0;
-        for (int i : indexes) {
-            str = str.substring(0, i+offset) + "'" + str.substring(i+offset, str.length());
-            offset++;
-        }
-        return str;
     }
 }
