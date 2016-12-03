@@ -286,11 +286,11 @@ public class ServerTranslator {
             //add the list of commands to the Game's commandManager using its setter()
             currGame.commandManager.setExecutedCommands(currGameCmdsList);
             //call the looping serverExecute fn in commandManager to bring the model up to speed
-           // commandManager.
+            int currGameID = currGameInfo.getId();
+            currGame.commandManager.executeCommands(currGameID);
 
             //model should now be up to date and ready to be added to the GamesManager
 
-            int currGameID = currGameInfo.getId();
             gamesMap.put(currGameID, currGame);
 
         }

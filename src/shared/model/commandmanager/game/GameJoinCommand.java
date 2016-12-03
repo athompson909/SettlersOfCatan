@@ -78,6 +78,9 @@ public class GameJoinCommand extends BaseCommand {
         return (success ? "Success" : null);
     }
 
+    @Override
+    public void reExecute(int gameID){}
+
     //Getters
 
     public int getGameID() {

@@ -103,6 +103,16 @@ public class BuildCityCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().buildCity(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" built a city", userId);
+        }
+    }
+
     //Getters and Setters
     public int getPlayerIndex() {
         return playerIndex;

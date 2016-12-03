@@ -64,6 +64,16 @@ public class PurchaseDevCardCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().buyDevCard(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" bought a development card", userId);
+        }
+    }
+
     //Getters
     public String getType() {
         return type;

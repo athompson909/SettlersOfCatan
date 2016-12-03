@@ -4,6 +4,8 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.json.JSONObject;
+import server.Game;
+import server.GamesManager;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.ByteArrayOutputStream;
@@ -159,5 +161,12 @@ public abstract class BaseCommand implements HttpHandler {
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
+    }
+
+    abstract public void reExecute(int gameId);
+
+    public static int getUserIdFromIndex(int index, int gameId){
+        Game game = GamesManager.getInstance().getGame(gameId);
+        return game.getGameInfo().getUserIdFromIndex(index);
     }
 }

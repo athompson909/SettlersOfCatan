@@ -88,6 +88,21 @@ public class AcceptTradeCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().acceptTrade(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            if (!willAccept) {
+                model.addLog(" rejected trade offer", userId);
+            }
+            else {
+                model.addLog(" accepted trade offer", userId);
+            }
+        }
+    }
+
     //Getters
     public int getPlayerIndex() {
         return playerIndex;

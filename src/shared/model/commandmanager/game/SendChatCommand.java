@@ -73,6 +73,15 @@ public class SendChatCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), this);
+        if(model != null) {
+            model.incrementVersion();
+        }
+    }
+
 
     //Getters
 

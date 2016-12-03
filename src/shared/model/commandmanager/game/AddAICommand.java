@@ -53,6 +53,9 @@ public class AddAICommand extends BaseCommand {
         return response ? "Success" : "Could not add AI type -- ["+AIType+"]";
     }
 
+    @Override
+    public void reExecute(int gameID){}
+
 
     public String getAIType() {
         return AIType;

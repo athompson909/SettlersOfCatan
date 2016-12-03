@@ -36,4 +36,7 @@ public class ExecuteGameCommandsCommand extends BaseCommand {
 
         return null;
     }
+
+    @Override
+    public void reExecute(int gameID){}
 }

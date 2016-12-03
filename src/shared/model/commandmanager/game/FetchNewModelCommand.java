@@ -49,6 +49,9 @@ public class FetchNewModelCommand extends BaseCommand {
         return ServerTranslator.getInstance().modelToJSON(model);
     }
 
+    @Override
+    public void reExecute(int gameID){}
+
     //Getters
     public int getVersion() {
         return version;

@@ -82,7 +82,17 @@ public class PlayMonopolyCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
-//Getters
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().playMonopoly(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" played a monopoly card", userId);
+        }
+    }
+
+    //Getters
     public String getType() {
         return type;
     }
