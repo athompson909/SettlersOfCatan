@@ -22,7 +22,7 @@ public class SQLPluginTest extends TestCase {
         String modelJSON = MockJSONs.GAME_MODEL;
         String gameInfoJSON = MockJSONs.GAME_CREATE_RESPONSE;
 
-        SQLPlugin.getInstance().writeNewGame(gameID, modelJSON, gameInfoJSON);
+       // SQLPlugin.getInstance().writeNewGame(gameID, modelJSON, gameInfoJSON);
 
     }
 

@@ -41,7 +41,7 @@ public class UserManager {
      */
     private UserManager() {
         userID = 0;
-        buildMockUsers();
+       // buildMockUsers();
     }
 
     /**

@@ -64,6 +64,7 @@ public class SendChatCommand extends BaseCommand {
         content = sendChatJSON.getString("content");
 
         SendChatCommand command = new SendChatCommand(playerIndex, content);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();

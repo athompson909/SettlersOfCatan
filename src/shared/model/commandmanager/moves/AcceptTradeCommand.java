@@ -72,6 +72,7 @@ public class AcceptTradeCommand extends BaseCommand {
         willAccept = offerTradeJSON.getBoolean("willAccept");
 
         AcceptTradeCommand command = new AcceptTradeCommand(playerIndex, willAccept);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().acceptTrade(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();

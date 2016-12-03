@@ -93,8 +93,8 @@ public class Server {
         UserManager.getInstance();  //make it build the mock users by calling its constructor
         GamesManager.getInstance(); //make it build the mock games by callings its constructor
 //load game (will have at least the defaults)
-        PersistenceManager.getInstance().loadAllUsers();
-        PersistenceManager.getInstance().loadAllGames();
+//        PersistenceManager.getInstance().loadAllUsers();
+//        PersistenceManager.getInstance().loadAllGames();
         httpServer.start();
     }
 

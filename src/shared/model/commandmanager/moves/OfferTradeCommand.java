@@ -95,6 +95,7 @@ public class OfferTradeCommand extends BaseCommand {
         offer = resourceList;
 
         OfferTradeCommand command = new OfferTradeCommand(playerIndex, offer, receiver);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().offerTrade(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();
