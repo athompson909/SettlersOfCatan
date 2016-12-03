@@ -9,6 +9,7 @@ import server.plugins.data_access.IGameDAO;
 import server.plugins.data_access.IUserDAO;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.sql.Connection;
 
 /**
@@ -113,8 +114,12 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void clearAllData() {
-        deleteFolder(gamesDirectory);
-        deleteFolder(usersDirectory);
+        if(gamesDirectory.exists()) {
+            deleteFolder(gamesDirectory);
+        }
+        if(usersDirectory.exists()) {
+            deleteFolder(usersDirectory);
+        }
     }
 
     /**
