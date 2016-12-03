@@ -84,10 +84,11 @@ public class GameCreateCommand extends BaseCommand {
 
         GameCreateCommand command = new GameCreateCommand(name, randomTiles, randomNumbers, randomPorts);
         GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), command);
-        //todo - do we need to check if the operation was successful?
         //Save game
-        //todo - do we want a separate function for creating and updating games or do we want the DB to figure it out?
-        PersistenceManager.getInstance().writeNewGame(name, gameInfo.getId());
+        if(gameInfo != null) {
+            PersistenceManager.getInstance().writeNewGame(name, gameInfo.getId());
+        }
+
         String fullResponseLoginCookieStr = "catan.game="+IServerFacade.getInstance().getGameId()+";Path=/;";
         List<String> cookieList = new ArrayList<>(1);
         cookieList.add(fullResponseLoginCookieStr);
