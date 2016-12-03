@@ -52,7 +52,7 @@ public class PersistenceManager {
         persistenceProvider.clearCommands(gameID);
     }
 
-    public void writeCommand(int gameID, BaseCommand command){
+    public void writeCommand(BaseCommand command, int gameID){
         String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
         JSONObject commandJSONobject = new JSONObject(commandJSON);
         persistenceProvider.writeCommand(commandJSONobject, gameID);

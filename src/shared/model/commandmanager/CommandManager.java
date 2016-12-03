@@ -74,7 +74,7 @@ public class CommandManager {
             executedCommands.clear();
         }else {
             //save command for persistence
-            PersistenceManager.getInstance().writeCommand(gameID, command);
+            PersistenceManager.getInstance().writeCommand(command, gameID);
         }
     }
 
