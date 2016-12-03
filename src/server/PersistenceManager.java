@@ -97,7 +97,9 @@ public class PersistenceManager {
     /**
      * Clears all the data.
      */
-    public void clearAllData(){}
+    public void clearAllData(){
+        persistenceProvider.clearAllData();
+    }
 
     public void parseConfig(String filePath) {
         String allJSON = "";
