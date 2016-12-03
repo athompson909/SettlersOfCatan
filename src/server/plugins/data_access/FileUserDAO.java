@@ -24,21 +24,22 @@ public class FileUserDAO implements IUserDAO {
 
         String filePath = "";
 
-
         try {
             FileWriter fw = new FileWriter(filePath);
             BufferedWriter bw = new BufferedWriter(fw);
-           // bw.write(gameJSONArr.toString()); //really big
+            bw.write(userJSON.toString());
+            bw.newLine();  //probably helpful for reading them back in later
             bw.close();
+
         }
         catch(FileNotFoundException fnf)
         {
-            System.out.println(">FILEUSERDAO: writeGame(): File not found " + fnf);
+            System.out.println(">FILEUSERDAO: writeUser(): File not found " + fnf);
             return; //??
         }
         catch(IOException ioe)
         {
-            System.out.println(">FILEUSERDAO: writeGame(): Error while writing to GAME file: " + ioe);
+            System.out.println(">FILEUSERDAO: writeUser(): Error while writing to USER file: " + ioe);
             return; //??
         }
 

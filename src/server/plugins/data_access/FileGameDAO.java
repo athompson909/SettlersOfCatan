@@ -26,7 +26,6 @@ public class FileGameDAO implements IGameDAO {
      * Called when the server needs to save the ClientModel checkpoint!
      * THIS OVERWRITES THE EXISTING FILE CONTENT
      *
-     *  I'm also testing whether this creates a new file if requested one doesn't exist. If so, we probably don't need writeNewGame()
      *
      * @param
      */
@@ -232,7 +231,6 @@ public class FileGameDAO implements IGameDAO {
     @Override
     public void writeCommand(JSONObject commandJSON, int gameID) {
 
-
         //int gameID = commandJSON.getInt("gameId");  //because we're not 100% sure that the command obj will have the gameID.
         String cmdJSONString = commandJSON.toString();
         String newCmdsFileName = "cmds" + gameID + ".json";
@@ -240,7 +238,7 @@ public class FileGameDAO implements IGameDAO {
         File cmdsFile = new File(newCmdsFilePath);
 
         try {
-            FileWriter fw = new FileWriter(cmdsFile, true);  //true = append if it exists already, create new filel otherwise
+            FileWriter fw = new FileWriter(cmdsFile, true);  //true = append if it exists already, create new file otherwise
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(cmdJSONString);
             bw.newLine(); //try and see if this helps with reading the commands back in from the file separately
