@@ -632,6 +632,7 @@ public class FileGameDAOTest extends TestCase {
         //write sample game to it (in a JSONArray s.t. spot0 = clientModel, spot1 = GameInfo), overwriting old content
 
         fileGameDAO.writeGame(2, testClientModel, testGameInfo1);
+        fileGameDAO.writeGame(1, testClientModel, testGameInfo2);
 
     }
 

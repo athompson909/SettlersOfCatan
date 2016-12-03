@@ -46,7 +46,7 @@ public class FilePlugin implements IPersistenceProvider {
                 usersDirectory.mkdir();
             }
 
-            System.out.println(">FILEGAMEDAO: directories created");
+            System.out.println(">FILEPLUGIN: directories created");
         }
 
     }
@@ -73,7 +73,6 @@ public class FilePlugin implements IPersistenceProvider {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
-     * @param gameID the ID of the game where this command was executed
      */
     @Override
     public void writeCommand(JSONObject commandJSON, int gameID) {

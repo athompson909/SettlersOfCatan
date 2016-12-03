@@ -64,7 +64,8 @@ public class CommandManager {
         executedCommands.add(command);
         System.out.println("CommandManager: new cmdlist size= " + executedCommands.size());
         //see if we reached the limit
-        int gameID = executedCommands.get(0).getGameId();
+        int gameID = command.getGameId();
+     //   int gameID = executedCommands.get(0).getGameId();
         if (executedCommands.size() >= commandLimit){
             //rewrite model
             PersistenceManager.getInstance().writeGame(gameID);
@@ -73,7 +74,7 @@ public class CommandManager {
             executedCommands.clear();
         }else {
             //save command for persistence
-            PersistenceManager.getInstance().writeCommand(gameID, command);
+            PersistenceManager.getInstance().writeCommand(command, gameID);
         }
     }
 

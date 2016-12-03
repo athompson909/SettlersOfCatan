@@ -28,7 +28,6 @@ public interface IPersistenceProvider {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
-     * @param gameID the ID of the game where this command was executed
      */
     void writeCommand(JSONObject commandJSON, int gameID);
 

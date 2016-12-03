@@ -27,7 +27,7 @@ public class SQLGameDAO implements IGameDAO {
             gameInfoJSON = SQLPlugin.formatForSQL(gameInfoJSON);
 
             Statement statement = conn.createStatement();
-            String sql = "UPDATE games SET model = " + modelJSON + ", gameInfo = " + gameInfoJSON + " WHERE gameID = " + gameID;
+            String sql = "UPDATE games SET model = \'" + modelJSON + "\', gameInfo = \'" + gameInfoJSON + "\' WHERE gameID = " + gameID;
             statement.execute(sql);
 
             statement.close();
@@ -82,7 +82,7 @@ public class SQLGameDAO implements IGameDAO {
 
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO commands (gameID, command) " +
-                    "VALUES (" + gameID + "," + commandJSONStr + ")";
+                    "VALUES (" + gameID + ",\'" + commandJSONStr + "\')";
             statement.execute(sql);
 
             statement.close();
@@ -111,10 +111,9 @@ public class SQLGameDAO implements IGameDAO {
             String jsonResult = "[";
             while(resultSet.next()) {
                 jsonResult += "{" +
-                        "\"gameID\":" + resultSet.getInt("userID") +
-                        ",\"title\":\"" + resultSet.getString("title") +
-                        "\",\"model\":\"" + resultSet.getString("model") +
-                        "\",\"gameInfo\":\"" + resultSet.getString("gameInfo") + "\"}";
+                        "\"gameID\":" + resultSet.getInt("gameID") +
+                        ",\"model\":\"" + resultSet.getString("model") +
+                        "\",\"gameInfo\":\"" + resultSet.getString("gameInfo") + "\"},";
             }
             jsonResult += "]";
 

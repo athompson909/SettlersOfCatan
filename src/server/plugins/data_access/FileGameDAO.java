@@ -18,7 +18,6 @@ public class FileGameDAO implements IGameDAO {
 
     /**
      * Constructor
-     *
      */
     public FileGameDAO(){}
 
@@ -63,14 +62,12 @@ public class FileGameDAO implements IGameDAO {
             System.out.println(">FILEGAMEDAO: writeGame(): Error while writing to GAME file: " + ioe);
             return; //??
         }
-
     }
 
     /**
      * Adds a new game. we may be able to combine this function with WriteGame
      * @param
      */
-    //THIS IS NOT NECESSARY
     @Override
     public void writeNewGame(int newGameID, String modelJSON, String gameInfoJSON) {
 
@@ -112,7 +109,7 @@ public class FileGameDAO implements IGameDAO {
     /**
      * Adds a new command.
      * @param commandJSON The type of command.
-     * @param gameID the ID of the game where this command was executed. because we're not sure when/if the cmdobj will have its gameID set normally
+     * @param
      */
     @Override
     public void writeCommand(JSONObject commandJSON, int gameID) {
@@ -120,12 +117,11 @@ public class FileGameDAO implements IGameDAO {
         //to append to an existing file,  use
         // BufferedWriter bw = new BufferedWriter(new FileWriter("file.json", true));  //true mean APPEND
 
-
-        //int gameID = commandJSON.getInt("gameId");  //TODO: we're not 100% sure that the command obj will have the gameID.
+        //int gameID = commandJSON.getInt("gameId");  //because we're not 100% sure that the command obj will have the gameID.
         //make a commands#.json file for this game to use if it's not there already
         String cmdJSONString = commandJSON.toString();
-        String newCmdsFileName = "cmds" + gameID + ".json";  //TEST
-        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;  //wow this actually went to the right place!!
+        String newCmdsFileName = "cmds" + gameID + ".json";
+        String newCmdsFilePath = baseGamesFilePath + newCmdsFileName;
 
         try {
             FileWriter fw = new FileWriter(newCmdsFilePath, true);  //append if it exists. see if this causes an error

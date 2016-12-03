@@ -18,17 +18,16 @@ public class SQLUserDAO implements IUserDAO {
      */
     @Override
     public void writeUser(JSONObject jsonStr) {
-        JSONObject newGameJSON = new JSONObject(jsonStr);
-        int userId = newGameJSON.getInt("userId");
-        String username = newGameJSON.getString("username");
-        String password = newGameJSON.getString("password");
+        int userID = jsonStr.getInt("userID");
+        String username = jsonStr.getString("username");
+        String password = jsonStr.getString("password");
 
         try {
             Connection conn = SQLPlugin.startTransaction();
 
             Statement statement = conn.createStatement();
-            String sql = "INSERT INTO users (userId, username, password) " +
-                    "VALUES (" + userId + "," + username + "," + password + ")";
+            String sql = "INSERT INTO users (userID, username, password) " +
+                    "VALUES (" + userID + ",\'" + username + "\',\'" + password + "\')";
             statement.execute(sql);
 
             statement.close();
@@ -58,7 +57,7 @@ public class SQLUserDAO implements IUserDAO {
                 jsonResult += "{" +
                         "\"userID\":" + resultSet.getInt("userID") +
                         ",\"username\":\"" + resultSet.getString("username") +
-                        "\",\"password\":\"" + resultSet.getString("password") + "\"}";
+                        "\",\"password\":\"" + resultSet.getString("password") + "\"},";
             }
             jsonResult += "]";
 
