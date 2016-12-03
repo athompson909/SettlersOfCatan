@@ -51,13 +51,13 @@ public class CommandManager {
      */
     private void executeCommands() {
         for(int i = 0; i < executedCommands.size(); i++){
-            executedCommands.get(i).serverExec();
+            executedCommands.get(i).serverExec();  //make sure this doesn't add the command back into persistenceManager after execute!
+                                                    //otherwise we'll have duplicate commands in the cmdsFile.
         }
     }
 
     /**
      * Adds the command object to the list of commands that have been executed so far
-     * [Sierra] I don't think we actually need to use this, just get the history/log from the model each time.
      * @param command
      */
     public void addCommandtoList(BaseCommand command){
@@ -81,4 +81,6 @@ public class CommandManager {
     public static void setCommandLimit(int limit){
         commandLimit = limit;
     }
+
+
 }

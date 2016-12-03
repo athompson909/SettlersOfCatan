@@ -18,10 +18,17 @@ import shared.model.map.VertexObject;
 public class FileGameDAOTest extends TestCase {
 
     private FileGameDAO fileGameDAO = new FileGameDAO();
-    private BuildRoadCommand brc1;
-    private BuildSettlementCommand bsc1;
+    String brc1String = "";
+    String bsc1String = "";
+    String rp1String = "";
+    String oT1String = "";
+    String aT1String = "";
     private JSONObject brc1JSON;
     private JSONObject bsc1JSON;
+    private JSONObject rp1JSON;
+    private JSONObject rn1JSON;
+    private JSONObject oT1JSON;
+    private JSONObject aT1JSON;
     private String testClientModel;
     private String testGameInfo1;
     private String testGameInfo2;
@@ -39,20 +46,66 @@ public class FileGameDAOTest extends TestCase {
 
     private void setUpSampleCmds(){
 
-            HexLocation brc1HL1 = new HexLocation(-1,1);
-            EdgeLocation brc1EL1 = new EdgeLocation(brc1HL1, EdgeDirection.North);
-        brc1 = new BuildRoadCommand(brc1EL1, 0, true);
+//            HexLocation brc1HL1 = new HexLocation(-1,1);
+//            EdgeLocation brc1EL1 = new EdgeLocation(brc1HL1, EdgeDirection.North);
+//        brc1 = new BuildRoadCommand(brc1EL1, 0, true);
+        brc1String = "{\n" +
+                "    \"roadLocation\": {\n" +
+                "      \"direction\": \"N\",\n" +
+                "      \"x\": 2,\n" +
+                "      \"y\": 1\n" +
+                "    },\n" +
+                "    \"free\": true,\n" +
+                "    \"type\": \"buildRoad\",\n" +
+                "    \"playerIndex\": 0\n" +
+                "  }";
+        brc1JSON = new JSONObject(brc1String);
+        //brc1JSON = new JSONObject(gsonTranslator.toJson(brc1));  //should look just like how the server usually wants it
 
-        brc1JSON = new JSONObject(gsonTranslator.toJson(brc1));  //should look just like how the server usually wants it
 
-            HexLocation bsc1HL1 = new HexLocation(0,2);
-            VertexLocation bscVL1 = new VertexLocation(bsc1HL1, VertexDirection.SouthEast);
-            VertexObject bscVO1 = new VertexObject(bscVL1);
-            bscVO1.setOwner(0);
-        bsc1 = new BuildSettlementCommand(bscVO1, false);
+        bsc1String = "  {\n" +
+                "    \"vertexLocation\": {\n" +
+                "      \"direction\": \"SE\",\n" +
+                "      \"x\": 0,\n" +
+                "      \"y\": -1\n" +
+                "    },\n" +
+                "    \"free\": false,\n" +
+                "    \"type\": \"buildSettlement\",\n" +
+                "    \"playerIndex\": 1\n" +
+                "  }";
+        bsc1JSON = new JSONObject(bsc1String);
 
-        bsc1JSON = new JSONObject(gsonTranslator.toJson(bsc1));
+        rp1String = "  {\n" +
+                "    \"victimIndex\": 1,\n" +
+                "    \"location\": {\n" +
+                "      \"x\": 2,\n" +
+                "      \"y\": 2\n" +
+                "    },\n" +
+                "    \"type\": \"robPlayer\",\n" +
+                "    \"playerIndex\": 0\n" +
+                "  }";
+        rp1JSON = new JSONObject(rp1String);
 
+        oT1String = "{\n" +
+                "    \"receiver\": 2,\n" +
+                "    \"offer\": {\n" +
+                "      \"brick\": 0,\n" +
+                "      \"wood\": 0,\n" +
+                "      \"sheep\": 1,\n" +
+                "      \"wheat\": 1,\n" +
+                "      \"ore\": 0\n" +
+                "    },\n" +
+                "    \"type\": \"offerTrade\",\n" +
+                "    \"playerIndex\": 0\n" +
+                "  }";
+        oT1JSON = new JSONObject(oT1String);
+
+        aT1String = "  {\n" +
+                "    \"willAccept\": true,\n" +
+                "    \"type\": \"acceptTrade\",\n" +
+                "    \"playerIndex\": 2\n" +
+                "  }";
+        aT1JSON = new JSONObject(aT1String);
 
     }
 
@@ -617,10 +670,25 @@ public class FileGameDAOTest extends TestCase {
         //be able to append new Command JSON bits to the same file without overwriting old content
 
         fileGameDAO.writeCommand(brc1JSON, 3); //3 is the test gameID
-        fileGameDAO.writeCommand(bsc1JSON, 3);  //testing whether it appends to same file after creating it
+        fileGameDAO.writeCommand(bsc1JSON, 3);
+        fileGameDAO.writeCommand(rp1JSON, 3);
+        fileGameDAO.writeCommand(aT1JSON, 3);
+        fileGameDAO.writeCommand(oT1JSON, 3);
 
-        //assert file exists? or just read it in again
+        //assert file exists? or just read it in again via readCommands
     }
+
+    @Test
+    //run testWriteCmds before you run this one!
+    public void testReadCommands() throws Exception {
+        System.out.println(">TESTING READCMDS!");
+
+        JSONArray readCmdsResult = fileGameDAO.readGameCommands("./json_files/games/cmds3.json");
+
+
+        assertTrue(readCmdsResult.length() == 5);  //should have 5 commands
+    }
+
 
 
     @Test
@@ -631,8 +699,8 @@ public class FileGameDAOTest extends TestCase {
         //create a new file called game0.json inside the /json_files/games folder if it doesn't exist
         //write sample game to it (in a JSONArray s.t. spot0 = clientModel, spot1 = GameInfo), overwriting old content
 
-        fileGameDAO.writeGame(2, testClientModel, testGameInfo1);
-        fileGameDAO.writeGame(1, testClientModel, testGameInfo2);
+        fileGameDAO.writeGame(1, testClientModel, testGameInfo1);
+        fileGameDAO.writeGame(0, testClientModel, testGameInfo2);
 
     }
 
@@ -648,8 +716,7 @@ public class FileGameDAOTest extends TestCase {
 
         JSONArray bigGuy = fileGameDAO.readGame("./json_files/games/game0.json");
 
-        assertTrue(bigGuy == null); // i deleted the json files in Finder
-
+        assertTrue(bigGuy.length() == 2);  //should have 2 parts: the clientModel and the gameInfo
     }
 
     @Test
@@ -660,7 +727,7 @@ public class FileGameDAOTest extends TestCase {
         JSONArray allGamesReadResult = fileGameDAO.readAllGames();
 
 
-       // assertTrue(allGamesReadResult.length() == 3);  //should be 3 games: game0, game1, game2
+        assertTrue(allGamesReadResult.length() == 2);  //should be 3 games: game0, game1, game2
 
         //return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
     }

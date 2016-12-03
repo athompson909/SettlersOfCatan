@@ -374,4 +374,8 @@ public class Game {
     public void logCommand(BaseCommand command){
         commandManager.addCommandtoList(command);
     }
+
+
+
+
 }
