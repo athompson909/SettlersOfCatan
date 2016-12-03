@@ -46,4 +46,7 @@ public class GameLoadCommand extends BaseCommand {
 
         return null;
     }
+
+    @Override
+    public void reExecute(){}
 }

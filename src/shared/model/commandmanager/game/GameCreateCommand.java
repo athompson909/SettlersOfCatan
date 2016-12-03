@@ -96,6 +96,9 @@ public class GameCreateCommand extends BaseCommand {
         return ServerTranslator.getInstance().gameInfoToJSON(gameInfo);
     }
 
+    @Override
+    public void reExecute(){}
+
     //Getters
     public String getName() {
         return name;

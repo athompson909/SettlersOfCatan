@@ -45,6 +45,9 @@ public class UtilChangeLogLevelCommand extends BaseCommand {
         return null;
     }
 
+    @Override
+    public void reExecute(){}
+
     //Getters
 
     public LoggingLevel getLogLevel() {

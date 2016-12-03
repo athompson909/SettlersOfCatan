@@ -74,6 +74,9 @@ public class LoginCommand extends BaseCommand {
         return ServerTranslator.getInstance().booleanToString(false);
     }
 
+    @Override
+    public void reExecute(){}
+
     //Getters
 
     public String getUsername() {

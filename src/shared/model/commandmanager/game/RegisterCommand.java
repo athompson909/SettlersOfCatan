@@ -75,6 +75,9 @@ public class RegisterCommand extends BaseCommand {
         //return ServerTranslator.getInstance().booleanToString(response);
     }
 
+    @Override
+    public void reExecute(){}
+
     //Getters
 
     public String getUsername() {

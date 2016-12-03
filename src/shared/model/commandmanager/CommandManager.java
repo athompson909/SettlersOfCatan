@@ -49,9 +49,9 @@ public class CommandManager {
      * @pre Used after Reload
      * @post model is up to date
      */
-    private void executeCommands() {
+    private void executeCommands(int gameID) {
         for(int i = 0; i < executedCommands.size(); i++){
-            executedCommands.get(i).serverExec();  //make sure this doesn't add the command back into persistenceManager after execute!
+            executedCommands.get(i).reExecute(int gameID);  //make sure this doesn't add the command back into persistenceManager after execute!
                                                     //otherwise we'll have duplicate commands in the cmdsFile.
         }
     }

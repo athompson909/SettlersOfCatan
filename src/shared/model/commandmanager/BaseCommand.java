@@ -160,4 +160,6 @@ public abstract class BaseCommand implements HttpHandler {
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
+
+    abstract public void reExecute(int gameId);
 }

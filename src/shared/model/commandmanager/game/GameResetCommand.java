@@ -32,4 +32,7 @@ public class GameResetCommand extends BaseCommand {
 
         return null;
     }
+
+    @Override
+    public void reExecute(){}
 }

@@ -32,4 +32,7 @@ public class GetGameCommandsCommand extends BaseCommand {
 
         return null;
     }
+
+    @Override
+    public void reExecute(){}
 }
