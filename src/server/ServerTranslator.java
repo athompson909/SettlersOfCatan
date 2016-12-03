@@ -27,7 +27,9 @@ import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 import shared.shared_utils.Converter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -253,7 +255,7 @@ public class ServerTranslator {
     /**
      * helps with PersistenceManager
      * allGamesJSON is the huge JSONArr that has 1 entry representing each game.
-     * each entry is a JSONArray in itself that has a clientModel (JSON) at spot 0 and a gameInfo (JSON) at spot 1.
+     * each entry is a JSONArray in itself that has a clientModel (JSON) at spot 0, a gameInfo (JSON) at spot 1, and a list of cmds at spot 2.
      * We need to use these JSON items to build actual Game objects that the GamesManager can use to populate its game registry.
      *
      * NOTE: both ClientModel and GameInfo already have translating functions. But I think they're in the client-side translator.
@@ -268,17 +270,21 @@ public class ServerTranslator {
 
         //first grab each entry in the JSONArray so we can pull out its ClientModel and GameInfo objects
         for (int g = 0; g < allGamesJSON.length(); g++) {
-            JSONArray currGameEntry = allGamesJSON.getJSONArray(g); //this should contain the 2 big data chunks
+            JSONArray currGameEntry = allGamesJSON.getJSONArray(g); //this should contain the 3 big data chunks
             JSONObject currGameCMJSON = currGameEntry.getJSONObject(0); //should be JSON of a ClientModel
             JSONObject currGameGIJSON = currGameEntry.getJSONObject(1); //should be JSON of a GameInfo
-            //send these both through the JSONTranslator to get real objects
+            JSONArray currGameCmdsArr = currGameEntry.getJSONArray(2);  //should be a JSONArr of BaseCommands
+            //send these all through the JSONTranslator to get real objects
             ClientModel currGameClientModel = jsonTranslator.modelFromJSON(currGameCMJSON);
-            GameInfo currGameInfo = jsonTranslator.gameCreateResponseFromJSON(currGameGIJSON); //pretty sure this is the right translator for GIs
-            //after we read in the cmds#.json file corresponding to this game, we may need to call Game.logCommand()
-            //on each of the commands we are executing. But I think that just adds it to the gameLog so that might not be needed
+            GameInfo currGameInfo = jsonTranslator.gameCreateResponseFromJSON(currGameGIJSON); //this is the translator for GIs
+            List<BaseCommand> currGameCmdsList = jsonTranslator.commandsListFromJSON(currGameCmdsArr);
+
             Game currGame = new Game();
             currGame.setClientModel(currGameClientModel);
             currGame.setGameInfo(currGameInfo);
+
+            //add the list of commands to the Game's commandManager as its member variable
+
 
             int currGameID = currGameInfo.getId();
             gamesMap.put(currGameID, currGame);
