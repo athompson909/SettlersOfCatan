@@ -48,7 +48,7 @@ public class GamesManager {
      * Private constructor
      */
     private GamesManager() {
-        buildMockGames();
+       // buildMockGames();
 
     }
 
