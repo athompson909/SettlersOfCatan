@@ -114,12 +114,12 @@ public class FilePlugin implements IPersistenceProvider {
      */
     @Override
     public void clearAllData() {
-        if(gamesDirectory.exists()) {
+        //if(gamesDirectory.exists()) {
             deleteFolder(gamesDirectory);
-        }
-        if(usersDirectory.exists()) {
+        //}
+        //if(usersDirectory.exists()) {
             deleteFolder(usersDirectory);
-        }
+        //}
     }
 
     /**
@@ -137,7 +137,7 @@ public class FilePlugin implements IPersistenceProvider {
                 }
             }
         }
-        folder.delete();
+        //folder.delete();
     }
 
 
