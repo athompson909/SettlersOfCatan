@@ -79,6 +79,25 @@ public class UserManager {
         else {return false;} //Means that their username is already in our system
     }
 
+
+    /**
+     * Adds a newly registered User to the list of all games
+     * and maps it to its gameID
+     *
+     */
+    public boolean reAddUser(String username, String password){
+        //Needs to check if username is UNIQUE
+        //Add user to BOTH hashmaps
+        if(!usersByUsername.containsKey(username)) {
+            User user = new User(username, password, userID);
+            allUsers.put(userID, user);
+            usersByUsername.put(user.getUserName(), user);
+            userID++;
+            return true;
+        }
+        else {return false;} //Means that their username is already in our system
+    }
+
     public User getUser(int userID) {
         if(allUsers.containsKey(userID)) {
             return allUsers.get(userID);
