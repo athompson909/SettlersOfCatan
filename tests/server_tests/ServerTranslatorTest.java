@@ -1,6 +1,7 @@
 package server_tests;
 
 import DAO_tests.FileGameDAOTest;
+import DAO_tests.FileUserDAOTest;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import junit.framework.TestCase;
@@ -8,8 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
-import server.Game;
 import server.ServerTranslator;
+import server.User;
 import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.locations.*;
@@ -42,6 +43,7 @@ public class ServerTranslatorTest extends TestCase {
 
 
     private FileGameDAOTest fileGameDAOTest = new FileGameDAOTest(); //to test readAllGames from JSON
+    private FileUserDAOTest fileUserDAOTest = new FileUserDAOTest(); //to test readAllUsers from JSON
     private ClientModel testClientModel;
     private GameInfo[] testGamesArr;
     private GameInfo testGameInfo;
@@ -367,6 +369,19 @@ public class ServerTranslatorTest extends TestCase {
 
 
     //for part of the persistence recovery process
+    @Test
+    public void testUsersFromJSON() throws Exception {
+        System.out.println(">TESTING USERSFromJSON!");
+
+        JSONArray readAllUsersResult = fileUserDAOTest.testReadUsers();
+
+        HashMap<Integer, User> serverTranslatorResult = ServerTranslator.getInstance().usersFromJSON(readAllUsersResult);
+
+        assertTrue(serverTranslatorResult.size() == 4);
+    }
+
+
+        //for part of the persistence recovery process
     @Test
     public void testGamesFromJSON() throws Exception {
         System.out.println(">TESTING GAMESFromJSON!");

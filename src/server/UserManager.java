@@ -83,20 +83,20 @@ public class UserManager {
     /**
      * Adds a newly registered User to the list of all games
      * and maps it to its gameID
-     *
+     *  WITHOUT talking to the persistenceManager!
      */
-    public boolean reAddUser(String username, String password){
-        //Needs to check if username is UNIQUE
-        //Add user to BOTH hashmaps
-        if(!usersByUsername.containsKey(username)) {
-            User user = new User(username, password, userID);
-            allUsers.put(userID, user);
-            usersByUsername.put(user.getUserName(), user);
-            userID++;
-            return true;
-        }
-        else {return false;} //Means that their username is already in our system
-    }
+//    public boolean reAddUser(String username, String password){
+//        //Needs to check if username is UNIQUE
+//        //Add user to BOTH hashmaps
+//        if(!usersByUsername.containsKey(username)) {
+//            User user = new User(username, password, userID);
+//            allUsers.put(userID, user);
+//            usersByUsername.put(user.getUserName(), user);
+//            userID++;
+//            return true;
+//        }
+//        else {return false;} //Means that their username is already in our system
+//    }
 
     public User getUser(int userID) {
         if(allUsers.containsKey(userID)) {
@@ -124,7 +124,8 @@ public class UserManager {
         return (user != null && password.equals(user.getUserPassword()));
     }
 
-    public void setAllUsers(HashMap allUsers){
+
+    public void setAllUsers(HashMap<Integer, User> allUsers){
         this.allUsers = allUsers;
 
         //create usersByUsername map
@@ -133,4 +134,5 @@ public class UserManager {
             usersByUsername.put(user.getUserName(), user);
         }
     }
+
 }

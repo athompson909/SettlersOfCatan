@@ -6,15 +6,11 @@ import org.json.JSONObject;
 import server.plugins.IPersistenceProvider;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
-import server.plugins.*;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -80,8 +76,8 @@ public class PersistenceManager {
      * @return a String with all the registered users.
      */
     public void loadAllUsers(){
-        JSONArray userJSON = persistenceProvider.readAllUsers();
-        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().userJSONtoHashMap(userJSON);
+        JSONArray usersJSON = persistenceProvider.readAllUsers();
+        HashMap<Integer, User> allUsers = ServerTranslator.getInstance().usersFromJSON(usersJSON);
         UserManager.getInstance().setAllUsers(allUsers);
     }
 

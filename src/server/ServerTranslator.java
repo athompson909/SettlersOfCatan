@@ -242,14 +242,23 @@ public class ServerTranslator {
     /**
      * helps with persistenceManager
      * takes a JSONArray of Users data and converts it to a Hashmap that the UsersManager can use to set its users registery
-     * @param userJSON
+     * @param usersJSON
      * @return
      */
-    public HashMap<Integer, User> userJSONtoHashMap(JSONArray userJSON){
+    public HashMap<Integer, User> usersFromJSON(JSONArray usersJSON){
 
-        //TODO: SIERRA FILL THIS OUT YO
+        HashMap<Integer, User> usersMap = new HashMap<>();
 
-        return null;
+        //get each item in the JSONArray and make a User object out of it
+        for (int u = 0; u < usersJSON.length(); u++){
+            JSONObject currUserJSON = usersJSON.getJSONObject(u);
+            User currUser = gsonTranslator.fromJson(currUserJSON.toString(), User.class);
+            int currUserID = currUser.getUserID();
+
+            usersMap.put(currUserID, currUser);
+        }
+
+        return usersMap;
     }
 
     /**
@@ -258,8 +267,7 @@ public class ServerTranslator {
      * each entry is a JSONArray in itself that has a clientModel (JSON) at spot 0, a gameInfo (JSON) at spot 1, and a list of cmds at spot 2.
      * We need to use these JSON items to build actual Game objects that the GamesManager can use to populate its game registry.
      *
-     * NOTE: both ClientModel and GameInfo already have translating functions. But I think they're in the client-side translator.
-     * so might need to copy those over or move them to a Utils class for ease of access.
+     * This also sets the GamesManager with the new Games! after the extra commands are executed on their respective game models.
      *
      * @param allGamesJSON
      * @return

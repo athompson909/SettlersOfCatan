@@ -32,7 +32,7 @@ public class User {
      * HashMap of all the games the user is in.
      * The Key is the index of the game, and the value is their index value in that game.
      */
-    private HashMap<Integer, Integer> addedGames = new HashMap<>();
+    //private HashMap<Integer, Integer> addedGames = new HashMap<>();
 
     public User(String username, String password, int userid) {
         this.userName = username;
@@ -53,9 +53,9 @@ public class User {
         return userID;
     }
 
-    public HashMap<Integer, Integer> getAddedGames() {
-        return addedGames;
-    }
+//    public HashMap<Integer, Integer> getAddedGames() {
+//        return addedGames;
+//    }
 
 
     //SETTERS
