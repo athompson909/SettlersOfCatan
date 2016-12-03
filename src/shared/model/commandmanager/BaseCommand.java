@@ -121,7 +121,7 @@ public abstract class BaseCommand implements HttpHandler {
         String undecodedCookie = headers.get("Cookie").get(0);
         String rawCookie = URLDecoder.decode(undecodedCookie);
         String gameIdStr = rawCookie.substring(rawCookie.length()-12, rawCookie.length());
-        gameId = Integer.parseInt(gameIdStr.substring(11, gameIdStr.length()));
+        this.gameId = Integer.parseInt(gameIdStr.substring(11, gameIdStr.length()));
         String cookie = rawCookie.substring(11, rawCookie.length()-14);
         return new JSONObject(cookie);
     }

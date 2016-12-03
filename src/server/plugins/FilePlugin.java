@@ -9,6 +9,7 @@ import server.plugins.data_access.IGameDAO;
 import server.plugins.data_access.IUserDAO;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.sql.Connection;
 
 /**
@@ -20,7 +21,6 @@ public class FilePlugin implements IPersistenceProvider {
     private static File gamesDirectory = new File("./json_files/games");
     private static File usersDirectory = new File("./json_files/users");
 
-    private static String baseGamesFilePath = "./json_files/games/";
 
     /**
      * IUserDAO to access users
@@ -110,12 +110,16 @@ public class FilePlugin implements IPersistenceProvider {
     }
 
     /**
-     * Clears all the file data.
+     * Clears all the file data, both games and users..
      */
     @Override
     public void clearAllData() {
-        File jsonFolder = new File(baseGamesFilePath);
-        deleteFolder(jsonFolder);
+        //if(gamesDirectory.exists()) {
+            deleteFolder(gamesDirectory);
+        //}
+        //if(usersDirectory.exists()) {
+            deleteFolder(usersDirectory);
+        //}
     }
 
     /**
@@ -133,7 +137,7 @@ public class FilePlugin implements IPersistenceProvider {
                 }
             }
         }
-        folder.delete();
+        //folder.delete();
     }
 
 
