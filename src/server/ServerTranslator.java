@@ -283,7 +283,8 @@ public class ServerTranslator {
             currGame.setClientModel(currGameClientModel);
             currGame.setGameInfo(currGameInfo);
 
-            //add the list of commands to the Game's commandManager as its member variable
+            //add the list of commands to the Game's commandManager using its setter(), then call execCommands() to bring the model up to date
+            currGame.commandManager.setExecutedCommands(currGameCmdsList);
 
 
             int currGameID = currGameInfo.getId();

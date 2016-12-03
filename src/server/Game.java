@@ -38,7 +38,7 @@ public class Game {
     /**
      * Stores the commands for this game.
      */
-    private CommandManager commandManager = new CommandManager();
+    public CommandManager commandManager = new CommandManager();
 
     /**
      * Use this constructor to create games where you don't want to create a new map, i.e. when reading game models from persistence
