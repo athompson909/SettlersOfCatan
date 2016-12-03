@@ -54,6 +54,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
         playerIndex = purchasDevCardJSON.getInt("playerIndex");
 
         PurchaseDevCardCommand command = new PurchaseDevCardCommand(playerIndex);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buyDevCard(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();

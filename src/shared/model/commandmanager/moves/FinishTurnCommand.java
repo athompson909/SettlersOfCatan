@@ -66,6 +66,7 @@ public class FinishTurnCommand extends BaseCommand {
         playerIndex = finishTurnJSON.getInt("playerIndex");
 
         FinishTurnCommand command = new FinishTurnCommand(playerIndex);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().finishTurn(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();

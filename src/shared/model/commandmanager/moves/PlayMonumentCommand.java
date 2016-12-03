@@ -63,6 +63,7 @@ public class PlayMonumentCommand extends BaseCommand {
         playerIndex = monumentJSON.getInt("playerIndex");
 
         PlayMonumentCommand command = new PlayMonumentCommand(playerIndex);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playMonument(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();

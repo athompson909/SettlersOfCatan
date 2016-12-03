@@ -1,5 +1,6 @@
 package server.plugins;
 
+import client.utils.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import server.plugins.data_access.FileGameDAO;
@@ -8,6 +9,7 @@ import server.plugins.data_access.IGameDAO;
 import server.plugins.data_access.IUserDAO;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.sql.Connection;
 
 /**
@@ -18,6 +20,7 @@ public class FilePlugin implements IPersistenceProvider {
     private static File baseDirectory = new File("./json_files");
     private static File gamesDirectory = new File("./json_files/games");
     private static File usersDirectory = new File("./json_files/users");
+
 
     /**
      * IUserDAO to access users
@@ -107,12 +110,38 @@ public class FilePlugin implements IPersistenceProvider {
     }
 
     /**
-     * Clears all the data.
+     * Clears all the file data, both games and users..
      */
     @Override
     public void clearAllData() {
-
+        //if(gamesDirectory.exists()) {
+            deleteFolder(gamesDirectory);
+        //}
+        //if(usersDirectory.exists()) {
+            deleteFolder(usersDirectory);
+        //}
     }
+
+    /**
+     * Recursively iterates through a given folder and deletes all of the content inside.
+     * @param folder file directory to have all content removed.
+     */
+    private void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) {
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        //folder.delete();
+    }
+
+
+
 
     @Override
     public void clearCommands(int gameID) {

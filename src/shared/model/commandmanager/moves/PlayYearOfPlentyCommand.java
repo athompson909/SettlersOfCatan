@@ -74,6 +74,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         resource2 = Converter.stringToResourceType(resource2Str);
 
         PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(playerIndex, resource1, resource2);
+        command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();
