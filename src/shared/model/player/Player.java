@@ -120,9 +120,8 @@ public class Player { //
         this.name = name;
         this.playerID = playerID;
         this.playerIndex = playerIndex;
-
-
-        if(name.equals("Mitch")){
+        
+       /* if(name.equals("Mitch")){
             getPlayerResourceList().incOreCardCount(20);
             getPlayerResourceList().incWheatCardCount(20);
             getPlayerResourceList().incWoodCardCount(20);
@@ -133,7 +132,7 @@ public class Player { //
             oldDevCardList.addDevCard(DevCardType.MONUMENT);
             oldDevCardList.addDevCard(DevCardType.ROAD_BUILD);
             oldDevCardList.addDevCard(DevCardType.ROAD_BUILD);
-        }
+        }*/
     }
 
     /**
