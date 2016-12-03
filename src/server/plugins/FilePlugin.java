@@ -137,7 +137,7 @@ public class FilePlugin implements IPersistenceProvider {
                 }
             }
         }
-        //folder.delete();
+        //folder.delete(); //Leave the folder there.
     }
 
 
