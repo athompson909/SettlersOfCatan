@@ -43,7 +43,7 @@ public class SQLPluginTest extends TestCase {
         String modelJSON = MockJSONs.GAME_MODEL;
         String gameInfoJSON = MockJSONs.GAME_CREATE_RESPONSE;
 
-        sqlPlugin.writeGame(gameID, modelJSON, gameInfoJSON);
+        SQLPlugin.writeNewGame(gameID, modelJSON, gameInfoJSON);
 
     }
 
