@@ -73,6 +73,16 @@ public class PlayMonumentCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().playMonument(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" played a monument", userId);
+        }
+    }
+
 //Getters
     public String getType() {
         return type;

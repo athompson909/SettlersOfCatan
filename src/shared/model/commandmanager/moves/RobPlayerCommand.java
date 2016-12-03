@@ -88,6 +88,23 @@ public class RobPlayerCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().robPlayer(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            String message = "";
+            if(victimIndex >= 0 && victimIndex < 4){
+                String victim = GamesManager.getInstance().getGame(gameID).getVictimName(victimIndex);
+                message = " robbed " + victim;
+            }else {
+                message = " moved the robber";
+            }
+            model.addLog(message, userId);
+        }
+    }
+
     //Getters
 
     public int getPlayerIndex() {

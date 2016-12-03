@@ -75,7 +75,7 @@ public class LoginCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(){}
+    public void reExecute(int gameID){}
 
     //Getters
 

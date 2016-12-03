@@ -54,7 +54,7 @@ public class AddAICommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(){}
+    public void reExecute(int gameID){}
 
 
     public String getAIType() {

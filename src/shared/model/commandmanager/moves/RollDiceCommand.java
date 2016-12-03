@@ -70,6 +70,16 @@ public class RollDiceCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().rollNumber(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" rolled a "+number, userId);
+        }
+    }
+
     public int getNumber() {
         return number;
     }

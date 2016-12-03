@@ -100,6 +100,16 @@ public class MaritimeTradeCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().maritimeTrade(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" maritime traded", userId);
+        }
+    }
+
 
     //Getters and Setters
     public int getPlayerIndex() {

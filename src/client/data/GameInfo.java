@@ -103,5 +103,9 @@ public class GameInfo
 
 	}
 
+	public int getUserIdFromIndex(int index){
+		return players.get(index).getId();
+	}
+
 }
 

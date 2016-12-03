@@ -91,6 +91,16 @@ public class PlaySoldierCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().playSoldier(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" played a soldier", userId);
+        }
+    }
+
 //Getters and Setters
     public HexLocation getRobberLoc() {
         return robberLoc;

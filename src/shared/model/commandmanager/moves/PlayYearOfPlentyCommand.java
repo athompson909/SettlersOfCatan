@@ -84,6 +84,16 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().playYearOfPlenty(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" played year of plenty", userId);
+        }
+    }
+
 //Getters
     public String getType() {
         return type;

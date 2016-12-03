@@ -97,7 +97,7 @@ public class GameCreateCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(){}
+    public void reExecute(int gameID){}
 
     //Getters
     public String getName() {

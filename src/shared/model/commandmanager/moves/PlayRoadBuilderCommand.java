@@ -104,6 +104,16 @@ public class PlayRoadBuilderCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().playRoadBuilding(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" played a road building card", userId);
+        }
+    }
+
 
 //Getters and Setters
     public EdgeLocation getLocationONE() {

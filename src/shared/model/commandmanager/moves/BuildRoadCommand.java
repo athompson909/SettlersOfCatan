@@ -96,6 +96,16 @@ public class BuildRoadCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    @Override
+    public void reExecute(int gameID){
+        int userId = getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().buildRoad(userId, gameID, this);
+        if(model != null) {
+            model.incrementVersion();
+            model.addLog(" built a road", userId);
+        }
+    }
+
 //Getters and Setters
     /**
      * Getter for boolean free
