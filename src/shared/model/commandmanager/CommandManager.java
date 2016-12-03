@@ -53,6 +53,7 @@ public class CommandManager {
         for(int i = 0; i < executedCommands.size(); i++){
             executedCommands.get(i).reExecute(int gameID);  //make sure this doesn't add the command back into persistenceManager after execute!
                                                     //otherwise we'll have duplicate commands in the cmdsFile.
+
         }
     }
 
@@ -83,4 +84,13 @@ public class CommandManager {
     }
 
 
+
+    //used for loading from files
+    public List<BaseCommand> getExecutedCommands() {
+        return executedCommands;
+    }
+
+    public void setExecutedCommands(List<BaseCommand> executedCommands) {
+        this.executedCommands = executedCommands;
+    }
 }
