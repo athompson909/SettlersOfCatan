@@ -2,6 +2,7 @@ package shared.model.commandmanager.game;
 import com.google.gson.annotations.SerializedName;
 import org.json.JSONObject;
 import server.IServerFacade;
+import server.PersistenceManager;
 import shared.definitions.CatanColor;
 import shared.model.commandmanager.BaseCommand;
 import shared.shared_utils.Converter;
@@ -63,14 +64,15 @@ public class GameJoinCommand extends BaseCommand {
         color = Converter.stringToCatanColor(requestJSON.getString("color"));
 
         GameJoinCommand command = new GameJoinCommand(gameID, color);
-        command.setGameId(getGameId());
+        command.setGameId(gameID);
         boolean success = IServerFacade.getInstance().join(getUserId(), command);
         if(success) {
             String fullResponseLoginCookieStr = "catan.game="+gameID+";Path=/;";
             List<String> cookieList = new ArrayList<>(1);
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
-            IServerFacade.getInstance().logCommand(getGameId(), command);
+            //IServerFacade.getInstance().logCommand(command.getGameId(), command);
+            PersistenceManager.getInstance().writeGame(gameID);
         }
 
         return (success ? "Success" : null);
