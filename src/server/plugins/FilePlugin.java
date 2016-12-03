@@ -20,7 +20,6 @@ public class FilePlugin implements IPersistenceProvider {
     private static File gamesDirectory = new File("./json_files/games");
     private static File usersDirectory = new File("./json_files/users");
 
-    private static String baseGamesFilePath = "./json_files/games/";
 
     /**
      * IUserDAO to access users
@@ -110,12 +109,12 @@ public class FilePlugin implements IPersistenceProvider {
     }
 
     /**
-     * Clears all the file data.
+     * Clears all the file data, both games and users..
      */
     @Override
     public void clearAllData() {
-        File jsonFolder = new File(baseGamesFilePath);
-        deleteFolder(jsonFolder);
+        deleteFolder(gamesDirectory);
+        deleteFolder(usersDirectory);
     }
 
     /**
