@@ -641,8 +641,6 @@ public class ClientFacade {
     public void rollNumber(RollDiceCommand command){
         JSONObject jsonToSend = jsonTranslator.rollDiceCmdToJSON(command);
         try {
-            //record that this happened
-            Client.getInstance().getCommandManager().addCommandtoList(command);
 
             JSONObject jsonNewModel = serverProxy.rollNumber(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
@@ -663,8 +661,6 @@ public class ClientFacade {
     public void finishTurn(FinishTurnCommand command){
         JSONObject jsonToSend = jsonTranslator.finishTurnCmdToJSON(command);
         try {
-            //record that this happened
-            Client.getInstance().getCommandManager().addCommandtoList(command);
 
             JSONObject jsonNewModel = serverProxy.finishTurn(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
@@ -709,8 +705,6 @@ public class ClientFacade {
     public void buildRoad(BuildRoadCommand command){
         JSONObject jsonToSend = jsonTranslator.buildRoadCmdToJSON(command);
         try {
-            //record that this happened
- //           Client.getInstance().getCommandManager().addCommandtoList(command);
 
             JSONObject jsonNewModel = serverProxy.buildRoad(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
@@ -736,8 +730,6 @@ public class ClientFacade {
     public void buildSettlement(BuildSettlementCommand command){
         JSONObject jsonToSend = jsonTranslator.buildSettlementCmdToJSON(command);
         try {
-            //record that this happened
-//            Client.getInstance().getCommandManager().addCommandtoList(command);
 
             JSONObject jsonNewModel = serverProxy.buildSettlement(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
@@ -760,8 +752,6 @@ public class ClientFacade {
     public void buildCity(BuildCityCommand command){
         JSONObject jsonToSend = jsonTranslator.buildCityCmdToJSON(command);
         try {
-            //record that this happened
-//            Client.getInstance().getCommandManager().addCommandtoList(command);
 
             JSONObject jsonNewModel = serverProxy.buildCity(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
@@ -846,8 +836,6 @@ public class ClientFacade {
     public void robPlayer(RobPlayerCommand command){
         JSONObject jsonToSend = jsonTranslator.robPlayerCmdToJSON(command);
         try {
-            //record that this happened
-//            Client.getInstance().getCommandManager().addCommandtoList(command);
 
             JSONObject jsonNewModel = serverProxy.robPlayer(jsonToSend);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
