@@ -43,7 +43,7 @@ public class GamesManager {
         return instance;
     }
 
-    public static int gameID = 1;  //TESTING FOR MOCK GAMES
+    public static int gameID = 0;  //TESTING FOR MOCK GAMES
     /**
      * Private constructor
      */
