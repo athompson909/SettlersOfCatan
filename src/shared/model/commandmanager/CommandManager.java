@@ -56,7 +56,7 @@ public class CommandManager {
      * that way reExec() can do its job.
      *  what if we have a map of userID > commandObj? instead of a list of commands.
      *  it would be way easy to do this if each commandObj held the UserID who did it. but Idk if that would mess up a lot of stuff
-     *
+     *  if each command object already has its userID as a data member, reExecute should work fine.
      *
      * @pre Used after Reload
      * @post model is up to date

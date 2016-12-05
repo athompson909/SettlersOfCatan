@@ -88,6 +88,7 @@ public class FirstRoundMapState extends MapState {
     public void placeRoad(EdgeLocation edgeLoc) {
         //This should send it to the server
         int currentPlayerIndex = mapController.clientModel.getClientPlayer().getPlayerIndex();
+        int currentPlayerID = mapController.clientModel.getClientPlayer().getPlayerID();
         BuildRoadCommand buildRoadCommand = new BuildRoadCommand(edgeLoc, currentPlayerIndex, true);
 
         ClientFacade.getInstance().buildRoad(buildRoadCommand);

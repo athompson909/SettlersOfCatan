@@ -16,6 +16,7 @@ import shared.model.ClientModel;
 import shared.model.JSONTranslator;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.BaseCommand;
+import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.map.*;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -307,14 +308,14 @@ public class ServerTranslator {
 
             //add the list of commands to the Game's commandManager using its setter()
             // EXECUTE ALL THE REMAINING CMDS TO UPDATE THE CLIENTMODEL BEFORE ADDING IT TO GAMESMGR
-                //currGame.commandManager.setExecutedCommands(currGameCmdsList);
+            currGame.commandManager.setExecutedCommands(currGameCmdsList);
                 //HashMap<Integer, BaseCommand> mappedCmds = mapCmdsToUserIDs(currGameCmdsList, currGameInfo);
                 //currGame.commandManager.setCmdsToReExecute(mappedCmds) //maps GLOBAL userID -> commandObj
             //call the looping serverExecute fn in commandManager to bring the model up to speed
             //int currGameID = currGameInfo.getId();
                 currGame.commandManager.executeCommands(currGameID);  //TODO: we can't execute the commands on this game because it hasn't been added to GamesManger yet.
                                                                         //throws a nullptr when it tries to ask the GamesMgr what the playerIndex is during reExec().
-
+                                    //we're now changing the CmdObjs to each hold their own userID so it should work ok!
             //model should now be up to date and ready to be added to the GamesManager
 
             gamesMap.put(currGameID, currGame);
@@ -339,6 +340,7 @@ public class ServerTranslator {
 //
 //        for (BaseCommand currCmd : cmdsList){
 //            int currCmdPlayerIndex = currCmd.getPlayerIndex();
+//              //this doesn't work because the fieldPlayerIndex only exists in the classes that inherit from BaseCommand.
 //
 //        }
 //

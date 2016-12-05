@@ -22,7 +22,7 @@ public abstract class BaseCommand implements HttpHandler {
 
     //this is the global userID for the user who executed the command.
     //set right upon creating a commandObject
-    private int userID = -1;
+    public int userID;
 
     /**
      * Handles commands received from the server and returns a response
@@ -97,8 +97,13 @@ public abstract class BaseCommand implements HttpHandler {
     }
 
 
+//    public int getUserId() {
+//        return getCookieJSON().getInt("playerID");
+//    }
+
+    //NEW ONE - doesn't rely on the cookie JSON
     public int getUserId() {
-        return getCookieJSON().getInt("playerID");
+        return userID;
     }
 
     public String getUsername() {
@@ -112,6 +117,8 @@ public abstract class BaseCommand implements HttpHandler {
     public int getGameId() {
         return gameId;
     }
+
+
 
     public abstract JSONObject getCookieJSON();
 
@@ -169,6 +176,11 @@ public abstract class BaseCommand implements HttpHandler {
     }
 
     abstract public void reExecute(int gameId);
+
+
+    public void setUserId(int userID) {
+        this.userID = userID;
+    }
 
     //this doesn't work , don't use it!
     public static int getUserIdFromIndex(int index, int gameId){
