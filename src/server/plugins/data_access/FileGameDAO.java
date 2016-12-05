@@ -309,4 +309,7 @@ public class FileGameDAO implements IGameDAO {
         return allCommands;
     }
 
+    public void clearCommands(int gameID) {
+
+    }
 }

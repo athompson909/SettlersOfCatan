@@ -128,4 +128,8 @@ public class SQLGameDAO implements IGameDAO {
 
         return null;
     }
+
+    public void clearCommands(int gameID) {
+        
+    }
 }
