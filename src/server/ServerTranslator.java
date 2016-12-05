@@ -3,6 +3,7 @@ package server;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import com.google.gson.Gson;
+import com.sun.xml.internal.rngom.parse.host.Base;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.PieceType;
@@ -15,8 +16,6 @@ import shared.model.ClientModel;
 import shared.model.JSONTranslator;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.BaseCommand;
-import shared.model.commandmanager.game.*;
-import shared.model.commandmanager.moves.*;
 import shared.model.map.*;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -27,7 +26,6 @@ import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 import shared.shared_utils.Converter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -300,7 +298,7 @@ public class ServerTranslator {
 
             //send these all through the JSONTranslator to get real objects
             ClientModel currGameClientModel = jsonTranslator.modelFromJSON(currGameCMJSON);
-            GameInfo currGameInfo = jsonTranslator.gameCreateResponseFromJSON(currGameGIJSON); //this is the translator for GIs
+            GameInfo currGameInfo = jsonTranslator.gameInfoFromJSON(currGameGIJSON); //this is the translator for GIs
             List<BaseCommand> currGameCmdsList = jsonTranslator.commandsListFromJSON(currGameCmdsArr);
 
             Game currGame = new Game();
@@ -308,10 +306,14 @@ public class ServerTranslator {
             currGame.setGameInfo(currGameInfo);
 
             //add the list of commands to the Game's commandManager using its setter()
-            currGame.commandManager.setExecutedCommands(currGameCmdsList);
+            // EXECUTE ALL THE REMAINING CMDS TO UPDATE THE CLIENTMODEL BEFORE ADDING IT TO GAMESMGR
+                //currGame.commandManager.setExecutedCommands(currGameCmdsList);
+                //HashMap<Integer, BaseCommand> mappedCmds = mapCmdsToUserIDs(currGameCmdsList, currGameInfo);
+                //currGame.commandManager.setCmdsToReExecute(mappedCmds) //maps GLOBAL userID -> commandObj
             //call the looping serverExecute fn in commandManager to bring the model up to speed
             //int currGameID = currGameInfo.getId();
-            currGame.commandManager.executeCommands(currGameID);
+                currGame.commandManager.executeCommands(currGameID);  //TODO: we can't execute the commands on this game because it hasn't been added to GamesManger yet.
+                                                                        //throws a nullptr when it tries to ask the GamesMgr what the playerIndex is during reExec().
 
             //model should now be up to date and ready to be added to the GamesManager
 
@@ -327,6 +329,20 @@ public class ServerTranslator {
     }
 
 
+//    //TEST
+//    private HashMap<Integer, BaseCommand> mapCmdsToUserIDs(List<BaseCommand> cmdsList, GameInfo gameInfo){
+//
+//        HashMap<Integer, BaseCommand> mappedCmds = new HashMap<>();
+//
+//        //use the userIndex that each cmdObj knows to ask the gameInfo's PlayerInfo @ that index what its playerID is.
+//        //thats the playerID we map to the cmdObj.
+//
+//        for (BaseCommand currCmd : cmdsList){
+//            int currCmdPlayerIndex = currCmd.getPlayerIndex();
+//
+//        }
+//
+//    }
 
 
     /**

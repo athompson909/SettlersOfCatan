@@ -19,6 +19,11 @@ import java.net.URLDecoder;
  */
 public abstract class BaseCommand implements HttpHandler {
 
+
+    //this is the global userID for the user who executed the command.
+    //set right upon creating a commandObject
+    private int userID = -1;
+
     /**
      * Handles commands received from the server and returns a response
      * if response is null return an error response (setResponse -> 400)
@@ -165,6 +170,7 @@ public abstract class BaseCommand implements HttpHandler {
 
     abstract public void reExecute(int gameId);
 
+    //this doesn't work , don't use it!
     public static int getUserIdFromIndex(int index, int gameId){
         Game game = GamesManager.getInstance().getGame(gameId);
         return game.getGameInfo().getUserIdFromIndex(index);

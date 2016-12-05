@@ -42,10 +42,10 @@ public class BuildRoadCommand extends BaseCommand {
      * Sets data members
      *
      * @param edgeLocation
-     * @param ID
+     * @param index
      */
-    public BuildRoadCommand(EdgeLocation edgeLocation, int ID, boolean free){
-        playerIndex = ID;
+    public BuildRoadCommand(EdgeLocation edgeLocation, int index, boolean free){
+        playerIndex = index;
         roadLocation = edgeLocation;
         this.free = free;
     }
@@ -96,6 +96,13 @@ public class BuildRoadCommand extends BaseCommand {
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
 
+    /**
+     * Called to bring the ClientModel back up to speed upon reload from file/sql.
+     *
+     * Sierra: we need to pass in the userID here, when this function is called the GamesMgr doesn't have all the games added to it yet
+     *
+     * @param gameID
+     */
     @Override
     public void reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);

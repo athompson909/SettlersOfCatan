@@ -625,7 +625,7 @@ public class JSONTranslator {
      * with data about the game you just created.
      * The response data contains the same data as a GameListItem, but with an empty Player array.
     */
-     public GameInfo gameCreateResponseFromJSON(JSONObject gameCreateResponseJSON){
+     public GameInfo gameInfoFromJSON(JSONObject gameCreateResponseJSON){
 
         String gameCreateResponseStr = gameCreateResponseJSON.toString();
 

@@ -721,14 +721,14 @@ public class FileGameDAOTest extends TestCase {
 
     @Test
     //run testWriteGame before you run this one!
-    public void testReadAllGames() throws Exception {
+    public JSONArray testReadAllGames() throws Exception {
         System.out.println(">TESTING READALLGAMES!");
 
         JSONArray allGamesReadResult = fileGameDAO.readAllGames();
 
 
-        assertTrue(allGamesReadResult.length() == 2);  //should be 3 games: game0, game1, game2
+        assertTrue(allGamesReadResult.length() == 2);
 
-        //return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
+        return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
     }
 }

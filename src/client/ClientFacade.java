@@ -209,7 +209,7 @@ public class ClientFacade {
         JSONObject json = jsonTranslator.gameCreateCmdToJSON(gameCreateCommand);
         try {
             JSONObject response = serverProxy.gameCreate(json);
-            GameInfo game = jsonTranslator.gameCreateResponseFromJSON(response);
+            GameInfo game = jsonTranslator.gameInfoFromJSON(response);
 //            ClientModel clientModel = jsonTranslator.modelFromJSON(response);
 //            sendUpdatedModel(clientModel);
             return game;
