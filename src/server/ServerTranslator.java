@@ -276,12 +276,28 @@ public class ServerTranslator {
 
         HashMap<Integer, Game> gamesMap = new HashMap<>();
 
-        //first grab each entry in the JSONArray so we can pull out its ClientModel and GameInfo objects
+        //first grab each game entry in the JSONArray so we can pull out its CmdsList, ClientModel and GameInfo objects
+
+        //new way: each gameEntry is a JSONObject.
+        // inside the JSONObject are 4 keys->objs:
+                    // "gameID" - > int
+                    // "gameInfo" - > game info JSON
+                    // "model" - > client Model JSON
+                    // "commands" - > JSONarray of command JSONObjects
+
         for (int g = 0; g < allGamesJSON.length(); g++) {
-            JSONArray currGameEntry = allGamesJSON.getJSONArray(g); //this should contain the 3 big data chunks
-            JSONObject currGameCMJSON = currGameEntry.getJSONObject(0); //should be JSON of a ClientModel
-            JSONObject currGameGIJSON = currGameEntry.getJSONObject(1); //should be JSON of a GameInfo
-            JSONArray currGameCmdsArr = currGameEntry.getJSONArray(2);  //should be a JSONArr of BaseCommands
+
+//            JSONArray currGameEntry = allGamesJSON.getJSONArray(g); //this should contain the 3 big data chunks
+//            JSONObject currGameCMJSON = currGameEntry.getJSONObject(0); //should be JSON of a ClientModel
+//            JSONObject currGameGIJSON = currGameEntry.getJSONObject(1); //should be JSON of a GameInfo
+//            JSONArray currGameCmdsArr = currGameEntry.getJSONArray(2);  //should be a JSONArr of BaseCommands
+
+            JSONObject currGameEntry = allGamesJSON.getJSONObject(g); //this should contain 4 key/value pairs
+            int currGameID = currGameEntry.getInt("gameID");  //not sure if we actually need this
+            JSONObject currGameGIJSON = currGameEntry.getJSONObject("gameInfo");
+            JSONObject currGameCMJSON = currGameEntry.getJSONObject("model");
+            JSONArray currGameCmdsArr = currGameEntry.getJSONArray("commands");
+
             //send these all through the JSONTranslator to get real objects
             ClientModel currGameClientModel = jsonTranslator.modelFromJSON(currGameCMJSON);
             GameInfo currGameInfo = jsonTranslator.gameCreateResponseFromJSON(currGameGIJSON); //this is the translator for GIs
@@ -294,7 +310,7 @@ public class ServerTranslator {
             //add the list of commands to the Game's commandManager using its setter()
             currGame.commandManager.setExecutedCommands(currGameCmdsList);
             //call the looping serverExecute fn in commandManager to bring the model up to speed
-            int currGameID = currGameInfo.getId();
+            //int currGameID = currGameInfo.getId();
             currGame.commandManager.executeCommands(currGameID);
 
             //model should now be up to date and ready to be added to the GamesManager

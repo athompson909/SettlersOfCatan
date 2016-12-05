@@ -669,11 +669,11 @@ public class FileGameDAOTest extends TestCase {
         //write sample Commands to it (in JSON)
         //be able to append new Command JSON bits to the same file without overwriting old content
 
-        fileGameDAO.writeCommand(brc1JSON, 3); //3 is the test gameID
-        fileGameDAO.writeCommand(bsc1JSON, 3);
-        fileGameDAO.writeCommand(rp1JSON, 3);
-        fileGameDAO.writeCommand(aT1JSON, 3);
-        fileGameDAO.writeCommand(oT1JSON, 3);
+        fileGameDAO.writeCommand(brc1JSON, 1); //# is the test gameID
+        fileGameDAO.writeCommand(bsc1JSON, 1);
+        fileGameDAO.writeCommand(rp1JSON, 1);
+        fileGameDAO.writeCommand(aT1JSON, 1);
+        fileGameDAO.writeCommand(oT1JSON, 1);
 
         //assert file exists? or just read it in again via readCommands
     }
@@ -714,7 +714,7 @@ public class FileGameDAOTest extends TestCase {
         //locate the file inside the /json_files/games folder using the given path
         //read in the huge JSONArray, and just return it as a big JSONArray for now.
 
-        JSONArray bigGuy = fileGameDAO.readGame("./json_files/games/game0.json");
+        JSONObject bigGuy = fileGameDAO.readGame("./json_files/games/game0.json");
 
         assertTrue(bigGuy.length() == 2);  //should have 2 parts: the clientModel and the gameInfo
     }

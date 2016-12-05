@@ -19,6 +19,7 @@ public class UserManager {
     private HashMap<Integer, User> allUsers = new HashMap<Integer, User>();
 
     /**
+     *
      * Hashmap of every active user mapped by username
      */
     private HashMap<String, User> usersByUsername = new HashMap<String, User>();

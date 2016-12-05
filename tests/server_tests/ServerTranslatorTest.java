@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
+import server.Game;
 import server.ServerTranslator;
 import server.User;
 import shared.definitions.CatanColor;
@@ -387,12 +388,12 @@ public class ServerTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMESFromJSON!");
 
         //this is the really huge jsonArr that has 1 entry representing each name
-       // JSONArray readAllGamesResult = fileGameDAOTest.testReadAllGames();
+        //JSONArray readAllGamesResult = fileGameDAOTest.testReadAllGames();
 
 
        // HashMap<Integer, Game> serverTranslatorResult = ServerTranslator.getInstance().gamesFromJSON(readAllGamesResult);
 
-      //  assertTrue(serverTranslatorResult.size() == 3);
+        //assertTrue(serverTranslatorResult.size() == 3);
     }
 
 }

@@ -127,15 +127,15 @@ public class FileGameDAO implements IGameDAO {
         int currGameID = 0;
         String currGameFileName = "game0.json"; //start at 0
         String currGameFilePath = baseGamesFilePath + currGameFileName;
-        String currCmdsFileName = "";
-        String currCmdsFilePath = "";
+        String currCmdsFileName;
+        String currCmdsFilePath;
 
         //try reading the first GAME file:
-        JSONArray gameEntryJSONArr = readGame(currGameFilePath);
+        JSONObject gameEntryJSONObj = readGame(currGameFilePath);
         // the result of that first file read is saved to the collector JSONArr in the first loop iteration IF IT WORKED:
-        while (gameEntryJSONArr != null){  //if the first read isn't 0, there is at least 1 game file in there.
+        while (gameEntryJSONObj != null){  //if the first read isn't 0, there is at least 1 game file in there.
 
-            //if readGame returns a JSONArray (not null), we found a game file for currGameID.
+            //if readGame returns a JSONObject (not null), we found a game file for currGameID.
 
             //if you found a gameFile, you should also be able to get the corresponding cmdsFile.
             // Get the contents of that cmdsFile to add to this game entry:
@@ -144,10 +144,13 @@ public class FileGameDAO implements IGameDAO {
             JSONArray readCmdsResultJSONArr = readGameCommands(currCmdsFilePath);
             //add readCmdsResultJSONArr as a part of the gameEntryJSONArr. it's the last part we need to represent a complete game
 
-            gameEntryJSONArr.put(readCmdsResultJSONArr); //gameEntryJSONArr should now have 3 entries
+            //map the cmds list to key "commands"
+            //gameEntryJSONObj already has the ClientModel and GameInfo. so just put the cmdsList and gameID
+            gameEntryJSONObj.put("gameID", currGameID);
+            gameEntryJSONObj.put("commands", readCmdsResultJSONArr);
 
             //add completed game entry to the list of all games
-            allGamesJSONArray.put(gameEntryJSONArr);
+            allGamesJSONArray.put(gameEntryJSONObj);
 
             //now try the next file - there's no way the user can ever delete a game from the Client side, or the server side.
             //so the games should never be out of order.
@@ -155,7 +158,7 @@ public class FileGameDAO implements IGameDAO {
             currGameFileName = "game" + currGameID + ".json";
             currGameFilePath = baseGamesFilePath + currGameFileName; //this should be overwritten with the new filename
             //let readGame() try reading this new filename:
-            gameEntryJSONArr = readGame(currGameFilePath);
+            gameEntryJSONObj = readGame(currGameFilePath);
         }
 
         //if the collector JSONArr is size 0 here, no files were read, not even the first one.
@@ -174,16 +177,19 @@ public class FileGameDAO implements IGameDAO {
      *  Called repeatedly by readAllGames() while looping through all available game files.
      *
      * @param gameFilePath path to the file to be read in
-     * @return JSONArray representing the ClientModel and GameInfo of a game.
+     * @return JSONObject with "gameInfo" -> GameInfo JSON and "model" -> ClientModel JSON
      */
-    public JSONArray readGame(String gameFilePath){
+    public JSONObject readGame(String gameFilePath){
 
         String allJSON = "";
 
-        JSONArray gameJSONArr = null;
+        JSONArray gameJSONArr = null; //use this to read in the file and access the individual objects.
+        //pull them each out and map them to keys "model" and "gameInfo" inside this finalGameJSONObj
+        // so we'll be returning a JSONObject with 2 items: "gameInfo" -> gameInfoJSON, "model" -> clientModelJSON
+        JSONObject finalGameJSONObj = null;
 
         try {
-                System.out.println(">>FILEGAMEDAO: readGame(): attempting to read file " + gameFilePath);
+                System.out.println(">>FILEGAMEDAO: readGame2(): attempting to read file " + gameFilePath);
 
             FileInputStream fis = new FileInputStream(gameFilePath);
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -199,6 +205,12 @@ public class FileGameDAO implements IGameDAO {
             scanner.close();
 
             gameJSONArr = new JSONArray(allJSON); //this should have 2 entries, one of the clientModel and one of the gameInfo
+            //pull out the entries in this JSONArr and map them in finalGameJSONObj:
+            JSONObject clientModelJSON = gameJSONArr.getJSONObject(0);
+            JSONObject gameInfoJSON = gameJSONArr.getJSONObject(1);
+            finalGameJSONObj = new JSONObject(); //if null is returned, the method never got to this part.
+            finalGameJSONObj.put("gameInfo", gameInfoJSON);
+            finalGameJSONObj.put("model", clientModelJSON);
 
         }
         catch(FileNotFoundException fnf) {
@@ -217,7 +229,7 @@ public class FileGameDAO implements IGameDAO {
         // So, either that file must not exist or it has an error.
         //if it doesn't exist, then we reached the end of the files list.
 
-        return gameJSONArr;
+        return finalGameJSONObj;
 
     }
 
