@@ -63,16 +63,16 @@ public class RegisterCommand extends BaseCommand {
 
         int response = IServerFacade.getInstance().register(this);
         if(response >= 0) {
-            String loginCookieJSON = "{\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+response+"}";//todo: figure out a way to get playerID
+            String loginCookieJSON = "{\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+response+"}";
             String loginCookieStr = URLEncoder.encode(loginCookieJSON);
             String fullResponseLoginCookieStr = "catan.user="+loginCookieStr+";Path=/;";
             List<String> cookieList = new ArrayList<>(1);
             cookieList.add(fullResponseLoginCookieStr);
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
             return ServerTranslator.getInstance().booleanToString(true);
+        }else {
+            return ServerTranslator.getInstance().booleanToString(false);
         }
-        return ServerTranslator.getInstance().booleanToString(false);
-        //return ServerTranslator.getInstance().booleanToString(response);
     }
 
     @Override
