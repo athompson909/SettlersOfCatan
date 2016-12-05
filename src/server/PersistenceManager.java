@@ -88,6 +88,7 @@ public class PersistenceManager {
         JSONArray allGames = persistenceProvider.readAllGames();
         HashMap<Integer, Game> games = ServerTranslator.getInstance().gamesFromJSON(allGames);
         GamesManager.getInstance().setAllGames(games);
+        //NOW you can execute all the commands!
     }
 
     /**

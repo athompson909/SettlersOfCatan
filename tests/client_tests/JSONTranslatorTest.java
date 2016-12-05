@@ -20,9 +20,7 @@ import shared.model.commandmanager.moves.*;
 import shared.model.map.VertexObject;
 import shared.model.resourcebank.ResourceList;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * This is the JUnit test class for the JSONTranslator.
@@ -997,7 +995,7 @@ public class JSONTranslatorTest extends TestCase {
         System.out.println(">TESTING GAMECREATERESPONSE TRANSLATION!");
 
         JSONObject gameCreateResponse = new JSONObject(testGameCreateResponseJSON);
-        GameInfo newGameInfo = jsonTranslator.gameCreateResponseFromJSON(gameCreateResponse);
+        GameInfo newGameInfo = jsonTranslator.gameInfoFromJSON(gameCreateResponse);
 
         //asserts
         assertEquals("yoo", newGameInfo.getTitle());

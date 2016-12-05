@@ -3,6 +3,7 @@ package shared.model.commandmanager;
 import server.PersistenceManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public class CommandManager {
      * Tracks commands of the Game - can be stored to save the state of the Game
      */
     List <BaseCommand> executedCommands = new ArrayList<BaseCommand>();
+
+    //TEST
+    private HashMap<Integer, BaseCommand> cmdsToReExecute = new HashMap<>();
+
 
     private static int commandLimit = 10;
 
@@ -46,6 +51,13 @@ public class CommandManager {
 
     /**
      * Executes all the commands again
+     *
+     * Sierra: if this is ONLY used on reload, we can pass in other stuff to make sure it has access to the correct userIDs
+     * that way reExec() can do its job.
+     *  what if we have a map of userID > commandObj? instead of a list of commands.
+     *  it would be way easy to do this if each commandObj held the UserID who did it. but Idk if that would mess up a lot of stuff
+     *
+     *
      * @pre Used after Reload
      * @post model is up to date
      */
@@ -53,7 +65,6 @@ public class CommandManager {
         for(int i = 0; i < executedCommands.size(); i++){
             executedCommands.get(i).reExecute(gameID);  //make sure this doesn't add the command back into persistenceManager after execute!
                                                     //otherwise we'll have duplicate commands in the cmdsFile.
-
         }
     }
 
@@ -92,5 +103,15 @@ public class CommandManager {
 
     public void setExecutedCommands(List<BaseCommand> executedCommands) {
         this.executedCommands = executedCommands;
+    }
+
+
+    //TEST
+    public HashMap<Integer, BaseCommand> getCmdsToReExecute() {
+        return cmdsToReExecute;
+    }
+
+    public void setCmdsToReExecute(HashMap<Integer, BaseCommand> cmdsToReExecute) {
+        this.cmdsToReExecute = cmdsToReExecute;
     }
 }
