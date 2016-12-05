@@ -309,7 +309,12 @@ public class FileGameDAO implements IGameDAO {
         return allCommands;
     }
 
+    @Override
     public void clearCommands(int gameID) {
+        String fileName = "cmds" + gameID + ".json";
+        String filePath = baseGamesFilePath + fileName;
 
+        File cmdsFile = new File(filePath);
+        cmdsFile.delete();
     }
 }
