@@ -145,6 +145,6 @@ public class FilePlugin implements IPersistenceProvider {
 
     @Override
     public void clearCommands(int gameID) {
-
+        gameDAO.clearCommands(gameID);
     }
 }

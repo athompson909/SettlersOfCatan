@@ -33,4 +33,9 @@ public interface IGameDAO {
      */
     JSONArray readAllGames();
 
+    /**
+     * Clears all commands from the file/database for specified game.
+     * @param gameID
+     */
+    void clearCommands(int gameID);
 }
