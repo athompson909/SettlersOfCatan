@@ -7,16 +7,11 @@ import shared.definitions.PieceType;
 import shared.locations.*;
 import shared.model.ClientModel;
 import shared.model.map.VertexObject;
-import shared.model.messagemanager.MessageLine;
-import shared.model.messagemanager.MessageList;
-import shared.model.messagemanager.MessageManager;
-import shared.model.player.Player;
-import shared.model.resourcebank.DevCardList;
-import shared.model.resourcebank.ResourceBank;
-import shared.model.resourcebank.ResourceList;
 import shared.model.turntracker.TurnTracker;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -43,6 +38,7 @@ public class GamesManager {
         return instance;
     }
 
+    // TODO: retrieve gameID from persistence manager
     public static int gameID = 0;  //TESTING FOR MOCK GAMES
     /**
      * Private constructor

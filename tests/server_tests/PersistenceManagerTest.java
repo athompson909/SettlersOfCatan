@@ -25,7 +25,7 @@ public class PersistenceManagerTest extends TestCase {
         //so after this finishes, all game models should be saved and up to date.
 
         persistenceMgr = persistenceMgr.getInstance();
-        persistenceMgr.setPersistenceType("text");
+        persistenceMgr.setPersistenceType("sql");
 
         persistenceMgr.loadAllGames();
 
