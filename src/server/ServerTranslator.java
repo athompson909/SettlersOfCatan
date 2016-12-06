@@ -3,19 +3,16 @@ package server;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import com.google.gson.Gson;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
-import shared.locations.VertexLocation;
+import shared.locations.*;
 import shared.model.ClientModel;
 import shared.model.JSONTranslator;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.BaseCommand;
+import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.map.*;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -262,10 +259,10 @@ public class ServerTranslator {
     /**
      * helps with PersistenceManager
      * allGamesJSON is the huge JSONArr that has 1 entry representing each game.
-     * each entry is a JSONArray in itself that has a clientModel (JSON) at spot 0, a gameInfo (JSON) at spot 1, and a list of cmds at spot 2.
-     * We need to use these JSON items to build actual Game objects that the GamesManager can use to populate its game registry.
+     * each entry is a JSONObject that has a clientModel (JSON) under key "model", a gameInfo (JSON) under key "gameInfo", and a list of cmds under key "commands".
+     * We use these JSON items to build actual Game objects that the GamesManager can use to populate its game registry.
      *
-     * This also sets the GamesManager with the new Games! after the extra commands are executed on their respective game models.
+     * This also sets the GamesManager with the new Games AFTER the extra commands are executed on their respective game models.
      *
      * @param allGamesJSON
      * @return
@@ -281,52 +278,35 @@ public class ServerTranslator {
                     // "gameID" - > int
                     // "gameInfo" - > game info JSON
                     // "model" - > client Model JSON
-                    // "commands" - > JSONarray of command JSONObjects
+                    // "commands" - > JSONarray of command JSONObjects   //NOT THIS ANYMORE. CMDS ARE READ IN SEPARATELY
 
         for (int g = 0; g < allGamesJSON.length(); g++) {
 
-//            JSONArray currGameEntry = allGamesJSON.getJSONArray(g); //this should contain the 3 big data chunks
-//            JSONObject currGameCMJSON = currGameEntry.getJSONObject(0); //should be JSON of a ClientModel
-//            JSONObject currGameGIJSON = currGameEntry.getJSONObject(1); //should be JSON of a GameInfo
-//            JSONArray currGameCmdsArr = currGameEntry.getJSONArray(2);  //should be a JSONArr of BaseCommands
-
             JSONObject currGameEntry = allGamesJSON.getJSONObject(g); //this should contain 4 key/value pairs
-            int currGameID = currGameEntry.getInt("gameID");  //not sure if we actually need this
+            int currGameID = currGameEntry.getInt("gameID");
             JSONObject currGameGIJSON = currGameEntry.getJSONObject("gameInfo");
             JSONObject currGameCMJSON = currGameEntry.getJSONObject("model");
-            JSONArray currGameCmdsArr = currGameEntry.getJSONArray("commands");
 
             //send these all through the JSONTranslator to get real objects
             ClientModel currGameClientModel = jsonTranslator.modelFromJSON(currGameCMJSON);
             GameInfo currGameInfo = jsonTranslator.gameInfoFromJSON(currGameGIJSON); //this is the translator for GIs
-            List<BaseCommand> currGameCmdsList = jsonTranslator.commandsListFromJSON(currGameCmdsArr);
 
             Game currGame = new Game();
             currGame.setClientModel(currGameClientModel);
             currGame.setGameInfo(currGameInfo);
 
-            //add the list of commands to the Game's commandManager using its setter()
-            // EXECUTE ALL THE REMAINING CMDS TO UPDATE THE CLIENTMODEL BEFORE ADDING IT TO GAMESMGR
-                //currGame.commandManager.setExecutedCommands(currGameCmdsList);
-                //HashMap<Integer, BaseCommand> mappedCmds = mapCmdsToUserIDs(currGameCmdsList, currGameInfo);
-                //currGame.commandManager.setCmdsToReExecute(mappedCmds) //maps GLOBAL userID -> commandObj
-            //call the looping serverExecute fn in commandManager to bring the model up to speed
-            //int currGameID = currGameInfo.getId();
-                currGame.commandManager.executeCommands(currGameID);  //TODO: we can't execute the commands on this game because it hasn't been added to GamesManger yet.
-                                                                        //throws a nullptr when it tries to ask the GamesMgr what the playerIndex is during reExec().
-
-            //model should now be up to date and ready to be added to the GamesManager
-
             gamesMap.put(currGameID, currGame);
+            //model is now ready to be added to the GamesManager, but hasn't had its extra cmds re-executed yet.
 
         }
 
         if (gamesMap.size() == 0){
-            System.out.println(">SERVERTRANSLATOR: gamesFromJSON: there were no games to translate");
+            System.out.println(">SERVERTRANSLATOR: gamesFromJSON(): there were no game files to read in...");
         }
 
         return gamesMap;
     }
+
 
 
 //    //TEST
@@ -339,6 +319,7 @@ public class ServerTranslator {
 //
 //        for (BaseCommand currCmd : cmdsList){
 //            int currCmdPlayerIndex = currCmd.getPlayerIndex();
+//              //this doesn't work because the fieldPlayerIndex only exists in the classes that inherit from BaseCommand.
 //
 //        }
 //

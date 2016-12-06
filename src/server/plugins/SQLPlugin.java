@@ -60,6 +60,7 @@ public class SQLPlugin implements IPersistenceProvider {
         gameDAO.writeCommand(commandJSON, gameID);
     }
 
+
     /**
      * Adds a new user.
      * @param userJSON JSON with the new user info.
@@ -85,6 +86,16 @@ public class SQLPlugin implements IPersistenceProvider {
     @Override
     public JSONArray readAllGames() {
         return gameDAO.readAllGames();
+    }
+
+
+    /**
+     * Reads all the command files.
+     * @return a JSONArray with all the commands grouped by game.
+     */
+    @Override
+    public JSONArray readAllCommands() {
+        return gameDAO.readAllCommands();
     }
 
     /**
@@ -155,8 +166,11 @@ public class SQLPlugin implements IPersistenceProvider {
     }
 
 
-
-
+    /**
+     * formats json strings appropriately so that they can be parsed correctly into the sql database
+     * @param str a string following json format
+     * @return a string that can be inserted into sql without any problems
+     */
     public static String formatForSQL(String str) {
         List<Integer> indexes = new ArrayList<>();
         int index = str.indexOf('\'');

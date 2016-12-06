@@ -34,6 +34,12 @@ public interface IGameDAO {
     JSONArray readAllGames();
 
     /**
+     * Reads all the comand files.
+     * @return a JSONArray with each entry another JSONArray holding all the commands for one game.
+     */
+    JSONArray readAllCommands();
+
+    /**
      * Clears all commands from the file/database for specified game.
      * @param gameID
      */

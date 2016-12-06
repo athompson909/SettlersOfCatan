@@ -71,12 +71,17 @@ public class RollDiceCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().rollNumber(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" rolled a "+number, userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">ROLLDICECMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

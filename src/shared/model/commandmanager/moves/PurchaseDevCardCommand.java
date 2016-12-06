@@ -65,12 +65,17 @@ public class PurchaseDevCardCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().buyDevCard(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" bought a development card", userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">PURCHASEDEVCARDCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

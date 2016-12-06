@@ -101,12 +101,17 @@ public class MaritimeTradeCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().maritimeTrade(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" maritime traded", userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">MARITIMETRADECMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

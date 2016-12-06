@@ -83,12 +83,17 @@ public class PlayMonopolyCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playMonopoly(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" played a monopoly card", userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">PLAYMONOPOLYCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

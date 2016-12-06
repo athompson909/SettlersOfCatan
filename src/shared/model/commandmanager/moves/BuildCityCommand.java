@@ -104,13 +104,19 @@ public class BuildCityCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().buildCity(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" built a city", userId);
+            return true; //it worked
         }
+        else{
+            System.out.println(">BUILDCITYCMD: reExec(): couldn't re-execute!");
+            return false;
+        }
+
     }
 
     //Getters and Setters

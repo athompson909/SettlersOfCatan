@@ -89,7 +89,7 @@ public class RobPlayerCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().robPlayer(userId, gameID, this);
         if(model != null) {
@@ -102,6 +102,12 @@ public class RobPlayerCommand extends BaseCommand {
                 message = " moved the robber";
             }
             model.addLog(message, userId);
+
+            return true; //it worked
+        }
+        else{
+            System.out.println(">ROBPLAYERCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

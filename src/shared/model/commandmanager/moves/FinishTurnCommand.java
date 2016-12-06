@@ -77,12 +77,17 @@ public class FinishTurnCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().finishTurn(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog("'s turn finished", userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">FINISHTURNCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

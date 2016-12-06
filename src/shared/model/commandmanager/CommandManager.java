@@ -50,21 +50,22 @@ public class CommandManager {
 
 
     /**
-     * Executes all the commands again
-     *
-     * Sierra: if this is ONLY used on reload, we can pass in other stuff to make sure it has access to the correct userIDs
-     * that way reExec() can do its job.
-     *  what if we have a map of userID > commandObj? instead of a list of commands.
-     *  it would be way easy to do this if each commandObj held the UserID who did it. but Idk if that would mess up a lot of stuff
+     * Executes all the commands again WITHOUT talking to the PersistenceManager.
+     * used to bring all the clientModels up to speed based on the extra commands
+     * after all the games are saved to the GamesManager (readAllGames() is done).
      *
      *
      * @pre Used after Reload
      * @post model is up to date
      */
-    public void executeCommands(int gameID) {
+    public void reExecuteCommands(int gameID) {
         for(int i = 0; i < executedCommands.size(); i++){
-            executedCommands.get(i).reExecute(gameID);  //make sure this doesn't add the command back into persistenceManager after execute!
-                                                    //otherwise we'll have duplicate commands in the cmdsFile.
+            boolean reExecWorked = executedCommands.get(i).reExecute(gameID);
+            if (!reExecWorked) {
+                String failedCmdType = executedCommands.get(i).getClass().toString();
+                failedCmdType = failedCmdType.substring(40, failedCmdType.length());
+                System.out.println(">CMDMGR: reExecuteCmds(): cmd reExec failed: " + failedCmdType);
+            }
         }
     }
 
@@ -106,12 +107,12 @@ public class CommandManager {
     }
 
 
-    //TEST
-    public HashMap<Integer, BaseCommand> getCmdsToReExecute() {
-        return cmdsToReExecute;
-    }
-
-    public void setCmdsToReExecute(HashMap<Integer, BaseCommand> cmdsToReExecute) {
-        this.cmdsToReExecute = cmdsToReExecute;
-    }
+//    //TEST
+//    public HashMap<Integer, BaseCommand> getCmdsToReExecute() {
+//        return cmdsToReExecute;
+//    }
+//
+//    public void setCmdsToReExecute(HashMap<Integer, BaseCommand> cmdsToReExecute) {
+//        this.cmdsToReExecute = cmdsToReExecute;
+//    }
 }

@@ -49,11 +49,17 @@ public class SQLPluginTest extends TestCase {
 
 
     public void testReadAllGames() {
-        sqlPlugin.writeGame(0, "model1", "gameInfo1");
-        sqlPlugin.writeGame(1, "model2", "gameInfo2");
+//        sqlPlugin.writeGame(0, "model1", "gameInfo1");
+//        sqlPlugin.writeGame(1, "model2", "gameInfo2");
+
+        JSONArray jsonArray1 = sqlPlugin.readAllCommands();
+        System.out.println(jsonArray1.toString());
+
 
         JSONArray jsonArray = sqlPlugin.readAllGames();
         System.out.println(jsonArray.toString());
+
+
     }
 
 
