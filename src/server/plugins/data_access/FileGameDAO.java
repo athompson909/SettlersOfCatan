@@ -280,6 +280,7 @@ public class FileGameDAO implements IGameDAO {
         while (currGameCmdsArr != null) {
             //if the first read isn't 0, there is at least 1 cmds file in there.
             //if readGameCommands returned a JSONArray (not null), we found a cmds file for currGameID.
+            //JSONObject currGameCmdsJSONObj = new JSONObject();
             allCmdsJSONArr.put(currGameCmdsArr); //access these later using their array index as their gameID
 
             currGameID++;
@@ -303,22 +304,10 @@ public class FileGameDAO implements IGameDAO {
      * it needs to be able to read in and execute all the commands saved in the game files' corresponding cmds files
      * to bring the game models back up to speed.
      *
-     * So, this function might be called by the PersistenceManager after the Games have been saved to the GamesManager
-     * and are ok to be modified by calling commands on them.
+     * This function reads all the commands in the given file in (if it exists) as JSONObjects and returns them
+     * packaged in a JSONArray.
      *
-     * I don't think we should execute the commands until the Game is safely put away inside the GamesManager.
-     *
-     * Currently the commands are being appended to the file without being enclosed in a JSONArray.
-     * So when we read them in, we need to somehow break them into individual commands and put() them in a JSONArray so
-     * they can be executed more easily.
-     * either that or every time we add a new command to the file, read the whole thing back in as a JSONarray,
-     * add the new command to it, and rewrite the whole thing. That's pretty dumb but it could definitely work.
-     *
-     *
-     * I made it so it adds a newline after each written command! so that could help with reading them back in individually.
-     *
-     *
-     * @return
+     * @return A JSONArray holding ONE game's worth of commands
      */
     public JSONArray readGameCommands(String cmdsFilePath){
 

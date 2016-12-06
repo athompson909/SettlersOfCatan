@@ -278,7 +278,7 @@ public class ServerTranslator {
                     // "gameID" - > int
                     // "gameInfo" - > game info JSON
                     // "model" - > client Model JSON
-                    // "commands" - > JSONarray of command JSONObjects
+                    // "commands" - > JSONarray of command JSONObjects   //NOT THIS ANYMORE. CMDS ARE READ IN SEPARATELY
 
         for (int g = 0; g < allGamesJSON.length(); g++) {
 

@@ -680,6 +680,7 @@ public class FileGameDAOTest extends TestCase {
 
     @Test
     //run testWriteCmds before you run this one!
+    //this just reads ONE FILE of commands!
     public void testReadCommands() throws Exception {
         System.out.println(">TESTING READCMDS!");
 
@@ -687,6 +688,19 @@ public class FileGameDAOTest extends TestCase {
 
 
         assertTrue(readCmdsResult.length() == 5);  //should have 5 commands
+    }
+
+    @Test
+    //run testWriteCommands before you run this one!
+    public void testReadAllCommands() throws Exception {
+        System.out.println(">TESTING READALLCMDS!");
+
+        JSONArray allCmdsReadResult = fileGameDAO.readAllCommands();
+
+
+        assertTrue(allCmdsReadResult.length() == 2); //should be 2 games' worth of commands
+
+        //return allCmdsReadResult; //so ServerTranslator.gamesFromJSON() can test too
     }
 
 
@@ -729,20 +743,8 @@ public class FileGameDAOTest extends TestCase {
 
         assertTrue(allGamesReadResult.length() == 2);
 
-        return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
+       return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
     }
 
-    @Test
-    //run testWriteCommands before you run this one!
-    public void testReadAllCommands() throws Exception {
-        System.out.println(">TESTING READALLCMDS!");
-
-        JSONArray allCmdsReadResult = fileGameDAO.readAllCommands();
-
-
-        assertTrue(allCmdsReadResult.length() == 2); //should be 2 games' worth of commands
-
-        //return allCmdsReadResult; //so ServerTranslator.gamesFromJSON() can test too
-    }
 
 }
