@@ -7,6 +7,7 @@ import server.plugins.SQLPlugin;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 
 /**
  * Created by adamthompson on 11/29/16.
@@ -101,6 +102,39 @@ public class SQLGameDAO implements IGameDAO {
      */
     public JSONArray readAllCommands(){
 
+
+        try {
+            Connection conn = SQLPlugin.startTransaction();
+
+            Statement statement = conn.createStatement();
+            String commandsSql = "SELECT * FROM commands";
+            ResultSet commandsResultSet = statement.executeQuery(commandsSql);
+
+            HashMap<Integer, JSONArray> commandsMap = new HashMap<>();
+
+            while(commandsResultSet.next()) {
+                int key = commandsResultSet.getInt("gameID");
+                if(!commandsMap.containsKey(key)) {
+                    commandsMap.put(key, new JSONArray());
+                }
+
+                commandsMap.get(key).put(new JSONObject(commandsResultSet.getString("command")));
+            }
+
+            statement.close();
+            SQLPlugin.endTransaction(conn, true);
+
+            JSONArray allCommands = new JSONArray();
+            for(int key : commandsMap.keySet()) {
+                allCommands.put(commandsMap.get(key));
+            }
+
+            return allCommands;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -119,19 +153,23 @@ public class SQLGameDAO implements IGameDAO {
             String sql = "SELECT * FROM games";
             ResultSet resultSet = statement.executeQuery(sql);
 
-            String jsonResult = "[";
+            JSONArray jsonArray = new JSONArray();
             while(resultSet.next()) {
-                jsonResult += "{" +
-                        "\"gameID\":" + resultSet.getInt("gameID") +
-                        ",\"model\":\"" + resultSet.getString("model") +
-                        "\",\"gameInfo\":\"" + resultSet.getString("gameInfo") + "\"},";
+
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("gameID", resultSet.getInt("gameID"));
+                jsonObj.put("model",  new JSONObject(resultSet.getString("model")));
+                jsonObj.put("gameInfo", new JSONObject(resultSet.getString("gameInfo")));
+
+                jsonArray.put(jsonObj);
             }
-            jsonResult += "]";
+
+
 
             statement.close();
             SQLPlugin.endTransaction(conn, true);
 
-            return new JSONArray(jsonResult);
+            return jsonArray;
         }
         catch (Exception e) {
             e.printStackTrace();

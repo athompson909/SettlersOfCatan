@@ -166,8 +166,11 @@ public class SQLPlugin implements IPersistenceProvider {
     }
 
 
-
-
+    /**
+     * formats json strings appropriately so that they can be parsed correctly into the sql database
+     * @param str a string following json format
+     * @return a string that can be inserted into sql without any problems
+     */
     public static String formatForSQL(String str) {
         List<Integer> indexes = new ArrayList<>();
         int index = str.indexOf('\'');

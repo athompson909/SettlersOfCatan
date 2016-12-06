@@ -39,6 +39,7 @@ public class UserManager {
 
     /**
      * Private constructor
+     * TODO: userID has to be retrieved from the persistence manager!
      */
     private UserManager() {
         userID = 0;
@@ -49,11 +50,11 @@ public class UserManager {
      * Adding a couple mock users for the gamehub's default games
      */
     private void buildMockUsers(){
-        addUser("Adam", "adam");
-        addUser("Steph", "steph");
-        addUser("Mitch", "mitch");
-        addUser("Sierra", "sierra");
-        addUser("Alise", "alise");
+//        addUser("Adam", "adam");
+//        addUser("Steph", "steph");
+//        addUser("Mitch", "mitch");
+//        addUser("Sierra", "sierra");
+//        addUser("Alise", "alise");
 
         System.out.println(">USERMANAGER: mockUsers created, there are " + allUsers.size());
     }
