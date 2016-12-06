@@ -108,18 +108,19 @@ public class FileGameDAO implements IGameDAO {
     /**
      * Reads all the games created by scanning the default file location for game files: /json_files/games
      *
-     *  we should also get the list of commands and add it as a 3rd entry to the JSONArray.
-     *  but then execute them all in sequence after adding to the gamesManager.
+     *  DOESN'T GET THE LIST OF COMMANDS. JUST THE RAW GAMES
      *
-     * @return a JSONArray with all the created games. Each entry in that JSONArray is another JSONArray with 3 entries:
-     *              one for the game's clientModel, one for the game's gameInfo, and one for the game's list of commands.
+     * @return a JSONArray with all the created games. Each entry in that JSONArray is another JSONArray with 2 entries:
+     *              one for the game's clientModel, and one for the game's gameInfo.
      */
     @Override
     public JSONArray readAllGames() {
 
+        System.out.println(">>FILEGAMEDAO: readAllGames starting");
+
         JSONArray allGamesJSONArray = new JSONArray();
 
-        // To read all the games, we have to read every file in the /json_files/games folder.
+        // To read all the games, we have to read every "games#.json" file in the /json_files/games folder.
         //so we'll need to get every file in the games folder and read it into a JSONObject individually.
         // Then put each of those JSONObjects in the collector JSONArray, which is what we return after all files are read.
 
@@ -127,8 +128,8 @@ public class FileGameDAO implements IGameDAO {
         int currGameID = 0;
         String currGameFileName = "game0.json"; //start at 0
         String currGameFilePath = baseGamesFilePath + currGameFileName;
-        String currCmdsFileName;
-        String currCmdsFilePath;
+//        String currCmdsFileName;
+//        String currCmdsFilePath;  //don't do this here!!
 
         //try reading the first GAME file:
         JSONObject gameEntryJSONObj = readGame(currGameFilePath);
@@ -139,15 +140,13 @@ public class FileGameDAO implements IGameDAO {
 
             //if you found a gameFile, you should also be able to get the corresponding cmdsFile.
             // Get the contents of that cmdsFile to add to this game entry:
-            currCmdsFileName = "cmds" + currGameID + ".json";
-            currCmdsFilePath = baseGamesFilePath + currCmdsFileName;
-            JSONArray readCmdsResultJSONArr = readGameCommands(currCmdsFilePath);
-            //add readCmdsResultJSONArr as a part of the gameEntryJSONArr. it's the last part we need to represent a complete game
+//            currCmdsFileName = "cmds" + currGameID + ".json";
+//            currCmdsFilePath = baseGamesFilePath + currCmdsFileName;
+//            JSONArray readCmdsResultJSONArr = readGameCommands(currCmdsFilePath);
 
-            //map the cmds list to key "commands"
-            //gameEntryJSONObj already has the ClientModel and GameInfo. so just put the cmdsList and gameID
+            //gameEntryJSONObj already has the ClientModel and GameInfo.
             gameEntryJSONObj.put("gameID", currGameID);
-            gameEntryJSONObj.put("commands", readCmdsResultJSONArr);
+//            gameEntryJSONObj.put("commands", readCmdsResultJSONArr);
 
             //add completed game entry to the list of all games
             allGamesJSONArray.put(gameEntryJSONObj);
@@ -228,9 +227,7 @@ public class FileGameDAO implements IGameDAO {
         //if null is returned here, then the file read-in didn't work.
         // So, either that file must not exist or it has an error.
         //if it doesn't exist, then we reached the end of the files list.
-
         return finalGameJSONObj;
-
     }
 
 
@@ -264,6 +261,42 @@ public class FileGameDAO implements IGameDAO {
         }
     }
 
+    /**
+     * Called after all the games have been saved raw to the GamesManager.
+     *
+     * @return a JSONArray with each entry another JSONArray holding all the commands for one game (each cmd is a JSONObject)
+     */
+    public JSONArray readAllCommands(){
+        System.out.println(">>FILEGAMEDAO: readAllCommands starting");
+
+        JSONArray allCmdsJSONArr = new JSONArray();
+
+        //for loop through all cmds filenames and read in each one. when one doesn't open, you've read all the files.
+        int currGameID = 0;
+        String currCmdsFileName = "cmds0.json"; //start at 0
+        String currCmdsFilePath = baseGamesFilePath + currCmdsFileName;
+
+        JSONArray currGameCmdsArr = readGameCommands(currCmdsFilePath);
+        while (currGameCmdsArr != null) {
+            //if the first read isn't 0, there is at least 1 cmds file in there.
+            //if readGameCommands returned a JSONArray (not null), we found a cmds file for currGameID.
+            allCmdsJSONArr.put(currGameCmdsArr); //access these later using their array index as their gameID
+
+            currGameID++;
+            currCmdsFileName = "cmds" + currGameID + ".json";
+            currCmdsFilePath = baseGamesFilePath + currCmdsFileName;
+            //let readGameCmds() try reading this new filename:
+            currGameCmdsArr = readGameCommands(currCmdsFilePath);
+        }
+
+        //if the collector JSONArr is size 0 here, no files were read, not even the first one.
+        if (allCmdsJSONArr.length() == 0){
+            System.out.println(">FILEGAMEDAO; readAllCommands: looks like no cmds files were read... ");
+        }
+
+        return allCmdsJSONArr;
+    }
+
 
     /**
      * When the server is restarting from the file plugin and importing all the games,
@@ -289,7 +322,7 @@ public class FileGameDAO implements IGameDAO {
      */
     public JSONArray readGameCommands(String cmdsFilePath){
 
-        JSONArray allCommands = new JSONArray();
+        JSONArray allCommands = null;
 
         String currCmd = "";
 
@@ -300,6 +333,8 @@ public class FileGameDAO implements IGameDAO {
             BufferedInputStream bis = new BufferedInputStream(fis);
             InputStreamReader isr = new InputStreamReader(bis);
             Scanner scanner = new Scanner(isr);
+
+            allCommands = new JSONArray(); //scanner connected to file, so ok to initialize
 
             while (scanner.hasNextLine()){
                 currCmd = scanner.nextLine(); //this is going to get one command at a time.
@@ -317,7 +352,9 @@ public class FileGameDAO implements IGameDAO {
             System.out.println(">FILEGAMEDAO: readGameCmds(): Unable to open file " + cmdsFilePath);
         }
 
-        //allCommands is now going to be added to the gameEntry as its third part
+        //if null is returned here, then the file read-in didn't work.
+        // So, either that file must not exist or it has an error.
+        //if it doesn't exist, then we reached the end of the files list.
         return allCommands;
     }
 

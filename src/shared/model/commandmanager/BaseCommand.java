@@ -182,7 +182,12 @@ public abstract class BaseCommand implements HttpHandler {
         this.userID = userID;
     }
 
-    //this doesn't work , don't use it!
+    /**
+     *
+     * @param index
+     * @param gameId
+     * @return
+     */
     public static int getUserIdFromIndex(int index, int gameId){
         Game game = GamesManager.getInstance().getGame(gameId);
         return game.getGameInfo().getUserIdFromIndex(index);

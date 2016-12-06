@@ -89,6 +89,23 @@ public class PersistenceManager {
         HashMap<Integer, Game> games = ServerTranslator.getInstance().gamesFromJSON(allGames);
         GamesManager.getInstance().setAllGames(games);
         //NOW you can execute all the commands!
+        //loadAndExecModelCommands();
+    }
+
+    /**
+     * helper fn for loadAllGames
+     * After all the games have been read in and given to the GamesManager, we need to read in all the commands
+     * and execute them all on their respective clientModels.
+     *
+     * loop through each file and read it in just like in readAllGames. Get a JSONArray of commands for each one.
+     * Send the cmdsListJSON through the JSONTranslator to get a list of BaseCommands.
+     * Add that list of commands to its respective game's commandManager.
+     * Call reExecute on that commandManager.
+     * Model should now be up to date!
+     */
+    public void loadAndExecModelCommands(){
+        JSONArray allGameCmds = persistenceProvider.readAllCommands();
+
     }
 
     /**

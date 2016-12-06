@@ -31,6 +31,7 @@ public interface IPersistenceProvider {
      */
     void writeCommand(JSONObject commandJSON, int gameID);
 
+
     /**
      * Adds a new user.
      * @param userJSON JSON with the new user info.
@@ -39,15 +40,22 @@ public interface IPersistenceProvider {
 
     /**
      * Reads all of the users registered.
-     * @return a String with all the registered users.
+     * @return a JSONArray with all the registered users.
      */
     JSONArray readAllUsers();
 
     /**
      * Reads all the games created.
-     * @return a String with all the created games.
+     * @return a JSONArray with all the created games.
      */
     JSONArray readAllGames();
+
+
+    /**
+     * Reads all the commands files.
+     * @return a JSONArray with all the lists of commands .
+     */
+    JSONArray readAllCommands();
 
     /**
      * Clears all the data.

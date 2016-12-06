@@ -102,12 +102,22 @@ public class FilePlugin implements IPersistenceProvider {
 
     /**
      * Reads all the games created.
-     * @return a String with all the created games.
+     * @return a JSONArray with all the created games.
      */
     @Override
     public JSONArray readAllGames() {
         return gameDAO.readAllGames();
     }
+
+    /**
+     * Reads all the command files.
+     * @return a JSONArray with all the commands grouped by game.
+     */
+    @Override
+    public JSONArray readAllCommands() {
+        return gameDAO.readAllCommands();
+    }
+
 
     /**
      * Clears all the file data, both games and users..

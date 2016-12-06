@@ -60,6 +60,7 @@ public class SQLPlugin implements IPersistenceProvider {
         gameDAO.writeCommand(commandJSON, gameID);
     }
 
+
     /**
      * Adds a new user.
      * @param userJSON JSON with the new user info.
@@ -85,6 +86,16 @@ public class SQLPlugin implements IPersistenceProvider {
     @Override
     public JSONArray readAllGames() {
         return gameDAO.readAllGames();
+    }
+
+
+    /**
+     * Reads all the command files.
+     * @return a JSONArray with all the commands grouped by game.
+     */
+    @Override
+    public JSONArray readAllCommands() {
+        return gameDAO.readAllCommands();
     }
 
     /**

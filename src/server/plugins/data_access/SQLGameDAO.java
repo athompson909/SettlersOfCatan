@@ -95,6 +95,17 @@ public class SQLGameDAO implements IGameDAO {
     }
 
     /**
+     * this is new Adam!!!
+     *
+     * @return
+     */
+    public JSONArray readAllCommands(){
+
+        return null;
+    }
+
+
+    /**
      * Reads all the games created.
      * @return a String with all the created games.
      */

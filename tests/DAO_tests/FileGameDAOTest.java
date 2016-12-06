@@ -731,4 +731,18 @@ public class FileGameDAOTest extends TestCase {
 
         return allGamesReadResult; //so ServerTranslator.gamesFromJSON() can test too
     }
+
+    @Test
+    //run testWriteCommands before you run this one!
+    public void testReadAllCommands() throws Exception {
+        System.out.println(">TESTING READALLCMDS!");
+
+        JSONArray allCmdsReadResult = fileGameDAO.readAllCommands();
+
+
+        assertTrue(allCmdsReadResult.length() == 2); //should be 2 games' worth of commands
+
+        //return allCmdsReadResult; //so ServerTranslator.gamesFromJSON() can test too
+    }
+
 }
