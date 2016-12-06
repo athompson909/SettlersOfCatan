@@ -34,8 +34,11 @@ public class ServerFacade implements IServerFacade {
         Game game = GamesManager.getInstance().getGame(gameID);
         User user = UserManager.getInstance().getUser(userID);
         if(game != null && user != null) {
+            System.out.println("\t>SERVERFACADE: validateParams: validate successful!");
             return true;
         }
+
+        System.out.println("\t>SERVERFACADE: validateParams: validate failed!");
         return false;
     }
 

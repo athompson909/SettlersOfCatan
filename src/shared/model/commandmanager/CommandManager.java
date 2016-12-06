@@ -62,7 +62,9 @@ public class CommandManager {
         for(int i = 0; i < executedCommands.size(); i++){
             boolean reExecWorked = executedCommands.get(i).reExecute(gameID);
             if (!reExecWorked) {
-                System.out.println(">CMDMGR: reExecuteCmds(): cmd reExec failed:" + executedCommands.get(i).getRequest());
+                String failedCmdType = executedCommands.get(i).getClass().toString();
+                failedCmdType = failedCmdType.substring(40, failedCmdType.length());
+                System.out.println(">CMDMGR: reExecuteCmds(): cmd reExec failed: " + failedCmdType);
             }
         }
     }
