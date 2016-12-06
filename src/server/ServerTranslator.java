@@ -286,33 +286,16 @@ public class ServerTranslator {
             int currGameID = currGameEntry.getInt("gameID");
             JSONObject currGameGIJSON = currGameEntry.getJSONObject("gameInfo");
             JSONObject currGameCMJSON = currGameEntry.getJSONObject("model");
-            //JSONArray currGameCmdsArr = currGameEntry.getJSONArray("commands");
 
             //send these all through the JSONTranslator to get real objects
             ClientModel currGameClientModel = jsonTranslator.modelFromJSON(currGameCMJSON);
             GameInfo currGameInfo = jsonTranslator.gameInfoFromJSON(currGameGIJSON); //this is the translator for GIs
-          //  List<BaseCommand> currGameCmdsList = jsonTranslator.commandsListFromJSON(currGameCmdsArr);
 
             Game currGame = new Game();
             currGame.setClientModel(currGameClientModel);
             currGame.setGameInfo(currGameInfo);
 
             gamesMap.put(currGameID, currGame);
-
-            //add the list of commands to the Game's commandManager using its setter()
-            //currGame.commandManager.setExecutedCommands(currGameCmdsList);
-                //HashMap<Integer, BaseCommand> mappedCmds = mapCmdsToUserIDs(currGameCmdsList, currGameInfo);
-                //currGame.commandManager.setCmdsToReExecute(mappedCmds) //maps GLOBAL userID -> commandObj
-            //call the looping serverExecute fn in commandManager to bring the model up to speed
-             //   currGame.commandManager.reExecuteCommands(currGameID);
-
-            //We still need to add all the games to the GamesManager before executing the cmds list on it.
-            //Even if we do pass the userID in with the commandObj, reExecute() won't be able to exec the command
-            //since the game doesn't even exist in the gamesManager yet.
-            //we need to add all the games to the games Manager FIRST and then call some sort of ModelUpdater looping fn
-            //that can read in all the commands and execute them all on their respective clientModels.
-
-
             //model is now ready to be added to the GamesManager, but hasn't had its extra cmds re-executed yet.
 
         }

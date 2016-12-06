@@ -132,6 +132,7 @@ public class PersistenceManager {
             //now this model should be up to date according to its cmds file.
         }
 
+        //all models have been re-executed
         System.out.println(">PERSISTENCEMGR: all read models are up to date!");
     }
 
