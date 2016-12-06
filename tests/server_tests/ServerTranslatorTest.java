@@ -357,7 +357,7 @@ public class ServerTranslatorTest extends TestCase {
 
     //FOR THE GAME CREATE RESPONSE
     @Test
-    public void testGameCreateRespToJSON() throws Exception {
+    public void testGameInfoToJSON() throws Exception {
         System.out.println(">TESTING GAMELISTTOJSON TRANSLATION!");
 
         //see if the size of testGameInfo's players list is 4 empty spots!

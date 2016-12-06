@@ -15,6 +15,16 @@ public class PersistenceManagerTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
 
+        persistenceMgr = persistenceMgr.getInstance();
+        persistenceMgr.setPersistenceType("text");
+    }
+
+
+    @Test
+    public void testLoadAllUsers() throws Exception {
+
+        persistenceMgr.loadAllUsers();
+
     }
 
 
@@ -23,9 +33,6 @@ public class PersistenceManagerTest extends TestCase {
         //this should make it read all the games files, translate/save them to the GamesManager,
         //then read all the cmds files and execute all cmds on their respective Game.
         //so after this finishes, all game models should be saved and up to date.
-
-        persistenceMgr = persistenceMgr.getInstance();
-        persistenceMgr.setPersistenceType("text");
 
         persistenceMgr.loadAllGames();
 
