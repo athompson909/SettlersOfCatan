@@ -85,12 +85,17 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" played year of plenty", userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">PLAYYoPCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

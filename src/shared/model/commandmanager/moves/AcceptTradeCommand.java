@@ -89,7 +89,7 @@ public class AcceptTradeCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().acceptTrade(userId, gameID, this);
         if(model != null) {
@@ -100,6 +100,11 @@ public class AcceptTradeCommand extends BaseCommand {
             else {
                 model.addLog(" accepted trade offer", userId);
             }
+            return true; //it worked
+        }
+        else{
+            System.out.println(">ACCEPTTRADECMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

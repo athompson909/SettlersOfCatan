@@ -74,11 +74,17 @@ public class SendChatCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), this);
         if(model != null) {
             model.incrementVersion();
+
+            return true; //it worked
+        }
+        else{
+            System.out.println(">SENDCHATCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

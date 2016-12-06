@@ -106,16 +106,17 @@ public class BuildRoadCommand extends BaseCommand {
      * @param gameID
      */
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID); //the userID will be a private field of BuildRoadCommand, so this method call won't be necessary.
         ClientModel model = IServerFacade.getInstance().buildRoad(userId, gameID, this);
         if(model != null) { //it worked
             model.incrementVersion();
             model.addLog(" built a road", userId);
+            return true; //it worked
         }
-        else {
-            //it didn't work
-
+        else{
+            System.out.println(">BUILDROADCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

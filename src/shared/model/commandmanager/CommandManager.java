@@ -60,8 +60,10 @@ public class CommandManager {
      */
     public void reExecuteCommands(int gameID) {
         for(int i = 0; i < executedCommands.size(); i++){
-            executedCommands.get(i).reExecute(gameID);  //make sure this doesn't add the command back into persistenceManager after execute!
-                                                    //otherwise we'll have duplicate commands in the cmdsFile.
+            boolean reExecWorked = executedCommands.get(i).reExecute(gameID);
+            if (!reExecWorked) {
+                System.out.println(">CMDMGR: reExecuteCmds(): cmd reExec failed:" + executedCommands.get(i).getRequest());
+            }
         }
     }
 

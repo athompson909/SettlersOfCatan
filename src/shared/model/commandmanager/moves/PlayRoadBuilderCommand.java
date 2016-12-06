@@ -105,12 +105,17 @@ public class PlayRoadBuilderCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){
+    public boolean reExecute(int gameID){
         int userId = getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playRoadBuilding(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
             model.addLog(" played a road building card", userId);
+            return true; //it worked
+        }
+        else{
+            System.out.println(">PLAYROADBUILDERCMD: reExec(): couldn't re-execute!");
+            return false;
         }
     }
 

@@ -55,7 +55,9 @@ public class GameSaveCommand extends BaseCommand {
     }
 
     @Override
-    public void reExecute(int gameID){}
+    public boolean reExecute(int gameID){
+        return true;
+    }
 
     //Getters
 
