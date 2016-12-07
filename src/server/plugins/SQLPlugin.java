@@ -29,6 +29,20 @@ public class SQLPlugin implements IPersistenceProvider {
     private IGameDAO gameDAO = new SQLGameDAO();
 
     public SQLPlugin() {
+        try {
+            Connection conn = startTransaction();
+
+            Statement statement = conn.createStatement();
+            statement.setQueryTimeout(30);//30 second query timeout
+            statement.execute(DBCreateHelper.CREATE_TABLE_IF_NOT_EXISTS_GAMES_STATEMENT);
+            statement.execute(DBCreateHelper.CREATE_TABLE_IF_NOT_EXISTS_USERS_STATEMENT);
+            statement.execute(DBCreateHelper.CREATE_TABLE_IF_NOT_EXISTS_COMMANDS_STATEMENT);
+
+            endTransaction(conn, true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
