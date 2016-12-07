@@ -2,6 +2,7 @@ package shared.model.commandmanager.moves;
 
 import org.json.JSONObject;
 import server.IServerFacade;
+import server.PersistenceManager;
 import server.ServerTranslator;
 import shared.model.ClientModel;
 import shared.model.commandmanager.BaseCommand;
@@ -60,8 +61,10 @@ public class PurchaseDevCardCommand extends BaseCommand {
         ClientModel model = IServerFacade.getInstance().buyDevCard(getUserId(), getGameId(), command);
         if(model != null) {
             model.incrementVersion();
-            IServerFacade.getInstance().logCommand(getGameId(), command);
+            //IServerFacade.getInstance().logCommand(getGameId(), command);
             model.addLog(" bought a development card", getUserId());
+            PersistenceManager.getInstance().writeGame(getGameId());
+            PersistenceManager.getInstance().clearCommands(getGameId());
         }
         return (model != null) ? ServerTranslator.getInstance().clientModelToString(model) : null;
     }
