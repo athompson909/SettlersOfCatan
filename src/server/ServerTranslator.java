@@ -7,12 +7,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
-import shared.locations.*;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
 import shared.model.ClientModel;
 import shared.model.JSONTranslator;
 import shared.model.TradeOffer;
 import shared.model.commandmanager.BaseCommand;
-import shared.model.commandmanager.moves.BuildRoadCommand;
 import shared.model.map.*;
 import shared.model.messagemanager.MessageList;
 import shared.model.messagemanager.MessageManager;
@@ -24,7 +26,6 @@ import shared.model.turntracker.TurnTracker;
 import shared.shared_utils.Converter;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * ServerTranslator takes care of all operations related to translating object into JSON and vice-versa
@@ -93,7 +94,7 @@ public class ServerTranslator {
 
         JSONArray playersJSONArr = new JSONArray();
         for (PlayerInfo player : gameInfo.getPlayers()){
-            playersJSONArr.put(gsonTranslator.toJson(player));
+            playersJSONArr.put(new JSONObject(gsonTranslator.toJson(player)));
         }
 
         //needs to have 4 spots, even if some are empty ("{}")

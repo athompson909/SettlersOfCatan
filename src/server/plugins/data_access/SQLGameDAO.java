@@ -51,12 +51,15 @@ public class SQLGameDAO implements IGameDAO {
         try {
             Connection conn = SQLPlugin.startTransaction();
 
-            modelJSON = SQLPlugin.formatForSQL(modelJSON);
-            gameInfoJSON = SQLPlugin.formatForSQL(gameInfoJSON);
+//            modelJSON = SQLPlugin.formatForSQL(modelJSON);
+//            gameInfoJSON = SQLPlugin.formatForSQL(gameInfoJSON);
+            JSONObject modelJSONObj = new JSONObject(modelJSON);
+            JSONObject gameInfoJSONObj = new JSONObject(gameInfoJSON);
+//            JSONArray jsonArray = gameInfoJSONObj.getJSONArray("players");
 
             Statement statement = conn.createStatement();
             String sql = "INSERT INTO games (gameID, model, gameInfo) " +
-                    "VALUES (" + gameID + ", \'" + modelJSON + "\',\'" + gameInfoJSON + "\')";
+                    "VALUES (" + gameID + ", \'" + modelJSONObj + "\',\'" + gameInfoJSONObj + "\')";
             statement.execute(sql);
 
             statement.close();

@@ -57,7 +57,7 @@ public class ServerMain {
             PersistenceManager.getInstance().setPersistenceType(args[2]);
             CommandManager.setCommandLimit(Integer.parseInt(args[3]));
             PersistenceManager.getInstance().loadAllUsers();
-//            PersistenceManager.getInstance().loadAllGames();
+            PersistenceManager.getInstance().loadAllGames();
         }
         // <HostName> <Port> <PersistenceType> <CommandList> <WipeData>
         else if(args.length == 5) {
