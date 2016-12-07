@@ -87,6 +87,7 @@ public class BuildRoadCommand extends BaseCommand {
         roadLocation = new EdgeLocation(new HexLocation(x,y), Converter.stringToEdgeDirection(roadLocJSON.getString("direction")));
         free = buildRoadJSON.getBoolean("free");
 
+        setUserIdFromCookie();
         BuildRoadCommand command = new BuildRoadCommand(roadLocation, playerIndex, free);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), command);

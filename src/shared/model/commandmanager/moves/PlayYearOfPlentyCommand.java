@@ -73,6 +73,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
         resource1 = Converter.stringToResourceType(resource1Str);
         resource2 = Converter.stringToResourceType(resource2Str);
 
+        setUserIdFromCookie();
         PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(playerIndex, resource1, resource2);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), command);

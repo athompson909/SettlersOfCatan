@@ -71,6 +71,7 @@ public class PlayMonopolyCommand extends BaseCommand {
         playerIndex = monopolyJSON.getInt("playerIndex");
         resource = Converter.stringToResourceType(monopolyJSON.getString("resource"));
 
+        setUserIdFromCookie();
         PlayMonopolyCommand command = new PlayMonopolyCommand(playerIndex, resource);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playMonopoly(getUserId(), getGameId(), command);

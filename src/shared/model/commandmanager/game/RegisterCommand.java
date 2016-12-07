@@ -60,7 +60,6 @@ public class RegisterCommand extends BaseCommand {
         username = (String) requestJSON.get("username");
         password = (String) requestJSON.get("password");
 
-
         int response = IServerFacade.getInstance().register(this);
         if(response >= 0) {
             String loginCookieJSON = "{\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+response+"}";

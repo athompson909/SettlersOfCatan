@@ -49,6 +49,7 @@ public class AddAICommand extends BaseCommand {
         JSONObject AICommandJSON = new JSONObject(getRequest());
         AIType = AICommandJSON.getString("AIType");
 
+        setUserIdFromCookie();
         boolean response = IServerFacade.getInstance().addAI(getUserId(), getGameId());
         return response ? "Success" : "Could not add AI type -- ["+AIType+"]";
     }

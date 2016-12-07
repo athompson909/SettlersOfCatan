@@ -62,6 +62,7 @@ public class PlayMonumentCommand extends BaseCommand {
         JSONObject monumentJSON = new JSONObject(getRequest());
         playerIndex = monumentJSON.getInt("playerIndex");
 
+        setUserIdFromCookie();
         PlayMonumentCommand command = new PlayMonumentCommand(playerIndex);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playMonument(getUserId(), getGameId(), command);

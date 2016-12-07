@@ -63,6 +63,7 @@ public class GameJoinCommand extends BaseCommand {
         gameID = requestJSON.getInt("id");
         color = Converter.stringToCatanColor(requestJSON.getString("color"));
 
+        setUserIdFromCookie();
         GameJoinCommand command = new GameJoinCommand(gameID, color);
         command.setGameId(gameID);
         boolean success = IServerFacade.getInstance().join(getUserId(), command);

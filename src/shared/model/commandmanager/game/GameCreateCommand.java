@@ -82,6 +82,7 @@ public class GameCreateCommand extends BaseCommand {
         randomNumbers = requestJSON.getBoolean("randomNumbers");
         randomPorts = requestJSON.getBoolean("randomPorts");
 
+        setUserIdFromCookie();
         GameCreateCommand command = new GameCreateCommand(name, randomTiles, randomNumbers, randomPorts);
         GameInfo gameInfo = IServerFacade.getInstance().create(getUserId(), command);
         //Save game

@@ -34,6 +34,7 @@ public class GameListCommand extends BaseCommand {
     public String serverExec() {
         int userId = getUserId();
 
+        setUserIdFromCookie();
         GameInfo[] response = IServerFacade.getInstance().list(userId); // todo: implement (not implemented in mock server facade)
         return ServerTranslator.getInstance().gamesListToJSON(response); // this return statement may need to be different
     }

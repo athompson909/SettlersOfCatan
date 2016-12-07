@@ -45,6 +45,7 @@ public class FetchNewModelCommand extends BaseCommand {
      */
     @Override
     public String serverExec() {
+        setUserIdFromCookie();
         ClientModel model = IServerFacade.getInstance().model(getUserId(), getGameId(), this);
         return ServerTranslator.getInstance().modelToJSON(model);
     }

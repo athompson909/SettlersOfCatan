@@ -22,7 +22,7 @@ public abstract class BaseCommand implements HttpHandler {
 
     //this is the global userID for the user who executed the command.
     //set right upon creating a commandObject
-    public int userID;
+    public int userID = -1;
 
     /**
      * Handles commands received from the server and returns a response
@@ -97,12 +97,13 @@ public abstract class BaseCommand implements HttpHandler {
     }
 
 
-//    public int getUserId() {
-//        return getCookieJSON().getInt("playerID");
-//    }
+    public void setUserIdFromCookie() {
+        userID = getCookieJSON().getInt("playerID");
+    }
 
     //NEW ONE - doesn't rely on the cookie JSON
-    public int getUserId() {
+    public int getUserId()
+    {
         return userID;
     }
 

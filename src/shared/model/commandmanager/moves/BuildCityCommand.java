@@ -92,6 +92,7 @@ public class BuildCityCommand extends BaseCommand {
         VertexObject vertexObject = new VertexObject(vertexLocation);
         setValues(vertexObject);
 
+        setUserIdFromCookie();
         BuildCityCommand command = new BuildCityCommand(vertexObject);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buildCity(getUserId(), getGameId(), command);

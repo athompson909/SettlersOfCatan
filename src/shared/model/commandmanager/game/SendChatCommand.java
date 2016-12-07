@@ -63,6 +63,7 @@ public class SendChatCommand extends BaseCommand {
         playerIndex = sendChatJSON.getInt("playerIndex");
         content = sendChatJSON.getString("content");
 
+        setUserIdFromCookie();
         SendChatCommand command = new SendChatCommand(playerIndex, content);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), command);

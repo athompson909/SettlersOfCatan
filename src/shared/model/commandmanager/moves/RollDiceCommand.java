@@ -59,6 +59,7 @@ public class RollDiceCommand extends BaseCommand {
         playerIndex = sendChatJSON.getInt("playerIndex");
         number = sendChatJSON.getInt("number");
 
+        setUserIdFromCookie();
         RollDiceCommand command = new RollDiceCommand(number);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().rollNumber(getUserId(), getGameId(), command);

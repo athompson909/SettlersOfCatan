@@ -76,6 +76,7 @@ public class DiscardCommand extends BaseCommand {
         resourceList.setWoodCardCount(offerJSON.getInt("wood"));
         discardedCards = resourceList;
 
+        setUserIdFromCookie();
         DiscardCommand command = new DiscardCommand(playerIndex, discardedCards);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().discardCards(getUserId(), getGameId(), command);

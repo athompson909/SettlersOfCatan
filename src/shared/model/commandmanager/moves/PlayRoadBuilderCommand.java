@@ -93,6 +93,7 @@ public class PlayRoadBuilderCommand extends BaseCommand {
         EdgeDirection edgeDirection2 = Converter.stringToEdgeDirection(spot2.getString("direction"));
         locationTWO = new EdgeLocation(hexLocation2, edgeDirection2);
 
+        setUserIdFromCookie();
         PlayRoadBuilderCommand command = new PlayRoadBuilderCommand(playerIndex, locationONE, locationTWO);
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), command);
