@@ -69,7 +69,7 @@ public class FileUserDAO implements IUserDAO {
                 allUsers.put(currUserJSON);
             }
 
-            System.out.println(">>FILEUSERDAO: readAllUsers(): file read ok! allUsers has " + allUsers.length() + " cmds");
+            System.out.println(">>FILEUSERDAO: readAllUsers(): file read ok! allUsers has " + allUsers.length() + " users");
 
             scanner.close();
 

@@ -51,6 +51,8 @@ public class ServerMain {
         }
         // <HostName> <Port> <PersistenceType> <CommandLimit>
         else if (args.length == 4) {
+            System.out.println("*SERVERMAIN: got 4 args");
+
             hostNumber = args[0];
             portNumber = args[1];
 
@@ -58,9 +60,12 @@ public class ServerMain {
             CommandManager.setCommandLimit(Integer.parseInt(args[3]));
             PersistenceManager.getInstance().loadAllUsers();
             PersistenceManager.getInstance().loadAllGames();
+
         }
         // <HostName> <Port> <PersistenceType> <CommandList> <WipeData>
         else if(args.length == 5) {
+            System.out.println("*SERVERMAIN: got 5 args");
+
             hostNumber = args[0];
             portNumber = args[1];
 

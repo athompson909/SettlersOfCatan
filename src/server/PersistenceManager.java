@@ -85,6 +85,8 @@ public class PersistenceManager {
         JSONArray usersJSON = persistenceProvider.readAllUsers();
         HashMap<Integer, User> allUsers = ServerTranslator.getInstance().usersFromJSON(usersJSON);
         UserManager.getInstance().setAllUsers(allUsers);
+
+        System.out.println(">PERSISTENCEMGR: all users loaded!");
     }
 
     /**
@@ -140,6 +142,8 @@ public class PersistenceManager {
      * Clears all the data.
      */
     public void clearAllData(){
+        System.out.println(">PERSISTENCEMGR: clearing all data");
+
         persistenceProvider.clearAllData();
     }
 
@@ -169,6 +173,9 @@ public class PersistenceManager {
     }
 
     public void setPersistenceType(String type) {
+
+        System.out.println(">PERSISTENCEMGR: setPersistenceType to " + type);
+
         JSONObject plugin = pluginListObj.getJSONObject(type);
         Class c = null;
         try {

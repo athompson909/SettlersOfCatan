@@ -135,6 +135,8 @@ public class UserManager {
             User user = (User)o;
             usersByUsername.put(user.getUserName(), user);
         }
+
+        userID = allUsers.size();
     }
 
 }
