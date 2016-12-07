@@ -148,4 +148,9 @@ public class BuildRoadCommand extends BaseCommand {
     public int getPlayerIndex() {return playerIndex;}
 
     public boolean getFree() {return free;}
+
+    public void setRoadLocation(EdgeLocation roadLocation) {
+        this.roadLocation = roadLocation;
+    }
 }
+

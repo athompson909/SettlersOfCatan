@@ -573,6 +573,10 @@ public class JSONTranslator {
                     break;
                 case "buildRoad":
                     BuildRoadCommand buildRoadCommand = gsonConverter.fromJson(currCommandObjString, BuildRoadCommand.class);
+                        int brX = buildRoadCommand.getRoadLocation().getX();
+                        int brY = buildRoadCommand.getRoadLocation().getY();
+                        HexLocation newBRHexLoc = new HexLocation(brX, brY);
+                    buildRoadCommand.getRoadLocation().setHexLoc(newBRHexLoc);
                     allExecutedCommands.add(buildRoadCommand);
                     break;
                 case "buildSettlement":

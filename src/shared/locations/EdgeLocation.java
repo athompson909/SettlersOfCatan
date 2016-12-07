@@ -37,7 +37,7 @@ public class EdgeLocation
 		return hexLoc;
 	}
 	
-	private void setHexLoc(HexLocation hexLoc)
+	public void setHexLoc(HexLocation hexLoc)
 	{
 		if(hexLoc == null)
 		{
