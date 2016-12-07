@@ -39,7 +39,7 @@ public class GamesManager {
     }
 
     // TODO: retrieve gameID from persistence manager
-    public static int gameID = 0;  //TESTING FOR MOCK GAMES
+    public static int gameID = 0;
     /**
      * Private constructor
      */
@@ -304,5 +304,7 @@ public class GamesManager {
 
         //games could be size 0 if no game files are found
         allGames = games;
+
+        gameID = games.size();
     }
 }

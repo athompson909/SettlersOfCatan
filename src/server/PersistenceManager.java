@@ -36,13 +36,15 @@ public class PersistenceManager {
 
 
     public void writeGame(int gameID){
+        System.out.println(">PERSISTENCEMGR: writing game (id= " + gameID + ")");
+
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
         persistenceProvider.writeGame(gameID, modelJSON, gameInfoJSON);
     }
 
-    //We probably don't really need this function -Sierra
     public void writeNewGame(String name, int gameID){
+        System.out.println(">PERSISTENCEMGR: writing NEW game (id= " + gameID + ")");
         String gameInfoJSON = getGameInfoJSON(gameID);
         String modelJSON = getModelJSON(gameID);
         persistenceProvider.writeNewGame(gameID, modelJSON, gameInfoJSON);
@@ -53,12 +55,16 @@ public class PersistenceManager {
     }
 
     public void writeCommand(BaseCommand command, int gameID){
+        System.out.println(">PERSISTENCEMGR: writing command");
+
         String commandJSON = ServerTranslator.getInstance().commandObjectToJSON(command);
         JSONObject commandJSONobject = new JSONObject(commandJSON);
         persistenceProvider.writeCommand(commandJSONobject, gameID);
     }
 
     public void writeUser(User user){
+        System.out.println(">PERSISTENCEMGR: writing User " + user.getUserName());
+
         JSONObject userJSON = ServerTranslator.getInstance().userToJSON(user);
         persistenceProvider.writeUser(userJSON);
     }
