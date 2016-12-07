@@ -173,4 +173,8 @@ public class BuildSettlementCommand extends BaseCommand {
     public void setVertex(VertexObject vertex) {
         this.vertex = vertex;
     }
+
+    public VertexLocation getVertexLocation() {
+        return vertexLocation;
+    }
 }
