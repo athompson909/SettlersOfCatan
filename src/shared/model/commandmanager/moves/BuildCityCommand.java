@@ -142,5 +142,8 @@ public class BuildCityCommand extends BaseCommand {
         return type;
     }
 
+    public VertexLocation getVertexLocation() {
+        return vertexLocation;
+    }
 }
 

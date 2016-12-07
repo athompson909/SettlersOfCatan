@@ -577,10 +577,18 @@ public class JSONTranslator {
                     break;
                 case "buildSettlement":
                     BuildSettlementCommand buildStlmtCommand = gsonConverter.fromJson(currCommandObjString, BuildSettlementCommand.class);
+                        int bsX = buildStlmtCommand.getVertexLocation().getX();
+                        int bsY = buildStlmtCommand.getVertexLocation().getY();
+                        HexLocation newBSHexLoc = new HexLocation(bsX, bsY);
+                    buildStlmtCommand.getVertexLocation().setHexLoc(newBSHexLoc);
                     allExecutedCommands.add(buildStlmtCommand);
                     break;
                 case "buildCity":
                     BuildCityCommand buildCityCommand = gsonConverter.fromJson(currCommandObjString, BuildCityCommand.class);
+                        int bcX = buildCityCommand.getVertexLocation().getX();
+                        int bcY = buildCityCommand.getVertexLocation().getY();
+                        HexLocation newBCHexLoc = new HexLocation(bcX, bcY);
+                    buildCityCommand.getVertexLocation().setHexLoc(newBCHexLoc);
                     allExecutedCommands.add(buildCityCommand);
                     break;
                 case "offerTrade":
