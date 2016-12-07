@@ -65,19 +65,35 @@ public class DBCreateHelper {
 
     }
 
-    private static final String CREATE_TABLE_GAMES_STATEMENT = "CREATE TABLE games\n" +
+    public static final String CREATE_TABLE_GAMES_STATEMENT = "CREATE TABLE games\n" +
             "(gameID INTEGER DEFAULT 0 NOT NULL,\n" +
             "model TEXT NOT NULL,\n" +
             "gameInfo TEXT NOT NULL,\n" +
             "PRIMARY KEY (gameID)) ";
 
-    private static final String CREATE_TABLE_USERS_STATEMENT = "CREATE TABLE users\n"+
+    public static final String CREATE_TABLE_USERS_STATEMENT = "CREATE TABLE users\n"+
             "(userID INTEGER NOT NULL,\n"+
             "username VARCHAR(25) NOT NULL,\n"+
             "password VARCHAR(25) NOT NULL,\n"+
             "PRIMARY KEY (userID))";
 
     public static final String CREATE_TABLE_COMMANDS_STATEMENT = "CREATE TABLE commands\n" +
+            "(gameID INTEGER NOT NULL,\n" +
+            "command TEXT NOT NULL)";
+
+    public static final String CREATE_TABLE_IF_NOT_EXISTS_GAMES_STATEMENT = "CREATE TABLE IF NOT EXISTS games\n" +
+            "(gameID INTEGER DEFAULT 0 NOT NULL,\n" +
+            "model TEXT NOT NULL,\n" +
+            "gameInfo TEXT NOT NULL,\n" +
+            "PRIMARY KEY (gameID)) ";
+
+    public static final String CREATE_TABLE_IF_NOT_EXISTS_USERS_STATEMENT = "CREATE TABLE IF NOT EXISTS users\n"+
+            "(userID INTEGER NOT NULL,\n"+
+            "username VARCHAR(25) NOT NULL,\n"+
+            "password VARCHAR(25) NOT NULL,\n"+
+            "PRIMARY KEY (userID))";
+
+    public static final String CREATE_TABLE_IF_NOT_EXISTS_COMMANDS_STATEMENT = "CREATE TABLE IF NOT EXISTS commands\n" +
             "(gameID INTEGER NOT NULL,\n" +
             "command TEXT NOT NULL)";
 
