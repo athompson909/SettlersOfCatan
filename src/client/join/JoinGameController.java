@@ -266,8 +266,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	//called every time the miniPoller says to do the update
 	private void setSelectColorViewBtnColors(List<PlayerInfo> players){
-		System.out.println(">>>>> setting available color buttons <<<<<<");
-		System.out.println(">>>>> playersList = " + players);
+//		System.out.println(">>>>> setting available color buttons <<<<<<");
+//		System.out.println(">>>>> playersList = " + players);
 
 		for (int i = 0; i < players.size(); i++){
 			if (players.get(i).getColor() != null){	//someone else has taken this color already
@@ -275,7 +275,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 					//so someone in this game already chose that color -
 					// set it disabled UNLESS you're the one who chose that color last time
 				if (players.get(i).getId() != ClientUser.getInstance().getId()) {
-					System.out.println("\t>>>>> disabling color " + players.get(i).getColor() + " for player " + players.get(i).getName());
+//					System.out.println("\t>>>>> disabling color " + players.get(i).getColor() + " for player " + players.get(i).getName());
 					getSelectColorView().setColorEnabled(players.get(i).getColor(), false);
 				}
 
@@ -306,7 +306,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			else{
 				//if their color is NULL, they created the game. So they can pick any color they want.
 				//So don't disable any of the buttons!
-				System.out.println("\t>>>>> skipping NULL color for player " + players.get(i).getName());
+//				System.out.println("\t>>>>> skipping NULL color for player " + players.get(i).getName());
 			}
 		}
 //		System.out.println(">>>>> <<<<<<<<");
@@ -447,8 +447,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				fetchGamesList();
 			}
 			catch (Exception e) {
-				System.out.println("JGminiPoller Exception!");
-				e.printStackTrace();
+				System.out.println("\t ^^ JGminiPoller Exception! ^^");
+				System.out.println(e);
+				//e.printStackTrace();
 			}
 		}
 

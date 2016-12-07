@@ -283,6 +283,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	 * MiniPoller is PlayerWaitingController's personal poller that gets an updated list of games every 2 sec.
 	 * The big/main poller for this program wasn't working too well for this part so Sierra made a new poller here.
 	 * This TimerTask is started upon PlayerWaitingController.start() and stopped just before PlayerWaitingview closes.
+	 *
+	 * NOTE: this poller runs 2x as fast as the JoinGameMiniPoller!
 	 */
 	private class PlayerWaitingMiniPoller extends TimerTask {
 		public void run() {
@@ -291,8 +293,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 				System.out.println("PWVminiPoller: fetching gamesList: " + new Date().toString());
 				fetchGamesList();
 			} catch (Exception e) {
-				System.out.println("PWVminiPoller Exception!");
-				e.printStackTrace();
+				System.out.println("\t ~~ PWVminiPoller Exception! ~~");
+				System.out.println(e);
+				//e.printStackTrace();
 			}
 		}
 
