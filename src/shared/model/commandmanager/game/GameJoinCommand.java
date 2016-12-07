@@ -74,6 +74,7 @@ public class GameJoinCommand extends BaseCommand {
             getHttpExchange().getResponseHeaders().put("Set-cookie", cookieList);
             //IServerFacade.getInstance().logCommand(command.getGameId(), command);
             PersistenceManager.getInstance().writeGame(gameID);
+            PersistenceManager.getInstance().clearCommands(gameID);
         }
 
         return (success ? "Success" : null);

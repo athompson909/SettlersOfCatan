@@ -72,6 +72,7 @@ public class RobPlayerCommand extends BaseCommand {
 
         setUserIdFromCookie();
         RobPlayerCommand command = new RobPlayerCommand(playerIndex, location, victimIndex);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().robPlayer(getUserId(), getGameId(), command);
         if(model != null) {
@@ -91,7 +92,7 @@ public class RobPlayerCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().robPlayer(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

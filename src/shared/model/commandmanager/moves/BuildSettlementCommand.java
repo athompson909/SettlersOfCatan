@@ -107,6 +107,7 @@ public class BuildSettlementCommand extends BaseCommand {
 
         setUserIdFromCookie();
         BuildSettlementCommand command = new BuildSettlementCommand(vertexObject, free);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buildSettlement(getUserId(), getGameId(), command);
         if(model != null) {
@@ -119,7 +120,7 @@ public class BuildSettlementCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().buildSettlement(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

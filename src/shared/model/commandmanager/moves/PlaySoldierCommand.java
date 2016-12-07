@@ -82,6 +82,7 @@ public class PlaySoldierCommand extends BaseCommand {
 
         setUserIdFromCookie();
         PlaySoldierCommand command = new PlaySoldierCommand(playerIndex, robberLoc, victimIndex);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playSoldier(getUserId(), getGameId(), command);
         if(model != null) {
@@ -94,7 +95,7 @@ public class PlaySoldierCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playSoldier(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

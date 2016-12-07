@@ -61,6 +61,7 @@ public class RollDiceCommand extends BaseCommand {
 
         setUserIdFromCookie();
         RollDiceCommand command = new RollDiceCommand(number);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().rollNumber(getUserId(), getGameId(), command);
         if(model != null) {
@@ -73,7 +74,7 @@ public class RollDiceCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().rollNumber(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

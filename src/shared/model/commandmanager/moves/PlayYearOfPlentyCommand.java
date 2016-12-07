@@ -75,6 +75,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
 
         setUserIdFromCookie();
         PlayYearOfPlentyCommand command = new PlayYearOfPlentyCommand(playerIndex, resource1, resource2);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(getUserId(), getGameId(), command);
         if(model != null) {
@@ -87,7 +88,7 @@ public class PlayYearOfPlentyCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playYearOfPlenty(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

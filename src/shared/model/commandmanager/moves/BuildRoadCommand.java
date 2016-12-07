@@ -89,6 +89,7 @@ public class BuildRoadCommand extends BaseCommand {
 
         setUserIdFromCookie();
         BuildRoadCommand command = new BuildRoadCommand(roadLocation, playerIndex, free);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buildRoad(getUserId(), getGameId(), command);
         if(model != null) {
@@ -108,7 +109,7 @@ public class BuildRoadCommand extends BaseCommand {
      */
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID); //the userID will be a private field of BuildRoadCommand, so this method call won't be necessary.
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID); //the userID will be a private field of BuildRoadCommand, so this method call won't be necessary.
         ClientModel model = IServerFacade.getInstance().buildRoad(userId, gameID, this);
         if(model != null) { //it worked
             model.incrementVersion();

@@ -94,6 +94,7 @@ public class BuildCityCommand extends BaseCommand {
 
         setUserIdFromCookie();
         BuildCityCommand command = new BuildCityCommand(vertexObject);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buildCity(getUserId(), getGameId(), command);
         if(model != null) {
@@ -106,7 +107,7 @@ public class BuildCityCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().buildCity(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

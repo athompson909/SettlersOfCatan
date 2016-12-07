@@ -67,6 +67,7 @@ public class FinishTurnCommand extends BaseCommand {
 
         setUserIdFromCookie();
         FinishTurnCommand command = new FinishTurnCommand(playerIndex);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().finishTurn(getUserId(), getGameId(), command);
         if(model != null) {
@@ -79,7 +80,7 @@ public class FinishTurnCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().finishTurn(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

@@ -73,6 +73,7 @@ public class PlayMonopolyCommand extends BaseCommand {
 
         setUserIdFromCookie();
         PlayMonopolyCommand command = new PlayMonopolyCommand(playerIndex, resource);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playMonopoly(getUserId(), getGameId(), command);
         if(model != null) {
@@ -85,7 +86,7 @@ public class PlayMonopolyCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playMonopoly(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

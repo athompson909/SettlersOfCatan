@@ -55,6 +55,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
 
         setUserIdFromCookie();
         PurchaseDevCardCommand command = new PurchaseDevCardCommand(playerIndex);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().buyDevCard(getUserId(), getGameId(), command);
         if(model != null) {
@@ -67,7 +68,7 @@ public class PurchaseDevCardCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().buyDevCard(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

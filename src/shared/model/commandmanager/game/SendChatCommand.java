@@ -65,6 +65,7 @@ public class SendChatCommand extends BaseCommand {
 
         setUserIdFromCookie();
         SendChatCommand command = new SendChatCommand(playerIndex, content);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), command);
         if(model != null) {
@@ -76,8 +77,8 @@ public class SendChatCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
-        ClientModel model = IServerFacade.getInstance().sendChat(getUserId(), getGameId(), this);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
+        ClientModel model = IServerFacade.getInstance().sendChat(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
 

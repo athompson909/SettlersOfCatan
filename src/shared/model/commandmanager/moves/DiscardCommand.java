@@ -78,6 +78,7 @@ public class DiscardCommand extends BaseCommand {
 
         setUserIdFromCookie();
         DiscardCommand command = new DiscardCommand(playerIndex, discardedCards);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().discardCards(getUserId(), getGameId(), command);
         if(model != null) {
@@ -90,7 +91,7 @@ public class DiscardCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().discardCards(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

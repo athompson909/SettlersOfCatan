@@ -96,6 +96,7 @@ public class OfferTradeCommand extends BaseCommand {
 
         setUserIdFromCookie();
         OfferTradeCommand command = new OfferTradeCommand(playerIndex, offer, receiver);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().offerTrade(getUserId(), getGameId(), command);
         if(model != null) {
@@ -107,7 +108,7 @@ public class OfferTradeCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().offerTrade(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();

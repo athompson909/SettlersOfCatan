@@ -95,6 +95,7 @@ public class PlayRoadBuilderCommand extends BaseCommand {
 
         setUserIdFromCookie();
         PlayRoadBuilderCommand command = new PlayRoadBuilderCommand(playerIndex, locationONE, locationTWO);
+        command.setUserId(getUserId());
         command.setGameId(getGameId());
         ClientModel model = IServerFacade.getInstance().playRoadBuilding(getUserId(), getGameId(), command);
         if(model != null) {
@@ -107,7 +108,7 @@ public class PlayRoadBuilderCommand extends BaseCommand {
 
     @Override
     public boolean reExecute(int gameID){
-        int userId = getUserIdFromIndex(playerIndex, gameID);
+        int userId = getUserId();//getUserIdFromIndex(playerIndex, gameID);
         ClientModel model = IServerFacade.getInstance().playRoadBuilding(userId, gameID, this);
         if(model != null) {
             model.incrementVersion();
