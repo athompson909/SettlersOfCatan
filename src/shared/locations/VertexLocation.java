@@ -30,8 +30,9 @@ public class VertexLocation
 	{
 		return hexLoc;
 	}
+
 	
-	private void setHexLoc(HexLocation hexLoc)
+	public void setHexLoc(HexLocation hexLoc)
 	{
 		if(hexLoc == null)
 		{
@@ -55,7 +56,23 @@ public class VertexLocation
 	{
 		return "VertexLocation [hexLoc=" + hexLoc + ", dir=" + dir + "]";
 	}
-	
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	@Override
 	public int hashCode()
 	{

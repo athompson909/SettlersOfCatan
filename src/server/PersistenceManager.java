@@ -103,6 +103,9 @@ public class PersistenceManager {
 
         //NOW you can execute all the commands!
         loadAndExecModelCommands();
+
+        System.out.println(">PERSISTENCEMGR: all games loaded!");
+
     }
 
     /**
