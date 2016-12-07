@@ -230,7 +230,7 @@ public class ClientModel extends Observable {
      */
     public boolean canMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource) {
         Set<PortType> ports = map.getPlayersPorts(playerIndex);
-        players[playerIndex].getMaritimeTradeManager().setPorts(ports);
+        //players[playerIndex].getMaritimeTradeManager().setPorts(ports);
         HashMap<PortType, boolean[]> enoughCards = players[playerIndex].canMaritimeTrade(ports);
 
         boolean[] values = enoughCards.get(Converter.resourceTypeToPortType(inputResource));
