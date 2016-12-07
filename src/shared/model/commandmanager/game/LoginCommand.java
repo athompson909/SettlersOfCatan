@@ -56,9 +56,7 @@ public class LoginCommand extends BaseCommand {
         JSONObject requestJSON = new JSONObject(request);
         username = (String) requestJSON.get("username");
         password = (String) requestJSON.get("password");
-
-
-        setUserIdFromCookie();
+        
         int response = IServerFacade.getInstance().login(this);
         if(response >= 0) {
             String loginCookieJSON = "{\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+response+"}";//todo: figure out a way to get playerID
