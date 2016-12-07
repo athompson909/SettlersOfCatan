@@ -14,6 +14,8 @@ import java.util.HashMap;
  */
 public class SQLGameDAO implements IGameDAO {
 
+    private int gameCount = 0;
+
     /**
      * Modifies an already existing game.
      * @param
@@ -61,6 +63,7 @@ public class SQLGameDAO implements IGameDAO {
             String sql = "INSERT INTO games (gameID, model, gameInfo) " +
                     "VALUES (" + gameID + ", \'" + modelJSONObj + "\',\'" + gameInfoJSONObj + "\')";
             statement.execute(sql);
+            gameCount++;
 
             statement.close();
             SQLPlugin.endTransaction(conn, true);
@@ -115,12 +118,10 @@ public class SQLGameDAO implements IGameDAO {
 
             HashMap<Integer, JSONArray> commandsMap = new HashMap<>();
 
+            for(int i = 0; i < gameCount; ++i) commandsMap.put(i, new JSONArray());
+
             while(commandsResultSet.next()) {
                 int key = commandsResultSet.getInt("gameID");
-                if(!commandsMap.containsKey(key)) {
-                    commandsMap.put(key, new JSONArray());
-                }
-
                 commandsMap.get(key).put(new JSONObject(commandsResultSet.getString("command")));
             }
 
@@ -165,6 +166,7 @@ public class SQLGameDAO implements IGameDAO {
                 jsonObj.put("gameInfo", new JSONObject(resultSet.getString("gameInfo")));
 
                 jsonArray.put(jsonObj);
+                gameCount++;
             }
 
 
