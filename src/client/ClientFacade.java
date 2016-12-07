@@ -400,7 +400,9 @@ public class ClientFacade {
         try {
             String jsonNewModelStr = serverProxy.gameModelVersion();
             gameModelVersionStr = jsonNewModelStr;
-//            if(gameModelVersionStr.equals("{\"http error 400\":\"Bad Request\"}")) throw new ClientException(); // todo: delete
+
+            if(gameModelVersionStr.equals("error, exception thrown")) throw new ClientException(); // todo: delete
+
             jsonNewModel = new JSONObject(jsonNewModelStr);
             ClientModel updatedModel = jsonTranslator.modelFromJSON(jsonNewModel);
 
