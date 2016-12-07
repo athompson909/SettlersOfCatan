@@ -522,10 +522,10 @@ public class JSONTranslator {
         for (int c = 0; c < jsonCommandsList.length(); c++)
         {
             //isolate one encoded command object:
-            JSONObject currCommandObj = jsonCommandsList.getJSONObject(c);
-            String currCommandObjString = currCommandObj.toString();
+            JSONObject currCommandObjJSON = jsonCommandsList.getJSONObject(c);
+            String currCommandObjString = currCommandObjJSON.toString();
             //extract its command TYPE field:
-            String currCommandObjType = currCommandObj.getString("type");
+            String currCommandObjType = currCommandObjJSON.getString("type");
 
             //run that through a switch statement to determine which Command Obj to build for it:
 
@@ -585,6 +585,11 @@ public class JSONTranslator {
                         int bsY = buildStlmtCommand.getVertexLocation().getY();
                         HexLocation newBSHexLoc = new HexLocation(bsX, bsY);
                     buildStlmtCommand.getVertexLocation().setHexLoc(newBSHexLoc);
+                        VertexObject newBSVertexObject  = new VertexObject(buildStlmtCommand.getVertexLocation());
+                        newBSVertexObject.setOwner(currCommandObjJSON.getInt("playerIndex"));
+                        newBSVertexObject.setPieceType(PieceType.SETTLEMENT);
+                    buildStlmtCommand.setVertex(newBSVertexObject);
+
                     allExecutedCommands.add(buildStlmtCommand);
                     break;
                 case "buildCity":
@@ -593,6 +598,11 @@ public class JSONTranslator {
                         int bcY = buildCityCommand.getVertexLocation().getY();
                         HexLocation newBCHexLoc = new HexLocation(bcX, bcY);
                     buildCityCommand.getVertexLocation().setHexLoc(newBCHexLoc);
+                        VertexObject newBCVertexObject  = new VertexObject(buildCityCommand.getVertexLocation());
+                        newBCVertexObject.setOwner(currCommandObjJSON.getInt("playerIndex"));
+                        newBCVertexObject.setPieceType(PieceType.CITY);
+                    buildCityCommand.setVertex(newBCVertexObject);
+
                     allExecutedCommands.add(buildCityCommand);
                     break;
                 case "offerTrade":
